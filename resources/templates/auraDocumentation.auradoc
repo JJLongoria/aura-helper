@@ -1,0 +1,22 @@
+<aura:documentation>
+    <aura:description>
+        <!-- Descripción principal del Componente -->
+        <h6><b>Descripción corta y concisa</b> del componente</h6>
+
+        <!-- Aclaraciones sobre el componente -->
+        <p>
+            Información adicional sobre el componente. Incluir tantos párrafos como sea necesario, pero siempre entre las etiquetas 'p'
+        </p>
+
+        <!-- Métodos del archivo helper.js -->
+        <p>
+            Métodos del archivo helper.js:
+            <ul>
+                {!helperMethods}
+            </ul>
+        </p>
+    </aura:description>
+    <aura:example name="ExampleName" ref="ExampleComponent" label="ExampleLabel">
+
+    </aura:example>
+</aura:documentation>

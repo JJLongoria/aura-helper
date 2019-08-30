@@ -1,0 +1,50 @@
+{
+	"name": "aura-helper",
+	"publisher": "Accenture",
+	"displayName": "Aura Helper",
+	"description": "Extensión for some util actions for make more easy the development work",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.37.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.genAuraDoc",
+		"onCommand:extension.addMethodBlock",
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.genAuraDoc",
+				"title": "AuraHelper: Generate Aura Documentation"
+			},
+			{
+				"command": "extension.addMethodBlock",
+				"title": "AuraHelper: Add Method Block to Doc"
+			},
+		],
+		"snippets": [
+			{
+				"language": "javascript",
+				"path": "./snippets.json"
+			}
+		]
+	},
+	"scripts": {
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^5.2.6",
+		"@types/node": "^10.12.21",
+		"@types/vscode": "^1.37.0",
+		"eslint": "^5.13.0",
+		"glob": "^7.1.4",
+		"mocha": "^6.1.4",
+		"typescript": "^3.3.1",
+		"vscode-test": "^1.0.2"
+	}
+}
