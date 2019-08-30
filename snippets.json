@@ -1,0 +1,23 @@
+{
+    "Aura Function": {
+        "prefix": "aura.function",
+        "body": [
+            "${1:funcName} : function(${2:component}, ${3:event}, ${4:helper}){\n\n}"
+        ],
+        "description": "Add function body to file"
+    },
+    "JSON Pretty": {
+        "prefix": "aura.JSONPrettyConsole",
+        "body": [
+            "JSON.stringify(${1:json}, null, ${2:indenLevel})"
+        ],
+        "description": "Add code for print a JSON Object pretty in console"
+    },
+    "Print JSON Pretty": {
+        "prefix": "aura.JSONPrettyConsole",
+        "body": [
+            "console.log(JSON.stringify(${1:json}, null, ${2:indenLevel}));"
+        ],
+        "description": "Add code for print a JSON Object pretty in console"
+    }
+}
