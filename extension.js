@@ -25,8 +25,12 @@ function activate(context) {
 	let addMethodBlock = vscode.commands.registerCommand('extension.addMethodBlock', function () {
 		addMethodBlockCommand(context);
 	});
+	let addApexMethodComment = vscode.commands.registerCommand('extension.addApexMethodComment', function () {
+		addApexMethodCommentCommand();
+	});
 	context.subscriptions.push(genAuraDoc);
 	context.subscriptions.push(addMethodBlock);
+	context.subscriptions.push(addApexMethodComment);
 }
 exports.activate = activate;
 
@@ -43,7 +47,7 @@ function genAuraDocCommand(context) {
 	if (!editor)
 		return;
 	if (fileUtils.isAuraDocFile(editorUtils.getActiveFileFullPath()))
-		auraDocUtils.createAuraDocumentation(context, editorUtils.getAllTextRange(editor), editor);
+		auraDocUtils.createAuraDocumentation(context, editor);
 	else
 		vscode.window.showErrorMessage('The selected file is not an Aura Documentation File');
 }
@@ -53,7 +57,17 @@ function addMethodBlockCommand(context) {
 	if (!editor)
 		return;
 	if (fileUtils.isAuraDocFile(editorUtils.getActiveFileFullPath()))
-		auraDocUtils.addMethodBlock(context, editor.selection, editor);
+		auraDocUtils.addMethodBlock(context, editor);
 	else
 		vscode.window.showErrorMessage('The selected file is not an Aura Documentation File');
+}
+
+function addApexMethodCommentCommand(){
+	var editor = editorUtils.getActiveEditor();
+	if (!editor)
+		return;
+	if (fileUtils.isApexClassFile(editorUtils.getActiveFileFullPath()))
+		auraDocUtils.addApexCommentBlock(editor);
+	else
+		vscode.window.showErrorMessage('The selected file is not an Apex Class File');
 }

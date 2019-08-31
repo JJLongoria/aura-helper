@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const fileUtils = require('./fileUtils');
 const editorUtils = require("./editorUtils");
+const languageUtils = require("./languageUtils");
 
 function getDocumentTemplatePath(context) {
 	return context.asAbsolutePath("./resources/templates/auraDocumentation.auradoc");
@@ -40,7 +41,7 @@ function getParamContent(param, paramTemplate) {
 	return content;
 }
 
-function createAuraDocumentation(context, textRange, editor) {
+function createAuraDocumentation(context, editor) {
 	fileUtils.getDocumentObject(editor.document.uri.fsPath.replace('.auradoc', 'helper.js'), function (helperDoc) {
 		fileUtils.getDocumentObject(editor.document.uri.fsPath.replace('.auradoc', 'controller.js'), function (controllerDoc) {
 			fileUtils.getDocumentObject(getDocumentTemplatePath(context), function (auraDocTemplate) {
@@ -52,7 +53,7 @@ function createAuraDocumentation(context, textRange, editor) {
 						var helperMethodsContent = getMethodsContent(helperMethods, auraDocMethodTemplate, auraDocMethodParamTemplate);
 						var controllerMethodsContent = getMethodsContent(controllerMethods, auraDocMethodTemplate, auraDocMethodParamTemplate);
 						documentationText = documentationText.replace("{!helperMethods}", helperMethodsContent).replace("{!controllerMethods}", controllerMethodsContent);
-						editorUtils.replaceContent(editor, textRange, documentationText);
+						editorUtils.replaceContent(editor, editorUtils.getAllTextRange(), documentationText);
 						editor.revealRange(editor.document.lineAt(0).range);
 					});
 				});
@@ -61,7 +62,7 @@ function createAuraDocumentation(context, textRange, editor) {
 	});
 }
 
-function addMethodBlock(context, textRange, editor) {
+function addMethodBlock(context, editor) {
 	fileUtils.getDocumentObject(editor.document.uri.fsPath.replace('.auradoc', 'helper.js'), function (helperDoc) {
 		fileUtils.getDocumentObject(editor.document.uri.fsPath.replace('.auradoc', 'controller.js'), function (controllerDoc) {
 			fileUtils.getDocumentObject(getDocumentMethodTemplatePath(context), function (auraDocMethodTemplate) {
@@ -99,7 +100,7 @@ function addMethodBlock(context, textRange, editor) {
 									const method = methods[i];
 									if (method.signature == methodSelected) {
 										var methodContent = getMethodContent(method, auraDocMethodTemplate, auraDocMethodParamTemplate);
-										editorUtils.replaceContent(editor, textRange, methodContent);
+										editorUtils.replaceContent(editor, editor.selection, methodContent);
 									}
 								}
 							});
@@ -114,7 +115,26 @@ function addMethodBlock(context, textRange, editor) {
 	});
 }
 
+function addApexCommentBlock(editor) {
+	// Get the line that we are currently on
+	const lineNum = editor.selection.active.line;
+	var funcLine = editor.document.lineAt(lineNum);
+	// If the line starts with a @, then it's a @AuraEnabled or @RemoteAction and look at the next line
+	var currLine = lineNum;
+	while (funcLine.text.trim().startsWith('@')) {
+		currLine++;
+		funcLine = editor.document.lineAt(currLine);
+	}
+	// If the line is not empty, parse it and add in a snippet on the line above.
+	if (!funcLine.isEmptyOrWhitespace) {
+		const apexComment = languageUtils.getCommentForApexMethod(funcLine.text, true);
+		const position = new vscode.Position(lineNum, 0);
+		editor.insertSnippet(new vscode.SnippetString(`${apexComment}\n`), position);
+	}
+}
+
 module.exports = {
 	createAuraDocumentation,
-	addMethodBlock
+	addMethodBlock,
+	addApexCommentBlock
 }
