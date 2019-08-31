@@ -7,12 +7,22 @@
 	"engines": {
 		"vscode": "^1.37.0"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JJLongoria/aura-helper"
+	},
 	"categories": [
 		"Other"
 	],
 	"activationEvents": [
 		"onCommand:extension.genAuraDoc",
 		"onCommand:extension.addMethodBlock",
+		"onCommand:extension.addApexMethodComment",
+
+
+		"onLanguage:apex",
+		"onLanguage:aura",
+		"onLanguage:visualforce"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -25,6 +35,10 @@
 				"command": "extension.addMethodBlock",
 				"title": "AuraHelper: Add Method Block to Doc"
 			},
+			{
+				"command": "extension.addApexMethodComment",
+				"title": "AuraHelper: Add Apex Method Comment"
+			}
 		],
 		"snippets": [
 			{
@@ -33,6 +47,43 @@
 			}
 		]
 	},
+	"languages": [
+		{
+			"id": "apex",
+			"extensions": [
+				".apex",
+				".cls",
+				".trigger",
+				".tgr"
+			],
+			"aliases": [
+				"Apex"
+			]
+		},
+		{
+			"id": "aura",
+			"extensions": [
+				".auradoc",
+				".js",
+				".css",
+				".cmp",
+				".template"
+			],
+			"aliases": [
+				"Aura"
+			]
+		},
+		{
+			"id": "visulforce",
+			"extensions": [
+				".page",
+				".component"
+			],
+			"aliases": [
+				"Visualforce"
+			]
+		}
+	],
 	"scripts": {
 		"test": "node ./test/runTest.js"
 	},

@@ -45,9 +45,14 @@ function isAuraDocFile(filePath) {
     return filePath.indexOf('.auradoc') != -1;
 }
 
+function isApexClassFile(filePath){
+    return filePath.indexOf('.cls') != -1;
+}
+
 
 module.exports = {
     isAuraDocFile,
+    isApexClassFile,
     getMethods,
     getDocumentObject,
     getDocumentText
