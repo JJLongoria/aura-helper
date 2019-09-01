@@ -50,10 +50,15 @@ function isApexClassFile(filePath){
     return filePath.indexOf('.cls') != -1;
 }
 
+function isJavascriptFile(filePath){
+    return filePath.indexOf('.js') != -1;
+}
+
 
 module.exports = {
     isAuraDocFile,
     isApexClassFile,
+    isJavascriptFile,
     getMethods,
     getDocumentObject,
     getDocumentText

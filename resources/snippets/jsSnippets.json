@@ -1,13 +1,24 @@
 {
+    "Aura Controller Function": {
+        "prefix": "aura.controllerFunction",
+        "body": [
+            "${1:funcName} : function(${2:component}, ${3:event}, ${4:helper}){",
+            "\t$0",
+            "},"
+        ],
+        "description": "Create a standard controller function"
+    },
     "Aura Function": {
         "prefix": "aura.function",
         "body": [
-            "${1:funcName} : function(${2:component}, ${3:event}, ${4:helper}){\n\n}"
+            "${1:funcName} : function(${2:params}){",
+            "\t$0",
+            "},"
         ],
-        "description": "Add function body to file"
+        "description": "Create a standard Aura function"
     },
     "JSON Pretty": {
-        "prefix": "aura.JSONPrettyConsole",
+        "prefix": "aura.JSONPretty",
         "body": [
             "JSON.stringify(${1:json}, null, ${2:indenLevel})"
         ],

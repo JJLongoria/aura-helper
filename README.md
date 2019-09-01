@@ -7,19 +7,38 @@ Extensión for Salesforce and Lightning Experience with some tools for make more
 The Aura Helper Extension contains some of next features:
 
 ### Commands features
-Some commands with tools for help in your work:
+Some commands with tools for help in your work. All commands start with "AuraHelper:"
 
-- Aura Document Generator: A simple command for generate a skeleton of aura documentation file for an Aura Component based on user designed templates.
-- Add Method Section: Add a method section based on template to documentation file if you need modify it.
-- Add Apex Comment: Add an class or method comment on your apex code
+#### Aura:
+    - Aura Document Generator: A simple command for generate a skeleton of aura documentation file for an Aura Component based on user designed templates.
+    - Add Method Section: Add a method section based on template to documentation file if you need modify it.
+
+#### Apex:
+    - Add Apex Comment: Add a class or method comment on your apex code
+
+#### JavaScript:
+    - Add Javascript Aura Function: Add an Aura Javascript function block with params number indicated by the user
 
 ### Code Completion features
 
 To many snippets and code completion tools for make your work more productive:
-    - aura.function: Create an aura JS standard function
+
+#### Aura:
+    - aura.attribute: Create Aura Attribute
+    - aura.handler: Create Aura Handler
+    - aura.initHandler: Create Initialization Component Aura Handler
+    - aura.eventHandler: Create Aura Component Event Handler
+    - aura.appEventHandler: Create Aura Application Event Handler
+    - aura.registerEvent: Create Aura Event Registration
+    - aura.renderIf: Create Aura Render If Code Unit
+
+#### JavaScript:
+    - aura.controllerFunction: Create a standard controller function
+    - aura.function: Create a standard Aura function
     - aura.JSONPretty: Write an instruction for get pretty JSON
     - aura.JSONPrettyConsole: Write an instruction for pretty print JSON in console
     
+#### Apex:
     - /** : Add an class or method comment on your apex code
 
 <!-- \!\[feature X\]\(images/feature-x.png\) 

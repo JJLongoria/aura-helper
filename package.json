@@ -3,7 +3,7 @@
 	"publisher": "Accenture",
 	"displayName": "Aura Helper",
 	"description": "Extensión for some util actions for make more easy the development work",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
@@ -18,11 +18,12 @@
 		"onCommand:aurahelper.genAuraDoc",
 		"onCommand:aurahelper.addMethodBlock",
 		"onCommand:aurahelper.addApexComment",
+		"onCommand:aurahelper.addJsFunction",
 
 
 		"onLanguage:apex",
-		"onLanguage:aura",
-		"onLanguage:visualforce"
+		"onLanguage:xml",
+		"onLanguage:javascript"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -38,52 +39,57 @@
 			{
 				"command": "aurahelper.addApexComment",
 				"title": "AuraHelper: Add Apex Comment"
+			},
+			{
+				"command": "aurahelper.addJsFunction",
+				"title": "AuraHelper: Add Javascript Aura Function"
 			}
 		],
 		"snippets": [
 			{
 				"language": "javascript",
-				"path": "./snippets.json"
+				"path": "./resources/snippets/jsSnippets.json"
+			},
+			{
+				"language": "xml",
+				"path": "./resources/snippets/auraSnippets.json"
+			}
+		],
+		"languages": [
+			{
+				"id": "apex",
+				"extensions": [
+					".apex",
+					".cls",
+					".trigger",
+					".tgr"
+				],
+				"aliases": [
+					"Apex"
+				]
+			},
+			{
+				"id": "xml",
+				"extensions": [
+					".auradoc",
+					".cmp",
+					".template"
+				],
+				"aliases": [
+					"Aura"
+				]
+			},
+			{
+				"id": "javascript",
+				"extensions": [
+					".js"
+				],
+				"aliases": [
+					"JavaScript"
+				]
 			}
 		]
 	},
-	"languages": [
-		{
-			"id": "apex",
-			"extensions": [
-				".apex",
-				".cls",
-				".trigger",
-				".tgr"
-			],
-			"aliases": [
-				"Apex"
-			]
-		},
-		{
-			"id": "aura",
-			"extensions": [
-				".auradoc",
-				".js",
-				".css",
-				".cmp",
-				".template"
-			],
-			"aliases": [
-				"Aura"
-			]
-		},
-		{
-			"id": "visulforce",
-			"extensions": [
-				".page",
-				".component"
-			],
-			"aliases": [
-				"Visualforce"
-			]
-		}
-	],
 	"scripts": {
 		"test": "node ./test/runTest.js"
 	},
