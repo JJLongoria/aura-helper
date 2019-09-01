@@ -1,6 +1,6 @@
 {
 	"name": "aura-helper",
-	"publisher": "Accenture",
+	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extensión for some util actions for make more easy the development work",
 	"version": "0.1.0",
@@ -96,7 +96,7 @@
 	"license": "SEE LICENSE IN LICENSE.txt",
 	"bugs": {
 		"url": "https://github.com/JJLongoria/aura-helper/issues",
-		"email": "juan.longoria.lopez@accenture.com"
+		"email": "juanjoselongoria@gmail.com"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
