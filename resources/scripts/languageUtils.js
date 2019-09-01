@@ -1,21 +1,13 @@
 const logger = require('./logger');
 
-function getCommentForApex(str, needWhitespace, addOpenAndClose) {
-    logger.log('Execute getCommentForApex method');
-    logger.log('str', str);
-    logger.log('needWhitespace', needWhitespace);
-    logger.log('addOpenAndClose', addOpenAndClose);
-    let whitespace;
-    let firstChar = '';
-    // If we need whitespace, find out how much. We also need to add the first slash as a character since it won't already be typed.
-    if (needWhitespace) {
-        const whitespaceRE = new RegExp(/^[\s\t]+/);
-        whitespace = whitespaceRE.test(str) ? whitespaceRE.exec(str) : '';
-        firstChar = '/**';
-    }
-    else {
-        whitespace = '';
-        firstChar = '/**';
+function parseApexClassOrMethod(str, needWhitespace, addOpenAndClose) {
+    logger.log('Execute parseApexClassOrMethod method');
+    var apexClassOrMethod = {
+        methodName: '',
+        className: '',
+        hasReturn: false,
+        returnType: '',
+        parameters: []
     }
     const methodSplit = str.split(/[\s\t]/);
     let hasReturn = true;
@@ -62,9 +54,8 @@ function getCommentForApex(str, needWhitespace, addOpenAndClose) {
     if (methodName === undefined && className === undefined) {
         return ``;
     }
-    let comment = ``;
+    let variableList = new Array();
     if (methodName !== undefined) {
-        let variableList = new Array();
         let maxSize = 0;
         const variableRE = new RegExp(/\(([^)]+)\)/);
         // If there are variables, this extracts the list of them.
@@ -89,44 +80,15 @@ function getCommentForApex(str, needWhitespace, addOpenAndClose) {
                 }
             }
         }
-        logger.log('methodName', methodName);
-        logger.log('className', className);
-        logger.log('hasReturn', hasReturn);
-        logger.logJSON('variableList', variableList);
-        logger.log('maxSize', maxSize);
-
-        // Generating the Snippet as a string.
-        if (addOpenAndClose)
-            comment += `${whitespace}${firstChar}`;
-        comment += `\n${whitespace} * \${1:${methodName} description}\n${whitespace} *\n`;
-        // The padding is a string that is a bunch of spaces equal to the maximum size of the variable.
-        let snippetNum = 2;
-        for (let variable of variableList) {
-            var varName = variable.name;
-            var varType = variable.type;
-            // No need to import any right-pad node libraries here!
-            comment += `${whitespace} * ## \${${snippetNum}:${varName}} (${varType}): \${${snippetNum}:${varName} description}\n`;
-            snippetNum++;
-        }
-        // If we DIDN'T find the word "void" in the method signature, show the return line
-        if (hasReturn) {
-            comment += `${whitespace} *\n${whitespace} * @@ Return ${returnType}: \${${snippetNum}:return description}\n`;
-        }
-        if (addOpenAndClose)
-            comment += `${whitespace} */`;
-    } else {
-        if (addOpenAndClose)
-            comment += `${whitespace}${firstChar}`;
-        comment += `\n${whitespace} * \${1:${className} description}\n`;
-        comment += `${whitespace} *\n`;
-        comment += `${whitespace} * @@ TestClass => \${2:${className} test class}\n`;
-        if (addOpenAndClose)
-            comment += `${whitespace} */`;
     }
-    logger.log('comment', comment);
-    return comment;
+    apexClassOrMethod.methodName = methodName;
+    apexClassOrMethod.className = className;
+    apexClassOrMethod.hasReturn = hasReturn;
+    apexClassOrMethod.returnType = returnType;
+    apexClassOrMethod.parameters = variableList;
+    return apexClassOrMethod;
 }
 
 module.exports = {
-    getCommentForApex
+    parseApexClassOrMethod
 }

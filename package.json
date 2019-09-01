@@ -20,7 +20,6 @@
 		"onCommand:aurahelper.addApexComment",
 		"onCommand:aurahelper.addJsFunction",
 
-
 		"onLanguage:apex",
 		"onLanguage:xml",
 		"onLanguage:javascript"
@@ -43,6 +42,10 @@
 			{
 				"command": "aurahelper.addJsFunction",
 				"title": "AuraHelper: Add Javascript Aura Function"
+			},
+			{
+				"command": "auraHelper.newAuraFile",
+				"title": "AuraHelper: New Aura File"
 			}
 		],
 		"snippets": [
@@ -88,7 +91,19 @@
 					"JavaScript"
 				]
 			}
-		]
+		],
+		"menus":{
+			"explorer/context":[{
+				"when":"resourceExtname == .cmp",
+				"command": "auraHelper.newAuraFile",
+				"group": "navigation"
+			}],
+			"editor/context":[{
+				"when":"resourceExtname == .cmp",
+				"command": "auraHelper.newAuraFile",
+				"group": "7_modification"
+			}]
+		}
 	},
 	"scripts": {
 		"test": "node ./test/runTest.js"
