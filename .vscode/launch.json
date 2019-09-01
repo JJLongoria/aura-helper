@@ -12,7 +12,8 @@
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}"
-			]
+			],
+			"stopOnEntry": false
 		},
 		{
 			"name": "Extension Tests",
@@ -22,7 +23,8 @@
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}",
 				"--extensionTestsPath=${workspaceFolder}/test/suite/index"
-			]
+			],
+			"stopOnEntry": false
 		}
 	]
 }

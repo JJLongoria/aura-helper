@@ -141,7 +141,8 @@ function addApexCommentBlock(editor, position) {
 	}
 	// If the line is not empty, parse it and add in a snippet on the line above.
 	if (!methodOrClassLine.isEmptyOrWhitespace) {
-		const apexComment = languageUtils.getCommentForApex(methodOrClassLine.text, false, addOpenAndClose);
+		const apexClassOrMethod = languageUtils.parseApexClassOrMethod(methodOrClassLine.text, false, addOpenAndClose);
+		const apexComment = snippetUtils.getApexComment(apexClassOrMethod);
 		editor.insertSnippet(new vscode.SnippetString(`${apexComment}`), position);
 	}
 }
