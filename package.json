@@ -15,9 +15,9 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.genAuraDoc",
-		"onCommand:extension.addMethodBlock",
-		"onCommand:extension.addApexMethodComment",
+		"onCommand:aurahelper.genAuraDoc",
+		"onCommand:aurahelper.addMethodBlock",
+		"onCommand:aurahelper.addApexComment",
 
 
 		"onLanguage:apex",
@@ -28,16 +28,16 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.genAuraDoc",
+				"command": "aurahelper.genAuraDoc",
 				"title": "AuraHelper: Generate Aura Documentation"
 			},
 			{
-				"command": "extension.addMethodBlock",
+				"command": "aurahelper.addMethodBlock",
 				"title": "AuraHelper: Add Method Block to Doc"
 			},
 			{
-				"command": "extension.addApexMethodComment",
-				"title": "AuraHelper: Add Apex Method Comment"
+				"command": "aurahelper.addApexComment",
+				"title": "AuraHelper: Add Apex Comment"
 			}
 		],
 		"snippets": [
@@ -86,6 +86,11 @@
 	],
 	"scripts": {
 		"test": "node ./test/runTest.js"
+	},
+	"license": "SEE LICENSE IN LICENSE.txt",
+	"bugs": {
+		"url": "https://github.com/JJLongoria/aura-helper/issues",
+		"email": "juan.longoria.lopez@accenture.com"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",

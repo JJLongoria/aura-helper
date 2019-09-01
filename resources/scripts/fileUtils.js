@@ -1,8 +1,9 @@
 const vscode = require('vscode');
+const logger = require('./logger');
 
 function getDocumentObject(filePath, callback){
     vscode.workspace.openTextDocument(filePath).then((document) => {
-        console.log("Document Opened ("+filePath+")");
+        logger.log("Document Opened ("+filePath+")");
         callback.call(this, document);
     });
 }

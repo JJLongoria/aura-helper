@@ -1,5 +1,10 @@
+const logger = require('./logger');
 
-function getCommentForApexMethod(str, needWhitespace) {
+function getCommentForApex(str, needWhitespace, addOpenAndClose) {
+    logger.log('Execute getCommentForApex method');
+    logger.log('str', str);
+    logger.log('needWhitespace', needWhitespace);
+    logger.log('addOpenAndClose', addOpenAndClose);
     let whitespace;
     let firstChar = '';
     // If we need whitespace, find out how much. We also need to add the first slash as a character since it won't already be typed.
@@ -10,11 +15,14 @@ function getCommentForApexMethod(str, needWhitespace) {
     }
     else {
         whitespace = '';
+        firstChar = '/**';
     }
     const methodSplit = str.split(/[\s\t]/);
     let hasReturn = true;
     let methodName;
     let lastResult;
+    let returnType;
+    let className;
     // Find the name of the method. We are tokenizing by a space.
     for (let thisStr of methodSplit) {
         const paren = thisStr.indexOf('(');
@@ -31,59 +39,94 @@ function getCommentForApexMethod(str, needWhitespace) {
         else if (thisStr.toLowerCase() === 'void') {
             // If this token is the word void, there is no return parameter, so we don't need to show that part of the javadoc.
             hasReturn = false;
+        } else if (thisStr.toLowerCase() !== 'void') {
+            returnType = thisStr.toLowerCase();
         }
         // We store this token so we can access it on the next pass if needed.
         lastResult = thisStr;
     }
     if (methodName === undefined) {
-        return '';
-    }
-    let variableList = new Array();
-    let maxSize = 0;
-    const variableRE = new RegExp(/\(([^)]+)\)/);
-    // If there are variables, this extracts the list of them.
-    if (variableRE.test(str)) {
-        const varStr = variableRE.exec(str)[1];
-        const varSplit = varStr.split(',');
-        // We tokenize by the comma.
-        for (let thisStr of varSplit) {
-            // Trimming any whitespace in this token
-            const thisVar = thisStr.trim().split(' ');
-            // If this is a valid variable with two words in it, add it to the array.
-            if (thisVar.length === 2) {
-                variableList.push(thisVar[1]);
-                // We're keeping track of the maximum length of the variables so we can format nicely
-                if (thisVar[1].length > maxSize) {
-                    maxSize = thisVar[1].length;
-                }
+        let isOnClass = false;
+        for (let thisStr of methodSplit) {
+            if (isOnClass) {
+                className = thisStr;
+                isOnClass = false;
+            }
+            if (thisStr === 'class') {
+                isOnClass = true;
             }
         }
     }
-    /* This is me printing everything out to the console during development.
-    console.log('Method: ' + methodName);
-    console.log('Has Return: ' + hasReturn);
-    console.log('Variables:');
-    console.log(variableList);
-    console.log('Max Size: ' + maxSize);*/
-    // Generating the Snippet as a string.
-    let comment = `${whitespace}${firstChar}\n${whitespace} * \${1:${methodName} description}\n`;
-    // The padding is a string that is a bunch of spaces equal to the maximum size of the variable.
-    const padding = Array(maxSize).join(' ');
-    let snippetNum = 2;
-    for (let varName of variableList) {
-        // No need to import any right-pad node libraries here!
-        let padStr = (varName + padding).substring(0, maxSize);
-        comment += `${whitespace} * ## param ${padStr} \${${snippetNum}:${varName} description}\n`;
-        snippetNum++;
+    logger.log('methodName', methodName);
+    logger.log('className', className);
+    if (methodName === undefined && className === undefined) {
+        return ``;
     }
-    // If we DIDN'T find the word "void" in the method signature, show the return line
-    if (hasReturn) {
-        comment += `${whitespace} * @@ Return ${padding} \${${snippetNum}:return description}\n`;
+    let comment = ``;
+    if (methodName !== undefined) {
+        let variableList = new Array();
+        let maxSize = 0;
+        const variableRE = new RegExp(/\(([^)]+)\)/);
+        // If there are variables, this extracts the list of them.
+        if (variableRE.test(str)) {
+            const varStr = variableRE.exec(str)[1];
+            const varSplit = varStr.split(',');
+            // We tokenize by the comma.
+            for (let thisStr of varSplit) {
+                // Trimming any whitespace in this token
+                const thisVar = thisStr.trim().split(' ');
+                // If this is a valid variable with two words in it, add it to the array.
+                if (thisVar.length === 2) {
+                    let variable = {
+                        type: thisVar[0],
+                        name: thisVar[1]
+                    };
+                    variableList.push(variable);
+                    // We're keeping track of the maximum length of the variables so we can format nicely
+                    if (variable.name.length + variable.type.length > maxSize) {
+                        maxSize = variable.name.length + variable.type.length;
+                    }
+                }
+            }
+        }
+        logger.log('methodName', methodName);
+        logger.log('className', className);
+        logger.log('hasReturn', hasReturn);
+        logger.logJSON('variableList', variableList);
+        logger.log('maxSize', maxSize);
+
+        // Generating the Snippet as a string.
+        if (addOpenAndClose)
+            comment += `${whitespace}${firstChar}`;
+        comment += `\n${whitespace} * \${1:${methodName} description}\n${whitespace} *\n`;
+        // The padding is a string that is a bunch of spaces equal to the maximum size of the variable.
+        let snippetNum = 2;
+        for (let variable of variableList) {
+            var varName = variable.name;
+            var varType = variable.type;
+            // No need to import any right-pad node libraries here!
+            comment += `${whitespace} * ## \${${snippetNum}:${varName}} (${varType}): \${${snippetNum}:${varName} description}\n`;
+            snippetNum++;
+        }
+        // If we DIDN'T find the word "void" in the method signature, show the return line
+        if (hasReturn) {
+            comment += `${whitespace} *\n${whitespace} * @@ Return ${returnType}: \${${snippetNum}:return description}\n`;
+        }
+        if (addOpenAndClose)
+            comment += `${whitespace} */`;
+    } else {
+        if (addOpenAndClose)
+            comment += `${whitespace}${firstChar}`;
+        comment += `\n${whitespace} * \${1:${className} description}\n`;
+        comment += `${whitespace} *\n`;
+        comment += `${whitespace} * @@ TestClass => \${2:${className} test class}\n`;
+        if (addOpenAndClose)
+            comment += `${whitespace} */`;
     }
-    comment += `${whitespace} */`;
+    logger.log('comment', comment);
     return comment;
 }
 
 module.exports = {
-    getCommentForApexMethod
+    getCommentForApex
 }

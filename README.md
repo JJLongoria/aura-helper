@@ -11,13 +11,16 @@ Some commands with tools for help in your work:
 
 - Aura Document Generator: A simple command for generate a skeleton of aura documentation file for an Aura Component based on user designed templates.
 - Add Method Section: Add a method section based on template to documentation file if you need modify it.
+- Add Apex Comment: Add an class or method comment on your apex code
 
-### Snippets features
+### Code Completion features
 
-To many snippets for make your work more productive:
+To many snippets and code completion tools for make your work more productive:
     - aura.function: Create an aura JS standard function
     - aura.JSONPretty: Write an instruction for get pretty JSON
     - aura.JSONPrettyConsole: Write an instruction for pretty print JSON in console
+    
+    - /** : Add an class or method comment on your apex code
 
 <!-- \!\[feature X\]\(images/feature-x.png\) 
 
