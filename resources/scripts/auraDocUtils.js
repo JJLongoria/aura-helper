@@ -2,6 +2,8 @@ const vscode = require('vscode');
 const fileUtils = require('./fileUtils');
 const editorUtils = require("./editorUtils");
 const languageUtils = require("./languageUtils");
+const windowUtils = require("./windowUtils");
+const snippetUtils = require('./snippetUtils');
 const logger = require('./logger');
 
 function getDocumentTemplatePath(context) {
@@ -70,7 +72,7 @@ function addMethodBlock(context, editor) {
 				fileUtils.getDocumentObject(getDocumentMethodParamTemplatePath(context), function (auraDocMethodParamTemplate) {
 					var helperMethods = fileUtils.getMethods(helperDoc);
 					var controllerMethods = fileUtils.getMethods(controllerDoc);
-					vscode.window.showQuickPick(["Controller Methods", "Helper Methods"]).then(fileSelected => {
+					windowUtils.showQuickPick(["Controller Methods", "Helper Methods"], "Select a file for get a method", function (fileSelected) {
 						var methodNames = [];
 						if (fileSelected == "Controller Methods") {
 							logger.log("Controller Methods Selected");
@@ -88,7 +90,7 @@ function addMethodBlock(context, editor) {
 							}
 						}
 						if (methodNames.length > 0) {
-							vscode.window.showQuickPick(methodNames).then(methodSelected => {
+							windowUtils.showQuickPick(methodNames, "Select a method to add", function(methodSelected){
 								var methods = [];
 								logger.log("Method Selected: " + methodSelected);
 								if (fileSelected == "Controller Methods") {
@@ -122,11 +124,11 @@ function addApexCommentBlock(editor, position) {
 	// Get the line that we are currently on
 	let lineNum;
 	let addOpenAndClose = true;
-	if(position !== undefined){
+	if (position !== undefined) {
 		lineNum = position.line + 1;
 		addOpenAndClose = false;
 	}
-	else{
+	else {
 		lineNum = editor.selection.active.line + 1;
 	}
 	logger.log('lineNum', lineNum);
@@ -144,8 +146,19 @@ function addApexCommentBlock(editor, position) {
 	}
 }
 
+function addJSFunction(editor) {
+	logger.log('Execute addJSFunction method');
+	windowUtils.showInputBoxNumber("Set the function params number", function(number){
+		if(number >= 0){
+			const funcBody = snippetUtils.getJSFunctionSnippet(number);
+			editor.insertSnippet(new vscode.SnippetString(`${funcBody}`), editor.selection);
+		}
+	});
+}
+
 module.exports = {
 	createAuraDocumentation,
 	addMethodBlock,
-	addApexCommentBlock
+	addApexCommentBlock,
+	addJSFunction
 }

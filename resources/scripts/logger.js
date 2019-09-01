@@ -14,7 +14,7 @@ function logJSON(textOrParamName, paramValue){
         if(paramValue === undefined)
             console.log(JSON.stringify(textOrParamName, null, 2));
         else
-            console.log('## ' + textOrParamName + ": \n" + JSON.stringify(textOrParamName, null, 2));
+            console.log('## ' + textOrParamName + ": \n" + JSON.stringify(paramValue, null, 2));
     }
 }
 

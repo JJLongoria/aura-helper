@@ -29,9 +29,12 @@ function activate(context) {
 	let addApexMethodComment = vscode.commands.registerCommand('aurahelper.addApexComment', function () {
 		addApexMethodCommentCommand();
 	});
+	let addJSFunction = vscode.commands.registerCommand('aurahelper.addJsFunction', function () {
+		addJSFunctionCommand();
+	});
 
-	vscode.commands.registerCommand('aurahelper.apexComentCompletion', (position) => apexCommentCompletion(position));
-    let provider = {
+	vscode.commands.registerCommand('aurahelper.apexComentCompletion', (commentPosition) => apexCommentCompletion(commentPosition));
+    let apexCommentProvider = {
         provideCompletionItems(document, position) {
             const line = document.lineAt(position.line).text;
             if (line.indexOf('/**') === -1) {
@@ -48,11 +51,11 @@ function activate(context) {
             return Promise.resolve([item]);
         }
 	};
-
-	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', provider, '*'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', apexCommentProvider, '*'));
 	context.subscriptions.push(genAuraDoc);
 	context.subscriptions.push(addMethodBlock);
 	context.subscriptions.push(addApexMethodComment);
+	context.subscriptions.push(addJSFunction);
 }
 exports.activate = activate;
 
@@ -106,4 +109,15 @@ function apexCommentCompletion(position){
 		auraDocUtils.addApexCommentBlock(editor, position);
 	else
 		vscode.window.showErrorMessage('The selected file is not an Apex Class File');
+}
+
+function addJSFunctionCommand(){
+	logger.log('Run addJSFunction action');
+	var editor = editorUtils.getActiveEditor();
+	if (!editor)
+		return;
+	if(fileUtils.isJavascriptFile(editorUtils.getActiveFileFullPath()))
+		auraDocUtils.addJSFunction(editor);
+	else
+		vscode.window.showErrorMessage('The selected file is not a JavaScript File');
 }

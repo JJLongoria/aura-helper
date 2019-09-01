@@ -1,0 +1,56 @@
+{
+    "Aura Attribute": {
+        "prefix": "aura.attribute",
+        "body": [
+            "<aura:attribute name=\"${1:name}\" type=\"${2:type}\" default=\"${3:defValue}\" description=\"{$4:description}\" />"
+        ],
+        "description": "Create Aura Attribute"
+    },
+    "Aura Handler": {
+        "prefix": "aura.handler",
+        "body": [
+            "<aura:handler name=\"${1:name}\" value=\"${2:value}\" action=\"{!c.${3:action}}\" />"
+        ],
+        "description": "Create Aura Handler"
+    },
+    "Aura Init Handler": {
+        "prefix": "aura.initHandler",
+        "body": [
+            "<aura:handler name=\"init\" value=\"{!this}\" action=\"{!c.doInit}\" />"
+        ],
+        "description": "Create Initialization Component Aura Handler"
+    },
+    "Aura Event Handler": {
+        "prefix": "aura.eventHandler",
+        "body": [
+            "<aura:handler name=\"${1:name}\" event=\"c:${2:event}\" action=\"{!c.${3:action}}\" />"
+        ],
+        "description": "Create Aura Component Event Handler"
+    },
+    "Aura App Event Handler": {
+        "prefix": "aura.appEventHandler",
+        "body": [
+            "<aura:handler event=\"c:${1:event}\" action=\"{!c.${2:action}}\"/>"
+        ],
+        "description": "Create Aura Application Event Handler"
+    },
+    "Aura Register Event": {
+        "prefix": "aura.registerEvent",
+        "body": [
+            "<aura:registerEvent name=\"${1:name}\" type=\"c:${2:type}\" />"
+        ],
+        "description": "Create Aura Event Registration"
+    },
+    "Aura Render If": {
+        "prefix": "aura.renderIf",
+        "body": [
+            "<aura:renderIf isTrue=\"{!${1:isTrue}}\">",
+            "\t${0:<!-- Code when is true -->}",
+            "\t<aura:set attribute=\"else\">",
+            "\t\t<!-- Code when is false -->",
+            "\t</aura:set>",
+            "</aura:renderIf>"
+        ],
+        "description": "Create Aura Render If Code Unit"
+    }
+}
