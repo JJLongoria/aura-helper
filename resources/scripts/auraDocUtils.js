@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const fileUtils = require('./fileUtils');
 const editorUtils = require("./editorUtils");
 const languageUtils = require("./languageUtils");
+const logger = require('./logger');
 
 function getDocumentTemplatePath(context) {
 	return context.asAbsolutePath("./resources/templates/auraDocumentation.auradoc");
@@ -72,14 +73,14 @@ function addMethodBlock(context, editor) {
 					vscode.window.showQuickPick(["Controller Methods", "Helper Methods"]).then(fileSelected => {
 						var methodNames = [];
 						if (fileSelected == "Controller Methods") {
-							console.log("Controller Methods Selected");
+							logger.log("Controller Methods Selected");
 							for (let i = 0; i < controllerMethods.length; i++) {
 								const method = controllerMethods[i];
 								methodNames.push(method.signature);
 							}
 						}
 						else if (fileSelected == "Helper Methods") {
-							console.log("Helper Methods Selected");
+							logger.log("Helper Methods Selected");
 							var methodNames = [];
 							for (let i = 0; i < helperMethods.length; i++) {
 								const method = helperMethods[i];
@@ -89,7 +90,7 @@ function addMethodBlock(context, editor) {
 						if (methodNames.length > 0) {
 							vscode.window.showQuickPick(methodNames).then(methodSelected => {
 								var methods = [];
-								console.log("Method Selected: " + methodSelected);
+								logger.log("Method Selected: " + methodSelected);
 								if (fileSelected == "Controller Methods") {
 									methods = controllerMethods;
 								}
@@ -115,21 +116,31 @@ function addMethodBlock(context, editor) {
 	});
 }
 
-function addApexCommentBlock(editor) {
+function addApexCommentBlock(editor, position) {
+	logger.log('Execute addApexCommentBlock method');
+	logger.log('position', position);
 	// Get the line that we are currently on
-	const lineNum = editor.selection.active.line;
-	var funcLine = editor.document.lineAt(lineNum);
+	let lineNum;
+	let addOpenAndClose = true;
+	if(position !== undefined){
+		lineNum = position.line + 1;
+		addOpenAndClose = false;
+	}
+	else{
+		lineNum = editor.selection.active.line + 1;
+	}
+	logger.log('lineNum', lineNum);
+	var methodOrClassLine = editor.document.lineAt(lineNum);
 	// If the line starts with a @, then it's a @AuraEnabled or @RemoteAction and look at the next line
 	var currLine = lineNum;
-	while (funcLine.text.trim().startsWith('@')) {
+	while (methodOrClassLine.text.trim().startsWith('@')) {
 		currLine++;
-		funcLine = editor.document.lineAt(currLine);
+		methodOrClassLine = editor.document.lineAt(currLine);
 	}
 	// If the line is not empty, parse it and add in a snippet on the line above.
-	if (!funcLine.isEmptyOrWhitespace) {
-		const apexComment = languageUtils.getCommentForApexMethod(funcLine.text, true);
-		const position = new vscode.Position(lineNum, 0);
-		editor.insertSnippet(new vscode.SnippetString(`${apexComment}\n`), position);
+	if (!methodOrClassLine.isEmptyOrWhitespace) {
+		const apexComment = languageUtils.getCommentForApex(methodOrClassLine.text, false, addOpenAndClose);
+		editor.insertSnippet(new vscode.SnippetString(`${apexComment}`), position);
 	}
 }
 
