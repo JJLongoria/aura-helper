@@ -13,7 +13,7 @@ const providers = require('./resources/scripts/providers');
 function activate(context) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	//console.log('Aura Helper Extension is now active');
+	console.log('Aura Helper Extension is now active');
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
@@ -32,6 +32,15 @@ function activate(context) {
 	let newAuraFile = vscode.commands.registerCommand('auraHelper.newAuraFile', function (fileUri) {
 		commandManager.newAuraFileCommand(context, fileUri);
 	});
+	let editAuraDocBaseTemplate = vscode.commands.registerCommand('auraHelper.editAuraDocBaseTemplate', function () {
+		commandManager.editAuraDocBaseTemplateCommand(context);
+	});
+	let editAuraDocMethodTemplate = vscode.commands.registerCommand('auraHelper.editAuraDocMethodTemplate', function () {
+		commandManager.editAuraDocMethodTemplateCommand(context);
+	});
+	let editAuraDocParamTemplate = vscode.commands.registerCommand('auraHelper.editAuraDocParamTemplate', function () {
+		commandManager.editAuraDocParamTemplateCommand(context);
+	});
 
 
 	vscode.commands.registerCommand('aurahelper.apexComentCompletion', function(commentPosition){
@@ -44,6 +53,9 @@ function activate(context) {
 	context.subscriptions.push(addApexMethodComment);
 	context.subscriptions.push(addJSFunction);
 	context.subscriptions.push(newAuraFile);
+	context.subscriptions.push(editAuraDocBaseTemplate);
+	context.subscriptions.push(editAuraDocMethodTemplate);
+	context.subscriptions.push(editAuraDocParamTemplate);
 }
 exports.activate = activate;
 
