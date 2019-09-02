@@ -1,5 +1,9 @@
 const vscode = require('vscode');
 
+function showInformationMessage(message){
+    vscode.window.showInformationMessage(message);
+}
+
 function showQuickPick(elements, placeholder, callback){
     vscode.window.showQuickPick(elements, {placeHolder: placeholder}).then(selected => {
         callback.call(this, selected);
@@ -42,9 +46,15 @@ function showInputBox(placeholder, callback){
     });
 }
 
+function openDocumentOnEditor(strPath){
+    vscode.window.showTextDocument(vscode.Uri.file(strPath));
+}
+
 module.exports = {
     showQuickPick,
     showInputBoxText,
     showInputBoxNumber,
-    showInputBox
+    showInputBox,
+    openDocumentOnEditor,
+    showInformationMessage
 }

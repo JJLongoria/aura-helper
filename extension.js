@@ -29,8 +29,8 @@ function activate(context) {
 	let addJSFunction = vscode.commands.registerCommand('aurahelper.addJsFunction', function () {
 		commandManager.addJSFunctionCommand();
 	});
-	let newAuraFile = vscode.commands.registerCommand('auraHelper.newAuraFile', function () {
-		commandManager.newAuraFileCommand(context);
+	let newAuraFile = vscode.commands.registerCommand('auraHelper.newAuraFile', function (fileUri) {
+		commandManager.newAuraFileCommand(context, fileUri);
 	});
 
 
