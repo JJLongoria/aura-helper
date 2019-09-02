@@ -18,3 +18,12 @@ All notable changes to this project will be documented in this file.
 - Menus
     - Explorer
         - AuraHelper: New Aura File
+
+## [0.1.01] - 2019-09-02
+### Added
+- Application Icon
+
+- Commands:
+    - AuraHelper: Edit Aura Doc Base Template
+    - AuraHelper: Edit Aura Doc Method Template
+    - AuraHelper: Edit Aura Doc Method Parameter Template
