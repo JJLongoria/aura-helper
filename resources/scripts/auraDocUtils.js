@@ -140,7 +140,7 @@ function addMethodBlock(context, editor) {
 		fileUtils.getDocumentObject(helperPath, function (helperDoc) {
 			if (fileUtils.isFileExists(controllerPath)) {
 				fileUtils.getDocumentObject(editor.document.uri.fsPath.replace('.auradoc', 'controller.js'), function (controllerDoc) {
-					fileUtils.getDocumentObject(fileUtils.etDocumentMethodTemplatePath(context), function (auraDocMethodTemplate) {
+					fileUtils.getDocumentObject(fileUtils.getDocumentMethodTemplatePath(context), function (auraDocMethodTemplate) {
 						fileUtils.getDocumentObject(fileUtils.getDocumentMethodParamTemplatePath(context), function (auraDocMethodParamTemplate) {
 							var helperMethods = fileUtils.getMethods(helperDoc);
 							var controllerMethods = fileUtils.getMethods(controllerDoc);
