@@ -12,6 +12,7 @@ Some commands with tools for help in your work. All commands start with "AuraHel
 #### Aura:
     - Aura Document Generator: A simple command for generate a skeleton of aura documentation file for an Aura Component based on user designed templates.
     - Add Method Section: Add a method section based on template to documentation file if you need modify it.
+    - New Aura File: Create a new Aura File for Aura Component Bundle
 
 #### Apex:
     - Add Apex Comment: Add a class or method comment on your apex code
@@ -40,6 +41,11 @@ To many snippets and code completion tools for make your work more productive:
     
 #### Apex:
     - /** : Add an class or method comment on your apex code
+
+### Contextual Menus
+
+#### Explorer:
+    - New Aura File: Active when click on .cmp file.
 
 <!-- \!\[feature X\]\(images/feature-x.png\) 
 

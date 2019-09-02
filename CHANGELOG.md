@@ -11,5 +11,10 @@ All notable changes to this project will be documented in this file.
     - AuraHelper: Add Method Block to Doc
     - AuraHelper: Add Apex Comment
     - AuraHelper: Add Javascript Aura Function
+    - AuraHelper: New Aura File
 
 - Code completion for javascript, aura and apex
+
+- Menus
+    - Explorer
+        - AuraHelper: New Aura File
