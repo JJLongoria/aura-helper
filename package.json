@@ -2,11 +2,12 @@
 	"name": "aura-helper",
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
-	"description": "Extensión for some util actions for make more easy the development work",
+	"description": "Salesforce extension for make more powerfull and easy the development work. Wotk with Apex and Lightning",
 	"version": "0.1.0",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
+	"icon": "./resources/images/icon.png",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/JJLongoria/aura-helper"
@@ -14,15 +15,17 @@
 	"categories": [
 		"Other"
 	],
+	"keywords": [
+		"aura",
+		"aura helper",
+		"helper",
+		"lightning",
+		"salesforce",
+		"apex",
+		"visualforce"
+	],
 	"activationEvents": [
-		"onCommand:aurahelper.genAuraDoc",
-		"onCommand:aurahelper.addMethodBlock",
-		"onCommand:aurahelper.addApexComment",
-		"onCommand:aurahelper.addJsFunction",
-
-		"onLanguage:apex",
-		"onLanguage:xml",
-		"onLanguage:javascript"
+		"*"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -46,6 +49,18 @@
 			{
 				"command": "auraHelper.newAuraFile",
 				"title": "AuraHelper: New Aura File"
+			},
+			{
+				"command": "auraHelper.editAuraDocBaseTemplate",
+				"title": "AuraHelper: Edit Aura Doc Base Template"
+			},
+			{
+				"command": "auraHelper.editAuraDocMethodTemplate",
+				"title": "AuraHelper: Edit Aura Doc Method Template"
+			},
+			{
+				"command": "auraHelper.editAuraDocParamTemplate",
+				"title": "AuraHelper: Edit Aura Doc Method Parameter Template"
 			}
 		],
 		"snippets": [

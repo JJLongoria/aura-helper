@@ -152,6 +152,7 @@ function getAuraFileTypeFromName(name){
 }
 
 
+
 module.exports = {
     isAuraDocFile,
     isApexClassFile,

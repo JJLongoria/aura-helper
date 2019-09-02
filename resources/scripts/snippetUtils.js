@@ -123,6 +123,55 @@ function getRendererFileSnippet(){
     return content;
 }
 
+function getBaseAuraDocTemplateSnippet(){
+    let content = "<aura:documentation>\n";
+    content += "\t<aura:description>\n";
+    content += "\t\t<!-- Component Description -->\n";
+    content += "\t\t<!-- Create your HTML template here. -->\n";
+    content += "\t\t<!-- Use keywords {!helperMethods} or {!controllerMethods}. Use them wherever you want to include the methods section of each JavaScript file -->\n";
+    content += "\t\t<!-- Example: -->\n";
+    content += "\t\t<p>\n";
+    content += "\t\t\tHelper methods:\n";
+    content += "\t\t\t<ul>\n";
+    content += "\t\t\t\t{!helperMethods}\n";
+    content += "\t\t\t</ul>\n";
+    content += "\t\t</p>\n";
+    content += "\t</aura:description>\n";
+    content += "\t<aura:example name=\"ExampleName\" ref=\"ExampleComponent\" label=\"ExampleLabel\">\n";
+    content += "\t\t\n";
+    content += "\t</aura:example>\n";
+    content += "/<aura:documentation>";
+    return content;
+}
+
+function getAuraDocMethodTemplateSnippet(){
+    let content = "<!-- Create your own method HTML template here -->\n";
+    content += "<!-- This template will be repeated once for each method and the result will replace the keywords {!helperMethods} or {!controllerMethods}   -->\n";
+    content += "<!-- On this template you can use the keywords {!method.name} {!method.signature} or {!method.params}   -->\n";
+    content += "<!-- Example -->\n";
+    content += "<li>\n";
+    content += "\t<ul>\n";
+    content += "\t\t{!method.params}\n";
+    content += "\t\t<!-- Method usage example -->\n";
+    content += "\t\t\t<p>\n";
+    content += "\t\t\t\t<pre>\n";
+    content += "\t\t\t\t</pre>\n";
+    content += "\t\t\t</p>\n";
+    content += "\t\t<!-- End example -->\n";
+    content += "\t</ul>\n";
+    content += "/<li>";
+    return content;
+}
+
+function getAuraDocParamTemplateSnippet(){
+    let content = "<!-- Create your own method parameter HTML template here -->\n";
+    content += "<!-- This template will be repeated once for each parameter and the result will replace the keyword {!method.params}  -->\n";
+    content += "<!-- On this template you can use the keyword {!param.name}  -->\n";
+    content += "<!-- Example -->\n";
+    content += "<li><i>{!param.name}: </li>Parameter description\n";
+    return content;
+}
+
 module.exports = {
     getJSFunctionSnippet,
     getApexComment,
@@ -131,5 +180,8 @@ module.exports = {
     getCSSFileSnippet,
     getDesignFileSnippet,
     getSVGFileSnippet,
-    getRendererFileSnippet
+    getRendererFileSnippet,
+    getBaseAuraDocTemplateSnippet,
+    getAuraDocMethodTemplateSnippet,
+    getAuraDocParamTemplateSnippet
 }
