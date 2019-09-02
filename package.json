@@ -2,7 +2,7 @@
 	"name": "aura-helper",
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
-	"description": "Salesforce extension for make por powerfull and easy the development work. Wotk with Apex and Lightning",
+	"description": "Salesforce extension for make more powerfull and easy the development work. Wotk with Apex and Lightning",
 	"version": "0.1.0",
 	"engines": {
 		"vscode": "^1.37.0"
