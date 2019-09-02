@@ -7,7 +7,7 @@
 	"engines": {
 		"vscode": "^1.37.0"
 	},
-	"icon": "./resources/images/icon.png",
+	"icon": "resources/images/icon.png",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/JJLongoria/aura-helper"
