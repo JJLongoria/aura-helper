@@ -25,14 +25,7 @@
 		"visualforce"
 	],
 	"activationEvents": [
-		"onCommand:aurahelper.genAuraDoc",
-		"onCommand:aurahelper.addMethodBlock",
-		"onCommand:aurahelper.addApexComment",
-		"onCommand:aurahelper.addJsFunction",
-
-		"onLanguage:apex",
-		"onLanguage:xml",
-		"onLanguage:javascript"
+		"*"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -56,6 +49,18 @@
 			{
 				"command": "auraHelper.newAuraFile",
 				"title": "AuraHelper: New Aura File"
+			},
+			{
+				"command": "auraHelper.editAuraDocBaseTemplate",
+				"title": "AuraHelper: Edit Aura Doc Base Template"
+			},
+			{
+				"command": "auraHelper.editAuraDocMethodTemplate",
+				"title": "AuraHelper: Edit Aura Doc Method Template"
+			},
+			{
+				"command": "auraHelper.editAuraDocParamTemplate",
+				"title": "AuraHelper: Edit Aura Doc Method Parameter Template"
 			}
 		],
 		"snippets": [
