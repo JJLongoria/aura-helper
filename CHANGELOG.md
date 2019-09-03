@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file.
     - Explorer
         - AuraHelper: New Aura File
 
-## [0.1.01] - 2019-09-02
+## [0.1.1] - 2019-09-02
 ### Added
 - Application Icon
 
@@ -27,3 +27,9 @@ All notable changes to this project will be documented in this file.
     - AuraHelper: Edit Aura Doc Base Template
     - AuraHelper: Edit Aura Doc Method Template
     - AuraHelper: Edit Aura Doc Method Parameter Template
+
+## [0.1.2] - 2019-09-02
+### Added
+- Application Icon modified
+
+- Fixed some bugs with language recognition for use the snippets

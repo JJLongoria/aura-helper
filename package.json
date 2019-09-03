@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Salesforce extension for make more powerfull and easy the development work. Wotk with Apex and Lightning",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
@@ -71,6 +71,10 @@
 			{
 				"language": "xml",
 				"path": "./resources/snippets/auraSnippets.json"
+			},
+			{
+				"language": "html",
+				"path": "./resources/snippets/auraSnippets.json"
 			}
 		],
 		"languages": [
@@ -94,7 +98,18 @@
 					".template"
 				],
 				"aliases": [
-					"Aura"
+					"XML"
+				]
+			},
+			{
+				"id": "html",
+				"extensions": [
+					".auradoc",
+					".cmp",
+					".template"
+				],
+				"aliases": [
+					"HTML"
 				]
 			},
 			{
