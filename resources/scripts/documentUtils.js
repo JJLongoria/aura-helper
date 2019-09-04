@@ -16,6 +16,7 @@ function createAuraDocumentation(context, editor) {
 					fileUtils.getDocumentObject(fileUtils.getDocumentTemplatePath(context), function (auraDocTemplate) {
 						fileUtils.getDocumentObject(fileUtils.getDocumentMethodTemplatePath(context), function (auraDocMethodTemplate) {
 							fileUtils.getDocumentObject(fileUtils.getDocumentMethodParamTemplatePath(context), function (auraDocMethodParamTemplate) {
+								languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
 								var helperMethods = fileUtils.getMethods(helperDoc);
 								var controllerMethods = fileUtils.getMethods(controllerDoc);
 								var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate, auraDocMethodTemplate, auraDocMethodParamTemplate);
@@ -240,10 +241,8 @@ function addApexCommentBlock(editor, position) {
 	logger.log('position', position);
 	// Get the line that we are currently on
 	let lineNum;
-	let addOpenAndClose = true;
 	if (position !== undefined) {
 		lineNum = position.line + 1;
-		addOpenAndClose = false;
 	}
 	else {
 		lineNum = editor.selection.active.line + 1;
@@ -258,7 +257,7 @@ function addApexCommentBlock(editor, position) {
 	}
 	// If the line is not empty, parse it and add in a snippet on the line above.
 	if (!methodOrClassLine.isEmptyOrWhitespace) {
-		const apexClassOrMethod = languageUtils.parseApexClassOrMethod(methodOrClassLine.text, false, addOpenAndClose);
+		const apexClassOrMethod = languageUtils.parseApexClassOrMethod(methodOrClassLine.text);
 		const apexComment = snippetUtils.getApexComment(apexClassOrMethod);
 		editor.insertSnippet(new vscode.SnippetString(`${apexComment}`), position);
 	}
