@@ -2,44 +2,44 @@
     "Aura Attribute": {
         "prefix": "aura.attribute",
         "body": [
-            "<aura:attribute name=\"${1:name}\" type=\"${2:type}\" default=\"${3:defValue}\" description=\"{$4:description}\" />"
+            "<aura:attribute name=\"${1:name}\" type=\"${2:type}\" default=\"${3:defValue}\" access=\"${4:description}\" description=\"${5:description}\"/>"
         ],
-        "description": "Create Aura Attribute"
+        "description": "Create Aura Attribute Code Unit (aura:attribute)"
     },
     "Aura Handler": {
         "prefix": "aura.handler",
         "body": [
-            "<aura:handler name=\"${1:name}\" value=\"${2:value}\" action=\"{!c.${3:action}}\" />"
+            "<aura:handler name=\"${1:name}\" value=\"${2:value}\" action=\"{!c.${3:jsAction}}\" />"
         ],
-        "description": "Create Aura Handler"
+        "description": "Create Aura Handler Code Unit (aura:handler)"
     },
     "Aura Init Handler": {
         "prefix": "aura.initHandler",
         "body": [
             "<aura:handler name=\"init\" value=\"{!this}\" action=\"{!c.doInit}\" />"
         ],
-        "description": "Create Initialization Component Aura Handler"
+        "description": "Create Initialization Component Aura Handler Code Unit (aura:handler)"
     },
     "Aura Event Handler": {
         "prefix": "aura.eventHandler",
         "body": [
-            "<aura:handler name=\"${1:name}\" event=\"c:${2:event}\" action=\"{!c.${3:action}}\" />"
+            "<aura:handler name=\"${1:name}\" event=\"c:${2:event}\" action=\"{!c.${3:jsAction}}\" />"
         ],
-        "description": "Create Aura Component Event Handler"
+        "description": "Create Aura Component Event Handler Code Unit (aura:handler)"
     },
     "Aura App Event Handler": {
         "prefix": "aura.appEventHandler",
         "body": [
-            "<aura:handler event=\"c:${1:event}\" action=\"{!c.${2:action}}\"/>"
+            "<aura:handler event=\"c:${1:event}\" action=\"{!c.${2:jsAction}}\"/>"
         ],
-        "description": "Create Aura Application Event Handler"
+        "description": "Create Aura Application Event Handler Code Unit (aura:handler)"
     },
     "Aura Register Event": {
         "prefix": "aura.registerEvent",
         "body": [
             "<aura:registerEvent name=\"${1:name}\" type=\"c:${2:type}\" />"
         ],
-        "description": "Create Aura Event Registration"
+        "description": "Create Aura Event Registration Code Unit (aura:registerEvent)"
     },
     "Aura Render If": {
         "prefix": "aura.renderIf",
@@ -51,6 +51,1088 @@
             "\t</aura:set>",
             "</aura:renderIf>"
         ],
-        "description": "Create Aura Render If Code Unit"
+        "description": "Create Aura Render If Code Unit (aura:renderIf)"
+    },
+    "Aura If": {
+        "prefix": "aura.if",
+        "body": [
+            "<aura:if isTrue=\"{!${1:isTrue}}\">",
+            "\t${0:<!-- Code when is true -->}",
+            "\t<aura:set attribute=\"else\">",
+            "\t\t<!-- Code when is false -->",
+            "\t</aura:set>",
+            "</aura:if>"
+        ],
+        "description": "Create Aura If Code Unit (aura:if)"
+    },
+    "Aura Iteration": {
+        "prefix": "aura.iteration",
+        "body": [
+            "<aura:iteration items=\"{!${1:items}}\" var=\"${2:item}\">",
+            "\t${0:<!-- Code for repeat -->}",
+            "</aura:iteration>"
+        ],
+        "description": "Create Aura Iteration Code Unit (aura:iteration)"
+    },
+
+
+
+    "Lightning Style": {
+        "prefix": "ltng.style",
+        "body": [
+            "<ltng:require styles=\"${1:cssStyle}\">"
+        ],
+        "description": "Create ltng Required Code Unit for CSS Styles (ltng:require)"
+    },
+    "Lightning Script": {
+        "prefix": "ltng.script",
+        "body": [
+            "<ltng:require script=\"${1:cssStyle}\">"
+        ],
+        "description": "Create ltng Required Code Unit for load scripts (ltng:require)"
+    },
+    "Lightning Style After Load": {
+        "prefix": "ltng.styleAfterLoad",
+        "body": [
+            "<ltng:require styles=\"${1:cssStyle}\">"
+        ],
+        "description": "Create ltng Required Code Unit for CSS Styles with afterScriptsLoaded attribute (ltng:require)"
+    },
+    "Lightning Script After Load": {
+        "prefix": "ltng.scriptAfterLoad",
+        "body": [
+            "<ltng:require script=\"${1:cssStyle}\" afterScriptsLoaded=\"{!c.${2:jsAction}}\">"
+        ],
+        "description": "Create ltng Required Code Unit for load scripts with afterScriptsLoaded attribute (ltng:require)"
+    },
+
+
+
+    "Force Record View": {
+        "prefix": "force.recordView",
+        "body": [
+            "<force:recordView recordId=\"{!${1:recordId}}\" />"
+        ],
+        "description": "Create Force Record View Code Unit (force:recordView)"
+    },
+    "Force Record Edit": {
+        "prefix": "force.recordEdit",
+        "body": [
+            "<force:recordEdit aura:id=\"${1:auraId}\" recordId=\"{!${2:recordId}}\"/>"
+        ],
+        "description": "Create Force Record Edit Code Unit (force:recordEdit)"
+    },
+    "Force Record Data": {
+        "prefix": "force.recordData",
+        "body": [
+            "<force:recordData aura:id=\"${1:auraId}\" recordId=\"{!${2:recordId}}\" fields=\"${3:fields}\" targetFields=\"${4:targetFields}\" targetError=\"${5:targetError}\"/>"
+        ],
+        "description": "Create Force Record Data Code Unit (force:recordData)"
+    },
+    "Force Output Field": {
+        "prefix": "force.outputField",
+        "body": [
+            "<force:outputField value=\"{!${1:field}}\"/>"
+        ],
+        "description": "Create Force Output Field Code Unit (force:outputField)"
+    },
+    "Force Input Field": {
+        "prefix": "force.inputField",
+        "body": [
+            "<force:inputField value=\"{!${1:field}}\"/>"
+        ],
+        "description": "Create Force Input Field Code Unit (force:inputField)"
+    },
+    "Force Canvas App": {
+        "prefix": "force.canvasApp",
+        "body": [
+            "<force:canvasApp developerName=\"${1:devName}\" namespacePrefix=\"${2:nsPrefix}\"/>"
+        ],
+        "description": "Create Force Canvas App Code Unit (force:canvasApp)"
+    },
+
+
+
+
+    "Lightning Accordion": {
+        "prefix": "ltn.accordion",
+        "body": [
+            "<lightning:accordion aura:id=\"${1:auraId}\" activeSectionName=\"${2:activeSection}\">",
+            "\t$0",
+            "</lightning:accordion>"
+        ],
+        "description": "Create Lightning Accordion Code Unit (lightning:accordion)"
+    },
+    "Lightning Accordion Section": {
+        "prefix": ["ltn.accordionSection", "ltn.accSection"],
+        "body": [
+            "<lightning:accordionSection name=\"${1:sectionName}\" label=\"${1:sectionLabel}\">",
+            "\t<aura:set attribute=\"actions\">",
+            "\t\t$0",
+            "\t</aura:set>",
+            "\t<aura:set attribute=\"body\">",
+            "\t\t",
+            "\t</aura:set>",
+            "</lightning:accordion>"
+        ],
+        "description": "Create Lightning Accordion Code Unit (lightning:accordion)"
+    },
+    "Lightning Avatar": {
+        "prefix": "ltn.avatar",
+        "body": [
+            "<lightning:avatar src=\"${1:imgSource}\" initials=\"${2:initials}\" fallbackIconName=\"${3:iconName}\" alternativeText=\"${1:altText}\"/>"
+        ],
+        "description": "Create Lightning Avatar Code Unit (lightning:avatar)"
+    },
+    "Lightning Breadcrums Section": {
+        "prefix": "ltn.breadcrumbs",
+        "body": [
+            "<lightning:breadcrumbs>",
+            "\t$0",
+            "</lightning:breadcrumbs>"
+        ],
+        "description": "Create Lightning Breadcrums Section Code Unit (lightning:breadcrumbs)"
+    },
+    "Lightning Breadcrum": {
+        "prefix": "ltn.breadcrumb",
+        "body": [
+            "<lightning:breadcrumb label=\"${1:label}\" href=\"${1:path}\"/>"
+        ],
+        "description": "Create Lightning Breadcrum Code Unit (lightning:breadcrumb)"
+    },
+    "Lightning Button": {
+        "prefix": "ltn.button",
+        "body": [
+            "<lightning:button variant=\"${1:variant}\" label=\"${2:label}\" onclick=\"{!c.${3:jsAction}}\" />"
+        ],
+        "description": "Create Lightning Button Code Unit (lightning:button)"
+    },
+    "Lightning Button Group": {
+        "prefix": ["ltn.buttonGroup", "ltn.buttonGrp"],
+        "body": [
+            "<lightning:buttonGroup>",
+            "\t${0:<!-- Put your buttons here -->}",
+            "</lightning:buttonGroup>"
+        ],
+        "description": "Create Lightning Button Group Code Unit (lightning:buttonGroup)"
+    },
+    "Lightning Button Icon": {
+        "prefix": "ltn.buttonIcon",
+        "body": [
+            "<lightning:buttonIcon iconName=\"${1:iconName}\" variant=\"${2:variant}\" onclick=\"{!c.${3:jsAction}}\" alternativeText=${4:altText}/>"
+        ],
+        "description": "Create Lightning Button Icon Code Unit (lightning:buttonIcon)"
+    },
+    "Lightning Button Icon Stateful": {
+        "prefix": "ltn.buttonIconStateful",
+        "body": [
+            "<lightning:buttonIconStateful iconName=\"${1:iconName}\" selected=\"{!${2:selected}}\" onclick=\"{!c.${3:jsAction}}\" alternativeText=${4:altText} />"
+        ],
+        "description": "Create Lightning Button Icon Stateful Code Unit (lightning:buttonIconStateful)"
+    },
+    "Lightning Button Menu": {
+        "prefix": "ltn.buttonMenu",
+        "body": [
+            "<lightning:buttonMenu aura:id=\"${1:auraId}\" onselect=\"{!c.${2:jsAction}}\" alternativeText=\"${3:altText}\">",
+            "\t${0:<!-- Put your menu items here (lightning:menuItem) -->}",
+            "</lightning:buttonMenu>"
+        ],
+        "description": "Create Lightning Button Menu Code Unit (lightning:buttonMenu)"
+    },
+    "Lightning Button Stateful": {
+        "prefix": "ltn.buttonStateful",
+        "body": [
+            "<lightning:buttonStateful labelWhenOff=\"${1:labelOff}\" labelWhenOn=\"${2:labelOn}\" labelWhenHover=\"${3:labelHover}\" iconNameWhenOff=\"${4:iconOff}\" iconNameWhenOn=\"${5:iconCheck}\" iconNameWhenHover=\"${6:iconHover}\" state=\"{!c.${7:jsAction}}\" onclick=\"{!c.${8:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning Button Stateful Code Unit (lightning:buttonStateful)"
+    },
+    "Lightning Card": {
+        "prefix": "ltn.card",
+        "body": [
+            "<lightning:card footer=\"${1:cardFooter}\" title=\"${2:cardTitle}\">",
+            "\t<aura:set attribute=\"actions\">",
+            "\t</aura:set>",
+            "\t${0:<!-- Put your card body here -->}",
+            "</lightning:card>"
+        ],
+        "description": "Create Lightning Card Code Unit (lightning:card)"
+    },
+    "Lightning Carousel": {
+        "prefix": "ltn.carousel",
+        "body": [
+            "<lightning:carousel disableAutoRefresh=\"${1:false}\" disableAutoScroll=\"${2:false}\">",
+            "\t${0:<!-- Put your Carousel images here (lightning:carouselImage) -->}",
+            "</lightning:card>"
+        ],
+        "description": "Create Lightning Carousel Code Unit (lightning:carousel)"
+    },
+    "Lightning Carousel Image": {
+        "prefix": "ltn.carouselImage",
+        "body": [
+            "<lightning:carouselImage src=\"${1:imageSource}\" header=\"${2:imageHeader}\" description=\"${3:imageDesc}\" alternativeText=\"${4:altText}\" href =\"${5:link}\">"
+        ],
+        "description": "Create Lightning Carousel Image Code Unit (lightning:carouselImage)"
+    },
+    "Lightning Checkbox Group": {
+        "prefix": ["ltn.checkboxGroup", "ltn.checkboxGrp", "ltn.chkgrp"],
+        "body": [
+            "<lightning:checkboxGroup name=\"${1:groupName}\" label=\"${2:groupLabel}\" options=\"{!${3:options}}\" value=\"{!${4:value}}\" onchange=\"{!c.${5:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning Check Box Group Code Unit (lightning:checkboxGroup)"
+    },
+    "Lightning Click to Deal Service": {
+        "prefix": "ltn.clickToDialService",
+        "body": [
+            "<lightning:clickToDialService aura:id=\"${1:auraId}\"/>"
+        ],
+        "description": "Create Lightning Click to Dial Service Code Unit (lightning:clickToDialService)"
+    },
+    "Lightning Click to Deal": {
+        "prefix": "ltn.clickToDial",
+        "body": [
+            "<lightning:clickToDial value=\"${1:value}\" recordId=\"{!${2:recordId}}\" params=\"${3:parameters}\"/>"
+        ],
+        "description": "Create Lightning Click to Dial Code Unit (lightning:clickToDial)"
+    },
+    "Lightning Combobox": {
+        "prefix": "ltn.combobox",
+        "body": [
+            "<lightning:combobox name=\"${1:name}\" label=\"${2:label}\" value=\"${3:startValue}\" placeholder=\"${4:placeholder}\" options=\"{!${5:value}}\" onchange=\"{!c.${6:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning Combobox Code Unit (lightning:combobox)"
+    },
+    "Lightning Container": {
+        "prefix": "ltn.container",
+        "body": [
+            "<lightning:container aura:id=\"${1:auraId}\" src=\"${2:contentSource}\" onmessage=\"{!c.${3:jsAction}}\" onerror=\"{!c.${4:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning Container Code Unit (lightning:container)"
+    },
+    "Lightning Data Table": {
+        "prefix": "ltn.datatable",
+        "body": [
+            "<lightning:datatable keyField=\"${1:keyField}\" data=\"{!${2:dataSet}}\" columns=\"{!${3:columns}}\" hideCheckboxColumn=\"${4:true}\"/>"
+        ],
+        "description": "Create Lightning Data Table Code Unit (lightning:datatable)"
+    },
+    "Lightning Dual List Box": {
+        "prefix": "ltn.dualListBox",
+        "body": [
+            "<lightning:dualListbox name=\"${1:listName}\" label=\"${2:label}\" sourceLabel=\"${3:sourceLabel}\" selectedLabel=\"${4:selectedLabel}\" fieldLevelHelp=\"${5:help}\" options=\"{!${6:value}}\" onchange=\"{!c.${7:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning Dual List Box Code Unit (lightning:dualListbox)"
+    },
+    "Lightning Dynamic Icon Ellie": {
+        "prefix": "ltn.dynamicIconEllie",
+        "body": [
+            "<lightning:dynamicIcon type=\"ellie\" alternativeText=\"${1:altText}\"/>"
+        ],
+        "description": "Create Lightning Dynamic Icon Ellie Type Code Unit (lightning:dynamicIcon)"
+    },
+    "Lightning Dynamic Icon EQ": {
+        "prefix": "ltn.dynamicIconEQ",
+        "body": [
+            "<lightning:dynamicIcon type=\"eq\" option=\"${1:playOrStop}\" alternativeText=\"${2:altText}\"/>"
+        ],
+        "description": "Create Lightning Dynamic Icon EQ Type Code Unit (lightning:dynamicIcon)"
+    },
+    "Lightning Dynamic Icon Score": {
+        "prefix": "ltn.dynamicIconScore",
+        "body": [
+            "<lightning:dynamicIcon type=\"score\" option=\"${1:positiveOrNegative}\" alternativeText=\"${2:altText}\"/>"
+        ],
+        "description": "Create Lightning Dynamic Icon Score Type Code Unit (lightning:dynamicIcon)"
+    },
+    "Lightning Dynamic Icon Strength": {
+        "prefix": "ltn.dynamicIconStrength",
+        "body": [
+            "<lightning:dynamicIcon type=\"strength\" option=\"${1:value}\" alternativeText=\"${2:altText}\"/>"
+        ],
+        "description": "Create Lightning Dynamic Icon Strength Type Code Unit (lightning:dynamicIcon)"
+    },
+    "Lightning Dynamic Icon Trend": {
+        "prefix": "ltn.dynamicIconTrend",
+        "body": [
+            "<lightning:dynamicIcon type=\"trend\" option=\"${1:neutralUpOrDown}\" alternativeText=\"${2:altText}\"/>"
+        ],
+        "description": "Create Lightning Dynamic Icon Trend Type Code Unit (lightning:dynamicIcon)"
+    },
+    "Lightning Dynamic Icon Waffle": {
+        "prefix": "ltn.dynamicIconWaffle",
+        "body": [
+            "<lightning:dynamicIcon type=\"waffle\" alternativeText=\"${1:altText}\"/>"
+        ],
+        "description": "Create Lightning Dynamic Icon Waffle Type Code Unit (lightning:dynamicIcon)"
+    },
+    "Lightning File Card": {
+        "prefix": "ltn.fileCard",
+        "body": [
+            "<lightning:fileCard fileId=\"{!${1:fileId}}\" description=\"${1:description}\"/>"
+        ],
+        "description": "Create Lightning File Card Code Unit (lightning:fileCard)"
+    },
+    "Lightning File Upload": {
+        "prefix": "ltn.fileUpload",
+        "body": [
+            "<lightning:fileUpload name=\"${1:altText}\" label=\"${2:label}\" multiple=\"${3:false}\" accept=\"{!${4:extensionList}}\" disabled=\"${5:false}\" recordId=\"{!${6:recordId}}\" onuploadfinished=\"{!c.${7:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning File Upload Code Unit (lightning:fileUpload)"
+    },
+    "Lightning Flexi Page Region Info": {
+        "prefix": "ltn.flexipageRegionInfo",
+        "body": [
+            "<lightning:flexipageRegionInfo width=\"{!${1:extensionList}}\"/>"
+        ],
+        "description": "Create Lightning Flexi Page Region Info Code Unit (lightning:flexipageRegionInfo)"
+    },
+    "Lightning Flow": {
+        "prefix": "ltn.flow",
+        "body": [
+            "<lightning:flow aura:id=\"${1:auraId}\" onstatuschange=\"{!c.${2:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning Flow Code Unit (lightning:flow)"
+    },
+    "Lightning Formatted Address": {
+        "prefix": "ltn.formattedAddress",
+        "body": [
+            "<lightning:formattedAddress street=\"{!${1:street}}\" city=\"{!${2:city}}\" country=\"{!${3:country}}\" province=\"{!${4:province}}\" postalCode=\"{!${5:postalCode}}\"/>"
+        ],
+        "description": "Create Lightning Formatted Address Code Unit (lightning:formattedAddress)"
+    },
+    "Lightning Formatted Address Map": {
+        "prefix": "ltn.formattedAddressMap",
+        "body": [
+            "<lightning:formattedAddress street=\"{!${1:street}}\" city=\"{!${2:city}}\" country=\"{!${3:country}}\" province=\"{!${4:province}}\" postalCode=\"{!${5:postalCode}}\" showStaticMap=\"true\"/>"
+        ],
+        "description": "Create Lightning Formatted Address With Map Code Unit (lightning:formattedAddress)"
+    },
+    "Lightning Formatted Date": {
+        "prefix": "ltn.formattedDate",
+        "body": [
+            "<lightning:formattedDateTime value=\"{!${1:timeInMillis}}\" year=\"${2:numeric}\" month=\"${3:short}\" day=\"${4:2-digit}\" weekday=\"${5:long}\"/>"
+        ],
+        "description": "Create Lightning Formatted Date Code Unit (lightning:formattedDateTime)"
+    },
+    "Lightning Formatted Time": {
+        "prefix": "ltn.formattedTime",
+        "body": [
+            "<lightning:formattedDateTime value=\"{!${1:timeInMillis}}\" hour=\"${2:2-digit}\" minute=\"${3:2-digit}\" second=\"${4:2-digit}\" hour12=\"${5:false}\"/>"
+        ],
+        "description": "Create Lightning Formatted Time Code Unit (lightning:formattedDateTime)"
+    },
+    "Lightning Formatted Date Time": {
+        "prefix": "ltn.formattedDateTime",
+        "body": [
+            "<lightning:formattedDateTime value=\"{!${1:timeInMillis}}\" year=\"${2:numeric}\" month=\"${3:numeric}\" day=\"${4:numeric}\" hour=\"${5:2-digit}\" minute=\"${6:2-digit}\" second=\"${7:2-digit}\" hour12=\"${8:false}\"/>"
+        ],
+        "description": "Create Lightning Formatted Date Time Code Unit (lightning:FormattedDateTime)"
+    },
+    "Lightning Formatted Email": {
+        "prefix": "ltn.formattedEmail",
+        "body": [
+            "<lightning:formattedEmail value=\"{!${1:email}}\" />"
+        ],
+        "description": "Create Lightning Formatted Email Code Unit (lightning:formattedEmail)"
+    },
+    "Lightning Formatted Location": {
+        "prefix": "ltn.formattedLocation",
+        "body": [
+            "<lightning:formattedLocation latitude=\"{!${1:latitude}}\" longitude=\"{!${2:longitude}}\"/>"
+        ],
+        "description": "Create Lightning Formatted Location Code Unit (lightning:formattedLocation)"
+    },
+    "Lightning Formatted Name": {
+        "prefix": "ltn.formattedName",
+        "body": [
+            "<lightning:formattedName aura:id=\"${1:auraId}\" firstName=\"{!${2:firstName}}\" middleName=\"{!${3:middleName}}\" lastName=\"{!${4:lastName}}\" informalName=\"{!${5:informalName}}\" suffix=\"{!${6:suffix}}\" salutation=\"{!${6:salutation}}\"/>"
+        ],
+        "description": "Create Lightning Formatted Name Code Unit (lightning:formattedName)"
+    },
+    "Lightning Formatted Name Short": {
+        "prefix": "ltn.formattedNameShort",
+        "body": [
+            "<lightning:formattedName aura:id=\"${1:auraId}\" firstName=\"{!${2:firstName}}\" middleName=\"{!${3:middleName}}\" lastName=\"{!${4:lastName}}\" informalName=\"{!${5:informalName}}\" suffix=\"{!${6:suffix}}\" salutation=\"{!${6:salutation}}\" format=\"short\"/>"
+        ],
+        "description": "Create Lightning Formatted Name Short Code Unit (lightning:formattedName)"
+    },
+    "Lightning Formatted Number Decimal": {
+        "prefix": "ltn.formattedNumberDecimal",
+        "body": [
+            "<lightning:formattedNumber value=\"{!${1:value}}\" minimumSignificantDigits=\"{!${2:minimumSignificantDigits}}\" style=\"decimal\"/>"
+        ],
+        "description": "Create Lightning Formatted Decimal Number Code Unit (lightning:formattedNumber)"
+    },
+    "Lightning Formatted Number Currency": {
+        "prefix": "ltn.formattedNumberCurrency",
+        "body": [
+            "<lightning:formattedNumber value=\"{!${1:value}}\" currencyCode=\"{!${3:currencyCode}}\" currencyDisplayAs=\"${4:code}\" style=\"currency\"/>"
+        ],
+        "description": "Create Lightning Formatted Currency Code Unit (lightning:formattedNumber)"
+    },
+    "Lightning Formatted Number Percent": {
+        "prefix": "ltn.formattedNumberPercent",
+        "body": [
+            "<lightning:formattedNumber value=\"{!${1:value}}\" minimumSignificantDigits=\"{!${2:minimumSignificantDigits}}\" style=\"percent\"/>"
+        ],
+        "description": "Create Lightning Formatted Percent Code Unit (lightning:formattedNumber)"
+    },
+    "Lightning Formatted Phone": {
+        "prefix": "ltn.formattedPhone",
+        "body": [
+            "<lightning:formattedPhone value=\"{!${1:value}}\"/>"
+        ],
+        "description": "Create Lightning Formatted Phone Code Unit (lightning:formattedPhone)"
+    },
+    "Lightning Formatted Rich Text": {
+        "prefix": "ltn.formattedRichText",
+        "body": [
+            "<lightning:formattedRichText value=\"{!${1:value}}\"/>"
+        ],
+        "description": "Create Lightning Formatted Rich Text Code Unit (lightning:formattedRichText)"
+    },
+    "Lightning Formatted Text": {
+        "prefix": "ltn.formattedText",
+        "body": [
+            "<lightning:formattedText value=\"{!${1:value}}\" linkify=\"${2:true}\"/>"
+        ],
+        "description": "Create Lightning Formatted Text Code Unit (lightning:formattedText)"
+    },
+    "Lightning Formatted URL": {
+        "prefix": "ltn.formattedUrl",
+        "body": [
+            "<lightning:formattedUrl value=\"{!${1:value}}\"/>"
+        ],
+        "description": "Create Lightning Formatted Text Code Unit (lightning:formattedUrl)"
+    },
+    "Lightning Help Text": {
+        "prefix": "ltn.helptext",
+        "body": [
+            "<lightning:helptext content=\"${1:helpText}\"/>"
+        ],
+        "description": "Create Lightning Help Text Code Unit (lightning:helptext)"
+    },
+    "Lightning Icon": {
+        "prefix": "ltn.icon",
+        "body": [
+            "<lightning:icon iconName=\"${1:iconName}\" alternativeText=\"${2:altText}\" size=\"${3:size}\"/>"
+        ],
+        "description": "Create Lightning Icon Code Unit (lightning:icon)"
+    },
+    "Lightning Input Date": {
+        "prefix": "ltn.inputDate",
+        "body": [
+            "<lightning:input type=\"date\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
+        ],
+        "description": "Create Lightning Input Date Code Unit (lightning:input)"
+    },
+    "Lightning Input DateTime": {
+        "prefix": "ltn.inputDateTime",
+        "body": [
+            "<lightning:input type=\"datetime\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
+        ],
+        "description": "Create Lightning Input DateTime Code Unit (lightning:input)"
+    },
+    "Lightning Input Time": {
+        "prefix": "ltn.inputTime",
+        "body": [
+            "<lightning:input type=\"time\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
+        ],
+        "description": "Create Lightning Input Time Code Unit (lightning:input)"
+    },
+    "Lightning Input Color": {
+        "prefix": "ltn.inputColor",
+        "body": [
+            "<lightning:input type=\"color\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
+        ],
+        "description": "Create Lightning Input Color Code Unit (lightning:input)"
+    },
+    "Lightning Input File": {
+        "prefix": "ltn.inputFile",
+        "body": [
+            "<lightning:input type=\"file\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" multiple=\"${4:false}\" accept=\"${5:extensionList}\" onchange=\"{!c.${6:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning Input File Code Unit (lightning:input)"
+    },
+    "Lightning Input Text": {
+        "prefix": "ltn.inputText",
+        "body": [
+            "<lightning:input aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
+        ],
+        "description": "Create Lightning Input Text Code Unit (lightning:input)"
+    },
+    "Lightning Input Email": {
+        "prefix": "ltn.inputEmail",
+        "body": [
+            "<lightning:input type=\"email\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
+        ],
+        "description": "Create Lightning Input Email Code Unit (lightning:input)"
+    },
+    "Lightning Input Password": {
+        "prefix": ["ltn.inputPassword", "ltn.inputPwd"],
+        "body": [
+            "<lightning:input type=\"password\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
+        ],
+        "description": "Create Lightning Input Password Code Unit (lightning:input)"
+    },
+    "Lightning Input Telephone": {
+        "prefix": "ltn.inputTelephone",
+        "body": [
+            "<lightning:input type=\"tel\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
+        ],
+        "description": "Create Lightning Input Telephone Code Unit (lightning:input)"
+    },
+    "Lightning Input URL": {
+        "prefix": "ltn.inputUrl",
+        "body": [
+            "<lightning:input type=\"url\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
+        ],
+        "description": "Create Lightning Input URL Code Unit (lightning:input)"
+    },
+    "Lightning Input Number": {
+        "prefix": "ltn.inputNumber",
+        "body": [
+            "<lightning:input type=\"number\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
+        ],
+        "description": "Create Lightning Input Number Code Unit (lightning:input)"
+    },
+    "Lightning Input Checkbox": {
+        "prefix": ["ltn.inputCheckbox", "ltn.inputChk"],
+        "body": [
+            "<lightning:input type=\"checkbox\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\"/>"
+        ],
+        "description": "Create Lightning Input Checkbox Code Unit (lightning:input)"
+    },
+    "Lightning Input Checkbox Button": {
+        "prefix": ["ltn.inputCheckboxButton", "ltn.inputChkBtn"],
+        "body": [
+            "<lightning:input type=\"checkbox-button\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\"/>"
+        ],
+        "description": "Create Lightning Input Checkbox Button Code Unit (lightning:input)"
+    },
+    "Lightning Input Toggle": {
+        "prefix": "ltn.inputToggle",
+        "body": [
+            "<lightning:input type=\"toggle\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\"/>"
+        ],
+        "description": "Create Lightning Input Toggle Code Unit (lightning:input)"
+    },
+    "Lightning Input Radio Button": {
+        "prefix": "ltn.inputRadio",
+        "body": [
+            "<lightning:input type=\"radio\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"${4:value}\"/>"
+        ],
+        "description": "Create Lightning Input Radio Button Code Unit (lightning:input)"
+    },
+    "Lightning Input Search": {
+        "prefix": "ltn.inputSearch",
+        "body": [
+            "<lightning:input type=\"search\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\"/>"
+        ],
+        "description": "Create Lightning Input Search Code Unit (lightning:input)"
+    },
+    "Lightning Input Address": {
+        "prefix": "ltn.inputAddress",
+        "body": [
+            "<lightning:inputAddress addressLabel=\"${1:addressLabel}\" streetLabel=\"${2:streetLabel}\" cityLabel=\"${3:cityLabel}\" countryLabel=\"${4:countryLabel}\" provinceLabel=\"${5:provinceLabel}\" postalCodeLabel=\"${6:postalCodeLabel}\" street=\"{!${7:street}}\" city=\"{!${8:city}}\" country=\"{!${9:country}}\" province=\"{!${10:province}}\" postalCode=\"{!${11:postalCode}}\" fieldLevelHelp=\"${12:helpText}\"/>"
+        ],
+        "description": "Create Lightning Input Address Code Unit (lightning:inputAddress)"
+    },
+    "Lightning Input Field": {
+        "prefix": "ltn.inputField",
+        "body": [
+            "<lightning:inputField fieldName=\"${1:fieldApiName}\"/>"
+        ],
+        "description": "Create Lightning Input Field Code Unit (lightning:inputField)"
+    },
+    "Lightning Input Location": {
+        "prefix": "ltn.inputLocation",
+        "body": [
+            "<lightning:inputLocation label=\"${1:label}\" latitude=\"${2:latitude}\" longitude=\"${3:longitude}\"/>"
+        ],
+        "description": "Create Lightning Input Location Code Unit (lightning:inputLocation)"
+    },
+    "Lightning Input Name": {
+        "prefix": "ltn.inputName",
+        "body": [
+            "<lightning:inputName aura:id=\"${1:auraId}\" label=\"${2:label}\" firstName=\"{!${3:firstName}}\" middleName=\"{!${4:middleName}}\" lastName=\"{!${5:lastName}}\" informalName=\"{!${6:informalName}}\" suffix=\"{!${7:suffix}}\" salutation=\"{!${8:salutation}}\" options=\"{!${9:salutationOptions}}\"/>"
+        ],
+        "description": "Create Lightning Input Name Code Unit (lightning:inputName)"
+    },
+    "Lightning Input Rich Text": {
+        "prefix": "ltn.inputRichText",
+        "body": [
+            "<lightning:inputRichText value=\"{!${1:value}}\" placeholder=\"{!${2:placeholder}}\"/>"
+        ],
+        "description": "Create Lightning Input Rich Text Code Unit (lightning:inputRichText)"
+    },
+    "Lightning Input Rich Text Bottom Toolbar": {
+        "prefix": "ltn.inputRichTextBottom",
+        "body": [
+            "<lightning:inputRichText value=\"{!${1:value}}\" placeholder=\"{!${2:placeholder}}\" variant=\"bottom-toolbar\"/>"
+        ],
+        "description": "Create Lightning Input Rich Text With Bottom Toolbar Code Unit (lightning:inputRichText)"
+    },
+    "Lightning Layout": {
+        "prefix": "ltn.layout",
+        "body": [
+            "<lightning:layout>",
+            "\t${0:<!-- Put the content Here -->}",
+            "</lightning:layout>"
+        ],
+        "description": "Create Lightning Simple Layout Code Unit (lightning:layout)"
+    },
+    "Lightning Layout Space Center": {
+        "prefix": "ltn.layoutSpaceCenter",
+        "body": [
+            "<lightning:layout horizontalAlign=\"space\" verticalAlign=\"center\">",
+            "\t${0:<!-- Put the content Here -->}",
+            "</lightning:layout>"
+        ],
+        "description": "Create Lightning Layout with Horizontal Align Space and Vertical Align Center Code Unit (lightning:layout)"
+    },
+    "Lightning Layout Space Stretch": {
+        "prefix": "ltn.layoutSpaceStretch",
+        "body": [
+            "<lightning:layout horizontalAlign=\"space\" verticalAlign=\"stretch\">",
+            "\t${0:<!-- Put the content Here -->}",
+            "</lightning:layout>"
+        ],
+        "description": "Create Lightning Layout with Horizontal Align Space and Vertical Align Stretch Code Unit (lightning:layout)"
+    },
+    "Lightning Layout Spread Center": {
+        "prefix": "ltn.layoutSpreadCenter",
+        "body": [
+            "<lightning:layout horizontalAlign=\"spread\" verticalAlign=\"center\">",
+            "\t${0:<!-- Put the content Here -->}",
+            "</lightning:layout>"
+        ],
+        "description": "Create Lightning Layout with Horizontal Align Spread and Vertical Align Center Code Unit (lightning:layout)"
+    },
+    "Lightning Layout Spread Stretch": {
+        "prefix": "ltn.layoutSpreadStretch",
+        "body": [
+            "<lightning:layout horizontalAlign=\"spread\" verticalAlign=\"stretch\">",
+            "\t${0:<!-- Put the content Here -->}",
+            "</lightning:layout>"
+        ],
+        "description": "Create Lightning Layout with Horizontal Align Spread and Vertical Align Stretch Code Unit (lightning:layout)"
+    },
+    "Lightning Layout Item": {
+        "prefix": "ltn.layoutItem",
+        "body": [
+            "<lightning:layoutItem size=\"${1:size}\" padding=\"around-small\">",
+            "\t${0:<!-- Put the content Here -->}",
+            "</lightning:layoutItem>"
+        ],
+        "description": "Create Lightning Basic Layout Item Code Unit (lightning:layoutItem)"
+    },
+    "Lightning List View": {
+        "prefix": "ltn.listView",
+        "body": [
+            "<lightning:listView aura:id=\"${1:auraId}\" objectApiName=\"${2:objApiName}\" listName=\"${3:listName}\" rows=\"${4:rowsNumber}\" showSearchBar=\"${5:true}\" showActionBar=\"${6:false}\" enableInlineEdit=\"${7:true}\" showRowLevelActions=\"${8:false}\"/>"
+        ],
+        "description": "Create Lightning List View Code Unit (lightning:listView)"
+    },
+    "Lightning Map": {
+        "prefix": "ltn.map",
+        "body": [
+            "<lightning:map mapMarkers=\"{!${1:placeholder}}\" center=\"{!${2:center}}\" zoomLevel=\"{!${3:zoomLevel}}\" markersTitle=\"{!${4:markersTitle}}\" showFooter=\"${5:true}\"/>"
+        ],
+        "description": "Create Lightning City Map Code Unit (lightning:map)"
+    },
+    "Lightning Menu Item": {
+        "prefix": "ltn.menuItem",
+        "body": [
+            "<lightning:menuItem label=\"${1:label}\" value=\"${2:value}\" iconName=\"${3:iconName}\"/>"
+        ],
+        "description": "Create Lightning Menu Item Code Unit (lightning:menuItem)"
+    },
+    "Lightning Menu Item URL": {
+        "prefix": "ltn.menuItemUrl",
+        "body": [
+            "<lightning:menuItem label=\"${1:label}\" href=\"${2:url}\" iconName=\"${3:iconName}\"/>"
+        ],
+        "description": "Create Lightning Menu Item for URL Code Unit (lightning:menuItem)"
+    },
+    "Lightning Navigation Service": {
+        "prefix": "ltn.navigation",
+        "body": [
+            "<lightning:navigation aura:id=\"${1:auraId}\"/>"
+        ],
+        "description": "Create Lightning Navigation Service Code Unit (lightning:navigation)"
+    },
+    "Lightning Navigation Item API": {
+        "prefix": "ltn.navigationItemApi",
+        "body": [
+            "<lightning:navigationItemAPI aura:id=\"${1:auraId}\"/>"
+        ],
+        "description": "Create Lightning Navigation Item API Code Unit (lightning:navigationItemAPI)"
+    },
+    "Lightning Omni Toolkit API": {
+        "prefix": "ltn.omniToolkitApi",
+        "body": [
+            "<lightning:omniToolkitAPI aura:id=\"${1:auraId}\"/>"
+        ],
+        "description": "Create Lightning Omni Toolkit API Code Unit (lightning:omniToolkitAPI)"
+    },
+    "Lightning Output Field": {
+        "prefix": "ltn.outputField",
+        "body": [
+            "<lightning:outputField fieldName=\"${1:fieldAPIName}\"/>"
+        ],
+        "description": "Create Lightning Output Field Code Unit (lightning:outputField)"
+    },
+    "Lightning Overlay Library": {
+        "prefix": "ltn.overlayLibrary",
+        "body": [
+            "<lightning:overlayLibrary aura:id=\"${1:auraId}\"/>"
+        ],
+        "description": "Create Lightning Overlay Library Code Unit (lightning:overlayLibrary)"
+    },
+    "Lightning Path": {
+        "prefix": "ltn.path",
+        "body": [
+            "<lightning:path aura:id=\"${1:auraId}\" recordId=\"{!${2:recordId}}\" variant=\"${3:linear}\" hideUpdateButton=\"${4:false}\" onselect=\"{!c.${5:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning Path Code Unit (lightning:path)"
+    },
+    "Lightning Picklist Path": {
+        "prefix": "ltn.picklistPath",
+        "body": [
+            "<lightning:picklistPath aura:id=\"${1:auraId}\" recordId=\"{!${2:recordId}}\" variant=\"${3:linear}\" picklistFieldApiName=\"${4:fieldAPIName}\" onselect=\"{!c.${5:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning Picklist Path Code Unit (lightning:picklistPath)"
+    },
+    "Lightning Pill": {
+        "prefix": "ltn.pill",
+        "body": [
+            "<lightning:pill label=\"${1:label}\" onremove=\"{!c.${2:jsAction}}\" onclick=\"{!c.${3:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning Pill Code Unit (lightning:pill)"
+    },
+    "Lightning Pill URL": {
+        "prefix": "ltn.pillUrl",
+        "body": [
+            "<lightning:pill label=\"${1:label}\" href=\"${2:url}\"/>"
+        ],
+        "description": "Create Lightning Pill URL Code Unit (lightning:pill)"
+    },
+    "Lightning Pill Avatar": {
+        "prefix": "ltn.pillAvatar",
+        "body": [
+            "<lightning:pill label=\"${1:label}\" onremove=\"{!c.${2:jsAction}}\" onclick=\"{!c.${3:jsAction}}\">",
+            "\t<aura:set attribute=\"media\">",
+            "\t\t<lightning:avatar src=\"${4:avatarSource}\" fallbackIconName=\"${5:icon}\" variant=\"${6:circle}\"  alternativeText=\"${7:altText}\"/>",
+            "\t</aura:set>",
+            "</lightning:pill>"
+        ],
+        "description": "Create Lightning Pill with Avatar Code Unit (lightning:pill)"
+    },
+    "Lightning Pill Avatar URL": {
+        "prefix": "ltn.pillAvatarUrl",
+        "body": [
+            "<lightning:pill label=\"${1:label}\" href=\"${2:url}\">",
+            "\t<aura:set attribute=\"media\">",
+            "\t\t<lightning:avatar src=\"${3:avatarSource}\" fallbackIconName=\"${4:icon}\" variant=\"${5:circle}\"  alternativeText=\"${6:altText}\"/>",
+            "\t</aura:set>",
+            "</lightning:pill>"
+        ],
+        "description": "Create Lightning Pill URL with Avatar Code Unit (lightning:pill)"
+    },
+    "Lightning Pill Icon": {
+        "prefix": "ltn.pillIcon",
+        "body": [
+            "<lightning:pill label=\"${1:label}\" onremove=\"{!c.${2:jsAction}}\" onclick=\"{!c.${3:jsAction}}\">",
+            "\t<aura:set attribute=\"media\">",
+            "\t\t<lightning:icon iconName=\"${4:icon}\" alternativeText=\"${5:altText}\"/>",
+            "\t</aura:set>",
+            "</lightning:pill>"
+        ],
+        "description": "Create Lightning Pill with Icon Code Unit (lightning:pill)"
+    },
+    "Lightning Pill Icon URL": {
+        "prefix": "ltn.pillIconUrl",
+        "body": [
+            "<lightning:pill label=\"${1:label}\" href=\"${2:url}\">",
+            "\t<aura:set attribute=\"media\">",
+            "\t\t<lightning:icon iconName=\"${3:icon}\" alternativeText=\"${4:altText}\"/>",
+            "\t</aura:set>",
+            "</lightning:pill>"
+        ],
+        "description": "Create Lightning Pill URL with Icon Code Unit (lightning:pill)"
+    },
+    "Lightning Pill Container": {
+        "prefix": "ltn.pillContainer",
+        "body": [
+            "<lightning:pillContainer items=\"{!${1:items}}\"/>"
+        ],
+        "description": "Create Lightning Pill Container Code Unit (lightning:pillContainer)"
+    },
+    "Lightning Progress Bar": {
+        "prefix": "ltn.progressBar",
+        "body": [
+            "<lightning:progressBar value=\"{!${1:value}}\" size=\"{!${2:medium}}\"/>"
+        ],
+        "description": "Create Lightning Progress Bar Code Unit (lightning:progressBar)"
+    },
+    "Lightning Progress Bar Ciruclar": {
+        "prefix": "ltn.progressBarCircular",
+        "body": [
+            "<lightning:progressBar value=\"{!${1:value}}\" size=\"{!${2:medium}}\" variant=\"circular\"/>"
+        ],
+        "description": "Create Lightning Progress Bar Circular Code Unit (lightning:progressBar)"
+    },
+    "Lightning Progress Indicator": {
+        "prefix": "ltn.progressIndicator",
+        "body": [
+            "<lightning:progressIndicator currentStep=\"{!${1:currentStep}}\" type=\"base\" variant=\"base\">",
+            "\t${0:<!-- Put yout Progress Steps here (lightning:progressStep) -->}",
+            "</lightning:progressIndicator>"
+        ],
+        "description": "Create Lightning Progress Indicator Code Unit (lightning:progressIndicator)"
+    },
+    "Lightning Progress Indicator Path": {
+        "prefix": "ltn.progressIndicatorPath",
+        "body": [
+            "<lightning:progressIndicator currentStep=\"{!${1:currentStep}}\" type=\"path\" variant=\"base\">",
+            "\t${0:<!-- Put yout Progress Steps here (lightning:progressStep) -->}",
+            "</lightning:progressIndicator>"
+        ],
+        "description": "Create Lightning Progress Indicator like Path Code Unit (lightning:progressIndicator)"
+    },
+    "Lightning Quick Action API": {
+        "prefix": "ltn.quickActionApi",
+        "body": [
+            "<lightning:quickActionAPI aura:id=\"${1:auraId}\"/>"
+        ],
+        "description": "Create Lightning Quick Action API Code Unit (lightning:quickActionAPI)"
+    },
+    "Lightning Quip Card": {
+        "prefix": "ltn.quipCard",
+        "body": [
+            "<lightning:quipCard parentRecordId=\"{!${1:parentRecordId}}\"/>"
+        ],
+        "description": "Create Lightning Quip Card Code Unit (lightning:quipCard)"
+    },
+    "Lightning Radio Group": {
+        "prefix": "ltn.radioGroup",
+        "body": [
+            "<lightning:radioGroup name=\"${1:name}\" label=\"${2:label}\" options=\"{!${3:options}}\" value=\"{!${4:value}}\" type=\"radio\"/>"
+        ],
+        "description": "Create Lightning Radio Group Code Unit (lightning:radioGroup)"
+    },
+    "Lightning Radio Group Button": {
+        "prefix": "ltn.radioGroupBtn",
+        "body": [
+            "<lightning:radioGroup name=\"${1:name}\" label=\"${2:label}\" options=\"{!${3:options}}\" value=\"{!${4:value}}\" type=\"button\"/>"
+        ],
+        "description": "Create Lightning Radio Group like Button Code Unit (lightning:radioGroup)"
+    },
+    "Lightning Record Edit Form for Create": {
+        "prefix": "ltn.recordEditFormForCreate",
+        "body": [
+            "<lightning:recordEditForm objectApiName=\"${1:objectApiName}\" onload=\"{!c.${2:jsAction}}\" onsubmit=\"{!c.${3:jsAction}}\" onsuccess=\"{!c.${4:jsAction}}\"/>",
+            "\t${0:<!-- Put the input fields here (lightning:inputField) -->}",
+            "</lightning:recordEditForm>"
+        ],
+        "description": "Create Lightning Record Edit Form for Create a new record Code Unit (lightning:recordEditForm)"
+    },
+    "Lightning Record Edit Form for Edit": {
+        "prefix": "ltn.recordEditForm",
+        "body": [
+            "<lightning:recordEditForm recordId=\"{!${1:recordId}}\" objectApiName=\"${2:objectApiName}\" onload=\"{!c.${3:jsAction}}\" onsubmit=\"{!c.${4:jsAction}}\" onsuccess=\"{!c.${5:jsAction}}\"/>",
+            "\t${0:<!-- Put the input fields here (lightning:inputField) -->}",
+            "</lightning:recordEditForm>"
+        ],
+        "description": "Create Lightning Record Edit Form for Edit a record Code Unit (lightning:recordEditForm)"
+    },
+    "Lightning Record Form": {
+        "prefix": "ltn.recordForm",
+        "body": [
+            "<lightning:recordForm recordId=\"{!${1:recordId}}\" objectApiName=\"{!${2:objectApiName}}\" layoutType=\"${3:layoutType}\" columns=\"${4:columns}\" mode=\"${5:mode}\"/>"
+        ],
+        "description": "Create Lightning Record Form Code Unit (lightning:recordForm)"
+    },
+    "Lightning Record View Form": {
+        "prefix": "ltn.recordViewForm",
+        "body": [
+            "<lightning:recordViewForm recordId=\"{!${1:recordId}}\" objectApiName=\"{!${2:objectApiName}}\">",
+            "\t${0:<!-- Put the output fields here (lightning:outputField) -->}",
+            "</lightning:recordViewForm>"
+        ],
+        "description": "Create Lightning Record Form Code Unit (lightning:recordViewForm)"
+    },
+    "Lightning Relative Date Time": {
+        "prefix": "ltn.relativeDateTime",
+        "body": [
+            "<lightning:relativeDateTime value=\"{!${1:value}}\"/>"
+        ],
+        "description": "Create Lightning Relative Date Time Code Unit (lightning:relativeDateTime)"
+    },
+    "Lightning Select": {
+        "prefix": "ltn.select",
+        "body": [
+            "<lightning:recordViewForm aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"${4:selectedValue}\">",
+            "\t<aura:iteration items=\"{!${5:options}}\" var=\"option\">",
+            "\t\t<option text=\"{!${6:option.label}}\" value=\"{!${7:option.id}}\" selected=\"{!${8:option.selected}}\"/>",
+            "\t</aura:iteration>",
+            "</lightning:recordViewForm>"
+        ],
+        "description": "Create Lightning Select Code Unit (lightning:select)"
+    },
+    "Lightning Slider": {
+        "prefix": "ltn.slider",
+        "body": [
+            "<lightning:slider label=\"${1:label}\" value=\"{!${2:value}}\" size=\"${3:medium}\"/>"
+        ],
+        "description": "Create Lightning Slider Code Unit (lightning:slider)"
+    },
+    "Lightning Spinner": {
+        "prefix": "ltn.spinner",
+        "body": [
+            "<lightning:spinner alternativeText=\"${1:altText}\" size=\"${2:medium}\"/>"
+        ],
+        "description": "Create Lightning Spinner Code Unit (lightning:spinner)"
+    },
+    "Lightning Tab": {
+        "prefix": "ltn.tab",
+        "body": [
+            "<lightning:tab label=\"${1:label}\" id=\"${2:tabId}\">",
+            "\t${0:<!-- Put your tab content here -->}",
+            "</lightning:tab>"
+        ],
+        "description": "Create Lightning Tab Code Unit (lightning:tab)"
+    },
+    "Lightning Tab Set": {
+        "prefix": "ltn.tabset",
+        "body": [
+            "<lightning:tabset selectedTabId=\"${1:tabId}\">",
+            "\t${0:<!-- Put your tabs here -->}",
+            "</lightning:tabset>"
+        ],
+        "description": "Create Lightning Tab Set Code Unit (lightning:tabset)"
+    },
+    "Lightning Text Area": {
+        "prefix": "ltn.textArea",
+        "body": [
+            "<lightning:textArea name=\"${1:name}\" label=\"${2:label}\" value=\"{!${3:value}}\" placeholder=\"${4:placeholder}\"/>"
+        ],
+        "description": "Create Lightning Text Area Code Unit (lightning:textArea)"
+    },
+    "Lightning Tile": {
+        "prefix": "ltn.tile",
+        "body": [
+            "<lightning:tile label=\"${1:label}\" href=\"${2:url}\">",
+            "\t${0:<!-- Put your content here -->}",
+            "</lightning:tile>"
+        ],
+        "description": "Create Lightning Tile Code Unit (lightning:tile)"
+    },
+    "Lightning Tile Icon": {
+        "prefix": "ltn.tileIcon",
+        "body": [
+            "<lightning:tile label=\"${1:label}\" href=\"${2:url}\">",
+            "\t<aura:set attribute=\"media\">",
+            "\t\t<lightning:icon iconName=\"${2:iconName}\"/>",
+            "\t</aura:set>",
+            "\t${0:<!-- Put your content here -->}",
+            "</lightning:tile>"
+        ],
+        "description": "Create Lightning Tile with Icon Code Unit (lightning:tile)"
+    },
+    "Lightning Tile Avatar": {
+        "prefix": "ltn.tileAvatar",
+        "body": [
+            "<lightning:tile label=\"${1:label}\" href=\"${2:url}\">",
+            "\t<aura:set attribute=\"media\">",
+            "\t\t<lightning:avatar src=\"${3:avatarSource}\" fallbackIconName=\"${4:iconName}\" alternativeText=\"${5:altText}\"/>",
+            "\t</aura:set>",
+            "\t${0:<!-- Put your content here -->}",
+            "</lightning:tile>"
+        ],
+        "description": "Create Lightning Tile with Avatar Code Unit (lightning:tile)"
+    },
+    "Lightning Tree": {
+        "prefix": "ltn.tree",
+        "body": [
+            "<lightning:tree header=\"${1:header}\" items={!${2:items}}/>"
+        ],
+        "description": "Create Lightning Tree Code Unit (lightning:tree)"
+    },
+    "Lightning Tree Grid": {
+        "prefix": "ltn.treeGrid",
+        "body": [
+            "<lightning:treeGrid columns=\"{!${1:columns}}\" data=\"{!${2:data}}\" expandedRows=\"{!${3:expandedRows}}\" keyField=\"${4:keyField}\"/>"
+        ],
+        "description": "Create Lightning Tree Grid Code Unit (lightning:treeGrid)"
+    },
+    "Lightning Unsaved Changes": {
+        "prefix": "ltn.unsavedChanges",
+        "body": [
+            "<lightning:unsavedChanges aura:id=\"${1:auraId}\" onsave=\"{!c.${2:jsAction}}\" ondiscard=\"{!c.${3:jsAction}}\"/>"
+        ],
+        "description": "Create Lightning Unsaved Changes Code Unit (lightning:unsavedChanges)"
+    },
+    "Lightning Utility Bar API": {
+        "prefix": "ltn.utilityBarApi",
+        "body": [
+            "<lightning:utilityBarAPI aura:id=\"${1:auraId}\"/>"
+        ],
+        "description": "Create Lightning Utility Bar API Code Unit (lightning:utilityBarAPI)"
+    },
+    "Lightning Vertical Navigation": {
+        "prefix": "ltn.verticalNavigation",
+        "body": [
+            "<lightning:verticalNavigation selectedItem=\"{!${1:selectedItem}}\"/>",
+            "\t${0:<!-- Put your Navigation Sections and Items here -->}",
+            "</lightning:verticalNavigation>"
+        ],
+        "description": "Create Lightning Vertical Navigation Code Unit (lightning:verticalNavigation)"
+    },
+    "Lightning Vertical Navigation Item": {
+        "prefix": "ltn.verticalNavigationItem",
+        "body": [
+            "<lightning:verticalNavigationItem label=\"${1:label}\" name=\"${2:name}\"/>"
+        ],
+        "description": "Create Lightning Vertical Navigation Item Code Unit (lightning:verticalNavigationItem)"
+    },
+    "Lightning Vertical Navigation Item Badge": {
+        "prefix": "ltn.verticalNavigationItemBadge",
+        "body": [
+            "<lightning:verticalNavigationItemBadge label=\"${1:label}\" name=\"${2:name}\" badgeCount=\"{!${3:badgeCount}}\"/>"
+        ],
+        "description": "Create Lightning Vertical Navigation Item Badge Code Unit (lightning:verticalNavigationItemBadge)"
+    },
+    "Lightning Vertical Navigation Item Icon": {
+        "prefix": "ltn.verticalNavigationItemIcon",
+        "body": [
+            "<lightning:verticalNavigationItemIcon label=\"${1:label}\" name=\"${2:name}\" iconName=\"${3:iconName}\"/>"
+        ],
+        "description": "Create Lightning Vertical Navigation Item Icon Code Unit (lightning:verticalNavigationItemIcon)"
+    },
+    "Lightning Vertical Navigation Overflow": {
+        "prefix": "ltn.verticalNavigationOverflow",
+        "body": [
+            "<lightning:verticalNavigationOverflow>",
+            "\t${0:<!-- Put your Navigation Sections and Items here -->}",
+            "</lightning:verticalNavigationOverflow>"
+        ],
+        "description": "Create Lightning Vertical Navigation Overflow Code Unit (lightning:verticalNavigationOverflow)"
+    },
+    "Lightning Vertical Navigation Section": {
+        "prefix": "ltn.verticalNavigationSection",
+        "body": [
+            "<lightning:verticalNavigationSection label=\"${1:label}\">",
+            "\t${0:<!-- Put your Navigation Items here -->}",
+            "</lightning:verticalNavigationSection>"
+        ],
+        "description": "Create Lightning Vertical Navigation Section Code Unit (lightning:verticalNavigationSection)"
+    },
+    "Lightning Vertical Workspace API": {
+        "prefix": "ltn.workspaceAPI",
+        "body": [
+            "<lightning:workspaceAPI aura:id=\"${1:auraId}\">"
+        ],
+        "description": "Create Lightning Workspace API Code Unit (lightning:workspaceAPI)"
     }
 }
