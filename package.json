@@ -31,14 +31,6 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "aurahelper.genAuraDoc",
-				"title": "AuraHelper: Generate Aura Documentation"
-			},
-			{
-				"command": "aurahelper.addMethodBlock",
-				"title": "AuraHelper: Add Method Block to Doc"
-			},
-			{
 				"command": "aurahelper.addApexComment",
 				"title": "AuraHelper: Add Apex Comment"
 			},
@@ -47,20 +39,24 @@
 				"title": "AuraHelper: Add Javascript Aura Function"
 			},
 			{
+				"command": "aurahelper.addMethodBlock",
+				"title": "AuraHelper: Add Method Block to Doc"
+			},
+			{
+				"command": "auraHelper.editAuraDocumentationTemplate",
+				"title": "AuraHelper: Edit Aura Documentation Template"
+			},
+			{
+				"command": "aurahelper.genAuraDoc",
+				"title": "AuraHelper: Generate Aura Documentation"
+			},
+			{
+				"command": "auraHelper.help",
+				"title": "AuraHelper: Help"
+			},
+			{
 				"command": "auraHelper.newAuraFile",
 				"title": "AuraHelper: New Aura File"
-			},
-			{
-				"command": "auraHelper.editAuraDocBaseTemplate",
-				"title": "AuraHelper: Edit Aura Doc Base Template"
-			},
-			{
-				"command": "auraHelper.editAuraDocMethodTemplate",
-				"title": "AuraHelper: Edit Aura Doc Method Template"
-			},
-			{
-				"command": "auraHelper.editAuraDocParamTemplate",
-				"title": "AuraHelper: Edit Aura Doc Method Parameter Template"
 			}
 		],
 		"snippets": [

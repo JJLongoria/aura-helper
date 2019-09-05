@@ -1,6 +1,0 @@
-<li>
-    <b>{!method.signature}: </b> {!method.description}
-    <ul>
-        {!method.params}
-    </ul>
-</li>

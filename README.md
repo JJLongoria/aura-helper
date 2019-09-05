@@ -1,6 +1,8 @@
-# Aura Helper README
+# Aura Helper
 
-Extensión for Salesforce and Lightning Experience with some tools for make more easy the development work.
+Extensión for Salesforce and Lightning Experience with some tools for make more easy the development work. 
+
+### Run command "Aura Helper: Help" for open a navigable help with more information about the Aura Helper
 
 ## Features
 
@@ -15,9 +17,7 @@ Some commands with tools for help in your work. All commands start with "AuraHel
     - Add Method Section: Add a method section based on template to documentation file if you need modify it.
                           If method have JavaScript comment with JavaScript standard scheme, method information will be filled automatically.
     - New Aura File: Create a new Aura File for Aura Component Bundle. If you select an Aura Documentation File, it will be created based on the template.
-    - Edit Aura Doc Base Template: Command for edit base Aura Documentation template.
-    - Edit Aura Doc Method Template: Command for edit Aura Documentation Method template.
-    - Edit Aura Doc Method Parameter Template: Command for edit Aura Documentation Method Parameters template.
+    - Edit Aura Documentation Template: Command for edit Aura Documentation Template for Aura Components.
 
 #### Apex:
     - Add Apex Comment: Add a class or method comment on your apex code
@@ -30,7 +30,7 @@ Some commands with tools for help in your work. All commands start with "AuraHel
 To many snippets and code completion tools for make your work more productive:
 
 #### Aura (Lightning):
-##### - Aura
+##### - Aura NS
     - aura.attribute: Create Aura Attribute (aura:attribute)
     - aura.handler: Create Aura Handler (aura:handler)
     - aura.initHandler: Create Initialization Component Aura Handler (aura:handler)
@@ -41,13 +41,13 @@ To many snippets and code completion tools for make your work more productive:
     - aura.if: Create Aura If Code Unit (aura:if)
     - aura.iteration: Create Aura Iteration Code Unit (aura:iteration)
     
-##### - Ltng
+##### - Ltng NS
     - ltng.style: Create ltng Required for CSS Style (ltng:require)
     - ltng.script: Create ltng Required for load scripts (ltng:require)
     - ltng.styleAfterLoad: Create ltng Required for CSS Styles  with afterScriptsLoaded attribute (ltng:require)
     - ltng.scriptAfterLoad: Create ltng Required for load scripts with afterScriptsLoaded attribute (ltng:require)
 
-##### - Force
+##### - Force NS
     - force.recordView: Create Force Record View Code Unit (force:recordView)
     - force.recordEdit: Create Force Record Edit Code Unit (force:recordEdit)
     - force.recordData: Create Force Record Data Code Unit (force:recordData)
@@ -55,7 +55,7 @@ To many snippets and code completion tools for make your work more productive:
     - force.inputField: Create Force Output Field Code Unit (force:inputField)
     - force.canvasApp: Create Force Canvas App Code Unit (force:canvasApp)
 
-##### - Lightning
+##### - Lightning NS
     - ltn.accordion: Create Lightning Accordion Code Unit (lightning:accordion). Alternative: ltn.accSection
     - ltn.avatar: Create Lightning Avatar Code Unit (lightning:avatar)
     - ltn.breadcrumbs: Create Lightning Breadcrums Section Code Unit (lightning:breadcrumbs)

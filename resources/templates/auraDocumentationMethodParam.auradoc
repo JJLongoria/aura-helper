@@ -1,1 +1,0 @@
-<li><i>{!param.name} ({!param.type}): </li> {!param.description}

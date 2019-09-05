@@ -22,16 +22,16 @@ function isFileExists(filePath){
     return fs.existsSync(filePath);
 }
 
-function getDocumentTemplatePath(context) {
-	return context.asAbsolutePath("./resources/templates/auraDocumentation.auradoc");
+function getAuraDocumentTemplatePath(context) {
+	return context.asAbsolutePath("./resources/templates/auraDocumentation.json");
 }
 
-function getDocumentMethodTemplatePath(context) {
-	return context.asAbsolutePath("./resources/templates/auraDocumentationMethod.auradoc");
+function getApexCommentTemplatePath(context) {
+	return context.asAbsolutePath("./resources/templates/apexComment.json");
 }
 
-function getDocumentMethodParamTemplatePath(context) {
-	return context.asAbsolutePath("./resources/templates/auraDocumentationMethodParam.auradoc");
+function getHelpPath(context){
+    return context.asAbsolutePath("./resources/help/index.html");
 }
 
 function getDocumentObject(filePath, callback) {
@@ -125,7 +125,14 @@ function getAuraFileTypeFromName(name){
     return fileType;
 }
 
-
+function getHelp(context, callback){
+    let help = "";
+    getDocumentObject(getHelpPath(context), function(helpIndex){
+        help = getDocumentText(helpIndex);
+        if(callback)
+            callback.call(this, help);
+    });
+}
 
 module.exports = {
     isAuraDocFile,
@@ -139,10 +146,10 @@ module.exports = {
     getFileNamesFromFolder,
     getNotExistsAuraFiles,
     createFile,
-    getDocumentTemplatePath,
-    getDocumentMethodTemplatePath,
-    getDocumentMethodParamTemplatePath,
+    getAuraDocumentTemplatePath,
     isFileExists,
     basename,
-    getAuraFileTypeFromName
+    getAuraFileTypeFromName,
+    getHelp,
+    getApexCommentTemplatePath
 }

@@ -37,6 +37,8 @@ All notable changes to this project will be documented in this file.
 
 ## [0.2.0] - 2019-09-02
 ### Added
+    - Commands:
+        - AuraHelper: Help
 
     - Better Code performance
 
@@ -187,3 +189,8 @@ All notable changes to this project will be documented in this file.
         - ltn.verticalNavigationOverflow
         - ltn.verticalNavigationSection
         - ltn.workspaceAPI
+
+### Changed
+    - Modified command "AuraHelper: Edit Aura Doc Base Template" for "AuraHelper: Edit Aura Documentation Template"
+    - Delete command AuraHelper: Edit Aura Doc Method Template
+    - Delete command AuraHelper: Edit Aura Doc Method Parameter Template
