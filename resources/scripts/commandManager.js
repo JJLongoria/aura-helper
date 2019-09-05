@@ -100,9 +100,22 @@ function newAuraFileCommand(context, fileUri) {
 
 function editAuraDocumentationTemplateCommand(context){
 	logger.log('Run editAuraDocumentationTemplateCommand action');
-	let baseDocPath = fileUtils.getDocumentTemplatePath(context);
+	let baseDocPath = fileUtils.getAuraDocumentTemplatePath(context);
 	if(!fileUtils.isFileExists(baseDocPath)){
 		fileUtils.createFile(baseDocPath, snippetUtils.getAuraDocumentationBaseTemplate(), function(fileCreated){
+			if(fileCreated)
+				windowUtils.openDocumentOnEditor(baseDocPath);
+		});
+	} else{
+		windowUtils.openDocumentOnEditor(baseDocPath);
+	}
+}
+
+function editApexCommentTemplateCommand(context){
+	logger.log('Run editApexCommentTemplateCommand action');
+	let baseDocPath = fileUtils.getApexCommentTemplatePath(context);
+	if(!fileUtils.isFileExists(baseDocPath)){
+		fileUtils.createFile(baseDocPath, snippetUtils.getApexCommentBaseTemplate(), function(fileCreated){
 			if(fileCreated)
 				windowUtils.openDocumentOnEditor(baseDocPath);
 		});
@@ -134,5 +147,6 @@ module.exports = {
 	addJSFunctionCommand,
 	newAuraFileCommand,
 	editAuraDocumentationTemplateCommand,
-	openHelpCommand
+	openHelpCommand,
+	editApexCommentTemplateCommand
 }

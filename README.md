@@ -18,6 +18,7 @@ Some commands with tools for help in your work. All commands start with "AuraHel
                           If method have JavaScript comment with JavaScript standard scheme, method information will be filled automatically.
     - New Aura File: Create a new Aura File for Aura Component Bundle. If you select an Aura Documentation File, it will be created based on the template.
     - Edit Aura Documentation Template: Command for edit Aura Documentation Template for Aura Components.
+    - Edit Apex Comment Template: Command for edit Apex Comment Template for Apex Code.
 
 #### Apex:
     - Add Apex Comment: Add a class or method comment on your apex code

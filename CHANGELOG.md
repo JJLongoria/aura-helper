@@ -39,6 +39,7 @@ All notable changes to this project will be documented in this file.
 ### Added
     - Commands:
         - AuraHelper: Help
+        - AuraHelper: Edit Apex Comment Template
 
     - Better Code performance
 
