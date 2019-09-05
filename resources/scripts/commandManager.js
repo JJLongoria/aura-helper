@@ -39,13 +39,13 @@ function addApexMethodCommentCommand() {
 		vscode.window.showErrorMessage('The selected file is not an Apex Class File');
 }
 
-function apexCommentCompletionCommand(position) {
+function apexCommentCompletionCommand(position, context) {
 	logger.log('Run apexCommentCompletion action');
 	var editor = editorUtils.getActiveEditor();
 	if (!editor)
 		return;
 	if (fileUtils.isApexClassFile(editorUtils.getActiveFileFullPath()))
-		documentUtils.addApexCommentBlock(editor, position);
+		documentUtils.addApexCommentBlock(editor, position, context);
 	else
 		vscode.window.showErrorMessage('The selected file is not an Apex Class File');
 }
@@ -98,11 +98,11 @@ function newAuraFileCommand(context, fileUri) {
 	}
 }
 
-function editAuraDocBaseTemplateCommand(context){
-	logger.log('Run editAuraDocBaseTemplateCommand action');
+function editAuraDocumentationTemplateCommand(context){
+	logger.log('Run editAuraDocumentationTemplateCommand action');
 	let baseDocPath = fileUtils.getDocumentTemplatePath(context);
 	if(!fileUtils.isFileExists(baseDocPath)){
-		fileUtils.createFile(baseDocPath, snippetUtils.getBaseAuraDocTemplateSnippet(), function(fileCreated){
+		fileUtils.createFile(baseDocPath, snippetUtils.getAuraDocumentationBaseTemplate(), function(fileCreated){
 			if(fileCreated)
 				windowUtils.openDocumentOnEditor(baseDocPath);
 		});
@@ -111,30 +111,19 @@ function editAuraDocBaseTemplateCommand(context){
 	}
 }
 
-function editAuraDocMethodTemplateCommand(context){
-	logger.log('Run editAuraDocMethodTemplateCommand action');
-	let baseMethodPath = fileUtils.getDocumentMethodTemplatePath(context);
-	if(!fileUtils.isFileExists(baseMethodPath)){
-		fileUtils.createFile(baseMethodPath, snippetUtils.getAuraDocMethodTemplateSnippet(), function(fileCreated){
-			if(fileCreated)
-				windowUtils.openDocumentOnEditor(baseMethodPath);
-		});
-	} else{
-		windowUtils.openDocumentOnEditor(baseMethodPath);
-	}
-}
-
-function editAuraDocParamTemplateCommand(context){
-	logger.log('Run editAuraDocParamTemplateCommand action');
-	let baseParamPath = fileUtils.getDocumentMethodParamTemplatePath(context);
-	if(!fileUtils.isFileExists(baseParamPath)){
-		fileUtils.createFile(baseParamPath, snippetUtils.getAuraDocParamTemplateSnippet(), function(fileCreated){
-			if(fileCreated)
-				windowUtils.openDocumentOnEditor(baseParamPath);
-		});
-	} else{
-		windowUtils.openDocumentOnEditor(baseParamPath);
-	}
+function openHelpCommand(context){
+	const panel = vscode.window.createWebviewPanel(
+        'help',
+        'Help for Aura Helper',
+        vscode.ViewColumn.One,
+        {
+          // Enable scripts in the webview
+          enableScripts: true
+        }
+      );
+	  fileUtils.getHelp(context, function(help){
+		panel.webview.html = help;
+	  });
 }
 
 module.exports = {
@@ -144,7 +133,6 @@ module.exports = {
 	apexCommentCompletionCommand,
 	addJSFunctionCommand,
 	newAuraFileCommand,
-	editAuraDocBaseTemplateCommand,
-	editAuraDocMethodTemplateCommand,
-	editAuraDocParamTemplateCommand
+	editAuraDocumentationTemplateCommand,
+	openHelpCommand
 }

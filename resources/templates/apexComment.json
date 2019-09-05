@@ -1,0 +1,22 @@
+{
+    "methodComment": {
+        "paramBody": "## {!param.name} ({!param.type}): {!param.description}",
+        "returnBody": "@@ Return {!return.type}: {!return.description}",
+        "commentBody": [
+            "/**",
+            " * {!method.description}",
+            " *",
+            " * {!method.params}",
+            " * {!method.return}",
+            " */"
+        ]
+    },
+    "classComment": {
+        "commentBody": [
+            "/**",
+            " * {!class.description}",
+            " *",
+            " */"
+        ]
+    }
+}

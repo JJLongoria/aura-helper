@@ -1,0 +1,425 @@
+<html>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        .darkGrey {
+            background-color: rgba(20, 20, 20);
+        }
+
+        pre {
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+        }
+
+        code {
+            font-family: Courier, 'New Courier', monospace;
+            font-size: 16px;
+        }
+
+        #codeStyler {
+            border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            margin: 1em 0;
+        }
+
+        .codeColor {
+            color: rgb(53, 172, 219);
+        }
+    </style>
+
+    <body style="height: 100%;">
+        <div class="w3-container w3-bar-block " style="height: 100px; margin-left:300px;">
+            <h1 class="w3-center"><b>Aura Helper</b></h1>
+        </div>
+        <!-- Navigation Bar -->
+        <div class="w3-bar-block w3-sidebar" style="width:300px; height: 100%; background-color:rgba(0,0,0,0);">
+            <a href="#commandSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('commands')">Commands</a>
+            <div id="commands" class="w3-hide w3-margin-left">
+                <!-- Commands Menu Items -->
+                <a href="#addApexCommand" class="w3-bar-item w3-button">Add Apex Comment</a>
+                <a href="#addJsFunction" class="w3-bar-item w3-button">Add Javascript Aura Function</a>
+                <a href="#addMethodBlockCommand" class="w3-bar-item w3-button">Add Method Block to Doc</a>
+                <a href="#editAuraDocumentationTemplate" class="w3-bar-item w3-button">Edit Aura Documentation Template</a>
+                <a href="#genAuraDoc" class="w3-bar-item w3-button">Generate Aura Documentation</a>
+                <a href="#newAuraFile" class="w3-bar-item w3-button">New Aura File</a>
+            </div>
+            <a href="#snippetsSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('snippets')">Code Completion Tools</a>
+            <div id="snippets" class="w3-hide w3-margin-left">
+                <a href="#aura" class="w3-bar-item w3-button">Aura Namespace</a>
+                <a href="#ltn" class="w3-bar-item w3-button">Lightning Namespace</a>
+                <a href="#force" class="w3-bar-item w3-button">Force Namespace</a>
+                <a href="#ltng" class="w3-bar-item w3-button">Ltng Namespace</a>
+                <a href="#js" class="w3-bar-item w3-button">JavaScript Code</a>
+                <a href="#apex" class="w3-bar-item w3-button">Apex Code</a>
+            </div>
+            <a href="#templatesSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('templates')">Templates</a>
+            <div id="templates" class="w3-hide w3-margin-left">
+                <a href="#auraDocTemplate" class="w3-bar-item w3-button">Aura Documentation Template</a>
+                <a href="#apexCommentTemplate" class="w3-bar-item w3-button">Apex Comment Template</a>
+            </div>
+        </div>
+        <!-- Help Body -->
+        <div class="w3-container" style="margin-left:300px; height: 100%; overflow: scroll;">
+            <p>Aura Helper provides a navigable documentation for help users to use the extension tools.</p>
+            <!-- Commands Section -->
+            <div class="w3-container" id="commandSection">
+                <h3><b>Commands</b></h3>
+                <!-- Add Apex Comment -->
+                <div class="w3-container w3-margin-left" id="addApexCommand">
+                    <h4><b>Add Apex Comment</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Command for create a comment block for methods or apex classes. </p>
+                        <p>Put the mouse on previous method or class line and execute the command.</p>
+                        <p>You can edit the template whenever you want with the command <a href="#">Edit Apex Comment Template</a></p>
+                        <p>For learn more about templates, <a href="#">click here</a></p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Add Javascript Aura Function -->
+                <div class="w3-container w3-margin-left" id="addJsFunction">
+                    <h4><b>Add Javascript Aura Function</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Command for create an Aura Function block on JavaScript Aura files. </p>
+                        <p>Put the mouse whatever you want create a function and execute command. Then, you can select the parameters number of a function for create it.</p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Add Method Block to Doc Command -->
+                <div class="w3-container w3-margin-left" id="addMethodBlockCommand">
+                    <h4><b>Add Method Block to Doc</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Command for create a method block into Aura Documentation File</p>
+                        <p>Block will be created on mouse position into the document. This command provides a list of method for select the method to create.</p>
+                        <p>You can edit the template whenever you want with the command <a href="#">Edit Aura Documentation Template</a></p>
+                        <p>For learn more about templates, <a href="#">click here</a></p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Edit Aura Documentation Template -->
+                <div class="w3-container w3-margin-left" id="editAuraDocumentationTemplate">
+                    <h4><b>Edit Aura Documentation Template</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Command for edit the Aura Documentation Template used for create the documentation automatically. </p>
+                        <p>You can execute this command on any time and it will open an editor window for edit the template</p>
+                        <p>When you finish the template, you can create any componente documentation automatically and easy wih <a href="#genAuraDoc">Generate Aura Documentation</a></p>
+                        <p>For learn more about templates, <a href="#">click here</a></p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Generate Aura Documentation Command -->
+                <div class="w3-container w3-margin-left" id="genAuraDoc">
+                    <h4><b>Generate Aura Documentation</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Command for create an Aura Documentation File for Aura Components automatically based on user templates and JavaScript standard comment scheme.</p>
+                        <p class="w3-margin-left">
+                            <pre>
+                                    <code class="darkGrey codeColor">
+                            /**
+                             * functionDescription
+                             * @param {paramType} paramName paramDescription
+                             */
+                                    </code>
+                                </pre>
+                        </p>
+                        <p>You can edit the template whenever you want with the command <a href="#editAuraDocumentationTemplate">Edit Aura Documentation Template</a></p>
+                        <p>For learn more about templates, <a href="#">click here</a></p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- New Aura File -->
+                <div class="w3-container w3-margin-left" id="newAuraFile">
+                    <h4><b>New Aura File</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>
+                            Command for create a new Aura File into the bundle. You can run it in two ways:
+                            <ul>
+                                <li>You can execute the command when Aura Component file (<code>.cmp</code>) is opened on editor</li>
+                                <li>You can make a rigth click on Aura Component file (<code>.cmp</code>) in explorar and then select "Aura Helper: New Aura File"</li>
+                            </ul>
+                        </p>
+                        <p>All documents created like in salesforce with the base template except the Aura Documentation File, it will be created based on user template (or default extension template)</p>
+                    </div>
+                </div>
+                <br />
+                <br />
+            </div>
+            <!-- Code Completion Tools Section -->
+            <div class="w3-container" id="snippetsSection">
+                <h3><b>Code Completion Tools</b></h3>
+                <!-- Code Completions for Aura Elements -->
+                <div class="w3-container w3-margin-left" id="aura">
+                    <h4><b>Aura Namespace</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides tools for create components from the Namespace Aura</p>
+                        <p>Only need type <code>aura.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
+                        <p>
+                            You can create among other components the following:
+                            <ul>
+                                <li>Attributes</li>
+                                <li>Events</li>
+                                <li>Register a Component or App Event</li>
+                                <li>Handlers</li>
+                                <li>...</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Lightning Elements -->
+                <div class="w3-container w3-margin-left" id="ltn">
+                    <h4><b>Lightning Namespace</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides tools for create ALL components from Lightning Namespace</p>
+                        <p>Only need type <code>ltn.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
+                        <p>
+                            You can create among other components the following:
+                            <ul>
+                                <li>Buttons</li>
+                                <li>Icons</li>
+                                <li>Layouts</li>
+                                <li>Cards</li>
+                                <li>...</li>
+                            </ul>
+                        </p>
+                        <p>Also have variations of the same component for make more easy the development</p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Force Elements -->
+                <div class="w3-container w3-margin-left" id="force">
+                    <h4><b>Force Namespace</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides tools for create components from Force Namespace</p>
+                        <p>Only need type <code>force.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
+                        <p>
+                            You can create among other components the following:
+                            <ul>
+                                <li>Record View</li>
+                                <li>Record Edit</li>
+                                <li>Output Field</li>
+                                <li>Input Field</li>
+                                <li>...</li>
+                            </ul>
+                        </p>
+                        <p>Also have variations of the same component for make more easy the development</p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for LTNG Elements -->
+                <div class="w3-container w3-margin-left" id="ltng">
+                    <h4><b>Ltng Namespace</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides tools for create components from Ltng Namespace</p>
+                        <p>Only need type <code>ltng.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
+                        <p>
+                            You can create the following options:
+                            <ul>
+                                <li>Load Style</li>
+                                <li>Load Script</li>
+                                <li>Load Style with Action After</li>
+                                <li>Load Script with Action After</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for JavaScript Code -->
+                <div class="w3-container w3-margin-left" id="js">
+                    <h4><b>JavaScript Code</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides auto complete functions for JavaScript Code</p>
+                        <p>You can active diferent autocomplete functions with differents keywords:</p>
+                        <ul>
+                            <li><b>Aura keyword:</b> Type <code>aura.</code> and press <code>Ctrl+space</code> and then press enter</li>
+                        </ul>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Apex Code -->
+                <div class="w3-container w3-margin-left" id="apex">
+                    <h4><b>Apex Code</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper also provides Auto complete functions for Apex Code</p>
+                        <ul>
+                            <li>
+                                <b>Autocomments:</b>
+                                <p>You can create comments method and class comments automatically with your own comment template. Only need type <code>/**</code> and press <code>Ctrl+space</code> and then press enter</p>
+                                <p></p>You can edit the template whenever you want with the command <a href="#">Edit Apex Comment Template</a></p>
+                                <p>For learn more about templates, <a href="#">click here</a></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <br />
+                <br />
+            </div>
+            <!-- Templates Section -->
+            <div class="w3-container" id="templatesSection">
+                <h3><b>Templates</b></h3>
+                <p>Aura Helper provides to you some tools for create elements based on user defined templates. All the templates used by Aura Helper are in JSON format</p>
+                <p>You can view the estructure of every template here: </p>
+                <!-- Aura Documentation Template -->
+                <div class="w3-container w3-margin-left" id="auraDocTemplate">
+                    <h4><b>Aura Documentation Template</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>The template for create Aura Documentation automatically have the next structure: </p>
+                        <pre>
+                            <code class="darkGrey codeColor">
+                        {
+                            "documentbody": [
+                                "Line 1 Content",
+                                "Line 2 Content",
+                                "Line 3 Content",
+                                "...",
+                                "Line N Content"
+                            ],
+                            "methodBody": [
+                                "Line 1 Content",
+                                "Line 2 Content",
+                                "Line 3 Content",
+                                "...",
+                                "Line N Content"
+                            ],
+                            "paramBody": [
+                                "Line 1 Content",
+                                "Line 2 Content",
+                                "Line 3 Content",
+                                "...",
+                                "Line N Content"
+                            ]
+                        }
+                            </code>
+                        </pre>
+                        <p>You can use some <b>keywords</b> for complete the document template.</p>
+                        <ul>
+                            <li>
+                                <b>descriptionBody:</b>
+                                <p>Principal lines of the body. This is the basic skeleton of the Aura Documentation file. You can use in this section the following <b>keywords:</b></p>
+                                <ul>
+                                    <li>{!controllerMethods}</li>
+                                    <li>{!helperMethods}</li>
+                                </ul>
+                                <p>The rest of keywords do not take effect in this section of the template</p>
+                            </li>
+                            <li>
+                                <b>methodBody:</b>
+                                <p>This lines represent every method body. When Aura Helper generates the documentation file, it copy every method information with this template and then, replace the keywords {!controllerMethods} or {!helperMethods} with the generated body. You can use in this section the following <b>keywords:</b></p>
+                                <ul>
+                                    <li>{!method.description}</li>
+                                    <li>{!method.signature}</li>
+                                    <li>{!method.name}</li>
+                                    <li>{!method.params}</li>
+                                </ul>
+                                <p>The rest of keywords do not take effect in this section of the template</p>
+                            </li>
+                            <li>
+                                <b>paramBody:</b>
+                                <p>Like with methodBody, Aura Helper copy every param information on with this template and the, replace the {!method.params} keyword for the generated body. You can use in this section the following <b>keywords:</b></p>
+                                <ul>
+                                    <li>{!param.description}</li>
+                                    <li>{!param.name}</li>
+                                    <li>{!param.type}</li>
+                                </ul>
+                                <p>The rest of keywords do not take effect in this section of the template</p>
+                            </li>
+                        </ul>
+                        <p>Example: </p>
+                        <pre>
+                                <code class="darkGrey codeColor">
+        {
+            "documentbody": [
+                "&lt;aura:documentation&gt;",
+                "\t&lt;aura:description&gt;",
+                "\t\t&lt;h6&gt;&lt;b&gt;Short description&lt;/b&gt; of the component&lt;/h6&gt;",
+                "\t\t&lt;p&gt;",
+                "\t\t\tHelper methods:",
+                "\t\t\t&lt;ul&gt;",
+                "\t\t\t\t{!helperMethods}",
+                "\t\t\t&lt;/ul&gt;",
+                "\t\t&lt;/p&gt;\n",
+                "\t&lt;/aura:description&gt;",
+                "\t&lt;aura:example name=\"ExampleName\" ref=\"ExampleComponent\" label=\"ExampleLabel\"&gt;",
+                "\t\t",
+                "\t&lt;/aura:example&gt;",
+                "&lt;/aura:documentation&gt;"
+            ],
+            "methodBody": [
+                "&lt;li&gt;",
+                "\t&lt;b&gt;{!method.signature}: &lt;/b&gt; {!method.description}",
+                "\t&lt;ul&gt;",
+                "\t\t{!method.params}",
+                "\t&lt;/ul&gt;",
+                "&lt;/li&gt;"
+            ],
+            "paramBody": [
+                "&lt;li&gt;&lt;i&gt;{!param.name} ({!param.type}): &lt;/li&gt; {!param.description}"
+            ]
+        }
+                                </code>
+                            </pre>
+                        <p></p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Aura Documentation Template -->
+                <div class="w3-container w3-margin-left" id="apexCommentTemplate">
+                    <h4><b>Apex Comment Template</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>The template for create an Apex Comment automatically have the next structure: </p>
+                        <pre>
+                            <code class="darkGrey codeColor">
+                        {
+                            "methodComment": [
+                                "commentBody": [
+                                    "Line 1 Content",
+                                    "Line 2 Content",
+                                    "Line 3 Content",
+                                    "...",
+                                    "Line N Content"
+                                ],
+                                "paramsBody": "Only One Line",
+                                "returnBody": "Only One Line"
+
+                            ],
+                            "classComment": [
+                                "commentBody": [
+                                    "Line 1 Content",
+                                    "Line 2 Content",
+                                    "Line 3 Content",
+                                    "...",
+                                    "Line N Content"
+                                ]
+                            ]
+                        }
+                            </code>
+                        </pre>
+                    </div>
+                </div>
+            </div>
+    </body>
+
+    <script>
+        function openCloseAccordion(id) {
+            var x = document.getElementById(id);
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+    </script>
+
+</html>
