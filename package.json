@@ -43,6 +43,10 @@
 				"title": "AuraHelper: Add Method Block to Doc"
 			},
 			{
+				"command": "aurahelper.editApexCommentTemplate",
+				"title": "AuraHelper: Edit Apex Comment Template"
+			},
+			{
 				"command": "auraHelper.editAuraDocumentationTemplate",
 				"title": "AuraHelper: Edit Aura Documentation Template"
 			},

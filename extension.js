@@ -26,6 +26,9 @@ function activate(context) {
 	let addMethodBlock = vscode.commands.registerCommand('aurahelper.addMethodBlock', function () {
 		commandManager.addMethodBlockCommand(context);
 	});
+	let editApexCommentTemplate = vscode.commands.registerCommand('aurahelper.editApexCommentTemplate', function () {
+		commandManager.editApexCommentTemplateCommand(context);
+	});
 	let editAuraDocBaseTemplate = vscode.commands.registerCommand('auraHelper.editAuraDocumentationTemplate', function () {
 		commandManager.editAuraDocumentationTemplateCommand(context);
 	});
@@ -52,6 +55,7 @@ function activate(context) {
 	context.subscriptions.push(newAuraFile);
 	context.subscriptions.push(editAuraDocBaseTemplate);
 	context.subscriptions.push(help);
+	context.subscriptions.push(editApexCommentTemplate);
 }
 exports.activate = activate;
 

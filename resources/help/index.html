@@ -41,6 +41,7 @@
                 <a href="#addApexCommand" class="w3-bar-item w3-button">Add Apex Comment</a>
                 <a href="#addJsFunction" class="w3-bar-item w3-button">Add Javascript Aura Function</a>
                 <a href="#addMethodBlockCommand" class="w3-bar-item w3-button">Add Method Block to Doc</a>
+                <a href="#editApexCommentTemplate" class="w3-bar-item w3-button">Edit Apex Comment Template</a>
                 <a href="#editAuraDocumentationTemplate" class="w3-bar-item w3-button">Edit Aura Documentation Template</a>
                 <a href="#genAuraDoc" class="w3-bar-item w3-button">Generate Aura Documentation</a>
                 <a href="#newAuraFile" class="w3-bar-item w3-button">New Aura File</a>
@@ -72,8 +73,8 @@
                     <div class="w3-container darkGrey w3-margin-left">
                         <p>Command for create a comment block for methods or apex classes. </p>
                         <p>Put the mouse on previous method or class line and execute the command.</p>
-                        <p>You can edit the template whenever you want with the command <a href="#">Edit Apex Comment Template</a></p>
-                        <p>For learn more about templates, <a href="#">click here</a></p>
+                        <p>You can edit the template whenever you want with the command <a href="#editApexCommentTemplate">Edit Apex Comment Template</a></p>
+                        <p>For learn more about templates, <a href="#templatesSection">click here</a></p>
                     </div>
                 </div>
                 <br />
@@ -94,8 +95,20 @@
                     <div class="w3-container darkGrey w3-margin-left">
                         <p>Command for create a method block into Aura Documentation File</p>
                         <p>Block will be created on mouse position into the document. This command provides a list of method for select the method to create.</p>
-                        <p>You can edit the template whenever you want with the command <a href="#">Edit Aura Documentation Template</a></p>
-                        <p>For learn more about templates, <a href="#">click here</a></p>
+                        <p>You can edit the template whenever you want with the command <a href="#editAuraDocumentationTemplate">Edit Aura Documentation Template</a></p>
+                        <p>For learn more about templates, <a href="#templatesSection">click here</a></p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Edit Apex Comment Template -->
+                <div class="w3-container w3-margin-left" id="editApexCommentTemplate">
+                    <h4><b>Edit Apex Comment Template</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Command for edit the Apex Comment Template used for create the apex code comments automatically. </p>
+                        <p>You can execute this command on any time and it will open an editor window for edit the template</p>
+                        <p>When you finish the template, you can create any comment on apex code with <a href="#addApexCommand">Add Apex Comment</a> command or with code completion tools when type <code>/**</code></p>
+                        <p>For learn more about templates, <a href="#templatesSection">click here</a></p>
                     </div>
                 </div>
                 <br />
@@ -107,7 +120,7 @@
                         <p>Command for edit the Aura Documentation Template used for create the documentation automatically. </p>
                         <p>You can execute this command on any time and it will open an editor window for edit the template</p>
                         <p>When you finish the template, you can create any componente documentation automatically and easy wih <a href="#genAuraDoc">Generate Aura Documentation</a></p>
-                        <p>For learn more about templates, <a href="#">click here</a></p>
+                        <p>For learn more about templates, <a href="#templatesSection">click here</a></p>
                     </div>
                 </div>
                 <br />
@@ -128,7 +141,7 @@
                                 </pre>
                         </p>
                         <p>You can edit the template whenever you want with the command <a href="#editAuraDocumentationTemplate">Edit Aura Documentation Template</a></p>
-                        <p>For learn more about templates, <a href="#">click here</a></p>
+                        <p>For learn more about templates, <a href="#templatesSection">click here</a></p>
                     </div>
                 </div>
                 <br />
@@ -256,7 +269,7 @@
                             <li>
                                 <b>Autocomments:</b>
                                 <p>You can create comments method and class comments automatically with your own comment template. Only need type <code>/**</code> and press <code>Ctrl+space</code> and then press enter</p>
-                                <p></p>You can edit the template whenever you want with the command <a href="#">Edit Apex Comment Template</a></p>
+                                <p></p>You can edit the template whenever you want with the command <a href="#editApexCommentTemplate">Edit Apex Comment Template</a></p>
                                 <p>For learn more about templates, <a href="#">click here</a></p>
                             </li>
                         </ul>
@@ -404,6 +417,87 @@
                                 ]
                             ]
                         }
+                            </code>
+                        </pre>
+                        <p>You can use some <b>keywords</b> for complete the document template.</p>
+                        <ul>
+                            <li>
+                                <b>methodComment:</b>
+                                <p>Section for create the method comment template:</p>
+                                <ul>
+                                    <li>
+                                        <b>commentBody:</b>
+                                        <p>This lines represent a comment method body. You can use in this section the following <b>keywords:</b></p>
+                                        <ul>
+                                            <li>{!method.description}</li>
+                                            <li>{!method.params}</li>
+                                            <li>{!method.return}</li>
+                                        </ul>
+                                        <p>The rest of keywords do not take effect in this section of the template</p>
+                                    </li>
+                                    <li>
+                                        <b>paramBody:</b>
+                                        <p>This line represent the scheme for each param in the comment. You can use in this section the following <b>keywords:</b></p>
+                                        <ul>
+                                            <li>{!param.name}</li>
+                                            <li>{!param.type}</li>
+                                            <li>{!param.description}</li>
+                                        </ul>
+                                        <p>The rest of keywords do not take effect in this section of the template</p>
+                                    </li>
+                                    <li>
+                                        <b>returnBody:</b>
+                                        <p>This line represent the scheme for the return statement in the comment. You can use in this section the following <b>keywords:</b></p>
+                                        <ul>
+                                            <li>{!return.type}</li>
+                                            <li>{!return.description}</li>
+                                        </ul>
+                                        <p>The rest of keywords do not take effect in this section of the template</p>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <b>classComment:</b>
+                                <p>Section for create the class comment template:</p>
+                                <ul>
+                                    <li>
+                                        <b>commentBody:</b>
+                                        <p>This lines represent a comment class body. You can use in this section the following <b>keywords:</b></p>
+                                        <ul>
+                                            <li>{!class.description}</li>
+                                            <li>{!class.name}</li>
+                                        </ul>
+                                        <p>The rest of keywords do not take effect in this section of the template</p>
+                                    </li>
+                                </ul>
+                                <p>The rest of keywords do not take effect in this section of the template</p>
+                            </li>
+                        </ul>
+                        <p>Example: </p>
+                        <pre>
+                            <code class="darkGrey codeColor">
+                {
+                    "methodComment": {
+                        "paramBody": "## {!param.name} ({!param.type}): {!param.description}",
+                        "returnBody": "@@ Return {!return.type}: {!return.description}",
+                        "commentBody": [
+                            "/**",
+                            " * {!method.description}",
+                            " *",
+                            " * {!method.params}",
+                            " * {!method.return}",
+                            " */"
+                        ]
+                    },
+                    "classComment": {
+                        "commentBody": [
+                            "/**",
+                            " * {!class.description}",
+                            " *",
+                            " */"
+                        ]
+                    }
+                }
                             </code>
                         </pre>
                     </div>
