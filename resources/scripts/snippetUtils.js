@@ -218,5 +218,6 @@ module.exports = {
     getBaseAuraDocTemplateSnippet,
     getAuraDocMethodTemplateSnippet,
     getAuraDocParamTemplateSnippet,
-    getMethodSignature
+    getMethodSignature,
+    getMethodContent
 }

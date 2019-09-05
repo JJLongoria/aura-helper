@@ -150,7 +150,7 @@ function addMethodBlock(context, editor) {
 									logger.log("Controller Methods Selected");
 									for (let i = 0; i < controllerMethods.length; i++) {
 										const method = controllerMethods[i];
-										if(method.token.type == 'func')
+										if(method.type == 'func')
 											methodNames.push(snippetUtils.getMethodSignature(method));
 									}
 								}
@@ -159,7 +159,7 @@ function addMethodBlock(context, editor) {
 									var methodNames = [];
 									for (let i = 0; i < helperMethods.length; i++) {
 										const method = helperMethods[i];
-										if(method.token.type == 'func')
+										if(method.type == 'func')
 											methodNames.push(snippetUtils.getMethodSignature(method));
 									}
 								}
@@ -175,7 +175,7 @@ function addMethodBlock(context, editor) {
 										}
 										for (let i = 0; i < methods.length; i++) {
 											const method = methods[i];
-											if (method.signature == methodSelected) {
+											if (snippetUtils.getMethodSignature(method) == methodSelected) {
 												var methodContent = snippetUtils.getMethodContent(method, auraDocMethodTemplate, auraDocMethodParamTemplate);
 												editorUtils.replaceContent(editor, editor.selection, methodContent);
 											}
@@ -205,7 +205,7 @@ function addMethodBlock(context, editor) {
 								logger.log("Controller Methods Selected");
 								for (let i = 0; i < controllerMethods.length; i++) {
 									const method = controllerMethods[i];
-										if(method.token.type == 'func')
+										if(method.type == 'func')
 											methodNames.push(snippetUtils.getMethodSignature(method));
 								}
 							}
@@ -218,7 +218,7 @@ function addMethodBlock(context, editor) {
 									}
 									for (let i = 0; i < methods.length; i++) {
 										const method = methods[i];
-										if (method.signature == methodSelected) {
+										if (snippetUtils.getMethodSignature(method) == methodSelected) {
 											var methodContent = snippetUtils.getMethodContent(method, auraDocMethodTemplate, auraDocMethodParamTemplate);
 											editorUtils.replaceContent(editor, editor.selection, methodContent);
 										}
