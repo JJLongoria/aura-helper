@@ -1,16 +1,8 @@
 <aura:documentation>
     <aura:description>
-        <!-- Descripción principal del Componente -->
-        <h6><b>Descripción corta y concisa</b> del componente</h6>
-
-        <!-- Aclaraciones sobre el componente -->
+        <h6><b>Short description</b> of the component</h6>
         <p>
-            Información adicional sobre el componente. Incluir tantos párrafos como sea necesario, pero siempre entre las etiquetas 'p'
-        </p>
-
-        <!-- Métodos del archivo helper.js -->
-        <p>
-            Métodos del archivo helper.js:
+            Helper methods:
             <ul>
                 {!helperMethods}
             </ul>

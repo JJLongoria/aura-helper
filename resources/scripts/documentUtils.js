@@ -16,9 +16,8 @@ function createAuraDocumentation(context, editor) {
 					fileUtils.getDocumentObject(fileUtils.getDocumentTemplatePath(context), function (auraDocTemplate) {
 						fileUtils.getDocumentObject(fileUtils.getDocumentMethodTemplatePath(context), function (auraDocMethodTemplate) {
 							fileUtils.getDocumentObject(fileUtils.getDocumentMethodParamTemplatePath(context), function (auraDocMethodParamTemplate) {
-								languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
-								var helperMethods = fileUtils.getMethods(helperDoc);
-								var controllerMethods = fileUtils.getMethods(controllerDoc);
+								var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
+								var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
 								var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate, auraDocMethodTemplate, auraDocMethodParamTemplate);
 								editorUtils.replaceContent(editor, editorUtils.getAllTextRange(editor), snippet);
 								editor.revealRange(editor.document.lineAt(0).range);
@@ -30,7 +29,7 @@ function createAuraDocumentation(context, editor) {
 				fileUtils.getDocumentObject(fileUtils.getDocumentTemplatePath(context), function (auraDocTemplate) {
 					fileUtils.getDocumentObject(fileUtils.getDocumentMethodTemplatePath(context), function (auraDocMethodTemplate) {
 						fileUtils.getDocumentObject(fileUtils.getDocumentMethodParamTemplatePath(context), function (auraDocMethodParamTemplate) {
-							var helperMethods = fileUtils.getMethods(helperDoc);
+							var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
 							var controllerMethods = [];
 							var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate, auraDocMethodTemplate, auraDocMethodParamTemplate);
 							editorUtils.replaceContent(editor, editorUtils.getAllTextRange(editor), snippet);
@@ -47,7 +46,7 @@ function createAuraDocumentation(context, editor) {
 					fileUtils.getDocumentObject(fileUtils.getDocumentMethodTemplatePath(context), function (auraDocMethodTemplate) {
 						fileUtils.getDocumentObject(fileUtils.getDocumentMethodParamTemplatePath(context), function (auraDocMethodParamTemplate) {
 							var helperMethods = [];
-							var controllerMethods = fileUtils.getMethods(controllerDoc);
+							var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
 							var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate, auraDocMethodTemplate, auraDocMethodParamTemplate);
 							editorUtils.replaceContent(editor, editorUtils.getAllTextRange(editor), snippet);
 							editor.revealRange(editor.document.lineAt(0).range);
@@ -84,8 +83,8 @@ function createNewAuraDocumentation(context, filePath, callback) {
 					fileUtils.getDocumentObject(fileUtils.getDocumentTemplatePath(context), function(auraDocTemplate) {
 						fileUtils.getDocumentObject(fileUtils.getDocumentMethodTemplatePath(context), function(auraDocMethodTemplate){
 							fileUtils.getDocumentObject(fileUtils.getDocumentMethodParamTemplatePath(context), function(auraDocMethodParamTemplate) {
-								var helperMethods = fileUtils.getMethods(helperDoc);
-								var controllerMethods = fileUtils.getMethods(controllerDoc);
+								var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
+								var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
 								var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate, auraDocMethodTemplate, auraDocMethodParamTemplate);
 								callback.call(this, snippet);
 							});
@@ -96,7 +95,7 @@ function createNewAuraDocumentation(context, filePath, callback) {
 				fileUtils.getDocumentObject(fileUtils.getDocumentTemplatePath(context), function(auraDocTemplate) {
 					fileUtils.getDocumentObject(fileUtils.getDocumentMethodTemplatePath(context), function(auraDocMethodTemplate){
 						fileUtils.getDocumentObject(fileUtils.getDocumentMethodParamTemplatePath(context), function(auraDocMethodParamTemplate) {
-							var helperMethods = fileUtils.getMethods(helperDoc);
+							var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
 							var controllerMethods = [];
 							var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate, auraDocMethodTemplate, auraDocMethodParamTemplate);
 							callback.call(this, snippet);
@@ -112,7 +111,7 @@ function createNewAuraDocumentation(context, filePath, callback) {
 					fileUtils.getDocumentObject(fileUtils.getDocumentMethodTemplatePath(context), function(auraDocMethodTemplate){
 						fileUtils.getDocumentObject(fileUtils.getDocumentMethodParamTemplatePath(context), function(auraDocMethodParamTemplate) {
 							var helperMethods = [];
-							var controllerMethods = fileUtils.getMethods(controllerDoc);
+							var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
 							var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate, auraDocMethodTemplate, auraDocMethodParamTemplate);
 							callback.call(this, snippet);
 						});
@@ -143,15 +142,16 @@ function addMethodBlock(context, editor) {
 				fileUtils.getDocumentObject(editor.document.uri.fsPath.replace('.auradoc', 'controller.js'), function (controllerDoc) {
 					fileUtils.getDocumentObject(fileUtils.getDocumentMethodTemplatePath(context), function (auraDocMethodTemplate) {
 						fileUtils.getDocumentObject(fileUtils.getDocumentMethodParamTemplatePath(context), function (auraDocMethodParamTemplate) {
-							var helperMethods = fileUtils.getMethods(helperDoc);
-							var controllerMethods = fileUtils.getMethods(controllerDoc);
+							var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
+							var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
 							windowUtils.showQuickPick(["Controller Methods", "Helper Methods"], "Select a file for get a method", function (fileSelected) {
 								var methodNames = [];
 								if (fileSelected == "Controller Methods") {
 									logger.log("Controller Methods Selected");
 									for (let i = 0; i < controllerMethods.length; i++) {
 										const method = controllerMethods[i];
-										methodNames.push(method.signature);
+										if(method.token.type == 'func')
+											methodNames.push(snippetUtils.getMethodSignature(method));
 									}
 								}
 								else if (fileSelected == "Helper Methods") {
@@ -159,7 +159,8 @@ function addMethodBlock(context, editor) {
 									var methodNames = [];
 									for (let i = 0; i < helperMethods.length; i++) {
 										const method = helperMethods[i];
-										methodNames.push(method.signature);
+										if(method.token.type == 'func')
+											methodNames.push(snippetUtils.getMethodSignature(method));
 									}
 								}
 								if (methodNames.length > 0) {
@@ -197,14 +198,15 @@ function addMethodBlock(context, editor) {
 			fileUtils.getDocumentObject(editor.document.uri.fsPath.replace('.auradoc', 'controller.js'), function (controllerDoc) {
 				fileUtils.getDocumentObject(fileUtils.etDocumentMethodTemplatePath(context), function (auraDocMethodTemplate) {
 					fileUtils.getDocumentObject(fileUtils.getDocumentMethodParamTemplatePath(context), function (auraDocMethodParamTemplate) {
-						var controllerMethods = fileUtils.getMethods(controllerDoc);
+						var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
 						windowUtils.showQuickPick(["Controller Methods"], "Select a file for get a method", function (fileSelected) {
 							var methodNames = [];
 							if (fileSelected == "Controller Methods") {
 								logger.log("Controller Methods Selected");
 								for (let i = 0; i < controllerMethods.length; i++) {
 									const method = controllerMethods[i];
-									methodNames.push(method.signature);
+										if(method.token.type == 'func')
+											methodNames.push(snippetUtils.getMethodSignature(method));
 								}
 							}
 							if (methodNames.length > 0) {
