@@ -96,7 +96,7 @@ function parseJSFile(fileContent) {
 
 function tokenize(str) {
     const NUM_FORMAT = /[0-9]/;
-    const ID_FORMAT = /([a-zA-Z0-9À-ú])/;
+    const ID_FORMAT = /([a-zA-Z0-9À-ú]|_)/;
     let tokens = [];
     let charIndex = 0;
     let lineNumber = 1;

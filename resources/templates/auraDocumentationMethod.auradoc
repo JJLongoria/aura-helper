@@ -1,14 +1,6 @@
-<!-- Inicio de la descripción del método -->
 <li>
-    <b>{!method.signature}: </b> Descripción del método
+    <b>{!method.signature}: </b> {!method.description}
     <ul>
         {!method.params}
-        <!-- Ejemplo del método si es necesario, Borrar esta sección si no se necesita -->
-        <p>
-            <pre>
-
-            </pre>
-        </p>
-        <!-- Fin de la sección del ejemplo -->
     </ul>
 </li>

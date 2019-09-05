@@ -53,30 +53,62 @@ function getJSFunctionSnippet(numParams) {
     return funcBody;
 }
 
-function getMethodsContent(methods, methodTemplate, paramTemplate) {
+function getMethodsContent(fileStructure, methodTemplate, paramTemplate) {
     var content = "";
-    for (let i = 0; i < methods.length; i++) {
-        content += getMethodContent(methods[i], methodTemplate, paramTemplate);
+    for (let i = 0; i < fileStructure.length; i++) {
+        if(fileStructure[i].type === "func"){
+            content += getMethodContent(fileStructure[i], methodTemplate, paramTemplate);
+        }
     }
     return content;
 }
 
-function getMethodContent(method, methodTemplate, paramTemplate) {
+function getMethodContent(structure, methodTemplate, paramTemplate) {
     var content = fileUtils.getDocumentText(methodTemplate);
     var paramsContent = "";
-    for (let i = 0; i < method.params.length; i++) {
-        paramsContent += getParamContent(method.params[i], paramTemplate);
+    var methodDesc = "<!-- Method Description Here -->";
+    if(structure.comment){
+        methodDesc = structure.comment.description;
+        for (let i = 0; i < structure.comment.params.length; i++) {
+            paramsContent += getParamContentFromComment(structure.comment.params[i], paramTemplate);
+        }
     }
-    content = content.replace("{!method.name}", method.name);
-    content = content.replace("{!method.signature}", method.signature);
+    else{
+        for (let i = 0; i < structure.params.length; i++) {
+            if(structure.params[i].type === "param"){
+                paramsContent += getParamContent(structure.params[i], paramTemplate);
+            }
+        }
+    }
+    content = content.replace("{!method.name}", structure.token.content);
+    content = content.replace("{!method.description}", methodDesc);
+    content = content.replace("{!method.signature}", getMethodSignature(structure));
     content = content.replace("{!method.params}", paramsContent);
     return content;
 }
 
 function getParamContent(param, paramTemplate) {
     var content = fileUtils.getDocumentText(paramTemplate);
-    content = content.replace("{!param.name}", param);
+    content = content.replace("{!param.name}", param.token.content).replace("{!param.type}", "*").replace("{!param.description}", "<!-- Param Description Here -->");
     return content;
+}
+
+function getParamContentFromComment(commentParam, paramTemplate) {
+    var content = fileUtils.getDocumentText(paramTemplate);
+    content = content.replace("{!param.name}", commentParam.name).replace("{!param.type}", commentParam.type).replace("{!param.description}", commentParam.description);
+    return content;
+}
+
+function getMethodSignature(structure){
+    let signature = structure.token.content;
+    let params = [];
+    for (let i = 0; i < structure.params.length; i++) {
+        if(structure.params[i].type === "param"){
+            params.push(structure.params[i].token.content);
+        }
+    }
+    signature = signature + "(" + params.join(", ") + ")";
+    return signature;
 }
 
 function getAuraDocumentationSnippet(controllerMethods, helperMethods, docTemplate, methodTemplate, paramTemplate) {
@@ -127,9 +159,10 @@ function getBaseAuraDocTemplateSnippet(){
     let content = "<aura:documentation>\n";
     content += "\t<aura:description>\n";
     content += "\t\t<!-- Component Description -->\n";
-    content += "\t\t<!-- Create your HTML template here. -->\n";
+    content += "\t\t<!-- Create your HTML template here -->\n";
     content += "\t\t<!-- Use keywords {!helperMethods} or {!controllerMethods}. Use them wherever you want to include the methods section of each JavaScript file -->\n";
     content += "\t\t<!-- Example: -->\n";
+    content += "\t\t<h6><b>Short description</b> of the component</h6>";
     content += "\t\t<p>\n";
     content += "\t\t\tHelper methods:\n";
     content += "\t\t\t<ul>\n";
@@ -146,10 +179,11 @@ function getBaseAuraDocTemplateSnippet(){
 
 function getAuraDocMethodTemplateSnippet(){
     let content = "<!-- Create your own method HTML template here -->\n";
-    content += "<!-- This template will be repeated once for each method and the result will replace the keywords {!helperMethods} or {!controllerMethods}   -->\n";
-    content += "<!-- On this template you can use the keywords {!method.name} {!method.signature} or {!method.params}   -->\n";
+    content += "<!-- This template will be repeated once for each method and the result will replace the keywords {!helperMethods} or {!controllerMethods} -->\n";
+    content += "<!-- On this template you can use the keywords {!method.name} {!method.signature} {!method.description} or {!method.params} -->\n";
     content += "<!-- Example -->\n";
     content += "<li>\n";
+    content += "\t<b>{!method.signature}:</b> {!method.description}\n";
     content += "\t<ul>\n";
     content += "\t\t{!method.params}\n";
     content += "\t\t<!-- Method usage example -->\n";
@@ -165,10 +199,10 @@ function getAuraDocMethodTemplateSnippet(){
 
 function getAuraDocParamTemplateSnippet(){
     let content = "<!-- Create your own method parameter HTML template here -->\n";
-    content += "<!-- This template will be repeated once for each parameter and the result will replace the keyword {!method.params}  -->\n";
-    content += "<!-- On this template you can use the keyword {!param.name}  -->\n";
+    content += "<!-- This template will be repeated once for each parameter and the result will replace the keyword {!method.params} -->\n";
+    content += "<!-- On this template you can use the keyword {!param.name} {!param.type} or {!param.description} -->\n";
     content += "<!-- Example -->\n";
-    content += "<li><i>{!param.name}: </li>Parameter description\n";
+    content += "<li><i>{!param.name} ({!param.type}): </li>{!param.description}\n";
     return content;
 }
 
@@ -183,5 +217,6 @@ module.exports = {
     getRendererFileSnippet,
     getBaseAuraDocTemplateSnippet,
     getAuraDocMethodTemplateSnippet,
-    getAuraDocParamTemplateSnippet
+    getAuraDocParamTemplateSnippet,
+    getMethodSignature
 }

@@ -49,32 +49,6 @@ function getDocumentText(document) {
     return text;
 }
 
-function getMethods(jsDocument) {
-    var methods = [];
-    for (var i = 0; i < jsDocument.lineCount; i++) {
-        var line = jsDocument.lineAt(i);
-        if (line.text.indexOf('function') != -1 && line.text.indexOf(':') != -1) {
-            var method = {
-                name: "",
-                params: []
-            };
-            var splits = line.text.split(":");
-            if (splits.length == 2) {
-                method.name = line.text.split(":")[0].trim();
-                var paramsTmp = line.text.split(":")[1].replace(" ", "").replace("function", "").replace("(", "").replace(")", "").replace("{", "").split(",");
-                var params = [];
-                for (var j = 0; j < paramsTmp.length; j++) {
-                    params.push(paramsTmp[j].trim().replace(" ", ""));
-                }
-                method.params = params;
-                method.signature = method.name + "(" + method.params.join(", ") + ")";
-                methods.push(method);
-            }
-        }
-    }
-    return methods;
-}
-
 function getFileNamesFromFolder(folderPath, callback) {
     logger.log("folderPath", folderPath);
     var fileNames = [];
@@ -160,7 +134,6 @@ module.exports = {
     isAuraComponentFile,
     isAuraComponentFolder,
     getFileFolderPath,
-    getMethods,
     getDocumentObject,
     getDocumentText,
     getFileNamesFromFolder,
