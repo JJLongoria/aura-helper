@@ -41,6 +41,10 @@ function getDocumentObject(filePath, callback) {
     });
 }
 
+function getFileContent(filePath){
+    return fs.readFileSync(filePath, 'utf8');
+}
+
 function getDocumentText(document) {
     var text = "";
     for (var i = 0; i < document.lineCount; i++) {
@@ -151,5 +155,6 @@ module.exports = {
     basename,
     getAuraFileTypeFromName,
     getHelp,
-    getApexCommentTemplatePath
+    getApexCommentTemplatePath,
+    getFileContent
 }

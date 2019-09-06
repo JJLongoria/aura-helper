@@ -45,7 +45,7 @@ function apexCommentCompletionCommand(position, context) {
 	if (!editor)
 		return;
 	if (fileUtils.isApexClassFile(editorUtils.getActiveFileFullPath()))
-		documentUtils.addApexCommentBlock(editor, position, context);
+		documentUtils.addAuraCodeCompletion(editor, position, context);
 	else
 		vscode.window.showErrorMessage('The selected file is not an Apex Class File');
 }
@@ -139,6 +139,17 @@ function openHelpCommand(context){
 	  });
 }
 
+function auraCodeCompletionCommand(position, context) {
+	logger.log('Run auraCodeCompletionCommand action');
+	var editor = editorUtils.getActiveEditor();
+	if (!editor)
+		return;
+	if (fileUtils.isAuraComponentFile(editorUtils.getActiveFileFullPath()) || fileUtils.isJavascriptFile(editorUtils.getActiveFileFullPath()))
+		documentUtils.addAuraCodeCompletion(editor, position);
+	else
+		vscode.window.showErrorMessage('The selected file is not an Apex Class File');
+}
+
 module.exports = {
 	genAuraDocCommand,
 	addMethodBlockCommand,
@@ -148,5 +159,6 @@ module.exports = {
 	newAuraFileCommand,
 	editAuraDocumentationTemplateCommand,
 	openHelpCommand,
-	editApexCommentTemplateCommand
+	editApexCommentTemplateCommand,
+	auraCodeCompletionCommand
 }

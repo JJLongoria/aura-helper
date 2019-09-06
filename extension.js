@@ -43,11 +43,17 @@ function activate(context) {
 	});
 
 
-	vscode.commands.registerCommand('aurahelper.apexComentCompletion', function(commentPosition){
-		commandManager.apexCommentCompletionCommand(commentPosition, context);
+	vscode.commands.registerCommand('aurahelper.apexComentCompletion', function(position){
+		commandManager.apexCommentCompletionCommand(position, context);
+	});
+	vscode.commands.registerCommand('aurahelper.auraCodeCompletion', function(position){
+		commandManager.auraCodeCompletionCommand(position, context);
 	});
 
-	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', providers.getApexCommentProvider(), '*'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', providers.apexCommentProvider, '*'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('xml', providers.auraComponentProvider, '.'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('html', providers.auraComponentProvider, '.'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('javascript', providers.auraComponentProvider, '.'));
 	context.subscriptions.push(genAuraDoc);
 	context.subscriptions.push(addMethodBlock);
 	context.subscriptions.push(addApexMethodComment);
