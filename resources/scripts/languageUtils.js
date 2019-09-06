@@ -94,6 +94,11 @@ function parseJSFile(fileContent) {
     return parseTokensForJS(tokens);
 }
 
+function parseCMPFile(fileContent) {
+    let tokens = tokenize(fileContent);
+    return parseTokensForCMP(tokens);
+}
+
 function tokenize(str) {
     const NUM_FORMAT = /[0-9]/;
     const ID_FORMAT = /([a-zA-Z0-9À-ú]|_)/;
@@ -112,6 +117,12 @@ function tokenize(str) {
             token.endColumn = column + char.length;
         } else if (/\+|-|\*|\/|\^/.test(char)) {
             token.tokenType = 'operator';
+            token.content = char;
+            token.line = lineNumber;
+            token.startColumn = column;
+            token.endColumn = column + char.length;
+        } else if (char === '\\') {
+            token.tokenType = 'backslash';
             token.content = char;
             token.line = lineNumber;
             token.startColumn = column;
@@ -324,6 +335,7 @@ function parseTokensForJS(tokens) {
         if (parenIndent == 1 && bracketIndent == 1) {
             if (token.tokenType === 'colon') {
                 if (lastToken && lastToken.tokenType === 'identifier' && nextToken && nextToken.tokenType == 'identifier' && nextToken.content === 'function') {
+                    // On function
                     let startParams;
                     structure.token = lastToken;
                     structure.type = "func";
@@ -352,6 +364,7 @@ function parseTokensForJS(tokens) {
         }
         if (token.tokenType === 'operator' && token.content === '*') {
             if (lastToken && lastToken.tokenType === 'operator' && lastToken.content === '/' && nextToken && nextToken.tokenType == 'operator' && nextToken.content === '*') {
+                // On Comment
                 let description = '';
                 while (token.tokenType !== 'at') {
                     token = tokens[++index];
@@ -376,7 +389,7 @@ function parseTokensForJS(tokens) {
                             lastToken = tokens[index - 1];
                             nextToken = tokens[index + 1];
                             endComment = token.tokenType === 'operator' && token.content === '*' && nextToken.tokenType === 'operator' && nextToken.content === '/';
-                            if(!endComment){
+                            if (!endComment) {
                                 if (lastToken.tokenType === 'lBracket') {
                                     commentParam.type = token.content;;
                                 } else if (lastToken.tokenType === 'rBracket') {
@@ -404,6 +417,101 @@ function parseTokensForJS(tokens) {
     return fileStructure;
 }
 
+function parseTokensForCMP(tokens) {
+    logger.log('Run parseTokensForCMP method');
+    let index = 0;
+    let bracketIndent = 0;
+    let fileStructure = {
+        attributes: [],
+        events: [],
+        handlers: [],
+        extends: "",
+        implements: [],
+        extensible: false,
+        abstract: false
+    }
+    while (index < tokens.length) {
+        let lastToken = getLastToken(tokens, index);
+        let token = tokens[index];
+        let nextToken = getNextToken(tokens, index);
+        if (token.tokenType === 'lABracket')
+            bracketIndent++;
+        if (token.tokenType === 'rABracket')
+            bracketIndent--;
+        if (bracketIndent == 1) {
+            if (token.tokenType === 'colon' && lastToken && lastToken.tokenType === 'identifier' && lastToken.content === 'aura' && nextToken && nextToken.tokenType === 'identifier' && nextToken.content === 'component') {
+                // Is on Component
+                let fileStruc = getTagData(tokens, index);
+                if (fileStruc.extensible)
+                    fileStructure.extensible = fileStruc.extensible;
+                if (fileStruc.implements){
+                    let splits = fileStruc.implements.split(',');
+                    for (const split of splits) {
+                        fileStructure.implements.push(split.trim());
+                    }
+                }
+                if (fileStruc.abstract)
+                    fileStructure.abstract = fileStruc.abstract;
+                if (fileStruc.extends)
+                    fileStructure.extends = fileStruc.extends;
+            }
+            else if (token.tokenType === 'colon' && lastToken && lastToken.tokenType === 'identifier' && lastToken.content === 'aura' && nextToken && nextToken.tokenType === 'identifier' && nextToken.content === 'attribute') {
+                // Is on Attribute
+                fileStructure.attributes.push(getTagData(tokens, index));
+            } else if (token.tokenType === 'colon' && lastToken && lastToken.tokenType === 'identifier' && lastToken.content === 'aura' && nextToken && nextToken.tokenType === 'identifier' && nextToken.content === 'registerEvent') {
+                // Is on Events
+                fileStructure.events.push(getTagData(tokens, index));
+            } else if (token.tokenType === 'colon' && lastToken && lastToken.tokenType === 'identifier' && lastToken.content === 'aura' && nextToken && nextToken.tokenType === 'identifier' && nextToken.content === 'handler') {
+                // Is on Handlers
+                fileStructure.handlers.push(getTagData(tokens, index));
+            }
+        }
+        index++;
+    }
+    return fileStructure;
+}
+
+function getTagData(tokens, index) {
+    let tagData = {};
+    let isOnValue = false;
+    let paramName;
+    let paramValue = '';
+    let token = tokens[index];
+    while (token.tokenType !== 'rABracket') {
+        token = tokens[index];
+        let lastToken = getLastToken(tokens, index);
+        let nextToken = getNextToken(tokens, index);
+        if (token && token.tokenType === 'equal' && lastToken && lastToken.tokenType === 'identifier' && nextToken && nextToken.tokenType === 'quotte') {
+            paramName = lastToken.content;
+        }
+        else if (token && token.tokenType === 'quotte' && lastToken && lastToken.tokenType === 'equal') {
+            isOnValue = true;
+
+        } else if (token && token.tokenType === 'quotte' && lastToken && lastToken.tokenType !== 'backslash') {
+            isOnValue = false;
+            if (paramName)
+                tagData[paramName] = paramValue;
+            paramName = undefined;
+            paramValue = '';
+
+        } else if (isOnValue) {
+            paramValue += getWhitespaces(token.startColumn - lastToken.endColumn) + token.content;
+        }
+        index++;
+    }
+    return tagData;
+}
+
+function getNextToken(tokens, index) {
+    if (index + 1 < tokens.length)
+        return tokens[index + 1];
+}
+
+function getLastToken(tokens, index) {
+    if (index - 1 >= 0)
+        return tokens[index - 1];
+}
+
 function getWhitespaces(number) {
     let whitespace = '';
     for (let index = 0; index < number; index++) {
@@ -414,5 +522,6 @@ function getWhitespaces(number) {
 
 module.exports = {
     parseApexClassOrMethod,
-    parseJSFile
+    parseJSFile,
+    parseCMPFile
 }

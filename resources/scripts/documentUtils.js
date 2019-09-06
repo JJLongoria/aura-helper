@@ -293,11 +293,16 @@ function createAuraFile(context, folderPath, selected, callback) {
 	}
 }
 
+function addAuraCodeCompletion(editor, position, context){
+	
+}
+
 module.exports = {
 	createAuraDocumentation,
 	createNewAuraDocumentation,
 	addMethodBlock,
 	addApexCommentBlock,
 	addJSFunction,
-	createAuraFile
+	createAuraFile,
+	addAuraCodeCompletion
 }
