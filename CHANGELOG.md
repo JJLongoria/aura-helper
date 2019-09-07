@@ -49,6 +49,10 @@ All notable changes to this project will be documented in this file.
         - c.[methodName] (On .js files)
         - helper.[functionName] (On .js files)
 
+    - Menus
+        - Explorer
+            - AuraHelper: New Aura File (Now also active when click on aura bundle folder)
+
     - Code Completion Snippets:
         - aura.if
         - aura.iteration

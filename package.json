@@ -13,6 +13,8 @@
 		"url": "https://github.com/JJLongoria/aura-helper"
 	},
 	"categories": [
+		"Programming Languages",
+		"Snippets",
 		"Other"
 	],
 	"keywords": [
@@ -47,7 +49,7 @@
 				"title": "AuraHelper: Edit Apex Comment Template"
 			},
 			{
-				"command": "auraHelper.editAuraDocumentationTemplate",
+				"command": "aurahelper.editAuraDocumentationTemplate",
 				"title": "AuraHelper: Edit Aura Documentation Template"
 			},
 			{
@@ -55,11 +57,11 @@
 				"title": "AuraHelper: Generate Aura Documentation"
 			},
 			{
-				"command": "auraHelper.help",
+				"command": "aurahelper.help",
 				"title": "AuraHelper: Help"
 			},
 			{
-				"command": "auraHelper.newAuraFile",
+				"command": "aurahelper.newAuraFile",
 				"title": "AuraHelper: New Aura File"
 			}
 		],
@@ -125,13 +127,28 @@
 		"menus":{
 			"explorer/context":[{
 				"when":"resourceExtname == .cmp",
-				"command": "auraHelper.newAuraFile",
+				"command": "aurahelper.newAuraFile",
+				"group": "navigation"
+			},
+			{
+				"when":"resourceExtname == .auradoc",
+				"command": "aurahelper.genAuraDoc",
+				"group": "navigation"
+			},
+			{
+				"when":"resource =~ /./aura/ && resourceExtname =~ /^(?!(.app|.cmp|.auradoc|.evt|.intf|.css|.design|.html|.js|.svg)$)/",
+				"command": "aurahelper.newAuraFile",
 				"group": "navigation"
 			}],
 			"editor/context":[{
 				"when":"resourceExtname == .cmp",
-				"command": "auraHelper.newAuraFile",
-				"group": "7_modification"
+				"command": "aurahelper.newAuraFile",
+				"group": "auraHelper@1"
+			},
+			{
+				"when":"resourceExtname == .auradoc",
+				"command": "aurahelper.genAuraDoc",
+				"group": "auraHelper@1"
 			}]
 		}
 	},

@@ -35,34 +35,36 @@
         </div>
         <!-- Navigation Bar -->
         <div class="w3-bar-block w3-sidebar" style="width:300px; height: 100%; background-color:rgba(0,0,0,0);">
-            <a href="#commandSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('commands')">Commands</a>
-            <div id="commands" class="w3-hide w3-margin-left">
-                <!-- Commands Menu Items -->
-                <a href="#addApexCommand" class="w3-bar-item w3-button">Add Apex Comment</a>
-                <a href="#addJsFunction" class="w3-bar-item w3-button">Add Javascript Aura Function</a>
-                <a href="#addMethodBlockCommand" class="w3-bar-item w3-button">Add Method Block to Doc</a>
-                <a href="#editApexCommentTemplate" class="w3-bar-item w3-button">Edit Apex Comment Template</a>
-                <a href="#editAuraDocumentationTemplate" class="w3-bar-item w3-button">Edit Aura Documentation Template</a>
-                <a href="#genAuraDoc" class="w3-bar-item w3-button">Generate Aura Documentation</a>
-                <a href="#newAuraFile" class="w3-bar-item w3-button">New Aura File</a>
-            </div>
-            <a href="#snippetsSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('snippets')">Code Completion Tools</a>
-            <div id="snippets" class="w3-hide w3-margin-left">
-                <a href="#cmpAttributes" class="w3-bar-item w3-button">Getting Component Attributes</a>
-                <a href="#jsControllerFunctions" class="w3-bar-item w3-button">Getting JS Controller Functions</a>
-                <a href="#jsHelperFunctions" class="w3-bar-item w3-button">Getting JS Helper Functions</a>
-                <a href="#apexMethods" class="w3-bar-item w3-button">Getting Apex Methods</a>
-                <a href="#aura" class="w3-bar-item w3-button">Aura Namespace</a>
-                <a href="#ltn" class="w3-bar-item w3-button">Lightning Namespace</a>
-                <a href="#force" class="w3-bar-item w3-button">Force Namespace</a>
-                <a href="#ltng" class="w3-bar-item w3-button">Ltng Namespace</a>
-                <a href="#js" class="w3-bar-item w3-button">JavaScript Code</a>
-                <a href="#apex" class="w3-bar-item w3-button">Apex Code</a>
-            </div>
-            <a href="#templatesSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('templates')">Templates</a>
-            <div id="templates" class="w3-hide w3-margin-left">
-                <a href="#auraDocTemplate" class="w3-bar-item w3-button">Aura Documentation Template</a>
-                <a href="#apexCommentTemplate" class="w3-bar-item w3-button">Apex Comment Template</a>
+            <div class="w3-container" style="padding: 0">
+                <a href="#commandSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('commands')">Commands</a>
+                <div id="commands" class="w3-hide w3-margin-left">
+                    <!-- Commands Menu Items -->
+                    <a href="#addApexCommand" class="w3-bar-item w3-button">Add Apex Comment</a>
+                    <a href="#addJsFunction" class="w3-bar-item w3-button">Add Javascript Aura Function</a>
+                    <a href="#addMethodBlockCommand" class="w3-bar-item w3-button">Add Method Block to Doc</a>
+                    <a href="#editApexCommentTemplate" class="w3-bar-item w3-button">Edit Apex Comment Template</a>
+                    <a href="#editAuraDocumentationTemplate" class="w3-bar-item w3-button">Edit Aura Documentation Template</a>
+                    <a href="#genAuraDoc" class="w3-bar-item w3-button">Generate Aura Documentation</a>
+                    <a href="#newAuraFile" class="w3-bar-item w3-button">New Aura File</a>
+                </div>
+                <a href="#snippetsSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('snippets')">Code Completion Tools</a>
+                <div id="snippets" class="w3-hide w3-margin-left">
+                    <a href="#cmpAttributes" class="w3-bar-item w3-button">Getting Component Attributes</a>
+                    <a href="#jsControllerFunctions" class="w3-bar-item w3-button">Getting JS Controller Functions</a>
+                    <a href="#jsHelperFunctions" class="w3-bar-item w3-button">Getting JS Helper Functions</a>
+                    <a href="#apexMethods" class="w3-bar-item w3-button">Getting Apex Methods</a>
+                    <a href="#aura" class="w3-bar-item w3-button">Aura Namespace</a>
+                    <a href="#ltn" class="w3-bar-item w3-button">Lightning Namespace</a>
+                    <a href="#force" class="w3-bar-item w3-button">Force Namespace</a>
+                    <a href="#ltng" class="w3-bar-item w3-button">Ltng Namespace</a>
+                    <a href="#js" class="w3-bar-item w3-button">JavaScript Code</a>
+                    <a href="#apex" class="w3-bar-item w3-button">Apex Code</a>
+                </div>
+                <a href="#templatesSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('templates')">Templates</a>
+                <div id="templates" class="w3-hide w3-margin-left">
+                    <a href="#auraDocTemplate" class="w3-bar-item w3-button">Aura Documentation Template</a>
+                    <a href="#apexCommentTemplate" class="w3-bar-item w3-button">Apex Comment Template</a>
+                </div>
             </div>
         </div>
         <!-- Help Body -->
@@ -158,7 +160,7 @@
                             Command for create a new Aura File into the bundle. You can run it in two ways:
                             <ul>
                                 <li>You can execute the command when Aura Component file (<code>.cmp</code>) is opened on editor</li>
-                                <li>You can make a rigth click on Aura Component file (<code>.cmp</code>) in explorar and then select "Aura Helper: New Aura File"</li>
+                                <li>You can make a rigth click on Aura Component file (<code>.cmp</code>) or Aura Bundle Folder in explorar and then select "Aura Helper: New Aura File"</li>
                             </ul>
                         </p>
                         <p>All documents created like in salesforce with the base template except the Aura Documentation File, it will be created based on user template (or default extension template)</p>
@@ -372,18 +374,19 @@
                                     <li>{!controllerMethods}</li>
                                     <li>{!helperMethods}</li>
                                 </ul>
-                                <p>The rest of keywords do not take effect in this section of the template</p>
+                                <p>The rest of keywords do not take effect in this template's section</p>
                             </li>
                             <li>
                                 <b>methodBody:</b>
                                 <p>This lines represent every method body. When Aura Helper generates the documentation file, it copy every method information with this template and then, replace the keywords {!controllerMethods} or {!helperMethods} with the generated body. You can use in this section the following <b>keywords:</b></p>
                                 <ul>
                                     <li>{!method.description}</li>
+                                    <li>{!method.auraSignature}</li>
                                     <li>{!method.signature}</li>
                                     <li>{!method.name}</li>
                                     <li>{!method.params}</li>
                                 </ul>
-                                <p>The rest of keywords do not take effect in this section of the template</p>
+                                <p>The rest of keywords do not take effect in this template's section</p>
                             </li>
                             <li>
                                 <b>paramBody:</b>
@@ -393,7 +396,7 @@
                                     <li>{!param.name}</li>
                                     <li>{!param.type}</li>
                                 </ul>
-                                <p>The rest of keywords do not take effect in this section of the template</p>
+                                <p>The rest of keywords do not take effect in this template's section</p>
                             </li>
                         </ul>
                         <p>Example: </p>
@@ -481,7 +484,7 @@
                                             <li>{!method.params}</li>
                                             <li>{!method.return}</li>
                                         </ul>
-                                        <p>The rest of keywords do not take effect in this section of the template</p>
+                                        <p>The rest of keywords do not take effect in this template's section</p>
                                     </li>
                                     <li>
                                         <b>paramBody:</b>
@@ -491,7 +494,7 @@
                                             <li>{!param.type}</li>
                                             <li>{!param.description}</li>
                                         </ul>
-                                        <p>The rest of keywords do not take effect in this section of the template</p>
+                                        <p>The rest of keywords do not take effect in this template's section</p>
                                     </li>
                                     <li>
                                         <b>returnBody:</b>
@@ -500,7 +503,7 @@
                                             <li>{!return.type}</li>
                                             <li>{!return.description}</li>
                                         </ul>
-                                        <p>The rest of keywords do not take effect in this section of the template</p>
+                                        <p>The rest of keywords do not take effect in this template's section</p>
                                     </li>
                                 </ul>
                             </li>
@@ -515,10 +518,9 @@
                                             <li>{!class.description}</li>
                                             <li>{!class.name}</li>
                                         </ul>
-                                        <p>The rest of keywords do not take effect in this section of the template</p>
+                                        <p>The rest of keywords do not take effect in this template's section</p>
                                     </li>
                                 </ul>
-                                <p>The rest of keywords do not take effect in this section of the template</p>
                             </li>
                         </ul>
                         <p>Example: </p>
