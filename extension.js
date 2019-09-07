@@ -50,7 +50,7 @@ function activate(context) {
 		commandManager.auraCodeCompletionCommand(position, context);
 	});
 
-	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', providers.apexCommentProvider, '*'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', providers.apexProvider, '*'));
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('xml', providers.auraComponentProvider, '.'));
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('html', providers.auraComponentProvider, '.'));
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('javascript', providers.auraComponentProvider, '.'));

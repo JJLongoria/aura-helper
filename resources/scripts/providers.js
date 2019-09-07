@@ -3,7 +3,7 @@ const fileUtils = require('./fileUtils');
 const languageUtils = require('./languageUtils');
 const logger = require('./logger');
 
-let apexCommentProvider = {
+let apexProvider = {
     provideCompletionItems(document, position) {
         const line = document.lineAt(position.line).text;
         if (line.indexOf('/**') === -1) {
@@ -29,32 +29,12 @@ let auraComponentProvider = {
         if (line.indexOf('v.') === -1 && line.indexOf('c.') === -1) {
             return Promise.resolve(undefined);
         }
+        if (document.fileName.indexOf('Controller.js') === -1 && document.fileName.indexOf('Helper.js') === -1 && document.fileName.indexOf('.cmp') === -1)
+            return Promise.resolve(undefined);
+        let componentPath = document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp');
+        let componentStructure = languageUtils.getComponentStructure(componentPath);
         let items = [];
         if (line.indexOf('v.') !== -1) {
-            if (document.fileName.indexOf('Controller.js') === -1 && document.fileName.indexOf('Helper.js') === -1 && document.fileName.indexOf('.cmp') === -1)
-                return Promise.resolve(undefined);
-            let componentPath = document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp');
-            let componentName = fileUtils.basename(componentPath).replace('.cmp', '');
-            let componentFileText = fileUtils.getFileContent(componentPath);
-            let componentStructure = languageUtils.parseCMPFile(componentFileText);
-            let parentComponentStructure = componentStructure;
-            while (parentComponentStructure.extends) {
-                let parentComponentName = parentComponentStructure.extends.replace('c:', '');
-                let parentFileName = componentPath.replace(new RegExp(componentName, 'g'), parentComponentName);
-                parentComponentStructure = languageUtils.parseCMPFile(fileUtils.getFileContent(parentFileName));
-                for (const attribute of parentComponentStructure.attributes) {
-                    componentStructure.attributes.push(attribute);
-                }
-                for (const implement of parentComponentStructure.implements) {
-                    componentStructure.implements.push(implement);
-                }
-                for (const event of parentComponentStructure.events) {
-                    componentStructure.events.push(event);
-                }
-                for (const handler of parentComponentStructure.handlers) {
-                    componentStructure.handlers.push(handler);
-                }
-            }
             for (const attribute of componentStructure.attributes) {
                 let item = new vscode.CompletionItem('v.' + attribute.name, vscode.CompletionItemKind.Field);
                 item.detail = 'Type: ' + attribute.type;
@@ -63,9 +43,53 @@ let auraComponentProvider = {
                 item.command = {
                     title: 'Aura Component Attribute',
                     command: 'aurahelper.auraCodeCompletion',
-                    arguments: [position, 'attribute', attribute.name]
+                    arguments: [position, 'attribute', attribute]
                 };
                 items.push(item);
+            }
+        } else if (line.indexOf('c.') !== -1) {
+            if (document.fileName.indexOf('.cmp') !== -1) {
+                for (const func of componentStructure.controllerFunctions) {
+                    let item = new vscode.CompletionItem('c.' + func.name, vscode.CompletionItemKind.Function);
+                    if(func.comment){
+                        item.detail = func.comment.description + '\n';
+                        for (const commentParam of func.comment.params) {
+                            item.detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
+                        }
+                    }
+                    else{
+                        item.detail = "Aura Controller Function";
+                    }
+                    item.documentation = func.auraSignature;
+                    item.insertText = func.name;
+                    item.command = {
+                        title: 'Aura Controller Function',
+                        command: 'aurahelper.auraCodeCompletion',
+                        arguments: [position, 'function', func]
+                    };
+                    items.push(item);
+                }
+            } else if (document.fileName.indexOf('.js') !== -1) {
+                for (const method of componentStructure.apexFunctions) {
+                    let item = new vscode.CompletionItem('c.' + method.name, vscode.CompletionItemKind.Method);
+                    if(method.comment){
+                        item.detail = method.comment.description + '\n';
+                        for (const commentParam of method.comment.params) {
+                            item.detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
+                        }
+                    }
+                    else{
+                        item.detail = "Apex Controller Function";
+                    }
+                    item.documentation = method.signature;
+                    item.insertText = method.name;
+                    item.command = {
+                        title: 'Aura Controller Function',
+                        command: 'aurahelper.auraCodeCompletion',
+                        arguments: [position, 'method', method]
+                    };
+                    items.push(item);
+                }
             }
         }
         return Promise.resolve(items);
@@ -73,6 +97,6 @@ let auraComponentProvider = {
 };
 
 module.exports = {
-    apexCommentProvider,
+    apexProvider,
     auraComponentProvider
 }
