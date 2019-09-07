@@ -31,6 +31,11 @@ Some commands with tools for help in your work. All commands start with "AuraHel
 To many snippets and code completion tools for make your work more productive:
 
 #### Aura (Lightning):
+
+##### - Get Aura Attributes:
+    You can get any component attribute (even the inherited) on .cmp file and .js file
+    Only need type: "v." and you can show all attributes.
+
 ##### - Aura NS
     - aura.attribute: Create Aura Attribute (aura:attribute)
     - aura.handler: Create Aura Handler (aura:handler)

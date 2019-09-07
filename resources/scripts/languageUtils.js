@@ -1,4 +1,5 @@
 const logger = require('./logger');
+const fileUtils = require('./fileUtils');
 
 function parseApexClassOrMethod(str) {
     logger.log('Execute parseApexClassOrMethod method');
@@ -97,6 +98,11 @@ function parseJSFile(fileContent) {
 function parseCMPFile(fileContent) {
     let tokens = tokenize(fileContent);
     return parseTokensForCMP(tokens);
+}
+
+function parseApexClassFile(fileContent) {
+    let tokens = tokenize(fileContent);
+    return parseTokensForApexClass(tokens);
 }
 
 function tokenize(str) {
@@ -303,10 +309,14 @@ function tokenize(str) {
 }
 
 function parseTokensForJS(tokens) {
+    logger.log('Run parseTokensForJS method');
     let index = 0;
     let bracketIndent = 0;
     let parenIndent = 0;
-    let fileStructure = [];
+    let fileStructure = {
+        functions: [],
+        variables: []
+    };
     let comment = {
         description: '',
         params: []
@@ -315,7 +325,7 @@ function parseTokensForJS(tokens) {
         let lastToken;
         let token = tokens[index];
         let nextToken;
-        let structure = {};
+        let func = {};
         if (index - 1 >= 0)
             lastToken = tokens[index - 1];
         if (index + 1 < tokens.length)
@@ -335,13 +345,15 @@ function parseTokensForJS(tokens) {
         if (parenIndent == 1 && bracketIndent == 1) {
             if (token.tokenType === 'colon') {
                 if (lastToken && lastToken.tokenType === 'identifier' && nextToken && nextToken.tokenType == 'identifier' && nextToken.content === 'function') {
+                    logger.log('On Function');
                     // On function
                     let startParams;
-                    structure.token = lastToken;
-                    structure.type = "func";
-                    structure.params = [];
+                    func.name = lastToken.content;
+                    func.token = lastToken;
+                    func.params = [];
+                    let paramNames = [];
                     if (comment.description)
-                        structure.comment = comment;
+                        func.comment = comment;
                     comment = {
                         description: null,
                         params: []
@@ -351,63 +363,72 @@ function parseTokensForJS(tokens) {
                         if (token.tokenType === 'lParen') {
                             startParams = true;
                         } else if (startParams) {
-                            if (token.tokenType === 'identifier')
-                                structure.params.push({
+                            if (token.tokenType === 'identifier') {
+                                paramNames.push(token.content);
+                                func.params.push({
+                                    name: token.content,
                                     token: token,
-                                    type: "param",
                                 });
+                            }
                         }
                     }
-                    fileStructure.push(structure);
+                    func.auraSignature = func.name + ' : function(' + paramNames.join(', ') + ')';
+                    func.signature = func.name + '(' + paramNames.join(', ') + ')';
+                    fileStructure.functions.push(func);
                 }
             }
-        }
-        if (token.tokenType === 'operator' && token.content === '*') {
-            if (lastToken && lastToken.tokenType === 'operator' && lastToken.content === '/' && nextToken && nextToken.tokenType == 'operator' && nextToken.content === '*') {
-                // On Comment
-                let description = '';
-                while (token.tokenType !== 'at') {
-                    token = tokens[++index];
-                    lastToken = tokens[index - 1];
-                    if (token.lineNumber > lastToken.lineNumber)
-                        description += '\n';
-                    else if ((token.tokenType !== 'operator' && token.content !== '*') && (token.tokenType !== 'at' && nextToken.content !== 'param')) {
-                        description += getWhitespaces(token.startColumn - lastToken.endColumn) + token.content;;
+            else if (token.tokenType === 'operator' && token.content === '*') {
+                if (lastToken && lastToken.tokenType === 'operator' && lastToken.content === '/' && nextToken && nextToken.tokenType == 'operator' && nextToken.content === '*') {
+                    // On Comment
+                    logger.log('On Comment');
+                    let description = '';
+                    let endComment = false;
+                    while (token.tokenType !== 'at' && !endComment) {
+                        token = tokens[++index];
+                        lastToken = tokens[index - 1];
+                        nextToken = tokens[index + 1];
+                        endComment = token.tokenType === 'operator' && token.content === '*' && nextToken.tokenType === 'operator' && nextToken.content === '/';
+                        if (!endComment) {
+                            if (token.lineNumber > lastToken.lineNumber)
+                                description += '\n';
+                            else if ((token.tokenType !== 'operator' && token.content !== '*') && (token.tokenType !== 'at' && nextToken.content !== 'param')) {
+                                description += getWhitespaces(token.startColumn - lastToken.endColumn) + token.content;;
+                            }
+                        }
                     }
-                }
-                comment.description = description;
-                comment.params = [];
-                let endComment = false;
-                while (!endComment) {
-                    token = tokens[++index];
-                    lastToken = tokens[index - 1];
-                    nextToken = tokens[index + 1];
-                    if (token.tokenType === 'identifier' && token.content === 'param') {
-                        let commentParam = {};
-                        while (token.tokenType !== 'at' && nextToken.content !== 'param' && !endComment) {
-                            token = tokens[++index];
-                            lastToken = tokens[index - 1];
-                            nextToken = tokens[index + 1];
-                            endComment = token.tokenType === 'operator' && token.content === '*' && nextToken.tokenType === 'operator' && nextToken.content === '/';
-                            if (!endComment) {
-                                if (lastToken.tokenType === 'lBracket') {
-                                    commentParam.type = token.content;;
-                                } else if (lastToken.tokenType === 'rBracket') {
-                                    commentParam.name = token.content;
-                                } else if (commentParam.name) {
-                                    if (!commentParam.description) {
-                                        commentParam.description = '';
-                                    }
-                                    if (token.lineNumber > lastToken.lineNumber) {
-                                        description += '\n';
-                                    }
-                                    if ((token.tokenType !== 'operator' && token.content !== '*') && (token.tokenType !== 'at' && nextToken.content !== 'param')) {
-                                        commentParam.description += getWhitespaces(token.startColumn - lastToken.endColumn) + token.content;
+                    comment.description = description;
+                    comment.params = [];
+                    while (!endComment) {
+                        token = tokens[++index];
+                        lastToken = tokens[index - 1];
+                        nextToken = tokens[index + 1];
+                        if (token.tokenType === 'identifier' && token.content === 'param') {
+                            let commentParam = {};
+                            while (token.tokenType !== 'at' && nextToken.content !== 'param' && !endComment) {
+                                token = tokens[++index];
+                                lastToken = tokens[index - 1];
+                                nextToken = tokens[index + 1];
+                                endComment = token.tokenType === 'operator' && token.content === '*' && nextToken.tokenType === 'operator' && nextToken.content === '/';
+                                if (!endComment) {
+                                    if (lastToken.tokenType === 'lBracket') {
+                                        commentParam.type = token.content;;
+                                    } else if (lastToken.tokenType === 'rBracket') {
+                                        commentParam.name = token.content;
+                                    } else if (commentParam.name) {
+                                        if (!commentParam.description) {
+                                            commentParam.description = '';
+                                        }
+                                        if (token.lineNumber > lastToken.lineNumber) {
+                                            description += '\n';
+                                        }
+                                        if ((token.tokenType !== 'operator' && token.content !== '*') && (token.tokenType !== 'at' && nextToken.content !== 'param')) {
+                                            commentParam.description += getWhitespaces(token.startColumn - lastToken.endColumn) + token.content;
+                                        }
                                     }
                                 }
                             }
+                            comment.params.push(commentParam);
                         }
-                        comment.params.push(commentParam);
                     }
                 }
             }
@@ -426,9 +447,13 @@ function parseTokensForCMP(tokens) {
         events: [],
         handlers: [],
         extends: "",
+        controller: "",
         implements: [],
         extensible: false,
-        abstract: false
+        abstract: false,
+        controllerFunctions: [],
+        helperFunctions: [],
+        apexFunctions: []
     }
     while (index < tokens.length) {
         let lastToken = getLastToken(tokens, index);
@@ -444,7 +469,7 @@ function parseTokensForCMP(tokens) {
                 let fileStruc = getTagData(tokens, index);
                 if (fileStruc.extensible)
                     fileStructure.extensible = fileStruc.extensible;
-                if (fileStruc.implements){
+                if (fileStruc.implements) {
                     let splits = fileStruc.implements.split(',');
                     for (const split of splits) {
                         fileStructure.implements.push(split.trim());
@@ -454,6 +479,8 @@ function parseTokensForCMP(tokens) {
                     fileStructure.abstract = fileStruc.abstract;
                 if (fileStruc.extends)
                     fileStructure.extends = fileStruc.extends;
+                if (fileStruc.controller)
+                    fileStructure.controller = fileStruc.controller;
             }
             else if (token.tokenType === 'colon' && lastToken && lastToken.tokenType === 'identifier' && lastToken.content === 'aura' && nextToken && nextToken.tokenType === 'identifier' && nextToken.content === 'attribute') {
                 // Is on Attribute
@@ -469,6 +496,300 @@ function parseTokensForCMP(tokens) {
         index++;
     }
     return fileStructure;
+}
+
+function parseTokensForApexClass(tokens) {
+    logger.log('Run parseTokensForApexClass method');
+    let fileStructure = {
+        modifier: "",
+        withSharing: true,
+        abstract: false,
+        virtual: false,
+        className: "",
+        implements: [],
+        extends: "",
+        fields: [],
+        methods: []
+    };
+    let index = 0;
+    let bracketIndent = 0;
+    let parenIndent = 0;
+    let aBracketIndent = 0;
+    let modifier;
+    let isStatic = false;
+    let name;
+    let isFinal = false;
+    let isAbstrac = false;
+    let isVirtual = false;
+    let methodParams = [];
+    let annotation;
+    let comment;
+    let signature;
+    let returnType;
+    let returnIndexStart;
+    let returnIndexEnd;
+    while (index < tokens.length) {
+        let lastToken = getLastToken(tokens, index);
+        let token = tokens[index];
+        let nextToken = getNextToken(tokens, index);
+        if (token.tokenType === 'lBracket') {
+            bracketIndent++;
+        }
+        else if (token.tokenType === 'rBracket') {
+            bracketIndent--;
+        }
+        if (bracketIndent === 0) {
+            if (token.tokenType === 'identifier' && (token.content.toLowerCase() === 'public' || token.content.toLowerCase() === 'global' || token.content.toLowerCase() === 'private'))
+                fileStructure.modifier = token.content;
+            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'without' && nextToken && nextToken.tokenType === 'identifier' && nextToken.content.toLowerCase() === 'sharing')
+                fileStructure.withSharing = false;
+            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'class' && nextToken && nextToken.tokenType === 'identifier')
+                fileStructure.className = nextToken.content;
+            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'abstract')
+                fileStructure.abstract = true;
+            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'virtual')
+                fileStructure.virtual = true;
+            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'implements') {
+                var interfaceName = "";
+                while (token.content !== 'extends' || token.tokenType !== 'lBracket') {
+                    token = tokens[index];
+                    if (token.tokenType === 'lABracket') {
+                        aBracketIndent++;
+                    }
+                    else if (token.tokenType === 'rABracket') {
+                        aBracketIndent--;
+                    }
+                    if (token.tokenType === 'comma' && aBracketIndent == 0) {
+                        fileStructure.implements.push(interfaceName);
+                        interfaceName = "";
+                    } else {
+                        interfaceName += token.content;
+                    }
+                    index++;
+                }
+                if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'extends') {
+                    var extendsName = "";
+                    while (token.tokenType !== 'lBracket') {
+                        token = tokens[index];
+                        if (token.tokenType !== 'lBracket')
+                            extendsName += token.content;
+                        index++;
+                    }
+                    fileStructure.extends = extendsName;
+                }
+                if (token.tokenType === 'lBracket')
+                    bracketIndent++;
+            } else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'extends') {
+                var extendsName = "";
+                while (token.tokenType !== 'lBracket') {
+                    token = tokens[index];
+                    if (token.tokenType !== 'lBracket')
+                        extendsName += token.content;
+                    index++;
+                }
+                fileStructure.extends = extendsName;
+                if (token.tokenType === 'lBracket')
+                    bracketIndent++;
+            }
+        } else if (bracketIndent === 1) {
+            if (token.tokenType === 'operator' && token.content === '/' && nextToken && nextToken.tokenType === 'operator' && nextToken.content === '*') {
+                let endComment = false;
+                while (!endComment) {
+                    token = tokens[index];
+                    nextToken = getNextToken(tokens, index);
+                    endComment = token.tokenType === 'operator' && token.content === '*' && nextToken && nextToken.tokenType === 'operator' && nextToken.content === '/';
+                    index++;
+                }
+            } else if (token.tokenType === 'identifier' && (token.content.toLowerCase() === 'public' || token.content.toLowerCase() === 'global' || token.content.toLowerCase() === 'private' || token.content.toLowerCase() === 'webservice' || token.content.toLowerCase() === 'protected')) {
+                modifier = token.content;
+                returnIndexStart = index + 1;
+            }
+            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'abstract') {
+                isAbstrac = true;
+                returnIndexStart = index + 1;
+            }
+            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'virtual') {
+                isVirtual = true;
+                returnIndexStart = index + 1;
+            }
+            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'static') {
+                isStatic = true;
+                returnIndexStart = index + 1;
+            }
+            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'final') {
+                isFinal = true;
+                returnIndexStart = index + 1;
+            }
+            else if (token.tokenType === 'at' && nextToken && nextToken.tokenType === 'identifier') {
+                annotation = "@";
+                while (token.line == nextToken.line) {
+                    index++;
+                    token = tokens[index];
+                    nextToken = getNextToken(tokens, index);
+                    annotation += token.content;
+                }
+            }
+            else if (token.tokenType === 'identifier' && nextToken && nextToken.tokenType === 'lParen') {
+                returnIndexEnd = index;
+                name = token.content;
+                let param = {
+                    name: "",
+                    type: ""
+                };
+                while (token.tokenType !== 'rParen') {
+                    token = tokens[index];
+                    lastToken = getLastToken(tokens, index);
+                    nextToken = getNextToken(tokens, index);
+                    if (token.tokenType === 'lParen') {
+                        parenIndent++;
+                    }
+                    else if (token.tokenType === 'rParen') {
+                        parenIndent--;
+                    }
+                    else if (token.tokenType === 'lABracket') {
+                        aBracketIndent++;
+                    }
+                    else if (token.tokenType === 'rABracket') {
+                        aBracketIndent--;
+                    }
+                    if ((nextToken.tokenType === 'comma' || nextToken.tokenType === 'rParen') && token.tokenType !== 'lParen' && aBracketIndent == 0) {
+                        param.name = token.content;
+                        methodParams.push(param);
+                        param = {
+                            name: "",
+                            type: ""
+                        };
+                    } else if (parenIndent > 0 && token.tokenType !== 'lParen' && token.tokenType !== 'comma') {
+                        param.type += token.content;
+                    }
+                    index++;
+                }
+                index--;
+                if (!modifier)
+                    modifier = 'public';
+                returnType = getMethodReturnType(returnIndexStart, returnIndexEnd, tokens);
+                signature = modifier;
+                if (isStatic)
+                    signature += ' static';
+                if (isAbstrac)
+                    signature += ' abstract';
+                if (isVirtual)
+                    signature += ' virtual'
+                if (isVirtual)
+                    signature += ' virtual'
+                if (returnType)
+                    signature += ' ' + returnType;
+                else
+                    signature += ' void';
+                signature += ' ' + name + '(';
+                let params = [];
+                for (const param of methodParams) {
+                    params.push(param.type + ' ' + param.name);
+                }
+                signature += params.join(', ');
+                signature += ')';
+                let method = {
+                    name: name,
+                    annotation: annotation,
+                    modifier: modifier,
+                    isStatic: isStatic,
+                    abstract: isAbstrac,
+                    virtual: isVirtual,
+                    params: methodParams,
+                    comment: undefined,
+                    returnType: returnType,
+                    signature: signature
+                };
+                modifier = undefined;
+                isStatic = false;
+                name = undefined;
+                isFinal = false;
+                isAbstrac = false;
+                isVirtual = false;
+                methodParams = [];
+                annotation = undefined;
+                comment = undefined;
+                fileStructure.methods.push(method);
+            }
+        }
+        index++;
+    }
+    return fileStructure;
+}
+
+function getMethodReturnType(indexStart, indexEnd, tokens) {
+    let returnType = '';
+    for (let index = indexStart; index < indexEnd; index++) {
+        returnType += tokens[index].content;
+    }
+    return returnType;
+}
+
+function getComponentStructure(componentPath) {
+    let componentName = fileUtils.basename(componentPath).replace('.cmp', '');
+    let componentFileText = fileUtils.getFileContent(componentPath);
+    let componentStructure = parseCMPFile(componentFileText);
+    componentStructure.controllerFunctions = getControllerFunctions(componentPath);
+    componentStructure.helperFunctions = getHelperFunctions(componentPath);
+    if (componentStructure.controller) {
+        let classPath = componentPath.replace('aura\\' + componentName + '\\' + componentName + '.cmp', 'classes\\' + componentStructure.controller + '.cls');
+        let classStructure = parseApexClassFile(fileUtils.getFileContent(classPath));
+        componentStructure.apexFunctions = classStructure.methods;
+    }
+    let parentComponentStructure = componentStructure;
+    while (parentComponentStructure.extends) {
+        let parentComponentName = parentComponentStructure.extends.replace('c:', '');
+        let parentFileName = componentPath.replace(new RegExp(componentName, 'g'), parentComponentName);
+        parentComponentStructure = parseCMPFile(fileUtils.getFileContent(parentFileName));
+        parentComponentStructure.controllerFunctions = getControllerFunctions(parentFileName);
+        parentComponentStructure.helperFunctions = getHelperFunctions(parentFileName);
+        if (componentStructure.controller) {
+            let classPath = componentPath.replace('aura\\' + componentName + '\\' + componentName + '.cmp', 'classes\\' + componentStructure.controller + '.cls');
+            let classStructure = parseApexClassFile(fileUtils.getFileContent(classPath));
+            for (const method of classStructure.methods) {
+                componentStructure.apexFunctions.push(method);
+            }
+        }
+        for (const attribute of parentComponentStructure.attributes) {
+            componentStructure.attributes.push(attribute);
+        }
+        for (const implement of parentComponentStructure.implements) {
+            componentStructure.implements.push(implement);
+        }
+        for (const event of parentComponentStructure.events) {
+            componentStructure.events.push(event);
+        }
+        for (const handler of parentComponentStructure.handlers) {
+            componentStructure.handlers.push(handler);
+        }
+        for (const func of parentComponentStructure.controllerFunctions) {
+            componentStructure.controllerFunctions.push(func);
+        }
+        for (const func of parentComponentStructure.helperFunctions) {
+            componentStructure.helperFunctions.push(func);
+        }
+    }
+    return componentStructure;
+}
+
+function getControllerFunctions(componentPath) {
+    let controllerPath = componentPath.replace('.cmp', 'Controller.js');
+    return getJSFunctions(controllerPath);
+}
+
+function getHelperFunctions(componentPath) {
+    let helperPath = componentPath.replace('.cmp', 'Helper.js');
+    return getJSFunctions(helperPath);
+}
+
+function getJSFunctions(jsPath) {
+    let functions = [];
+    if (fileUtils.isFileExists(jsPath)) {
+        let controllerContent = fileUtils.getFileContent(jsPath);
+        let fileStructure = parseJSFile(controllerContent);
+        functions = fileStructure.functions;
+    }
+    return functions;
 }
 
 function getTagData(tokens, index) {
@@ -523,5 +844,6 @@ function getWhitespaces(number) {
 module.exports = {
     parseApexClassOrMethod,
     parseJSFile,
-    parseCMPFile
+    parseCMPFile,
+    getComponentStructure
 }

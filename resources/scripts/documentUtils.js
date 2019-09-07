@@ -115,19 +115,19 @@ function addMethodBlock(context, editor) {
 							var methodNames = [];
 							if (fileSelected == "Controller Methods") {
 								logger.log("Controller Methods Selected");
-								for (let i = 0; i < controllerMethods.length; i++) {
-									const method = controllerMethods[i];
+								for (let i = 0; i < controllerMethods.functions.length; i++) {
+									const method = controllerMethods.functions[i];
 									if (method.type == 'func')
-										methodNames.push(snippetUtils.getMethodSignature(method));
+										methodNames.push(method.signature);
 								}
 							}
 							else if (fileSelected == "Helper Methods") {
 								logger.log("Helper Methods Selected");
 								var methodNames = [];
-								for (let i = 0; i < helperMethods.length; i++) {
-									const method = helperMethods[i];
+								for (let i = 0; i < helperMethods.functions.length; i++) {
+									const method = helperMethods.functions[i];
 									if (method.type == 'func')
-										methodNames.push(snippetUtils.getMethodSignature(method));
+										methodNames.push(method.signature);
 								}
 							}
 							if (methodNames.length > 0) {
@@ -135,14 +135,14 @@ function addMethodBlock(context, editor) {
 									var methods = [];
 									logger.log("Method Selected: " + methodSelected);
 									if (fileSelected == "Controller Methods") {
-										methods = controllerMethods;
+										methods = controllerMethods.functions;
 									}
 									else if (fileSelected == "Helper Methods") {
-										methods = helperMethods;
+										methods = helperMethods.functions;
 									}
 									for (let i = 0; i < methods.length; i++) {
 										const method = methods[i];
-										if (snippetUtils.getMethodSignature(method) == methodSelected) {
+										if (method.signature == methodSelected) {
 											let auraDocTemplateJSON = JSON.parse(fileUtils.getDocumentText(auraDocTemplate));
 											var methodContent = snippetUtils.getMethodContent(method, auraDocTemplateJSON.methodBody, auraDocTemplateJSON.paramBody, snippetUtils.getWhitespaces(editor.selection.start.character)).trimLeft();
 											editorUtils.replaceContent(editor, editor.selection, methodContent);
@@ -170,10 +170,10 @@ function addMethodBlock(context, editor) {
 							var methodNames = [];
 							if (fileSelected == "Controller Methods") {
 								logger.log("Controller Methods Selected");
-								for (let i = 0; i < controllerMethods.length; i++) {
-									const method = controllerMethods[i];
+								for (let i = 0; i < controllerMethods.functions.length; i++) {
+									const method = controllerMethods.functions[i];
 									if (method.type == 'func')
-										methodNames.push(snippetUtils.getMethodSignature(method));
+										methodNames.push(method.signature);
 								}
 							}
 							if (methodNames.length > 0) {
@@ -181,11 +181,11 @@ function addMethodBlock(context, editor) {
 									var methods = [];
 									logger.log("Method Selected: " + methodSelected);
 									if (fileSelected == "Controller Methods") {
-										methods = controllerMethods;
+										methods = controllerMethods.functions;
 									}
 									for (let i = 0; i < methods.length; i++) {
 										const method = methods[i];
-										if (snippetUtils.getMethodSignature(method) == methodSelected) {
+										if (method.signature == methodSelected) {
 											var methodContent = snippetUtils.getMethodContent(method, auraDocMethodTemplate, auraDocMethodParamTemplate);
 											editorUtils.replaceContent(editor, editor.selection, methodContent);
 										}

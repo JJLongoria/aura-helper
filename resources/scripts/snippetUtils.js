@@ -66,15 +66,13 @@ function getJSFunctionSnippet(numParams) {
 
 function getMethodsContent(fileStructure, methodTemplate, paramTemplate, indent) {
     var content = "";
-    for (let i = 0; i < fileStructure.length; i++) {
-        if (fileStructure[i].type === "func") {
-            content += getMethodContent(fileStructure[i], methodTemplate, paramTemplate, indent);
-        }
+    for (let i = 0; i < fileStructure.functions.length; i++) {
+        content += getMethodContent(fileStructure.functions[i], methodTemplate, paramTemplate, indent);
     }
     return content;
 }
 
-function getMethodContent(structure, methodTemplate, paramTemplate, indent) {
+function getMethodContent(func, methodTemplate, paramTemplate, indent) {
     var content = "";
     var paramsIndent = "";
     for (let i = 0; i < methodTemplate.length; i++) {
@@ -89,22 +87,21 @@ function getMethodContent(structure, methodTemplate, paramTemplate, indent) {
     }
     var paramsContent = "";
     var methodDesc = "<!-- Method Description Here -->";
-    if (structure.comment) {
-        methodDesc = structure.comment.description;
-        for (let i = 0; i < structure.comment.params.length; i++) {
-            paramsContent += getParamContentFromComment(structure.comment.params[i], paramTemplate, indent + paramsIndent);
+    if (func.comment) {
+        methodDesc = func.comment.description;
+        for (let i = 0; i < func.comment.params.length; i++) {
+            paramsContent += getParamContentFromComment(func.comment.params[i], paramTemplate, indent + paramsIndent);
         }
     }
     else {
-        for (let i = 0; i < structure.params.length; i++) {
-            if (structure.params[i].type === "param") {
-                paramsContent += getParamContent(structure.params[i], paramTemplate, indent + paramsIndent);
-            }
+        for (let i = 0; i < func.params.length; i++) {
+            paramsContent += getParamContent(func.params[i], paramTemplate, indent + paramsIndent);
         }
     }
-    content = content.replace("{!method.name}", structure.token.content);
+    content = content.replace("{!method.name}", func.name);
     content = content.replace("{!method.description}", methodDesc);
-    content = content.replace("{!method.signature}", getMethodSignature(structure));
+    content = content.replace("{!method.signature}", func.signature);
+    content = content.replace("{!method.auraSignature}", func.auraSignature);
     content = content.replace("{!method.params}", paramsContent);
     return content;
 }
@@ -115,7 +112,7 @@ function getParamContent(param, paramTemplate, indent) {
         var line = paramTemplate[i];
         content += indent + line + '\n';
     }
-    content = content.replace("{!param.name}", param.token.content).replace("{!param.type}", "*").replace("{!param.description}", "<!-- Param Description Here -->");
+    content = content.replace("{!param.name}", param.name).replace("{!param.type}", "*").replace("{!param.description}", "<!-- Param Description Here -->");
     return content;
 }
 
@@ -127,18 +124,6 @@ function getParamContentFromComment(commentParam, paramTemplate, indent) {
     }
     content = content.replace("{!param.name}", commentParam.name).replace("{!param.type}", commentParam.type).replace("{!param.description}", commentParam.description);
     return content;
-}
-
-function getMethodSignature(structure) {
-    let signature = structure.token.content;
-    let params = [];
-    for (let i = 0; i < structure.params.length; i++) {
-        if (structure.params[i].type === "param") {
-            params.push(structure.params[i].token.content);
-        }
-    }
-    signature = signature + "(" + params.join(", ") + ")";
-    return signature;
 }
 
 function getIndent(line) {
@@ -285,7 +270,6 @@ module.exports = {
     getRendererFileSnippet,
     getAuraDocumentationBaseTemplate,
     getApexCommentBaseTemplate,
-    getMethodSignature,
     getMethodContent,
     getIndent,
     getWhitespaces

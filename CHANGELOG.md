@@ -43,6 +43,9 @@ All notable changes to this project will be documented in this file.
 
     - Better Code performance
 
+    - Code Completion Provider
+        - v.[attributeName]
+
     - Code Completion Snippets:
         - aura.if
         - aura.iteration
