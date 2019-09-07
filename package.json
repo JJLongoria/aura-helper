@@ -2,8 +2,8 @@
 	"name": "aura-helper",
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
-	"description": "Salesforce extension for make more powerfull and easy the development work. Wotk with Apex and Lightning",
-	"version": "0.1.2",
+	"description": "Salesforce extension for make more powerfull and easy the development work. Work with Apex and Lightning",
+	"version": "1.0.0",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
@@ -13,6 +13,8 @@
 		"url": "https://github.com/JJLongoria/aura-helper"
 	},
 	"categories": [
+		"Programming Languages",
+		"Snippets",
 		"Other"
 	],
 	"keywords": [
@@ -31,14 +33,6 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "aurahelper.genAuraDoc",
-				"title": "AuraHelper: Generate Aura Documentation"
-			},
-			{
-				"command": "aurahelper.addMethodBlock",
-				"title": "AuraHelper: Add Method Block to Doc"
-			},
-			{
 				"command": "aurahelper.addApexComment",
 				"title": "AuraHelper: Add Apex Comment"
 			},
@@ -47,20 +41,28 @@
 				"title": "AuraHelper: Add Javascript Aura Function"
 			},
 			{
-				"command": "auraHelper.newAuraFile",
+				"command": "aurahelper.addMethodBlock",
+				"title": "AuraHelper: Add Method Block to Doc"
+			},
+			{
+				"command": "aurahelper.editApexCommentTemplate",
+				"title": "AuraHelper: Edit Apex Comment Template"
+			},
+			{
+				"command": "aurahelper.editAuraDocumentationTemplate",
+				"title": "AuraHelper: Edit Aura Documentation Template"
+			},
+			{
+				"command": "aurahelper.genAuraDoc",
+				"title": "AuraHelper: Generate Aura Documentation"
+			},
+			{
+				"command": "aurahelper.help",
+				"title": "AuraHelper: Help"
+			},
+			{
+				"command": "aurahelper.newAuraFile",
 				"title": "AuraHelper: New Aura File"
-			},
-			{
-				"command": "auraHelper.editAuraDocBaseTemplate",
-				"title": "AuraHelper: Edit Aura Doc Base Template"
-			},
-			{
-				"command": "auraHelper.editAuraDocMethodTemplate",
-				"title": "AuraHelper: Edit Aura Doc Method Template"
-			},
-			{
-				"command": "auraHelper.editAuraDocParamTemplate",
-				"title": "AuraHelper: Edit Aura Doc Method Parameter Template"
 			}
 		],
 		"snippets": [
@@ -125,13 +127,28 @@
 		"menus":{
 			"explorer/context":[{
 				"when":"resourceExtname == .cmp",
-				"command": "auraHelper.newAuraFile",
+				"command": "aurahelper.newAuraFile",
+				"group": "navigation"
+			},
+			{
+				"when":"resourceExtname == .auradoc",
+				"command": "aurahelper.genAuraDoc",
+				"group": "navigation"
+			},
+			{
+				"when":"resource =~ /./aura/ && resourceExtname =~ /^(?!(.app|.cmp|.auradoc|.evt|.intf|.css|.design|.html|.js|.svg)$)/",
+				"command": "aurahelper.newAuraFile",
 				"group": "navigation"
 			}],
 			"editor/context":[{
 				"when":"resourceExtname == .cmp",
-				"command": "auraHelper.newAuraFile",
-				"group": "7_modification"
+				"command": "aurahelper.newAuraFile",
+				"group": "auraHelper@1"
+			},
+			{
+				"when":"resourceExtname == .auradoc",
+				"command": "aurahelper.genAuraDoc",
+				"group": "auraHelper@1"
 			}]
 		}
 	},

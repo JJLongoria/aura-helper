@@ -46,8 +46,11 @@ function showInputBox(placeholder, callback){
     });
 }
 
-function openDocumentOnEditor(strPath){
-    vscode.window.showTextDocument(vscode.Uri.file(strPath));
+function openDocumentOnEditor(strPath, callback){
+    vscode.window.showTextDocument(vscode.Uri.file(strPath)).then(editor =>{
+        if(callback)
+            callback.call(this, editor);
+    });
 }
 
 module.exports = {

@@ -6,15 +6,36 @@ const logger = require('./logger');
 const windowUtils = require("./windowUtils");
 const snippetUtils = require("./snippetUtils");
 
-function genAuraDocCommand(context) {
+function genAuraDocCommand(context, fileUri) {
 	logger.log('Run genAuraDocCommand action');
-	var editor = editorUtils.getActiveEditor();
-	if (!editor)
-		return;
-	if (fileUtils.isAuraDocFile(editorUtils.getActiveFileFullPath()))
-		documentUtils.createAuraDocumentation(context, editor);
-	else
-		vscode.window.showErrorMessage('The selected file is not an Aura Documentation File');
+	if (fileUri) {
+		if (fileUri.fsPath !== editorUtils.getActiveFileFullPath()) {
+			windowUtils.openDocumentOnEditor(fileUri.fsPath, function (editor) {
+				if (!editor)
+					return;
+				if (fileUtils.isAuraDocFile(editor.document.uri.fsPath))
+					documentUtils.createAuraDocumentation(context, editor);
+				else
+					vscode.window.showErrorMessage('The selected file is not an Aura Documentation File');
+			});
+		} else {
+			var editor = editorUtils.getActiveEditor();
+			if (!editor)
+				return;
+			if (fileUtils.isAuraDocFile(editor.document.uri.fsPath))
+				documentUtils.createAuraDocumentation(context, editor);
+			else
+				vscode.window.showErrorMessage('The selected file is not an Aura Documentation File');
+		}
+	} else {
+		var editor = editorUtils.getActiveEditor();
+		if (!editor)
+			return;
+		if (fileUtils.isAuraDocFile(editor.document.uri.fsPath))
+			documentUtils.createAuraDocumentation(context, editor);
+		else
+			vscode.window.showErrorMessage('The selected file is not an Aura Documentation File');
+	}
 }
 
 function addMethodBlockCommand(context) {
@@ -39,13 +60,13 @@ function addApexMethodCommentCommand() {
 		vscode.window.showErrorMessage('The selected file is not an Apex Class File');
 }
 
-function apexCommentCompletionCommand(position) {
+function apexCommentCompletionCommand(position, context) {
 	logger.log('Run apexCommentCompletion action');
 	var editor = editorUtils.getActiveEditor();
 	if (!editor)
 		return;
 	if (fileUtils.isApexClassFile(editorUtils.getActiveFileFullPath()))
-		documentUtils.addApexCommentBlock(editor, position);
+		documentUtils.addAuraCodeCompletion(editor, position, context);
 	else
 		vscode.window.showErrorMessage('The selected file is not an Apex Class File');
 }
@@ -76,7 +97,7 @@ function newAuraFileCommand(context, fileUri) {
 		return;
 	}
 	logger.log('filePath', filePath);
-	if (fileUtils.isAuraComponentFile(filePath) || fileUtils.isAuraComponentFile(filePath)) {
+	if (fileUtils.isAuraComponentFile(filePath) || fileUtils.isAuraComponentFolder(filePath)) {
 		if (fileUtils.isAuraComponentFile(filePath))
 			filePath = fileUtils.getFileFolderPath(filePath);
 		fileUtils.getFileNamesFromFolder(filePath, function (existingFileNames) {
@@ -84,9 +105,9 @@ function newAuraFileCommand(context, fileUri) {
 			logger.logJSON('filesForCreate', filesForCreate);
 			windowUtils.showQuickPick(filesForCreate, "Select an Aura File for Create", function (selected) {
 				logger.log('selected', selected);
-				if (selected){
-					documentUtils.createAuraFile(context, filePath, selected, function(fileCreated){
-						if(fileCreated)
+				if (selected) {
+					documentUtils.createAuraFile(context, filePath, selected, function (fileCreated) {
+						if (fileCreated)
 							windowUtils.openDocumentOnEditor(fileCreated);
 					});
 				}
@@ -94,47 +115,60 @@ function newAuraFileCommand(context, fileUri) {
 		});
 	}
 	else {
-		vscode.window.showErrorMessage('The selected file is not a Aura Component File');
+		vscode.window.showErrorMessage('The selected file is not a Aura Component File or Folder');
 	}
 }
 
-function editAuraDocBaseTemplateCommand(context){
-	logger.log('Run editAuraDocBaseTemplateCommand action');
-	let baseDocPath = fileUtils.getDocumentTemplatePath(context);
-	if(!fileUtils.isFileExists(baseDocPath)){
-		fileUtils.createFile(baseDocPath, snippetUtils.getBaseAuraDocTemplateSnippet(), function(fileCreated){
-			if(fileCreated)
+function editAuraDocumentationTemplateCommand(context) {
+	logger.log('Run editAuraDocumentationTemplateCommand action');
+	let baseDocPath = fileUtils.getAuraDocumentUserTemplatePath(context);
+	if (!fileUtils.isFileExists(baseDocPath)) {
+		fileUtils.createFile(baseDocPath, snippetUtils.getAuraDocumentationBaseTemplate(), function (fileCreated) {
+			if (fileCreated)
 				windowUtils.openDocumentOnEditor(baseDocPath);
 		});
-	} else{
+	} else {
 		windowUtils.openDocumentOnEditor(baseDocPath);
 	}
 }
 
-function editAuraDocMethodTemplateCommand(context){
-	logger.log('Run editAuraDocMethodTemplateCommand action');
-	let baseMethodPath = fileUtils.getDocumentMethodTemplatePath(context);
-	if(!fileUtils.isFileExists(baseMethodPath)){
-		fileUtils.createFile(baseMethodPath, snippetUtils.getAuraDocMethodTemplateSnippet(), function(fileCreated){
-			if(fileCreated)
-				windowUtils.openDocumentOnEditor(baseMethodPath);
+function editApexCommentTemplateCommand(context) {
+	logger.log('Run editApexCommentTemplateCommand action');
+	let baseDocPath = fileUtils.getApexCommentUserTemplatePath(context);
+	if (!fileUtils.isFileExists(baseDocPath)) {
+		fileUtils.createFile(baseDocPath, snippetUtils.getApexCommentBaseTemplate(), function (fileCreated) {
+			if (fileCreated)
+				windowUtils.openDocumentOnEditor(baseDocPath);
 		});
-	} else{
-		windowUtils.openDocumentOnEditor(baseMethodPath);
+	} else {
+		windowUtils.openDocumentOnEditor(baseDocPath);
 	}
 }
 
-function editAuraDocParamTemplateCommand(context){
-	logger.log('Run editAuraDocParamTemplateCommand action');
-	let baseParamPath = fileUtils.getDocumentMethodParamTemplatePath(context);
-	if(!fileUtils.isFileExists(baseParamPath)){
-		fileUtils.createFile(baseParamPath, snippetUtils.getAuraDocParamTemplateSnippet(), function(fileCreated){
-			if(fileCreated)
-				windowUtils.openDocumentOnEditor(baseParamPath);
-		});
-	} else{
-		windowUtils.openDocumentOnEditor(baseParamPath);
-	}
+function openHelpCommand(context) {
+	const panel = vscode.window.createWebviewPanel(
+		'help',
+		'Help for Aura Helper',
+		vscode.ViewColumn.One,
+		{
+			// Enable scripts in the webview
+			enableScripts: true
+		}
+	);
+	fileUtils.getHelp(context, function (help) {
+		panel.webview.html = help;
+	});
+}
+
+function auraCodeCompletionCommand(position, context) {
+	logger.log('Run auraCodeCompletionCommand action');
+	var editor = editorUtils.getActiveEditor();
+	if (!editor)
+		return;
+	if (fileUtils.isAuraComponentFile(editorUtils.getActiveFileFullPath()) || fileUtils.isJavascriptFile(editorUtils.getActiveFileFullPath()))
+		documentUtils.addAuraCodeCompletion(editor, position);
+	else
+		vscode.window.showErrorMessage('The selected file is not an Apex Class File');
 }
 
 module.exports = {
@@ -144,7 +178,8 @@ module.exports = {
 	apexCommentCompletionCommand,
 	addJSFunctionCommand,
 	newAuraFileCommand,
-	editAuraDocBaseTemplateCommand,
-	editAuraDocMethodTemplateCommand,
-	editAuraDocParamTemplateCommand
+	editAuraDocumentationTemplateCommand,
+	openHelpCommand,
+	editApexCommentTemplateCommand,
+	auraCodeCompletionCommand
 }
