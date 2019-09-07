@@ -1,11 +1,4 @@
 # Aura Helper
-
-<p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome"><img src="https://vsmarketplacebadge.apphb.com/version/msjsdiag.debugger-for-chrome.svg?label=Debugger%20for%20Chrome" alt="Marketplace bagde"></a>
-    <a href="https://gitter.im/Microsoft/kanko.aura-helper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://badges.gitter.im/Microsoft/kanko.aura-helper.svg" alt="Release"></a>
-
-</p>
-
 Extensión for Salesforce and Lightning Experience with some tools for make more easy the development work. 
 
 ## Features
