@@ -1,5 +1,5 @@
 # Aura Helper
-Extensión for Salesforce and Lightning Experience with some tools for make more easy the development work. 
+Extension for Salesforce and Lightning Experience with some tools for make more easy the development work. 
 
 ## Features
 
