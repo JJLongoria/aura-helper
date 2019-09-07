@@ -747,26 +747,82 @@ function getComponentStructure(componentPath) {
             let classPath = componentPath.replace('aura\\' + componentName + '\\' + componentName + '.cmp', 'classes\\' + componentStructure.controller + '.cls');
             let classStructure = parseApexClassFile(fileUtils.getFileContent(classPath));
             for (const method of classStructure.methods) {
-                componentStructure.apexFunctions.push(method);
+                let existing = false;
+                for (const existingMethod of classStructure.methods) {
+                    if (method.name === existingMethod.name){
+                        existing = true;
+                        break;
+                    }
+                }
+                if (!existing)
+                    componentStructure.apexFunctions.push(method);
             }
         }
         for (const attribute of parentComponentStructure.attributes) {
-            componentStructure.attributes.push(attribute);
+            let existing = false;
+            for (const existingAttr of componentStructure.attributes) {
+                if (attribute.name === existingAttr.name){
+                    existing = true;
+                    break;
+                }
+            }
+            if (!existing)
+                componentStructure.attributes.push(attribute);
         }
         for (const implement of parentComponentStructure.implements) {
-            componentStructure.implements.push(implement);
+            let existing = false;
+            for (const existingImp of componentStructure.implements) {
+                if (existingImp.name === implement.name){
+                    existing = true;
+                    break;
+                }
+            }
+            if (!existing)
+                componentStructure.implements.push(implement);
         }
         for (const event of parentComponentStructure.events) {
-            componentStructure.events.push(event);
+            let existing = false;
+            for (const existingEvent of componentStructure.events) {
+                if (event.name === existingEvent.name){
+                    existing = true;
+                    break;
+                }
+            }
+            if (!existing)
+                componentStructure.events.push(event);
         }
         for (const handler of parentComponentStructure.handlers) {
-            componentStructure.handlers.push(handler);
+            let existing = false;
+            for (const existingHandler of componentStructure.handlers) {
+                if (handler.name === existingHandler.name){
+                    existing = true;
+                    break;
+                }
+            }
+            if (!existing)
+                componentStructure.handlers.push(handler);
         }
         for (const func of parentComponentStructure.controllerFunctions) {
-            componentStructure.controllerFunctions.push(func);
+            let existing = false;
+            for (const existingFunc of componentStructure.controllerFunctions) {
+                if (func.name === existingFunc.name){
+                    existing = true;
+                    break;
+                }
+            }
+            if (!existing)
+                componentStructure.controllerFunctions.push(func);
         }
         for (const func of parentComponentStructure.helperFunctions) {
-            componentStructure.helperFunctions.push(func);
+            let existing = false;
+            for (const existingFunc of componentStructure.helperFunctions) {
+                if (func.name === existingFunc.name){
+                    existing = true;
+                    break;
+                }
+            }
+            if (!existing)
+                componentStructure.helperFunctions.push(func);
         }
     }
     return componentStructure;

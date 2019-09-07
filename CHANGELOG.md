@@ -48,6 +48,7 @@ All notable changes to this project will be documented in this file.
         - c.[functionName] (On .cmp files)
         - c.[methodName] (On .js files)
         - helper.[functionName] (On .js files)
+        - c:[Component|Event|Application]
 
     - Menus
         - Explorer

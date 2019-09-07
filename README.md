@@ -55,6 +55,11 @@ To many snippets and code completion tools for make your work more productive:
     You can get any Apex controller methods (even the inherited) on .js file
     Only need type: "c." and you can show and use all methods.
 
+##### - Call Custom Component
+    You can get and call all Components, Events or Apps for .cmp files and .js files
+    Only need type: "c:" and you can show, use and call Componentes.
+    If you type <c:ComponentName You can get all attributes of the component for call it
+
 ##### - Aura NS
     - aura.attribute: Create Aura Attribute (aura:attribute)
     - aura.handler: Create Aura Handler (aura:handler)
