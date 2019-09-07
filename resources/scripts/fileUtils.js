@@ -81,8 +81,11 @@ function getDocumentText(document) {
     return text;
 }
 
+function getFilesFromFolderSync(folderPath){
+    return fs.readdirSync(folderPath);
+}
+
 function getFileNamesFromFolder(folderPath, callback) {
-    logger.log("folderPath", folderPath);
     var fileNames = [];
     vscode.workspace.fs.readDirectory(vscode.Uri.file(folderPath)).then(function (filesPath) {
         for (const file of filesPath) {
@@ -334,5 +337,6 @@ module.exports = {
     copyFile,
     getJSSnippetsPath,
     getAuraSnippetsPath,
-    getHelpPath
+    getHelpPath,
+    getFilesFromFolderSync
 }
