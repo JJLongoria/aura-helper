@@ -3,6 +3,7 @@
 const vscode = require('vscode');
 const commandManager = require('./resources/scripts/commandManager');
 const providers = require('./resources/scripts/providers');
+const fileUtils = require('./resources/scripts/fileUtils');
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -17,47 +18,64 @@ function activate(context) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
-	let genAuraDoc = vscode.commands.registerCommand('aurahelper.genAuraDoc', function () {
-		commandManager.genAuraDocCommand(context);
-	});
-	let addMethodBlock = vscode.commands.registerCommand('aurahelper.addMethodBlock', function () {
-		commandManager.addMethodBlockCommand(context);
-	});
+	init(context);
+
 	let addApexMethodComment = vscode.commands.registerCommand('aurahelper.addApexComment', function () {
 		commandManager.addApexMethodCommentCommand();
 	});
 	let addJSFunction = vscode.commands.registerCommand('aurahelper.addJsFunction', function () {
 		commandManager.addJSFunctionCommand();
 	});
-	let newAuraFile = vscode.commands.registerCommand('auraHelper.newAuraFile', function (fileUri) {
+	let addMethodBlock = vscode.commands.registerCommand('aurahelper.addMethodBlock', function () {
+		commandManager.addMethodBlockCommand(context);
+	});
+	let editApexCommentTemplate = vscode.commands.registerCommand('aurahelper.editApexCommentTemplate', function () {
+		commandManager.editApexCommentTemplateCommand(context);
+	});
+	let editAuraDocBaseTemplate = vscode.commands.registerCommand('aurahelper.editAuraDocumentationTemplate', function () {
+		commandManager.editAuraDocumentationTemplateCommand(context);
+	});
+	let genAuraDoc = vscode.commands.registerCommand('aurahelper.genAuraDoc', function (fileUri) {
+		commandManager.genAuraDocCommand(context, fileUri);
+	});
+	let help = vscode.commands.registerCommand('aurahelper.help', function () {
+		commandManager.openHelpCommand(context);
+	});
+	let newAuraFile = vscode.commands.registerCommand('aurahelper.newAuraFile', function (fileUri) {
 		commandManager.newAuraFileCommand(context, fileUri);
 	});
-	let editAuraDocBaseTemplate = vscode.commands.registerCommand('auraHelper.editAuraDocBaseTemplate', function () {
-		commandManager.editAuraDocBaseTemplateCommand(context);
-	});
-	let editAuraDocMethodTemplate = vscode.commands.registerCommand('auraHelper.editAuraDocMethodTemplate', function () {
-		commandManager.editAuraDocMethodTemplateCommand(context);
-	});
-	let editAuraDocParamTemplate = vscode.commands.registerCommand('auraHelper.editAuraDocParamTemplate', function () {
-		commandManager.editAuraDocParamTemplateCommand(context);
-	});
 
 
-	vscode.commands.registerCommand('aurahelper.apexComentCompletion', function(commentPosition){
-		commandManager.apexCommentCompletionCommand(commentPosition);
+	vscode.commands.registerCommand('aurahelper.apexComentCompletion', function (position) {
+		commandManager.apexCommentCompletionCommand(position, context);
+	});
+	vscode.commands.registerCommand('aurahelper.auraCodeCompletion', function (position) {
+		commandManager.auraCodeCompletionCommand(position, context);
 	});
 
-	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', providers.getApexCommentProvider(), '*'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', providers.apexProvider, '*'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('xml', providers.auraComponentProvider, '.'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('html', providers.auraComponentProvider, '.'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('javascript', providers.auraComponentProvider, '.'));
 	context.subscriptions.push(genAuraDoc);
 	context.subscriptions.push(addMethodBlock);
 	context.subscriptions.push(addApexMethodComment);
 	context.subscriptions.push(addJSFunction);
 	context.subscriptions.push(newAuraFile);
 	context.subscriptions.push(editAuraDocBaseTemplate);
-	context.subscriptions.push(editAuraDocMethodTemplate);
-	context.subscriptions.push(editAuraDocParamTemplate);
+	context.subscriptions.push(help);
+	context.subscriptions.push(editApexCommentTemplate);
 }
 exports.activate = activate;
+
+function init(context) {
+	if (!fileUtils.isFileExists(fileUtils.getUserTemplatesPath(context)))
+		fileUtils.createFolder(fileUtils.getUserTemplatesPath(context));
+	if (!fileUtils.isFileExists(fileUtils.getAuraDocumentUserTemplatePath(context)))
+		fileUtils.copyFile(fileUtils.getAuraDocumentTemplatePath(context), fileUtils.getAuraDocumentUserTemplatePath(context));
+	if (!fileUtils.isFileExists(fileUtils.getApexCommentUserTemplatePath(context)))
+		fileUtils.copyFile(fileUtils.getApexCommentTemplatePath(context), fileUtils.getApexCommentUserTemplatePath(context));
+}
 
 // this method is called when your extension is deactivated
 function deactivate() { }

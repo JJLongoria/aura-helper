@@ -1,38 +1,49 @@
 const logger = require('./logger');
 const fileUtils = require('./fileUtils');
 
-function getApexComment(apexClassOrMethod, addOpenAndClose) {
+function getApexComment(apexClassOrMethod, commentTemplate) {
+    logger.log("Run getApexComment Method");
     let comment = ``;
-    let whitespace = '';
-    let firstChar = '/**';
+    let lines = [];
+    let snippetNum = 1;
     if (apexClassOrMethod.methodName !== undefined) {
-        // Generating the Snippet as a string.
-        if (addOpenAndClose)
-            comment += `${whitespace}${firstChar}`;
-        comment += `\n${whitespace} * \${1:${apexClassOrMethod.methodName} description}\n${whitespace} *\n`;
-        // The padding is a string that is a bunch of spaces equal to the maximum size of the variable.
-        let snippetNum = 2;
+        let startParamsCharacters = "";
+        for (let i = 0; i < commentTemplate.methodComment.commentBody.length; i++) {
+            var line = commentTemplate.methodComment.commentBody[i];
+            if (line.indexOf("{!method.params}") !== -1)
+                startParamsCharacters = line.substring(0, line.indexOf("{!method.params}"));
+            if (apexClassOrMethod.parameters.length == 0 && line.indexOf("{!method.params}") !== -1)
+                continue;
+            if (!apexClassOrMethod.hasReturn && line.indexOf("{!method.return}") !== -1)
+                continue;
+            lines.push(line);
+        }
+        comment = lines.join('\n');
+        comment = comment.replace(`{!method.description}`, `\${${snippetNum++}:${apexClassOrMethod.methodName} description}`);
+        let varIndex = 0;
+        let params = [];
         for (let variable of apexClassOrMethod.parameters) {
-            var varName = variable.name;
-            var varType = variable.type;
-            // No need to import any right-pad node libraries here!
-            comment += `${whitespace} * ## \${${snippetNum}:${varName}} (${varType}): \${${snippetNum}:${varName} description}\n`;
+            let paramBody = commentTemplate.methodComment.paramBody.replace(`{!param.name}`, `\${${snippetNum}:{!param.name}}`).replace(`{!param.description}`, `\${${snippetNum}:{!param.name} description}`);
+            paramBody = paramBody.replace('{!param.name}', variable.name).replace('{!param.type}', variable.type);
+            if (varIndex != 0)
+                paramBody = startParamsCharacters + paramBody;
+            params.push(paramBody);
             snippetNum++;
+            varIndex++;
         }
-        // If we DIDN'T find the word "void" in the method signature, show the return line
+        comment = comment.replace(`{!method.params}`, params.join('\n'));
         if (apexClassOrMethod.hasReturn) {
-            comment += `${whitespace} *\n${whitespace} * @@ Return ${apexClassOrMethod.returnType}: \${${snippetNum}:return description}\n`;
+            let returnBody = commentTemplate.methodComment.returnBody.replace(`{!return.description}`, `\${${snippetNum}:Return description}`);
+            returnBody = returnBody.replace(`{!return.type}`, apexClassOrMethod.returnType);
+            comment += returnBody + `\n`;
         }
-        if (addOpenAndClose)
-            comment += `${whitespace} */`;
     } else if (apexClassOrMethod.className !== undefined) {
-        if (addOpenAndClose)
-            comment += `${whitespace}${firstChar}`;
-        comment += `\n${whitespace} * \${1:${apexClassOrMethod.className} description}\n`;
-        comment += `${whitespace} *\n`;
-        comment += `${whitespace} * @@ TestClass => \${2:${apexClassOrMethod.className} test class}\n`;
-        if (addOpenAndClose)
-            comment += `${whitespace} */`;
+        for (let i = 0; i < commentTemplate.classComment.commentBody.length; i++) {
+            var line = commentTemplate.classComment.commentBody[i];
+            lines.push(line);
+        }
+        comment = lines.join('\n');
+        comment = comment.replace(`{!class.description}`, `\${${snippetNum}:` + apexClassOrMethod.className + ` Description}`).replace('{!class.name}', apexClassOrMethod.className);
     }
     logger.log('comment', comment);
     return comment;
@@ -53,49 +64,120 @@ function getJSFunctionSnippet(numParams) {
     return funcBody;
 }
 
-function getMethodsContent(methods, methodTemplate, paramTemplate) {
+function getMethodsContent(fileStructure, methodTemplate, paramTemplate, indent) {
     var content = "";
-    for (let i = 0; i < methods.length; i++) {
-        content += getMethodContent(methods[i], methodTemplate, paramTemplate);
+    for (let i = 0; i < fileStructure.functions.length; i++) {
+        content += getMethodContent(fileStructure.functions[i], methodTemplate, paramTemplate, indent);
     }
     return content;
 }
 
-function getMethodContent(method, methodTemplate, paramTemplate) {
-    var content = fileUtils.getDocumentText(methodTemplate);
-    var paramsContent = "";
-    for (let i = 0; i < method.params.length; i++) {
-        paramsContent += getParamContent(method.params[i], paramTemplate);
+function getMethodContent(func, methodTemplate, paramTemplate, indent) {
+    var content = "";
+    var paramsIndent = "";
+    for (let i = 0; i < methodTemplate.length; i++) {
+        var line = methodTemplate[i];
+        if (line.indexOf('{!method.params}') !== -1) {
+            paramsIndent = getIndent(line);
+            line = line.trimLeft();
+            content += line + '\n';
+        } else {
+            content += indent + line + '\n';
+        }
     }
-    content = content.replace("{!method.name}", method.name);
-    content = content.replace("{!method.signature}", method.signature);
+    var paramsContent = "";
+    var methodDesc = "<!-- Method Description Here -->";
+    if (func.comment) {
+        methodDesc = func.comment.description;
+        for (let i = 0; i < func.comment.params.length; i++) {
+            paramsContent += getParamContentFromComment(func.comment.params[i], paramTemplate, indent + paramsIndent);
+        }
+    }
+    else {
+        for (let i = 0; i < func.params.length; i++) {
+            paramsContent += getParamContent(func.params[i], paramTemplate, indent + paramsIndent);
+        }
+    }
+    content = content.replace("{!method.name}", func.name);
+    content = content.replace("{!method.description}", methodDesc);
+    content = content.replace("{!method.signature}", func.signature);
+    content = content.replace("{!method.auraSignature}", func.auraSignature);
     content = content.replace("{!method.params}", paramsContent);
     return content;
 }
 
-function getParamContent(param, paramTemplate) {
-    var content = fileUtils.getDocumentText(paramTemplate);
-    content = content.replace("{!param.name}", param);
+function getParamContent(param, paramTemplate, indent) {
+    var content = "";
+    for (let i = 0; i < paramTemplate.length; i++) {
+        var line = paramTemplate[i];
+        content += indent + line + '\n';
+    }
+    content = content.replace("{!param.name}", param.name).replace("{!param.type}", "*").replace("{!param.description}", "<!-- Param Description Here -->");
     return content;
 }
 
-function getAuraDocumentationSnippet(controllerMethods, helperMethods, docTemplate, methodTemplate, paramTemplate) {
-    var documentationText = fileUtils.getDocumentText(docTemplate);
-    var helperMethodsContent = getMethodsContent(helperMethods, methodTemplate, paramTemplate);
-    var controllerMethodsContent = getMethodsContent(controllerMethods, methodTemplate, paramTemplate);
+function getParamContentFromComment(commentParam, paramTemplate, indent) {
+    var content = "";
+    for (let i = 0; i < paramTemplate.length; i++) {
+        var line = paramTemplate[i];
+        content += indent + line + '\n';
+    }
+    content = content.replace("{!param.name}", commentParam.name).replace("{!param.type}", commentParam.type).replace("{!param.description}", commentParam.description);
+    return content;
+}
+
+function getIndent(line) {
+    let indent = "";
+    for (let i = 0; i < line.length; i++) {
+        let char = line[i];
+        if (char === ' ' || char === '\t')
+            indent += char;
+        else
+            break;
+    }
+    return indent;
+}
+
+function getWhitespaces(number) {
+    let ws = "";
+    for (let i = 0; i < number; i++) {
+        ws += ' ';
+    }
+    return ws;
+}
+
+function getAuraDocumentationSnippet(controllerMethods, helperMethods, docTemplate) {
+    let documentationTextJson = JSON.parse(fileUtils.getDocumentText(docTemplate));
+    let documentationText = "";
+    let helperSectionIndent = '';
+    let controllerSectionIndent = '';
+    for (let i = 0; i < documentationTextJson.documentbody.length; i++) {
+        var line = documentationTextJson.documentbody[i];
+        if (line.indexOf('{!helperMethods}') !== -1) {
+            helperSectionIndent = getIndent(line);
+            line = line.trimLeft();
+        }
+        else if (line.indexOf('{!controllerMethods}') !== -1) {
+            controllerSectionIndent = getIndent(line);
+            line = line.trimLeft();
+        }
+        documentationText += line + '\n';
+    }
+    var helperMethodsContent = getMethodsContent(helperMethods, documentationTextJson.methodBody, documentationTextJson.paramBody, helperSectionIndent);
+    var controllerMethodsContent = getMethodsContent(controllerMethods, documentationTextJson.methodBody, documentationTextJson.paramBody, controllerSectionIndent);
     documentationText = documentationText.replace("{!helperMethods}", helperMethodsContent).replace("{!controllerMethods}", controllerMethodsContent);
     return documentationText;
 }
 
-function getCSSFileSnippet(){
+function getCSSFileSnippet() {
     return ".THIS {\n}"
 }
 
-function getDesignFileSnippet(){
+function getDesignFileSnippet() {
     return "<design:component >\n\t\n</design:component>"
 }
 
-function getSVGFileSnippet(){
+function getSVGFileSnippet() {
     let content = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
     content += "<svg width=\"120px\" height=\"120px\" viewBox=\"0 0 120 120\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
     content += "\t<g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">\n";
@@ -106,9 +188,9 @@ function getSVGFileSnippet(){
     return content;
 }
 
-function getControllerHelperFileSnippet(firstMethodName){
+function getControllerHelperFileSnippet(firstMethodName) {
     let content = "({";
-    if(firstMethodName.indexOf('Controller') !== -1)
+    if (firstMethodName.indexOf('Controller') !== -1)
         content += firstMethodName + " : function (component, event, helper) {\n\t\n}";
     else
         content += firstMethodName + " : function (component) {\n\t\n}";
@@ -116,60 +198,65 @@ function getControllerHelperFileSnippet(firstMethodName){
     return content;
 }
 
-function getRendererFileSnippet(){
+function getRendererFileSnippet() {
     let content = "({";
     content += "\n\n// Your renderer method overrides go here\n\n"
     content += "})";
     return content;
 }
 
-function getBaseAuraDocTemplateSnippet(){
-    let content = "<aura:documentation>\n";
-    content += "\t<aura:description>\n";
-    content += "\t\t<!-- Component Description -->\n";
-    content += "\t\t<!-- Create your HTML template here. -->\n";
-    content += "\t\t<!-- Use keywords {!helperMethods} or {!controllerMethods}. Use them wherever you want to include the methods section of each JavaScript file -->\n";
-    content += "\t\t<!-- Example: -->\n";
-    content += "\t\t<p>\n";
-    content += "\t\t\tHelper methods:\n";
-    content += "\t\t\t<ul>\n";
-    content += "\t\t\t\t{!helperMethods}\n";
-    content += "\t\t\t</ul>\n";
-    content += "\t\t</p>\n";
-    content += "\t</aura:description>\n";
-    content += "\t<aura:example name=\"ExampleName\" ref=\"ExampleComponent\" label=\"ExampleLabel\">\n";
-    content += "\t\t\n";
-    content += "\t</aura:example>\n";
-    content += "/<aura:documentation>";
-    return content;
+function getAuraDocumentationBaseTemplate() {
+    let auraDocTemplate = {
+        "paramBody": "<li><i>{!param.name} ({!param.type}): </li> {!param.description}",
+        "methodBody": [
+            "<li>",
+            "\t<b>{!method.signature}: </b> {!method.description}",
+            "\t<ul>",
+            "\t\t{!method.params}",
+            "\t</ul>",
+            "</li>"
+        ],
+        "documentbody": [
+            "<aura:documentation>",
+            "\t<aura:description>",
+            "\t\t<h6><b>Short description</b> of the component</h6>",
+            "\t\t<p>",
+            "\t\t\tHelper methods:",
+            "\t\t\t<ul>",
+            "\t\t\t\t{!helperMethods}",
+            "\t\t\t</ul>",
+            "\t\t</p>\n",
+            "\t</aura:description>",
+            "\t<aura:example name=\"ExampleName\" ref=\"ExampleComponent\" label=\"ExampleLabel\">",
+            "\t\t",
+            "\t</aura:example>",
+            "</aura:documentation>"
+        ]
+    };
+    return JSON.stringify(auraDocTemplate, null, 4);
 }
 
-function getAuraDocMethodTemplateSnippet(){
-    let content = "<!-- Create your own method HTML template here -->\n";
-    content += "<!-- This template will be repeated once for each method and the result will replace the keywords {!helperMethods} or {!controllerMethods}   -->\n";
-    content += "<!-- On this template you can use the keywords {!method.name} {!method.signature} or {!method.params}   -->\n";
-    content += "<!-- Example -->\n";
-    content += "<li>\n";
-    content += "\t<ul>\n";
-    content += "\t\t{!method.params}\n";
-    content += "\t\t<!-- Method usage example -->\n";
-    content += "\t\t\t<p>\n";
-    content += "\t\t\t\t<pre>\n";
-    content += "\t\t\t\t</pre>\n";
-    content += "\t\t\t</p>\n";
-    content += "\t\t<!-- End example -->\n";
-    content += "\t</ul>\n";
-    content += "/<li>";
-    return content;
-}
+function getApexCommentBaseTemplate() {
+    let commentTemplate = {
+        "methodComment": {
+            "paramBody": "## {!param.name} ({!param.type}): {!param.description}",
+            "returnBody": "@@ Return {!returnType}",
+            "commentBody": [
+                "/**",
+                " * {!method.description}",
+                " *",
+                " * {!method.params}",
+                " * {!method.return}",
+                " */"
+            ]
+        },
+        "classComment": {
+            "commentBody": [
 
-function getAuraDocParamTemplateSnippet(){
-    let content = "<!-- Create your own method parameter HTML template here -->\n";
-    content += "<!-- This template will be repeated once for each parameter and the result will replace the keyword {!method.params}  -->\n";
-    content += "<!-- On this template you can use the keyword {!param.name}  -->\n";
-    content += "<!-- Example -->\n";
-    content += "<li><i>{!param.name}: </li>Parameter description\n";
-    return content;
+            ]
+        }
+    }
+    return JSON.stringify(commentTemplate, null, 4);
 }
 
 module.exports = {
@@ -181,7 +268,9 @@ module.exports = {
     getDesignFileSnippet,
     getSVGFileSnippet,
     getRendererFileSnippet,
-    getBaseAuraDocTemplateSnippet,
-    getAuraDocMethodTemplateSnippet,
-    getAuraDocParamTemplateSnippet
+    getAuraDocumentationBaseTemplate,
+    getApexCommentBaseTemplate,
+    getMethodContent,
+    getIndent,
+    getWhitespaces
 }
