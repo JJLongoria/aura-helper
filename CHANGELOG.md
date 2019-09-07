@@ -56,16 +56,34 @@ All notable changes to this project will be documented in this file.
     - Code Completion Snippets:
         - aura.if
         - aura.iteration
+        - aura.onLocationChange
+        - aura.onSystemError
+        - aura.onValueChanged
+        - aura.onDestroy
+        - aura.onRender
+
+
         - ltng.style
         - ltng.script
         - ltng.styleAfterLoad
         - ltng.scriptAfterLoad
+
+
         - force.recordView
         - force.recordEdit
         - force.recordData
         - force.outputField
         - force.inputField
         - force.canvasApp
+        - forceChatter.feed
+
+
+        - forceCommunity.appLauncher
+        - forceCommunity.notifications
+        - forceCommunity.routeLink
+        - forceCommunity.waveDashboard
+
+
         - ltn.accordion
         - ltn.accordionSection
         - ltn.accSection
@@ -200,6 +218,56 @@ All notable changes to this project will be documented in this file.
         - ltn.verticalNavigationOverflow
         - ltn.verticalNavigationSection
         - ltn.workspaceAPI
+
+
+        - ltnCommunity.backButton
+
+        
+        - ltnSnapin.minimizedAPI
+        - ltnSnapin.prechatAPI
+        - ltnSnapin.settingsAPI
+
+
+        - ui.actionMenuItem
+        - ui.button
+        - ui.checkboxMenuItem
+        - ui.inputCheckbox
+        - ui.inputCurrency
+        - ui.inputDate
+        - ui.inputDateTime
+        - ui.inputEmail
+        - ui.inputNumber
+        - ui.inputPhone
+        - ui.inputRadio
+        - ui.inputSecret
+        - ui.inputSelect
+        - ui.inputSelectMultiple
+        - ui.inputSelectDynamic
+        - ui.inputSelectOption
+        - ui.inputText
+        - ui.inputTextArea
+        - ui.inputURL
+        - ui.menu
+        - ui.menuItemSeparator
+        - ui.menuList
+        - ui.menuTriggerLink
+        - ui.messageConfirm
+        - ui.messageInfo
+        - ui.messageWarning
+        - ui.messageError
+        - ui.outputCheckbox
+        - ui.outputCurrency
+        - ui.outputDate
+        - ui.outputDateTime
+        - ui.outputEmail
+        - ui.outputNumber
+        - ui.outputPhone
+        - ui.outputRichText
+        - ui.outputText
+        - ui.outputTextArea
+        - ui.outputURL
+        - ui.radioMenuItem
+        - ui.scrollerWrapper
 
 ### Changed
     - Modified command "AuraHelper: Edit Aura Doc Base Template" for "AuraHelper: Edit Aura Documentation Template"

@@ -34,6 +34,41 @@
         ],
         "description": "Create Aura Application Event Handler Code Unit (aura:handler)"
     },
+    "Aura Location Change Handler": {
+        "prefix": "aura.onLocationChange",
+        "body": [
+            "<aura:handler event=\"aura:locationChange\" action=\"{!c.${1:jsAction}}\"/>"
+        ],
+        "description": "Create Aura Location Change Handler Code Unit (aura:handler)"
+    },
+    "Aura System Error Handler": {
+        "prefix": "aura.onSystemError",
+        "body": [
+            "<aura:handler event=\"aura:systemError\" action=\"{!c.${1:jsAction}}\"/>"
+        ],
+        "description": "Create Aura System Error Handler Code Unit (aura:handler)"
+    },
+    "Aura Value Changed Handler": {
+        "prefix": "aura.onValueChanged",
+        "body": [
+            "<aura:handler name=\"${1:name}\" value=\"{!${2:value}}\" action=\"{!c.${3:jsAction}}\"/>"
+        ],
+        "description": "Create Aura Value Changed Handler Code Unit (aura:handler)"
+    },
+    "Aura Destroy Handler": {
+        "prefix": "aura.onDestroy",
+        "body": [
+            "<aura:handler name=\"destroy\" value=\"{!this}\" action=\"{!c.${1:jsAction}}\"/>"
+        ],
+        "description": "Create Aura Component Destroy Handler Code Unit (aura:handler)"
+    },
+    "Aura Render Handler": {
+        "prefix": "aura.onRender",
+        "body": [
+            "<aura:handler name=\"render\" value=\"{!this}\" action=\"{!c.${1:jsAction}}\"/>"
+        ],
+        "description": "Create Aura Component Render Handler Code Unit (aura:handler)"
+    },
     "Aura Register Event": {
         "prefix": "aura.registerEvent",
         "body": [
@@ -74,9 +109,6 @@
         ],
         "description": "Create Aura Iteration Code Unit (aura:iteration)"
     },
-
-
-
     "Lightning Style": {
         "prefix": "ltng.style",
         "body": [
@@ -105,9 +137,6 @@
         ],
         "description": "Create ltng Required Code Unit for load scripts with afterScriptsLoaded attribute (ltng:require)"
     },
-
-
-
     "Force Record View": {
         "prefix": "force.recordView",
         "body": [
@@ -150,10 +179,48 @@
         ],
         "description": "Create Force Canvas App Code Unit (force:canvasApp)"
     },
-
-
-
-
+    "Force Chatter Feed": {
+        "prefix": "forceChatter.feed",
+        "body": [
+            "<forceChatter:feed type=\"${1:type}\"/>"
+        ],
+        "description": "Create Force Chatter Feed Code Unit (forceChatter:feed)"
+    },
+    "Force Chatter Publisher": {
+        "prefix": "forceChatter.publisher",
+        "body": [
+            "<forceChatter:publisher context=\"${1:context}\"/>"
+        ],
+        "description": "Create Force Chatter Publisher Code Unit (forceChatter:publisher)"
+    },
+    "Force Community App Launcher": {
+        "prefix": "forceCommunity.appLauncher",
+        "body": [
+            "<forceCommunity:appLauncher/>"
+        ],
+        "description": "Create Force Community App Launcher Code Unit (forceCommunity:appLauncher)"
+    },
+    "Force Community Notifications": {
+        "prefix": "forceCommunity.notifications",
+        "body": [
+            "<forceCommunity:notifications/>"
+        ],
+        "description": "Create Force Community Notifications Code Unit (forceCommunity:notifications)"
+    },
+    "Force Community Route Link": {
+        "prefix": "forceCommunity.routeLink",
+        "body": [
+            "<forceCommunity:routeLink id=\"{!${1:id}}\" class=\"{!${2:cssClass}}\" title=\"${3:title}\" label=\"${4:label}\" routeInput=\"{!${5:routeInput}}\" onClick=\"{!c.${6:jsAction}}\"/>"
+        ],
+        "description": "Create Force Community Route Link Code Unit (forceCommunity:routeLink)"
+    },
+    "Force Community Wave Dashboard": {
+        "prefix": "forceCommunity.waveDashboard",
+        "body": [
+            "<forceCommunity:waveDashboard dashboardId=\"{!${1:dashboardId}}\"/>"
+        ],
+        "description": "Create Force Community Wave Dashboard Code Unit (forceCommunity:waveDashboard)"
+    },
     "Lightning Accordion": {
         "prefix": "ltn.accordion",
         "body": [
@@ -164,7 +231,10 @@
         "description": "Create Lightning Accordion Code Unit (lightning:accordion)"
     },
     "Lightning Accordion Section": {
-        "prefix": ["ltn.accordionSection", "ltn.accSection"],
+        "prefix": [
+            "ltn.accordionSection",
+            "ltn.accSection"
+        ],
         "body": [
             "<lightning:accordionSection name=\"${1:sectionName}\" label=\"${1:sectionLabel}\">",
             "\t<aura:set attribute=\"actions\">",
@@ -208,7 +278,10 @@
         "description": "Create Lightning Button Code Unit (lightning:button)"
     },
     "Lightning Button Group": {
-        "prefix": ["ltn.buttonGroup", "ltn.buttonGrp"],
+        "prefix": [
+            "ltn.buttonGroup",
+            "ltn.buttonGrp"
+        ],
         "body": [
             "<lightning:buttonGroup>",
             "\t${0:<!-- Put your buttons here -->}",
@@ -274,7 +347,11 @@
         "description": "Create Lightning Carousel Image Code Unit (lightning:carouselImage)"
     },
     "Lightning Checkbox Group": {
-        "prefix": ["ltn.checkboxGroup", "ltn.checkboxGrp", "ltn.chkgrp"],
+        "prefix": [
+            "ltn.checkboxGroup",
+            "ltn.checkboxGrp",
+            "ltn.chkgrp"
+        ],
         "body": [
             "<lightning:checkboxGroup name=\"${1:groupName}\" label=\"${2:groupLabel}\" options=\"{!${3:options}}\" value=\"{!${4:value}}\" onchange=\"{!c.${5:jsAction}}\"/>"
         ],
@@ -568,7 +645,10 @@
         "description": "Create Lightning Input Email Code Unit (lightning:input)"
     },
     "Lightning Input Password": {
-        "prefix": ["ltn.inputPassword", "ltn.inputPwd"],
+        "prefix": [
+            "ltn.inputPassword",
+            "ltn.inputPwd"
+        ],
         "body": [
             "<lightning:input type=\"password\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
         ],
@@ -596,14 +676,20 @@
         "description": "Create Lightning Input Number Code Unit (lightning:input)"
     },
     "Lightning Input Checkbox": {
-        "prefix": ["ltn.inputCheckbox", "ltn.inputChk"],
+        "prefix": [
+            "ltn.inputCheckbox",
+            "ltn.inputChk"
+        ],
         "body": [
             "<lightning:input type=\"checkbox\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\"/>"
         ],
         "description": "Create Lightning Input Checkbox Code Unit (lightning:input)"
     },
     "Lightning Input Checkbox Button": {
-        "prefix": ["ltn.inputCheckboxButton", "ltn.inputChkBtn"],
+        "prefix": [
+            "ltn.inputCheckboxButton",
+            "ltn.inputChkBtn"
+        ],
         "body": [
             "<lightning:input type=\"checkbox-button\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\"/>"
         ],
@@ -1134,5 +1220,335 @@
             "<lightning:workspaceAPI aura:id=\"${1:auraId}\">"
         ],
         "description": "Create Lightning Workspace API Code Unit (lightning:workspaceAPI)"
+    },
+    "Lightning Community Back Button": {
+        "prefix": "ltnCommunity.backButton",
+        "body": [
+            "<lightningcommunity:backButton iconName=\"${1:iconName}\" class=\"${1:cssClass}\" onnavigationcomplete=\"{!c.${3:jsAction}}\"/>"
+        ],
+        "description": "Create Community Back Button Code Unit (lightningcommunity:backButton)"
+    },
+    "Lightning Snapin Minimized API": {
+        "prefix": "ltnSnapin.minimizedAPI",
+        "body": [
+            "<lightningsnapin:minimizedAPI aura:id=\"${1:auraId}\"/>"
+        ],
+        "description": "Create Lightning Snapin Minimized API Code Unit (lightningsnapin:minimizedAPI)"
+    },
+    "Lightning Snapin Prechat API": {
+        "prefix": "ltnSnapin.prechatAPI",
+        "body": [
+            "<lightningsnapin:prechatAPI aura:id=\"${1:auraId}\"/>"
+        ],
+        "description": "Create Lightning Snapin Prechat API Code Unit (lightningsnapin:prechatAPI)"
+    },
+    "Lightning Snapin Settings API": {
+        "prefix": "ltnSnapin.settingsAPI",
+        "body": [
+            "<lightningsnapin:settingsAPI aura:id=\"${1:auraId}\"/>"
+        ],
+        "description": "Create Lightning Snapin Settings API Code Unit (lightningsnapin:settingsAPI)"
+    },
+    "UI Action Menu Item": {
+        "prefix": "ui.actionMenuItem",
+        "body": [
+            "<ui:actionMenuItem aura:id=\"${1:auraId}\" label=\"${2:label}\" click=\"{!c.${3:jsAction}}\"/>"
+        ],
+        "description": "Create UI Action Menu Item Code Unit (ui:actionMenuItem)"
+    },
+    "UI Button": {
+        "prefix": "ui.button",
+        "body": [
+            "<ui:button aura:id=\"${1:auraId}\" buttonTitle=\"${2:buttonTitle}\" label=\"${3:label}\" class=\"button\" press=\"{!c.${4:jsAction}}\"/>"
+        ],
+        "description": "Create UI Button Code Unit (ui:button)"
+    },
+    "UI Checkbox Menu Item": {
+        "prefix": "ui.checkboxMenuItem",
+        "body": [
+            "<ui:checkboxMenuItem aura:id=\"${1:auraId}\" label=\"${2:label}\"/>"
+        ],
+        "description": "Create UI Checkbox Menu Item Code Unit (ui:checkboxMenuItem)"
+    },
+    "UI Input Checkbox": {
+        "prefix": "ui.inputCheckbox",
+        "body": [
+            "<ui:inputCheckbox aura:id=\"${1:auraId}\" label=\"${2:label}\" change=\"{!c.${3:jsAction}}\"/>"
+        ],
+        "description": "Create UI Input Checkbox Code Unit (ui:inputCheckbox)"
+    },
+    "UI Input Currency": {
+        "prefix": "ui.inputCurrency",
+        "body": [
+            "<ui:inputCurrency aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" change=\"{!c.${4:jsAction}}\" updateOn=\"${5:keyup}\"/>"
+        ],
+        "description": "Create UI Input Currency Code Unit (ui:inputCurrency)"
+    },
+    "UI Input Date": {
+        "prefix": "ui.inputDate",
+        "body": [
+            "<ui:inputDate aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" displayDatePicker=\"${4:true}\"/>"
+        ],
+        "description": "Create UI Input Date Code Unit (ui:inputDate)"
+    },
+    "UI Input Date Time": {
+        "prefix": "ui.inputDateTime",
+        "body": [
+            "<ui:inputDateTime aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" displayDatePicker=\"${4:true}\"/>"
+        ],
+        "description": "Create UI Input Date Time Code Unit (ui:inputDateTime)"
+    },
+    "UI Input Email": {
+        "prefix": "ui.inputEmail",
+        "body": [
+            "<ui:inputEmail aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\"/>"
+        ],
+        "description": "Create UI Input Email Code Unit (ui:inputEmail)"
+    },
+    "UI Input Number": {
+        "prefix": "ui.inputNumber",
+        "body": [
+            "<ui:inputNumber aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" updateOn=\"${4:keyup}\"/>"
+        ],
+        "description": "Create UI Input Number Code Unit (ui:inputNumber)"
+    },
+    "UI Input Phone": {
+        "prefix": "ui.inputPhone",
+        "body": [
+            "<ui:inputPhone aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\"/>"
+        ],
+        "description": "Create UI Input Phone Code Unit (ui:inputPhone)"
+    },
+    "UI Input Radio": {
+        "prefix": "ui.inputRadio",
+        "body": [
+            "<ui:inputRadio aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" change=\"{!c.${4:jsAction}}\" value=\"${5:false}\"/>"
+        ],
+        "description": "Create UI Input Radio Code Unit (ui:inputRadio)"
+    },
+    "UI Input Secret": {
+        "prefix": "ui.inputSecret",
+        "body": [
+            "<ui:inputSecret aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\"/>"
+        ],
+        "description": "Create UI Input Secret Code Unit (ui:inputSecret)"
+    },
+    "UI Input Select": {
+        "prefix": "ui.inputSelect",
+        "body": [
+            "<ui:inputSelect class=\"single\" aura:id=\"${1:auraId}\" label=\"${2:label}\" change=\"{!c.${3:jsAction}}\">",
+            "\t<aura:iteration items=\"{!${4:items}}\" var=\"${5:item}\">",
+            "\t\t<ui:inputSelectOption text=\"${6:text}\"/>",
+            "\t</aura:iteration>",
+            "</ui:inputSelect>"
+        ],
+        "description": "Create UI Input Select Single Selection Code Unit (ui:inputSelect)"
+    },
+    "UI Input Select Multiple": {
+        "prefix": "ui.inputSelectMultiple",
+        "body": [
+            "<ui:inputSelect multiple=\"true\" class=\"multiple\"  aura:id=\"${1:auraId}\" label=\"${2:label}\" change=\"{!c.${3:jsAction}}\">",
+            "\t<aura:iteration items=\"{!${4:items}}\" var=\"${5:item}\">",
+            "\t\t<ui:inputSelectOption text=\"${6:text}\"/>",
+            "\t</aura:iteration>",
+            "</ui:inputSelect>"
+        ],
+        "description": "Create UI Input Select Multiple Selection Code Unit (ui:inputSelect)"
+    },
+    "UI Input Select Dynamic": {
+        "prefix": "ui.inputSelectDynamic",
+        "body": [
+            "<ui:inputSelect class=\"dynamic\" aura:id=\"${1:auraId}\" change=\"{!c.${2:jsAction}}\"/>"
+        ],
+        "description": "Create UI Input Select Dynamic Code Unit (ui:inputSelect)"
+    },
+    "UI Input Select Option": {
+        "prefix": "ui.inputSelectOption",
+        "body": [
+            "<ui:inputSelectOption text=\"${1:text}\"/>"
+        ],
+        "description": "Create UI Input Select Option Code Unit (ui:inputSelectOption)"
+    },
+    "UI Input Text": {
+        "prefix": "ui.inputText",
+        "body": [
+            "<ui:inputText aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" updateOn=\"${4:keyup}\"/>"
+        ],
+        "description": "Create UI Input Text Code Unit (ui:inputText)"
+    },
+    "UI Input Text Area": {
+        "prefix": "ui.inputTextArea",
+        "body": [
+            "<ui:inputTextArea aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" rows=\"${4:nRows}\"/>"
+        ],
+        "description": "Create UI Input Text Area Code Unit (ui:inputTextArea)"
+    },
+    "UI Input URL": {
+        "prefix": "ui.inputURL",
+        "body": [
+            "<ui:inputURL aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\"/>"
+        ],
+        "description": "Create UI Input URL Code Unit (ui:inputURL)"
+    },
+    "UI Menu": {
+        "prefix": "ui.menu",
+        "body": [
+            "<ui:menu>",
+            "\t${0: <!-- Put your menu items here -->}",
+            "</ui:menu>"
+        ],
+        "description": "Create UI Menu Code Unit (ui:menu)"
+    },
+    "UI Menu Item Separator": {
+        "prefix": "ui.menuItemSeparator",
+        "body": [
+            "<ui:menuItemSeparator/>"
+        ],
+        "description": "Create UI Menu Item Separator Code Unit (ui:menuItemSeparator)"
+    },
+    "UI Menu List": {
+        "prefix": "ui.menuList",
+        "body": [
+            "<ui:menuList aura:id=\"${1:auraId}\" class=\"actionMenu\" >",
+            "\t${0: <!-- Put your menu items here -->}",
+            "</ui:menuList>"
+        ],
+        "description": "Create UI Menu List Code Unit (ui:menuList)"
+    },
+    "UI Menu Trigger Link": {
+        "prefix": "ui.menuTriggerLink",
+        "body": [
+            "<ui:menuTriggerLink aura:id=\"${1:auraId}\" label=\"${2:label}\"/>"
+        ],
+        "description": "Create UI Menu List Code Unit (ui:menuTriggerLink)"
+    },
+    "UI Message Confirmation": {
+        "prefix": "ui.messageConfirm",
+        "body": [
+            "<ui:message title=\"${1:title}\" severity=\"confirm\" closable=\"${2:true}\">",
+            "\t${0:<!-- Put your message here -->}",
+            "</ui:message>"
+        ],
+        "description": "Create UI Confirmation Message Code Unit (ui:message)"
+    },
+    "UI Message Information": {
+        "prefix": "ui.messageInfo",
+        "body": [
+            "<ui:message title=\"${1:title}\" severity=\"info\" closable=\"${2:true}\">",
+            "\t${0:<!-- Put your message here -->}",
+            "</ui:message>"
+        ],
+        "description": "Create UI Information Message Code Unit (ui:message)"
+    },
+    "UI Message Warning": {
+        "prefix": "ui.messageWarning",
+        "body": [
+            "<ui:message title=\"${1:title}\" severity=\"warning\" closable=\"${2:true}\">",
+            "\t${0:<!-- Put your message here -->}",
+            "</ui:message>"
+        ],
+        "description": "Create UI Warning Message Code Unit (ui:message)"
+    },
+    "UI Message Error": {
+        "prefix": "ui.messageError",
+        "body": [
+            "<ui:message title=\"${1:title}\" severity=\"error\" closable=\"${2:true}\">",
+            "\t${0:<!-- Put your message here -->}",
+            "</ui:message>"
+        ],
+        "description": "Create UI Error Message Code Unit (ui:message)"
+    },
+    "UI Output Checkbox": {
+        "prefix": "ui.outputCheckbox",
+        "body": [
+            "<ui:outputCheckbox aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
+        ],
+        "description": "Create UI Output Checkbox Code Unit (ui:outputCheckbox)"
+    },
+    "UI Output Currency": {
+        "prefix": "ui.outputCurrency",
+        "body": [
+            "<ui:outputCurrency aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
+        ],
+        "description": "Create UI Output Currency Code Unit (ui:outputCurrency)"
+    },
+    "UI Output Date": {
+        "prefix": "ui.outputDate",
+        "body": [
+            "<ui:outputDate aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
+        ],
+        "description": "Create UI Output Date Code Unit (ui:outputDate)"
+    },
+    "UI Output Date Time": {
+        "prefix": "ui.outputDateTime",
+        "body": [
+            "<ui:outputDateTime aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
+        ],
+        "description": "Create UI Output Date Time Code Unit (ui:outputDateTime)"
+    },
+    "UI Output Email": {
+        "prefix": "ui.outputEmail",
+        "body": [
+            "<ui:outputEmail aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
+        ],
+        "description": "Create UI Output Email Code Unit (ui:outputEmail)"
+    },
+    "UI Output Number": {
+        "prefix": "ui.outputNumber",
+        "body": [
+            "<ui:outputNumber aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
+        ],
+        "description": "Create UI Output Number Code Unit (ui:outputNumber)"
+    },
+    "UI Output Phone": {
+        "prefix": "ui.outputPhone",
+        "body": [
+            "<ui:outputPhone aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
+        ],
+        "description": "Create UI Output Phone Code Unit (ui:outputPhone)"
+    },
+    "UI Output Rich Text": {
+        "prefix": "ui.outputRichText",
+        "body": [
+            "<ui:outputRichText aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
+        ],
+        "description": "Create UI Output Rich Text Code Unit (ui:outputRichText)"
+    },
+    "UI Output Text": {
+        "prefix": "ui.outputText",
+        "body": [
+            "<ui:outputText aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
+        ],
+        "description": "Create UI Output Text Code Unit (ui:outputText)"
+    },
+    "UI Output Text Area": {
+        "prefix": "ui.outputTextArea",
+        "body": [
+            "<ui:outputTextArea aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
+        ],
+        "description": "Create UI Output Text Area Code Unit (ui:outputTextArea)"
+    },
+    "UI Output URL": {
+        "prefix": "ui.outputURL",
+        "body": [
+            "<ui:outputURL aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
+        ],
+        "description": "Create UI Output URL Code Unit (ui:outputURL)"
+    },
+    "UI Radio Menu Item": {
+        "prefix": "ui.radioMenuItem",
+        "body": [
+            "<ui:radioMenuItem label=\"${1:label}\"/>"
+        ],
+        "description": "Create UI Radio Menu Item Code Unit (ui:radioMenuItem)"
+    },
+    "UI Scroller Wrapper": {
+        "prefix": "ui.scrollerWrapper",
+        "body": [
+            "<ui:scrollerWrapper>",
+            "\t${0:<-- Put your content here -->}",
+            "</ui:scrollerWrapper>"
+        ],
+        "description": "Create UI Scroller Wrapper Code Unit (ui:scrollerWrapper)"
     }
 }
