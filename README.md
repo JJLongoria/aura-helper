@@ -33,8 +33,20 @@ To many snippets and code completion tools for make your work more productive:
 #### Aura (Lightning):
 
 ##### - Get Aura Attributes:
-    You can get any component attribute (even the inherited) on .cmp file and .js file
-    Only need type: "v." and you can show all attributes.
+    You can get any component attributes (even the inherited) on .cmp files and .js files
+    Only need type: "v." and you can show and use all attributes.
+
+##### - Get JavaScript Controller functions:
+    You can get any controller functions (even the inherited) on .cmp files
+    Only need type: "c." and you can show and use all functions.
+
+##### - Get JavaScript Helper functions:
+    You can get any helper functions (even the inherited) on .js files
+    Only need type: "helper." and you can show and use all functions.
+
+##### - Get Apex Controller methods:
+    You can get any Apex controller methods (even the inherited) on .js file
+    Only need type: "c." and you can show and use all methods.
 
 ##### - Aura NS
     - aura.attribute: Create Aura Attribute (aura:attribute)

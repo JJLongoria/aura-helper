@@ -45,6 +45,9 @@ All notable changes to this project will be documented in this file.
 
     - Code Completion Provider
         - v.[attributeName]
+        - c.[functionName] (On .cmp files)
+        - c.[methodName] (On .js files)
+        - helper.[functionName] (On .js files)
 
     - Code Completion Snippets:
         - aura.if

@@ -49,6 +49,9 @@
             <a href="#snippetsSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('snippets')">Code Completion Tools</a>
             <div id="snippets" class="w3-hide w3-margin-left">
                 <a href="#cmpAttributes" class="w3-bar-item w3-button">Getting Component Attributes</a>
+                <a href="#jsControllerFunctions" class="w3-bar-item w3-button">Getting JS Controller Functions</a>
+                <a href="#jsHelperFunctions" class="w3-bar-item w3-button">Getting JS Helper Functions</a>
+                <a href="#apexMethods" class="w3-bar-item w3-button">Getting Apex Methods</a>
                 <a href="#aura" class="w3-bar-item w3-button">Aura Namespace</a>
                 <a href="#ltn" class="w3-bar-item w3-button">Lightning Namespace</a>
                 <a href="#force" class="w3-bar-item w3-button">Force Namespace</a>
@@ -169,15 +172,48 @@
                 <h3><b>Code Completion Tools</b></h3>
                 <!-- Code Completions for Getting Component Attributes -->
                 <div class="w3-container w3-margin-left" id="cmpAttributes">
-                        <h4><b>Getting Component Attributes</b></h4>
-                        <div class="w3-container darkGrey w3-margin-left">
-                            <p>Aura Helper provides code completion tools for Component Attributes</p>
-                            <p>Only need type <code>v.</code> and press <code>Ctrl+space</code> for get all attribute names. with this provider you can also get the <b>inherited attributes</b></p>
-                            <p>Work in <code>.cmp</code> and <code>.js</code> files</p>
-                        </div>
+                    <h4><b>Getting Component Attributes</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides code completion tools for Aura Components and JavaScript files for get the Componente Attributes</p>
+                        <p>Only need type <code>v.</code> and press <code>Ctrl+space</code> for get all attribute names. with this provider you can also get the <b>inherited attributes</b></p>
+                        <p>Work in <code>.cmp</code> and <code>.js</code> files</p>
                     </div>
-                    <br />
-                    <br />
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Getting JS Controller Functions -->
+                <div class="w3-container w3-margin-left" id="jsControllerFunctions">
+                    <h4><b>Getting JS Controller Functions</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides code completion tools for Aura Components files for get JavaScript Controller Functions</p>
+                        <p>Only need type <code>c.</code> and press <code>Ctrl+space</code> for get all function names. with this provider you can also get the <b>inherited functions</b></p>
+                        <p>Work in <code>.cmp</code> files</p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Getting JS Helper Functions -->
+                <div class="w3-container w3-margin-left" id="jsHelperFunctions">
+                    <h4><b>Getting JS Helper Functions</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides code completion tools for JavaScript files for get and use JavaScript Helper Functions</p>
+                        <p>Only need type <code>helper.</code> and press <code>Ctrl+space</code> for get all function names. with this provider you can also get the <b>inherited functions</b></p>
+                        <p>Work in <code>.js</code> files</p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Getting Apex Methods -->
+                <div class="w3-container w3-margin-left" id="apexMethods">
+                    <h4><b>Getting Apex Methods</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides code completion tools for Aura JavaScript files for get Apex Controller Methods</p>
+                        <p>Only need type <code>c.</code> and press <code>Ctrl+space</code> for get all method names. with this provider you can also get the <b>inherited methods</b></p>
+                        <p>Work in <code>.js</code> files</p>
+                    </div>
+                </div>
+                <br />
+                <br />
                 <!-- Code Completions for Aura Elements -->
                 <div class="w3-container w3-margin-left" id="aura">
                     <h4><b>Aura Namespace</b></h4>

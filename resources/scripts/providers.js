@@ -26,7 +26,7 @@ let auraComponentProvider = {
     provideCompletionItems(document, position) {
         logger.log('Run auraComponentProvider');
         const line = document.lineAt(position.line).text;
-        if (line.indexOf('v.') === -1 && line.indexOf('c.') === -1) {
+        if (line.indexOf('v.') === -1 && line.indexOf('c.') === -1 && line.indexOf('helper.') === -1) {
             return Promise.resolve(undefined);
         }
         if (document.fileName.indexOf('Controller.js') === -1 && document.fileName.indexOf('Helper.js') === -1 && document.fileName.indexOf('.cmp') === -1)
@@ -51,13 +51,13 @@ let auraComponentProvider = {
             if (document.fileName.indexOf('.cmp') !== -1) {
                 for (const func of componentStructure.controllerFunctions) {
                     let item = new vscode.CompletionItem('c.' + func.name, vscode.CompletionItemKind.Function);
-                    if(func.comment){
+                    if (func.comment) {
                         item.detail = func.comment.description + '\n';
                         for (const commentParam of func.comment.params) {
                             item.detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
                         }
                     }
-                    else{
+                    else {
                         item.detail = "Aura Controller Function";
                     }
                     item.documentation = func.auraSignature;
@@ -71,25 +71,48 @@ let auraComponentProvider = {
                 }
             } else if (document.fileName.indexOf('.js') !== -1) {
                 for (const method of componentStructure.apexFunctions) {
-                    let item = new vscode.CompletionItem('c.' + method.name, vscode.CompletionItemKind.Method);
-                    if(method.comment){
-                        item.detail = method.comment.description + '\n';
-                        for (const commentParam of method.comment.params) {
-                            item.detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
+                    if (method.annotation && method.annotation == '@AuraEnabled') {
+                        let item = new vscode.CompletionItem('c.' + method.name, vscode.CompletionItemKind.Method);
+                        if (method.comment) {
+                            item.detail = method.comment.description + '\n';
+                            for (const commentParam of method.comment.params) {
+                                item.detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
+                            }
                         }
+                        else {
+                            item.detail = "Apex Controller Function";
+                        }
+                        item.documentation = method.signature;
+                        item.insertText = method.name;
+                        item.command = {
+                            title: 'Aura Controller Function',
+                            command: 'aurahelper.auraCodeCompletion',
+                            arguments: [position, 'method', method]
+                        };
+                        items.push(item);
                     }
-                    else{
-                        item.detail = "Apex Controller Function";
-                    }
-                    item.documentation = method.signature;
-                    item.insertText = method.name;
-                    item.command = {
-                        title: 'Aura Controller Function',
-                        command: 'aurahelper.auraCodeCompletion',
-                        arguments: [position, 'method', method]
-                    };
-                    items.push(item);
                 }
+            }
+        } else if(line.indexOf('helper.') !== -1){
+            for (const func of componentStructure.helperFunctions) {
+                let item = new vscode.CompletionItem('c.' + func.name, vscode.CompletionItemKind.Function);
+                if (func.comment) {
+                    item.detail = func.comment.description + '\n';
+                    for (const commentParam of func.comment.params) {
+                        item.detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
+                    }
+                }
+                else {
+                    item.detail = "Aura Controller Function";
+                }
+                item.documentation = func.auraSignature;
+                item.insertText = func.signature;
+                item.command = {
+                    title: 'Aura Controller Function',
+                    command: 'aurahelper.auraCodeCompletion',
+                    arguments: [position, 'function', func]
+                };
+                items.push(item);
             }
         }
         return Promise.resolve(items);
