@@ -13,7 +13,7 @@ function createAuraDocumentation(context, editor) {
 		fileUtils.getDocumentObject(helperPath, function (helperDoc) {
 			if (fileUtils.isFileExists(controllerPath)) {
 				fileUtils.getDocumentObject(controllerPath, function (controllerDoc) {
-					fileUtils.getDocumentObject(fileUtils.getAuraDocumentTemplatePath(context), function (auraDocTemplate) {
+					fileUtils.getDocumentObject(fileUtils.getAuraDocumentUserTemplatePath(context), function (auraDocTemplate) {
 						var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
 						var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
 						var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate);
@@ -22,7 +22,7 @@ function createAuraDocumentation(context, editor) {
 					});
 				});
 			} else {
-				fileUtils.getDocumentObject(fileUtils.getAuraDocumentTemplatePath(context), function (auraDocTemplate) {
+				fileUtils.getDocumentObject(fileUtils.getAuraDocumentUserTemplatePath(context), function (auraDocTemplate) {
 					var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
 					var controllerMethods = [];
 					var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate);
@@ -34,7 +34,7 @@ function createAuraDocumentation(context, editor) {
 	} else {
 		if (fileUtils.isFileExists(controllerPath)) {
 			fileUtils.getDocumentObject(controllerPath, function (controllerDoc) {
-				fileUtils.getDocumentObject(fileUtils.getAuraDocumentTemplatePath(context), function (auraDocTemplate) {
+				fileUtils.getDocumentObject(fileUtils.getAuraDocumentUserTemplatePath(context), function (auraDocTemplate) {
 					var helperMethods = [];
 					var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
 					var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate);
@@ -43,7 +43,7 @@ function createAuraDocumentation(context, editor) {
 				});
 			});
 		} else {
-			fileUtils.getDocumentObject(fileUtils.getAuraDocumentTemplatePath(context), function (auraDocTemplate) {
+			fileUtils.getDocumentObject(fileUtils.getAuraDocumentUserTemplatePath(context), function (auraDocTemplate) {
 				var helperMethods = [];
 				var controllerMethods = [];
 				var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate);
@@ -64,7 +64,7 @@ function createNewAuraDocumentation(context, filePath, callback) {
 		fileUtils.getDocumentObject(helperPath, function (helperDoc) {
 			if (fileUtils.isFileExists(controllerPath)) {
 				fileUtils.getDocumentObject(controllerPath, function (controllerDoc) {
-					fileUtils.getDocumentObject(fileUtils.getAuraDocumentTemplatePath(context), function (auraDocTemplate) {
+					fileUtils.getDocumentObject(fileUtils.getAuraDocumentUserTemplatePath(context), function (auraDocTemplate) {
 						var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
 						var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
 						var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate);
@@ -72,7 +72,7 @@ function createNewAuraDocumentation(context, filePath, callback) {
 					});
 				});
 			} else {
-				fileUtils.getDocumentObject(fileUtils.getAuraDocumentTemplatePath(context), function (auraDocTemplate) {
+				fileUtils.getDocumentObject(fileUtils.getAuraDocumentUserTemplatePath(context), function (auraDocTemplate) {
 					var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
 					var controllerMethods = [];
 					var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate);
@@ -83,7 +83,7 @@ function createNewAuraDocumentation(context, filePath, callback) {
 	} else {
 		if (fileUtils.isFileExists(controllerPath)) {
 			fileUtils.getDocumentObject(controllerPath, function (controllerDoc) {
-				fileUtils.getDocumentObject(fileUtils.getAuraDocumentTemplatePath(context), function (auraDocTemplate) {
+				fileUtils.getDocumentObject(fileUtils.getAuraDocumentUserTemplatePath(context), function (auraDocTemplate) {
 					var helperMethods = [];
 					var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
 					var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate);
@@ -91,7 +91,7 @@ function createNewAuraDocumentation(context, filePath, callback) {
 				});
 			});
 		} else {
-			fileUtils.getDocumentObject(fileUtils.getAuraDocumentTemplatePath(context), function (auraDocTemplate) {
+			fileUtils.getDocumentObject(fileUtils.getAuraDocumentUserTemplatePath(context), function (auraDocTemplate) {
 				var helperMethods = [];
 				var controllerMethods = [];
 				var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate);
@@ -108,7 +108,7 @@ function addMethodBlock(context, editor) {
 		fileUtils.getDocumentObject(helperPath, function (helperDoc) {
 			if (fileUtils.isFileExists(controllerPath)) {
 				fileUtils.getDocumentObject(controllerPath, function (controllerDoc) {
-					fileUtils.getDocumentObject(fileUtils.getAuraDocumentTemplatePath(context), function (auraDocTemplate) {
+					fileUtils.getDocumentObject(fileUtils.getAuraDocumentUserTemplatePath(context), function (auraDocTemplate) {
 						var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
 						var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
 						windowUtils.showQuickPick(["Controller Methods", "Helper Methods"], "Select a file for get a method", function (fileSelected) {
@@ -163,39 +163,38 @@ function addMethodBlock(context, editor) {
 	} else {
 		if (fileUtils.isFileExists(controllerPath)) {
 			fileUtils.getDocumentObject(editor.document.uri.fsPath.replace('.auradoc', 'controller.js'), function (controllerDoc) {
-				fileUtils.getDocumentObject(fileUtils.etDocumentMethodTemplatePath(context), function (auraDocMethodTemplate) {
-					fileUtils.getDocumentObject(fileUtils.getDocumentMethodParamTemplatePath(context), function (auraDocMethodParamTemplate) {
-						var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
-						windowUtils.showQuickPick(["Controller Methods"], "Select a file for get a method", function (fileSelected) {
-							var methodNames = [];
-							if (fileSelected == "Controller Methods") {
-								logger.log("Controller Methods Selected");
-								for (let i = 0; i < controllerMethods.functions.length; i++) {
-									const method = controllerMethods.functions[i];
-									if (method.type == 'func')
-										methodNames.push(method.signature);
+				fileUtils.getDocumentObject(fileUtils.getAuraDocumentUserTemplatePath(context), function (auraDocTemplate) {
+					var controllerMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(controllerDoc));
+					windowUtils.showQuickPick(["Controller Methods"], "Select a file for get a method", function (fileSelected) {
+						var methodNames = [];
+						if (fileSelected == "Controller Methods") {
+							logger.log("Controller Methods Selected");
+							for (let i = 0; i < controllerMethods.functions.length; i++) {
+								const method = controllerMethods.functions[i];
+								if (method.type == 'func')
+									methodNames.push(method.signature);
+							}
+						}
+						if (methodNames.length > 0) {
+							windowUtils.showQuickPick(methodNames, "Select a method to add", function (methodSelected) {
+								var methods = [];
+								logger.log("Method Selected: " + methodSelected);
+								if (fileSelected == "Controller Methods") {
+									methods = controllerMethods.functions;
 								}
-							}
-							if (methodNames.length > 0) {
-								windowUtils.showQuickPick(methodNames, "Select a method to add", function (methodSelected) {
-									var methods = [];
-									logger.log("Method Selected: " + methodSelected);
-									if (fileSelected == "Controller Methods") {
-										methods = controllerMethods.functions;
+								for (let i = 0; i < methods.length; i++) {
+									const method = methods[i];
+									if (method.signature == methodSelected) {
+										let auraDocTemplateJSON = JSON.parse(fileUtils.getDocumentText(auraDocTemplate));
+										var methodContent = snippetUtils.getMethodContent(method, auraDocTemplateJSON.methodBody, auraDocTemplateJSON.paramBody, snippetUtils.getWhitespaces(editor.selection.start.character)).trimLeft();
+										editorUtils.replaceContent(editor, editor.selection, methodContent);
 									}
-									for (let i = 0; i < methods.length; i++) {
-										const method = methods[i];
-										if (method.signature == methodSelected) {
-											var methodContent = snippetUtils.getMethodContent(method, auraDocMethodTemplate, auraDocMethodParamTemplate);
-											editorUtils.replaceContent(editor, editor.selection, methodContent);
-										}
-									}
-								});
-							}
-							else {
-								vscode.window.showInformationMessage("Not methods found in selected file");
-							}
-						});
+								}
+							});
+						}
+						else {
+							vscode.window.showInformationMessage("Not methods found in selected file");
+						}
 					});
 				});
 			});
@@ -237,7 +236,7 @@ function addApexCommentBlock(editor, position, context) {
 	// If the line is not empty, parse it and add in a snippet on the line above.
 	if (!methodOrClassLine.isEmptyOrWhitespace) {
 		const apexClassOrMethod = languageUtils.parseApexClassOrMethod(methodOrClassLine.text);
-		fileUtils.getDocumentObject(fileUtils.getApexCommentTemplatePath(context), function (commentTemplateDoc) {
+		fileUtils.getDocumentObject(fileUtils.getApexCommentUserTemplatePath(context), function (commentTemplateDoc) {
 			let commentTemplate = JSON.parse(fileUtils.getDocumentText(commentTemplateDoc));
 			const apexComment = snippetUtils.getApexComment(apexClassOrMethod, commentTemplate);
 
@@ -293,8 +292,8 @@ function createAuraFile(context, folderPath, selected, callback) {
 	}
 }
 
-function addAuraCodeCompletion(editor, position, context){
-	
+function addAuraCodeCompletion(editor, position, context) {
+
 }
 
 module.exports = {

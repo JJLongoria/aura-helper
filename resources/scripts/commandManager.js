@@ -6,15 +6,36 @@ const logger = require('./logger');
 const windowUtils = require("./windowUtils");
 const snippetUtils = require("./snippetUtils");
 
-function genAuraDocCommand(context) {
+function genAuraDocCommand(context, fileUri) {
 	logger.log('Run genAuraDocCommand action');
-	var editor = editorUtils.getActiveEditor();
-	if (!editor)
-		return;
-	if (fileUtils.isAuraDocFile(editorUtils.getActiveFileFullPath()))
-		documentUtils.createAuraDocumentation(context, editor);
-	else
-		vscode.window.showErrorMessage('The selected file is not an Aura Documentation File');
+	if (fileUri) {
+		if (fileUri.fsPath !== editorUtils.getActiveFileFullPath()) {
+			windowUtils.openDocumentOnEditor(fileUri.fsPath, function (editor) {
+				if (!editor)
+					return;
+				if (fileUtils.isAuraDocFile(editor.document.uri.fsPath))
+					documentUtils.createAuraDocumentation(context, editor);
+				else
+					vscode.window.showErrorMessage('The selected file is not an Aura Documentation File');
+			});
+		} else {
+			var editor = editorUtils.getActiveEditor();
+			if (!editor)
+				return;
+			if (fileUtils.isAuraDocFile(editor.document.uri.fsPath))
+				documentUtils.createAuraDocumentation(context, editor);
+			else
+				vscode.window.showErrorMessage('The selected file is not an Aura Documentation File');
+		}
+	} else {
+		var editor = editorUtils.getActiveEditor();
+		if (!editor)
+			return;
+		if (fileUtils.isAuraDocFile(editor.document.uri.fsPath))
+			documentUtils.createAuraDocumentation(context, editor);
+		else
+			vscode.window.showErrorMessage('The selected file is not an Aura Documentation File');
+	}
 }
 
 function addMethodBlockCommand(context) {
@@ -76,7 +97,7 @@ function newAuraFileCommand(context, fileUri) {
 		return;
 	}
 	logger.log('filePath', filePath);
-	if (fileUtils.isAuraComponentFile(filePath) || fileUtils.isAuraComponentFile(filePath)) {
+	if (fileUtils.isAuraComponentFile(filePath) || fileUtils.isAuraComponentFolder(filePath)) {
 		if (fileUtils.isAuraComponentFile(filePath))
 			filePath = fileUtils.getFileFolderPath(filePath);
 		fileUtils.getFileNamesFromFolder(filePath, function (existingFileNames) {
@@ -84,9 +105,9 @@ function newAuraFileCommand(context, fileUri) {
 			logger.logJSON('filesForCreate', filesForCreate);
 			windowUtils.showQuickPick(filesForCreate, "Select an Aura File for Create", function (selected) {
 				logger.log('selected', selected);
-				if (selected){
-					documentUtils.createAuraFile(context, filePath, selected, function(fileCreated){
-						if(fileCreated)
+				if (selected) {
+					documentUtils.createAuraFile(context, filePath, selected, function (fileCreated) {
+						if (fileCreated)
 							windowUtils.openDocumentOnEditor(fileCreated);
 					});
 				}
@@ -94,49 +115,49 @@ function newAuraFileCommand(context, fileUri) {
 		});
 	}
 	else {
-		vscode.window.showErrorMessage('The selected file is not a Aura Component File');
+		vscode.window.showErrorMessage('The selected file is not a Aura Component File or Folder');
 	}
 }
 
-function editAuraDocumentationTemplateCommand(context){
+function editAuraDocumentationTemplateCommand(context) {
 	logger.log('Run editAuraDocumentationTemplateCommand action');
-	let baseDocPath = fileUtils.getAuraDocumentTemplatePath(context);
-	if(!fileUtils.isFileExists(baseDocPath)){
-		fileUtils.createFile(baseDocPath, snippetUtils.getAuraDocumentationBaseTemplate(), function(fileCreated){
-			if(fileCreated)
+	let baseDocPath = fileUtils.getAuraDocumentUserTemplatePath(context);
+	if (!fileUtils.isFileExists(baseDocPath)) {
+		fileUtils.createFile(baseDocPath, snippetUtils.getAuraDocumentationBaseTemplate(), function (fileCreated) {
+			if (fileCreated)
 				windowUtils.openDocumentOnEditor(baseDocPath);
 		});
-	} else{
+	} else {
 		windowUtils.openDocumentOnEditor(baseDocPath);
 	}
 }
 
-function editApexCommentTemplateCommand(context){
+function editApexCommentTemplateCommand(context) {
 	logger.log('Run editApexCommentTemplateCommand action');
-	let baseDocPath = fileUtils.getApexCommentTemplatePath(context);
-	if(!fileUtils.isFileExists(baseDocPath)){
-		fileUtils.createFile(baseDocPath, snippetUtils.getApexCommentBaseTemplate(), function(fileCreated){
-			if(fileCreated)
+	let baseDocPath = fileUtils.getApexCommentUserTemplatePath(context);
+	if (!fileUtils.isFileExists(baseDocPath)) {
+		fileUtils.createFile(baseDocPath, snippetUtils.getApexCommentBaseTemplate(), function (fileCreated) {
+			if (fileCreated)
 				windowUtils.openDocumentOnEditor(baseDocPath);
 		});
-	} else{
+	} else {
 		windowUtils.openDocumentOnEditor(baseDocPath);
 	}
 }
 
-function openHelpCommand(context){
+function openHelpCommand(context) {
 	const panel = vscode.window.createWebviewPanel(
-        'help',
-        'Help for Aura Helper',
-        vscode.ViewColumn.One,
-        {
-          // Enable scripts in the webview
-          enableScripts: true
-        }
-      );
-	  fileUtils.getHelp(context, function(help){
+		'help',
+		'Help for Aura Helper',
+		vscode.ViewColumn.One,
+		{
+			// Enable scripts in the webview
+			enableScripts: true
+		}
+	);
+	fileUtils.getHelp(context, function (help) {
 		panel.webview.html = help;
-	  });
+	});
 }
 
 function auraCodeCompletionCommand(position, context) {

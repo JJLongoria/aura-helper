@@ -1,12 +1,19 @@
 # Aura Helper
 
-Extensión for Salesforce and Lightning Experience with some tools for make more easy the development work. 
+<p align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome"><img src="https://vsmarketplacebadge.apphb.com/version/msjsdiag.debugger-for-chrome.svg?label=Debugger%20for%20Chrome" alt="Marketplace bagde"></a>
+    <a href="https://gitter.im/Microsoft/kanko.aura-helper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://badges.gitter.im/Microsoft/kanko.aura-helper.svg" alt="Release"></a>
 
-### Run command "Aura Helper: Help" for open a navigable help with more information about the Aura Helper
+</p>
+
+Extensión for Salesforce and Lightning Experience with some tools for make more easy the development work. 
 
 ## Features
 
 The Aura Helper Extension contains some of next features:
+
+### Help
+    - Run command "Aura Helper: Help" for open a navigable help with more information about the Aura Helper
 
 ### Commands features
 Some commands with tools for help in your work. All commands start with "AuraHelper:"
@@ -214,7 +221,7 @@ To many snippets and code completion tools for make your work more productive:
 ### Contextual Menus
 
 #### Explorer:
-    - New Aura File: Active when click on .cmp file.
+    - New Aura File: Active when click on .cmp file or Component Bundle Folder.
 
 <!-- \!\[feature X\]\(images/feature-x.png\) 
 

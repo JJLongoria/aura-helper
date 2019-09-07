@@ -1,0 +1,29 @@
+{
+    "documentbody": [
+        "<aura:documentation>",
+        "\t<aura:description>",
+        "\t\t<h6><b>Short description</b> of the component</h6>",
+        "\t\t<p>",
+        "\t\t\tHelper methods:",
+        "\t\t\t<ul>",
+        "\t\t\t\t{!helperMethods}",
+        "\t\t\t</ul>",
+        "\t\t</p>\n",
+        "\t</aura:description>",
+        "\t<aura:example name=\"ExampleName\" ref=\"ExampleComponent\" label=\"ExampleLabel\">",
+        "\t\t",
+        "\t</aura:example>",
+        "</aura:documentation>"
+    ],
+    "methodBody": [
+        "<li>",
+        "\t<b>{!method.signature}: </b> {!method.description}",
+        "\t<ul>",
+        "\t\t{!method.params}",
+        "\t</ul>",
+        "</li>"
+    ],
+    "paramBody": [
+        "<li><i>{!param.name} ({!param.type}): </li> {!param.description}"
+    ]
+}

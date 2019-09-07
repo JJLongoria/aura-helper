@@ -22,12 +22,32 @@ function isFileExists(filePath){
     return fs.existsSync(filePath);
 }
 
+function createFolder(folderPath){
+    fs.mkdirSync(folderPath);
+}
+
+function copyFile(sourcePath, targetPath){
+    fs.copyFileSync(sourcePath, targetPath);
+}
+
+function getUserTemplatesPath(context){
+    return context.asAbsolutePath("./resources/userTemplates");
+}
+
 function getAuraDocumentTemplatePath(context) {
 	return context.asAbsolutePath("./resources/templates/auraDocumentation.json");
 }
 
 function getApexCommentTemplatePath(context) {
 	return context.asAbsolutePath("./resources/templates/apexComment.json");
+}
+
+function getAuraDocumentUserTemplatePath(context) {
+	return context.asAbsolutePath("./resources/userTemplates/auraDocumentation.json");
+}
+
+function getApexCommentUserTemplatePath(context) {
+	return context.asAbsolutePath("./resources/userTemplates/apexComment.json");
 }
 
 function getHelpPath(context){
@@ -114,8 +134,9 @@ function isAuraComponentFile(filePath) {
 }
 
 function isAuraComponentFolder(filePath) {
-    return filePath.endsWith('/force-app/main/default/aura') != -1;
+    return filePath.indexOf('/aura/') !== -1 || filePath.indexOf('\\aura\\') !== -1;
 }
+
 
 function getAuraFileTypeFromName(name){
     let fileType = '';
@@ -156,5 +177,10 @@ module.exports = {
     getAuraFileTypeFromName,
     getHelp,
     getApexCommentTemplatePath,
-    getFileContent
+    getFileContent,
+    getAuraDocumentUserTemplatePath,
+    getApexCommentUserTemplatePath,
+    getUserTemplatesPath,
+    createFolder,
+    copyFile
 }
