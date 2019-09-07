@@ -61,6 +61,11 @@ To many snippets and code completion tools for make your work more productive:
     - aura.initHandler: Create Initialization Component Aura Handler (aura:handler)
     - aura.eventHandler: Create Aura Component Event Handler (aura:handler)
     - aura.appEventHandler: Create Aura Application Event Handler (aura:handler)
+    - aura.onLocationChange: Create Aura Location Change Handler Code Unit (aura:handler)
+    - aura.onSystemError: Create Aura System Error Handler Code Unit (aura:handler)
+    - aura.onValueChanged: Create Aura Value Changed Handler Code Unit (aura:handler)
+    - aura.onDestroy: Create Aura Component Destroy Handler Code Unit (aura:handler)
+    - aura.onRender: 
     - aura.registerEvent: Create Aura Event Registration (aura:registerEvent)
     - aura.renderIf: Create Aura Render If Code Unit (aura:renderIf)
     - aura.if: Create Aura If Code Unit (aura:if)
@@ -79,6 +84,16 @@ To many snippets and code completion tools for make your work more productive:
     - force.outputField: Create Force Output Field Code Unit (force:outputField)
     - force.inputField: Create Force Output Field Code Unit (force:inputField)
     - force.canvasApp: Create Force Canvas App Code Unit (force:canvasApp)
+
+##### - Force Chatter NS
+    - forceChatter.feed: Create Force Chatter Feed Code Unit (forceChatter:feed)
+    - forceChatter.publisher: Create Force Chatter Publisher Code Unit (forceChatter:publisher)
+
+##### - Force Community NS
+    - forceCommunity.appLauncher: Create Force Community App Launcher Code Unit (forceCommunity:appLauncher)
+    - forceCommunity.notifications: Create Force Community Notifications Code Unit (forceCommunity:notifications)
+    - forceCommunity.routeLink: Create Force Community Route Link Code Unit (forceCommunity:routeLink)
+    - forceCommunity.waveDashboard: Create Force Community Wave Dashboard Code Unit (forceCommunity:waveDashboard)
 
 ##### - Lightning NS
     - ltn.accordion: Create Lightning Accordion Code Unit (lightning:accordion). Alternative: ltn.accSection
@@ -208,6 +223,55 @@ To many snippets and code completion tools for make your work more productive:
     - ltn.verticalNavigationSection: Create Lightning Vertical Navigation Section Code Unit (lightning:verticalNavigationSection)
     - ltn.workspaceAPI: Create Lightning Workspace API Code Unit (lightning:workspaceAPI)
     
+##### - Lightning Community NS
+    - ltnCommunity.backButton: Create Community Back Button Code Unit (lightningcommunity:backButton)
+
+##### - Lightning Snapin NS
+    - ltnSnapin.minimizedAPI: Create Lightning Snapin Minimized API Code Unit (lightningsnapin:minimizedAPI)
+    - ltnSnapin.prechatAPI: Create Lightning Snapin Prechat API Code Unit (lightningsnapin:prechatAPI)
+    - ltnSnapin.settingsAPI: Create Lightning Snapin Settings API Code Unit (lightningsnapin:settingsAPI)
+
+##### - UI NS
+    - ui.actionMenuItem: Create UI Action Menu Item Code Unit (ui:actionMenuItem)
+    - ui.button: Create UI Button Code Unit (ui:button)
+    - ui.checkboxMenuItem: Create UI Checkbox Menu Item Code Unit (ui:checkboxMenuItem)
+    - ui.inputCheckbox: Create UI Input Checkbox Code Unit (ui:inputCheckbox)
+    - ui.inputCurrency: Create UI Input Currency Code Unit (ui:inputCurrency)
+    - ui.inputDate: Create UI Input Date Code Unit (ui:inputDate)
+    - ui.inputDateTime: Create UI Input Date Time Code Unit (ui:inputDateTime)
+    - ui.inputEmail: Create UI Input Email Code Unit (ui:inputEmail)
+    - ui.inputNumber: Create UI Input Number Code Unit (ui:inputNumber)
+    - ui.inputPhone: Create UI Input Phone Code Unit (ui:inputPhone)
+    - ui.inputRadio: Create UI Input Radio Code Unit (ui:inputRadio)
+    - ui.inputSecret: Create UI Input Secret Code Unit (ui:inputSecret)
+    - ui.inputSelect: Create UI Input Select Single Selection Code Unit (ui:inputSelect)
+    - ui.inputSelectMultiple: Create UI Input Select Multiple Selection Code Unit (ui:inputSelect)
+    - ui.inputSelectDynamic: Create UI Input Select Dynamic Code Unit (ui:inputSelect)
+    - ui.inputSelectOption: Create UI Input Select Option Code Unit (ui:inputSelectOption)
+    - ui.inputText: Create UI Input Text Code Unit (ui:inputText)
+    - ui.inputTextArea: Create UI Input Text Area Code Unit (ui:inputTextArea)
+    - ui.inputURL: Create UI Input URL Code Unit (ui:inputURL)
+    - ui.menu: Create UI Menu Code Unit (ui:menu)
+    - ui.menuItemSeparator: Create UI Menu Item Separator Code Unit (ui:menuItemSeparator)
+    - ui.menuList: Create UI Menu List Code Unit (ui:menuList)
+    - ui.menuTriggerLink: Create UI Menu List Code Unit (ui:menuTriggerLink)
+    - ui.messageConfirm: Create UI Confirmation Message Code Unit (ui:message)
+    - ui.messageInfo: Create UI Information Message Code Unit (ui:message)
+    - ui.messageWarning: Create UI Warning Message Code Unit (ui:message)
+    - ui.messageError: Create UI Error Message Code Unit (ui:message)
+    - ui.outputCheckbox: Create UI Output Checkbox Code Unit (ui:outputCheckbox)
+    - ui.outputCurrency: Create UI Output Currency Code Unit (ui:outputCurrency)
+    - ui.outputDate: Create UI Output Date Code Unit (ui:outputDate)
+    - ui.outputDateTime: Create UI Output Date Time Code Unit (ui:outputDateTime)
+    - ui.outputEmail: Create UI Output Email Code Unit (ui:outputEmail)
+    - ui.outputNumber: Create UI Output Number Code Unit (ui:outputNumber)
+    - ui.outputPhone: Create UI Output Phone Code Unit (ui:outputPhone)
+    - ui.outputRichText: Create UI Output Rich Text Code Unit (ui:outputRichText)
+    - ui.outputText: Create UI Output Text Code Unit (ui:outputText)
+    - ui.outputTextArea: Create UI Output Text Area Code Unit (ui:outputTextArea)
+    - ui.outputURL: Create UI Output URL Code Unit (ui:outputURL)
+    - ui.radioMenuItem: Create UI Radio Menu Item Code Unit (ui:radioMenuItem)
+    - ui.scrollerWrapper: Create UI Scroller Wrapper Code Unit (ui:scrollerWrapper)
 
 #### JavaScript:
     - aura.controllerFunction: Create a standard controller function

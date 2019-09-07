@@ -14,7 +14,7 @@
 
         code {
             font-family: Courier, 'New Courier', monospace;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         #codeStyler {
@@ -64,6 +64,10 @@
                 <div id="templates" class="w3-hide w3-margin-left">
                     <a href="#auraDocTemplate" class="w3-bar-item w3-button">Aura Documentation Template</a>
                     <a href="#apexCommentTemplate" class="w3-bar-item w3-button">Apex Comment Template</a>
+                </div>
+                <a href="#snippetsCollectionSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('snippetsCollection')">Snippets Collection</a>
+                <div id="snippetsCollection" class="w3-hide w3-margin-left">
+                    {!snippetsCollectionMenu}
                 </div>
             </div>
         </div>
@@ -553,6 +557,12 @@
                     </div>
                 </div>
             </div>
+            <!-- Snippets Collection Section -->
+            <div class="w3-container" id="snippetsCollectionSection">
+                <h3><b>Snippets Collection</b></h3>
+                {!snippetsCollection}
+            </div>
+        </div>
     </body>
 
     <script>
