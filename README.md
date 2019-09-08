@@ -12,7 +12,7 @@ The Aura Helper Extension contains some of next features:
 Some commands with tools for help in your work. All commands start with "AuraHelper:"
 
 #### Aura:
-    - Aura Document Generator: A simple command for generate a skeleton of aura documentation file for an Aura Component based on user designed templates.
+    - Generate Aura Documentation: A simple command for generate a skeleton of aura documentation file for an Aura Component based on user designed templates.
                                If you create JavaScript comments with JavaScript standard scheme, method information will be filled automatically.
     - Add Method Section: Add a method section based on template to documentation file if you need modify it.
                           If method have JavaScript comment with JavaScript standard scheme, method information will be filled automatically.

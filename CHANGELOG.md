@@ -35,7 +35,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Fixed some bugs with language recognition for use the snippets
 
-## [0.2.0] - 2019-09-02
+## [1.0.0] - 2019-09-07
 ### Added
     - Commands:
         - AuraHelper: Help
