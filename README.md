@@ -94,11 +94,16 @@ To many snippets and code completion tools for make your work more productive:
     - forceCommunity.waveDashboard: Create Force Community Wave Dashboard Code Unit (forceCommunity:waveDashboard)
 
 ##### - Lightning NS
-    - ltn.accordion: Create Lightning Accordion Code Unit (lightning:accordion). Alternative: ltn.accSection
+    - ltn.accordion: Create Lightning Accordion Code Unit (lightning:accordion).
+    - ltn.accordionSection: Create Lightning Accordion Code Unit (lightning:accordionSection). Alternative: ltn.accSection
     - ltn.avatar: Create Lightning Avatar Code Unit (lightning:avatar)
     - ltn.breadcrumbs: Create Lightning Breadcrums Section Code Unit (lightning:breadcrumbs)
     - ltn.breadcrumb: Create Lightning Breadcrum Code Unit (lightning:breadcrumb)
     - ltn.button: Create Lightning Button Code Unit (lightning:button)
+    - ltn.buttonBrand: Create Lightning Button Brand Code Unit (lightning:button)
+    - ltn.buttonNeutral: Create Lightning Button Neutral Code Unit (lightning:button)
+    - ltn.buttonDestructive: Create Lightning Button Destructive Code Unit (lightning:button)
+    - ltn.buttonSuccess: Create Lightning Button Success Code Unit (lightning:button)
     - ltn.buttonGroup: Create Lightning Accordion Code Unit. Alternative: ltn.buttonGrp
     - ltn.buttonIcon: Create Lightning Button Icon Code Unit (lightning:buttonIcon)
     - ltn.buttonIconStateful Create Lightning Button Icon Stateful Code Unit (lightning:buttonIconStateful)
@@ -271,14 +276,27 @@ To many snippets and code completion tools for make your work more productive:
     - ui.radioMenuItem: Create UI Radio Menu Item Code Unit (ui:radioMenuItem)
     - ui.scrollerWrapper: Create UI Scroller Wrapper Code Unit (ui:scrollerWrapper)
 
-#### JavaScript:
+##### JavaScript:
     - aura.controllerFunction: Create a standard controller function
     - aura.function: Create a standard Aura function
     - aura.JSONPretty: Write an instruction for get pretty JSON
     - aura.JSONPrettyConsole: Write an instruction for pretty print JSON in console
     
-#### Apex:
+##### Apex:
     - /** : Add a class or method comment on your apex code
+
+#### SLDS Snippets:
+    - slds.modal: Create a base Modal Dialog Code Unit with Salesforce Lightning Design System (SLDS)
+    - slds.modalLtn: Create a base Modal Dialog Code Unit with Salesforce Lightning Design System (SLDS) and Lightning elements (Buttons, icon...)
+    - slds.modalTagline: Create a base Modal Dialog with Tagline Code Unit with Salesforce Lightning Design System (SLDS)
+    - slds.modalTaglineLtn: Create a base Modal Dialog with Tagline Code Unit with Salesforce Lightning Design System (SLDS) and Lightning elements (Buttons, icon...)
+    - slds.modalHeadless: Create a base Modal Dialog Headless Code Unit with Salesforce Lightning Design System (SLDS)
+    - slds.modalHeadlessLtn: Create a base Modal Dialog Headless Code Unit with Salesforce Lightning Design System (SLDS) and Lightning elements (Buttons, icon...)
+    - slds.modalFootless: Create a base Modal Dialog Footless Code Unit with Salesforce Lightning Design System (SLDS)
+    - slds.modalFootlessLtn: Create a base Modal Dialog Code Footless Unit with Salesforce Lightning Design System (SLDS) and Lightning elements (Buttons, icon...)
+    - slds.modalDirectional: Create a base Modal Dialog Directional Code Unit with Salesforce Lightning Design System (SLDS)
+    - slds.modalDirectionalLtn: Create a base Modal Dialog Code Directional Unit with Salesforce Lightning Design System (SLDS) and Lightning elements (Buttons, icon...)
+
 
 ### Contextual Menus
 

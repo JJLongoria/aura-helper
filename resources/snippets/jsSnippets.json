@@ -6,7 +6,7 @@
             "\t$0",
             "},"
         ],
-        "description": "Create a standard controller function"
+        "description": "Create a standard controller function Code Unit"
     },
     "Aura Function": {
         "prefix": "aura.function",
@@ -15,7 +15,7 @@
             "\t$0",
             "},"
         ],
-        "description": "Create a standard Aura function"
+        "description": "Create a standard Aura function Code Unit"
     },
     "JSON Pretty": {
         "prefix": "aura.JSONPretty",
