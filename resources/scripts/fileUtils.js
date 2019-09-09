@@ -62,6 +62,10 @@ function getJSSnippetsPath(context) {
     return context.asAbsolutePath("./resources/snippets/jsSnippets.json");
 }
 
+function getSLDSSnippetsPath(context) {
+    return context.asAbsolutePath("./resources/snippets/sldsSnippets.json");
+}
+
 function getDocumentObject(filePath, callback) {
     vscode.workspace.openTextDocument(filePath).then((document) => {
         logger.log("Document Opened (" + filePath + ")");
@@ -81,7 +85,7 @@ function getDocumentText(document) {
     return text;
 }
 
-function getFilesFromFolderSync(folderPath){
+function getFilesFromFolderSync(folderPath) {
     return fs.readdirSync(folderPath);
 }
 
@@ -167,13 +171,21 @@ function getHelp(context, callback) {
         help = getDocumentText(helpIndex);
         let auraNS = {};
         let jsNS = {};
+        let sldsNS = {};
         let auraSnippets = JSON.parse(getFileContent(getAuraSnippetsPath(context)));
         let jsSnippets = JSON.parse(getFileContent(getJSSnippetsPath(context)));
+        let sldsSnippets = JSON.parse(getFileContent(getSLDSSnippetsPath(context)));
         Object.keys(auraSnippets).forEach(function (key) {
             let snippet = auraSnippets[key];
             if (auraNS[getSnippetNS(snippet)] === undefined)
                 auraNS[getSnippetNS(snippet)] = [];
             auraNS[getSnippetNS(snippet)].push({ snippetName: key, snippet: snippet });
+        });
+        Object.keys(sldsSnippets).forEach(function (key) {
+            let snippet = sldsSnippets[key];
+            if (sldsNS[getSnippetNS(snippet)] === undefined)
+                sldsNS[getSnippetNS(snippet)] = [];
+            sldsNS[getSnippetNS(snippet)].push({ snippetName: key, snippet: snippet });
         });
         Object.keys(jsSnippets).forEach(function (key) {
             let snippet = jsSnippets[key];
@@ -204,7 +216,7 @@ function getHelp(context, callback) {
 
                 snippetSectionContent.push("\t\t\t\t\t\t\t\t\t<div class=\"w3-container darkGrey w3-margin-left\" id=\"" + snippet.snippet.prefix + "\">");
                 snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<h5>" + snippet.snippetName + "</h5>");
-                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<p>" + snippet.snippet.description + "<p>");
+                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<p>" + snippet.snippet.description.replace("[", "<a href=\"").replace("]", "\"><br/>Documentation</a>") + "<p>");
                 snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<p>- Code Completion: <code>" + snippet.snippet.prefix + "</code><p>");
                 snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<p><b>Body:</b><p>");
                 snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<pre>");
@@ -223,6 +235,46 @@ function getHelp(context, callback) {
             snippetSectionContent.push("\t\t\t\t\t\t\t</div>");
         });
         snippetMenuContent.push("\t\t\t\t\t</div>");
+
+        snippetMenuContent.push("\t\t\t\t<a href=\"#SLDSSnippetsCollection\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey\" onclick=\"openCloseAccordion('sldsSnippets')\">SLDS Snippets</a>");
+        snippetMenuContent.push("\t\t\t\t\t<div id=\"sldsSnippets\" class=\"w3-hide w3-margin-left\">");
+
+        snippetSectionContent.push("\t\t\t\t\t\t\t</div>");
+        snippetSectionContent.push("\t\t\t\t\t\t\t<div class=\"w3-container\" id=\"SLDSSnippetsCollection\">");
+        snippetSectionContent.push("\t\t\t\t\t\t\t\t<h4><b>SLDS Snippets</b></h4>");
+        Object.keys(sldsNS).forEach(function (key) {
+            let snippets = sldsNS[key];
+            snippetMenuContent.push("\t\t\t\t\t\t<a href=\"#slds_" + key + "\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey\" onclick=\"openCloseAccordion('slds_" + key + "_snippets')\">" + getNamespaceName(key) + " Snippets</a>");
+            snippetMenuContent.push("\t\t\t\t\t\t\t<div id=\"slds_" + key + "_snippets\" class=\"w3-hide w3-margin-left\">");
+
+            snippetSectionContent.push("\t\t\t\t\t\t\t<div class=\"w3-container\" id=\"slds_" + key + "\">");
+            snippetSectionContent.push("\t\t\t\t\t\t\t\t<h4><b>" + getNamespaceName(key) + " Snippets</b></h4>");
+            snippetSectionContent.push("\t\t\t\t\t\t\t\t<div class=\"w3-container\">");
+            for (const snippet of snippets) {
+                snippetMenuContent.push("\t\t\t\t\t\t\t\t<a href=\"#" + snippet.snippet.prefix + "\" class=\"w3-bar-item w3-button\">" + snippet.snippetName + "</a>");
+
+                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t<div class=\"w3-container darkGrey w3-margin-left\" id=\"" + snippet.snippet.prefix + "\">");
+                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<h5>" + snippet.snippetName + "</h5>");
+                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<p>" + snippet.snippet.description.replace("[", "<a href=\"").replace("]", "\"><br/>Documentation</a>") + "<p>");
+                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<p>- Code Completion: <code>" + snippet.snippet.prefix + "</code><p>");
+                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<p><b>Body:</b><p>");
+                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<pre>");
+                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t\t<code class=\"darkGrey codeColor\">");
+                for (let bodyLine of snippet.snippet.body) {
+                    let line = bodyLine.replace(new RegExp(/</, 'g'), "&lt;").replace(new RegExp(/</, 'g'), "&gt;").replace(new RegExp(/\\/, 'g'), "").replace(new RegExp(/!/, 'g'), "").replace(new RegExp(/{/, 'g'), "").replace(new RegExp(/}/, 'g'), "").replace(new RegExp(/\$/, 'g'), "").replace(new RegExp(/[0-9]:/, 'g'), "");
+                    snippetSectionContent.push(line);
+                }
+                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t\t</code>");
+                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t</pre>");
+                snippetSectionContent.push("\t\t\t\t\t\t\t\t\t</div>");
+            }
+            snippetMenuContent.push("\t\t\t\t\t\t\t</div>");
+
+            snippetSectionContent.push("\t\t\t\t\t\t\t\t</div>");
+            snippetSectionContent.push("\t\t\t\t\t\t\t</div>");
+        });
+        snippetMenuContent.push("\t\t\t\t\t</div>");
+
         snippetMenuContent.push("\t\t\t\t<a href=\"#JSSnippetsCollection\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey\" onclick=\"openCloseAccordion('jsSnippets')\">JavaScript Snippets</a>");
         snippetMenuContent.push("\t\t\t\t\t<div id=\"jsSnippets\" class=\"w3-hide w3-margin-left\">");
 
@@ -251,11 +303,11 @@ function getHelp(context, callback) {
                 let lineNumber = 0;
                 for (let bodyLine of snippet.snippet.body) {
                     let line = bodyLine.replace(new RegExp(/</, 'g'), "&lt;").replace(new RegExp(/</, 'g'), "&gt;").replace(new RegExp(/\\/, 'g'), "").replace(new RegExp(/!/, 'g'), "").replace(new RegExp(/{/, 'g'), "").replace(new RegExp(/}/, 'g'), "").replace(new RegExp(/\$/, 'g'), "").replace(new RegExp(/[0-9]:/, 'g'), "").replace(new RegExp(/[0-9]/, 'g'), "");
-                    if(line.indexOf('function') !== -1){
+                    if (line.indexOf('function') !== -1) {
                         line = line.replace(')', '){');
                         func = true;
                     }
-                    else if(line.indexOf(',') !== -1 && func && lineNumber === snippet.snippet.body.length - 1)
+                    else if (line.indexOf(',') !== -1 && func && lineNumber === snippet.snippet.body.length - 1)
                         line = line.replace(',', '},');
                     snippetSectionContent.push(line);
                     lineNumber++;
@@ -308,6 +360,8 @@ function getNamespaceName(ns) {
         return 'Lightning Snapin';
     if (ns === 'ui')
         return 'UI';
+    if (ns === 'slds')
+        return 'SLDS';
     return ns;
 }
 
