@@ -277,6 +277,8 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.0] - 2019-09-07
 ### Added
+    - Added Settings for control if use autocompletion tools and code suggest
+
     - Added Ligtning Snippets Variations
         - ltn.buttonBrand
         - ltn.buttonNeutral
@@ -294,3 +296,7 @@ All notable changes to this project will be documented in this file.
         - slds.modalFootlessLtn
         - slds.modalDirectional
         - slds.modalDirectionalLtn
+
+### changed
+    - Improve code completion tools for make more easy work with Lightning
+        - Call custom or standard componentes with autocompletion attributes (only appear not used)

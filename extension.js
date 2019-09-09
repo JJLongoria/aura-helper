@@ -71,6 +71,7 @@ exports.activate = activate;
 
 function init(context) {
 	constants.applicationContext = context;
+	constants.componentsDetail = JSON.parse(fileUtils.getFileContent(fileUtils.getBaseComponentsDetailPath(context)));
 	if (!fileUtils.isFileExists(fileUtils.getUserTemplatesPath(context)))
 		fileUtils.createFolder(fileUtils.getUserTemplatesPath(context));
 	if (!fileUtils.isFileExists(fileUtils.getAuraDocumentUserTemplatePath(context)))

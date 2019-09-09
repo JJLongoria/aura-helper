@@ -66,8 +66,8 @@ function getSLDSSnippetsPath(context) {
     return context.asAbsolutePath("./resources/snippets/sldsSnippets.json");
 }
 
-function getAuraComponentsDetailPath(context) {
-    return context.asAbsolutePath("./resources/assets/auraComponentsDetail.json");
+function getBaseComponentsDetailPath(context) {
+    return context.asAbsolutePath("./resources/assets/baseComponentsDetail.json");
 }
 
 function getDocumentObject(filePath, callback) {
@@ -397,5 +397,5 @@ module.exports = {
     getAuraSnippetsPath,
     getHelpPath,
     getFilesFromFolderSync,
-    getAuraComponentsDetailPath
+    getBaseComponentsDetailPath
 }
