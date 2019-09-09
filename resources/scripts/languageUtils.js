@@ -1,5 +1,6 @@
 const logger = require('./logger');
 const fileUtils = require('./fileUtils');
+const constants = require('./constants');
 
 function parseApexClassOrMethod(str) {
     logger.log('Execute parseApexClassOrMethod method');
@@ -261,6 +262,12 @@ function tokenize(str) {
             token.endColumn = column + char.length;
         } else if (char === "%") {
             token.tokenType = 'percent';
+            token.content = char;
+            token.line = lineNumber;
+            token.startColumn = column;
+            token.endColumn = column + char.length;
+        } else if (char === "€") {
+            token.tokenType = 'symbol';
             token.content = char;
             token.line = lineNumber;
             token.startColumn = column;
@@ -725,10 +732,45 @@ function getMethodReturnType(indexStart, indexEnd, tokens) {
     return returnType;
 }
 
+function analizeComponentTag(componentTag, position) {
+    logger.log('componentTag', componentTag);
+    let componentTagData = {
+        namespace: "",
+        name: "",
+        attributes: {}
+    };
+    let componentTokens = tokenize(componentTag);
+    let index = 0;
+    while (index < componentTokens.length) {
+        let token = componentTokens[index];
+        let lastToken = getLastToken(componentTokens, index);
+        let nextToken = getNextToken(componentTokens, index);
+        if (token.tokenType === 'colon' && lastToken && lastToken.tokenType === 'identifier' && nextToken && nextToken.tokenType === 'identifier') {
+            componentTagData.namespace = lastToken.content;
+            componentTagData.name = nextToken.content;
+            let tagData = getTagData(componentTokens, index);
+            Object.keys(tagData).forEach(function (key) {
+                componentTagData.attributes[key] = tagData[key];
+            });
+            break;
+        }
+        index++;
+    }
+    logger.logJSON('componentTagData', componentTagData);
+    return componentTagData;
+}
+
 function getComponentStructure(componentPath) {
+    let baseComponentsDetail = JSON.parse(fileUtils.getFileContent(fileUtils.getBaseComponentsDetailPath(constants.applicationContext)));
     let componentName = fileUtils.basename(componentPath).replace('.cmp', '');
     let componentFileText = fileUtils.getFileContent(componentPath);
     let componentStructure = parseCMPFile(componentFileText);
+    if (!componentStructure.attributes) {
+        componentStructure.attributes = [];
+    }
+    for (const rootDetail of baseComponentsDetail['root']['component']) {
+        componentStructure.attributes.push(rootDetail);
+    }
     componentStructure.controllerFunctions = getControllerFunctions(componentPath);
     componentStructure.helperFunctions = getHelperFunctions(componentPath);
     if (componentStructure.controller) {
@@ -743,13 +785,13 @@ function getComponentStructure(componentPath) {
         parentComponentStructure = parseCMPFile(fileUtils.getFileContent(parentFileName));
         parentComponentStructure.controllerFunctions = getControllerFunctions(parentFileName);
         parentComponentStructure.helperFunctions = getHelperFunctions(parentFileName);
-        if (componentStructure.controller) {
-            let classPath = componentPath.replace('aura\\' + componentName + '\\' + componentName + '.cmp', 'classes\\' + componentStructure.controller + '.cls');
+        if (parentComponentStructure.controller) {
+            let classPath = componentPath.replace('aura\\' + componentName + '\\' + componentName + '.cmp', 'classes\\' + parentComponentStructure.controller + '.cls');
             let classStructure = parseApexClassFile(fileUtils.getFileContent(classPath));
             for (const method of classStructure.methods) {
                 let existing = false;
                 for (const existingMethod of classStructure.methods) {
-                    if (method.name === existingMethod.name){
+                    if (method.name === existingMethod.name) {
                         existing = true;
                         break;
                     }
@@ -761,7 +803,7 @@ function getComponentStructure(componentPath) {
         for (const attribute of parentComponentStructure.attributes) {
             let existing = false;
             for (const existingAttr of componentStructure.attributes) {
-                if (attribute.name === existingAttr.name){
+                if (attribute.name === existingAttr.name) {
                     existing = true;
                     break;
                 }
@@ -772,7 +814,7 @@ function getComponentStructure(componentPath) {
         for (const implement of parentComponentStructure.implements) {
             let existing = false;
             for (const existingImp of componentStructure.implements) {
-                if (existingImp.name === implement.name){
+                if (existingImp === implement) {
                     existing = true;
                     break;
                 }
@@ -783,7 +825,7 @@ function getComponentStructure(componentPath) {
         for (const event of parentComponentStructure.events) {
             let existing = false;
             for (const existingEvent of componentStructure.events) {
-                if (event.name === existingEvent.name){
+                if (event.name === existingEvent.name) {
                     existing = true;
                     break;
                 }
@@ -794,7 +836,7 @@ function getComponentStructure(componentPath) {
         for (const handler of parentComponentStructure.handlers) {
             let existing = false;
             for (const existingHandler of componentStructure.handlers) {
-                if (handler.name === existingHandler.name){
+                if (handler.name === existingHandler.name) {
                     existing = true;
                     break;
                 }
@@ -805,7 +847,7 @@ function getComponentStructure(componentPath) {
         for (const func of parentComponentStructure.controllerFunctions) {
             let existing = false;
             for (const existingFunc of componentStructure.controllerFunctions) {
-                if (func.name === existingFunc.name){
+                if (func.name === existingFunc.name) {
                     existing = true;
                     break;
                 }
@@ -816,13 +858,40 @@ function getComponentStructure(componentPath) {
         for (const func of parentComponentStructure.helperFunctions) {
             let existing = false;
             for (const existingFunc of componentStructure.helperFunctions) {
-                if (func.name === existingFunc.name){
+                if (func.name === existingFunc.name) {
                     existing = true;
                     break;
                 }
             }
             if (!existing)
                 componentStructure.helperFunctions.push(func);
+        }
+    }
+    if (componentStructure.implements && componentStructure.implements.length > 0) {
+        for (const implement of componentStructure.implements) {
+            let interfaceToCheck = implement;
+            if (interfaceToCheck.indexOf('lightning:isUrlAddressable') !== -1)
+                interfaceToCheck = 'lightning:hasPageReference';
+            let splits = interfaceToCheck.split(':');
+            let ns = splits[0];
+            let componentName = splits[1];
+            let interfaceNS = baseComponentsDetail[ns];
+            if (interfaceNS) {
+                let attributes = interfaceNS[componentName];
+                if (attributes && attributes.length > 0) {
+                    for (const attribute of attributes) {
+                        let existing = false;
+                        for (const existingAttr of componentStructure.attributes) {
+                            if (attribute.name === existingAttr.name) {
+                                existing = true;
+                                break;
+                            }
+                        }
+                        if (!existing)
+                            componentStructure.attributes.push(attribute);
+                    }
+                }
+            }
         }
     }
     return componentStructure;
@@ -901,5 +970,7 @@ module.exports = {
     parseApexClassOrMethod,
     parseJSFile,
     parseCMPFile,
-    getComponentStructure
+    getComponentStructure,
+    tokenize,
+    analizeComponentTag
 }

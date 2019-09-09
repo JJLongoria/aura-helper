@@ -3,6 +3,7 @@ const fileUtils = require('./fileUtils');
 const languageUtils = require('./languageUtils');
 const logger = require('./logger');
 const constants = require('./constants');
+const config = require('./config');
 
 let apexProvider = {
     provideCompletionItems(document, position) {
@@ -10,6 +11,8 @@ let apexProvider = {
         if (line.indexOf('/**') === -1) {
             return Promise.resolve(undefined);
         }
+        if (!config.getConfig().activeApexCommentSuggestion)
+            return Promise.resolve(undefined);
         let item = new vscode.CompletionItem('/** */', vscode.CompletionItemKind.Snippet);
         item.detail = 'Apex Comment';
         item.insertText = '';
@@ -24,90 +27,260 @@ let apexProvider = {
 
 let auraComponentProvider = {
 
-    provideCompletionItems(document, position, cancelToken, context) {
+    provideCompletionItems(document, position) {
         logger.log('Run auraComponentProvider');
-        const line = document.lineAt(position.line).text;
-        logger.logJSON('line', line);
-        if (line.indexOf('v.') === -1 && line.indexOf('c.') === -1 && line.indexOf('helper.') === -1 && line.indexOf('c:') === -1 && line.indexOf('aura:') === -1) {
-            return Promise.resolve(undefined);
-        }
         if (document.fileName.indexOf('Controller.js') === -1 && document.fileName.indexOf('Helper.js') === -1 && document.fileName.indexOf('.cmp') === -1)
             return Promise.resolve(undefined);
+        const line = document.lineAt(position.line).text;
+        let isComponentTag = onComponentTag(document, position);
+        logger.log('isComponentTag', isComponentTag);
+        if (line.indexOf('v.') === -1 && line.indexOf('c.') === -1 && line.indexOf('helper.') === -1 && line.indexOf('c:') === -1 && line.indexOf('<') === -1 && line.indexOf(':') === -1 && !isComponentTag) {
+            return Promise.resolve(undefined);
+        }
         let items = [];
-        let activation = line.substring(position.character - 2, position.character);
-        if (activation === 'v.' || activation === 'c.' || line.indexOf('helper.') !== -1) {
+        let activationOption1 = line.substring(position.character - 2, position.character);
+        let activationOption2 = line.substring(position.character - 3, position.character);
+        let helperActivationOption = line.substring(position.character - 7, position.character);
+        let componentTagData;
+        logger.log('activationOption1', activationOption1);
+        logger.log('activationOption2', activationOption2);
+        logger.log('helperActivationOption', helperActivationOption);
+        if (isComponentTag)
+            componentTagData = analizeComponentTag(document, position);
+        if (activationOption1 === 'v.' || activationOption1 === 'c.' || helperActivationOption === 'helper.') {
             let componentPath = document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp');
             let componentStructure = languageUtils.getComponentStructure(componentPath);
-            if (activation === 'v.') {
+            if (activationOption1 === 'v.') {
                 logger.log('Provider', 'v.');
+                if (!config.getConfig().activeAttributeSuggest)
+                    return Promise.resolve(undefined);
                 items = getAttributes(componentStructure, position);
-            } else if (activation === 'c.') {
+            } else if (activationOption1 === 'c.') {
                 logger.log('Provider', 'c.');
                 if (document.fileName.indexOf('.cmp') !== -1) {
+                    if (!config.getConfig().activeControllerFunctionsSuggest)
+                        return Promise.resolve(undefined);
                     items = getControllerFunctions(componentStructure, position);
                 } else if (document.fileName.indexOf('.js') !== -1) {
+                    if (!config.getConfig().activeControllerMethodsSuggest)
+                        return Promise.resolve(undefined);
                     items = getApexControllerFunctions(componentStructure, position);
                 }
-            } else if (line.indexOf('helper.') !== -1) {
+            } else if (helperActivationOption === 'helper.') {
                 logger.log('Provider', 'helper.');
-                items = getHelperFunctions(componentStructure, position);
+                if (!config.getConfig().activeHelperFunctionsSuggest)
+                    return Promise.resolve(undefined);
+                if (document.fileName.indexOf('.js') !== -1) {
+                    items = getHelperFunctions(componentStructure, position);
+                }
             }
-        } else if (line.indexOf('<aura:') !== -1) {
-            let componentName = line.split(':')[1].split(' ')[0].toLowerCase();
-            items = getBaseComponentsAttributes(componentName, position);
-        } else if (line.indexOf('<c:') === -1) {
+        } else if (activationOption1 === 'c:' && activationOption2 !== '<c:') {
             logger.log('Provider', 'c:');
+            if (!config.getConfig().activeComponentSuggest)
+                return Promise.resolve(undefined);
             items = getComponents(position, document);
         } else if (line.indexOf('<c:') !== -1) {
-            if (line.toLowerCase().trim() === '<c:') {
+            if (line.toLowerCase().trim() === '<c:' && !isComponentTag) {
                 logger.log('Provider', '<c:');
+                if (!config.getConfig().activeComponentSuggest)
+                    return Promise.resolve(undefined);
                 items = getComponents(position, document);
             }
-            else {
+            else if (isComponentTag) {
                 logger.log('Provider', '<c:ComponentName');
+                if (!config.getConfig().activeCustomComponentCallSuggest)
+                    return Promise.resolve(undefined);
                 let componentName = line.split(':')[1].split(' ')[0];
                 let filePath = fileUtils.getFileFolderPath(fileUtils.getFileFolderPath(document.uri.fsPath)) + '\\' + componentName + '\\' + componentName + '.cmp';
                 let componentStructure = languageUtils.getComponentStructure(filePath);
-                items = getComponentAttributes(componentStructure, position);
+                items = getComponentAttributes(componentStructure, componentTagData, position);
             }
-        } 
+        } else if ((line.indexOf('<') !== -1 && line.indexOf(':') !== -1) || (isComponentTag)) {
+            logger.log('Provider', '<NS:ComponentName');
+            if (!config.getConfig().activeComponentCallSuggest)
+                return Promise.resolve(undefined);
+            items = getBaseComponentsAttributes(componentTagData, position);
+        }
         return Promise.resolve(items);
     }
 };
 
-function getBaseComponentsAttributes(componentName, position) {
-    let auraComponentsDetail = JSON.parse(fileUtils.getFileContent(fileUtils.getAuraComponentsDetailPath(constants.applicationContext)));
+function onComponentTag(document, position) {
+    let endLoop = false;
+    let line = position.line;
+    while (!endLoop) {
+        let lineText = document.lineAt(line).text;
+        let lineTokens = languageUtils.tokenize(lineText);
+        if (line == position.line) {
+            let index = 0;
+            let fromIndex = 0;
+            while (index < lineTokens.length) {
+                let token = lineTokens[index];
+                if (position.character > token.startColumn)
+                    fromIndex = index;
+                index++;
+            }
+            index = fromIndex;
+            if (fromIndex > 0) {
+                while (index != -1) {
+                    let token = lineTokens[index];
+                    if (token.tokenType === 'lABracket')
+                        return true;
+                    if (token.tokenType === 'rABracket')
+                        return false;
+                    index--;
+                }
+            }
+        }
+        else {
+            let index = lineTokens.length - 1;
+            while (index != -1) {
+                let token = lineTokens[index];
+                if (token.tokenType === 'lABracket')
+                    return true;
+                if (token.tokenType === 'rABracket')
+                    return false;
+                index--;
+            }
+        }
+        line--;
+        if (line < 0)
+            endLoop = true;
+    }
+    return false;
+}
+
+function analizeComponentTag(document, position) {
+    let componentTag = "";
+    let line = position.line;
+    let startTagLine = line;
+    let endLoop = false;
+    while (!endLoop) {
+        let lineText = document.lineAt(line).text;
+        if (lineText.indexOf('<') !== -1) {
+            startTagLine = line;
+            endLoop = true;
+        }
+        line--
+        if (line < 0)
+            endLoop = true;
+    }
+    endLoop = false;
+    line = startTagLine;
+    while (!endLoop) {
+        let lineText = document.lineAt(line).text;
+        if (lineText.indexOf('>') !== -1) {
+            componentTag += lineText + '\n';
+            endLoop = true;
+        } else {
+            componentTag += lineText + '\n';
+        }
+        line++;
+    }
+    return languageUtils.analizeComponentTag(componentTag, position);
+}
+
+function getBaseComponentsAttributes(componentTagData, position) {
+    logger.logJSON('config', config.getConfig());
+    let baseComponentsDetail = constants.componentsDetail;
     let items = [];
-    if(auraComponentsDetail[componentName]){
-        for (const attribute of auraComponentsDetail[componentName]) {
-            let item = new vscode.CompletionItem(attribute.name, vscode.CompletionItemKind.Field);
-            item.detail = 'Type: ' + attribute.type;
-            item.documentation = attribute.description;
-            item.insertText = new vscode.SnippetString(attribute.name + '="${1:attribute.name}"');
-            item.command = {
-                title: 'Aura Component Call Attribute',
-                command: 'aurahelper.auraCodeCompletion',
-                arguments: [position, 'attributeCall', attribute]
-            };
+    let item = getCodeCompletionItemAttribute('aura:id', 'Type: String', 'Aura ID of the component', 'String', position, 'aura:id');
+    items.push(item);
+    let notRoot = baseComponentsDetail.notRoot;
+    if (notRoot[componentTagData.namespace] && !notRoot[componentTagData.namespace].includes(componentTagData.name)) {
+        for (const attribute of baseComponentsDetail['root']['component']) {
+            let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
             items.push(item);
+        }
+    }
+    if (baseComponentsDetail[componentTagData.namespace]) {
+        let baseComponentNS = baseComponentsDetail[componentTagData.namespace];
+        if (baseComponentNS[componentTagData.name]) {
+            for (const attribute of baseComponentNS[componentTagData.name]) {
+                let exists = false;
+                let existingAttributes = componentTagData.attributes;
+                Object.keys(existingAttributes).forEach(function (key) {
+                    if (key === attribute.name) {
+                        exists = true;
+                    }
+                });
+                if (!exists) {
+                    let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
+                    items.push(item);
+                }
+            }
+        }
+    }
+    for (const rootElement of getRootItems(baseComponentsDetail, 'css', componentTagData, position)) {
+        items.push(rootElement);
+    }
+    for (const rootElement of getRootItems(baseComponentsDetail, 'input', componentTagData, position)) {
+        items.push(rootElement);
+    }
+    for (const rootElement of getRootItems(baseComponentsDetail, 'html', componentTagData, position)) {
+        items.push(rootElement);
+    }
+    for (const rootElement of getRootItems(baseComponentsDetail, 'select', componentTagData, position)) {
+        items.push(rootElement);
+    }
+    return items;
+}
+
+function getCodeCompletionItemAttribute(name, detail, description, datatype, position, data) {
+    let item = new vscode.CompletionItem(name, vscode.CompletionItemKind.Variable);
+    item.detail = detail;
+    item.documentation = description;
+    if (datatype === 'action') {
+        item.insertText = new vscode.SnippetString(name + '="${1:{!c.jsAction}}" ');
+    }
+    else {
+        item.insertText = new vscode.SnippetString(name + '="$1" $0');
+    }
+    item.preselect = true;
+    item.command = {
+        title: 'Aura Code Completion',
+        command: 'aurahelper.auraCodeCompletion',
+        arguments: [position, data]
+    };
+    return item;
+}
+
+function getRootItems(baseComponentsDetail, rootElement, componentTagData, position) {
+    let items = [];
+    if (baseComponentsDetail.components[componentTagData.namespace] && baseComponentsDetail.components[componentTagData.namespace][rootElement]) {
+        let inputComponentes = baseComponentsDetail.components[componentTagData.namespace][rootElement];
+        if (inputComponentes.includes(componentTagData.name)) {
+            for (const attribute of baseComponentsDetail['root'][rootElement]) {
+                let exists = false;
+                let existingAttributes = componentTagData.attributes;
+                Object.keys(existingAttributes).forEach(function (key) {
+                    if (key === attribute.name) {
+                        exists = true;
+                    }
+                });
+                if (!exists) {
+                    let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
+                    items.push(item);
+                }
+            }
         }
     }
     return items;
 }
 
-function getComponentAttributes(componentStructure, position) {
+function getComponentAttributes(componentStructure, componentTagData, position) {
     let items = [];
     for (const attribute of componentStructure.attributes) {
-        let item = new vscode.CompletionItem(attribute.name, vscode.CompletionItemKind.Field);
-        item.detail = 'Type: ' + attribute.type;
-        item.documentation = attribute.description;
-        item.insertText = new vscode.SnippetString(attribute.name + '="${1:attribute.name}"');
-        item.command = {
-            title: 'Aura Component Call Attribute',
-            command: 'aurahelper.auraCodeCompletion',
-            arguments: [position, 'attributeCall', attribute]
-        };
-        items.push(item);
+        let exists = false;
+        Object.keys(componentTagData.attributes).forEach(function (key) {
+            if (key === attribute.name) {
+                exists = true;
+            }
+        });
+        if (!exists) {
+            let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
+            items.push(item);
+        }
     }
     return items;
 }
@@ -142,6 +315,7 @@ function getControllerFunctions(componentStructure, position) {
         else {
             item.detail = "Aura Controller Function";
         }
+        item.preselect = true;
         item.documentation = func.auraSignature;
         item.insertText = func.name;
         item.command = {
@@ -168,6 +342,7 @@ function getApexControllerFunctions(componentStructure, position) {
             else {
                 item.detail = "Apex Controller Function";
             }
+            item.preselect = true;
             item.documentation = method.signature;
             item.insertText = method.name;
             item.command = {
@@ -194,6 +369,7 @@ function getHelperFunctions(componentStructure, position) {
         else {
             item.detail = "Aura Helper Function";
         }
+        item.preselect = true;
         item.documentation = func.auraSignature;
         item.insertText = func.signature;
         item.command = {
@@ -244,6 +420,7 @@ function getComponents(position, document) {
             item.documentation = 'Aura Application ' + folder;
             title = 'Aura Application';
         }
+        item.preselect = true;
         item.detail = title;
         item.insertText = folder;
         item.command = {
