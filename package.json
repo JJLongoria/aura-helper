@@ -77,7 +77,7 @@
 				"aurahelper.activeApexCommentSuggestion": {
 					"type": "boolean",
 					"default": true,
-					"description": "Use Code Suggestion and autocompletion tools for create a method or class comment on apex"
+					"description": "Use Code Suggestion and autocompletion tools for create a method or class comment on Apex"
 				}
 			}
 		},

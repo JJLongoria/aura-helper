@@ -277,6 +277,8 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.0] - 2019-09-07
 ### Added
+    - Added Settings for control if use autocompletion tools and code suggest
+
     - Added Ligtning Snippets Variations
         - ltn.buttonBrand
         - ltn.buttonNeutral
