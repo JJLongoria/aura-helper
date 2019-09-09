@@ -24,7 +24,12 @@
 		"lightning",
 		"salesforce",
 		"apex",
-		"visualforce"
+		"visualforce",
+		"documentation",
+		"javadoc",
+		"apexdoc",
+		"aura documentation",
+		"auradoc"
 	],
 	"activationEvents": [
 		"*"
@@ -77,6 +82,14 @@
 			{
 				"language": "html",
 				"path": "./resources/snippets/auraSnippets.json"
+			},
+			{
+				"language": "xml",
+				"path": "./resources/snippets/sldsSnippets.json"
+			},
+			{
+				"language": "html",
+				"path": "./resources/snippets/sldsSnippets.json"
 			}
 		],
 		"languages": [
