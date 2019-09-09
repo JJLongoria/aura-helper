@@ -4,6 +4,7 @@ const vscode = require('vscode');
 const commandManager = require('./resources/scripts/commandManager');
 const providers = require('./resources/scripts/providers');
 const fileUtils = require('./resources/scripts/fileUtils');
+const constants = require('./resources/scripts/constants');
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -69,6 +70,7 @@ function activate(context) {
 exports.activate = activate;
 
 function init(context) {
+	constants.applicationContext = context;
 	if (!fileUtils.isFileExists(fileUtils.getUserTemplatesPath(context)))
 		fileUtils.createFolder(fileUtils.getUserTemplatesPath(context));
 	if (!fileUtils.isFileExists(fileUtils.getAuraDocumentUserTemplatePath(context)))
