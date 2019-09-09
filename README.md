@@ -13,9 +13,9 @@ Some commands with tools for help in your work. All commands start with "AuraHel
 
 #### Aura:
     - Generate Aura Documentation: A simple command for generate a skeleton of aura documentation file for an Aura Component based on user designed templates.
-                               If you create JavaScript comments with JavaScript standard scheme, method information will be filled automatically.
+                            If you create JavaScript comments with JavaScript standard scheme, method information will be filled automatically.
     - Add Method Section: Add a method section based on template to documentation file if you need modify it.
-                          If method have JavaScript comment with JavaScript standard scheme, method information will be filled automatically.
+                        If method have JavaScript comment with JavaScript standard scheme, method information will be filled automatically.
     - New Aura File: Create a new Aura File for Aura Component Bundle. If you select an Aura Documentation File, it will be created based on the template.
     - Edit Aura Documentation Template: Command for edit Aura Documentation Template for Aura Components.
     - Edit Apex Comment Template: Command for edit Apex Comment Template for Apex Code.
@@ -28,30 +28,30 @@ Some commands with tools for help in your work. All commands start with "AuraHel
 
 ### Code Completion features
 
-To many snippets and code completion tools for make your work more productive:
+    Call components easy, construct components easy, complet code easy, make your work more easy. To many snippets and code completion tools for make your work more productive:
 
 #### Aura (Lightning):
 
 ##### - Get Aura Attributes:
-    You can get any component attributes (even the inherited) on .cmp files and .js files
-    Only need type: "v." and you can show and use all attributes.
+You can get any component attributes (even the inherited) on .cmp files and .js files
+Only need type: "v." and you can show and use all attributes.
 
 ##### - Get JavaScript Controller functions:
-    You can get any controller functions (even the inherited) on .cmp files
-    Only need type: "c." and you can show and use all functions.
+You can get any controller functions (even the inherited) on .cmp files
+Only need type: "c." and you can show and use all functions.
 
 ##### - Get JavaScript Helper functions:
-    You can get any helper functions (even the inherited) on .js files
-    Only need type: "helper." and you can show and use all functions.
+You can get any helper functions (even the inherited) on .js files
+Only need type: "helper." and you can show and use all functions.
 
 ##### - Get Apex Controller methods:
-    You can get any Apex controller methods (even the inherited) on .js file
-    Only need type: "c." and you can show and use all methods.
+You can get any Apex controller methods (even the inherited) on .js file
+Only need type: "c." and you can show and use all methods.
 
 ##### - Call Custom Component
-    You can get and call all Components, Events or Apps for .cmp files and .js files
-    Only need type: "c:" and you can show, use and call Componentes.
-    If you type <c:ComponentName You can get all attributes of the component for call it
+You can get and call all Components, Events or Apps for .cmp files and .js files
+Only need type: "c:" and you can show, use and call Componentes.
+If you type <c:ComponentName You can get all attributes of the component for call it. Only appears not used attributes for easy component constructions.
 
 ##### - Aura NS
     - aura.attribute: Create Aura Attribute (aura:attribute)
