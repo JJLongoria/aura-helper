@@ -303,6 +303,16 @@ If you type <c:ComponentName You can get all attributes of the component for cal
 #### Explorer:
     - New Aura File: Active when click on .cmp file or Component Bundle Folder.
 
+### Settings
+    - activeAttributeSuggest: Use Code Suggestion and autocompletion tools for component attributes (v.)
+    - activeControllerFunctionsSuggest: Use Code Suggestion and autocompletion tools for JavaScript Controller Functions (c.)
+    - activeHelperFunctionsSuggest: Use Code Suggestion and autocompletion tools for JavaScript Helper Functions (helper.)
+    - activeControllerMethodsSuggest: Use Code Suggestion and autocompletion tools for Apex Controller Methods (c.) on javascript files
+    - activeComponentSuggest: Use Code Suggestion and autocompletion tools for show custom components
+    - activeComponentCallSuggest: Use Code Suggestion and autocompletion tools for show available attributes for standard components when are called
+    - activeCustomComponentCallSuggest: Use Code Suggestion and autocompletion tools for show available attributes for custom components when are called
+    - activeApexCommentSuggestion: Use Code Suggestion and autocompletion tools for create a method or class comment on Apex
+
 <!-- \!\[feature X\]\(images/feature-x.png\) 
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
