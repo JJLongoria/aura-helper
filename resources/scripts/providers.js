@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const fileUtils = require('./fileUtils');
 const languageUtils = require('./languageUtils');
 const logger = require('./logger');
+const constants = require('./constants');
 
 let apexProvider = {
     provideCompletionItems(document, position) {
@@ -25,9 +26,9 @@ let auraComponentProvider = {
 
     provideCompletionItems(document, position, cancelToken, context) {
         logger.log('Run auraComponentProvider');
-        logger.logJSON('context', context);
         const line = document.lineAt(position.line).text;
-        if (line.indexOf('v.') === -1 && line.indexOf('c.') === -1 && line.indexOf('helper.') === -1 && line.indexOf('c:') === -1) {
+        logger.logJSON('line', line);
+        if (line.indexOf('v.') === -1 && line.indexOf('c.') === -1 && line.indexOf('helper.') === -1 && line.indexOf('c:') === -1 && line.indexOf('aura:') === -1) {
             return Promise.resolve(undefined);
         }
         if (document.fileName.indexOf('Controller.js') === -1 && document.fileName.indexOf('Helper.js') === -1 && document.fileName.indexOf('.cmp') === -1)
@@ -51,6 +52,9 @@ let auraComponentProvider = {
                 logger.log('Provider', 'helper.');
                 items = getHelperFunctions(componentStructure, position);
             }
+        } else if (line.indexOf('<aura:') !== -1) {
+            let componentName = line.split(':')[1].split(' ')[0].toLowerCase();
+            items = getBaseComponentsAttributes(componentName, position);
         } else if (line.indexOf('<c:') === -1) {
             logger.log('Provider', 'c:');
             items = getComponents(position, document);
@@ -66,10 +70,30 @@ let auraComponentProvider = {
                 let componentStructure = languageUtils.getComponentStructure(filePath);
                 items = getComponentAttributes(componentStructure, position);
             }
-        }
+        } 
         return Promise.resolve(items);
     }
 };
+
+function getBaseComponentsAttributes(componentName, position) {
+    let auraComponentsDetail = JSON.parse(fileUtils.getFileContent(fileUtils.getAuraComponentsDetailPath(constants.applicationContext)));
+    let items = [];
+    if(auraComponentsDetail[componentName]){
+        for (const attribute of auraComponentsDetail[componentName]) {
+            let item = new vscode.CompletionItem(attribute.name, vscode.CompletionItemKind.Field);
+            item.detail = 'Type: ' + attribute.type;
+            item.documentation = attribute.description;
+            item.insertText = new vscode.SnippetString(attribute.name + '="${1:attribute.name}"');
+            item.command = {
+                title: 'Aura Component Call Attribute',
+                command: 'aurahelper.auraCodeCompletion',
+                arguments: [position, 'attributeCall', attribute]
+            };
+            items.push(item);
+        }
+    }
+    return items;
+}
 
 function getComponentAttributes(componentStructure, position) {
     let items = [];
@@ -79,9 +103,9 @@ function getComponentAttributes(componentStructure, position) {
         item.documentation = attribute.description;
         item.insertText = new vscode.SnippetString(attribute.name + '="${1:attribute.name}"');
         item.command = {
-            title: 'Aura Component Attribute',
+            title: 'Aura Component Call Attribute',
             command: 'aurahelper.auraCodeCompletion',
-            arguments: [position, 'attribute', attribute]
+            arguments: [position, 'attributeCall', attribute]
         };
         items.push(item);
     }

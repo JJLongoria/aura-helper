@@ -1,0 +1,39 @@
+{
+    "component": [
+        {
+            "name": "access",
+            "type": "String",
+            "description": "Indicates whether the component can be used outside of its own namespace. Possible values are public (default), and global."
+        },
+        {
+            "name": "controller",
+            "type": "String",
+            "description": "The server-side controller class for the component in the format namespace.myController or myController if using the default namespace."
+        },
+        {
+            "name": "extends",
+            "type": "Component",
+            "description": "The component to be extended."
+        },
+        {
+            "name": "extensible",
+            "type": "Boolean",
+            "description": "Set to true if the component can be extended. The default is false."
+        },
+        {
+            "name": "implements",
+            "type": "String",
+            "description": "A comma-separated list of interfaces that the component implements."
+        },
+        {
+            "name": "isTemplate",
+            "type": "Boolean",
+            "description": "Set to true if the component is a template. The default is false. A template must have isTemplate=\"true\" set in its aura:component tag."
+        },
+        {
+            "name": "template",
+            "type": "Component",
+            "description": "The template for this component. A template bootstraps loading of the framework and app. The default template is aura:template. You can customize the template by creating your own component that extends the default template"
+        }
+    ]
+}

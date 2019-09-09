@@ -66,6 +66,10 @@ function getSLDSSnippetsPath(context) {
     return context.asAbsolutePath("./resources/snippets/sldsSnippets.json");
 }
 
+function getAuraComponentsDetailPath(context) {
+    return context.asAbsolutePath("./resources/assets/auraComponentsDetail.json");
+}
+
 function getDocumentObject(filePath, callback) {
     vscode.workspace.openTextDocument(filePath).then((document) => {
         logger.log("Document Opened (" + filePath + ")");
@@ -392,5 +396,6 @@ module.exports = {
     getJSSnippetsPath,
     getAuraSnippetsPath,
     getHelpPath,
-    getFilesFromFolderSync
+    getFilesFromFolderSync,
+    getAuraComponentsDetailPath
 }
