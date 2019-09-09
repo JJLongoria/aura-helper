@@ -1,0 +1,1465 @@
+{
+    "components":{
+        "input":[
+            "button",
+            "buttonGroup",
+            "buttonIcon",
+            "buttonIconStateful",
+            "buttonMenu",
+            "buttonStateful",
+            "checkboxGroup",
+            "combobox"
+        ]
+    },
+    "root": {
+        "component": [
+            {
+                "name": "body",
+                "type": "component[]",
+                "description": "The body of the component. In markup, this is everything in the body of the tag."
+            }
+        ],
+        "html": [
+            {
+                "name": "class",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            {
+                "name": "title",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Displays tooltip text when the mouse moves over the element."
+            }
+        ],
+        "input": [
+            {
+                "name": "onfocus",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the element receives focus."
+            },
+            {
+                "name": "onblur",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the element releases focus."
+            },
+            {
+                "name": "tabindex",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies the tab order of an element when the Tab key is used for navigating. The tabindex value can be set to 0 or -1. The default is 0, which means that the component is focusable and participates in sequential keyboard navigation. -1 means that the component is focusable but does not participate in keyboard navigation."
+            },
+            {
+                "name": "accesskey",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies a shortcut key to activate or focus an element."
+            }
+        ]
+    },
+
+    "aura": {
+        "component": [
+            {
+                "name": "access",
+                "type": "String",
+                "description": "Indicates whether the component can be used outside of its own namespace. Possible values are public (default), and global."
+            },
+            {
+                "name": "controller",
+                "type": "String",
+                "description": "The server-side controller class for the component in the format namespace.myController or myController if using the default namespace."
+            },
+            {
+                "name": "extends",
+                "type": "Component",
+                "description": "The component to be extended."
+            },
+            {
+                "name": "extensible",
+                "type": "Boolean",
+                "description": "Set to true if the component can be extended. The default is false."
+            },
+            {
+                "name": "implements",
+                "type": "String",
+                "description": "A comma-separated list of interfaces that the component implements."
+            },
+            {
+                "name": "isTemplate",
+                "type": "Boolean",
+                "description": "Set to true if the component is a template. The default is false. A template must have isTemplate=\"true\" set in its aura:component tag."
+            },
+            {
+                "name": "template",
+                "type": "Component",
+                "description": "The template for this component. A template bootstraps loading of the framework and app. The default template is aura:template. You can customize the template by creating your own component that extends the default template"
+            }
+        ],
+        "if":[
+            {
+                "name": "isTrue",
+                "type": "Boolean",
+                "description": "An expression that must be fulfilled in order to display the body."
+            },
+            {
+                "name": "else",
+                "type": "component[]",
+                "description": "The alternative to render when isTrue evaluates to false, and the body is not rendered. Should always be set using the aura:set tag."
+            }
+        ],
+        "iteration":[
+            {
+                "name": "items",
+                "type": "List",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The collection of data to iterate over"
+            },
+            {
+                "name": "var",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The name of the variable to use for each item inside the iteration"
+            },
+            {
+                "name": "indexVar",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name of variable to use for the index of each item inside the iteration"
+            },
+            {
+                "name": "start",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The index of the collection to start at (inclusive)"
+            },
+            {
+                "name": "end",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The index of the collection to end at (exclusive)"
+            },
+            {
+                "name": "loaded",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "false",
+                "description": "True if the iteration has finished loading the set of templates."
+            },
+            {
+                "name": "template",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The template that is used to generate components. By default, this is set from the body markup on first load."
+            }
+        ],
+        "renderIf":[
+            {
+                "name": "isTrue",
+                "type": "Boolean",
+                "description": "An expression that must be fulfilled in order to display the body."
+            },
+            {
+                "name": "else",
+                "type": "component[]",
+                "description": "The alternative content to render when isTrue evaluates to false, and the body is not rendered. Set using the <aura:set> tag."
+            }
+        ],
+        "template":[
+            {
+                "name": "title",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "Aura",
+                "description": "The title of the template."
+            },
+            {
+                "name": "auraPreInitBlock",
+                "type": "component[]",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The block of content that is rendered before Aura initialization."
+            },
+            {
+                "name": "doctype",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "<!DOCTYPE html>",
+                "description": "The DOCTYPE declaration for the template."
+            },
+            {
+                "name": "loadingText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "Loading",
+                "description": "Loading text"
+            },
+            {
+                "name": "errorTitle",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "Sorry to interrupt",
+                "description": "Error title when an error has occured."
+            },
+            {
+                "name": "errorMessage",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "CSS Error",
+                "description": "Error loading text"
+            },
+            {
+                "name": "defaultBodyClass",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "loading",
+                "description": "Default body CSS styles."
+            },
+            {
+                "name": "bodyClass",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Extra body CSS styles."
+            }
+        ],
+        "text":[
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The String to be rendered."
+            }
+        ],
+        "unescapedHtml":[
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The string that should be rendered as unescaped HTML."
+            }
+        ]
+    },
+    "lightning":{
+        "accordion":[
+            {
+                "name": "activeSectionName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The activeSectionName changes the default expanded section. The first section in the accordion is expanded by default."
+            },
+            {
+                "name": "allowMultipleSectionsOpen",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "If true, all sections will be closed by default and the accordion will allow multiple sections open at a time."
+            },
+            {
+                "name": "onsectiontoggle",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Action fired when the open sections change, it contains all open sections."
+            }
+        ],
+        "accordionSection":[
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The unique section name to use with the activeSectionName attribute in the lightning:accordion component."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The text that displays as the title of the section."
+            },
+            {
+                "name": "actions",
+                "type": "component[]",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Enables a custom menu implementation. Actions are displayed to the right of the section title."
+            }
+        ],
+        "avatar":[
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "square",
+                "description": "The variant changes the shape of the avatar. Valid values are empty, circle, and square. This value defaults to square."
+            },
+            {
+                "name": "size",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "medium",
+                "description": "The size of the avatar. Valid values are x-small, small, medium, and large. This value defaults to medium."
+            },
+            {
+                "name": "src",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The URL for the image."
+            },
+            {
+                "name": "alternativeText",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The alternative text used to describe the avatar, which is displayed as hover text on the image."
+            },
+            {
+                "name": "fallbackIconName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The Lightning Design System name of the icon used as a fallback when the image fails to load. The initials fallback relies on this for its background color. Names are written in the format 'standard:account' where 'standard' is the category, and 'account' is the specific icon to be displayed. Only icons from the standard and custom categories are allowed."
+            },
+            {
+                "name": "initials",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "If the record name contains two words, like first and last name, use the first capitalized letter of each. For records that only have a single word name, use the first two letters of that word using one capital and one lower case letter."
+            }
+        ],
+        "badge":[
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The text that displays as the title of the section."
+            }
+        ],
+        "breadcrumb":[
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The text label for the breadcrumb."
+            },
+            {
+                "name": "href",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The URL of the page that the breadcrumb goes to."
+            },
+            {
+                "name": "onclick",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the breadcrumb is clicked."
+            },
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name for the breadcrumb component. This value is optional and can be used to identify the breadcrumb in a callback."
+            }
+        ],
+        "breadcrumbs":[
+
+        ],
+        "button":[
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name for the button element. This value is optional and can be used to identify the button in a callback."
+            },
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The value for the button element. This value is optional and can be used when submitting a form."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The text to be displayed inside the button"
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "neutral",
+                "description": "The variant changes the appearance of the button. Accepted variants include base, neutral, brand, destructive, inverse and success. This value defaults to neutral."
+            },
+            {
+                "name": "iconName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The Lightning Design System name of the icon. Names are written in the format 'utility:down' where 'utility' is the category, and 'down' is the specific icon to be displayed."
+            },
+            {
+                "name": "iconPosition",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "left",
+                "description": "Describes the position of the icon with respect to body. Options include left and right. This value defaults to left"
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether this button should be displayed in a disabled state. Disabled buttons can't be clicked. This value defaults to false."
+            },
+            {
+                "name": "onclick",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the button is clicked."
+            },
+            {
+                "name": "type",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "button",
+                "description": "Specifies the type of button. Valid values are button, reset, and submit. This value defaults to button"
+            },
+            {
+                "name": "ariaLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Label describing the button to assistive technologies."
+            },
+            {
+                "name": "ariaDescribedBy",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs that provides descriptive labels for the button."
+            },
+            {
+                "name": "ariaControls",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs that this button controls the contents or presence of."
+            },
+            {
+                "name": "ariaExpanded",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Indicates whether an element the button controls is expanded or collapsed. Valid values are 'true' or 'false'."
+            },
+            {
+                "name": "ariaLive",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Indicates that the button will be updated. Valid values are 'assertive', 'polite', or 'off'."
+            },
+            {
+                "name": "ariaAtomic",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Indicates whether assistive technologies will present all, or only parts of, the changed region. Valid values are 'true' or 'false'."
+            }
+        ],
+        "buttonGroup":[
+
+        ],
+        "buttonIcon":[
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name for the button element. This value is optional and can be used to identify the button in a callback."
+            },
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The value for the button element. This value is optional and can be used when submitting a form."
+            },
+            {
+                "name": "iconName",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The Lightning Design System name of the icon. Names are written in the format 'utility:down' where 'utility' is the category, and 'down' is the specific icon to be displayed. Only utility icons can be used in this component."
+            },
+            {
+                "name": "iconClass",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The class to be applied to the contained icon element."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "border",
+                "description": "The variant changes the appearance of buttonIcon. Accepted variants include bare, container, brand, border, border-filled, bare-inverse, and border-inverse. This value defaults to border."
+            },
+            {
+                "name": "size",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "medium",
+                "description": "The size of the buttonIcon. For the bare variant, options include x-small, small, medium, and large. For non-bare variants, options include xx-small, x-small, small, and medium. This value defaults to medium."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether this button should be displayed in a disabled state. Disabled buttons can't be clicked. This value defaults to false."
+            },
+            {
+                "name": "alternativeText",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The alternative text used to describe the icon. This text should describe what happens when you click the button, for example 'Upload File', not what the icon looks like, 'Paperclip'."
+            },
+            {
+                "name": "onclick",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the button is clicked."
+            },
+            {
+                "name": "type",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "button",
+                "description": "Specifies the type of button. Valid values are button, reset, and submit. This value defaults to button"
+            },
+            {
+                "name": "tooltip",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "button",
+                "description": "Text to display when the user mouses over or focuses on the button. The tooltip is auto-positioned relative to the button and screen space."
+            },
+            {
+                "name": "ariaLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Label describing the button to assistive technologies."
+            },
+            {
+                "name": "ariaDescribedBy",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs that provides descriptive labels for the button."
+            },
+            {
+                "name": "ariaControls",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs that this button controls the contents or presence of."
+            },
+            {
+                "name": "ariaExpanded",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Indicates whether an element the button controls is expanded or collapsed. Valid values are 'true' or 'false'."
+            },
+            {
+                "name": "ariaLive",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Indicates that the button will be updated. Valid values are 'assertive', 'polite', or 'off'."
+            },
+            {
+                "name": "ariaAtomic",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Indicates whether assistive technologies will present all, or only parts of, the changed region. Valid values are 'true' or 'false'."
+            }
+        ],
+        "buttonIconStateful":[
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name for the button element. This value is optional and can be used to identify the button in a callback."
+            },
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The value for the button element. This value is optional and can be used when submitting a form."
+            },
+            {
+                "name": "iconName",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The Lightning Design System name of the icon. Names are written in the format 'utility:down' where 'utility' is the category, and 'down' is the specific icon to be displayed. Only utility icons can be used in this component."
+            },
+            {
+                "name": "size",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "medium",
+                "description": "The size of the buttonIcon. For the bare variant, options include x-small, small, medium, and large. For non-bare variants, options include xx-small, x-small, small, and medium. This value defaults to medium."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether this button should be displayed in a disabled state. Disabled buttons can't be clicked. This value defaults to false."
+            },
+            {
+                "name": "alternativeText",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The alternative text used to describe the icon. This text should describe what happens when you click the button, for example 'Upload File', not what the icon looks like, 'Paperclip'."
+            },
+            {
+                "name": "onclick",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the button is clicked."
+            },
+            {
+                "name": "selected",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether button is in selected state or not"
+            }
+        ],
+        "buttonMenu":[
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Optional text to be shown on the button"
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "border",
+                "description": "The variant changes the look of the button. Accepted variants include bare, container, border, border-filled, bare-inverse, and border-inverse. This value defaults to border."
+            },
+            {
+                "name": "onselect",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Action fired when a menu item is selected. The 'detail.menuItem' property of the passed event is the selected menu item."
+            },
+            {
+                "name": "menuAlignment",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "left",
+                "description": "Determines the alignment of the menu relative to the button. Available options are: auto, left, center, right, bottom-left, bottom-center, bottom-right. The auto option aligns the dropdown menu based on available space. This value defaults to left."
+            },
+            {
+                "name": "iconName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "utility:down",
+                "description": "The name of the icon to be used in the format 'utility:down'. This value defaults to utility:down. If an icon other than utility:down or utility:chevrondown is used, a utility:down icon is appended to the right of that icon."
+            },
+            {
+                "name": "iconSize",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "medium",
+                "description": "The size of the icon. Options include xx-small, x-small, medium, or large. This value defaults to medium."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "If true, the menu is disabled. Disabling the menu prevents users from opening it. This value defaults to false."
+            },
+            {
+                "name": "visible",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "If true, the menu items are displayed. This value defaults to false."
+            },
+            {
+                "name": "alternativeText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The assistive text for the button."
+            },
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name for the button element. This value is optional and can be used to identify the button in a callback."
+            },
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The value for the button element. This value is optional and can be used when submitting a form."
+            },
+            {
+                "name": "isLoading",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "If true, the menu is in a loading state and shows a spinner. This value defaults to false."
+            },
+            {
+                "name": "loadingStateAlternativeText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Message displayed while the menu is in the loading state."
+            },
+            {
+                "name": "isDraft",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "If true, the menu trigger shows a draft indicator. This value defaults to false."
+            },
+            {
+                "name": "draftAlternativeText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Describes the reason for showing the draft indicator. This is required when the isDraft attribute is true."
+            },
+            {
+                "name": "tooltip",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Text to display when the user mouses over or focuses on the button. The tooltip is auto-positioned relative to the button and screen space."
+            },
+            {
+                "name": "onopen",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Action fired when the menu is opened."
+            }
+        ],
+        "buttonStateful":[
+            {
+                "name": "state",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "The state of the button, which shows whether the button has been selected or not. The default state is false."
+            },
+            {
+                "name": "labelWhenOff",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The text to be displayed inside the button when state is false."
+            },
+            {
+                "name": "labelWhenOn",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The text to be displayed inside the button when state is true."
+            },
+            {
+                "name": "labelWhenHover",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The text to be displayed inside the button when state is true and the button receives focus."
+            },
+            {
+                "name": "iconNameWhenOff",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name of the icon to be used in the format 'utility:add' when the state is false."
+            },
+            {
+                "name": "iconNameWhenOn",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name of the icon to be used in the format 'utility:check' when the state is true."
+            },
+            {
+                "name": "iconNameWhenHover",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name of the icon to be used in the format 'utility:close' when the state is true and the button receives focus."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "neutral",
+                "description": "The variant changes the appearance of the button. Accepted variants include brand, destructive, inverse, neutral, success, and text. This value defaults to neutral."
+            },
+            {
+                "name": "onclick",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the button is clicked"
+            }
+        ],
+        "card":[
+            {
+                "name": "iconName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The Lightning Design System name of the icon. Names are written in the format 'utility:down' where 'utility' is the category, and 'down' is the specific icon to be displayed. The icon is displayed in the header to the left of the title."
+            },
+            {
+                "name": "actions",
+                "type": "component[]",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Actions are components such as button or buttonIcon. Actions are displayed in the header."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "base",
+                "description": "The variant changes the appearance of the card. Accepted variants include base or narrow. This value defaults to base."
+            },
+            {
+                "name": "footer",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The footer can include text or another component"
+            },
+            {
+                "name": "title",
+                "type": "Object",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The title can include text or another component, and is displayed in the header."
+            }
+        ],
+        "carousel":[
+            {
+                "name": "scrollDuration",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": 5,
+                "description": "The auto scroll duration. The default is 5 seconds, after that the next image is displayed."
+            },
+            {
+                "name": "disableAutoScroll",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether auto scroll is disabled. The default value is false."
+            },
+            {
+                "name": "disableAutoRefresh",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether the carousel should stop looping from the beginning after the last item is displayed. The default value is false."
+            }
+        ],
+        "checkboxGroup":[
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The name of the checkbox group."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Text label for the checkbox group."
+            },
+            {
+                "name": "options",
+                "type": "List",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Array of label-value pairs for each checkbox."
+            },
+            {
+                "name": "value",
+                "type": "String[]",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The list of selected checkboxes. Each array entry contains the value of a selected checkbox. The value of each checkbox is set in the options attribute."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "standard",
+                "description": "The variant changes the appearance of the checkbox group. Accepted variants include standard, label-hidden, label-inline, and label-stacked. This value defaults to standard. Use label-hidden to hide the label but make it available to assistive technology. Use label-inline to horizontally align the label and checkbox group. Use label-stacked to place the label above the checkbox group."
+            },
+            {
+                "name": "messageWhenValueMissing",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Optional message displayed when no checkbox is selected and the required attribute is set to true."
+            },
+            {
+                "name": "required",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Set to true if at least one checkbox must be selected. This value defaults to false."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Set to true if the checkbox group is disabled. Checkbox selections can't be changed for a disabled checkbox group. This value defaults to false."
+            },
+            {
+                "name": "onchange",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a checkbox value changes."
+            }
+        ],
+        "clickToDial":[
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The phone number."
+            },
+            {
+                "name": "recordId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The Salesforce record Id that's associated with the phone number."
+            },
+            {
+                "name": "params",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Comma-separated list of parameters to pass to the third-party phone system."
+            }
+        ],
+        "combobox":[
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies the name of an input element."
+            },
+            {
+                "name": "value",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies the value of an input element."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "standard",
+                "description": "The variant changes the appearance of an input field. Accepted variants include standard, label-inline, label-hidden, and label-stacked. This value defaults to standard, which displays the label above the field. Use label-hidden to hide the label but make it available to assistive technology. Use label-inline to horizontally align the label and input field. Use label-stacked to place the label above the input field."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies that an input element should be disabled. This value defaults to false."
+            },
+            {
+                "name": "readonly",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies that an input field is read-only. This value defaults to false."
+            },
+            {
+                "name": "validity",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
+            },
+            {
+                "name": "onchange",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a value attribute changes"
+            },
+            {
+                "name": "options",
+                "type": "Object[]",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "A list of options that are available for selection. Each option has the following attributes: label and value."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Text label for the combobox."
+            },
+            {
+                "name": "placeholder",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "Select an Option",
+                "description": "Text that is displayed before an option is selected, to prompt the user to select an option. The default is \"Select an Option\"."
+            },
+            {
+                "name": "dropdownAlignment",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "left",
+                "description": "Specifies where the drop-down list is aligned with or anchored to the selection field. By default the list is aligned with the selection field at the top so the list opens down. Use bottom-left to make the selection field display at the bottom so the list opens above it. Use auto to let the component determine where to open the list based on space available."
+            },
+            {
+                "name": "messageWhenValueMissing",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when the value is missing and input is required."
+            },
+            {
+                "name": "fieldLevelHelp",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Help text detailing the purpose and function of the combobox."
+            },
+            {
+                "name": "spinnerActive",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Displays a spinner to indicate activity in the dropdown list. This value defaults to false."
+            }
+        ],
+        "container":[
+            {
+                "name": "src",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The resource name, landing page and query params in url format. Navigation is supported only for the single page identified."
+            },
+            {
+                "name": "alternativeText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Used for alternative text in accessibility scenarios."
+            },
+            {
+                "name": "onmessage",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The client-side controller action to run when a message is received from the contained content."
+            },
+            {
+                "name": "onerror",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The client-side controller action to run when an error occurs when sending a message to the contained app."
+            }
+        ],
+        "availableForChatterExtensionRenderer":[
+            {
+                "name": "payload",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Payload preserved for this extension that is associated with this feed item."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "FEED",
+                "description": "The variant changes based on where the extension is rendered. Valid values are FEED and PREVIEW. The value defaults to FEED"
+            }
+        ],
+        "availableForFlowActions":[
+            {
+                "name": "timeout",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "120",
+                "description": "Maximum time (in seconds) an asynchronous call can take before returning control to the flow and executing the Local Action element's fault connector. The default value is 120. If the value is 0 or a negative number, the call never times out."
+            }
+        ],
+        "availableForFlowScreens":[
+            {
+                "name": "availableActions",
+                "type": "String[]",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The navigation actions available for this screen. Valid actions are NEXT, PREVIOUS, FINISH, and PAUSE."
+            },
+            {
+                "name": "screenHelpText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Help text for this screen."
+            },
+            {
+                "name": "navigateFlow",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Reference the appropriate navigation action to move away from this screen."
+            },
+            {
+                "name": "validate",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Custom validation to run when the flow is navigated to the next screen. Pass a function into this attribute that evaluates the component and returns values for isValid and errorMessage."
+            },
+            {
+                "name": "validate",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Custom validation to run when the flow is navigated to the next screen. Pass a function into this attribute that evaluates the component and returns values for isValid and errorMessage."
+            }
+        ],
+        "hasPageReference":[
+            {
+                "name": "pageReference",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "120",
+                "description": "An object with a String 'type' property and Object 'attributes' and 'state' properties."
+            }
+        ],
+        "utilityItem":[
+            {
+                "name": "supportsPopOut",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": true,
+                "description": "Controls the availability of pop-out functionality. Set to false to remove the pop-out option for the utility item."
+            }
+        ]
+    },
+    "clients":{
+        "hasEventContext":[
+            {
+                "name": "dates",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "READONLY - An object representing the item context pertinent to the appointment."
+            },
+            {
+                "name": "location",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "READONLY - The location of the current event."
+            }
+        ],
+        "hasItemContext":[
+            {
+                "name": "mode",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "READONLY - An enum indicating the mode of the item. Possible values are 'view', 'edit'"
+            },
+            {
+                "name": "source",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "READONLY - An enum indicating where the source is coming from. Possible values are 'email', 'event'"
+            },
+            {
+                "name": "people",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "READONLY - An object representing the contacts on the current item."
+            },
+            {
+                "name": "subject",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "READONLY - The subject of the current item."
+            },
+            {
+                "name": "messageBody",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "READONLY - The body of the current item in plain text"
+            }
+        ]
+    },
+    "force":{
+        "hasRecordId":[
+            {
+                "name": "recordId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The record Id"
+            }
+        ],
+        "hasSObjectName":[
+            {
+                "name": "sObjectName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "sObject name"
+            }
+        ]
+    }
+}

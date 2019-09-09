@@ -294,3 +294,7 @@ All notable changes to this project will be documented in this file.
         - slds.modalFootlessLtn
         - slds.modalDirectional
         - slds.modalDirectionalLtn
+
+### changed
+    - Improve code completion tools for make more easy work with Lightning
+        - Call custom or componentes with autocompletion attributes (only appear not used)
