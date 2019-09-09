@@ -1,14 +1,125 @@
 {
-    "components":{
-        "input":[
-            "button",
-            "buttonGroup",
-            "buttonIcon",
-            "buttonIconStateful",
-            "buttonMenu",
-            "buttonStateful",
-            "checkboxGroup",
-            "combobox"
+    "datatypes": {
+        "attribute": [
+            "Boolean",
+            "Date",
+            "DateTime",
+            "Decimal",
+            "Double",
+            "Integer",
+            "Long",
+            "String",
+            "Function",
+            "Object",
+            "List",
+            "Map",
+            "Set",
+            "Boolean[]",
+            "Date[]",
+            "DateTime[]",
+            "Decimal[]",
+            "Double[]",
+            "Integer[]",
+            "Long[]",
+            "String[]",
+            "Object[]"
+        ]
+    },
+    "components": {
+        "lightning": {
+            "input": [
+                "button",
+                "buttonGroup",
+                "buttonIcon",
+                "buttonIconStateful",
+                "buttonMenu",
+                "buttonStateful",
+                "checkboxGroup",
+                "combobox",
+                "input"
+            ],
+            "css": [
+                "accordion",
+                "accordionSection",
+                "avatar",
+                "badge",
+                "breadcrumb",
+                "breadcrumbs",
+                "button",
+                "buttonGroup",
+                "buttonIcon",
+                "buttonIconStateful",
+                "buttonMenu",
+                "buttonStateful",
+                "checkboxGroup",
+                "carousel",
+                "checkboxGroup",
+                "clickToDial",
+                "combobox",
+                "datatable",
+                "dynamicIcon",
+                "fileUpload",
+                "flow",
+                "formattedAddress",
+                "formattedDateTime",
+                "formattedLocation",
+                "formattedName",
+                "formattedNumber",
+                "formattedPhone",
+                "formattedRichText",
+                "formattedTime",
+                "helptext",
+                "icon",
+                "input"
+            ],
+            "html": [
+                "accordion",
+                "accordionSection",
+                "avatar",
+                "badge",
+                "breadcrumb",
+                "breadcrumbs",
+                "button",
+                "buttonGroup",
+                "buttonIcon",
+                "buttonIconStateful",
+                "buttonMenu",
+                "buttonStateful",
+                "checkboxGroup",
+                "carousel",
+                "checkboxGroup",
+                "clickToDial",
+                "combobox",
+                "datatable",
+                "dynamicIcon",
+                "fileUpload",
+                "flow",
+                "formattedAddress",
+                "formattedDateTime",
+                "formattedLocation",
+                "formattedName",
+                "formattedNumber",
+                "formattedPhone",
+                "formattedRichText",
+                "formattedTime",
+                "helptext",
+                "icon",
+                "input"
+            ],
+            "select": [
+                "combobox",
+                "dualListbox",
+                "input"
+            ]
+        }
+    },
+    "notRoot": {
+        "lightning": [
+            "utilityItem",
+            "hasPageReference",
+            "availableForFlowScreens",
+            "availableForChatterExtensionRenderer",
+            "availableForFlowActions"
         ]
     },
     "root": {
@@ -19,7 +130,7 @@
                 "description": "The body of the component. In markup, this is everything in the body of the tag."
             }
         ],
-        "html": [
+        "css": [
             {
                 "name": "class",
                 "type": "String",
@@ -27,7 +138,9 @@
                 "required": false,
                 "default": "",
                 "description": "A CSS class for the outer element, in addition to the component's base classes."
-            },
+            }
+        ],
+        "html": [
             {
                 "name": "title",
                 "type": "String",
@@ -70,9 +183,66 @@
                 "default": "",
                 "description": "Specifies a shortcut key to activate or focus an element."
             }
+        ],
+        "select": [
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies the name of an input element."
+            },
+            {
+                "name": "value",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies the value of an input element."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "standard",
+                "description": "The variant changes the appearance of an input field. Accepted variants include standard, label-inline, label-hidden, and label-stacked. This value defaults to standard, which displays the label above the field. Use label-hidden to hide the label but make it available to assistive technology. Use label-inline to horizontally align the label and input field. Use label-stacked to place the label above the input field."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies that an input element should be disabled. This value defaults to false."
+            },
+            {
+                "name": "readonly",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies that an input field is read-only. This value defaults to false."
+            },
+            {
+                "name": "validity",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
+            },
+            {
+                "name": "onchange",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a value attribute changes"
+            }
         ]
     },
-
     "aura": {
         "component": [
             {
@@ -111,7 +281,7 @@
                 "description": "The template for this component. A template bootstraps loading of the framework and app. The default template is aura:template. You can customize the template by creating your own component that extends the default template"
             }
         ],
-        "if":[
+        "if": [
             {
                 "name": "isTrue",
                 "type": "Boolean",
@@ -123,7 +293,7 @@
                 "description": "The alternative to render when isTrue evaluates to false, and the body is not rendered. Should always be set using the aura:set tag."
             }
         ],
-        "iteration":[
+        "iteration": [
             {
                 "name": "items",
                 "type": "List",
@@ -181,7 +351,7 @@
                 "description": "The template that is used to generate components. By default, this is set from the body markup on first load."
             }
         ],
-        "renderIf":[
+        "renderIf": [
             {
                 "name": "isTrue",
                 "type": "Boolean",
@@ -193,7 +363,7 @@
                 "description": "The alternative content to render when isTrue evaluates to false, and the body is not rendered. Set using the <aura:set> tag."
             }
         ],
-        "template":[
+        "template": [
             {
                 "name": "title",
                 "type": "String",
@@ -259,7 +429,7 @@
                 "description": "Extra body CSS styles."
             }
         ],
-        "text":[
+        "text": [
             {
                 "name": "value",
                 "type": "String",
@@ -269,7 +439,7 @@
                 "description": "The String to be rendered."
             }
         ],
-        "unescapedHtml":[
+        "unescapedHtml": [
             {
                 "name": "value",
                 "type": "String",
@@ -280,8 +450,8 @@
             }
         ]
     },
-    "lightning":{
-        "accordion":[
+    "lightning": {
+        "accordion": [
             {
                 "name": "activeSectionName",
                 "type": "String",
@@ -307,7 +477,7 @@
                 "description": "Action fired when the open sections change, it contains all open sections."
             }
         ],
-        "accordionSection":[
+        "accordionSection": [
             {
                 "name": "name",
                 "type": "String",
@@ -333,7 +503,7 @@
                 "description": "Enables a custom menu implementation. Actions are displayed to the right of the section title."
             }
         ],
-        "avatar":[
+        "avatar": [
             {
                 "name": "variant",
                 "type": "String",
@@ -383,7 +553,7 @@
                 "description": "If the record name contains two words, like first and last name, use the first capitalized letter of each. For records that only have a single word name, use the first two letters of that word using one capital and one lower case letter."
             }
         ],
-        "badge":[
+        "badge": [
             {
                 "name": "label",
                 "type": "String",
@@ -393,7 +563,7 @@
                 "description": "The text that displays as the title of the section."
             }
         ],
-        "breadcrumb":[
+        "breadcrumb": [
             {
                 "name": "label",
                 "type": "String",
@@ -427,10 +597,8 @@
                 "description": "The name for the breadcrumb component. This value is optional and can be used to identify the breadcrumb in a callback."
             }
         ],
-        "breadcrumbs":[
-
-        ],
-        "button":[
+        "breadcrumbs": [],
+        "button": [
             {
                 "name": "name",
                 "type": "String",
@@ -552,10 +720,8 @@
                 "description": "Indicates whether assistive technologies will present all, or only parts of, the changed region. Valid values are 'true' or 'false'."
             }
         ],
-        "buttonGroup":[
-
-        ],
-        "buttonIcon":[
+        "buttonGroup": [],
+        "buttonIcon": [
             {
                 "name": "name",
                 "type": "String",
@@ -693,7 +859,7 @@
                 "description": "Indicates whether assistive technologies will present all, or only parts of, the changed region. Valid values are 'true' or 'false'."
             }
         ],
-        "buttonIconStateful":[
+        "buttonIconStateful": [
             {
                 "name": "name",
                 "type": "String",
@@ -759,7 +925,7 @@
                 "description": "Specifies whether button is in selected state or not"
             }
         ],
-        "buttonMenu":[
+        "buttonMenu": [
             {
                 "name": "label",
                 "type": "String",
@@ -897,7 +1063,7 @@
                 "description": "Action fired when the menu is opened."
             }
         ],
-        "buttonStateful":[
+        "buttonStateful": [
             {
                 "name": "state",
                 "type": "Boolean",
@@ -971,7 +1137,7 @@
                 "description": "The action triggered when the button is clicked"
             }
         ],
-        "card":[
+        "card": [
             {
                 "name": "iconName",
                 "type": "String",
@@ -1013,7 +1179,7 @@
                 "description": "The title can include text or another component, and is displayed in the header."
             }
         ],
-        "carousel":[
+        "carousel": [
             {
                 "name": "scrollDuration",
                 "type": "Integer",
@@ -1039,7 +1205,7 @@
                 "description": "Specifies whether the carousel should stop looping from the beginning after the last item is displayed. The default value is false."
             }
         ],
-        "checkboxGroup":[
+        "checkboxGroup": [
             {
                 "name": "name",
                 "type": "String",
@@ -1113,7 +1279,7 @@
                 "description": "The action triggered when a checkbox value changes."
             }
         ],
-        "clickToDial":[
+        "clickToDial": [
             {
                 "name": "value",
                 "type": "String",
@@ -1139,63 +1305,7 @@
                 "description": "Comma-separated list of parameters to pass to the third-party phone system."
             }
         ],
-        "combobox":[
-            {
-                "name": "name",
-                "type": "String",
-                "access": "global",
-                "required": false,
-                "default": "",
-                "description": "Specifies the name of an input element."
-            },
-            {
-                "name": "value",
-                "type": "Object",
-                "access": "global",
-                "required": false,
-                "default": "",
-                "description": "Specifies the value of an input element."
-            },
-            {
-                "name": "variant",
-                "type": "String",
-                "access": "global",
-                "required": false,
-                "default": "standard",
-                "description": "The variant changes the appearance of an input field. Accepted variants include standard, label-inline, label-hidden, and label-stacked. This value defaults to standard, which displays the label above the field. Use label-hidden to hide the label but make it available to assistive technology. Use label-inline to horizontally align the label and input field. Use label-stacked to place the label above the input field."
-            },
-            {
-                "name": "disabled",
-                "type": "Boolean",
-                "access": "global",
-                "required": false,
-                "default": false,
-                "description": "Specifies that an input element should be disabled. This value defaults to false."
-            },
-            {
-                "name": "readonly",
-                "type": "Boolean",
-                "access": "global",
-                "required": false,
-                "default": false,
-                "description": "Specifies that an input field is read-only. This value defaults to false."
-            },
-            {
-                "name": "validity",
-                "type": "Object",
-                "access": "global",
-                "required": false,
-                "default": "",
-                "description": "Represents the validity states that an element can be in, with respect to constraint validation."
-            },
-            {
-                "name": "onchange",
-                "type": "action",
-                "access": "global",
-                "required": false,
-                "default": "",
-                "description": "The action triggered when a value attribute changes"
-            },
+        "combobox": [
             {
                 "name": "options",
                 "type": "Object[]",
@@ -1253,7 +1363,15 @@
                 "description": "Displays a spinner to indicate activity in the dropdown list. This value defaults to false."
             }
         ],
-        "container":[
+        "container": [
+            {
+                "name": "class",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The CSS class for the iframe element."
+            },
             {
                 "name": "src",
                 "type": "String",
@@ -1287,7 +1405,1393 @@
                 "description": "The client-side controller action to run when an error occurs when sending a message to the contained app."
             }
         ],
-        "availableForChatterExtensionRenderer":[
+        "datatable":[
+            {
+                "name": "columns",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Array of the columns object that's used to define the data types. Required properties include 'label', 'dataKey', and 'type'. The default type is 'text'."
+            },
+            {
+                "name": "data",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The array of data to be displayed."
+            },
+            {
+                "name": "keyField",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Required for better performance. Associates each row with a unique ID."
+            },
+            {
+                "name": "hideCheckboxColumn",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Hides or displays the checkbox column for row selection. To hide the checkbox column, set hideCheckboxColumn to true. The default is false."
+            },
+            {
+                "name": "hideTableHeader",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the table header should be hidden."
+            },
+            {
+                "name": "resizeColumnDisabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether column resizing is disabled. The default is false."
+            },
+            {
+                "name": "suppressBottomBar",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the inline edit Save/Cancel bottom bar should be hidden."
+            },
+            {
+                "name": "minColumnWidth",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The minimum width for all columns. The default is 50px."
+            },
+            {
+                "name": "maxColumnWidth",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The maximum width for all columns. The default is 1000px."
+            },
+            {
+                "name": "resizeStep",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The width to resize the column when user press left or right arrow. The default is 10px."
+            },
+            {
+                "name": "sortedBy",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The column fieldName that controls the sorting order. Sort the data using the onsort event handler."
+            },
+            {
+                "name": "sortedDirection",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies the sorting direction. Sort the data using the onsort event handler. Valid options include 'asc' and 'desc'."
+            },
+            {
+                "name": "defaultSortDirection",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies the default sorting direction on an unsorted column. Valid options include 'asc' and 'desc'. The default is 'asc' for sorting in ascending order."
+            },
+            {
+                "name": "showRowNumberColumn",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Shows or hides the row number column. Set to true to show the row number column. The default is false."
+            },
+            {
+                "name": "rowNumberOffset",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Determines where to start counting the row number. The default is 0."
+            },
+            {
+                "name": "enableInfiniteLoading",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Enables or disables infinite loading. The default is false."
+            },
+            {
+                "name": "loadMoreOffset",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Determines when to trigger infinite loading based on how many pixels the table's scroll position is from the bottom of the table. The default is 20."
+            },
+            {
+                "name": "isLoading",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether more data is being loaded and displays a spinner if so. The default is false."
+            },
+            {
+                "name": "maxRowSelection",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The maximum number of rows that can be selected. Checkboxes are used for selection by default, and radio buttons are used when maxRowSelection is 1."
+            },
+            {
+                "name": "selectedRows",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Enables programmatic row selection with a list of keyField values."
+            },
+            {
+                "name": "errors",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies an object containing information about cell level, row level, and table level errors. When it's set, error messages are displayed on the table accordingly."
+            },
+            {
+                "name": "draftValues",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The current values per row that are provided during inline edit."
+            },
+            {
+                "name": "oncellchange",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a cell's value changes after an inline edit. Returns the draftValues object."
+            },
+            {
+                "name": "onloadmore",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when infinite loading loads more data."
+            },
+            {
+                "name": "onrowselection",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a row is selected. Returns the selectedRows object."
+            },
+            {
+                "name": "onsort",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a column is sorted. Returns fieldName and sortDirection."
+            },
+            {
+                "name": "onheaderaction",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a header action is clicked. By default, it also closes the header actions menu. Returns the action and columnDefinition objects."
+            },
+            {
+                "name": "onrowaction",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a row action is clicked. By default, it also closes the row actions menu. Returns the eventDetails object."
+            },
+            {
+                "name": "onresize",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the table renders columns the first time and every time its resized an specific column. Returns columnWidths."
+            },
+            {
+                "name": "onsave",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when clicking on the table footer bar's save button during inline edit. Returns the draftValues object."
+            },
+            {
+                "name": "oncancel",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when clicking on the table footer bar's cancel button during inline edit. All edited cells are reverted to their original values."
+            }
+        ],
+        "dualListbox":[
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Label for the dual listbox."
+            },
+            {
+                "name": "sourceLabel",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Label for source options listbox."
+            },
+            {
+                "name": "selectedLabel",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Label for selected options listbox."
+            },
+            {
+                "name": "options",
+                "type": "Object[]",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "A list of options that are available for selection. Each option has the following attributes: label and value."
+            },
+            {
+                "name": "downButtonLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "Move selection down",
+                "description": "Label for down button."
+            },
+            {
+                "name": "removeButtonLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "Move selection to {sourceLabel}",
+                "description": "Label for remove button."
+            },
+            {
+                "name": "addButtonLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "Move selection to {selectedLabel}",
+                "description": "Label for add button."
+            },
+            {
+                "name": "upButtonLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "Move selection up",
+                "description": "Label for up button."
+            },
+            {
+                "name": "requiredOptions",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A list of required options that cannot be removed from selected options listbox. This list is populated with values from options attribute."
+            },
+            {
+                "name": "values",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A list of default options that are included in the selected options listbox. This list is populated with values from the options attribute."
+            },
+            {
+                "name": "fieldLevelHelp",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Help text detailing the purpose and function of the dual listbox."
+            },
+            {
+                "name": "min",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Minimum number of options required in the selected options listbox."
+            },
+            {
+                "name": "max",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Maximum number of options required in the selected options listbox."
+            },
+            {
+                "name": "disableReordering",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Set to true to hide the Up and Down buttons used for reordering the Selected list items."
+            },
+            {
+                "name": "size",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Number of items that display before vertical scrollbars are displayed for the listboxes. Determines the vertical size of the dual listbox."
+            },
+            {
+                "name": "showActivityIndicator",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Displays a spinner to indicate activity in the listbox. This value defaults to false."
+            }
+        ],
+        "dynamicIcon":[
+            {
+                "name": "type",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The Lightning Design System name of the dynamicIcon. Valid values are: ellie, eq, score, strength, trend, and waffle."
+            },
+            {
+                "name": "option",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The option attribute changes the appearance of the dynamicIcon. The options available depend on the type attribute. For eq: play (default) or stop For score: positive (default) or negative For strength: -3, -2, -1, 0 (default), 1, 2, 3 For trend: neutral (default), up, or down"
+            },
+            {
+                "name": "alternativeText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The alternative text used to describe the dynamicIcon. This text should describe what’s happening. For example, 'Graph is refreshing', not what the icon looks like, 'Graph'."
+            },
+            {
+                "name": "onclick",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the icon is clicked."
+            }
+        ],
+        "fileCard":[
+            {
+                "name": "fileId",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The Salesforce File ID (ContentDocument)."
+            },
+            {
+                "name": "description",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The description of the file, by default it is set to the filename"
+            },
+            {
+                "name": "hideDescription",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Hides the file description in the caption if enabled"
+            }
+        ],
+        "fileUpload":[
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The text label for the file uploader."
+            },
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Specifies the name of the input element."
+            },
+            {
+                "name": "recordId",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The record Id of the record that the uploaded file is associated to."
+            },
+            {
+                "name": "multiple",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether a user can upload more than one file simultanesouly. This value defaults to false."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether this component should be displayed in a disabled state. Disabled components can't be clicked. This value defaults to false."
+            },
+            {
+                "name": "accept",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Comma-separated list of file extensions that can be uploaded in the format .ext, such as .pdf, .jpg, or .png"
+            },
+            {
+                "name": "onuploadfinished",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when files have finished uploading."
+            }
+        ],
+        "flexipageRegionInfo":[
+            {
+                "name": "width",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The width of the region that the component resides in."
+            }
+        ],
+        "flow":[
+            {
+                "name": "onstatuschange",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the interview’s status changes or a new screen is displayed."
+            }
+        ],
+        "formattedAddress":[
+            {
+                "name": "street",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The street detail for the address."
+            },
+            {
+                "name": "city",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The city detail for the address."
+            },
+            {
+                "name": "province",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The province detail for the address."
+            },
+            {
+                "name": "country",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The country detail for the address."
+            },
+            {
+                "name": "postalCode",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The postalCode detail for the address."
+            },
+            {
+                "name": "latitude",
+                "type": "Decimal",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The latitude of the location if known. Latitude values must be within -90 and 90."
+            },
+            {
+                "name": "longitude",
+                "type": "Decimal",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The longitude of the location if known. Longitude values must be within -180 and 180."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the address is clickable. This value defaults to false."
+            },
+            {
+                "name": "showStaticMap",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Displays a static map of the location using Google Maps. This value defaults to false."
+            }
+        ],
+        "formattedDateTime":[
+            {
+                "name": "value",
+                "type": "Object",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The value to be formatted, which can be a Date object, timestamp, or an ISO8601 formatted string."
+            },
+            {
+                "name": "hour12",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Determines whether time is displayed as 12-hour. If false, time displays as 24-hour. The default setting is determined by the user's locale."
+            },
+            {
+                "name": "hour12",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Determines whether time is displayed as 12-hour. If false, time displays as 24-hour. The default setting is determined by the user's locale."
+            },
+            {
+                "name": "weekday",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies how to display the day of the week. Allowed values are narrow, short, or long."
+            },
+            {
+                "name": "era",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Allowed values are narrow, short, or long."
+            },
+            {
+                "name": "year",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Allowed values are numeric or 2-digit."
+            },
+            {
+                "name": "month",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Allowed values are 2-digit, narrow, short, or long."
+            },
+            {
+                "name": "day",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Allowed values are numeric or 2-digit."
+            },
+            {
+                "name": "hour",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Allowed values are numeric or 2-digit."
+            },
+            {
+                "name": "minute",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Allowed values are numeric or 2-digit."
+            },
+            {
+                "name": "second",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Allowed values are numeric or 2-digit."
+            },
+            {
+                "name": "timeZoneName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Display style of the time zone. Allowed values are short or long. For example, the Pacific time zone displays as 'PST' if you specify 'short', or 'Pacific Standard Time' if you specify 'long.'"
+            },
+            {
+                "name": "timeZone",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The time zone to display. Use this attribute only if you want to override the default, which is the runtime environment's time zone. Specify a time zone listed in the IANA time zone database (https://www.iana.org/time-zones). For example, set the value to 'Pacific/Honolulu' to display Hawaii time. The short code UTC is also accepted."
+            }
+        ],
+        "formattedEmail":[
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The email address that's displayed if a label is not provided."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The text label for the email."
+            },
+            {
+                "name": "hideIcon",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "If true, hides the email icon so only the email address is displayed."
+            },
+            {
+                "name": "onclick",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the email is clicked."
+            }
+        ],
+        "formattedLocation":[
+            {
+                "name": "latitude",
+                "type": "Decimal",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The latitude value of the geolocation. Latitude values must be within -90 and 90."
+            },
+            {
+                "name": "longitude",
+                "type": "Decimal",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The longitude value of the geolocation. Longitude values must be within -180 and 180."
+            }
+        ],
+        "formattedName":[
+            {
+                "name": "firstName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The value for the first name."
+            },
+            {
+                "name": "salutation",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The value for the salutation, such as Dr. or Mrs."
+            },
+            {
+                "name": "lastName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The value for the last name."
+            },
+            {
+                "name": "middleName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The value for the middle name."
+            },
+            {
+                "name": "suffix",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The value for the suffix."
+            },
+            {
+                "name": "informalName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The value for the informal name."
+            },
+            {
+                "name": "format",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "long",
+                "description": "The format for which to display the name. Valid values include short, medium, and long. This value defaults to long."
+            }
+        ],
+        "formattedNumber":[
+            {
+                "name": "format",
+                "type": "Decimal",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The value to be formatted."
+            },
+            {
+                "name": "style",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "decimal",
+                "description": "The number formatting style to use. Possible values are decimal, currency, and percent. This value defaults to decimal."
+            },
+            {
+                "name": "currencyCode",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Only used if style='currency', this attribute determines which currency is displayed. Possible values are the ISO 4217 currency codes, such as 'USD' for the US dollar."
+            },
+            {
+                "name": "currencyDisplayAs",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "symbol",
+                "description": "Determines how currency is displayed. Possible values are symbol, code, and name. This value defaults to symbol."
+            },
+            {
+                "name": "minimumIntegerDigits",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The minimum number of integer digits that are required. Possible values are from 1 to 21."
+            },
+            {
+                "name": "minimumFractionDigits",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The minimum number of fraction digits that are required."
+            },
+            {
+                "name": "maximumFractionDigits",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The maximum number of fraction digits that are allowed."
+            },
+            {
+                "name": "minimumSignificantDigits",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The minimum number of significant digits that are required. Possible values are from 1 to 21."
+            },
+            {
+                "name": "maximumSignificantDigits",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The maximum number of significant digits that are allowed. Possible values are from 1 to 21."
+            }
+        ],
+        "formattedPhone":[
+            {
+                "name": "value",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Sets the phone number to display."
+            },
+            {
+                "name": "onclick",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the phone number is clicked."
+            }
+        ],
+        "formattedRichText":[
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Sets the rich text to display."
+            },
+            {
+                "name": "linkify",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Prevents the component from creating links in the rich text."
+            }
+        ],
+        "formattedText":[
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Text to output."
+            },
+            {
+                "name": "disableLinkify",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether the text should be converted to a link. If set to true, URLs and email addresses are displayed in anchor tags."
+            }
+        ],
+        "formattedUrl":[
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The time value to format."
+            }
+        ],
+        "formattedTime":[
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The URL to be formatted."
+            },
+            {
+                "name": "target",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies where to open the link. Options include _blank, _parent, _self, and _top."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The text to display in the link."
+            },
+            {
+                "name": "tooltip",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The text to display when the mouse hovers over the link."
+            }
+        ],
+        "helptext":[
+            {
+                "name": "content",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Text to be shown in the popover."
+            },
+            {
+                "name": "iconName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "utility:info",
+                "description": "The Lightning Design System name of the icon used as the visible element. Names are written in the format 'utility:info' where 'utility' is the category, and 'info' is the specific icon to be displayed. The default value is 'utility:info'."
+            },
+            {
+                "name": "iconVariant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The iconVariant changes the appearance of the icon. Accepted variants include inverse, warning, error."
+            }
+        ],
+        "icon":[
+            {
+                "name": "iconName",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The Lightning Design System name of the icon. Names are written in the format 'utility:down' where 'utility' is the category, and 'down' is the specific icon to be displayed."
+            },
+            {
+                "name": "size",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "medium",
+                "description": "The size of the icon. Options include xx-small, x-small, small, medium, or large. This value defaults to medium."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The variant changes the appearance of a utility icon. Accepted variants include inverse, success, warning, and error. Use the inverse variant to implement a white fill in utility icons on dark backgrounds."
+            },
+            {
+                "name": "alternativeText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The alternative text used to describe the icon. This text should describe what happens when you click the button, for example 'Upload File', not what the icon looks like, 'Paperclip'."
+            },
+            {
+                "name": "src",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A uri path to a custom svg sprite, including the name of the resouce, for example: /assets/icons/standard-sprite/svg/test.svg#icon-heart"
+            }
+        ],
+        "input":[
+            {
+                "name": "type",
+                "type": "Object[]",
+                "access": "global",
+                "required": false,
+                "default": "text",
+                "description": "The type of the input. This value defaults to text."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Text label for the input."
+            },
+            {
+                "name": "formatter",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "String value with the formatter to be used for number input. Valid values include decimal, percent, percent-fixed, and currency."
+            },
+            {
+                "name": "files",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A FileList that contains selected files. Use this attribute with file input type only."
+            },
+            {
+                "name": "isLoading",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "For the search type only. Specifies whether the spinner is displayed to indicate that data is loading. This value defaults to false."
+            },
+            {
+                "name": "placeholder",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
+            },
+            {
+                "name": "maxlength",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The maximum number of characters allowed in the field. Use this attribute with email, password, search, tel, text, and url input types only."
+            },
+            {
+                "name": "minlength",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The minimum number of characters allowed in the field. Use this attribute with email, password, search, tel, text, and url input types only."
+            },
+            {
+                "name": "pattern",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies the regular expression that the input's value is checked against. Use this attribute with email, password, search, tel, text, and url input types only."
+            },
+            {
+                "name": "autocomplete",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Controls auto-filling of the field. Use this attribute with email, search, tel, text, and url input types only. Set the attribute to pass through autocomplete values to be interpreted by the browser."
+            },
+            {
+                "name": "fieldLevelHelp",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Help text detailing the purpose and function of the input. This attribute isn't supported for file, radio, toggle, and checkbox-button types."
+            },
+            {
+                "name": "max",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The maximum acceptable value for the input. Use this attribute with number, range, date, time, and datetime input types only. For number and range type, the max value is a decimal number. For the date, time, and datetime types, the max value must use a valid string for the type."
+            },
+            {
+                "name": "min",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The minimum acceptable value for the input. Use this attribute with number, range, date, time, and datetime input types only. For number and range type, the max value is a decimal number. For the date, time, and datetime types, the max value must use a valid string for the type."
+            },
+            {
+                "name": "step",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "1",
+                "description": "Granularity of the value, specified as a positive floating point number. Use this attribute with number and range input types only. Use 'any' when granularity is not a concern. This value defaults to 1."
+            },
+            {
+                "name": "checked",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether the checkbox is checked. This value defaults to false."
+            },
+            {
+                "name": "timezone",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies the time zone used when type='datetime' only. This value defaults to the user’s Salesforce time zone setting."
+            },
+            {
+                "name": "dateStyle",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The display style of the date when type='date' or type='datetime'. Valid values are short, medium (default), and long. The format of each style is specific to the locale. On mobile devices this attribute has no effect."
+            },
+            {
+                "name": "timeStyle",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The display style of the time when type='time' or type='datetime'. Valid values are short (default), medium, and long. Currently, medium and long styles look the same. On mobile devices this attribute has no effect."
+            },
+            {
+                "name": "accept",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies the types of files that the server accepts. Use this attribute with file input type only."
+            },
+            {
+                "name": "multiple",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies that a user can enter more than one value. Use this attribute with file and email input types only."
+            },
+            {
+                "name": "messageWhenBadInput",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a bad input is detected."
+            },
+            {
+                "name": "messageWhenPatternMismatch",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a pattern mismatch is detected."
+            },
+            {
+                "name": "messageWhenTypeMismatch",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a type mismatch is detected."
+            },
+            {
+                "name": "messageWhenValueMissing",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when the value is missing."
+            },
+            {
+                "name": "messageWhenRangeOverflow",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a range overflow is detected."
+            },
+            {
+                "name": "messageWhenRangeUnderflow",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a range underflow is detected."
+            },
+            {
+                "name": "messageWhenStepMismatch",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a step mismatch is detected."
+            },
+            {
+                "name": "messageWhenTooLong",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when the value is too long."
+            },
+            {
+                "name": "messageWhenTooShort",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when the value is too short"
+            },
+            {
+                "name": "messageToggleActive",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "$Label.LightningControl.activeCapitalized",
+                "description": "Text shown for the active state of a toggle. The default is \"Active\"."
+            },
+            {
+                "name": "messageToggleActive",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "$Label.LightningControl.inactiveCapitalized",
+                "description": "TText shown for then inactive state of a toggle. The default is \"Inactive\"."
+            },
+            {
+                "name": "ariaLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Describes the input to assistive technologies."
+            },
+            {
+                "name": "ariaLabelledBy",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs that provide labels for the input."
+            },
+            {
+                "name": "ariaDescribedBy",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs that provide descriptive labels for the input."
+            },
+            {
+                "name": "ariaControls",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs whose presence or content is controlled by the input."
+            },
+            {
+                "name": "timeAriaLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Describes the time input to assistive technologies when type=datetime. On mobile devices, this label is merged with ariaLabel and dateAriaLabel to describe the native date time input."
+            },
+            {
+                "name": "timeAriaLabelledBy",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs that provide descriptive labels for the time input when type=datetime. On mobile devices, this is merged with ariaDescribedBy and dateAriaDescribedBy to describe the native date time input."
+            },
+            {
+                "name": "timeAriaControls",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs whose presence or content is controlled by the time input when type=datetime. On mobile devices, this is merged with ariaControls and dateAriaControls to describe the native date time input."
+            },
+            {
+                "name": "dateAriaLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Describes the date input to assistive technologies when type=datetime. On mobile devices, this label is merged with ariaLabel and timeAriaLabel to describe the native date time input."
+            },
+            {
+                "name": "dateAriaLabelledBy",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs that provide labels for the date input when type=datetime. On mobile devices, this is merged with ariaLabelledBy and timeAriaLabelledBy to describe the native date time input."
+            },
+            {
+                "name": "dateAriaDescribedBy",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs that provide descriptive labels for the date input when type=datetime. On mobile devices, this is merged with ariaDescribedBy and timeAriaDescribedBy to describe the native date time input."
+            },
+            {
+                "name": "dateAriaControls",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs whose presence or content is controlled by the date input when type=datetime. On mobile devices, this is merged with ariaControls and timeAriaControls to describe the native date time input."
+            }
+        ],
+        "availableForChatterExtensionRenderer": [
             {
                 "name": "payload",
                 "type": "Object",
@@ -1305,7 +2809,7 @@
                 "description": "The variant changes based on where the extension is rendered. Valid values are FEED and PREVIEW. The value defaults to FEED"
             }
         ],
-        "availableForFlowActions":[
+        "availableForFlowActions": [
             {
                 "name": "timeout",
                 "type": "Integer",
@@ -1315,7 +2819,7 @@
                 "description": "Maximum time (in seconds) an asynchronous call can take before returning control to the flow and executing the Local Action element's fault connector. The default value is 120. If the value is 0 or a negative number, the call never times out."
             }
         ],
-        "availableForFlowScreens":[
+        "availableForFlowScreens": [
             {
                 "name": "availableActions",
                 "type": "String[]",
@@ -1357,7 +2861,7 @@
                 "description": "Custom validation to run when the flow is navigated to the next screen. Pass a function into this attribute that evaluates the component and returns values for isValid and errorMessage."
             }
         ],
-        "hasPageReference":[
+        "hasPageReference": [
             {
                 "name": "pageReference",
                 "type": "Object",
@@ -1367,7 +2871,7 @@
                 "description": "An object with a String 'type' property and Object 'attributes' and 'state' properties."
             }
         ],
-        "utilityItem":[
+        "utilityItem": [
             {
                 "name": "supportsPopOut",
                 "type": "Boolean",
@@ -1378,8 +2882,8 @@
             }
         ]
     },
-    "clients":{
-        "hasEventContext":[
+    "clients": {
+        "hasEventContext": [
             {
                 "name": "dates",
                 "type": "Object",
@@ -1397,7 +2901,7 @@
                 "description": "READONLY - The location of the current event."
             }
         ],
-        "hasItemContext":[
+        "hasItemContext": [
             {
                 "name": "mode",
                 "type": "String",
@@ -1440,8 +2944,8 @@
             }
         ]
     },
-    "force":{
-        "hasRecordId":[
+    "force": {
+        "hasRecordId": [
             {
                 "name": "recordId",
                 "type": "String",
@@ -1451,7 +2955,7 @@
                 "description": "The record Id"
             }
         ],
-        "hasSObjectName":[
+        "hasSObjectName": [
             {
                 "name": "sObjectName",
                 "type": "String",

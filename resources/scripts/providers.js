@@ -134,12 +134,13 @@ function onComponentTag(document, position) {
 function analizeComponentTag(document, position) {
     let componentTag = "";
     let line = position.line;
-    let startTagLine = 0;
+    let startTagLine = line;
     let endLoop = false;
     while (!endLoop) {
         let lineText = document.lineAt(line).text;
         if (lineText.indexOf('<') !== -1) {
             startTagLine = line;
+            endLoop = true;
         }
         line--
         if (line < 0)
@@ -161,19 +162,16 @@ function analizeComponentTag(document, position) {
 }
 
 function getBaseComponentsAttributes(componentTagData, position) {
-    let baseComponentsDetail = JSON.parse(fileUtils.getFileContent(fileUtils.getBaseComponentsDetailPath(constants.applicationContext)));
+    let baseComponentsDetail = constants.componentsDetail;
     let items = [];
-    for (const attribute of baseComponentsDetail['root']['component']) {
-        let item = new vscode.CompletionItem(attribute.name, vscode.CompletionItemKind.Field);
-        item.detail = 'Type: ' + attribute.type;
-        item.documentation = attribute.description;
-        item.insertText = new vscode.SnippetString(attribute.name + '="${1:' + attribute.name + '}" ');
-        item.command = {
-            title: 'Aura Component Call Attribute',
-            command: 'aurahelper.auraCodeCompletion',
-            arguments: [position, 'attributeCall', attribute]
-        };
-        items.push(item);
+    let item = getCodeCompletionItemAttribute('aura:id', 'Type: String', 'Aura ID of the component', 'String', position, 'aura:id');
+    items.push(item);
+    let notRoot = baseComponentsDetail.notRoot;
+    if (notRoot[componentTagData.namespace] && !notRoot[componentTagData.namespace].includes(componentTagData.name)) {
+        for (const attribute of baseComponentsDetail['root']['component']) {
+            let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
+            items.push(item);
+        }
     }
     if (baseComponentsDetail[componentTagData.namespace]) {
         let baseComponentNS = baseComponentsDetail[componentTagData.namespace];
@@ -187,15 +185,61 @@ function getBaseComponentsAttributes(componentTagData, position) {
                     }
                 });
                 if (!exists) {
-                    let item = new vscode.CompletionItem(attribute.name, vscode.CompletionItemKind.Field);
-                    item.detail = 'Type: ' + attribute.type;
-                    item.documentation = attribute.description;
-                    item.insertText = new vscode.SnippetString(attribute.name + '="${1:' + attribute.name + '}" ');
-                    item.command = {
-                        title: 'Aura Component Call Attribute',
-                        command: 'aurahelper.auraCodeCompletion',
-                        arguments: [position, 'attributeCall', attribute]
-                    };
+                    let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
+                    items.push(item);
+                }
+            }
+        }
+    }
+    for (const rootElement of getRootItems(baseComponentsDetail, 'css',componentTagData, position)) {
+        items.push(rootElement);
+    }
+    for (const rootElement of getRootItems(baseComponentsDetail, 'input',componentTagData, position)) {
+        items.push(rootElement);
+    } 
+    for (const rootElement of getRootItems(baseComponentsDetail, 'html',componentTagData, position)) {
+        items.push(rootElement);
+    } 
+    for (const rootElement of getRootItems(baseComponentsDetail, 'select',componentTagData, position)) {
+        items.push(rootElement);
+    }    
+    return items;
+}
+
+function getCodeCompletionItemAttribute(name, detail, description, datatype, position, data) {
+    let item = new vscode.CompletionItem(name, vscode.CompletionItemKind.Variable);
+    item.detail = detail;
+    item.documentation = description;
+    if (datatype === 'action') {
+        item.insertText = new vscode.SnippetString(name + '="${1:{!c.jsAction}}" ');
+    }
+    else {
+        item.insertText = new vscode.SnippetString(name + '="$1" $0');
+    }
+    item.preselect = true;
+    item.command = {
+        title: 'Aura Code Completion',
+        command: 'aurahelper.auraCodeCompletion',
+        arguments: [position, data]
+    };
+    return item;
+}
+
+function getRootItems(baseComponentsDetail, rootElement,componentTagData, position){
+    let items = [];
+    if (baseComponentsDetail.components[componentTagData.namespace] && baseComponentsDetail.components[componentTagData.namespace][rootElement]) {
+        let inputComponentes = baseComponentsDetail.components[componentTagData.namespace][rootElement];
+        if (inputComponentes.includes(componentTagData.name)) {
+            for (const attribute of baseComponentsDetail['root'][rootElement]) {
+                let exists = false;
+                let existingAttributes = componentTagData.attributes;
+                Object.keys(existingAttributes).forEach(function (key) {
+                    if (key === attribute.name) {
+                        exists = true;
+                    }
+                });
+                if (!exists) {
+                    let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
                     items.push(item);
                 }
             }
@@ -214,15 +258,7 @@ function getComponentAttributes(componentStructure, componentTagData, position) 
             }
         });
         if (!exists) {
-            let item = new vscode.CompletionItem(attribute.name, vscode.CompletionItemKind.Field);
-            item.detail = 'Type: ' + attribute.type;
-            item.documentation = attribute.description;
-            item.insertText = new vscode.SnippetString(attribute.name + '="${1:' + attribute.name + '}" ');
-            item.command = {
-                title: 'Aura Component Call Attribute',
-                command: 'aurahelper.auraCodeCompletion',
-                arguments: [position, 'attributeCall', attribute]
-            };
+            let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
             items.push(item);
         }
     }
@@ -259,6 +295,7 @@ function getControllerFunctions(componentStructure, position) {
         else {
             item.detail = "Aura Controller Function";
         }
+        item.preselect = true;
         item.documentation = func.auraSignature;
         item.insertText = func.name;
         item.command = {
@@ -285,6 +322,7 @@ function getApexControllerFunctions(componentStructure, position) {
             else {
                 item.detail = "Apex Controller Function";
             }
+            item.preselect = true;
             item.documentation = method.signature;
             item.insertText = method.name;
             item.command = {
@@ -311,6 +349,7 @@ function getHelperFunctions(componentStructure, position) {
         else {
             item.detail = "Aura Helper Function";
         }
+        item.preselect = true;
         item.documentation = func.auraSignature;
         item.insertText = func.signature;
         item.command = {
@@ -361,6 +400,7 @@ function getComponents(position, document) {
             item.documentation = 'Aura Application ' + folder;
             title = 'Aura Application';
         }
+        item.preselect = true;
         item.detail = title;
         item.insertText = folder;
         item.command = {
