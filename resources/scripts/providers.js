@@ -3,6 +3,7 @@ const fileUtils = require('./fileUtils');
 const languageUtils = require('./languageUtils');
 const logger = require('./logger');
 const constants = require('./constants');
+const config = require('./config');
 
 let apexProvider = {
     provideCompletionItems(document, position) {
@@ -10,6 +11,8 @@ let apexProvider = {
         if (line.indexOf('/**') === -1) {
             return Promise.resolve(undefined);
         }
+        if (!config.getConfig().activeApexCommentSuggestion)
+            return Promise.resolve(undefined);
         let item = new vscode.CompletionItem('/** */', vscode.CompletionItemKind.Snippet);
         item.detail = 'Apex Comment';
         item.insertText = '';
@@ -49,30 +52,44 @@ let auraComponentProvider = {
             let componentStructure = languageUtils.getComponentStructure(componentPath);
             if (activationOption1 === 'v.') {
                 logger.log('Provider', 'v.');
+                if (!config.getConfig().activeAttributeSuggest)
+                    return Promise.resolve(undefined);
                 items = getAttributes(componentStructure, position);
             } else if (activationOption1 === 'c.') {
                 logger.log('Provider', 'c.');
                 if (document.fileName.indexOf('.cmp') !== -1) {
+                    if (!config.getConfig().activeControllerFunctionsSuggest)
+                        return Promise.resolve(undefined);
                     items = getControllerFunctions(componentStructure, position);
                 } else if (document.fileName.indexOf('.js') !== -1) {
+                    if (!config.getConfig().activeControllerMethodsSuggest)
+                        return Promise.resolve(undefined);
                     items = getApexControllerFunctions(componentStructure, position);
                 }
             } else if (helperActivationOption === 'helper.') {
                 logger.log('Provider', 'helper.');
+                if (!config.getConfig().activeHelperFunctionsSuggest)
+                    return Promise.resolve(undefined);
                 if (document.fileName.indexOf('.js') !== -1) {
                     items = getHelperFunctions(componentStructure, position);
                 }
             }
         } else if (activationOption1 === 'c:' && activationOption2 !== '<c:') {
             logger.log('Provider', 'c:');
+            if (!config.getConfig().activeComponentSuggest)
+                return Promise.resolve(undefined);
             items = getComponents(position, document);
         } else if (line.indexOf('<c:') !== -1) {
             if (line.toLowerCase().trim() === '<c:' && !isComponentTag) {
                 logger.log('Provider', '<c:');
+                if (!config.getConfig().activeComponentSuggest)
+                    return Promise.resolve(undefined);
                 items = getComponents(position, document);
             }
             else if (isComponentTag) {
                 logger.log('Provider', '<c:ComponentName');
+                if (!config.getConfig().activeCustomComponentCallSuggest)
+                    return Promise.resolve(undefined);
                 let componentName = line.split(':')[1].split(' ')[0];
                 let filePath = fileUtils.getFileFolderPath(fileUtils.getFileFolderPath(document.uri.fsPath)) + '\\' + componentName + '\\' + componentName + '.cmp';
                 let componentStructure = languageUtils.getComponentStructure(filePath);
@@ -80,6 +97,8 @@ let auraComponentProvider = {
             }
         } else if ((line.indexOf('<') !== -1 && line.indexOf(':') !== -1) || (isComponentTag)) {
             logger.log('Provider', '<NS:ComponentName');
+            if (!config.getConfig().activeComponentCallSuggest)
+                return Promise.resolve(undefined);
             items = getBaseComponentsAttributes(componentTagData, position);
         }
         return Promise.resolve(items);
@@ -162,6 +181,7 @@ function analizeComponentTag(document, position) {
 }
 
 function getBaseComponentsAttributes(componentTagData, position) {
+    logger.logJSON('config', config.getConfig());
     let baseComponentsDetail = constants.componentsDetail;
     let items = [];
     let item = getCodeCompletionItemAttribute('aura:id', 'Type: String', 'Aura ID of the component', 'String', position, 'aura:id');
@@ -191,18 +211,18 @@ function getBaseComponentsAttributes(componentTagData, position) {
             }
         }
     }
-    for (const rootElement of getRootItems(baseComponentsDetail, 'css',componentTagData, position)) {
+    for (const rootElement of getRootItems(baseComponentsDetail, 'css', componentTagData, position)) {
         items.push(rootElement);
     }
-    for (const rootElement of getRootItems(baseComponentsDetail, 'input',componentTagData, position)) {
+    for (const rootElement of getRootItems(baseComponentsDetail, 'input', componentTagData, position)) {
         items.push(rootElement);
-    } 
-    for (const rootElement of getRootItems(baseComponentsDetail, 'html',componentTagData, position)) {
+    }
+    for (const rootElement of getRootItems(baseComponentsDetail, 'html', componentTagData, position)) {
         items.push(rootElement);
-    } 
-    for (const rootElement of getRootItems(baseComponentsDetail, 'select',componentTagData, position)) {
+    }
+    for (const rootElement of getRootItems(baseComponentsDetail, 'select', componentTagData, position)) {
         items.push(rootElement);
-    }    
+    }
     return items;
 }
 
@@ -225,7 +245,7 @@ function getCodeCompletionItemAttribute(name, detail, description, datatype, pos
     return item;
 }
 
-function getRootItems(baseComponentsDetail, rootElement,componentTagData, position){
+function getRootItems(baseComponentsDetail, rootElement, componentTagData, position) {
     let items = [];
     if (baseComponentsDetail.components[componentTagData.namespace] && baseComponentsDetail.components[componentTagData.namespace][rootElement]) {
         let inputComponentes = baseComponentsDetail.components[componentTagData.namespace][rootElement];
