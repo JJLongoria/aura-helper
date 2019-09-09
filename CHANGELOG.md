@@ -274,3 +274,23 @@ All notable changes to this project will be documented in this file.
     - Modified command "AuraHelper: Edit Aura Doc Base Template" for "AuraHelper: Edit Aura Documentation Template"
     - Delete command AuraHelper: Edit Aura Doc Method Template
     - Delete command AuraHelper: Edit Aura Doc Method Parameter Template
+
+## [1.1.0] - 2019-09-07
+### Added
+    - Added Ligtning Snippets Variations
+        - ltn.buttonBrand
+        - ltn.buttonNeutral
+        - ltn.buttonDestructive
+        - ltn.buttonSuccess
+
+    - Added SLDS Snippets
+        - slds.modal
+        - slds.modalLtn
+        - slds.modalTagline
+        - slds.modalTaglineLtn
+        - slds.modalHeadless
+        - slds.modalHeadlessLtn
+        - slds.modalFootless
+        - slds.modalFootlessLtn
+        - slds.modalDirectional
+        - slds.modalDirectionalLtn
