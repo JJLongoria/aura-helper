@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Salesforce extension for make more powerfull and easy the development work. Work with Apex and Lightning",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
@@ -233,5 +233,8 @@
 		"mocha": "^6.1.4",
 		"typescript": "^3.3.1",
 		"vscode-test": "^1.0.2"
-	}
+	},
+	"extensionDependencies": [
+		"salesforce.salesforcedx-vscode"
+	]
 }
