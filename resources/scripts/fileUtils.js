@@ -433,5 +433,6 @@ module.exports = {
     createFileSync,
     getOldApexCommentTemplatePath,
     getOldAuraDocumentUserTemplatePath,
-    getOldUserTemplatesPath
+    getOldUserTemplatesPath,
+    getSLDSSnippetsPath,
 }

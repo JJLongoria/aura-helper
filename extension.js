@@ -7,6 +7,7 @@ const fileUtils = require('./resources/scripts/fileUtils');
 const constants = require('./resources/scripts/constants');
 const logger = require('./resources/scripts/logger');
 const windowUtils = require('./resources/scripts/windowUtils');
+const snippetUtils = require('./resources/scripts/snippetUtils');
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -22,7 +23,7 @@ function activate(context) {
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 	onInit(context);
-	let addApexMethodComment = vscode.commands.registerCommand('aurahelper.completion.apex.comment', function () {
+	let addApexMethodComment = vscode.commands.registerCommand('aurahelper.completion.apex.comment.command', function () {
 		try {
 			commandManager.addApexMethodCommentCommand();
 		}
@@ -114,7 +115,7 @@ function activate(context) {
 	});
 
 
-	vscode.commands.registerCommand('aurahelper.apexComentCompletion', function (position) {
+	vscode.commands.registerCommand('aurahelper.completion.apex.comment', function (position) {
 		try {
 			commandManager.apexCommentCompletionCommand(position, context);
 		}
@@ -123,7 +124,7 @@ function activate(context) {
 			windowUtils.showErrorMessage("An error ocurred when analizing Apex code for show completion tools");
 		}
 	});
-	vscode.commands.registerCommand('aurahelper.auraCodeCompletion', function (position, selected, data, componentTagData) {
+	vscode.commands.registerCommand('aurahelper.completion.aura', function (position, selected, data, componentTagData) {
 		try {
 			commandManager.auraCodeCompletionCommand(position, selected, data, componentTagData);
 		}
@@ -132,7 +133,7 @@ function activate(context) {
 			windowUtils.showErrorMessage("An error ocurred when analizing Aura code for show completion tools");
 		}
 	});
-	vscode.commands.registerCommand('aurahelper.statusBarItemPressed', function () {
+	vscode.commands.registerCommand('aurahelper.statusbar.pressed', function () {
 		try {
 			commandManager.statusBarItemPressedCommand();
 		}
@@ -172,6 +173,10 @@ function onInit(context) {
 async function init(context, callback){
 	constants.applicationContext = context;
 	constants.componentsDetail = JSON.parse(fileUtils.getFileContent(fileUtils.getBaseComponentsDetailPath(context)));
+	let snippets = snippetUtils.loadSnippets(context);
+	constants.auraSnippets = snippets.auraSnippets;
+	constants.jsSnippets = snippets.jsSnippets;
+	constants.sldsSnippets = snippets.sldsActivations;
 	if (!fileUtils.isFileExists(context.storagePath))
 		fileUtils.createFolder(context.storagePath);
 	if (!fileUtils.isFileExists(fileUtils.getUserTemplatesPath(context)))
