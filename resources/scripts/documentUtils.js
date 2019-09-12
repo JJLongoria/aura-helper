@@ -73,7 +73,7 @@ function createNewAuraDocumentation(context, filePath, callback) {
 				});
 			} else {
 				fileUtils.getDocumentObject(fileUtils.getAuraDocumentUserTemplatePath(context), function (auraDocTemplate) {
-					var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));
+					var helperMethods = languageUtils.parseJSFile(fileUtils.getDocumentText(helperDoc));;
 					var controllerMethods = [];
 					var snippet = snippetUtils.getAuraDocumentationSnippet(controllerMethods, helperMethods, auraDocTemplate);
 					callback.call(this, snippet);
@@ -117,8 +117,7 @@ function addMethodBlock(context, editor) {
 								logger.log("Controller Methods Selected");
 								for (let i = 0; i < controllerMethods.functions.length; i++) {
 									const method = controllerMethods.functions[i];
-									if (method.type == 'func')
-										methodNames.push(method.signature);
+									methodNames.push(method.signature);
 								}
 							}
 							else if (fileSelected == "Helper Methods") {
@@ -126,8 +125,7 @@ function addMethodBlock(context, editor) {
 								var methodNames = [];
 								for (let i = 0; i < helperMethods.functions.length; i++) {
 									const method = helperMethods.functions[i];
-									if (method.type == 'func')
-										methodNames.push(method.signature);
+									methodNames.push(method.signature);
 								}
 							}
 							if (methodNames.length > 0) {
@@ -171,7 +169,6 @@ function addMethodBlock(context, editor) {
 							logger.log("Controller Methods Selected");
 							for (let i = 0; i < controllerMethods.functions.length; i++) {
 								const method = controllerMethods.functions[i];
-								if (method.type == 'func')
 									methodNames.push(method.signature);
 							}
 						}
@@ -218,7 +215,6 @@ function countStartWhitespaces(str) {
 function addApexCommentBlock(editor, position, context) {
 	logger.log('Execute addApexCommentBlock method');
 	logger.log('position', position);
-	// Get the line that we are currently on
 	let lineNum;
 	if (position !== undefined) {
 		lineNum = position.line + 1;
@@ -227,15 +223,20 @@ function addApexCommentBlock(editor, position, context) {
 		lineNum = editor.selection.active.line + 1;
 	}
 	var methodOrClassLine = editor.document.lineAt(lineNum);
-	// If the line starts with a @, then it's a @AuraEnabled or @RemoteAction and look at the next line
-	var currLine = lineNum;
-	while (methodOrClassLine.text.trim().startsWith('@')) {
-		currLine++;
-		methodOrClassLine = editor.document.lineAt(currLine);
-	}
-	// If the line is not empty, parse it and add in a snippet on the line above.
 	if (!methodOrClassLine.isEmptyOrWhitespace) {
-		const apexClassOrMethod = languageUtils.parseApexClassOrMethod(methodOrClassLine.text);
+		let endLoop = false;
+		let content = "";
+		while (!endLoop) {
+			if (methodOrClassLine.text.indexOf("{") === -1 || methodOrClassLine.text.indexOf(";") === -1) {
+				content += methodOrClassLine.text + "\n";
+			} else {
+				content += methodOrClassLine.text + "\n";
+				endLoop = true;
+			}
+			lineNum++;
+			methodOrClassLine = editor.document.lineAt(lineNum);
+		}
+		const apexClassOrMethod = languageUtils.parseApexClassOrMethod(content);
 		fileUtils.getDocumentObject(fileUtils.getApexCommentUserTemplatePath(context), function (commentTemplateDoc) {
 			let commentTemplate = JSON.parse(fileUtils.getDocumentText(commentTemplateDoc));
 			const apexComment = snippetUtils.getApexComment(apexClassOrMethod, commentTemplate);

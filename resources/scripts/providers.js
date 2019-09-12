@@ -5,12 +5,29 @@ const logger = require('./logger');
 const constants = require('./constants');
 const config = require('./config');
 
-let apexProvider = {
+let codeCompletionProvider = {
     provideCompletionItems(document, position) {
-        const line = document.lineAt(position.line).text;
-        if (line.indexOf('/**') === -1) {
-            return Promise.resolve(undefined);
+        logger.log('Run codeCompletionProvider');
+        let items;
+        if (!isAllowedFile(document))
+            return Promise.resolve(items);
+        if (isApexFile(document)) {
+            items = provideApexCompletion(document, position);
+        } else if (isAuraFile(document)) {
+            if (isAuraComponentFile(document)) {
+                items = provideAuraComponentCompletion(document, position);
+            } else if (isAuraJSFile(document)) {
+                items = provideJSCompletion(document, position);
+            }
         }
+        return Promise.resolve(items);
+    }
+}
+
+function provideApexCompletion(document, position) {
+    let items = [];
+    const line = document.lineAt(position.line).text;
+    if (line.indexOf('/**') !== -1) {
         if (!config.getConfig().activeApexCommentSuggestion)
             return Promise.resolve(undefined);
         let item = new vscode.CompletionItem('/** */', vscode.CompletionItemKind.Snippet);
@@ -21,94 +38,189 @@ let apexProvider = {
             command: 'aurahelper.apexComentCompletion',
             arguments: [position]
         };
-        return Promise.resolve([item]);
+        items.push(item);
     }
-};
+    return items;
+}
 
-let auraComponentProvider = {
-
-    provideCompletionItems(document, position) {
-        logger.log('Run auraComponentProvider');
-        if (document.fileName.indexOf('Controller.js') === -1 && document.fileName.indexOf('Helper.js') === -1 && document.fileName.indexOf('.cmp') === -1)
-            return Promise.resolve(undefined);
-        const line = document.lineAt(position.line).text;
-        let isComponentTag = onComponentTag(document, position);
-        logger.log('isComponentTag', isComponentTag);
-        if (line.indexOf('v.') === -1 && line.indexOf('c.') === -1 && line.indexOf('helper.') === -1 && line.indexOf('c:') === -1 && line.indexOf('<') === -1 && line.indexOf(':') === -1 && !isComponentTag) {
-            return Promise.resolve(undefined);
+function provideAuraComponentCompletion(document, position) {
+    logger.log("run provideAuraComponentCompletion method");
+    let items = [];
+    const line = document.lineAt(position.line).text;
+    let isComponentTag = onComponentTag(document, position);
+    let componentTagData;
+    if (!isAuraProvider(position, line, isComponentTag))
+        return Promise.resolve(undefined);
+        let snippetActivation = getAuraSnippetsActivation(position, line);
+    if (isComponentTag)
+        componentTagData = analizeComponentTag(document, position);
+    let activationOption1 = line.substring(position.character - 2, position.character);
+    let activationOption2 = line.substring(position.character - 3, position.character);
+    logger.log("isComponentTag", isComponentTag);
+    if (activationOption1 === 'v.' || activationOption1 === 'c.') {
+        let componentStructure = languageUtils.getComponentStructure(document.fileName);
+        if (activationOption1 === 'v.') {
+            logger.log('Provider', 'v.');
+            if (!config.getConfig().activeAttributeSuggest)
+                return Promise.resolve(undefined);
+            items = getAttributes(componentStructure, position, componentTagData);
+        } else if (activationOption1 === 'c.') {
+            logger.log('Provider', 'c.');
+            if (!config.getConfig().activeControllerFunctionsSuggest)
+                return Promise.resolve(undefined);
+            items = getControllerFunctions(componentStructure, position, componentTagData);
         }
-        let items = [];
-        let activationOption1 = line.substring(position.character - 2, position.character);
-        let activationOption2 = line.substring(position.character - 3, position.character);
-        let helperActivationOption = line.substring(position.character - 7, position.character);
-        let componentTagData;
-        logger.log('activationOption1', activationOption1);
-        logger.log('activationOption2', activationOption2);
-        logger.log('helperActivationOption', helperActivationOption);
-        if (isComponentTag)
-            componentTagData = analizeComponentTag(document, position);
-        if (activationOption1 === 'v.' || activationOption1 === 'c.' || helperActivationOption === 'helper.') {
-            let componentPath = document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp');
-            let componentStructure = languageUtils.getComponentStructure(componentPath);
-            if (activationOption1 === 'v.') {
-                logger.log('Provider', 'v.');
-                if (!config.getConfig().activeAttributeSuggest)
-                    return Promise.resolve(undefined);
-                items = getAttributes(componentStructure, position);
-            } else if (activationOption1 === 'c.') {
-                logger.log('Provider', 'c.');
-                if (document.fileName.indexOf('.cmp') !== -1) {
-                    if (!config.getConfig().activeControllerFunctionsSuggest)
-                        return Promise.resolve(undefined);
-                    items = getControllerFunctions(componentStructure, position);
-                } else if (document.fileName.indexOf('.js') !== -1) {
-                    if (!config.getConfig().activeControllerMethodsSuggest)
-                        return Promise.resolve(undefined);
-                    items = getApexControllerFunctions(componentStructure, position);
-                }
-            } else if (helperActivationOption === 'helper.') {
-                logger.log('Provider', 'helper.');
-                if (!config.getConfig().activeHelperFunctionsSuggest)
-                    return Promise.resolve(undefined);
-                if (document.fileName.indexOf('.js') !== -1) {
-                    items = getHelperFunctions(componentStructure, position);
-                }
-            }
-        } else if (activationOption1 === 'c:' && activationOption2 !== '<c:') {
-            logger.log('Provider', 'c:');
+    } else if (activationOption1 === 'c:' && activationOption2 !== '<c:') {
+        logger.log('Provider', 'c:');
+        if (!config.getConfig().activeComponentSuggest)
+            return Promise.resolve(undefined);
+        items = getComponents(position, document, componentTagData);
+    } else if (line.indexOf('<c:') !== -1) {
+        if (line.toLowerCase().trim() === '<c:' && !isComponentTag) {
+            logger.log('Provider', '<c:');
             if (!config.getConfig().activeComponentSuggest)
                 return Promise.resolve(undefined);
-            items = getComponents(position, document);
-        } else if (line.indexOf('<c:') !== -1) {
-            if (line.toLowerCase().trim() === '<c:' && !isComponentTag) {
-                logger.log('Provider', '<c:');
-                if (!config.getConfig().activeComponentSuggest)
-                    return Promise.resolve(undefined);
-                items = getComponents(position, document);
-            }
-            else if (isComponentTag) {
-                logger.log('Provider', '<c:ComponentName');
-                if (!config.getConfig().activeCustomComponentCallSuggest)
-                    return Promise.resolve(undefined);
-                let componentName = line.split(':')[1].split(' ')[0];
-                let filePath = fileUtils.getFileFolderPath(fileUtils.getFileFolderPath(document.uri.fsPath)) + '\\' + componentName + '\\' + componentName + '.cmp';
-                let componentStructure = languageUtils.getComponentStructure(filePath);
-                items = getComponentAttributes(componentStructure, componentTagData, position);
-            }
-        } else if ((line.indexOf('<') !== -1 && line.indexOf(':') !== -1) || (isComponentTag)) {
-            logger.log('Provider', '<NS:ComponentName');
-            if (!config.getConfig().activeComponentCallSuggest)
-                return Promise.resolve(undefined);
-            items = getBaseComponentsAttributes(componentTagData, position);
+            items = getComponents(position, document, componentTagData);
         }
-        return Promise.resolve(items);
+        else if (isComponentTag) {
+            logger.log('Provider', '<c:ComponentName');
+            if (!config.getConfig().activeCustomComponentCallSuggest)
+                return Promise.resolve(undefined);
+            let lineSplits = line.split(':');
+            if (lineSplits.length >= 2) {
+                let componentName = lineSplits[1].split(' ')[0];
+                if (componentName) {
+                    let filePath = fileUtils.getFileFolderPath(fileUtils.getFileFolderPath(document.uri.fsPath)) + '\\' + componentName + '\\' + componentName + '.cmp';
+                    let componentStructure = languageUtils.getComponentStructure(filePath);
+                    items = getComponentAttributes(componentStructure, componentTagData, position);
+                }
+            }
+        }
+    } else if (isComponentTag) {
+        logger.log('Provider', '<NS:ComponentName');
+        if (!config.getConfig().activeComponentCallSuggest)
+            return Promise.resolve(undefined);
+        items = getBaseComponentsAttributes(componentTagData, position);
+    } 
+    return items;
+}
+
+function getSnippetCompletion(position, snippet) {
+    let item = new vscode.CompletionItem(snippet.prefix, vscode.CompletionItemKind.Variable);
+    item.detail = snippet.description;
+    let body = snippet.body.join("\n");
+    item.documentation = new vscode.MarkdownString(body);
+    item.insertText = new vscode.SnippetString(body);
+    item.preselect = true;
+    item.command = {
+        title: 'Aura Code Completion',
+        command: 'aurahelper.completion.aura',
+        arguments: [position, 'itemAttribute', snippet]
+    };
+    return item;
+}
+
+function provideJSCompletion(document, position) {
+    let items = [];
+    const line = document.lineAt(position.line).text;
+    let activationOption1 = line.substring(position.character - 2, position.character);
+    let helperActivationOption = line.substring(position.character - 7, position.character);
+    let snippetActivation = getAuraSnippetsActivation(position, line);
+    if (activationOption1 === 'v.' || activationOption1 === 'c.' || helperActivationOption === 'helper.') {
+        let componentStructure = languageUtils.getComponentStructure(document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp'));
+        if (activationOption1 === 'v.') {
+            logger.log('Provider', 'v.');
+            if (!config.getConfig().activeAttributeSuggest)
+                return Promise.resolve(undefined);
+            items = getAttributes(componentStructure, position, undefined);
+        } else if (activationOption1 === 'c.') {
+            logger.log('Provider', 'c.');
+            if (!config.getConfig().activeControllerMethodsSuggest)
+                return Promise.resolve(undefined);
+            items = getApexControllerFunctions(componentStructure, position);
+        } else if (helperActivationOption === 'helper.') {
+            logger.log('Provider', 'helper.');
+            if (!config.getConfig().activeHelperFunctionsSuggest)
+                return Promise.resolve(undefined);
+            items = getHelperFunctions(componentStructure, position);
+        }
     }
-};
+    return items;
+}
+
+function isAllowedFile(document) {
+    return !(document.fileName.indexOf('.js') === -1 && document.fileName.indexOf('.cmp') === -1 && document.fileName.indexOf('.cls') === -1 && document.fileName.indexOf('.trigger') === -1 && document.fileName.indexOf('.page') === -1 && document.fileName.indexOf('.component') === -1);
+}
+
+function isApexFile(document) {
+    return document.fileName.indexOf('.cls') !== -1 || document.fileName.indexOf('.trigger') !== -1;
+}
+
+function isAuraFile(document) {
+    return document.fileName.indexOf('Controller.js') !== -1 || document.fileName.indexOf('Helper.js') !== -1 || document.fileName.indexOf('.cmp') !== -1;
+}
+
+function isAuraComponentFile(document) {
+    return document.fileName.indexOf('.cmp') !== -1
+}
+
+function isAuraJSFile(document) {
+    return document.fileName.indexOf('Controller.js') !== -1 || document.fileName.indexOf('Helper.js') !== -1;
+}
+
+function isAuraProvider(position, line, isComponentTag) {
+    return !(line.indexOf('v.') === -1 && line.indexOf('c.') === -1 && line.indexOf('helper.') === -1 && line.indexOf('c:') === -1 && line.indexOf('<') === -1 && line.indexOf(':') === -1 && !isComponentTag) || isAuraSnippetActivation(position, line);
+}
+
+function isAuraSnippetActivation(position, line) {
+    if (getAuraSnippetsActivation(position, line))
+        return true;
+    return false;
+}
+
+function getAuraSnippetsActivation(position, line) {
+    let activation = undefined;
+    let auraActivation = line.substring(position.character - 5, position.character);
+    let ltngActivation = line.substring(position.character - 5, position.character);
+    let forceActivation = line.substring(position.character - 6, position.character);
+    let forceChatterActivation = line.substring(position.character - 13, position.character);
+    let forceCommunityActivation = line.substring(position.character - 15, position.character);
+    let ltnActivation = line.substring(position.character - 4, position.character);
+    let ltnCommunityActivation = line.substring(position.character - 13, position.character);
+    let ltnSnapinActivation = line.substring(position.character - 10, position.character);
+    let uiActivation = line.substring(position.character - 3, position.character);
+    let sldslActivation = line.substring(position.character - 5, position.character);
+    if (auraActivation === 'aura.')
+        activation = auraActivation;
+    if (ltngActivation === 'ltng.')
+        activation = ltngActivation;
+    if (forceActivation === 'force.')
+        activation = forceActivation;
+    if (forceChatterActivation === 'forceChatter.')
+        activation = forceChatterActivation;
+    if (forceCommunityActivation === 'forceCommunity.')
+        activation = forceCommunityActivation;
+    if (ltnActivation === 'ltn.')
+        activation = ltnActivation;
+    if (ltnCommunityActivation === 'ltnCommunity.')
+        activation = ltnCommunityActivation;
+    if (ltnSnapinActivation === 'ltnSnapin.')
+        activation = ltnSnapinActivation;
+    if (uiActivation === 'ui.')
+        activation = uiActivation;
+    if (sldslActivation === 'slds.')
+        activation = sldslActivation;
+    if(activation)
+        activation = activation.replace(".", "");
+    return activation;
+}
 
 function onComponentTag(document, position) {
     let endLoop = false;
     let line = position.line;
     while (!endLoop) {
+        if (line <= 0)
+            endLoop = true;
         let lineText = document.lineAt(line).text;
         let lineTokens = languageUtils.tokenize(lineText);
         if (line == position.line) {
@@ -122,7 +234,7 @@ function onComponentTag(document, position) {
             }
             index = fromIndex;
             if (fromIndex > 0) {
-                while (index != -1) {
+                while (index >= 0) {
                     let token = lineTokens[index];
                     if (token.tokenType === 'lABracket')
                         return true;
@@ -134,7 +246,7 @@ function onComponentTag(document, position) {
         }
         else {
             let index = lineTokens.length - 1;
-            while (index != -1) {
+            while (index >= 0) {
                 let token = lineTokens[index];
                 if (token.tokenType === 'lABracket')
                     return true;
@@ -144,8 +256,6 @@ function onComponentTag(document, position) {
             }
         }
         line--;
-        if (line < 0)
-            endLoop = true;
     }
     return false;
 }
@@ -177,15 +287,22 @@ function analizeComponentTag(document, position) {
         }
         line++;
     }
-    return languageUtils.analizeComponentTag(componentTag, position);
+    let componentTagData = languageUtils.analizeComponentTag(componentTag);
+    return componentTagData;
 }
 
 function getBaseComponentsAttributes(componentTagData, position) {
-    logger.logJSON('config', config.getConfig());
     let baseComponentsDetail = constants.componentsDetail;
     let items = [];
-    let item = getCodeCompletionItemAttribute('aura:id', 'Type: String', 'Aura ID of the component', 'String', position, 'aura:id');
-    items.push(item);
+    let haveAuraId = false;
+    for(const existingAttributes of componentTagData.attributes){
+        if(existingAttributes.name === 'aura:id'){
+            haveAuraId = true;
+            break;
+        }
+    }
+    if(!haveAuraId)
+        items.push(getCodeCompletionItemAttribute('aura:id', 'Type: String', 'Aura ID of the component', 'String', position, 'aura:id'));
     let notRoot = baseComponentsDetail.notRoot;
     if (notRoot[componentTagData.namespace] && !notRoot[componentTagData.namespace].includes(componentTagData.name)) {
         for (const attribute of baseComponentsDetail['root']['component']) {
@@ -239,8 +356,8 @@ function getCodeCompletionItemAttribute(name, detail, description, datatype, pos
     item.preselect = true;
     item.command = {
         title: 'Aura Code Completion',
-        command: 'aurahelper.auraCodeCompletion',
-        arguments: [position, data]
+        command: 'aurahelper.completion.aura',
+        arguments: [position, 'itemAttribute', data]
     };
     return item;
 }
@@ -285,7 +402,7 @@ function getComponentAttributes(componentStructure, componentTagData, position) 
     return items;
 }
 
-function getAttributes(componentStructure, position) {
+function getAttributes(componentStructure, position, componentTagData) {
     let items = [];
     for (const attribute of componentStructure.attributes) {
         let item = new vscode.CompletionItem('v.' + attribute.name, vscode.CompletionItemKind.Field);
@@ -294,15 +411,15 @@ function getAttributes(componentStructure, position) {
         item.insertText = attribute.name;
         item.command = {
             title: 'Aura Component Attribute',
-            command: 'aurahelper.auraCodeCompletion',
-            arguments: [position, 'attribute', attribute]
+            command: 'aurahelper.completion.aura',
+            arguments: [position, 'attribute', attribute, componentTagData]
         };
         items.push(item);
     }
     return items;
 }
 
-function getControllerFunctions(componentStructure, position) {
+function getControllerFunctions(componentStructure, position, componentTagData) {
     let items = [];
     for (const func of componentStructure.controllerFunctions) {
         let item = new vscode.CompletionItem('c.' + func.name, vscode.CompletionItemKind.Function);
@@ -320,8 +437,8 @@ function getControllerFunctions(componentStructure, position) {
         item.insertText = func.name;
         item.command = {
             title: 'Aura Controller Function',
-            command: 'aurahelper.auraCodeCompletion',
-            arguments: [position, 'function', func]
+            command: 'aurahelper.completion.aura',
+            arguments: [position, 'function', func, componentTagData]
         };
         items.push(item);
     }
@@ -347,10 +464,23 @@ function getApexControllerFunctions(componentStructure, position) {
             item.insertText = method.name;
             item.command = {
                 title: 'Apex Controller Function',
-                command: 'aurahelper.auraCodeCompletion',
+                command: 'aurahelper.completion.aura',
                 arguments: [position, 'method', method]
             };
             items.push(item);
+        }
+        if (method.params && method.params.length) {
+            let itemParams = new vscode.CompletionItem(method.name + '.params', vscode.CompletionItemKind.Variable);
+            itemParams.detail = "Get method parameters on json object";
+            itemParams.preselect = true;
+            itemParams.documentation = "Return JSON Object with method params";
+            itemParams.insertText = method.name + '.params';
+            itemParams.command = {
+                title: 'Apex Controller Params',
+                command: 'aurahelper.completion.aura',
+                arguments: [position, 'params', method]
+            };
+            items.push(itemParams);
         }
     }
     return items;
@@ -374,7 +504,7 @@ function getHelperFunctions(componentStructure, position) {
         item.insertText = func.signature;
         item.command = {
             title: 'Aura Helper Function',
-            command: 'aurahelper.auraCodeCompletion',
+            command: 'aurahelper.completion.aura',
             arguments: [position, 'function', func]
         };
         items.push(item);
@@ -382,7 +512,7 @@ function getHelperFunctions(componentStructure, position) {
     return items;
 }
 
-function getComponents(position, document) {
+function getComponents(position, document, componentTagData) {
     let items = [];
     let auraFolder = fileUtils.getFileFolderPath(fileUtils.getFileFolderPath(document.uri.fsPath));
     let folders = fileUtils.getFilesFromFolderSync(auraFolder);
@@ -423,17 +553,27 @@ function getComponents(position, document) {
         item.preselect = true;
         item.detail = title;
         item.insertText = folder;
+        let data = {
+            name: folder
+        };
         item.command = {
             title: title,
-            command: 'aurahelper.auraCodeCompletion',
-            arguments: [position, title, document.uri.fsPath]
+            command: 'aurahelper.completion.aura',
+            arguments: [position, title, data, componentTagData]
         };
         items.push(item);
     }
     return items;
 }
 
+function getSobjects() {
+    let objects = [];
+    let files = fileUtils.getFilesFromFolderSync(fileUtils.getMetadataIndexPath(constants.applicationContext));
+    for (const file of files) {
+        objects.push(file.replace(".json", ""));
+    }
+}
+
 module.exports = {
-    apexProvider,
-    auraComponentProvider
+    codeCompletionProvider,
 }

@@ -2,93 +2,185 @@ const logger = require('./logger');
 const fileUtils = require('./fileUtils');
 const constants = require('./constants');
 
-function parseApexClassOrMethod(str) {
+function parseApexClassOrMethod(methodSignature) {
     logger.log('Execute parseApexClassOrMethod method');
-    var apexClassOrMethod = {
-        methodName: '',
-        className: '',
-        hasReturn: false,
-        returnType: '',
-        parameters: []
-    }
-    const methodSplit = str.split(/[\s\t]/);
-    let hasReturn = true;
-    let methodName;
-    let lastResult;
-    let returnType;
-    let className;
-    // Find the name of the method. We are tokenizing by a space.
-    for (let thisStr of methodSplit) {
-        const paren = thisStr.indexOf('(');
-        if (paren === 0) {
-            // If the paren is at 0 of this token, then the method name is the previous token (the user typed "myFunc ()")
-            methodName = lastResult;
-            break;
-        }
-        else if (paren > 0) {
-            // If the paren is greater than 0 of this token, then the method name is in this token (the user typed "myFunc()")
-            methodName = thisStr.substr(0, paren);
-            break;
-        }
-        else if (thisStr.toLowerCase() === 'void') {
-            // If this token is the word void, there is no return parameter, so we don't need to show that part of the javadoc.
-            hasReturn = false;
-        } else if (thisStr.toLowerCase() !== 'void') {
-            returnType = thisStr.toLowerCase();
-        }
-        // We store this token so we can access it on the next pass if needed.
-        lastResult = thisStr;
-    }
-    if (methodName === undefined) {
-        let isOnClass = false;
-        for (let thisStr of methodSplit) {
-            if (isOnClass) {
-                className = thisStr;
-                isOnClass = false;
-            }
-            if (thisStr === 'class') {
-                isOnClass = true;
-            }
+    var data = {
+        classData: {
+            modifier: undefined,
+            isAbstract: false,
+            isVirtual: false,
+            interfaces: [],
+            extendsFrom: undefined,
+            name: undefined,
+            withSharing: true,
+
+        },
+        methodData: {
+            annotation: undefined,
+            name: undefined,
+            isStatic: false,
+            isFinal: false,
+            isAbstract: false,
+            isVirtual: false,
+            params: [],
+            returnType: undefined,
+            signature: undefined
         }
     }
-    logger.log('methodName', methodName);
-    logger.log('className', className);
-    if (methodName === undefined && className === undefined) {
-        return ``;
-    }
-    let variableList = new Array();
-    if (methodName !== undefined) {
-        let maxSize = 0;
-        const variableRE = new RegExp(/\(([^)]+)\)/);
-        // If there are variables, this extracts the list of them.
-        if (variableRE.test(str)) {
-            const varStr = variableRE.exec(str)[1];
-            const varSplit = varStr.split(',');
-            // We tokenize by the comma.
-            for (let thisStr of varSplit) {
-                // Trimming any whitespace in this token
-                const thisVar = thisStr.trim().split(' ');
-                // If this is a valid variable with two words in it, add it to the array.
-                if (thisVar.length === 2) {
-                    let variable = {
-                        type: thisVar[0],
-                        name: thisVar[1]
-                    };
-                    variableList.push(variable);
-                    // We're keeping track of the maximum length of the variables so we can format nicely
-                    if (variable.name.length + variable.type.length > maxSize) {
-                        maxSize = variable.name.length + variable.type.length;
+    let parenIndent = 0;
+    let aBracketIndent = 0;
+    let returnIndexStart = 0;
+    let returnIndexEnd = 0;
+    let tokens = tokenize(methodSignature);
+    let index = 0;
+    let isClass = methodSignature.indexOf('class') !== -1;
+    let endLoop = false;
+    while (!endLoop) {
+        let token = tokens[index];
+        let lastToken = getLastToken(tokens, index);
+        let nextToken = getNextToken(tokens, index);
+        if (token.tokenType !== 'semicolon' && token.tokenType !== 'lBracket') {
+            if (isClass) {
+                if (token.tokenType === 'identifier' && (token.content.toLowerCase() === 'public' || token.content.toLowerCase() === 'global' || token.content.toLowerCase() === 'private'))
+                    data.classData.modifier = token.content;
+                else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'without' && nextToken && nextToken.tokenType === 'identifier' && nextToken.content.toLowerCase() === 'sharing')
+                    data.classData.withSharing = false;
+                else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'class' && nextToken && nextToken.tokenType === 'identifier')
+                    data.classData.name = nextToken.content;
+                else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'abstract')
+                    data.classData.isAbstrac = true;
+                else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'virtual')
+                    data.classData.isVirtual = true;
+                else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'implements') {
+                    var interfaceName = "";
+                    while (token.content !== 'extends' || token.tokenType !== 'lBracket') {
+                        token = tokens[index];
+                        if (token.tokenType === 'lABracket') {
+                            aBracketIndent++;
+                        }
+                        else if (token.tokenType === 'rABracket') {
+                            aBracketIndent--;
+                        }
+                        if (token.tokenType === 'comma' && aBracketIndent == 0) {
+                            data.classData.interfaces.push(interfaceName);
+                            interfaceName = "";
+                        } else {
+                            interfaceName += token.content;
+                        }
+                        index++;
                     }
+                    if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'extends') {
+                        var extendsName = "";
+                        while (token.tokenType !== 'lBracket') {
+                            token = tokens[index];
+                            if (token.tokenType !== 'lBracket')
+                                extendsName += token.content;
+                            index++;
+                        }
+                        data.classData.extendsFrom = extendsName;
+                    }
+                } else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'extends') {
+                    var extendsName = "";
+                    while (token.tokenType !== 'lBracket') {
+                        token = tokens[index];
+                        if (token.tokenType !== 'lBracket')
+                            extendsName += token.content;
+                        index++;
+                    }
+                    data.classData.extendsFrom = extendsName;
+                }
+            } else {
+                if (token.tokenType === 'identifier' && (token.content.toLowerCase() === 'public' || token.content.toLowerCase() === 'global' || token.content.toLowerCase() === 'private' || token.content.toLowerCase() === 'webservice' || token.content.toLowerCase() === 'protected')) {
+                    data.methodData.modifier = token.content;
+                    returnIndexStart = index + 1;
+                } else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'abstract') {
+                    data.methodData.isAbstrac = true;
+                    returnIndexStart = index + 1;
+                } else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'virtual') {
+                    data.methodData.isVirtual = true;
+                    returnIndexStart = index + 1;
+                } else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'static') {
+                    data.methodData.isStatic = true;
+                    returnIndexStart = index + 1;
+                } else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'final') {
+                    data.methodData.isFinal = true;
+                    returnIndexStart = index + 1;
+                } else if (token.tokenType === 'at' && nextToken && nextToken.tokenType === 'identifier') {
+                    data.methodData.annotation = "@";
+                    while (token.line == nextToken.line) {
+                        index++;
+                        token = tokens[index];
+                        nextToken = getNextToken(tokens, index);
+                        data.methodData.annotation += token.content;
+                    }
+                } else if (token.tokenType === 'identifier' && nextToken && nextToken.tokenType === 'lParen') {
+                    returnIndexEnd = index;
+                    data.methodData.name = token.content;
+                    let param = {
+                        name: "",
+                        type: ""
+                    };
+                    while (token.tokenType !== 'rParen') {
+                        token = tokens[index];
+                        lastToken = getLastToken(tokens, index);
+                        nextToken = getNextToken(tokens, index);
+                        if (token.tokenType === 'lParen') {
+                            parenIndent++;
+                        }
+                        else if (token.tokenType === 'rParen') {
+                            parenIndent--;
+                        }
+                        else if (token.tokenType === 'lABracket') {
+                            aBracketIndent++;
+                        }
+                        else if (token.tokenType === 'rABracket') {
+                            aBracketIndent--;
+                        }
+                        if ((nextToken.tokenType === 'comma' || nextToken.tokenType === 'rParen') && token.tokenType !== 'lParen' && aBracketIndent == 0) {
+                            param.name = token.content;
+                            data.methodData.params.push(param);
+                            param = {
+                                name: "",
+                                type: ""
+                            };
+                        } else if (parenIndent > 0 && token.tokenType !== 'lParen' && token.tokenType !== 'comma') {
+                            param.type += token.content;
+                        }
+                        index++;
+                    }
+                    index--;
+                    if (!data.methodData.modifier)
+                        data.methodData.modifier = 'public';
+                    data.methodData.returnType = getMethodReturnType(returnIndexStart, returnIndexEnd, tokens);
+                    data.methodData.signature = data.methodData.modifier;
+                    if (data.methodData.isStatic)
+                        data.methodData.signature += ' static';
+                    if (data.methodData.isAbstrac)
+                        data.methodData.signature += ' abstract';
+                    if (data.methodData.isVirtual)
+                        data.methodData.signature += ' virtual'
+                    if (data.methodData.isVirtual)
+                        data.methodData.signature += ' virtual'
+                    if (data.methodData.returnType)
+                        data.methodData.signature += ' ' + data.methodData.returnType;
+                    else
+                        data.methodData.signature += ' void';
+                    data.methodData.signature += ' ' + data.methodData.name + '(';
+                    let params = [];
+                    for (const param of data.methodData.params) {
+                        params.push(param.type + ' ' + param.name);
+                    }
+                    data.methodData.signature += params.join(', ');
+                    data.methodData.signature += ')';
                 }
             }
         }
+        else {
+            endLoop = true;
+        }
+        index++;
     }
-    apexClassOrMethod.methodName = methodName;
-    apexClassOrMethod.className = className;
-    apexClassOrMethod.hasReturn = hasReturn;
-    apexClassOrMethod.returnType = returnType;
-    apexClassOrMethod.parameters = variableList;
-    return apexClassOrMethod;
+    return data;
 }
 
 function parseJSFile(fileContent) {
@@ -438,10 +530,11 @@ function parseTokensForJS(tokens) {
                         }
                     }
                 }
-            }
+            } 
         }
         index++;
     }
+    logger.logJSON('fileStructure', fileStructure);
     return fileStructure;
 }
 
@@ -499,9 +592,10 @@ function parseTokensForCMP(tokens) {
                 // Is on Handlers
                 fileStructure.handlers.push(getTagData(tokens, index));
             }
-        }
+        } 
         index++;
     }
+    logger.logJSON('fileStructure', fileStructure);
     return fileStructure;
 }
 
@@ -610,24 +704,19 @@ function parseTokensForApexClass(tokens) {
             } else if (token.tokenType === 'identifier' && (token.content.toLowerCase() === 'public' || token.content.toLowerCase() === 'global' || token.content.toLowerCase() === 'private' || token.content.toLowerCase() === 'webservice' || token.content.toLowerCase() === 'protected')) {
                 modifier = token.content;
                 returnIndexStart = index + 1;
-            }
-            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'abstract') {
+            } else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'abstract') {
                 isAbstrac = true;
                 returnIndexStart = index + 1;
-            }
-            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'virtual') {
+            } else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'virtual') {
                 isVirtual = true;
                 returnIndexStart = index + 1;
-            }
-            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'static') {
+            } else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'static') {
                 isStatic = true;
                 returnIndexStart = index + 1;
-            }
-            else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'final') {
+            } else if (token.tokenType === 'identifier' && token.content.toLowerCase() === 'final') {
                 isFinal = true;
                 returnIndexStart = index + 1;
-            }
-            else if (token.tokenType === 'at' && nextToken && nextToken.tokenType === 'identifier') {
+            } else if (token.tokenType === 'at' && nextToken && nextToken.tokenType === 'identifier') {
                 annotation = "@";
                 while (token.line == nextToken.line) {
                     index++;
@@ -635,8 +724,7 @@ function parseTokensForApexClass(tokens) {
                     nextToken = getNextToken(tokens, index);
                     annotation += token.content;
                 }
-            }
-            else if (token.tokenType === 'identifier' && nextToken && nextToken.tokenType === 'lParen') {
+            } else if (token.tokenType === 'identifier' && nextToken && nextToken.tokenType === 'lParen') {
                 returnIndexEnd = index;
                 name = token.content;
                 let param = {
@@ -721,6 +809,7 @@ function parseTokensForApexClass(tokens) {
         }
         index++;
     }
+    logger.logJSON('fileStructure', fileStructure);
     return fileStructure;
 }
 
@@ -732,9 +821,13 @@ function getMethodReturnType(indexStart, indexEnd, tokens) {
     return returnType;
 }
 
-function analizeComponentTag(componentTag, position) {
+function analizeComponentTag(componentTag) {
     logger.log('componentTag', componentTag);
     let componentTagData = {
+        position: {
+            line: -1,
+            character: ""
+        },
         namespace: "",
         name: "",
         attributes: {}
@@ -758,6 +851,57 @@ function analizeComponentTag(componentTag, position) {
     }
     logger.logJSON('componentTagData', componentTagData);
     return componentTagData;
+}
+
+function analizeJSForPutApexParams(text) {
+    let tokens = tokenize(text);
+    let index = 0;
+    let startColumn = 0;
+    let close = true;
+    let complete = true;
+    while (index < tokens.length) {
+        let token = tokens[index];
+        let lastToken = getLastToken(tokens, index);
+        let nextToken = getNextToken(tokens, index);
+        if (token.content === 'c' && nextToken && nextToken.tokenType === 'dot') {
+            startColumn = token.startColumn;
+            if (lastToken && (lastToken.tokenType === 'comma' || lastToken.tokenType === 'equal')) {
+                complete = false;
+                if (lastToken && lastToken.tokenType !== 'equal')
+                    close = false
+            }
+        }
+        index++;
+    }
+    return {
+        startColumn: startColumn,
+        close: close,
+        complete: complete
+    };
+}
+
+function analizeCMPForPutAttributes(text, position) {
+    let tokens = tokenize(text);
+    let index = 0;
+    let openBracket = false;
+    let startColumn = 0;
+    while (index < tokens.length) {
+        let token = tokens[index];
+        let nextToken = getNextToken(tokens, index);
+        if (token.tokenType === 'lBracket' && token.startColumn <= position.character) {
+            openBracket = true;
+        }
+        if (token.tokenType === 'rBracket' && token.startColumn <= position.character) {
+            openBracket = false;
+        }
+        if (token.content === 'v' && nextToken && nextToken.tokenType === 'dot')
+            startColumn = token.startColumn;
+        index++;
+    }
+    return {
+        openBracket: openBracket,
+        startColumn: startColumn
+    };
 }
 
 function getComponentStructure(componentPath) {
@@ -790,7 +934,7 @@ function getComponentStructure(componentPath) {
             let classStructure = parseApexClassFile(fileUtils.getFileContent(classPath));
             for (const method of classStructure.methods) {
                 let existing = false;
-                for (const existingMethod of classStructure.methods) {
+                for (const existingMethod of componentStructure.apexFunctions) {
                     if (method.name === existingMethod.name) {
                         existing = true;
                         break;
@@ -894,6 +1038,7 @@ function getComponentStructure(componentPath) {
             }
         }
     }
+    logger.logJSON("componentStructure", componentStructure);
     return componentStructure;
 }
 
@@ -910,8 +1055,7 @@ function getHelperFunctions(componentPath) {
 function getJSFunctions(jsPath) {
     let functions = [];
     if (fileUtils.isFileExists(jsPath)) {
-        let controllerContent = fileUtils.getFileContent(jsPath);
-        let fileStructure = parseJSFile(controllerContent);
+        let fileStructure = parseJSFile(fileUtils.getFileContent(jsPath));
         functions = fileStructure.functions;
     }
     return functions;
@@ -927,7 +1071,10 @@ function getTagData(tokens, index) {
         token = tokens[index];
         let lastToken = getLastToken(tokens, index);
         let nextToken = getNextToken(tokens, index);
-        if (token && token.tokenType === 'equal' && lastToken && lastToken.tokenType === 'identifier' && nextToken && nextToken.tokenType === 'quotte') {
+        if(token && token.tokenType === 'colon' && lastToken && lastToken.tokenType === 'identifier' && lastToken.content == "aura" && nextToken && nextToken.tokenType === 'identifier' && nextToken.content === 'id'){
+            paramName = "aura:id";
+        }
+        else if (token && token.tokenType === 'equal' && lastToken && lastToken.tokenType === 'identifier' && nextToken && nextToken.tokenType === 'quotte' && !paramName) {
             paramName = lastToken.content;
         }
         else if (token && token.tokenType === 'quotte' && lastToken && lastToken.tokenType === 'equal') {
@@ -966,11 +1113,31 @@ function getWhitespaces(number) {
     return whitespace;
 }
 
+function isOnQuery(position, document) {
+    let text = "";
+    let line = 0;
+    while (line <= position.line) {
+        text += document.lineAt(line).text + "\n";
+    }
+    let tokens = tokenize(text);
+    let isOnQuery = false;
+    let index = 0;
+    while (index < tokens.length && !isOnQuery) {
+        let token = tokens[index];
+        let nextToken = getNextToken(tokens, index);
+        let lastToken = getLastToken(tokens, index);
+    }
+    return isOnQuery;
+}
+
 module.exports = {
     parseApexClassOrMethod,
     parseJSFile,
     parseCMPFile,
     getComponentStructure,
     tokenize,
-    analizeComponentTag
+    analizeComponentTag,
+    analizeJSForPutApexParams,
+    analizeCMPForPutAttributes,
+    isOnQuery
 }

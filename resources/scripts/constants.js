@@ -1,7 +1,13 @@
 const applicationContext = {};
 const componentsDetail = {};
+const auraSnippets = {};
+const jsSnippets = {};
+const sldsSnippets = {};
 
 module.exports = {
     applicationContext,
-    componentsDetail
+    componentsDetail,
+    auraSnippets,
+    jsSnippets,
+    sldsSnippets
 }
