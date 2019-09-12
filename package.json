@@ -83,27 +83,27 @@
 		},
 		"commands": [
 			{
-				"command": "aurahelper.addApexComment",
+				"command": "aurahelper.completion.apex.comment",
 				"title": "AuraHelper: Add Apex Comment"
 			},
 			{
-				"command": "aurahelper.addJsFunction",
+				"command": "aurahelper.completion.js.function",
 				"title": "AuraHelper: Add Javascript Aura Function"
 			},
 			{
-				"command": "aurahelper.addMethodBlock",
-				"title": "AuraHelper: Add Method Block to Doc"
+				"command": "aurahelper.completion.documentation.method",
+				"title": "AuraHelper: Add Method Block to Documentation"
 			},
 			{
-				"command": "aurahelper.editApexCommentTemplate",
+				"command": "aurahelper.template.apex.comment",
 				"title": "AuraHelper: Edit Apex Comment Template"
 			},
 			{
-				"command": "aurahelper.editAuraDocumentationTemplate",
+				"command": "aurahelper.template.aura.documentation",
 				"title": "AuraHelper: Edit Aura Documentation Template"
 			},
 			{
-				"command": "aurahelper.genAuraDoc",
+				"command": "aurahelper.completion.aura.documentation",
 				"title": "AuraHelper: Generate Aura Documentation"
 			},
 			{
@@ -111,8 +111,16 @@
 				"title": "AuraHelper: Help"
 			},
 			{
-				"command": "aurahelper.newAuraFile",
+				"command": "aurahelper.file.new.aura",
 				"title": "AuraHelper: New Aura File"
+			},
+			{
+				"command": "aurahelper.metadata.refresh.index",
+				"title": "AuraHelper: Refresh Metadata Index"
+			},
+			{
+				"command": "aurahelper.metadata.refresh.object",
+				"title": "AuraHelper: Refresh Metadata Index for Object"
 			}
 		],
 		"snippets": [
@@ -182,27 +190,27 @@
 		"menus":{
 			"explorer/context":[{
 				"when":"resourceExtname == .cmp",
-				"command": "aurahelper.newAuraFile",
+				"command": "aurahelper.file.new.aura",
 				"group": "navigation"
 			},
 			{
 				"when":"resourceExtname == .auradoc",
-				"command": "aurahelper.genAuraDoc",
+				"command": "aurahelper.completion.aura.documentation",
 				"group": "navigation"
 			},
 			{
 				"when":"resource =~ /./aura/ && resourceExtname =~ /^(?!(.app|.cmp|.auradoc|.evt|.intf|.css|.design|.html|.js|.svg)$)/",
-				"command": "aurahelper.newAuraFile",
+				"command": "aurahelper.file.new.aura",
 				"group": "navigation"
 			}],
 			"editor/context":[{
 				"when":"resourceExtname == .cmp",
-				"command": "aurahelper.newAuraFile",
+				"command": "aurahelper.file.new.aura",
 				"group": "auraHelper@1"
 			},
 			{
 				"when":"resourceExtname == .auradoc",
-				"command": "aurahelper.genAuraDoc",
+				"command": "aurahelper.completion.aura.documentation",
 				"group": "auraHelper@1"
 			}]
 		}

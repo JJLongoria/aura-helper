@@ -275,7 +275,7 @@ All notable changes to this project will be documented in this file.
     - Delete command AuraHelper: Edit Aura Doc Method Template
     - Delete command AuraHelper: Edit Aura Doc Method Parameter Template
 
-## [1.1.0] - 2019-09-07
+## [1.1.0] - 2019-09-09
 ### Added
     - Added Settings for control if use autocompletion tools and code suggest
 
@@ -297,6 +297,16 @@ All notable changes to this project will be documented in this file.
         - slds.modalDirectional
         - slds.modalDirectionalLtn
 
-### changed
+### Changed
     - Improve code completion tools for make more easy work with Lightning
         - Call custom or standard componentes with autocompletion attributes (only appear not used)
+
+## [1.2.0] - 2019-09-09
+### Added
+    - Support for getting apex method parameters from JavaScript with "c.[methodName].params"
+    - Refresh Metadata Index command
+    - Refresh Metadata Index for Object command
+
+### Fixed
+    - Fixed bugs with Apex Comment completion
+    - Fixed bugs when getting inherited apex controller methods

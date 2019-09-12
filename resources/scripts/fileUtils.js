@@ -30,8 +30,12 @@ function copyFile(sourcePath, targetPath) {
     fs.copyFileSync(sourcePath, targetPath);
 }
 
-function getUserTemplatesPath(context) {
+function getOldUserTemplatesPath(context) {
     return context.asAbsolutePath("./resources/userTemplates");
+}
+
+function getUserTemplatesPath(context) {
+    return context.storagePath + "\\"  + "userTemplates";
 }
 
 function getAuraDocumentTemplatePath(context) {
@@ -42,12 +46,20 @@ function getApexCommentTemplatePath(context) {
     return context.asAbsolutePath("./resources/templates/apexComment.json");
 }
 
+function getOldApexCommentTemplatePath(context) {
+    return context.asAbsolutePath("./resources/userTemplates/apexComment.json");
+}
+
 function getAuraDocumentUserTemplatePath(context) {
+    return context.storagePath + "\\"  + "userTemplates\\auraDocumentation.json";
+}
+
+function getOldAuraDocumentUserTemplatePath(context) {
     return context.asAbsolutePath("./resources/userTemplates/auraDocumentation.json");
 }
 
 function getApexCommentUserTemplatePath(context) {
-    return context.asAbsolutePath("./resources/userTemplates/apexComment.json");
+    return  context.storagePath + "\\"  + "userTemplates\\apexComment.json";
 }
 
 function getHelpPath(context) {
@@ -68,6 +80,14 @@ function getSLDSSnippetsPath(context) {
 
 function getBaseComponentsDetailPath(context) {
     return context.asAbsolutePath("./resources/assets/baseComponentsDetail.json");
+}
+
+function getMetadataIndexPath(context) {
+    return context.storagePath + "\\"  + "metadata";
+}
+
+function getStoredOrgsPath(context){
+    return context.storagePath + "\\"  + "activeOrgs.json";
 }
 
 function getDocumentObject(filePath, callback) {
@@ -130,6 +150,10 @@ function createFile(filePath, content, callback) {
         else
             callback.call(this, null);
     })
+}
+
+function createFileSync(filePath, content){
+    fs.writeFileSync(filePath, content);
 }
 
 function getFileFolderPath(filePath) {
@@ -198,7 +222,7 @@ function getHelp(context, callback) {
             jsNS[getSnippetNS(snippet)].push({ snippetName: key, snippet: snippet });
         });
         let snippetMenuContent = [
-            "<a href=\"#auraSnippetsCollection\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey\" onclick=\"openCloseAccordion('auraSnippets')\">Component Snippets</a>",
+            "<a href=\"#auraSnippetsCollection\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey w3-small\" onclick=\"openCloseAccordion('auraSnippets')\">Component Snippets</a>",
             "\t\t\t\t\t<div id=\"auraSnippets\" class=\"w3-hide w3-margin-left\">"
         ];
         let snippetSectionContent = [
@@ -208,7 +232,7 @@ function getHelp(context, callback) {
         ];
         Object.keys(auraNS).forEach(function (key) {
             let snippets = auraNS[key];
-            snippetMenuContent.push("\t\t\t\t\t\t<a href=\"#aura_" + key + "\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey\" onclick=\"openCloseAccordion('aura_" + key + "_snippets')\">" + getNamespaceName(key) + " Snippets</a>");
+            snippetMenuContent.push("\t\t\t\t\t\t<a href=\"#aura_" + key + "\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey w3-small\" onclick=\"openCloseAccordion('aura_" + key + "_snippets')\">" + getNamespaceName(key) + " Snippets</a>");
             snippetMenuContent.push("\t\t\t\t\t\t\t<div id=\"aura_" + key + "_snippets\" class=\"w3-hide w3-margin-left\">");
 
             snippetSectionContent.push("\t\t\t\t\t\t\t<div class=\"w3-container\" id=\"aura_" + key + "\">");
@@ -216,7 +240,7 @@ function getHelp(context, callback) {
             snippetSectionContent.push("\t\t\t\t\t\t\t\t<div class=\"w3-container\">");
             for (const snippet of snippets) {
                 //logger.logJSON('snippet', snippet);
-                snippetMenuContent.push("\t\t\t\t\t\t\t\t<a href=\"#" + snippet.snippet.prefix + "\" class=\"w3-bar-item w3-button\">" + snippet.snippetName + "</a>");
+                snippetMenuContent.push("\t\t\t\t\t\t\t\t<a href=\"#" + snippet.snippet.prefix + "\" class=\"w3-bar-item w3-button w3-small\">" + snippet.snippetName + "</a>");
 
                 snippetSectionContent.push("\t\t\t\t\t\t\t\t\t<div class=\"w3-container darkGrey w3-margin-left\" id=\"" + snippet.snippet.prefix + "\">");
                 snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<h5>" + snippet.snippetName + "</h5>");
@@ -237,10 +261,12 @@ function getHelp(context, callback) {
 
             snippetSectionContent.push("\t\t\t\t\t\t\t\t</div>");
             snippetSectionContent.push("\t\t\t\t\t\t\t</div>");
+            snippetSectionContent.push("\t\t\t\t\t\t\t<br/>");
+            snippetSectionContent.push("\t\t\t\t\t\t\t<br/>");
         });
         snippetMenuContent.push("\t\t\t\t\t</div>");
 
-        snippetMenuContent.push("\t\t\t\t<a href=\"#SLDSSnippetsCollection\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey\" onclick=\"openCloseAccordion('sldsSnippets')\">SLDS Snippets</a>");
+        snippetMenuContent.push("\t\t\t\t<a href=\"#SLDSSnippetsCollection\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey w3-small\" onclick=\"openCloseAccordion('sldsSnippets')\">SLDS Snippets</a>");
         snippetMenuContent.push("\t\t\t\t\t<div id=\"sldsSnippets\" class=\"w3-hide w3-margin-left\">");
 
         snippetSectionContent.push("\t\t\t\t\t\t\t</div>");
@@ -248,14 +274,14 @@ function getHelp(context, callback) {
         snippetSectionContent.push("\t\t\t\t\t\t\t\t<h4><b>SLDS Snippets</b></h4>");
         Object.keys(sldsNS).forEach(function (key) {
             let snippets = sldsNS[key];
-            snippetMenuContent.push("\t\t\t\t\t\t<a href=\"#slds_" + key + "\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey\" onclick=\"openCloseAccordion('slds_" + key + "_snippets')\">" + getNamespaceName(key) + " Snippets</a>");
+            snippetMenuContent.push("\t\t\t\t\t\t<a href=\"#slds_" + key + "\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey w3-small\" onclick=\"openCloseAccordion('slds_" + key + "_snippets')\">" + getNamespaceName(key) + " Snippets</a>");
             snippetMenuContent.push("\t\t\t\t\t\t\t<div id=\"slds_" + key + "_snippets\" class=\"w3-hide w3-margin-left\">");
 
             snippetSectionContent.push("\t\t\t\t\t\t\t<div class=\"w3-container\" id=\"slds_" + key + "\">");
             snippetSectionContent.push("\t\t\t\t\t\t\t\t<h4><b>" + getNamespaceName(key) + " Snippets</b></h4>");
             snippetSectionContent.push("\t\t\t\t\t\t\t\t<div class=\"w3-container\">");
             for (const snippet of snippets) {
-                snippetMenuContent.push("\t\t\t\t\t\t\t\t<a href=\"#" + snippet.snippet.prefix + "\" class=\"w3-bar-item w3-button\">" + snippet.snippetName + "</a>");
+                snippetMenuContent.push("\t\t\t\t\t\t\t\t<a href=\"#" + snippet.snippet.prefix + "\" class=\"w3-bar-item w3-button w3-small\">" + snippet.snippetName + "</a>");
 
                 snippetSectionContent.push("\t\t\t\t\t\t\t\t\t<div class=\"w3-container darkGrey w3-margin-left\" id=\"" + snippet.snippet.prefix + "\">");
                 snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<h5>" + snippet.snippetName + "</h5>");
@@ -276,10 +302,12 @@ function getHelp(context, callback) {
 
             snippetSectionContent.push("\t\t\t\t\t\t\t\t</div>");
             snippetSectionContent.push("\t\t\t\t\t\t\t</div>");
+            snippetSectionContent.push("\t\t\t\t\t\t\t<br/>");
+            snippetSectionContent.push("\t\t\t\t\t\t\t<br/>");
         });
         snippetMenuContent.push("\t\t\t\t\t</div>");
 
-        snippetMenuContent.push("\t\t\t\t<a href=\"#JSSnippetsCollection\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey\" onclick=\"openCloseAccordion('jsSnippets')\">JavaScript Snippets</a>");
+        snippetMenuContent.push("\t\t\t\t<a href=\"#JSSnippetsCollection\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey w3-small\" onclick=\"openCloseAccordion('jsSnippets')\">JavaScript Snippets</a>");
         snippetMenuContent.push("\t\t\t\t\t<div id=\"jsSnippets\" class=\"w3-hide w3-margin-left\">");
 
         snippetSectionContent.push("\t\t\t\t\t\t\t</div>");
@@ -287,14 +315,14 @@ function getHelp(context, callback) {
         snippetSectionContent.push("\t\t\t\t\t\t\t\t<h4><b>JavaScript Snippets</b></h4>");
         Object.keys(jsNS).forEach(function (key) {
             let snippets = jsNS[key];
-            snippetMenuContent.push("\t\t\t\t\t\t<a href=\"#js_" + key + "\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey\" onclick=\"openCloseAccordion('js_" + key + "_snippets')\">" + getNamespaceName(key) + " Snippets</a>");
+            snippetMenuContent.push("\t\t\t\t\t\t<a href=\"#js_" + key + "\" class=\"w3-bar-item w3-button w3-border-bottom darkGrey w3-small\" onclick=\"openCloseAccordion('js_" + key + "_snippets')\">" + getNamespaceName(key) + " Snippets</a>");
             snippetMenuContent.push("\t\t\t\t\t\t\t<div id=\"js_" + key + "_snippets\" class=\"w3-hide w3-margin-left\">");
 
             snippetSectionContent.push("\t\t\t\t\t\t\t<div class=\"w3-container\" id=\"js_" + key + "\">");
             snippetSectionContent.push("\t\t\t\t\t\t\t\t<h4><b>" + getNamespaceName(key) + " Snippets</b></h4>");
             snippetSectionContent.push("\t\t\t\t\t\t\t\t<div class=\"w3-container\">");
             for (const snippet of snippets) {
-                snippetMenuContent.push("\t\t\t\t\t\t\t\t<a href=\"#" + snippet.snippet.prefix + "\" class=\"w3-bar-item w3-button\">" + snippet.snippetName + "</a>");
+                snippetMenuContent.push("\t\t\t\t\t\t\t\t<a href=\"#" + snippet.snippet.prefix + "\" class=\"w3-bar-item w3-button w3-small\">" + snippet.snippetName + "</a>");
 
                 snippetSectionContent.push("\t\t\t\t\t\t\t\t\t<div class=\"w3-container darkGrey w3-margin-left\" id=\"" + snippet.snippet.prefix + "\">");
                 snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<h5>" + snippet.snippetName + "</h5>");
@@ -324,6 +352,8 @@ function getHelp(context, callback) {
 
             snippetSectionContent.push("\t\t\t\t\t\t\t\t</div>");
             snippetSectionContent.push("\t\t\t\t\t\t\t</div>");
+            snippetSectionContent.push("\t\t\t\t\t\t\t<br/>");
+            snippetSectionContent.push("\t\t\t\t\t\t\t<br/>");
         });
         snippetMenuContent.push("\t\t\t\t\t</div>");
         snippetSectionContent.push("\t\t\t\t\t\t\t</div>");
@@ -397,5 +427,11 @@ module.exports = {
     getAuraSnippetsPath,
     getHelpPath,
     getFilesFromFolderSync,
-    getBaseComponentsDetailPath
+    getBaseComponentsDetailPath,
+    getMetadataIndexPath,
+    getStoredOrgsPath,
+    createFileSync,
+    getOldApexCommentTemplatePath,
+    getOldAuraDocumentUserTemplatePath,
+    getOldUserTemplatesPath
 }
