@@ -34,37 +34,44 @@
             <h1 class="w3-center"><b>Aura Helper</b></h1>
         </div>
         <!-- Navigation Bar -->
-        <div class="w3-bar-block w3-sidebar" style="width:300px; height: 100%; background-color:rgba(0,0,0,0);">
+        <div class="w3-bar-block w3-sidebar" style="width:300px; height: 85%; background-color:rgba(0,0,0,0);">
             <div class="w3-container" style="padding: 0">
                 <a href="#commandSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('commands')">Commands</a>
                 <div id="commands" class="w3-hide w3-margin-left">
                     <!-- Commands Menu Items -->
-                    <a href="#addApexCommand" class="w3-bar-item w3-button">Add Apex Comment</a>
-                    <a href="#addJsFunction" class="w3-bar-item w3-button">Add Javascript Aura Function</a>
-                    <a href="#addMethodBlockCommand" class="w3-bar-item w3-button">Add Method Block to Doc</a>
-                    <a href="#editApexCommentTemplate" class="w3-bar-item w3-button">Edit Apex Comment Template</a>
-                    <a href="#editAuraDocumentationTemplate" class="w3-bar-item w3-button">Edit Aura Documentation Template</a>
-                    <a href="#genAuraDoc" class="w3-bar-item w3-button">Generate Aura Documentation</a>
-                    <a href="#newAuraFile" class="w3-bar-item w3-button">New Aura File</a>
+                    <a href="#addApexCommand" class="w3-bar-item w3-button w3-small">Add Apex Comment</a>
+                    <a href="#addJsFunction" class="w3-bar-item w3-button w3-small">Add Javascript Aura Function</a>
+                    <a href="#addMethodBlockCommand" class="w3-bar-item w3-button w3-small">Add Method Block to Doc</a>
+                    <a href="#editApexCommentTemplate" class="w3-bar-item w3-button w3-small">Edit Apex Comment Template</a>
+                    <a href="#editAuraDocumentationTemplate" class="w3-bar-item w3-button w3-small">Edit Aura Documentation Template</a>
+                    <a href="#genAuraDoc" class="w3-bar-item w3-button w3-small">Generate Aura Documentation</a>
+                    <a href="#newAuraFile" class="w3-bar-item w3-button w3-small">New Aura File</a>
+                    <a href="#refreshMetadataIndex" class="w3-bar-item w3-button w3-small">Refresh Metadata Index</a>
+                    <a href="#refreshMetadataIndexForObject" class="w3-bar-item w3-button w3-small">Refresh Metadata Index for Object</a>
                 </div>
                 <a href="#snippetsSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('snippets')">Code Completion Tools</a>
                 <div id="snippets" class="w3-hide w3-margin-left">
-                    <a href="#components" class="w3-bar-item w3-button">Get and Call Components</a>
-                    <a href="#cmpAttributes" class="w3-bar-item w3-button">Getting Component Attributes</a>
-                    <a href="#jsControllerFunctions" class="w3-bar-item w3-button">Getting JS Controller Functions</a>
-                    <a href="#jsHelperFunctions" class="w3-bar-item w3-button">Getting JS Helper Functions</a>
-                    <a href="#apexMethods" class="w3-bar-item w3-button">Getting Apex Methods</a>
-                    <a href="#aura" class="w3-bar-item w3-button">Aura Namespace</a>
-                    <a href="#ltn" class="w3-bar-item w3-button">Lightning Namespace</a>
-                    <a href="#force" class="w3-bar-item w3-button">Force Namespace</a>
-                    <a href="#ltng" class="w3-bar-item w3-button">Ltng Namespace</a>
-                    <a href="#js" class="w3-bar-item w3-button">JavaScript Code</a>
-                    <a href="#apex" class="w3-bar-item w3-button">Apex Code</a>
+                    <a href="#components" class="w3-bar-item w3-button w3-small">Get and Call Components</a>
+                    <a href="#cmpAttributes" class="w3-bar-item w3-button w3-small">Getting Component Attributes</a>
+                    <a href="#jsControllerFunctions" class="w3-bar-item w3-button w3-small">Getting JS Controller Functions</a>
+                    <a href="#jsHelperFunctions" class="w3-bar-item w3-button w3-small">Getting JS Helper Functions</a>
+                    <a href="#apexMethods" class="w3-bar-item w3-button w3-small">Getting Apex Methods</a>
+                    <a href="#aura" class="w3-bar-item w3-button w3-small">Aura Namespace</a>
+                    <a href="#ltng" class="w3-bar-item w3-button w3-small">Ltng Namespace</a>
+                    <a href="#force" class="w3-bar-item w3-button w3-small">Force Namespace</a>
+                    <a href="#forceChatter" class="w3-bar-item w3-button w3-small">Force Chatter Namespace</a>
+                    <a href="#forceCommunity" class="w3-bar-item w3-button w3-small">Force Community Namespace</a>
+                    <a href="#ltn" class="w3-bar-item w3-button w3-small">Lightning Namespace</a>
+                    <a href="#ltnCommunity" class="w3-bar-item w3-button w3-small">Lightning Community Namespace</a>
+                    <a href="#ltnSnapin" class="w3-bar-item w3-button w3-small">Lightning Snapin Namespace</a>
+                    <a href="#ui" class="w3-bar-item w3-button w3-small">UI Namespace</a>
+                    <a href="#js" class="w3-bar-item w3-button w3-small">JavaScript Code</a>
+                    <a href="#apex" class="w3-bar-item w3-button w3-small">Apex Code</a>
                 </div>
                 <a href="#templatesSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('templates')">Templates</a>
                 <div id="templates" class="w3-hide w3-margin-left">
-                    <a href="#auraDocTemplate" class="w3-bar-item w3-button">Aura Documentation Template</a>
-                    <a href="#apexCommentTemplate" class="w3-bar-item w3-button">Apex Comment Template</a>
+                    <a href="#auraDocTemplate" class="w3-bar-item w3-button w3-small">Aura Documentation Template</a>
+                    <a href="#apexCommentTemplate" class="w3-bar-item w3-button w3-small">Apex Comment Template</a>
                 </div>
                 <a href="#snippetsCollectionSection" class="w3-bar-item w3-button w3-border-bottom darkGrey" onclick="openCloseAccordion('snippetsCollection')">Snippets Collection</a>
                 <div id="snippetsCollection" class="w3-hide w3-margin-left">
@@ -173,6 +180,34 @@
                 </div>
                 <br />
                 <br />
+                <!-- Refresh Metadata Index -->
+                <div class="w3-container w3-margin-left" id="refreshMetadataIndex">
+                    <h4><b>Refresh Metadata Index</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>
+                            For provide better code completion tools, Aura Helper have commands for refresh an internal index of Object and their fields. For refresh
+                            the index, you can run this command.
+                        </p>
+                        <p>This operation can take several minutes depending on the number objects of your organization.</p>
+                        <p>Only need refresh the entire Index at the first time or if you want to update all because are to many changes on objects. If you change a few objects. You can run a <a href="#refreshMetadataIndexForObject">command for update specific objects</a></p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Refresh Metadata Index for Object -->
+                <div class="w3-container w3-margin-left" id="refreshMetadataIndexForObject">
+                    <h4><b>Refresh Metadata Index for Object</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>
+                            For provide better code completion tools, Aura Helper have commands for refresh an internal index of Object and their fields. For refresh
+                            this index for one specific object, you can run this command.
+                        </p>
+                        <p>This operation can take several minutes depending on the number of fields.</p>
+                        <p>Also you can run a <a href="#refreshMetadataIndex">command for refresh the entire index</a></p>
+                    </div>
+                </div>
+                <br />
+                <br />
             </div>
             <!-- Code Completion Tools Section -->
             <div class="w3-container" id="snippetsSection">
@@ -233,6 +268,7 @@
                     <div class="w3-container darkGrey w3-margin-left">
                         <p>Aura Helper provides code completion tools for Aura JavaScript files for get Apex Controller Methods</p>
                         <p>Only need type <code>c.</code> and press <code>Ctrl+space</code> for get all method names. with this provider you can also get the <b>inherited methods</b></p>
+                        <p>If you type <code>c.[methodName].params</code> and then press <code>enter</code> you get the JSON parameters structure with apex method parameters</p>
                         <p>Work in <code>.js</code> files</p>
                         <p>You can active or deactive this feature on Aura Helper settings</p>
                     </div>
@@ -259,23 +295,21 @@
                 </div>
                 <br />
                 <br />
-                <!-- Code Completions for Lightning Elements -->
-                <div class="w3-container w3-margin-left" id="ltn">
-                    <h4><b>Lightning Namespace</b></h4>
+                <!-- Code Completions for LTNG Elements -->
+                <div class="w3-container w3-margin-left" id="ltng">
+                    <h4><b>Ltng Namespace</b></h4>
                     <div class="w3-container darkGrey w3-margin-left">
-                        <p>Aura Helper provides tools for create ALL components from Lightning Namespace</p>
-                        <p>Only need type <code>ltn.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
+                        <p>Aura Helper provides tools for create components from Ltng Namespace</p>
+                        <p>Only need type <code>ltng.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
                         <p>
-                            You can create among other components the following:
+                            You can create the following components:
                             <ul>
-                                <li>Buttons</li>
-                                <li>Icons</li>
-                                <li>Layouts</li>
-                                <li>Cards</li>
-                                <li>...</li>
+                                <li>Load Style</li>
+                                <li>Load Script</li>
+                                <li>Load Style with Action After</li>
+                                <li>Load Script with Action After</li>
                             </ul>
                         </p>
-                        <p>Also have variations of the same component for make more easy the development</p>
                     </div>
                 </div>
                 <br />
@@ -301,21 +335,117 @@
                 </div>
                 <br />
                 <br />
-                <!-- Code Completions for LTNG Elements -->
-                <div class="w3-container w3-margin-left" id="ltng">
-                    <h4><b>Ltng Namespace</b></h4>
+                <!-- Code Completions for Force Chatter Elements -->
+                <div class="w3-container w3-margin-left" id="forceChatter">
+                    <h4><b>Force Chatter Namespace</b></h4>
                     <div class="w3-container darkGrey w3-margin-left">
-                        <p>Aura Helper provides tools for create components from Ltng Namespace</p>
-                        <p>Only need type <code>ltng.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
+                        <p>Aura Helper provides tools for create components from Force Chatter Namespace</p>
+                        <p>Only need type <code>forceChatter.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
                         <p>
-                            You can create the following options:
+                            You can create the following components:
                             <ul>
-                                <li>Load Style</li>
-                                <li>Load Script</li>
-                                <li>Load Style with Action After</li>
-                                <li>Load Script with Action After</li>
+                                <li>Feed</li>
+                                <li>Full Feed</li>
+                                <li>Publisher</li>
                             </ul>
                         </p>
+                        <p>Also have variations of the same component for make more easy the development</p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Force Community Elements -->
+                <div class="w3-container w3-margin-left" id="forceCommunity">
+                    <h4><b>Force Community Namespace</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides tools for create components from Force Community Namespace</p>
+                        <p>Only need type <code>forceCommunity.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
+                        <p>
+                            You can create the following components:
+                            <ul>
+                                <li>App Launcher</li>
+                                <li>Notifications</li>
+                                <li>Route Link</li>
+                                <li>Wave Dashboard</li>
+                            </ul>
+                        </p>
+                        <p>Also have variations of the same component for make more easy the development</p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Lightning Elements -->
+                <div class="w3-container w3-margin-left" id="ltn">
+                    <h4><b>Lightning Namespace</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides tools for create ALL components from Lightning Namespace</p>
+                        <p>Only need type <code>ltn.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
+                        <p>
+                            You can create among other components the following:
+                            <ul>
+                                <li>Buttons</li>
+                                <li>Icons</li>
+                                <li>Layouts</li>
+                                <li>Cards</li>
+                                <li>...</li>
+                            </ul>
+                        </p>
+                        <p>Also have variations of the same component for make more easy the development</p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Lightning Community Elements -->
+                <div class="w3-container w3-margin-left" id="ltnCommunity">
+                    <h4><b>Lightning Community Namespace</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides tools for create ALL components from Lightning Community Namespace</p>
+                        <p>Only need type <code>ltnCommunity.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
+                        <p>
+                            You can create the following components:
+                            <ul>
+                                <li>Back Button</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Lightning Snapin Elements -->
+                <div class="w3-container w3-margin-left" id="ltnSnapin">
+                    <h4><b>Lightning Snapin Namespace</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides tools for create ALL components from Lightning Snapin Namespace</p>
+                        <p>Only need type <code>ltnSnapin.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
+                        <p>
+                            You can create the following components:
+                            <ul>
+                                <li>minimizedAPI</li>
+                                <li>prechatAPI</li>
+                                <li>settingsAPI</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for UI Elements -->
+                <div class="w3-container w3-margin-left" id="ui">
+                    <h4><b>UI Namespace</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides tools for create ALL components from UI Namespace</p>
+                        <p>Only need type <code>ui.</code> and press <code>Ctrl+space</code> for get all code completion options</p>
+                        <p>
+                            You can create among other components the following:
+                            <ul>
+                                <li>Button</li>
+                                <li>Input Number</li>
+                                <li>Menu Trigger Link</li>
+                                <li>Output Date</li>
+                                <li>...</li>
+                            </ul>
+                        </p>
+                        <p>Also have variations of the same component for make more easy the development</p>
                     </div>
                 </div>
                 <br />

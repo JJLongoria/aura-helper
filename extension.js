@@ -5,6 +5,9 @@ const commandManager = require('./resources/scripts/commandManager');
 const providers = require('./resources/scripts/providers');
 const fileUtils = require('./resources/scripts/fileUtils');
 const constants = require('./resources/scripts/constants');
+const logger = require('./resources/scripts/logger');
+const windowUtils = require('./resources/scripts/windowUtils');
+const snippetUtils = require('./resources/scripts/snippetUtils');
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -15,49 +18,136 @@ const constants = require('./resources/scripts/constants');
 function activate(context) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Aura Helper Extension is now active');
+	
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
-	init(context);
-
-	let addApexMethodComment = vscode.commands.registerCommand('aurahelper.addApexComment', function () {
-		commandManager.addApexMethodCommentCommand();
+	onInit(context);
+	let addApexMethodComment = vscode.commands.registerCommand('aurahelper.completion.apex.comment.command', function () {
+		try {
+			commandManager.addApexMethodCommentCommand();
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when adding a Method or Class Comment on file");
+		}
 	});
-	let addJSFunction = vscode.commands.registerCommand('aurahelper.addJsFunction', function () {
-		commandManager.addJSFunctionCommand();
+	let addJSFunction = vscode.commands.registerCommand('aurahelper.completion.js.function', function () {
+		try {
+			commandManager.addJSFunctionCommand();
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when adding a JavaScript function on file");
+		}
 	});
-	let addMethodBlock = vscode.commands.registerCommand('aurahelper.addMethodBlock', function () {
-		commandManager.addMethodBlockCommand(context);
+	let addMethodBlock = vscode.commands.registerCommand('aurahelper.completion.documentation.method', function () {
+		try {
+			commandManager.addMethodBlockCommand(context);
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when adding a method block to Aura Documentation");
+		}
 	});
-	let editApexCommentTemplate = vscode.commands.registerCommand('aurahelper.editApexCommentTemplate', function () {
-		commandManager.editApexCommentTemplateCommand(context);
+	let editApexCommentTemplate = vscode.commands.registerCommand('aurahelper.template.apex.comment', function () {
+		try {
+			commandManager.editApexCommentTemplateCommand(context);
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when editing Apex Comment Template");
+		}
 	});
-	let editAuraDocBaseTemplate = vscode.commands.registerCommand('aurahelper.editAuraDocumentationTemplate', function () {
-		commandManager.editAuraDocumentationTemplateCommand(context);
+	let editAuraDocBaseTemplate = vscode.commands.registerCommand('aurahelper.template.aura.documentation', function () {
+		try {
+			commandManager.editAuraDocumentationTemplateCommand(context);
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when editing Aura Documentation Template");
+		}
 	});
-	let genAuraDoc = vscode.commands.registerCommand('aurahelper.genAuraDoc', function (fileUri) {
-		commandManager.genAuraDocCommand(context, fileUri);
+	let genAuraDoc = vscode.commands.registerCommand('aurahelper.completion.aura.documentation', function (fileUri) {
+		try {
+			commandManager.genAuraDocCommand(context, fileUri);
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when generating Aura Documentation");
+		}
 	});
 	let help = vscode.commands.registerCommand('aurahelper.help', function () {
-		commandManager.openHelpCommand(context);
+		try {
+			commandManager.openHelpCommand(context);
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when opening Aura Helper Help");
+		}
 	});
-	let newAuraFile = vscode.commands.registerCommand('aurahelper.newAuraFile', function (fileUri) {
-		commandManager.newAuraFileCommand(context, fileUri);
+	let newAuraFile = vscode.commands.registerCommand('aurahelper.file.new.aura', function (fileUri) {
+		try {
+			commandManager.newAuraFileCommand(context, fileUri);
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when creating new Aura file");
+		}
+	});
+	let refreshMetadataIndex = vscode.commands.registerCommand('aurahelper.metadata.refresh.index', function () {
+		try {
+			commandManager.refreshMetadataIndexCommand(context);
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when Refreshing Metadata Index");
+		}
+	});
+	let refreshMetadataIndexForObject = vscode.commands.registerCommand('aurahelper.metadata.refresh.object', function () {
+		try {
+			commandManager.refreshMetadataIndexForAnObjectCommand(context);
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when Refreshing Metadata Index for an specific object");
+		}
 	});
 
 
-	vscode.commands.registerCommand('aurahelper.apexComentCompletion', function (position) {
-		commandManager.apexCommentCompletionCommand(position, context);
+	vscode.commands.registerCommand('aurahelper.completion.apex.comment', function (position) {
+		try {
+			commandManager.apexCommentCompletionCommand(position, context);
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when analizing Apex code for show completion tools");
+		}
 	});
-	vscode.commands.registerCommand('aurahelper.auraCodeCompletion', function (position) {
-		commandManager.auraCodeCompletionCommand(position, context);
+	vscode.commands.registerCommand('aurahelper.completion.aura', function (position, selected, data, componentTagData) {
+		try {
+			commandManager.auraCodeCompletionCommand(position, selected, data, componentTagData);
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("An error ocurred when analizing Aura code for show completion tools");
+		}
+	});
+	vscode.commands.registerCommand('aurahelper.statusbar.pressed', function () {
+		try {
+			commandManager.statusBarItemPressedCommand();
+		}
+		catch (error) {
+			logger.log(error);
+			windowUtils.showErrorMessage("");
+		}
 	});
 
-	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', providers.apexProvider, '*'));
-	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('xml', providers.auraComponentProvider, '.'));
-	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('html', providers.auraComponentProvider, '.'));
-	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('javascript', providers.auraComponentProvider, '.'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', providers.codeCompletionProvider, '*'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('xml', providers.codeCompletionProvider, '.'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('html', providers.codeCompletionProvider, '.'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('javascript', providers.codeCompletionProvider, '.'));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('visualforce', providers.codeCompletionProvider, '.'));
 	context.subscriptions.push(genAuraDoc);
 	context.subscriptions.push(addMethodBlock);
 	context.subscriptions.push(addApexMethodComment);
@@ -66,18 +156,43 @@ function activate(context) {
 	context.subscriptions.push(editAuraDocBaseTemplate);
 	context.subscriptions.push(help);
 	context.subscriptions.push(editApexCommentTemplate);
+	context.subscriptions.push(refreshMetadataIndex);
+	context.subscriptions.push(refreshMetadataIndexForObject);
+	context.subscriptions.push(windowUtils.createStatusBarItem());
 }
 exports.activate = activate;
 
-function init(context) {
+function onInit(context) {
+	console.log('Aura Helper Extension is now active');
+	console.log('Aura Helper Init files');
+	init(context, function(){
+		console.log('Aura Helper files initialized');
+	});
+}
+
+async function init(context, callback){
 	constants.applicationContext = context;
 	constants.componentsDetail = JSON.parse(fileUtils.getFileContent(fileUtils.getBaseComponentsDetailPath(context)));
+	let snippets = snippetUtils.loadSnippets(context);
+	constants.auraSnippets = snippets.auraSnippets;
+	constants.jsSnippets = snippets.jsSnippets;
+	constants.sldsSnippets = snippets.sldsActivations;
+	if (!fileUtils.isFileExists(context.storagePath))
+		fileUtils.createFolder(context.storagePath);
 	if (!fileUtils.isFileExists(fileUtils.getUserTemplatesPath(context)))
 		fileUtils.createFolder(fileUtils.getUserTemplatesPath(context));
 	if (!fileUtils.isFileExists(fileUtils.getAuraDocumentUserTemplatePath(context)))
 		fileUtils.copyFile(fileUtils.getAuraDocumentTemplatePath(context), fileUtils.getAuraDocumentUserTemplatePath(context));
 	if (!fileUtils.isFileExists(fileUtils.getApexCommentUserTemplatePath(context)))
 		fileUtils.copyFile(fileUtils.getApexCommentTemplatePath(context), fileUtils.getApexCommentUserTemplatePath(context));
+	if (!fileUtils.isFileExists(fileUtils.getMetadataIndexPath(context)))
+		fileUtils.createFolder(fileUtils.getMetadataIndexPath(context));
+	if (fileUtils.isFileExists(fileUtils.getOldApexCommentTemplatePath(context)) && !fileUtils.isFileExists(fileUtils.getApexCommentUserTemplatePath(context)))
+		fileUtils.copyFile(fileUtils.getOldApexCommentTemplatePath(context), fileUtils.getApexCommentUserTemplatePath(context));
+	if (fileUtils.isFileExists(fileUtils.getOldAuraDocumentUserTemplatePath(context)) && !fileUtils.isFileExists(fileUtils.getAuraDocumentUserTemplatePath(context)))
+		fileUtils.copyFile(fileUtils.getOldAuraDocumentUserTemplatePath(context), fileUtils.getAuraDocumentUserTemplatePath(context));
+	if(callback)
+		callback.call(this);
 }
 
 // this method is called when your extension is deactivated
