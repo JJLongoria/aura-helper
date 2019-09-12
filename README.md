@@ -11,6 +11,10 @@ The Aura Helper Extension contains some of next features:
 ### Commands features
 Some commands with tools for help in your work. All commands start with "AuraHelper:"
 
+#### Code Completion:
+    - Refresh Metadata Index: Refresh the Aura Helper metadata index for support Code Completion tools with sObjects and queries.
+    - Refresh Metadata Index for Object: Refresh the Aura metadata index for spececific object.
+
 #### Aura:
     - Generate Aura Documentation: A simple command for generate a skeleton of aura documentation file for an Aura Component based on user designed templates.
                             If you create JavaScript comments with JavaScript standard scheme, method information will be filled automatically.
@@ -47,6 +51,7 @@ Only need type: "helper." and you can show and use all functions.
 ##### - Get Apex Controller methods:
 You can get any Apex controller methods (even the inherited) on .js file
 Only need type: "c." and you can show and use all methods.
+If you type "c.{methodName}.params" you get the JSON structure with method parameters
 
 ##### - Call Custom Component
 You can get and call all Components, Events or Apps for .cmp files and .js files

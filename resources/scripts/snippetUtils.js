@@ -1,28 +1,29 @@
 const logger = require('./logger');
 const fileUtils = require('./fileUtils');
 
-function getApexComment(apexClassOrMethod, commentTemplate) {
+function getApexComment(data, commentTemplate) {
     logger.log("Run getApexComment Method");
     let comment = ``;
     let lines = [];
     let snippetNum = 1;
-    if (apexClassOrMethod.methodName !== undefined) {
+    if (data.methodData.name !== undefined) {
         let startParamsCharacters = "";
         for (let i = 0; i < commentTemplate.methodComment.commentBody.length; i++) {
             var line = commentTemplate.methodComment.commentBody[i];
             if (line.indexOf("{!method.params}") !== -1)
                 startParamsCharacters = line.substring(0, line.indexOf("{!method.params}"));
-            if (apexClassOrMethod.parameters.length == 0 && line.indexOf("{!method.params}") !== -1)
+            if (data.methodData.params.length == 0 && line.indexOf("{!method.params}") !== -1)
                 continue;
-            if (!apexClassOrMethod.hasReturn && line.indexOf("{!method.return}") !== -1)
+            if ((!data.methodData.returnType || data.methodData.returnType === 'void') && line.indexOf("{!method.return}") !== -1)
                 continue;
             lines.push(line);
         }
         comment = lines.join('\n');
-        comment = comment.replace(`{!method.description}`, `\${${snippetNum++}:${apexClassOrMethod.methodName} description}`);
+        logger.log("comment", comment);
+        comment = comment.replace(`{!method.description}`, `\${${snippetNum++}:${data.methodData.name} description}`);
         let varIndex = 0;
         let params = [];
-        for (let variable of apexClassOrMethod.parameters) {
+        for (let variable of data.methodData.params) {
             let paramBody = commentTemplate.methodComment.paramBody.replace(`{!param.name}`, `\${${snippetNum}:{!param.name}}`).replace(`{!param.description}`, `\${${snippetNum}:{!param.name} description}`);
             paramBody = paramBody.replace('{!param.name}', variable.name).replace('{!param.type}', variable.type);
             if (varIndex != 0)
@@ -32,18 +33,18 @@ function getApexComment(apexClassOrMethod, commentTemplate) {
             varIndex++;
         }
         comment = comment.replace(`{!method.params}`, params.join('\n'));
-        if (apexClassOrMethod.hasReturn) {
+        if (data.methodData.returnType && data.methodData.returnType !== 'void') {
             let returnBody = commentTemplate.methodComment.returnBody.replace(`{!return.description}`, `\${${snippetNum}:Return description}`);
-            returnBody = returnBody.replace(`{!return.type}`, apexClassOrMethod.returnType);
-            comment += returnBody + `\n`;
+            returnBody = returnBody.replace("{!return.type}", data.methodData.returnType);
+            comment = comment.replace('{!method.return}', returnBody);
         }
-    } else if (apexClassOrMethod.className !== undefined) {
+    } else if (data.classData.name !== undefined) {
         for (let i = 0; i < commentTemplate.classComment.commentBody.length; i++) {
             var line = commentTemplate.classComment.commentBody[i];
             lines.push(line);
         }
         comment = lines.join('\n');
-        comment = comment.replace(`{!class.description}`, `\${${snippetNum}:` + apexClassOrMethod.className + ` Description}`).replace('{!class.name}', apexClassOrMethod.className);
+        comment = comment.replace(`{!class.description}`, `\${${snippetNum}:` + data.classData.name + ` Description}`).replace('{!class.name}', data.classData.name);
     }
     logger.log('comment', comment);
     return comment;
@@ -66,8 +67,10 @@ function getJSFunctionSnippet(numParams) {
 
 function getMethodsContent(fileStructure, methodTemplate, paramTemplate, indent) {
     var content = "";
-    for (let i = 0; i < fileStructure.functions.length; i++) {
-        content += getMethodContent(fileStructure.functions[i], methodTemplate, paramTemplate, indent);
+    if(fileStructure.functions){
+        for (let i = 0; i < fileStructure.functions.length; i++) {
+            content += getMethodContent(fileStructure.functions[i], methodTemplate, paramTemplate, indent);
+        }
     }
     return content;
 }
@@ -259,6 +262,32 @@ function getApexCommentBaseTemplate() {
     return JSON.stringify(commentTemplate, null, 4);
 }
 
+function getJSApexParamsSnippet(data, lineData) {
+    let content = "";
+    if (lineData.complete)
+        content += "let \${1:params} = {\n";
+    else
+        content += "{\n";
+    let cont = 0;
+    let snippetNum = 2;
+    for (const param of data.params) {
+        if (data.params.length === 1)
+            content += "\t" + param.name + ": \${" + snippetNum + ":value} // " + param.type + '\n';
+        else {
+            if (cont === data.params.length - 1)
+                content += "\t" + param.name + ": \${" + snippetNum + ":value} // " + param.type + '\n';
+            else
+                content += "\t" + param.name + ": \${" + snippetNum + ":value}, // " + param.type + '\n';
+        }
+        snippetNum++;
+        cont++;
+    }
+    content += "}";
+    if (lineData.close)
+        content += ';';
+    return content;
+}
+
 module.exports = {
     getJSFunctionSnippet,
     getApexComment,
@@ -272,5 +301,6 @@ module.exports = {
     getApexCommentBaseTemplate,
     getMethodContent,
     getIndent,
-    getWhitespaces
+    getWhitespaces,
+    getJSApexParamsSnippet
 }
