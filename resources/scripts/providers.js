@@ -49,8 +49,9 @@ function provideAuraComponentCompletion(document, position) {
     const line = document.lineAt(position.line).text;
     let isComponentTag = onComponentTag(document, position);
     let componentTagData;
-    if (!isAuraProvider(line, isComponentTag))
+    if (!isAuraProvider(position, line, isComponentTag))
         return Promise.resolve(undefined);
+        let snippetActivation = getAuraSnippetsActivation(position, line);
     if (isComponentTag)
         componentTagData = analizeComponentTag(document, position);
     let activationOption1 = line.substring(position.character - 2, position.character);
@@ -100,8 +101,23 @@ function provideAuraComponentCompletion(document, position) {
         if (!config.getConfig().activeComponentCallSuggest)
             return Promise.resolve(undefined);
         items = getBaseComponentsAttributes(componentTagData, position);
-    }
+    } 
     return items;
+}
+
+function getSnippetCompletion(position, snippet) {
+    let item = new vscode.CompletionItem(snippet.prefix, vscode.CompletionItemKind.Variable);
+    item.detail = snippet.description;
+    let body = snippet.body.join("\n");
+    item.documentation = new vscode.MarkdownString(body);
+    item.insertText = new vscode.SnippetString(body);
+    item.preselect = true;
+    item.command = {
+        title: 'Aura Code Completion',
+        command: 'aurahelper.completion.aura',
+        arguments: [position, 'itemAttribute', snippet]
+    };
+    return item;
 }
 
 function provideJSCompletion(document, position) {
@@ -109,6 +125,7 @@ function provideJSCompletion(document, position) {
     const line = document.lineAt(position.line).text;
     let activationOption1 = line.substring(position.character - 2, position.character);
     let helperActivationOption = line.substring(position.character - 7, position.character);
+    let snippetActivation = getAuraSnippetsActivation(position, line);
     if (activationOption1 === 'v.' || activationOption1 === 'c.' || helperActivationOption === 'helper.') {
         let componentStructure = languageUtils.getComponentStructure(document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp'));
         if (activationOption1 === 'v.') {
@@ -151,8 +168,51 @@ function isAuraJSFile(document) {
     return document.fileName.indexOf('Controller.js') !== -1 || document.fileName.indexOf('Helper.js') !== -1;
 }
 
-function isAuraProvider(line, isComponentTag) {
-    return !(line.indexOf('v.') === -1 && line.indexOf('c.') === -1 && line.indexOf('helper.') === -1 && line.indexOf('c:') === -1 && line.indexOf('<') === -1 && line.indexOf(':') === -1 && !isComponentTag);
+function isAuraProvider(position, line, isComponentTag) {
+    return !(line.indexOf('v.') === -1 && line.indexOf('c.') === -1 && line.indexOf('helper.') === -1 && line.indexOf('c:') === -1 && line.indexOf('<') === -1 && line.indexOf(':') === -1 && !isComponentTag) || isAuraSnippetActivation(position, line);
+}
+
+function isAuraSnippetActivation(position, line) {
+    if (getAuraSnippetsActivation(position, line))
+        return true;
+    return false;
+}
+
+function getAuraSnippetsActivation(position, line) {
+    let activation = undefined;
+    let auraActivation = line.substring(position.character - 5, position.character);
+    let ltngActivation = line.substring(position.character - 5, position.character);
+    let forceActivation = line.substring(position.character - 6, position.character);
+    let forceChatterActivation = line.substring(position.character - 13, position.character);
+    let forceCommunityActivation = line.substring(position.character - 15, position.character);
+    let ltnActivation = line.substring(position.character - 4, position.character);
+    let ltnCommunityActivation = line.substring(position.character - 13, position.character);
+    let ltnSnapinActivation = line.substring(position.character - 10, position.character);
+    let uiActivation = line.substring(position.character - 3, position.character);
+    let sldslActivation = line.substring(position.character - 5, position.character);
+    if (auraActivation === 'aura.')
+        activation = auraActivation;
+    if (ltngActivation === 'ltng.')
+        activation = ltngActivation;
+    if (forceActivation === 'force.')
+        activation = forceActivation;
+    if (forceChatterActivation === 'forceChatter.')
+        activation = forceChatterActivation;
+    if (forceCommunityActivation === 'forceCommunity.')
+        activation = forceCommunityActivation;
+    if (ltnActivation === 'ltn.')
+        activation = ltnActivation;
+    if (ltnCommunityActivation === 'ltnCommunity.')
+        activation = ltnCommunityActivation;
+    if (ltnSnapinActivation === 'ltnSnapin.')
+        activation = ltnSnapinActivation;
+    if (uiActivation === 'ui.')
+        activation = uiActivation;
+    if (sldslActivation === 'slds.')
+        activation = sldslActivation;
+    if(activation)
+        activation = activation.replace(".", "");
+    return activation;
 }
 
 function onComponentTag(document, position) {
@@ -234,8 +294,15 @@ function analizeComponentTag(document, position) {
 function getBaseComponentsAttributes(componentTagData, position) {
     let baseComponentsDetail = constants.componentsDetail;
     let items = [];
-    let item = getCodeCompletionItemAttribute('aura:id', 'Type: String', 'Aura ID of the component', 'String', position, 'aura:id');
-    items.push(item);
+    let haveAuraId = false;
+    for(const existingAttributes of componentTagData.attributes){
+        if(existingAttributes.name === 'aura:id'){
+            haveAuraId = true;
+            break;
+        }
+    }
+    if(!haveAuraId)
+        items.push(getCodeCompletionItemAttribute('aura:id', 'Type: String', 'Aura ID of the component', 'String', position, 'aura:id'));
     let notRoot = baseComponentsDetail.notRoot;
     if (notRoot[componentTagData.namespace] && !notRoot[componentTagData.namespace].includes(componentTagData.name)) {
         for (const attribute of baseComponentsDetail['root']['component']) {
@@ -289,7 +356,7 @@ function getCodeCompletionItemAttribute(name, detail, description, datatype, pos
     item.preselect = true;
     item.command = {
         title: 'Aura Code Completion',
-        command: 'aurahelper.auraCodeCompletion',
+        command: 'aurahelper.completion.aura',
         arguments: [position, 'itemAttribute', data]
     };
     return item;
@@ -344,7 +411,7 @@ function getAttributes(componentStructure, position, componentTagData) {
         item.insertText = attribute.name;
         item.command = {
             title: 'Aura Component Attribute',
-            command: 'aurahelper.auraCodeCompletion',
+            command: 'aurahelper.completion.aura',
             arguments: [position, 'attribute', attribute, componentTagData]
         };
         items.push(item);
@@ -370,7 +437,7 @@ function getControllerFunctions(componentStructure, position, componentTagData) 
         item.insertText = func.name;
         item.command = {
             title: 'Aura Controller Function',
-            command: 'aurahelper.auraCodeCompletion',
+            command: 'aurahelper.completion.aura',
             arguments: [position, 'function', func, componentTagData]
         };
         items.push(item);
@@ -397,7 +464,7 @@ function getApexControllerFunctions(componentStructure, position) {
             item.insertText = method.name;
             item.command = {
                 title: 'Apex Controller Function',
-                command: 'aurahelper.auraCodeCompletion',
+                command: 'aurahelper.completion.aura',
                 arguments: [position, 'method', method]
             };
             items.push(item);
@@ -410,7 +477,7 @@ function getApexControllerFunctions(componentStructure, position) {
             itemParams.insertText = method.name + '.params';
             itemParams.command = {
                 title: 'Apex Controller Params',
-                command: 'aurahelper.auraCodeCompletion',
+                command: 'aurahelper.completion.aura',
                 arguments: [position, 'params', method]
             };
             items.push(itemParams);
@@ -437,7 +504,7 @@ function getHelperFunctions(componentStructure, position) {
         item.insertText = func.signature;
         item.command = {
             title: 'Aura Helper Function',
-            command: 'aurahelper.auraCodeCompletion',
+            command: 'aurahelper.completion.aura',
             arguments: [position, 'function', func]
         };
         items.push(item);
@@ -491,7 +558,7 @@ function getComponents(position, document, componentTagData) {
         };
         item.command = {
             title: title,
-            command: 'aurahelper.auraCodeCompletion',
+            command: 'aurahelper.completion.aura',
             arguments: [position, title, data, componentTagData]
         };
         items.push(item);

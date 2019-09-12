@@ -83,7 +83,7 @@
 		},
 		"commands": [
 			{
-				"command": "aurahelper.completion.apex.comment",
+				"command": "aurahelper.completion.apex.comment.command",
 				"title": "AuraHelper: Add Apex Comment"
 			},
 			{
@@ -121,28 +121,6 @@
 			{
 				"command": "aurahelper.metadata.refresh.object",
 				"title": "AuraHelper: Refresh Metadata Index for Object"
-			}
-		],
-		"snippets": [
-			{
-				"language": "javascript",
-				"path": "./resources/snippets/jsSnippets.json"
-			},
-			{
-				"language": "xml",
-				"path": "./resources/snippets/auraSnippets.json"
-			},
-			{
-				"language": "html",
-				"path": "./resources/snippets/auraSnippets.json"
-			},
-			{
-				"language": "xml",
-				"path": "./resources/snippets/sldsSnippets.json"
-			},
-			{
-				"language": "html",
-				"path": "./resources/snippets/sldsSnippets.json"
 			}
 		],
 		"languages": [
@@ -185,6 +163,28 @@
 				"aliases": [
 					"JavaScript"
 				]
+			}
+		],
+		"snippets": [
+			{
+				"language": "javascript",
+				"path": "./resources/snippets/jsSnippets.json"
+			},
+			{
+				"language": "xml",
+				"path": "./resources/snippets/auraSnippets.json"
+			},
+			{
+				"language": "html",
+				"path": "./resources/snippets/auraSnippets.json"
+			},
+			{
+				"language": "xml",
+				"path": "./resources/snippets/sldsSnippets.json"
+			},
+			{
+				"language": "html",
+				"path": "./resources/snippets/sldsSnippets.json"
 			}
 		],
 		"menus":{

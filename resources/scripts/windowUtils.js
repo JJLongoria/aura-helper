@@ -3,7 +3,7 @@ let statusBarItem;
 
 function createStatusBarItem() {
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 130);
-    statusBarItem.command = "aurahelper.statusBarItemPressed";
+    statusBarItem.command = "aurahelper.statusbar.pressed";
     return statusBarItem;
 }
 

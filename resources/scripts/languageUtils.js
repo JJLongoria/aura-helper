@@ -1071,7 +1071,10 @@ function getTagData(tokens, index) {
         token = tokens[index];
         let lastToken = getLastToken(tokens, index);
         let nextToken = getNextToken(tokens, index);
-        if (token && token.tokenType === 'equal' && lastToken && lastToken.tokenType === 'identifier' && nextToken && nextToken.tokenType === 'quotte') {
+        if(token && token.tokenType === 'colon' && lastToken && lastToken.tokenType === 'identifier' && lastToken.content == "aura" && nextToken && nextToken.tokenType === 'identifier' && nextToken.content === 'id'){
+            paramName = "aura:id";
+        }
+        else if (token && token.tokenType === 'equal' && lastToken && lastToken.tokenType === 'identifier' && nextToken && nextToken.tokenType === 'quotte' && !paramName) {
             paramName = lastToken.content;
         }
         else if (token && token.tokenType === 'quotte' && lastToken && lastToken.tokenType === 'equal') {
