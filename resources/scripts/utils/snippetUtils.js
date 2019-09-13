@@ -1,5 +1,7 @@
-const logger = require('./logger');
-const fileUtils = require('./fileUtils');
+const logger = require('../main/logger');
+const fileSystem = require('../fileSystem');
+const Paths = fileSystem.Paths;
+const FileReader = fileSystem.FileReader;
 
 function getApexComment(data, commentTemplate) {
     logger.log("Run getApexComment Method");
@@ -67,7 +69,7 @@ function getJSFunctionSnippet(numParams) {
 
 function getMethodsContent(fileStructure, methodTemplate, paramTemplate, indent) {
     var content = "";
-    if (fileStructure.functions) {
+    if (fileStructure && fileStructure.functions) {
         for (let i = 0; i < fileStructure.functions.length; i++) {
             content += getMethodContent(fileStructure.functions[i], methodTemplate, paramTemplate, indent);
         }
@@ -149,8 +151,8 @@ function getWhitespaces(number) {
     return ws;
 }
 
-function getAuraDocumentationSnippet(controllerMethods, helperMethods, docTemplate) {
-    let documentationTextJson = JSON.parse(fileUtils.getDocumentText(docTemplate));
+function getAuraDocumentationSnippet(controllerMethods, helperMethods, templateContent) {
+    let documentationTextJson = JSON.parse(templateContent);
     let documentationText = "";
     let helperSectionIndent = '';
     let controllerSectionIndent = '';
@@ -288,10 +290,10 @@ function getJSApexParamsSnippet(data, lineData) {
     return content;
 }
 
-function loadSnippets(context) {
-    let auraSnippets = JSON.parse(fileUtils.getFileContent(fileUtils.getAuraSnippetsPath(context)));
-    let jsSnippets = JSON.parse(fileUtils.getFileContent(fileUtils.getJSSnippetsPath(context)));
-    let sldsSnippets = JSON.parse(fileUtils.getFileContent(fileUtils.getSLDSSnippetsPath(context)));
+function loadSnippets() {
+    let auraSnippets = JSON.parse(FileReader.readFileSync(Paths.getAuraSnippetsPath()));
+    let jsSnippets = JSON.parse(FileReader.readFileSync(Paths.getJSSnippetsPath()));
+    let sldsSnippets = JSON.parse(FileReader.readFileSync(Paths.getSLDSSnippetsPath()));
     let auraActivations = {};
     let jsActivations = {};
     let sldsActivations = {};

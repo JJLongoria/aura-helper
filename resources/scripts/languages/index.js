@@ -1,0 +1,14 @@
+const tokenizer = require('./tokenizer');
+exports.Tokenizer = tokenizer.Tokenizer;
+const tokenTypes = require('./tokenTypes');
+exports.TokenType = tokenTypes;
+const javascriptParser = require('./javascriptParser');
+exports.JavaScriptParser = javascriptParser.JavaScriptParser;
+const auraParser = require('./auraParser');
+exports.AuraParser = auraParser.AuraParser;
+const bundleAnalizer = require('./bundleAnalizer');
+exports.BundleAnalizer = bundleAnalizer.BundleAnalizer;
+const apexParser = require('./apexParser');
+exports.ApexParser = apexParser.ApexParser;
+const utils = require('./utils');
+exports.Utils = utils.Utils;
