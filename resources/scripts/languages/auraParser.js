@@ -33,7 +33,7 @@ class AuraParser {
             if (bracketIndent == 1) {
                 if (token.tokenType === TokenType.COLON && lastToken && lastToken.tokenType === TokenType.IDENTIFIER && lastToken.content === 'aura' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER && nextToken.content === 'component') {
                     // Is on Component
-                    let fileStruc = AuraParser.getTagData(tokens, index);
+                    let fileStruc = AuraParser.getTagData(tokens, index).tagData;
                     if (fileStruc.extensible)
                         fileStructure.extensible = fileStruc.extensible;
                     if (fileStruc.implements) {

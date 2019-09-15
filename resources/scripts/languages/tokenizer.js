@@ -162,7 +162,7 @@ class Tokenizer {
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
-            } else if (char === "€") {
+            } else if (char === "€" || char === "º" || char === "~" || char === "¬") {
                 token.tokenType = TokenType.SYMBOL;
                 token.content = char;
                 token.line = lineNumber;

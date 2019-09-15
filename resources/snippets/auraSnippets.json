@@ -2,7 +2,7 @@
     "Aura Attribute": {
         "prefix": "aura.attribute",
         "body": [
-            "<aura:attribute name=\"${1:name}\" type=\"${2:type}\" default=\"${3:defValue}\" access=\"${4:description}\" description=\"${5:description}\"/>"
+            "<aura:attribute name=\"${1:name}\" type=\"${2:type}\" default=\"${3:defValue}\" access=\"${4:access}\" description=\"${5:description}\"/>"
         ],
         "description": "Create Aura Attribute Code Unit (aura:attribute) [https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/components_attributes.htm]"
     },
