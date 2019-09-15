@@ -88,6 +88,11 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for the fields of an SObject"
+				},
+				"aurahelper.activeQuerySuggestion": {
+					"type": "boolean",
+					"default": true,
+					"description": "Use Code Suggestion and autocompletion tools on queries"
 				}
 			}
 		},

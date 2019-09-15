@@ -1,6 +1,7 @@
 const fileSystem = require('../fileSystem');
 const language = require('../languages');
 const logger = require('../main/logger');
+const config = require('../main/config');
 const vscode = require('vscode');
 const CompletionItemKind = vscode.CompletionItemKind;
 const CompletionItem = vscode.CompletionItem;
@@ -9,6 +10,9 @@ const Paths = fileSystem.Paths;
 const FileChecker = fileSystem.FileChecker;
 const Tokenizer = language.Tokenizer;
 const TokenType = language.TokenType;
+const BundleAnalizer = language.BundleAnalizer;
+const langUtils = language.Utils;
+
 class Utils {
     static getObjectsFromMetadataIndex() {
         let sObjects = {
@@ -37,7 +41,6 @@ class Utils {
             return undefined;
         }
     }
-
 
     static getFieldData(sObject, fieldName) {
         if (sObject) {
@@ -74,7 +77,7 @@ class Utils {
             }
             index++;
         }
-        if(token.tokenType == TokenType.RBRACKET)
+        if (token.tokenType == TokenType.RBRACKET)
             tokenPos--;
         let endLoop = false;
         while (!endLoop) {
@@ -107,7 +110,7 @@ class Utils {
         }
         return items;
     }
-    
+
     static getSobjectsFieldsCompletionItems(position, sObject, command) {
         let items = [];
         if (sObject) {
@@ -149,6 +152,116 @@ class Utils {
                 items.push(item);
                 if (itemRel)
                     items.push(itemRel);
+            }
+        }
+        return items;
+    }
+
+    static provideSObjetsCompletion(document, position, command) {
+        let items = [];
+        let activation = Utils.getActivation(document, position);
+        let activationTokens = activation.split('.');
+        let queryData = langUtils.getQueryData(document, position);
+        logger.logJSON("queryData", queryData);
+        if (queryData) {
+            if (!config.getConfig().activeQuerySuggestion)
+                return Promise.resolve(undefined);
+            let sObjects = Utils.getObjectsFromMetadataIndex();
+            let similarSobjects;
+            if (activationTokens.length === 1)
+                similarSobjects = Utils.getSimilar(sObjects.sObjectsToLower, activationTokens[0]);
+            if (sObjects.sObjectsToLower.includes(queryData.from.toLowerCase())) {
+                let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[queryData.from.toLowerCase()]);
+                if (activationTokens.length === 0) {
+                    items = Utils.getSobjectsFieldsCompletionItems(position, sObject, command);
+                } else {
+                    let lastObject = sObject;
+                    let index = 0;
+                    for (const activationToken of activationTokens) {
+                        let actToken = activationToken;
+                        if (actToken.endsWith('__r'))
+                            actToken = actToken.substring(0, actToken.length - 3) + '__c';
+                        let fielData = Utils.getFieldData(lastObject, actToken);
+                        if (fielData) {
+                            if (fielData.referenceTo.length === 1) {
+                                lastObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
+                            } else {
+                                lastObject = undefined;
+                            }
+                        }
+                        index++;
+                    }
+                    items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, command);
+                }
+            }
+        } else if (activationTokens.length > 0) {
+            if (activationTokens[0] === 'v' && activationTokens.length > 1) {
+                let componentStructure = BundleAnalizer.getComponentStructure(document.fileName);
+                let attribute = Utils.getAttribute(componentStructure, activationTokens[1]);
+                if (attribute) {
+                    let sObjects = Utils.getObjectsFromMetadataIndex();
+                    if (sObjects.sObjectsToLower.includes(attribute.type.toLowerCase())) {
+                        if (!config.getConfig().activeSobjectFieldsSuggestion)
+                            return Promise.resolve(undefined);
+                        let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[attribute.type.toLowerCase()]);
+                        if (activationTokens.length > 2) {
+                            let lastObject = sObject;
+                            let index = 0;
+                            for (const activationToken of activationTokens) {
+                                let actToken = activationToken;
+                                if (index > 1) {
+                                    if (actToken.endsWith('__r'))
+                                        actToken = actToken.substring(0, actToken.length - 3) + '__c';
+                                    let fielData = Utils.getFieldData(lastObject, actToken);
+                                    if (fielData) {
+                                        if (fielData.referenceTo.length === 1) {
+                                            lastObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
+                                        } else {
+                                            lastObject = undefined;
+                                        }
+                                    }
+                                }
+                                index++;
+                            }
+                            items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, command);
+                        }
+                    }
+                }
+            } else {
+                let sObjects = Utils.getObjectsFromMetadataIndex();
+                let similarSobjects = [];
+                if (activationTokens.length === 1)
+                    similarSobjects = Utils.getSimilar(sObjects.sObjectsToLower, activationTokens[0]);
+                if (sObjects.sObjectsToLower.includes(activationTokens[0].toLowerCase())) {
+                    if (!config.getConfig().activeSobjectFieldsSuggestion)
+                        return Promise.resolve(undefined);
+                    let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[activationTokens[0].toLowerCase()]);
+                    if (activationTokens.length > 1) {
+                        let lastObject = sObject;
+                        let index = 0;
+                        for (const activationToken of activationTokens) {
+                            let actToken = activationToken;
+                            if (index > 0) {
+                                if (actToken.endsWith('__r'))
+                                    actToken = actToken.substring(0, actToken.length - 3) + '__c';
+                                let fielData = Utils.getFieldData(lastObject, actToken);
+                                if (fielData) {
+                                    if (fielData.referenceTo.length === 1) {
+                                        lastObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
+                                    } else {
+                                        lastObject = undefined;
+                                    }
+                                }
+                            }
+                            index++;
+                        }
+                        items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, command);
+                    }
+                } else if (similarSobjects.length > 0) {
+                    if (!config.getConfig().activeSObjectSuggestion)
+                        return Promise.resolve(undefined);
+                    items = Utils.getSObjectsCompletionItems(position, similarSobjects, sObjects.sObjectsMap, command);
+                }
             }
         }
         return items;
