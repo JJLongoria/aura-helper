@@ -55,7 +55,8 @@
                     <a href="#cmpAttributes" class="w3-bar-item w3-button w3-small">Getting Component Attributes</a>
                     <a href="#jsControllerFunctions" class="w3-bar-item w3-button w3-small">Getting JS Controller Functions</a>
                     <a href="#jsHelperFunctions" class="w3-bar-item w3-button w3-small">Getting JS Helper Functions</a>
-                    <a href="#apexMethods" class="w3-bar-item w3-button w3-small">Getting Apex Methods</a>
+                    <a href="#apexMethods" class="w3-bar-item w3-button w3-small">Getting Apex Methods on JavaScript</a>
+                    <a href="#queriableObjectsApex" class="w3-bar-item w3-button w3-small">Getting Queriable Objects Data on Apex</a>
                     <a href="#aura" class="w3-bar-item w3-button w3-small">Aura Namespace</a>
                     <a href="#ltng" class="w3-bar-item w3-button w3-small">Ltng Namespace</a>
                     <a href="#force" class="w3-bar-item w3-button w3-small">Force Namespace</a>
@@ -232,6 +233,7 @@
                     <div class="w3-container darkGrey w3-margin-left">
                         <p>Aura Helper provides code completion tools for Aura Components and JavaScript files for get the Componente Attributes</p>
                         <p>Only need type <code>v.</code> and press <code>Ctrl+space</code> for get all attribute names. with this provider you can also get the <b>inherited attributes</b></p>
+                        <p>If the attribute is a Sobject Type, you can get a list of all fields and his related fields. <code>v.sObjectType.field.field.field ...</code></p>
                         <p>Work in <code>.cmp</code> and <code>.js</code> files</p>
                         <p>You can active or deactive this feature on Aura Helper settings</p>
                     </div>
@@ -262,14 +264,29 @@
                 </div>
                 <br />
                 <br />
-                <!-- Code Completions for Getting Apex Methods -->
+                <!-- Code Completions for Getting Apex Methods on JavaScript -->
                 <div class="w3-container w3-margin-left" id="apexMethods">
-                    <h4><b>Getting Apex Methods</b></h4>
+                    <h4><b>Getting Apex Methods on JavaScript</b></h4>
                     <div class="w3-container darkGrey w3-margin-left">
                         <p>Aura Helper provides code completion tools for Aura JavaScript files for get Apex Controller Methods</p>
                         <p>Only need type <code>c.</code> and press <code>Ctrl+space</code> for get all method names. with this provider you can also get the <b>inherited methods</b></p>
                         <p>If you type <code>c.[methodName].params</code> and then press <code>enter</code> you get the JSON parameters structure with apex method parameters</p>
                         <p>Work in <code>.js</code> files</p>
+                        <p>You can active or deactive this feature on Aura Helper settings</p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Getting Queriable Objects Data on Apex  -->
+                <div class="w3-container w3-margin-left" id="queriableObjectsApex">
+                    <h4><b>Getting Queriable Objects Data on Apex</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides code completion tools for Apex Code for get all queriable objects data</p>
+                        <p>Only need type the name of object and type <code>.</code> or part of it and press <code>Ctrl+space</code> for get all available objects</b></p>
+                        <p>When you typed the name and <code>.</code> you get a list of all fields from the object. If the selected field are a reference field, you get all fields from the reference.</p>
+                        <p>For example, you can get the all of fields from account when type <code>Account.</code>. If you type <code>Opportunity.Account.</code> you get a list of Account fields, and so on. <code>ObjectName.field.field.field ...</code></p>
+                        <p>Also, if you write a part of the name of an object and press <code>Ctrl+space</code> you get a list of the similar objects</p>
+                        <p>For the correct work of this tool, you need a refresh the <a href="#refreshMetadataIndex">Metadata index</a></p>
                         <p>You can active or deactive this feature on Aura Helper settings</p>
                     </div>
                 </div>

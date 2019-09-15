@@ -78,6 +78,16 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for create a method or class comment on Apex"
+				},
+				"aurahelper.activeSObjectSuggestion": {
+					"type": "boolean",
+					"default": true,
+					"description": "Use Code Suggestion and autocompletion tools for list all Sobjects on your org"
+				},
+				"aurahelper.activeSobjectFieldsSuggestion": {
+					"type": "boolean",
+					"default": true,
+					"description": "Use Code Suggestion and autocompletion tools for the fields of an SObject"
 				}
 			}
 		},

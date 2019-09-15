@@ -301,7 +301,7 @@ All notable changes to this project will be documented in this file.
     - Improve code completion tools for make more easy work with Lightning
         - Call custom or standard componentes with autocompletion attributes (only appear not used)
 
-## [1.2.0] - 2019-09-09
+## [1.2.0] - 2019-09-11
 ### Added
     - Support for getting apex method parameters from JavaScript with "c.[methodName].params"
     - Refresh Metadata Index command
@@ -310,3 +310,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
     - Fixed bugs with Apex Comment completion
     - Fixed bugs when getting inherited apex controller methods
+
+## [1.3.0] - 2019-09-15
+### Added
+    - Autocompletion tools for sobjects and fields on Apex, Aura Components and JavaScript files.
+    - Autocompletion for Attributes on Components and Javascript files if are sobjet types
