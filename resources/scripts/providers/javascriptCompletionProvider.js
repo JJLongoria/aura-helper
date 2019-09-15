@@ -19,7 +19,7 @@ exports.provider = {
 }
 
 function provideJSCompletion(document, position) {
-    let items = [];
+    let items;
     let activation = Utils.getActivation(document, position);
     let activationTokens = activation.split('.');
     if (activationTokens[0] === 'v' || activationTokens[0] === 'c' || activationTokens[0] === 'helper') {
@@ -38,78 +38,7 @@ function provideJSCompletion(document, position) {
             items = getHelperFunctions(componentStructure, position);
         }
     } else {
-        let activation = Utils.getActivation(document, position);
-        let activationTokens = activation.split('.');
-        if (activationTokens.length > 0) {
-            if (activationTokens[0] === 'v' && activationTokens.length > 1) {
-                let componentStructure = BundleAnalizer.getComponentStructure(document.fileName);
-                let attribute = Utils.getAttribute(componentStructure, activationTokens[1]);
-                if (attribute) {
-                    let sObjects = Utils.getObjectsFromMetadataIndex();
-                    if (sObjects.sObjectsToLower.includes(attribute.type.toLowerCase())) {
-                        if (!config.getConfig().activeSobjectFieldsSuggestion)
-                            return Promise.resolve(undefined);
-                        let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[attribute.type.toLowerCase()]);
-                        if (activationTokens.length > 2) {
-                            let lastObject = sObject;
-                            let index = 0;
-                            for (const activationToken of activationTokens) {
-                                let actToken = activationToken;
-                                if (index > 1) {
-                                    if (actToken.endsWith('__r'))
-                                        actToken = actToken.substring(0, actToken.length - 3) + '__c';
-                                    let fielData = Utils.getFieldData(lastObject, actToken);
-                                    if (fielData) {
-                                        if (fielData.referenceTo.length === 1) {
-                                            lastObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
-                                        } else {
-                                            lastObject = undefined;
-                                        }
-                                    }
-                                }
-                                index++;
-                            }
-                            items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, 'aurahelper.completion.aura');
-                        }
-                    }
-                }
-            } else {
-                let sObjects = Utils.getObjectsFromMetadataIndex();
-                let similarSobjects = [];
-                if (activationTokens.length === 1)
-                    similarSobjects = Utils.getSimilar(sObjects.sObjectsToLower, activationTokens[0]);
-                if (sObjects.sObjectsToLower.includes(activationTokens[0].toLowerCase())) {
-                    if (!config.getConfig().activeSobjectFieldsSuggestion)
-                        return Promise.resolve(undefined);
-                    let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[activationTokens[0].toLowerCase()]);
-                    if (activationTokens.length > 1) {
-                        let lastObject = sObject;
-                        let index = 0;
-                        for (const activationToken of activationTokens) {
-                            let actToken = activationToken;
-                            if (index > 0) {
-                                if (actToken.endsWith('__r'))
-                                    actToken = actToken.substring(0, actToken.length - 3) + '__c';
-                                let fielData = Utils.getFieldData(lastObject, actToken);
-                                if (fielData) {
-                                    if (fielData.referenceTo.length === 1) {
-                                        lastObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
-                                    } else {
-                                        lastObject = undefined;
-                                    }
-                                }
-                            }
-                            index++;
-                        }
-                        items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, 'aurahelper.completion.aura');
-                    }
-                } else if (similarSobjects.length > 0) {
-                    if (!config.getConfig().activeSObjectSuggestion)
-                        return Promise.resolve(undefined);
-                    items = Utils.getSObjectsCompletionItems(position, similarSobjects, sObjects.sObjectsMap, 'aurahelper.completion.aura');
-                }
-            }
-        }
+        items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.aura');
     }
     return items;
 }
