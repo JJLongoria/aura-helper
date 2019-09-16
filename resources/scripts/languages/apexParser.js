@@ -1,10 +1,10 @@
 const logger = require('../main/logger');
 const Tokenizer = require('./tokenizer').Tokenizer;
 const TokenType = require('./tokenTypes');
-const utils = require('./utils').Utils;
+const Utils = require('./Utils').Utils;
 
 class ApexParser {
-    static parse(content) {
+    static parse(content, position) {
         let tokens = Tokenizer.tokenize(content);
         let fileStructure = {
             modifier: "",
@@ -15,7 +15,10 @@ class ApexParser {
             implements: [],
             extends: "",
             fields: [],
-            methods: []
+            methods: [],
+            posData: {
+
+            },
         };
         let index = 0;
         let bracketIndent = 0;
@@ -38,9 +41,9 @@ class ApexParser {
         let dataTypeIndexEnd;
         let isCommentLine = false;
         while (index < tokens.length) {
-            let lastToken = utils.getLastToken(tokens, index);
+            let lastToken = Utils.getLastToken(tokens, index);
             let token = tokens[index];
-            let nextToken = utils.getNextToken(tokens, index);
+            let nextToken = Utils.getNextToken(tokens, index);
             if (token.tokenType === TokenType.LBRACKET) {
                 bracketIndent++;
             }
@@ -67,7 +70,7 @@ class ApexParser {
                         fileStructure.virtual = true;
                     else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'implements') {
                         var interfaceName = "";
-                        while (token.content !== 'extends' || token.tokenType !== TokenType.LBRACKET) {
+                        while (token.content.toLowerCase() !== 'extends' && token.tokenType !== TokenType.LBRACKET) {
                             token = tokens[index];
                             if (token.tokenType === TokenType.LABRACKET) {
                                 aBracketIndent++;
@@ -78,7 +81,7 @@ class ApexParser {
                             if (token.tokenType === TokenType.COMMA && aBracketIndent == 0) {
                                 fileStructure.implements.push(interfaceName);
                                 interfaceName = "";
-                            } else {
+                            } else if(token.content.toLowerCase() !== 'implements' && token.tokenType !== TokenType.LBRACKET){
                                 interfaceName += token.content;
                             }
                             index++;
@@ -112,7 +115,7 @@ class ApexParser {
                         let endComment = false;
                         while (!endComment) {
                             token = tokens[index];
-                            nextToken = utils.getNextToken(tokens, index);
+                            nextToken = Utils.getNextToken(tokens, index);
                             endComment = token.tokenType === TokenType.OPERATOR && token.content === '*' && nextToken && nextToken.tokenType === TokenType.OPERATOR && nextToken.content === '/';
                             index++;
                         }
@@ -141,7 +144,7 @@ class ApexParser {
                         while (token.line == nextToken.line) {
                             index++;
                             token = tokens[index];
-                            nextToken = utils.getNextToken(tokens, index);
+                            nextToken = Utils.getNextToken(tokens, index);
                             annotation += token.content;
                         }
                     } else if (token.tokenType === TokenType.IDENTIFIER && nextToken && (nextToken.tokenType === TokenType.EQUAL || nextToken.tokenType === TokenType.SEMICOLON)) {
@@ -157,6 +160,7 @@ class ApexParser {
                             if (token.tokenType === TokenType.EQUAL) {
                                 isOnAssignment = true;
                             }
+                            index++;
                         }
                         index--;
                         let dataType = this.getDataType(dataTypeIndexStart, dataTypeIndexEnd, tokens);
@@ -189,10 +193,12 @@ class ApexParser {
                         };
                         let methodBracketIndent = 0;
                         let endLoop = false;
+                        let methodStartToken;
+                        let methodEndToken;
                         while (!endLoop) {
                             token = tokens[index];
-                            lastToken = utils.getLastToken(tokens, index);
-                            nextToken = utils.getNextToken(tokens, index);
+                            lastToken = Utils.getLastToken(tokens, index);
+                            nextToken = Utils.getNextToken(tokens, index);
                             if (token.tokenType === TokenType.LPAREN) {
                                 parenIndent++;
                             }
@@ -206,10 +212,18 @@ class ApexParser {
                                 aBracketIndent--;
                             } else if (token.tokenType === TokenType.LBRACKET) {
                                 methodBracketIndent++;
+                                if (methodBracketIndent === 1)
+                                    methodStartToken = token;
                             } else if (token.tokenType === TokenType.RBRACKET) {
                                 methodBracketIndent--;
-                                if (methodBracketIndent === 0)
+                                if (methodBracketIndent === 0) {
                                     endLoop = true;
+                                    methodEndToken = token;
+                                }
+                            }
+                            if (methodStartToken && methodEndToken && position) {
+                                if ((methodStartToken.line - 1) <= position.line && position.line <= (methodEndToken.line - 1))
+                                    fileStructure.posData.isOnMethod = true;
                             }
                             if (!endLoop) {
                                 if (methodBracketIndent > 0) {
@@ -229,6 +243,7 @@ class ApexParser {
                             }
                             index++;
                         }
+                        index--;
                         if (!modifier)
                             modifier = 'public';
                         returnType = ApexParser.getDataType(returnIndexStart, returnIndexEnd, tokens);
@@ -266,6 +281,12 @@ class ApexParser {
                             returnType: returnType,
                             signature: signature
                         };
+                        if (fileStructure.posData.isOnMethod) {
+                            if (!fileStructure.posData.methodName)
+                                fileStructure.posData.methodName = method.name;
+                            if (!fileStructure.posData.methodSignature)
+                                fileStructure.posData.methodSignature = method.signature;
+                        }
                         modifier = undefined;
                         isStatic = false;
                         name = undefined;
@@ -275,6 +296,9 @@ class ApexParser {
                         methodParams = [];
                         annotation = undefined;
                         comment = undefined;
+                        bodyTokens = [];
+                        returnType = undefined;
+                        signature = undefined;
                         fileStructure.methods.push(method);
                     }
                 }
@@ -318,8 +342,8 @@ class ApexParser {
         let endLoop = false;
         while (!endLoop) {
             let token = tokens[index];
-            let lastToken = utils.getLastToken(tokens, index);
-            let nextToken = utils.getNextToken(tokens, index);
+            let lastToken = Utils.getLastToken(tokens, index);
+            let nextToken = Utils.getNextToken(tokens, index);
             if (token.tokenType !== TokenType.SEMICOLON && token.tokenType !== TokenType.LBRACKET) {
                 if (isClass) {
                     if (token.tokenType === TokenType.IDENTIFIER && (token.content.toLowerCase() === 'public' || token.content.toLowerCase() === 'global' || token.content.toLowerCase() === 'private'))
@@ -391,7 +415,7 @@ class ApexParser {
                         while (token.line == nextToken.line) {
                             index++;
                             token = tokens[index];
-                            nextToken = utils.getNextToken(tokens, index);
+                            nextToken = Utils.getNextToken(tokens, index);
                             data.methodData.annotation += token.content;
                         }
                     } else if (token.tokenType === TokenType.IDENTIFIER && nextToken && nextToken.tokenType === TokenType.LPAREN) {
@@ -403,8 +427,8 @@ class ApexParser {
                         };
                         while (token.tokenType !== TokenType.RPAREN) {
                             token = tokens[index];
-                            lastToken = utils.getLastToken(tokens, index);
-                            nextToken = utils.getNextToken(tokens, index);
+                            lastToken = Utils.getLastToken(tokens, index);
+                            nextToken = Utils.getNextToken(tokens, index);
                             if (token.tokenType === TokenType.LPAREN) {
                                 parenIndent++;
                             }
@@ -466,10 +490,37 @@ class ApexParser {
 
     static getDataType(indexStart, indexEnd, tokens) {
         let returnType = '';
+        if(tokens[indexStart] && tokens[indexStart].tokenType === TokenType.RBRACKET)
+            indexStart++;
         for (let index = indexStart; index < indexEnd; index++) {
             returnType += tokens[index].content;
         }
         return returnType;
+    }
+
+    static parseMethod(methodTokens) {
+        let index = 0;
+        let newCommandIndex = 0;
+        let methodData = {
+            declaredVars: [],
+        };
+        while (index < methodTokens.length) {
+            let token = methodTokens[index];
+            let lastToken = Utils.getLastToken(methodTokens, index);
+            let nextToken = Utils.getNextToken(methodTokens, index);
+            if(token.tokenType === TokenType.LBRACKET || token.tokenType === TokenType.SEMICOLON)
+                newCommandIndex = index + 1;
+            if (token.tokenType === TokenType.IDENTIFIER && lastToken && (lastToken.tokenType === TokenType.IDENTIFIER || lastToken.tokenType === TokenType.RSQBRACKET || lastToken.tokenType === TokenType.RABRACKET) && nextToken && (nextToken.tokenType === TokenType.EQUAL || nextToken.tokenType === TokenType.SEMICOLON || nextToken.tokenType === TokenType.COLON)) {
+                methodData.declaredVars.push({
+                    name: token.content,
+                    type: this.getDataType(newCommandIndex, index, methodTokens),
+                    line: token.line - 1,
+                    character: token.startColumn - 1
+                });
+            }
+            index++;
+        }
+        return methodData;
     }
 }
 exports.ApexParser = ApexParser;

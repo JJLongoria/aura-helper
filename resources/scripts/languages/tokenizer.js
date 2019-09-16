@@ -162,6 +162,18 @@ class Tokenizer {
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
+            } else if (char === "`") {
+                token.tokenType = TokenType.BSLQUOTTE;
+                token.content = char;
+                token.line = lineNumber;
+                token.startColumn = column;
+                token.endColumn = column + char.length;
+            } else if (char === "´") {
+                token.tokenType = TokenType.SLQUOTTE;
+                token.content = char;
+                token.line = lineNumber;
+                token.startColumn = column;
+                token.endColumn = column + char.length;
             } else if (char === "€" || char === "º" || char === "~" || char === "¬") {
                 token.tokenType = TokenType.SYMBOL;
                 token.content = char;

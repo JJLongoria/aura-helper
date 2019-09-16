@@ -143,7 +143,6 @@ class BundleAnalizer {
                 }
             }
         }
-        logger.logJSON('componentStructure', componentStructure);
         return componentStructure;
     }
 

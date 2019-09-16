@@ -32,15 +32,17 @@ function provideAuraComponentCompletion(document, position) {
     let componentTagData;
     if (isComponentTag)
         componentTagData = analizeComponentTag(document, position);
+    let activation = Utils.getActivation(document, position);
+    let activationTokens = activation.split('.');
     let activationOption1 = line.substring(position.character - 2, position.character);
     let activationOption2 = line.substring(position.character - 3, position.character);
-    if (activationOption1 === 'v.' || activationOption1 === 'c.') {
+    if ((activationTokens[0] === 'v' || activationTokens[0] === 'c') && activationTokens.length === 2) {
         let componentStructure = BundleAnalizer.getComponentStructure(document.fileName);
-        if (activationOption1 === 'v.') {
+        if (activationTokens[0] === 'v') {
             if (!config.getConfig().activeAttributeSuggest)
                 return Promise.resolve(undefined);
             items = getAttributes(componentStructure, position, componentTagData);
-        } else if (activationOption1 === 'c.') {
+        } else if (activationTokens[0] === 'c') {
             if (!config.getConfig().activeControllerFunctionsSuggest)
                 return Promise.resolve(undefined);
             items = getControllerFunctions(componentStructure, position, componentTagData);
@@ -155,15 +157,15 @@ function analizeComponentTag(document, position) {
 }
 
 function getBaseComponentsAttributes(componentTagData, position) {
+    logger.logJSON("componentTagData", componentTagData);
     let baseComponentsDetail = applicationContext.componentsDetail;
     let items = [];
     let haveAuraId = false;
-    for (const existingAttributes of componentTagData.attributes) {
-        if (existingAttributes.name === 'aura:id') {
+    Object.keys(componentTagData.attributes).forEach(function (key) {
+        if (key === 'aura:id') {
             haveAuraId = true;
-            break;
         }
-    }
+    });
     if (!haveAuraId)
         items.push(getCodeCompletionItemAttribute('aura:id', 'Type: String', 'Aura ID of the component', 'String', position, 'aura:id'));
     let notRoot = baseComponentsDetail.notRoot;

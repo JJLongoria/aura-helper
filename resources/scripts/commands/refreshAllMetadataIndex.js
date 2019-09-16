@@ -2,6 +2,7 @@ const processes = require('../processes');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const window = vscode.window;
+const ProgressLocation = vscode.ProgressLocation;
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
@@ -24,7 +25,26 @@ function onButtonClick(selected) {
         activeOrgs = JSON.parse(FileReader.readFileSync(activeOrgsPath));
         if (activeOrgs.length > 0) {
             selectOrganizationForRefresh(activeOrgs, activeOrgsPath, function (username) {
-                processes.refreshObjectMetadataIndex.run(username, selected, onFinishRefresh);
+                window.withProgress({
+                    location: ProgressLocation.Notification,
+                    title: "Refreshing Metadata Index",
+                    cancellable: false
+                }, (objProgress, objCancel) => {
+                    return new Promise(resolve => {
+                        setTimeout(() => {
+                            processes.refreshAllMetadataIndex.run(username, function(objName, processed, total){
+                                objProgress.report({ message: "\nRefreshing index for " + objName + " (" + processed + "/" + total +")"});
+                            }, function(result){
+                                resolve();
+                                if (result.successData) {
+                                    window.showInformationMessage(result.successData.message + ". Total: " + result.successData.data.processed);
+                                } else {
+                                    window.showErrorMessage(result.errorData.message + ". Error: " + result.errorData.data);
+                                }
+                            });
+                        }, 100);
+                    });
+                });
             });
         }
         else {
