@@ -93,6 +93,11 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools on queries"
+				},
+				"aurahelper.activeApexSuggestion": {
+					"type": "boolean",
+					"default": true,
+					"description": "Use Code Suggestion and autocompletion tools for Apex Code (variables, fields, methods...)"
 				}
 			}
 		},

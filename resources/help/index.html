@@ -57,7 +57,8 @@
                     <a href="#jsHelperFunctions" class="w3-bar-item w3-button w3-small">Getting JS Helper Functions</a>
                     <a href="#apexMethods" class="w3-bar-item w3-button w3-small">Getting Apex Methods on JavaScript</a>
                     <a href="#queriableObjectsApex" class="w3-bar-item w3-button w3-small">Getting Queriable Objects Data on Apex</a>
-                    <a href="#queriesSupport" class="w3-bar-item w3-button w3-small">Support on Queries</a>
+                    <a href="#queriesSupport" class="w3-bar-item w3-button w3-small">Queries Support</a>
+                    <a href="#apexCodeSupport" class="w3-bar-item w3-button w3-small">Apex Code Support</a>
                     <a href="#aura" class="w3-bar-item w3-button w3-small">Aura Namespace</a>
                     <a href="#ltng" class="w3-bar-item w3-button w3-small">Ltng Namespace</a>
                     <a href="#force" class="w3-bar-item w3-button w3-small">Force Namespace</a>
@@ -293,15 +294,29 @@
                 </div>
                 <br />
                 <br />
-                <!-- Code Completions for Getting Queriable Objects Data on Apex  -->
+                <!-- Code Completions for Queries Support  -->
                 <div class="w3-container w3-margin-left" id="queriesSupport">
-                    <h4><b>Support on Queries</b></h4>
+                    <h4><b>Queries Support</b></h4>
                     <div class="w3-container darkGrey w3-margin-left">
                         <p>Aura Helper provides code completion tools for Apex and Ligtning code for help on queries</p>
                         <p>When you type the basic structure of the query <code>select ... from Sobejct</code> and provide from Object, Aura Helper can show you all object fields and his related. <code>field.field.field ...</code></p>
                         <p>Also, if you write a part of the name of an object and press <code>Ctrl+space</code> you get a list of the similar objects</p>
                         <p>For the correct work of this tool, you need a refresh the <a href="#refreshMetadataIndex">Metadata index</a></p>
                         <p>You can active or deactive this feature on Aura Helper settings</p>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <!-- Code Completions for Queries Support  -->
+                <div class="w3-container w3-margin-left" id="apexCodeSupport">
+                    <h4><b>Apex Code Support</b></h4>
+                    <div class="w3-container darkGrey w3-margin-left">
+                        <p>Aura Helper provides code completion tools for Apex Code. You can write a part of a class name, press <code>Ctrl+enter</code> and get a list of all classes</p>
+                        <p>Also you can get a fields and methods from the classes, or delcared variables on methods.</p>
+                        <p>Aura Helper can too get related fields from method returns or variable datatypes. <code>className.methodName().fieldName</code></p>
+                        <p>Aura Helper get methods and fields from classes stored in your local path, not in salesforce. If you want to work with the latest changes, Retrieve all classes</p>
+                        <p>For the correct work of this tool, you need a refresh the <a href="#refreshMetadataIndex">Metadata index</a></p>
+                        <p>You can active or deactive this feature on Aura Helper settings. Only work at the moment with custom types. Working on support for System classes</p>
                     </div>
                 </div>
                 <br />

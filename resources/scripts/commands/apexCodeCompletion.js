@@ -45,7 +45,7 @@ function processCommentCompletion(position, editor){
 		while (!endLoop) {
 			if (methodOrClassLine.text.indexOf("{") === -1 && methodOrClassLine.text.indexOf(";") === -1) {
 				content += methodOrClassLine.text + "\n";
-			} else if(methodOrClassLine.text.indexOf("}")){
+			} else if(methodOrClassLine.text.indexOf("}") !== -1){
                 endLoop = true;
             } else {
 				content += methodOrClassLine.text + "\n";
