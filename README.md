@@ -49,6 +49,8 @@ Also you have Autocompletion Support for Apex Code (variables, methods, fields, 
 You can get any component attributes (even the inherited) on .cmp files and .js files
 Only need type: "v." and you can show and use all attributes. If the attribute is a SObject you can get all fields from it like in Apex Code
 
+Also Aura Helper support for list the available types for to much attributes.
+
 ##### - Get JavaScript Controller functions:
 You can get any controller functions (even the inherited) on .cmp files
 Only need type: "c." and you can show and use all functions.

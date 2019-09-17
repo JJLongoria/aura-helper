@@ -311,9 +311,11 @@ All notable changes to this project will be documented in this file.
     - Fixed bugs with Apex Comment completion
     - Fixed bugs when getting inherited apex controller methods
 
-## [1.3.0] - 2019-09-15
+## [1.3.0] - 2019-09-17
 ### Added
     - Autocompletion tools for sobjects and fields on Apex, Aura Components and JavaScript files.
     - Autocompletion for Attributes on Components and Javascript files if are sobjet types
     - Support for queries completion on Apex and Lightning
     - Autocompletion Support for Apex Code (Classes, Fields, Methods)
+    - Autocompletion Support for some attribute types
+    - Added support for call and use easy more standard components (custom components are fully supported)
