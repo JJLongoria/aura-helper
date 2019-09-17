@@ -68,13 +68,18 @@ class AuraParser {
         return fileStructure;
     }
 
-    static getTagData(tokens, index) {
+    static getTagData(tokens, index, position) {
         let data = {}
         let tagData = {};
         let isOnValue = false;
         let paramName;
         let paramValue = '';
         let token = tokens[index];
+        let startValueToken;
+        let endValueToken;
+        let isOnAttributeValue;
+        let isParamEmpty = false;
+        let attributeName;
         while (token.tokenType !== 'rABracket') {
             token = tokens[index];
             let lastToken = utils.getLastToken(tokens, index);
@@ -87,13 +92,24 @@ class AuraParser {
             }
             else if (token && token.tokenType === TokenType.QUOTTE && lastToken && lastToken.tokenType === TokenType.EQUAL) {
                 isOnValue = true;
-
+                startValueToken = token;
             } else if (token && token.tokenType === TokenType.QUOTTE && lastToken && lastToken.tokenType !== TokenType.BACKSLASH) {
                 isOnValue = false;
+                endValueToken = token;
+                if (position && startValueToken && endValueToken) {
+                    if (startValueToken.startColumn <= position.character && position.character <= endValueToken.startColumn) {
+                        isOnAttributeValue = true;
+                        attributeName = paramName;
+                    }
+                }
+                if ((!paramValue || paramValue.length === 0) && paramName === attributeName)
+                    isParamEmpty = true;
                 if (paramName)
                     tagData[paramName] = paramValue;
                 paramName = undefined;
                 paramValue = '';
+                startValueToken = undefined;
+                endValueToken = undefined;
 
             } else if (isOnValue) {
                 paramValue += utils.getWhitespaces(token.startColumn - lastToken.endColumn) + token.content;
@@ -102,10 +118,13 @@ class AuraParser {
         }
         data.tagData = tagData;
         data.index = index;
+        data.isOnAttributeValue = isOnAttributeValue;
+        data.attributeName = attributeName;
+        data.isParamEmpty = isParamEmpty;
         return data;
     }
 
-    static parseForPutAttributes(content, position){
+    static parseForPutAttributes(content, position) {
         logger.log("content", content);
         let tokens = Tokenizer.tokenize(content);
         let index = 0;
@@ -130,7 +149,29 @@ class AuraParser {
         };
     }
 
-    static componentTagData(content){
+    static analizeForPutSnippets(content, activation) {
+        let tokens = Tokenizer.tokenize(content);
+        let index = 0;
+        let startColumn;
+        let endColumn;
+        while (index < tokens.length) {
+            let token = tokens[index];
+            let lastToken = utils.getLastToken(tokens, index);
+            if (token.tokenType === TokenType.DOT && lastToken && lastToken.tokenType === TokenType.IDENTIFIER && lastToken.content === activation) {
+                startColumn = lastToken.startColumn;
+                endColumn = token.endColumn;
+            }
+            if (startColumn && endColumn)
+                index = tokens.length;
+            index++;
+        }
+        return {
+            startColumn: startColumn,
+            endColumn: endColumn
+        };
+    }
+
+    static componentTagData(content, position) {
         let componentTagData = {
             position: {
                 line: -1,
@@ -138,6 +179,9 @@ class AuraParser {
             },
             namespace: "",
             name: "",
+            isParamEmpty: false,
+            isOnAttributeValue: false,
+            attributeName: "",
             attributes: {}
         };
         let componentTokens = Tokenizer.tokenize(content);
@@ -149,7 +193,10 @@ class AuraParser {
             if (token.tokenType === TokenType.COLON && lastToken && lastToken.tokenType === TokenType.IDENTIFIER && nextToken && nextToken.tokenType === TokenType.IDENTIFIER) {
                 componentTagData.namespace = lastToken.content;
                 componentTagData.name = nextToken.content;
-                let data = AuraParser.getTagData(componentTokens, index);
+                let data = AuraParser.getTagData(componentTokens, index, position);
+                componentTagData.isParamEmpty = data.isParamEmpty;
+                componentTagData.isOnAttributeValue = data.isOnAttributeValue;
+                componentTagData.attributeName = data.attributeName;
                 Object.keys(data.tagData).forEach(function (key) {
                     componentTagData.attributes[key] = data.tagData[key];
                 });

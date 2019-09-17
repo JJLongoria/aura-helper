@@ -11,6 +11,7 @@ const FileChecker = fileSystem.FileChecker;
 const SnippetString = vscode.SnippetString;
 const CompletionItemKind = vscode.CompletionItemKind;
 const CompletionItem = vscode.CompletionItem;
+const MarkdownString = vscode.MarkdownString;
 const BundleAnalizer = languages.BundleAnalizer;
 const AuraParser = languages.AuraParser;
 const Tokenizer = languages.Tokenizer;
@@ -36,7 +37,26 @@ function provideAuraComponentCompletion(document, position) {
     let activationTokens = activation.split('.');
     let activationOption1 = line.substring(position.character - 2, position.character);
     let activationOption2 = line.substring(position.character - 3, position.character);
-    if ((activationTokens[0] === 'v' || activationTokens[0] === 'c') && activationTokens.length === 2) {
+    let similarAuraSnippetsNs = getSimilarSnippetsNS(applicationContext.auraSnippets, activationTokens[0]);
+    let similarSldsSnippetsNs = getSimilarSnippetsNS(applicationContext.sldsSnippets, activationTokens[0]);
+    let similarJSSnippetsNs = getSimilarSnippetsNS(applicationContext.jsSnippets, activationTokens[0]);
+    let snippets;
+    if (FileChecker.isAuraComponent(document.uri.fsPath) && applicationContext.auraSnippets[activationTokens[0]] && applicationContext.auraSnippets[activationTokens[0]].length > 0) {
+        snippets = applicationContext.auraSnippets[activationTokens[0]];
+    } else if (FileChecker.isAuraComponent(document.uri.fsPath) && applicationContext.sldsSnippets[activationTokens[0]] && applicationContext.sldsSnippets[activationTokens[0]].length > 0) {
+        snippets = applicationContext.auraSnippets[activationTokens[0]];
+    } else if (FileChecker.isJavaScript(document.uri.fsPath) && applicationContext.jsSnippets[activationTokens[0]] && applicationContext.jsSnippets[activationTokens[0]].length > 0) {
+        snippets = applicationContext.jsSnippets[activationTokens[0]];
+    }
+    if (snippets && snippets.length > 0) {
+        items = getSnippets(position, snippets);
+    } else if (similarAuraSnippetsNs.length > 0 && FileChecker.isAuraComponent(document.uri.fsPath)) {
+        items = getSimilarCompletionItems(position, similarAuraSnippetsNs);
+    } else if (similarSldsSnippetsNs.length > 0 && FileChecker.isAuraComponent(document.uri.fsPath)) {
+        items = getSimilarCompletionItems(position, similarSldsSnippetsNs);
+    } else if (similarJSSnippetsNs.length > 0 && FileChecker.isJavaScript(document.uri.fsPath)) {
+        items = getSimilarCompletionItems(position, similarJSSnippetsNs);
+    } else if ((activationTokens[0] === 'v' || activationTokens[0] === 'c') && activationTokens.length === 2) {
         let componentStructure = BundleAnalizer.getComponentStructure(document.fileName);
         if (activationTokens[0] === 'v') {
             if (!config.getConfig().activeAttributeSuggest)
@@ -73,9 +93,110 @@ function provideAuraComponentCompletion(document, position) {
     } else if (isComponentTag) {
         if (!config.getConfig().activeComponentCallSuggest)
             return Promise.resolve(undefined);
-        items = getBaseComponentsAttributes(componentTagData, position);
+        if (!componentTagData.isOnAttributeValue) {
+            items = getBaseComponentsAttributes(componentTagData, position);
+        } else if (componentTagData.isOnAttributeValue && componentTagData.isParamEmpty) {
+            items = getAttributeTypesCompletionItems(position, componentTagData, getBaseComponentAttributes(componentTagData));
+        } else {
+            items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.aura');
+        }
     } else {
         items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.aura');
+    }
+    return items;
+}
+
+function getAttributeTypesCompletionItems(position, componentTagData, componentAttributes) {
+    let items = [];
+    let attributeData;
+    let baseComponentsDetail = applicationContext.componentsDetail;
+    let sizes = baseComponentsDetail.sizes;
+    let dataTypes = baseComponentsDetail.datatypes;
+    let accesses = baseComponentsDetail.access;
+    for (const attribute of componentAttributes) {
+        if (attribute.name === componentTagData.attributeName) {
+            attributeData = attribute;
+        }
+    }
+    if (attributeData) {
+        if(componentTagData.namespace === "aura" && componentTagData.name === "attribute" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string'){
+            for (const dataType of dataTypes) {
+                let item = new CompletionItem(dataType, CompletionItemKind.Value);
+                item.detail = "Attribute Datatype";
+                item.insertText = dataType;
+                item.preselect = true;
+                item.command = {
+                    title: 'Aura Code Completion',
+                    command: 'aurahelper.completion.aura',
+                    arguments: [position, 'attrDataType', dataType]
+                };
+                items.push(item);
+            }
+        } else if (attributeData.name === 'size' && attributeData.type.toLowerCase() === 'string') {
+            for (const size of sizes) {
+                let item = new CompletionItem(size, CompletionItemKind.Value);
+                item.detail = "SLDS " + size + " Size";
+                item.insertText = size;
+                item.preselect = true;
+                item.command = {
+                    title: 'Aura Code Completion',
+                    command: 'aurahelper.completion.aura',
+                    arguments: [position, 'attrSize', size]
+                };
+                items.push(item);
+            }
+        } else if(attributeData.name === 'access' && attributeData.type.toLowerCase() === 'string'){
+            for (const access of accesses) {
+                let item = new CompletionItem(access, CompletionItemKind.Value);
+                item.detail = "Attribute / Component access";
+                item.insertText = access;
+                item.preselect = true;
+                item.command = {
+                    title: 'Aura Code Completion',
+                    command: 'aurahelper.completion.aura',
+                    arguments: [position, 'attrAccess', access]
+                };
+                items.push(item);
+            }
+        }
+    }
+    return items;
+}
+
+function getSimilarCompletionItems(position, similars) {
+    let items = [];
+    for (const similar of similars) {
+        for (const snippet of similar) {
+            let item = new CompletionItem(snippet.prefix, CompletionItemKind.Snippet);
+            item.detail = snippet.name + '\n' + snippet.description;
+            item.documentation = new MarkdownString(snippet.body.join('\n'));
+            item.insertText = new SnippetString(snippet.body.join('\n'));
+            item.preselect = true;
+            item.command = {
+                title: 'Aura Code Completion',
+                command: 'aurahelper.completion.aura',
+                arguments: [position, 'snippet', snippet]
+            };
+            items.push(item);
+        }
+    }
+    return items;
+}
+
+function getSnippets(position, snippets) {
+    let items = [];
+    for (const snippet of snippets) {
+        let item = new CompletionItem(snippet.prefix, CompletionItemKind.Snippet);
+        item.detail = snippet.name + '\n' + snippet.description;
+        item.documentation = new MarkdownString(snippet.body.join('\n'));
+        item.insertText = new SnippetString(snippet.body.join('\n'));
+        item.preselect = true;
+        item.command = {
+            title: 'Aura Code Completion',
+            command: 'aurahelper.completion.aura',
+            arguments: [position, 'snippet', snippet]
+        };
+        items.push(item);
     }
     return items;
 }
@@ -152,8 +273,51 @@ function analizeComponentTag(document, position) {
         }
         line++;
     }
-    let componentTagData = AuraParser.componentTagData(componentTag);
+    let componentTagData = AuraParser.componentTagData(componentTag, position);
     return componentTagData;
+}
+
+function getBaseComponentAttributes(componentTagData) {
+    let attributes = [];
+    let baseComponentsDetail = applicationContext.componentsDetail;
+    attributes.push({
+        name: "aura:id",
+        access: "global",
+        type: "String",
+        description: "Aura ID of the component",
+        required: false,
+        default: false,
+    });
+    let notRoot = baseComponentsDetail.notRoot;
+    if (notRoot[componentTagData.namespace] && !notRoot[componentTagData.namespace].includes(componentTagData.name)) {
+        for (const attribute of baseComponentsDetail['root']['component']) {
+            attributes.push(attribute);
+        }
+    }
+    if (baseComponentsDetail[componentTagData.namespace]) {
+        let baseComponentNS = baseComponentsDetail[componentTagData.namespace];
+        if (baseComponentNS[componentTagData.name]) {
+            for (const attribute of baseComponentNS[componentTagData.name]) {
+                attributes.push(attribute);
+            }
+        }
+    }
+    for (const rootElement of getRootAttributes(baseComponentsDetail, 'css', componentTagData)) {
+        attributes.push(rootElement);
+    }
+    for (const rootElement of getRootAttributes(baseComponentsDetail, 'input', componentTagData)) {
+        attributes.push(rootElement);
+    }
+    for (const rootElement of getRootAttributes(baseComponentsDetail, 'html', componentTagData)) {
+        attributes.push(rootElement);
+    }
+    for (const rootElement of getRootAttributes(baseComponentsDetail, 'select', componentTagData)) {
+        attributes.push(rootElement);
+    }
+    for (const rootElement of getRootAttributes(baseComponentsDetail, 'inputField', componentTagData)) {
+        attributes.push(rootElement);
+    }
+    return attributes;
 }
 
 function getBaseComponentsAttributes(componentTagData, position) {
@@ -205,6 +369,9 @@ function getBaseComponentsAttributes(componentTagData, position) {
     for (const rootElement of getRootItems(baseComponentsDetail, 'select', componentTagData, position)) {
         items.push(rootElement);
     }
+    for (const rootElement of getRootItems(baseComponentsDetail, 'inputField', componentTagData, position)) {
+        items.push(rootElement);
+    }
     return items;
 }
 
@@ -227,11 +394,24 @@ function getCodeCompletionItemAttribute(name, detail, description, datatype, pos
     return item;
 }
 
+function getRootAttributes(baseComponentsDetail, rootElement, componentTagData) {
+    let attributes = [];
+    if (baseComponentsDetail.components[componentTagData.namespace] && baseComponentsDetail.components[componentTagData.namespace][rootElement]) {
+        let rootAttributes = baseComponentsDetail.components[componentTagData.namespace][rootElement];
+        if (rootAttributes.includes(componentTagData.name)) {
+            for (const attribute of baseComponentsDetail['root'][rootElement]) {
+                attributes.push(attribute);
+            }
+        }
+    }
+    return attributes;
+}
+
 function getRootItems(baseComponentsDetail, rootElement, componentTagData, position) {
     let items = [];
     if (baseComponentsDetail.components[componentTagData.namespace] && baseComponentsDetail.components[componentTagData.namespace][rootElement]) {
-        let inputComponentes = baseComponentsDetail.components[componentTagData.namespace][rootElement];
-        if (inputComponentes.includes(componentTagData.name)) {
+        let rootAttributes = baseComponentsDetail.components[componentTagData.namespace][rootElement];
+        if (rootAttributes.includes(componentTagData.name)) {
             for (const attribute of baseComponentsDetail['root'][rootElement]) {
                 let exists = false;
                 let existingAttributes = componentTagData.attributes;
@@ -364,45 +544,13 @@ function getComponents(position, document, componentTagData) {
     return items;
 }
 
-function getAuraSnippetsActivation(position, line) {
-    let activation = undefined;
-    let auraActivation = line.substring(position.character - 5, position.character);
-    let ltngActivation = line.substring(position.character - 5, position.character);
-    let forceActivation = line.substring(position.character - 6, position.character);
-    let forceChatterActivation = line.substring(position.character - 13, position.character);
-    let forceCommunityActivation = line.substring(position.character - 15, position.character);
-    let ltnActivation = line.substring(position.character - 4, position.character);
-    let ltnCommunityActivation = line.substring(position.character - 13, position.character);
-    let ltnSnapinActivation = line.substring(position.character - 10, position.character);
-    let uiActivation = line.substring(position.character - 3, position.character);
-    let sldslActivation = line.substring(position.character - 5, position.character);
-    if (auraActivation === 'aura.')
-        activation = auraActivation;
-    if (ltngActivation === 'ltng.')
-        activation = ltngActivation;
-    if (forceActivation === 'force.')
-        activation = forceActivation;
-    if (forceChatterActivation === 'forceChatter.')
-        activation = forceChatterActivation;
-    if (forceCommunityActivation === 'forceCommunity.')
-        activation = forceCommunityActivation;
-    if (ltnActivation === 'ltn.')
-        activation = ltnActivation;
-    if (ltnCommunityActivation === 'ltnCommunity.')
-        activation = ltnCommunityActivation;
-    if (ltnSnapinActivation === 'ltnSnapin.')
-        activation = ltnSnapinActivation;
-    if (uiActivation === 'ui.')
-        activation = uiActivation;
-    if (sldslActivation === 'slds.')
-        activation = sldslActivation;
-    if (activation)
-        activation = activation.replace(".", "");
-    return activation;
-}
-
-function isAuraSnippetActivation(position, line) {
-    if (getAuraSnippetsActivation(position, line))
-        return true;
-    return false;
+function getSimilarSnippetsNS(snippets, activationToken) {
+    let similarSnippets = [];
+    if (!activationToken || activationToken.length === 0)
+        return similarSnippets;
+    Object.keys(snippets).forEach(function (key) {
+        if (key.startsWith(activationToken))
+            similarSnippets.push(snippets[key]);
+    });
+    return similarSnippets;
 }
