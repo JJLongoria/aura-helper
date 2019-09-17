@@ -2,58 +2,119 @@ const processes = require('../processes');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const window = vscode.window;
+const ProgressLocation = vscode.ProgressLocation;
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
 const FileChecker = fileSystem.FileChecker;
 
-exports.run = function() {
-    try {
-        window.showInformationMessage('Refresh metadata index can will take several minutes. Do you want to continue?', 'Cancel', 'Ok').then((selected) => onButtonClick(selected));
-    } catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
-    }
+exports.run = function () {
+	try {
+		window.showInformationMessage('Refresh metadata index can will take several minutes. Do you want to continue?', 'Cancel', 'Ok').then((selected) => onButtonClick(selected));
+	} catch (error) {
+		window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+	}
 }
 
 function onButtonClick(selected) {
-    if (selected === 'Ok') {
-        let activeOrgs;
-        let activeOrgsPath = Paths.getStoredOrgsPath();
-        if (!FileChecker.isExists(activeOrgsPath))
-            FileWriter.createFileSync(activeOrgsPath, "[\n\n]");
-        activeOrgs = JSON.parse(FileReader.readFileSync(activeOrgsPath));
-        if (activeOrgs.length > 0) {
-            selectOrganizationForRefresh(activeOrgs, activeOrgsPath, function (username) {
-                processes.listMetadata.run(username, function (result) {
-                    if (result.successData) {
-                        window.showQuickPick(result.successData.data.objects).then((selected) => {
-                            processes.refreshObjectMetadataIndex.run(username, selected, onFinishRefresh);
-                        });
-                    }
-                    else {
-                        window.showErrorMessage(result.errorData.message + ". Error: " + result.errorData.data);
-                    }
-                });
-            });
-        }
-        else {
-            addNewOrgForm(function (org) {
-                let added = addNewOrg(org, activeOrgs, activeOrgsPath);
-                if (added) {
-                    processes.listMetadata.run(org.username, function (result) {
-                        if (result.successData) {
-                            window.showQuickPick(result.successData.data.objects).then((selected) => {
-                                processes.refreshObjectMetadataIndex.run(org.username, selected, onFinishRefresh);
-                            });
-                        }
-                        else {
-                            window.showErrorMessage(result.errorData.message + ". Error: " + result.errorData.data);
-                        }
-                    });
-                }
-            });
-        }
-    }
+	if (selected === 'Ok') {
+		let activeOrgs;
+		let activeOrgsPath = Paths.getStoredOrgsPath();
+		if (!FileChecker.isExists(activeOrgsPath))
+			FileWriter.createFileSync(activeOrgsPath, "[\n\n]");
+		activeOrgs = JSON.parse(FileReader.readFileSync(activeOrgsPath));
+		if (activeOrgs.length > 0) {
+			selectOrganizationForRefresh(activeOrgs, activeOrgsPath, function (username) {
+				window.withProgress({
+					location: ProgressLocation.Notification,
+					title: "Loading available Metadata for refresh",
+					cancellable: false
+				}, (listProgress, listCancel) => {
+					return new Promise(resolve => {
+						setTimeout(() => {
+							processes.listMetadata.run(username, function (result) {
+								resolve();
+								if (result.successData) {
+									window.showQuickPick(result.successData.data.objects).then((selected) => {
+										if (selected) {
+											window.withProgress({
+												location: ProgressLocation.Notification,
+												title: "Refreshing Index for " + selected,
+												cancellable: false
+											}, (objProgress, objCancel) => {
+												return new Promise(resolve => {
+													setTimeout(() => {
+														processes.refreshObjectMetadataIndex.run(username, selected, function (result) {
+															resolve();
+															if (result.successData) {
+																window.showInformationMessage(result.successData.message + ". Total: " + result.successData.data.processed);
+															} else {
+																window.showErrorMessage(result.errorData.message + ". Error: " + result.errorData.data);
+															}
+														});
+													}, 100);
+												});
+											});
+										}
+									});
+								}
+								else {
+									window.showErrorMessage(result.errorData.message + ". Error: " + result.errorData.data);
+								}
+							});
+						}, 100);
+					});
+				});
+			});
+		}
+		else {
+			addNewOrgForm(function (org) {
+				let added = addNewOrg(org, activeOrgs, activeOrgsPath);
+				if (added) {
+					window.withProgress({
+						location: ProgressLocation.Notification,
+						title: "Loading available Metadata for refresh",
+						cancellable: false
+					}, (listProgress, listCancel) => {
+						return new Promise(resolve => {
+							setTimeout(() => {
+								processes.listMetadata.run(org.username, function (result) {
+									resolve();
+									if (result.successData) {
+										window.showQuickPick(result.successData.data.objects).then((selected) => {
+											if (selected) {
+												window.withProgress({
+													location: ProgressLocation.Notification,
+													title: "Refreshing Index for " + selected,
+													cancellable: false
+												}, (objProgress, objCancel) => {
+													return new Promise(resolve => {
+														setTimeout(() => {
+															processes.refreshObjectMetadataIndex.run(org.username, selected, function (result) {
+																resolve();
+																if (result.successData) {
+																	window.showInformationMessage(result.successData.message + ". Total: " + result.successData.data.processed);
+																} else {
+																	window.showErrorMessage(result.errorData.message + ". Error: " + result.errorData.data);
+																}
+															});
+														}, 100);
+													});
+												});
+											}
+										});
+									}
+									else {
+										window.showErrorMessage(result.errorData.message + ". Error: " + result.errorData.data);
+									}
+								});
+							}, 100);
+						});
+					});
+				}
+			});
+		}
+	}
 }
 
 function selectOrganizationForRefresh(activeOrgs, activeOrgsPath, callback) {
@@ -77,14 +138,6 @@ function selectOrganizationForRefresh(activeOrgs, activeOrgsPath, callback) {
 				callback.call(this, username);
 		}
 	});
-}
-
-function onFinishRefresh(result) {
-	if (result.successData) {
-		window.showInformationMessage(result.successData.message + ". Total: " + result.successData.data.processed);
-	} else {
-		window.showErrorMessage(result.errorData.message + ". Error: " + result.errorData.data);
-	}
 }
 
 function addNewOrg(org, activeOrgs, activeOrgsPath) {

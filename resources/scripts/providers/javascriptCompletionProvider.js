@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const config = require('../main/config');
 const languages = require('../languages');
+const Utils = require('./utils').Utils;
 const FileChecker = fileSystem.FileChecker;
 const BundleAnalizer = languages.BundleAnalizer;
 const CompletionItemKind = vscode.CompletionItemKind;
@@ -18,25 +19,26 @@ exports.provider = {
 }
 
 function provideJSCompletion(document, position) {
-    let items = [];
-    const line = document.lineAt(position.line).text;
-    let activationOption1 = line.substring(position.character - 2, position.character);
-    let helperActivationOption = line.substring(position.character - 7, position.character);
-    if (activationOption1 === 'v.' || activationOption1 === 'c.' || helperActivationOption === 'helper.') {
+    let items;
+    let activation = Utils.getActivation(document, position);
+    let activationTokens = activation.split('.');
+    if (activationTokens[0] === 'v' || activationTokens[0] === 'c' || activationTokens[0] === 'helper') {
         let componentStructure = BundleAnalizer.getComponentStructure(document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp'));
-        if (activationOption1 === 'v.') {
+        if (activationTokens[0] === 'v') {
             if (!config.getConfig().activeAttributeSuggest)
                 return Promise.resolve(undefined);
             items = getAttributes(componentStructure, position, undefined);
-        } else if (activationOption1 === 'c.') {
+        } else if (activationTokens[0] === 'c') {
             if (!config.getConfig().activeControllerMethodsSuggest)
                 return Promise.resolve(undefined);
             items = getApexControllerFunctions(componentStructure, position);
-        } else if (helperActivationOption === 'helper.') {
+        } else if (activationTokens[0] === 'helper') {
             if (!config.getConfig().activeHelperFunctionsSuggest)
                 return Promise.resolve(undefined);
             items = getHelperFunctions(componentStructure, position);
         }
+    } else {
+        items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.aura');
     }
     return items;
 }

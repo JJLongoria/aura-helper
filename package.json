@@ -78,6 +78,26 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for create a method or class comment on Apex"
+				},
+				"aurahelper.activeSObjectSuggestion": {
+					"type": "boolean",
+					"default": true,
+					"description": "Use Code Suggestion and autocompletion tools for list all Sobjects on your org"
+				},
+				"aurahelper.activeSobjectFieldsSuggestion": {
+					"type": "boolean",
+					"default": true,
+					"description": "Use Code Suggestion and autocompletion tools for the fields of an SObject"
+				},
+				"aurahelper.activeQuerySuggestion": {
+					"type": "boolean",
+					"default": true,
+					"description": "Use Code Suggestion and autocompletion tools on queries"
+				},
+				"aurahelper.activeApexSuggestion": {
+					"type": "boolean",
+					"default": true,
+					"description": "Use Code Suggestion and autocompletion tools for Apex Code (variables, fields, methods...)"
 				}
 			}
 		},
@@ -163,28 +183,6 @@
 				"aliases": [
 					"JavaScript"
 				]
-			}
-		],
-		"snippets": [
-			{
-				"language": "javascript",
-				"path": "./resources/snippets/jsSnippets.json"
-			},
-			{
-				"language": "xml",
-				"path": "./resources/snippets/auraSnippets.json"
-			},
-			{
-				"language": "html",
-				"path": "./resources/snippets/auraSnippets.json"
-			},
-			{
-				"language": "xml",
-				"path": "./resources/snippets/sldsSnippets.json"
-			},
-			{
-				"language": "html",
-				"path": "./resources/snippets/sldsSnippets.json"
 			}
 		],
 		"menus":{

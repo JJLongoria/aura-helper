@@ -4,3 +4,5 @@ const auraCompletionProvider = require('./auraCompletionProvider');
 exports.auraCompletionProvider = auraCompletionProvider.provider;
 const javascriptCompletionProvider = require('./javascriptCompletionProvider');
 exports.javascriptCompletionProvider = javascriptCompletionProvider.provider;
+const apexCommentProvider = require('./apexCommentProvider');
+exports.apexCommentProvider = apexCommentProvider.provider;

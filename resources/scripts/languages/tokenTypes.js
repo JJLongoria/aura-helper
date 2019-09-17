@@ -26,6 +26,8 @@ const PERCENT = "percent";
 const SYMBOL = "symbol";
 const NUMBER = "number";
 const IDENTIFIER = "identifier";
+const SLQUOTTE = "slQuotte";
+const BSLQUOTTE = "bSlQuotte";
 
 module.exports = {
     COMMA,
@@ -54,5 +56,7 @@ module.exports = {
     PERCENT,
     SYMBOL,
     NUMBER,
-    IDENTIFIER
+    IDENTIFIER,
+    SLQUOTTE,
+    BSLQUOTTE
 }
