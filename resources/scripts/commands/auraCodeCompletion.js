@@ -28,6 +28,23 @@ function processAuraCodeCompletion(position, selected, data, componentTagData) {
         processJSApexParamsCompletion(position, data, editor);
     } else if (selected === 'attribute') {
         processComponentAttributesCompletion(position, data, editor);
+    } else if(selected === "snippet"){
+        processSnippetsCompletion(position, data, editor);
+    }
+}
+
+function processSnippetsCompletion(position, data, editor){
+    let activation = data.prefix.split('.')[0];
+    if(FileChecker.isJavaScript(editor.document.uri.fsPath)){
+        let data = JavaScriptParser.analizeForPutSnippets(editor.document.lineAt(position.line).text, activation);
+        let startPosition = new Position(position.line, data.startColumn);
+        let endPosition = new Position(position.line, data.endColum);
+        FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), "");
+    } else {
+        let data = AuraParser.analizeForPutSnippets(editor.document.lineAt(position.line).text, activation);
+        let startPosition = new Position(position.line, data.startColumn);
+        let endPosition = new Position(position.line, data.endColumn);
+        FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), "");
     }
 }
 

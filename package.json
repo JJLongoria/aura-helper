@@ -185,28 +185,6 @@
 				]
 			}
 		],
-		"snippets": [
-			{
-				"language": "javascript",
-				"path": "./resources/snippets/jsSnippets.json"
-			},
-			{
-				"language": "xml",
-				"path": "./resources/snippets/auraSnippets.json"
-			},
-			{
-				"language": "html",
-				"path": "./resources/snippets/auraSnippets.json"
-			},
-			{
-				"language": "xml",
-				"path": "./resources/snippets/sldsSnippets.json"
-			},
-			{
-				"language": "html",
-				"path": "./resources/snippets/sldsSnippets.json"
-			}
-		],
 		"menus":{
 			"explorer/context":[{
 				"when":"resourceExtname == .cmp",
