@@ -34,11 +34,20 @@ Some commands with tools for help in your work. All commands start with "AuraHel
 
     Call components easy, construct components easy, complet code easy, make your work more easy. To many snippets and code completion tools for make your work more productive:
 
+#### Query Support:
+both in apex and lightning code (.cmp, .js ...) Aura Helper has support for autocomplete queries with fields and subfields of objects
+
+#### Apex:
+You can get all Queriable metadata objects and his fields easy. Write the name of an sObject (or part of it and press ctrl+enter) and get all field from it. If the field are a reference, you can get all fields from it too. For Example. "Account." List all account fields. Or "Opportunity.Account." list all fields from Account, and so on. (sObject.field.field.field...) 
+For use this tools, you need to refresh metadata index of the objects ("Refresh Metadata Index" or "Refresh Metadata Index for Object" commands)
+
+Also you have Autocompletion Support for Apex Code (variables, methods, fields, classes...)
+
 #### Aura (Lightning):
 
 ##### - Get Aura Attributes:
 You can get any component attributes (even the inherited) on .cmp files and .js files
-Only need type: "v." and you can show and use all attributes.
+Only need type: "v." and you can show and use all attributes. If the attribute is a SObject you can get all fields from it like in Apex Code
 
 ##### - Get JavaScript Controller functions:
 You can get any controller functions (even the inherited) on .cmp files

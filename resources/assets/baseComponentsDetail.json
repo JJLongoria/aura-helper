@@ -1,30 +1,40 @@
 {
-    "datatypes": {
-        "attribute": [
-            "Boolean",
-            "Date",
-            "DateTime",
-            "Decimal",
-            "Double",
-            "Integer",
-            "Long",
-            "String",
-            "Function",
-            "Object",
-            "List",
-            "Map",
-            "Set",
-            "Boolean[]",
-            "Date[]",
-            "DateTime[]",
-            "Decimal[]",
-            "Double[]",
-            "Integer[]",
-            "Long[]",
-            "String[]",
-            "Object[]"
-        ]
-    },
+    "datatypes": [
+        "Boolean",
+        "Date",
+        "DateTime",
+        "Decimal",
+        "Double",
+        "Integer",
+        "Long",
+        "String",
+        "Function",
+        "Object",
+        "List",
+        "Map",
+        "Set",
+        "Boolean[]",
+        "Date[]",
+        "DateTime[]",
+        "Decimal[]",
+        "Double[]",
+        "Integer[]",
+        "Long[]",
+        "String[]",
+        "Object[]"
+    ],
+    "access":[
+        "public",
+        "global",
+        "private"
+    ],
+    "sizes": [
+        "xx-small",
+        "x-small",
+        "small",
+        "medium",
+        "large"
+    ],
     "components": {
         "lightning": {
             "input": [
@@ -36,7 +46,18 @@
                 "buttonStateful",
                 "checkboxGroup",
                 "combobox",
-                "input"
+                "input",
+                "inputRichText",
+                "menuItem",
+                "radioGroup",
+                "select",
+                "tab",
+                "textarea"
+            ],
+            "inputField": [
+                "inputAddress",
+                "inputLocation",
+                "inputName"
             ],
             "css": [
                 "accordion",
@@ -70,7 +91,36 @@
                 "formattedTime",
                 "helptext",
                 "icon",
-                "input"
+                "input",
+                "inputAddress",
+                "inputLocation",
+                "inputName",
+                "inputRichText",
+                "layout",
+                "layoutItem",
+                "map",
+                "menuItem",
+                "pill",
+                "pillContainer",
+                "progressBar",
+                "progressIndicator",
+                "radioGroup",
+                "relativeDateTime",
+                "select",
+                "slider",
+                "spinner",
+                "tab",
+                "tabset",
+                "textarea",
+                "tile",
+                "tree",
+                "treeGrid",
+                "verticalNavigation",
+                "verticalNavigationItem",
+                "verticalNavigationItemBadge",
+                "verticalNavigationItemIcon",
+                "verticalNavigationOverflow",
+                "verticalNavigationSection"
             ],
             "html": [
                 "accordion",
@@ -104,12 +154,44 @@
                 "formattedTime",
                 "helptext",
                 "icon",
-                "input"
+                "input",
+                "inputAddress",
+                "inputLocation",
+                "inputName",
+                "inputRichText",
+                "layout",
+                "layoutItem",
+                "map",
+                "menuItem",
+                "pill",
+                "pillContainer",
+                "progressBar",
+                "progressIndicator",
+                "radioGroup",
+                "relativeDateTime",
+                "select",
+                "slider",
+                "spinner",
+                "tab",
+                "tabset",
+                "textarea",
+                "tile",
+                "tree",
+                "treeGrid",
+                "verticalNavigation",
+                "verticalNavigationItem",
+                "verticalNavigationItemBadge",
+                "verticalNavigationItemIcon",
+                "verticalNavigationOverflow",
+                "verticalNavigationSection"
             ],
             "select": [
                 "combobox",
                 "dualListbox",
-                "input"
+                "input",
+                "radioGroup",
+                "select",
+                "textarea"
             ]
         }
     },
@@ -182,6 +264,32 @@
                 "required": false,
                 "default": "",
                 "description": "Specifies a shortcut key to activate or focus an element."
+            }
+        ],
+        "inputField": [
+            {
+                "name": "onblur",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the input releases focus."
+            },
+            {
+                "name": "onchange",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the value changes."
+            },
+            {
+                "name": "onfocus",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the input receives focus."
             }
         ],
         "select": [
@@ -447,6 +555,56 @@
                 "required": false,
                 "default": "",
                 "description": "The string that should be rendered as unescaped HTML."
+            }
+        ],
+        "attribute":[
+            {
+                "name": "access",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Indicates whether the attribute can be used outside of its own namespace. Possible values are public (default), and global, and private."
+            },
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Required. The name of the attribute. For example, if you set <aura:attribute name=\"isTrue\" type=\"Boolean\" /> on a component called aura:newCmp, you can set this attribute when you instantiate the component; for example,<aura:newCmp isTrue=\"false\"/>"
+            },
+            {
+                "name": "type",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Required. The type of the attribute. For a list of basic types supported, see Basic Types. [https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/ref_attr_types_basic.htm]"
+            },
+            {
+                "name": "default",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The default value for the attribute, which can be overwritten as needed. When setting a default value, expressions using the $Label, $Locale, and $Browser global value providers are supported. Alternatively, to set a dynamic default, use an init event. See Invoking Actions on Component Initialization. [https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_init_handler.htm]"
+            },
+            {
+                "name": "required",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Determines if the attribute is required. The default is false."
+            },
+            {
+                "name": "description",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A summary of the attribute and its usage."
             }
         ]
     },
@@ -1405,7 +1563,7 @@
                 "description": "The client-side controller action to run when an error occurs when sending a message to the contained app."
             }
         ],
-        "datatable":[
+        "datatable": [
             {
                 "name": "columns",
                 "type": "Object",
@@ -1655,7 +1813,7 @@
                 "description": "The action triggered when clicking on the table footer bar's cancel button during inline edit. All edited cells are reverted to their original values."
             }
         ],
-        "dualListbox":[
+        "dualListbox": [
             {
                 "name": "label",
                 "type": "String",
@@ -1785,7 +1943,7 @@
                 "description": "Displays a spinner to indicate activity in the listbox. This value defaults to false."
             }
         ],
-        "dynamicIcon":[
+        "dynamicIcon": [
             {
                 "name": "type",
                 "type": "String",
@@ -1819,7 +1977,7 @@
                 "description": "The action triggered when the icon is clicked."
             }
         ],
-        "fileCard":[
+        "fileCard": [
             {
                 "name": "fileId",
                 "type": "String",
@@ -1845,7 +2003,7 @@
                 "description": "Hides the file description in the caption if enabled"
             }
         ],
-        "fileUpload":[
+        "fileUpload": [
             {
                 "name": "label",
                 "type": "String",
@@ -1903,7 +2061,7 @@
                 "description": "The action triggered when files have finished uploading."
             }
         ],
-        "flexipageRegionInfo":[
+        "flexipageRegionInfo": [
             {
                 "name": "width",
                 "type": "String",
@@ -1913,7 +2071,7 @@
                 "description": "The width of the region that the component resides in."
             }
         ],
-        "flow":[
+        "flow": [
             {
                 "name": "onstatuschange",
                 "type": "action",
@@ -1923,7 +2081,7 @@
                 "description": "The action triggered when the interview’s status changes or a new screen is displayed."
             }
         ],
-        "formattedAddress":[
+        "formattedAddress": [
             {
                 "name": "street",
                 "type": "String",
@@ -1997,7 +2155,7 @@
                 "description": "Displays a static map of the location using Google Maps. This value defaults to false."
             }
         ],
-        "formattedDateTime":[
+        "formattedDateTime": [
             {
                 "name": "value",
                 "type": "Object",
@@ -2103,7 +2261,7 @@
                 "description": "The time zone to display. Use this attribute only if you want to override the default, which is the runtime environment's time zone. Specify a time zone listed in the IANA time zone database (https://www.iana.org/time-zones). For example, set the value to 'Pacific/Honolulu' to display Hawaii time. The short code UTC is also accepted."
             }
         ],
-        "formattedEmail":[
+        "formattedEmail": [
             {
                 "name": "value",
                 "type": "String",
@@ -2137,7 +2295,7 @@
                 "description": "The action triggered when the email is clicked."
             }
         ],
-        "formattedLocation":[
+        "formattedLocation": [
             {
                 "name": "latitude",
                 "type": "Decimal",
@@ -2155,7 +2313,7 @@
                 "description": "The longitude value of the geolocation. Longitude values must be within -180 and 180."
             }
         ],
-        "formattedName":[
+        "formattedName": [
             {
                 "name": "firstName",
                 "type": "String",
@@ -2213,7 +2371,7 @@
                 "description": "The format for which to display the name. Valid values include short, medium, and long. This value defaults to long."
             }
         ],
-        "formattedNumber":[
+        "formattedNumber": [
             {
                 "name": "format",
                 "type": "Decimal",
@@ -2287,7 +2445,7 @@
                 "description": "The maximum number of significant digits that are allowed. Possible values are from 1 to 21."
             }
         ],
-        "formattedPhone":[
+        "formattedPhone": [
             {
                 "name": "value",
                 "type": "Integer",
@@ -2305,7 +2463,7 @@
                 "description": "The action triggered when the phone number is clicked."
             }
         ],
-        "formattedRichText":[
+        "formattedRichText": [
             {
                 "name": "value",
                 "type": "String",
@@ -2323,7 +2481,7 @@
                 "description": "Prevents the component from creating links in the rich text."
             }
         ],
-        "formattedText":[
+        "formattedText": [
             {
                 "name": "value",
                 "type": "String",
@@ -2341,7 +2499,7 @@
                 "description": "Specifies whether the text should be converted to a link. If set to true, URLs and email addresses are displayed in anchor tags."
             }
         ],
-        "formattedUrl":[
+        "formattedUrl": [
             {
                 "name": "value",
                 "type": "String",
@@ -2351,7 +2509,7 @@
                 "description": "The time value to format."
             }
         ],
-        "formattedTime":[
+        "formattedTime": [
             {
                 "name": "value",
                 "type": "String",
@@ -2385,7 +2543,7 @@
                 "description": "The text to display when the mouse hovers over the link."
             }
         ],
-        "helptext":[
+        "helptext": [
             {
                 "name": "content",
                 "type": "String",
@@ -2411,7 +2569,7 @@
                 "description": "The iconVariant changes the appearance of the icon. Accepted variants include inverse, warning, error."
             }
         ],
-        "icon":[
+        "icon": [
             {
                 "name": "iconName",
                 "type": "String",
@@ -2453,7 +2611,7 @@
                 "description": "A uri path to a custom svg sprite, including the name of the resouce, for example: /assets/icons/standard-sprite/svg/test.svg#icon-heart"
             }
         ],
-        "input":[
+        "input": [
             {
                 "name": "type",
                 "type": "Object[]",
@@ -2791,6 +2949,2020 @@
                 "description": "A space-separated list of element IDs whose presence or content is controlled by the date input when type=datetime. On mobile devices, this is merged with ariaControls and timeAriaControls to describe the native date time input."
             }
         ],
+        "inputAddress": [
+            {
+                "name": "addressLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The label of the address compound field."
+            },
+            {
+                "name": "fieldLevelHelp",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Help text detailing the purpose and function of the address compound field."
+            },
+            {
+                "name": "streetLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The label of the street field of the address."
+            },
+            {
+                "name": "cityLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The label of the city field of the address."
+            },
+            {
+                "name": "provinceLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The label of the province field of the address."
+            },
+            {
+                "name": "countryLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The label of the country field of the address."
+            },
+            {
+                "name": "postalCodeLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The label of the postal code field of the address."
+            },
+            {
+                "name": "street",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The street field of the address."
+            },
+            {
+                "name": "city",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The city field of the address."
+            },
+            {
+                "name": "province",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The province field of the address."
+            },
+            {
+                "name": "provinceOptions",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The array of label-value pairs for the province. Displays a dropdown menu of options."
+            },
+            {
+                "name": "country",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The country field of the address."
+            },
+            {
+                "name": "countryOptions",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The array of label-value pairs for the country. Displays a dropdown menu of options."
+            },
+            {
+                "name": "postalCode",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The postal code field of the address."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the address fields are disabled. This value defaults to false."
+            },
+            {
+                "name": "required",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the address fields are required. This value defaults to false."
+            },
+            {
+                "name": "readonly",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the address fields are read-only. This value defaults to false."
+            },
+            {
+                "name": "showAddressLookup",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether to enable address lookup using Google Maps. This value defaults to false."
+            },
+            {
+                "name": "variant",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The variant changes the appearance of the address compound field. Accepted variants include standard, label-inline, label-hidden, and label-stacked. This value defaults to standard. Use label-hidden to hide the label but make it available to assistive technology. Use label-inline to horizontally align the label and address fields. Use label-stacked to place the label above the address fields."
+            }
+        ],
+        "inputField": [
+            {
+                "name": "fieldName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The API name of the field to be displayed."
+            },
+            {
+                "name": "class",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The field value, which overrides the existing value."
+            },
+            {
+                "name": "onchange",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the input value changes."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Whether or not the field is disabled. Defaults to false for readonly fields, true for other fields."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The variant changes the label position of an input field. Accepted variants include standard (default), label-hidden, label-inline, and label-stacked. If variant is specified, the label position is determined by the variant. Otherwise, it is determined by the density setting of the parent form."
+            }
+        ],
+        "inputLocation": [
+            {
+                "name": "latitude",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The latitude value. Latitude values must be within -90 and 90."
+            },
+            {
+                "name": "longitude",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The longitude value. Longitude values must be within -180 and 180."
+            },
+            {
+                "name": "required",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the compound field must be filled out. An error message is displayed if a user interacts with the field and does not provide a value. This value defaults to false."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the compound field should be disabled. Disabled fields are grayed out and not clickable. This value defaults to false."
+            },
+            {
+                "name": "readonly",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the compound field is read-only. This value defaults to false."
+            },
+            {
+                "name": "fieldLevelHelp",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Help text detailing the purpose and function of geolocation compound field."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The variant changes the appearance of the geolocation compound field. Accepted variants include standard, label-hidden, label-inline, and label-stacked. This value defaults to standard. This value defaults to standard. Use label-hidden to hide the label but make it available to assistive technology. Use label-inline to horizontally align the label and geolocation fields. Use label-stacked to place the label above the geolocation fields."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Text label for the geolocation compound field."
+            }
+        ],
+        "inputName": [
+            {
+                "name": "firstName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Displays the First Name field."
+            },
+            {
+                "name": "salutation",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Displays the Salutation field as a dropdown menu. An array of label-value pairs must be provided using the options attribute."
+            },
+            {
+                "name": "lastName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Displays the Last Name field. This field is always displayed if you set required to true."
+            },
+            {
+                "name": "middleName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Displays the Middle Name field."
+            },
+            {
+                "name": "suffix",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Displays the Suffix field."
+            },
+            {
+                "name": "informalName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Displays the Informal Name field."
+            },
+            {
+                "name": "options",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Displays a list of salutation options, such as Dr. or Mrs., provided as label-value pairs."
+            },
+            {
+                "name": "required",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the compound field must be filled out. A red asterisk is displayed on the Last Name field. An error message is displayed if a user interacts with the Last Name field and does not provide a value. This value defaults to false."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the compound field should be disabled. Disabled fields are grayed out and not clickable. This value defaults to false."
+            },
+            {
+                "name": "readonly",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether the compound field is read-only. This value defaults to false."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The variant changes the appearance of the name compound field. Accepted variants include standard, label-hidden, label-inline, and label-stacked. This value defaults to standard. This value defaults to standard. Use label-hidden to hide the label but make it available to assistive technology. Use label-inline to horizontally align the label and name fields. Use label-stacked to place the label above the name fields."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Text label for the compound field."
+            },
+            {
+                "name": "fieldsToDisplay",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "['firstName', 'salutation', 'lastName']",
+                "description": "List of fields to be displayed on the component. This value defaults to ['firstName', 'salutation', 'lastName']. Other field values include middleName, informalName, suffix."
+            },
+            {
+                "name": "fieldLevelHelp",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Help text detailing the purpose and function of name compound field."
+            }
+        ],
+        "inputRichText": [
+            {
+                "name": "ariaLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Label describing the rich text editor to assistive technologies"
+            },
+            {
+                "name": "ariaLabelledby",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "An element ID that provides a label for the rich text editor."
+            },
+            {
+                "name": "ariaDescribedby",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A space-separated list of element IDs that provides descriptive labels for the rich text editor."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Text label for the rich text editor."
+            },
+            {
+                "name": "labelVisible",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether the label is visible or not. The default is false."
+            },
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The HTML content in the rich text editor."
+            },
+            {
+                "name": "placeholder",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Text that is displayed when the field is empty."
+            },
+            {
+                "name": "disabledCategories",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A comma-separated list of button categories to remove from the toolbar."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether the editor is disabled. This value defaults to false."
+            },
+            {
+                "name": "valid",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": true,
+                "description": "Specifies whether the editor content is valid. If invalid, the slds-has-error class is added. This value defaults to true."
+            },
+            {
+                "name": "formats",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A list of formats accepted by the text editor. By default, the list is computed based on enabled categories. The \"table\" format is always enabled to support copying and pasting of tables. If formats are specified, all desired formats must be specified. Omitting a format from the list removes the corresponding button."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The variant changes the appearance of the toolbar. Accepted variant is bottom-toolbar which causes the toolbar to be displayed below the text box."
+            },
+            {
+                "name": "messageWhenBadInput",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message that's displayed when valid is false."
+            },
+            {
+                "name": "shareWithEntityId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Entity ID to share the image with."
+            }
+        ],
+        "insertImageButton": [],
+        "layout": [
+            {
+                "name": "horizontalAlign",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Determines how to spread the layout items horizontally. The alignment options are center, space, spread, and end."
+            },
+            {
+                "name": "verticalAlign",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Determines how to spread the layout items vertically. The alignment options are start, center, end, and stretch."
+            },
+            {
+                "name": "multipleRows",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Determines whether to wrap the child items when they exceed the layout width. If true, the items wrap to the following line. This value defaults to false."
+            },
+            {
+                "name": "pullToBoundary",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Pulls layout items to the layout boundaries and corresponds to the padding size on the layout item. Possible values are small, medium, or large."
+            }
+        ],
+        "layoutItem": [
+            {
+                "name": "size",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "If the viewport is divided into 12 parts, size indicates the relative space the container occupies. Size is expressed as an integer from 1 through 12. This applies for all device-types."
+            },
+            {
+                "name": "smallDeviceSize",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "If the viewport is divided into 12 parts, this attribute indicates the relative space the container occupies on device-types larger than mobile. It is expressed as an integer from 1 through 12."
+            },
+            {
+                "name": "mediumDeviceSize",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "If the viewport is divided into 12 parts, this attribute indicates the relative space the container occupies on device-types larger than tablet. It is expressed as an integer from 1 through 12."
+            },
+            {
+                "name": "largeDeviceSize",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "If the viewport is divided into 12 parts, this attribute indicates the relative space the container occupies on device-types larger than desktop. It is expressed as an integer from 1 through 12."
+            },
+            {
+                "name": "flexibility",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Make the item fluid so that it absorbs any extra space in its container or shrinks when there is less space. Allowed values are: auto (columns grow or shrink equally as space allows), shrink (columns shrink equally as space decreases), no-shrink (columns don't shrink as space reduces), grow (columns grow equally as space increases), no-grow (columns don't grow as space increases), no-flex (columns don't grow or shrink as space changes). Use a comma-separated value for multiple options, such as 'auto, no-shrink'."
+            },
+            {
+                "name": "padding",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Sets padding to either the right and left sides of a container, or all sides of a container. Allowed values are horizontal-small, horizontal-medium, horizontal-large, around-small, around-medium, around-large."
+            },
+            {
+                "name": "alignmentBump",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies a direction to bump the alignment of adjacent layout items. Allowed values are left, top, right, bottom."
+            }
+        ],
+        "listView": [
+            {
+                "name": "objectApiName",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The API name of the object to be displayed in this List View"
+            },
+            {
+                "name": "listName",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The developer name of the List View"
+            },
+            {
+                "name": "rows",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": 50,
+                "description": "Specifies the number of rows to initially load and additional rows after each subsequent 'Load More' click. The default and maximum number of rows value is 50"
+            },
+            {
+                "name": "showActionBar",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether the action bar displays. This value defaults to false."
+            },
+            {
+                "name": "enableInlineEdit",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether the inline edit of cells is enabled. This value defaults to false."
+            },
+            {
+                "name": "showRowLevelActions",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether row level actions are displayed (as a dropdown menu in the last column of the row). This value defaults to false."
+            },
+            {
+                "name": "showSearchBar",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether the search bar displays. This value defaults to false. Note: The server side may still disable search if it does not support searching."
+            }
+        ],
+        "map": [
+            {
+                "name": "zoomLevel",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Corresponds to zoom levels defined in Google Maps API. If not specified, the map component automatically chooses an appropriate zoom level to show all markers with comfortable margins."
+            },
+            {
+                "name": "mapMarkers",
+                "type": "Object[]",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Array containing one or more objects with the address or coordinates to be displayed."
+            },
+            {
+                "name": "markersTitle",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Provides the heading title for the markers when the map uses multiple markers. The title is displayed as a header for the list of clickable addresses."
+            },
+            {
+                "name": "center",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A location to use as the map's center. If center is not specified, the map centers automatically."
+            },
+            {
+                "name": "showFooter",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Shows footer with 'Open in Google Maps' link that opens an external window to display the selected marker location in Google Maps. Default value is false."
+            },
+            {
+                "name": "listView",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "auto",
+                "description": "Displays or hides the list of locations. Valid values are visible, hidden, or auto. This value defaults to auto, which shows the list only when multiple markers are present. Passing in an invalid value hides the list view."
+            }
+        ],
+        "menuItem": [
+            {
+                "name": "value",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A value associated with the menu item."
+            },
+            {
+                "name": "iconName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name of an icon to display after the text of the menu item."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Text of the menu item."
+            },
+            {
+                "name": "checked",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "If not specified, the menu item is not checkable. If true, a check mark is shown to the left of the menu item. If false, a check mark is not shown but there is space to accommodate one."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "If true, the menu item is not actionable and is shown as disabled."
+            },
+            {
+                "name": "onactive",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "DEPRECATED. The action triggered when this menu item is selected."
+            },
+            {
+                "name": "isDraft",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "If true, the menu item shows a draft indicator. This value defaults to false."
+            },
+            {
+                "name": "draftAlternativeText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Describes the reason for showing the draft indicator. This is required when the isDraft attribute is true"
+            },
+            {
+                "name": "prefixIconName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name of an icon to display before the text of the menu item."
+            },
+            {
+                "name": "href",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "URL for a link to use for the menu item."
+            }
+        ],
+        "navigation": [],
+        "navigationItemAPI": [],
+        "notificationsLibrary": [],
+        "omniToolkitAPI": [],
+        "outputField": [
+            {
+                "name": "fieldName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The API name of the field to be displayed."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "standard",
+                "description": "Changes the appearance of the output. Accepted variants include standard and label-hidden. This value defaults to standard."
+            },
+            {
+                "name": "class",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "standard",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            }
+        ],
+        "overlayLibrary": [],
+        "path": [
+            {
+                "name": "recordId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The record's ID"
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "linear",
+                "description": "Changes the appearance of the path. Choose between linear and non-linear formats. In linear paths, completed steps show a checkmark. In non-linear paths, completed steps show the step name. We show linear paths by default."
+            },
+            {
+                "name": "hideUpdateButton",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specified whether the Mark Complete button is displayed next to the path. If true, the button is not displayed. The Mark Complete button is displayed by default."
+            },
+            {
+                "name": "onselect",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a step on the path is clicked."
+            }
+        ],
+        "picklistPath": [
+            {
+                "name": "recordId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The record's ID"
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "linear",
+                "description": "Changes the appearance of the path. Choose between linear and non-linear formats. In linear paths, completed steps show a checkmark. In non-linear paths, completed steps show the step name. We show linear paths by default."
+            },
+            {
+                "name": "picklistFieldApiName",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "The API name of the field from which the path is derived. For example, StageName for Opportunity."
+            },
+            {
+                "name": "onselect",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a step on the path is clicked."
+            }
+        ],
+        "pill": [
+            {
+                "name": "href",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The URL of the page that the link goes to."
+            },
+            {
+                "name": "onclick",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the button is clicked."
+            },
+            {
+                "name": "media",
+                "type": "component[]",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The icon or figure that's displayed next to the textual information."
+            },
+            {
+                "name": "hasError",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specifies whether the pill has errors. The default is false."
+            },
+            {
+                "name": "onremove",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the pill is removed."
+            },
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The name for the pill. This value is optional and can be used to identify the pill in a callback."
+            }
+        ],
+        "pillContainer": [
+            {
+                "name": "items",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "An array of items to be rendered as pills in a container."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Aria label for the pill container."
+            },
+            {
+                "name": "singleLine",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Whether keep pills in single line."
+            },
+            {
+                "name": "onitemremove",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a pill is removed."
+            }
+        ],
+        "progressBar": [
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "base",
+                "description": "The variant of the progress bar. Valid values are base and circular."
+            },
+            {
+                "name": "value",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": 0,
+                "description": "The percentage value of the progress bar."
+            },
+            {
+                "name": "size",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "medium",
+                "description": "The size of the progress bar. Valid values are x-small, small, medium, and large. The default value is medium."
+            }
+        ],
+        "progressIndicator": [
+            {
+                "name": "type",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "base",
+                "description": "Changes the visual pattern of the indicator. Valid values are base and path. This value defaults to base."
+            },
+            {
+                "name": "currentStep",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The current step, which must match the value attribute of one of progressStep components. If a step is not provided, the value of the first progressStep component is used."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Changes the appearance of the progress indicator for the base type only. Valid values are base or shaded. The shaded variant adds a light gray border to the step indicators. This value defaults to base."
+            },
+            {
+                "name": "hasError",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Indicates whether the current step is in error state and displays a warning icon on the step indicator. Applies to the base type only. This value defaults to false."
+            }
+        ],
+        "quickActionAPI": [],
+        "quipCard": [
+            {
+                "name": "parentRecordId",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "ID of the Salesforce record to display the card for."
+            }
+        ],
+        "radioGroup": [
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Text label for the radio group."
+            },
+            {
+                "name": "options",
+                "type": "List",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Array of label-value pairs for each radio button."
+            },
+            {
+                "name": "type",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "radio",
+                "description": "The style of the radio group. Valid types are radio or button. The default is radio."
+            },
+            {
+                "name": "messageWhenValueMissing",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Optional message displayed when no radio button is selected and the required attribute is set to true."
+            }
+        ],
+        "recordEditForm": [
+            {
+                "name": "recordId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The ID of the record to be displayed."
+            },
+            {
+                "name": "objectApiName",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The API name of the object."
+            },
+            {
+                "name": "class",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            {
+                "name": "recordTypeId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The ID of the record type, which is required if you created multiple record types but don't have a default."
+            },
+            {
+                "name": "density",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Sets the arrangement style of fields and labels in the form. Accepted values are compact, comfy, and auto (default). Use compact to display fields and their labels on the same line. Use comfy to display fields below their labels. Use auto to let the component dynamically set the density according to the user's Display Density setting and the width of the form."
+            },
+            {
+                "name": "onload",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the form data is loaded."
+            },
+            {
+                "name": "onsubmit",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the form is submitted. The form can be submitted only after it's loaded."
+            },
+            {
+                "name": "onsuccess",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the form is saved."
+            },
+            {
+                "name": "onerror",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when there is an error on form submission."
+            }
+        ],
+        "recordForm": [
+            {
+                "name": "fields",
+                "type": "String[]",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "List of fields to be displayed. The fields display in the order you list them."
+            },
+            {
+                "name": "class",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            {
+                "name": "recordId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The ID of the record to be displayed."
+            },
+            {
+                "name": "objectApiName",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The API name of the object."
+            },
+            {
+                "name": "layoutType",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The type of layout to use to display the form fields. Possible values: Compact, Full. When creating a new record, only the full layout is supported."
+            },
+            {
+                "name": "mode",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Specifies the interaction and display style for the form. Possible values: view, edit, readonly. If a record ID is not provided, the default mode is edit, which displays a form to create new records. If a record ID is provided, the default mode is view, which displays field values with edit icons on updateable fields."
+            },
+            {
+                "name": "recordTypeId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The ID of the record type, which is required if you created multiple record types but don't have a default."
+            },
+            {
+                "name": "density",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Sets the arrangement style of fields and labels in the form. Accepted values are compact, comfy, and auto (default). Use compact to display fields and their labels on the same line. Use comfy to display fields below their labels. Use auto to let the component dynamically set the density according to the user's Display Density setting and the width of the form."
+            },
+            {
+                "name": "onload",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the form data is loaded."
+            },
+            {
+                "name": "onsubmit",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the form is submitted. The form can be submitted only after it's loaded."
+            },
+            {
+                "name": "onsuccess",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the form is saved."
+            },
+            {
+                "name": "onerror",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when there is an error on form submission."
+            }
+        ],
+        "recordViewForm": [
+            {
+                "name": "recordId",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The ID of the record to be displayed."
+            },
+            {
+                "name": "objectApiName",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The API name of the object."
+            },
+            {
+                "name": "class",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A CSS class for the outer element, in addition to the component's base classes."
+            },
+            {
+                "name": "density",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Sets the arrangement style of fields and labels in the form. Accepted values are compact, comfy, and auto (default). Use compact to display fields and their labels on the same line. Use comfy to display fields below their labels. Use auto to let the component dynamically set the density according to the user's Display Density setting and the width of the form."
+            }
+        ],
+        "relativeDateTime": [
+            {
+                "name": "value",
+                "type": "Object",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The timestamp or JavaScript Date object to be formatted."
+            }
+        ],
+        "select": [
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Text that describes the desired select input."
+            },
+            {
+                "name": "messageWhenValueMissing",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when the value is missing."
+            }
+        ],
+        "slider": [
+            {
+                "name": "value",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The numerical value of the input range. This value defaults to 0."
+            },
+            {
+                "name": "onchange",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the slider value changes. You must pass any newly selected value back to the slider component to bind the new value to the slider."
+            },
+            {
+                "name": "min",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The min value of the input range. This value defaults to 0."
+            },
+            {
+                "name": "max",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The max value of the input range. This value defaults to 0."
+            },
+            {
+                "name": "step",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "1",
+                "description": "The step increment value of the input range. Example steps include 0.1, 1, or 10. This value defaults to 1."
+            },
+            {
+                "name": "size",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The size value of the input range. This value default to empty, which is the base. Supports x-small, small, medium, and large."
+            },
+            {
+                "name": "type",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "horizontal",
+                "description": "The type of the input range position. This value defaults to horizontal."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The text label for the input range. Provide your own label to describe the slider. Otherwise, no label is displayed."
+            },
+            {
+                "name": "disabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "The disabled value of the input range. This value default to false."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "standard",
+                "description": "The variant changes the appearance of the slider. Accepted variants include standard and label-hidden. This value defaults to standard."
+            },
+            {
+                "name": "messageWhenBadInput",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a bad input is detected."
+            },
+            {
+                "name": "messageWhenPatternMismatch",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a pattern mismatch is detected."
+            },
+            {
+                "name": "messageWhenTypeMismatch",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a type mismatch is detected."
+            },
+            {
+                "name": "messageWhenValueMissing",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when the value is missing."
+            },
+            {
+                "name": "messageWhenRangeOverflow",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a range overflow is detected."
+            },
+            {
+                "name": "messageWhenRangeUnderflow",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a range underflow is detected."
+            },
+            {
+                "name": "messageWhenStepMismatch",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a step mismatch is detected."
+            },
+            {
+                "name": "messageWhenTooLong",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when the value is too long."
+            },
+            {
+                "name": "onblur",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the slider releases focus."
+            },
+            {
+                "name": "onfocus",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the slider receives focus."
+            }
+        ],
+        "spinner": [
+            {
+                "name": "size",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "medium",
+                "description": "The size of the spinner. Accepted sizes are small, medium, and large. This value defaults to medium."
+            },
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The variant changes the appearance of the spinner. Accepted variants are base, brand, and inverse. This value defaults to base."
+            },
+            {
+                "name": "alternativeText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The alternative text used to describe the reason for the wait and need for a spinner."
+            }
+        ],
+        "tab": [
+            {
+                "name": "id",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The optional ID is used during tabset's onselect event to determine which tab was clicked."
+            },
+            {
+                "name": "label",
+                "type": "component[]",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The text that appears on the tab. The attribute accepts string values, but for compatibility with previous releases also accepts a component type. Only the text portion of the label value displays and any CSS classes that are applied are ignored."
+            },
+            {
+                "name": "iconName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The Lightning Design System name of an icon to display to the left of the tab label. Specify the name in the format 'utility:down' where 'utility' is the category, and 'down' is the icon to be displayed. Only utility icons can be used in this component."
+            },
+            {
+                "name": "iconAssistiveText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Assistive text for the icon specified by iconName."
+            },
+            {
+                "name": "showErrorIndicator",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether there's an error in the tab content. An error icon is displayed to the right of the tab label."
+            },
+            {
+                "name": "onactive",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when this tab becomes active."
+            }
+        ],
+        "tabset": [
+            {
+                "name": "variant",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The variant changes the appearance of the tabset. Accepted variants are default, scoped, and vertical."
+            },
+            {
+                "name": "selectedTabId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Allows you to set a specific tab to open by default. If this attribute is not used, the first tab opens by default."
+            },
+            {
+                "name": "onselect",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action that will run when the tab is clicked."
+            }
+        ],
+        "textarea": [
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Text that describes the desired textarea input."
+            },
+            {
+                "name": "placeholder",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Text that is displayed when the field is empty, to prompt the user for a valid entry."
+            },
+            {
+                "name": "maxlength",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The maximum number of characters allowed in the textarea."
+            },
+            {
+                "name": "minlength",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The minimum number of characters allowed in the textarea."
+            },
+            {
+                "name": "messageWhenBadInput",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when a bad input is detected."
+            },
+            {
+                "name": "messageWhenValueMissing",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when the value is missing."
+            },
+            {
+                "name": "messageWhenTooLong",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when the value is too long."
+            },
+            {
+                "name": "messageWhenTooShort",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Error message to be displayed when the value is too short."
+            }
+        ],
+        "tile": [
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The text label that displays in the tile and hover text."
+            },
+            {
+                "name": "href",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The URL of the page that the link goes to."
+            },
+            {
+                "name": "media",
+                "type": "component[]",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The icon or figure that's displayed next to the textual information."
+            }
+        ],
+        "tree": [
+            {
+                "name": "items",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "base",
+                "description": "An array of key-value pairs that describe the tree. Keys include label, name, disabled, expanded, and items."
+            },
+            {
+                "name": "header",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "0",
+                "description": "The text that's displayed as the tree heading."
+            },
+            {
+                "name": "onselect",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a tree item is selected."
+            }
+        ],
+        "treeGrid": [
+            {
+                "name": "columns",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Array of the columns object that's used to define the data types. Required properties include 'label', 'dataKey', and 'type'. The default type is 'text'."
+            },
+            {
+                "name": "data",
+                "type": "Object",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The array of data to be displayed."
+            },
+            {
+                "name": "expandedRows",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The array of unique row IDs that are expanded."
+            },
+            {
+                "name": "selectedRows",
+                "type": "List",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The array of unique row IDs that are selected"
+            },
+            {
+                "name": "keyField",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Required for better performance. Associates each row with a unique ID."
+            },
+            {
+                "name": "hideCheckboxColumn",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Hides or displays the checkbox column for row selection. To hide the checkbox column, set hideCheckboxColumn to true. The default is false."
+            },
+            {
+                "name": "isLoading",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether more data is being loaded and displays a spinner if so. The default is false."
+            },
+            {
+                "name": "resizeColumnDisabled",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Specifies whether column resizing is disabled. The default is false."
+            },
+            {
+                "name": "minColumnWidth",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The minimum width for all columns. The default is 50px."
+            },
+            {
+                "name": "maxColumnWidth",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The maximum width for all columns. The default is 1000px."
+            },
+            {
+                "name": "onrowselection",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a row is selected."
+            },
+            {
+                "name": "onrowaction",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when an operation its clicked. By default its to closes the actions menu."
+            },
+            {
+                "name": "onresize",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when the table renders columns the first time and every time its resized an specific column."
+            },
+            {
+                "name": "ontoggle",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when a row is toggled (expanded or collapsed)."
+            },
+            {
+                "name": "ontoggleall",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The action triggered when all rows are toggled (expanded or collapsed)."
+            },
+            {
+                "name": "showRowNumberColumn",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Hides or displays the row number column. To show the row number column, set showRowNumberColumn to true. The default is false."
+            },
+            {
+                "name": "rowNumberOffset",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Determines where to start counting the row number. The default is 0."
+            }
+        ],
+        "unsavedChanges": [
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Label for the unsaved content which appears in prompt for save or discard"
+            },
+            {
+                "name": "onsave",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Action to handle saving unsaved content"
+            },
+            {
+                "name": "ondiscard",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Action to handle discarding unsaved content"
+            }
+        ],
+        "utilityBarAPI": [],
+        "verticalNavigation": [
+            {
+                "name": "compact",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specify true to reduce spacing between navigation items. This value defaults to false."
+            },
+            {
+                "name": "shaded",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Specify true when the vertical navigation is sitting on top of a shaded background. This value defaults to false."
+            },
+            {
+                "name": "onbeforeselect",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Action fired before an item is selected. The event params include the `name` of the selected item. To prevent the onselect handler from running, call event.preventDefault() in the onbeforeselect handler."
+            },
+            {
+                "name": "onselect",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Action fired when an item is selected. The event params include the `name` of the selected item."
+            },
+            {
+                "name": "selectedItem",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Name of the nagivation item to make active."
+            },
+            {
+                "name": "ariaLabel",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The aria label attribute for the navigation component"
+            }
+        ],
+        "verticalNavigationItem": [
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The text displayed for the navigation item."
+            },
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "A unique identifier for the navigation item."
+            },
+            {
+                "name": "href",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The URL of the page that the navigation item goes to."
+            }
+        ],
+        "verticalNavigationItemBadge": [
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The text displayed for the navigation item."
+            },
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "A unique identifier for the navigation item."
+            },
+            {
+                "name": "href",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The URL of the page that the navigation item goes to."
+            },
+            {
+                "name": "badgeCount",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The number to show inside the badge. If this value is zero the badge will be hidden."
+            },
+            {
+                "name": "assistiveText",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "New Items",
+                "description": "Assistive text describing the number in the badge. This is used to enhance accessibility and is not displayed to the user."
+            }
+        ],
+        "verticalNavigationItemIcon": [
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The text displayed for the navigation item."
+            },
+            {
+                "name": "name",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "A unique identifier for the navigation item."
+            },
+            {
+                "name": "href",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The URL of the page that the navigation item goes to."
+            },
+            {
+                "name": "iconName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The Lightning Design System name of the icon. Names are written in the format 'utility:down' where 'utility' is the category, and 'down' is the specific icon to be displayed."
+            }
+        ],
+        "verticalNavigationOverflow": [],
+        "verticalNavigationSection": [
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The heading text for this section."
+            }
+        ],
+        "workspaceAPI": [],
         "availableForChatterExtensionRenderer": [
             {
                 "name": "payload",
@@ -2882,6 +5054,59 @@
             }
         ]
     },
+    "lightningcommunity": {
+        "backButton": [
+            {
+                "name": "iconName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "utility:chevronleft",
+                "description": "The Lightning Design System name of the icon. Only utility icons can be used in this component."
+            },
+            {
+                "name": "onnavigationcomplete",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Event handler action fired after every page navigation is complete. 'navigationcomplete' event provides 'canGoBack' boolean parameter value."
+            },
+            {
+                "name": "class",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Styling class for back button."
+            }
+        ]
+    },
+    "lightningsnapin": {
+        "minimizedAPI": [],
+        "prechatAPI": [],
+        "settingsAPI": []
+    },
+    "ltng": {
+        "require": [
+            {
+                "name": "styles",
+                "type": "string[]",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The set of style sheets in dependency order that will be loaded."
+            },
+            {
+                "name": "scripts",
+                "type": "string[]",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The set of scripts in dependency order that will be loaded."
+            }
+        ]
+    },
     "clients": {
         "hasEventContext": [
             {
@@ -2963,6 +5188,340 @@
                 "required": false,
                 "default": "",
                 "description": "sObject name"
+            }
+        ]
+    },
+    "forceChatter": {
+        "feed": [
+            {
+                "name": "feedDesign",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "BROWSE",
+                "description": "Valid values include DEFAULT ( shows inline comments on desktop, a bit more detail ) or BROWSE ( primarily an overview of the feed items )"
+            },
+            {
+                "name": "type",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The strategy used to find items associated with the subject. Valid values include: Bookmarks, Company, DirectMessages, Feeds, Files, Filter, Groups, Home, Moderation, Mute, News, PendingReview, Record, Streams, To, Topics, UserProfile."
+            },
+            {
+                "name": "subjectId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "For most feeds tied to an entity, this is used specified the desired entity. Defaults to the current user if not specified"
+            }
+        ],
+        "fullFeed": [
+            {
+                "name": "type",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "NEWS",
+                "description": "The strategy used to find items associated with the subject. Valid values include: News, Home, Record, To."
+            },
+            {
+                "name": "subjectId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "For most feeds tied to an entity, this is used specified the desired entity. Defaults to the current user if not specified"
+            },
+            {
+                "name": "handleNavigationEvents",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Should this component handle navigation events for entities and urls. If true then navigation events will result in the entity or url being opened in a new window."
+            }
+        ],
+        "publisher": [
+            {
+                "name": "recordId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The record Id"
+            },
+            {
+                "name": "context",
+                "type": "String",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The context in which the component is being displayed (RECORD or GLOBAL). RECORD is for a record feed, and GLOBAL is for all other feed types. This attribute is case-sensitive."
+            }
+        ]
+    },
+    "forceCommunity": {
+        "appLauncher": [],
+        "navigationMenuBase": [
+            {
+                "name": "menuItems",
+                "type": "Object",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "Automatically populated with menu item’s data. This attribute is read-only."
+            }
+        ],
+        "notifications": [],
+        "routeLink": [
+            {
+                "name": "id",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The ID of the anchor tag."
+            },
+            {
+                "name": "class",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A CSS class for the anchor tag."
+            },
+            {
+                "name": "title",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The text to display for the link tooltip."
+            },
+            {
+                "name": "label",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The text displayed in the link."
+            },
+            {
+                "name": "routeInput",
+                "type": "map",
+                "access": "global",
+                "required": true,
+                "default": "",
+                "description": "The map of dynamic parameters that create the link. Only recordId-based routes are supported."
+            },
+            {
+                "name": "onClick",
+                "type": "action",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Action to trigger when the anchor is clicked."
+            }
+        ],
+        "waveDashboard": [
+            {
+                "name": "recordId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Id of the current entity in the context of which the component is being displayed."
+            },
+            {
+                "name": "dashboardId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The unique ID of the dashboard. You can get a dashboard’s ID, an 18-character code beginning with 0FK, from the dashboard's URL, or you can request it through the API. This attribute can be used instead of the developer name, but it can't be included if the name has been set. One of the two is required."
+            },
+            {
+                "name": "developerName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The unique developer name of the dashboard. You can request the developer name through the API. This attribute can be used instead of the dashboard ID, but it can't be included if the ID has been set. One of the two is required"
+            },
+            {
+                "name": "hideOnError",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Controls whether or not users see a dashboard that has an error. When this attribute is set to true, if the dashboard has an error, it won’t appear on the page. When set to false, the dashboard appears but doesn’t show any data. An error can occur when a user doesn't have access to the dashboard or it has been deleted. "
+            },
+            {
+                "name": "height",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": 300,
+                "description": "Specifies the height of the dashboard, in pixels."
+            },
+            {
+                "name": "showSharing",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "If true, and the dashboard is shareable, then the dashboard shows the Share icon. If false, the dashboard doesn't show the Share icon. To show the Share icon in the dashboard, the smallest supported frame size is 800 x 612 pixels."
+            },
+            {
+                "name": "showTitle",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": true,
+                "description": "If true, the dashboard’s title is included above the dashboard. If false, the dashboard appears without a title."
+            },
+            {
+                "name": "showHeader",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": true,
+                "description": "If true, the dashboard is displayed with a header bar that includes dashboard information and controls. If false, the dashboard appears without a header bar. Note that the header bar automatically appears when either showSharing or showTitle is true."
+            },
+            {
+                "name": "rendered",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": true,
+                "description": "Specifies whether or not the component is rendered on the page."
+            },
+            {
+                "name": "filter",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Adds selections or filters to the embedded dashboard at runtime. The filter attribute is configured using JSON. For filtering by dimension, use this syntax: {'datasets' : {'dataset1': [ {'fields': ['field1'], 'selection': ['$value1', '$value2']}, {'fields': ['field2'], 'filter': { 'operator': 'operator1', 'values': ['$value3', '$value4']}}]}}. For filtering on measures, use this syntax: {'datasets' : {'dataset1': [ {'fields': ['field1'], 'selection': ['$value1', '$value2']}, {'fields': ['field2'], 'filter': { 'operator': 'operator1', 'values': [[$value3]]}}]}}. With the selection option, the dashboard is shown with all its data, and the specified dimension values are highlighted. With the filter option, the dashboard is shown with only filtered data. For more information, see https://help.salesforce.com/articleView?id=bi_embed_community_builder.htm. "
+            },
+            {
+                "name": "openLinksInNewWindow",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": true,
+                "description": "If false, links to other dashboards will be opened in the same window."
+            },
+            {
+                "name": "accessToken",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A valid access token obtained by logging into Salesforce. Useful when the component is used by Lightning Out in a non-Salesforce domain."
+            }
+        ]
+    },
+    "wave": {
+        "waveDashboard": [
+            {
+                "name": "recordId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Id of the current entity in the context of which the component is being displayed."
+            },
+            {
+                "name": "dashboardId",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The unique ID of the dashboard. You can get a dashboard’s ID, an 18-character code beginning with 0FK, from the dashboard's URL, or you can request it through the API. This attribute can be used instead of the developer name, but it can't be included if the name has been set. One of the two is required."
+            },
+            {
+                "name": "developerName",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "The unique developer name of the dashboard. You can request the developer name through the API. This attribute can be used instead of the dashboard ID, but it can't be included if the ID has been set. One of the two is required"
+            },
+            {
+                "name": "hideOnError",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "Controls whether or not users see a dashboard that has an error. When this attribute is set to true, if the dashboard has an error, it won’t appear on the page. When set to false, the dashboard appears but doesn’t show any data. An error can occur when a user doesn't have access to the dashboard or it has been deleted. "
+            },
+            {
+                "name": "height",
+                "type": "Integer",
+                "access": "global",
+                "required": false,
+                "default": 300,
+                "description": "Specifies the height of the dashboard, in pixels."
+            },
+            {
+                "name": "showSharing",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": false,
+                "description": "If true, and the dashboard is shareable, then the dashboard shows the Share icon. If false, the dashboard doesn't show the Share icon. To show the Share icon in the dashboard, the smallest supported frame size is 800 x 612 pixels."
+            },
+            {
+                "name": "showTitle",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": true,
+                "description": "If true, the dashboard’s title is included above the dashboard. If false, the dashboard appears without a title."
+            },
+            {
+                "name": "showHeader",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": true,
+                "description": "If true, the dashboard is displayed with a header bar that includes dashboard information and controls. If false, the dashboard appears without a header bar. Note that the header bar automatically appears when either showSharing or showTitle is true."
+            },
+            {
+                "name": "rendered",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": true,
+                "description": "Specifies whether or not the component is rendered on the page."
+            },
+            {
+                "name": "filter",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "Adds selections or filters to the embedded dashboard at runtime. The filter attribute is configured using JSON. For filtering by dimension, use this syntax: {'datasets' : {'dataset1': [ {'fields': ['field1'], 'selection': ['$value1', '$value2']}, {'fields': ['field2'], 'filter': { 'operator': 'operator1', 'values': ['$value3', '$value4']}}]}}. For filtering on measures, use this syntax: {'datasets' : {'dataset1': [ {'fields': ['field1'], 'selection': ['$value1', '$value2']}, {'fields': ['field2'], 'filter': { 'operator': 'operator1', 'values': [[$value3]]}}]}}. With the selection option, the dashboard is shown with all its data, and the specified dimension values are highlighted. With the filter option, the dashboard is shown with only filtered data. For more information, see https://help.salesforce.com/articleView?id=bi_embed_community_builder.htm. "
+            },
+            {
+                "name": "openLinksInNewWindow",
+                "type": "Boolean",
+                "access": "global",
+                "required": false,
+                "default": true,
+                "description": "If false, links to other dashboards will be opened in the same window."
+            },
+            {
+                "name": "accessToken",
+                "type": "String",
+                "access": "global",
+                "required": false,
+                "default": "",
+                "description": "A valid access token obtained by logging into Salesforce. Useful when the component is used by Lightning Out in a non-Salesforce domain."
             }
         ]
     }

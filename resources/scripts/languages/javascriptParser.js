@@ -133,6 +133,26 @@ class JavaScriptParser {
         return fileStructure.functions;
     }
 
+    static analizeForPutSnippets(content, activation){
+        let tokens = Tokenizer.tokenize(content);
+        let index = 0;
+        let startColumn = 0
+        let endColum = 0;
+        while (index < tokens.length) {
+            let token = tokens[index];
+            let lastToken = utils.getLastToken(tokens, index);
+            if(token.tokenType === TokenType.DOT && lastToken && lastToken.tokenType === TokenType.IDENTIFIER && lastToken.content === activation){
+                startColumn = lastToken.startColumn;
+                endColum = token.endColum;
+            }
+            index++;
+        }
+        return {
+            startColumn: startColumn,
+            endColum: endColum
+        };
+    }
+
     static analizeForPutApexParams(content){
         let tokens = Tokenizer.tokenize(content);
         let index = 0;

@@ -1,9 +1,9 @@
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const config = require('../main/config');
+const logger = require('../main/logger');
+const Utils = require('./utils').Utils;
 const FileChecker = fileSystem.FileChecker;
-const CompletionItem = vscode.CompletionItem;
-const CompletionItemKind = vscode.CompletionItemKind;
 
 exports.provider = {
     provideCompletionItems(document, position) {
@@ -15,21 +15,12 @@ exports.provider = {
     }
 }
 
+
 function provideApexCompletion(document, position) {
-    let items = [];
+    let items;
     const line = document.lineAt(position.line).text;
-    if (line.indexOf('/**') !== -1) {
-        if (!config.getConfig().activeApexCommentSuggestion)
-            return Promise.resolve(undefined);
-        let item = new CompletionItem('/** */', CompletionItemKind.Snippet);
-        item.detail = 'Apex Comment';
-        item.insertText = '';
-        item.command = {
-            title: 'Apex Comment',
-            command: 'aurahelper.apexComentCompletion',
-            arguments: [position]
-        };
-        items.push(item);
+    if (line.indexOf('/**') === -1) {
+        items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.apex');
     }
     return items;
 }

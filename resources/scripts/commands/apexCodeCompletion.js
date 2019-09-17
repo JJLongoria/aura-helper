@@ -11,13 +11,13 @@ const FileReader = fileSystem.FileReader;
 const FileWriter= fileSystem.FileWriter;
 const ApexParser = languages.ApexParser;
 
-exports.run = function(position) {
+exports.run = function(position, type, data) {
     try {
         var editor = window.activeTextEditor;
         if (!editor)
             return;
         if (FileChecker.isApexClass(editor.document.uri.fsPath))
-            processApexCodeCompletion(position, editor);
+            processApexCodeCompletion(position, type, editor);
         else
             window.showErrorMessage('The selected file is not an Apex Class File');
     } catch (error) {
@@ -25,8 +25,9 @@ exports.run = function(position) {
     }
 }
 
-function processApexCodeCompletion(position, editor) {
-    processCommentCompletion(position, editor);
+function processApexCodeCompletion(position, type, editor) {
+    if(type === "comment")
+        processCommentCompletion(position, editor);
 }
 
 function processCommentCompletion(position, editor){
@@ -42,9 +43,11 @@ function processCommentCompletion(position, editor){
 		let endLoop = false;
 		let content = "";
 		while (!endLoop) {
-			if (methodOrClassLine.text.indexOf("{") === -1 || methodOrClassLine.text.indexOf(";") === -1) {
+			if (methodOrClassLine.text.indexOf("{") === -1 && methodOrClassLine.text.indexOf(";") === -1) {
 				content += methodOrClassLine.text + "\n";
-			} else {
+			} else if(methodOrClassLine.text.indexOf("}") !== -1){
+                endLoop = true;
+            } else {
 				content += methodOrClassLine.text + "\n";
 				endLoop = true;
 			}
@@ -56,7 +59,7 @@ function processCommentCompletion(position, editor){
         if(FileChecker.isExists(Paths.getApexCommentUserTemplatePath()))
             templateContent = FileReader.readFileSync(Paths.getApexCommentUserTemplatePath());
         if(templateContent){
-			const apexComment = snippetUtils.getApexComment(apexClassOrMethod, templateContent);
+			const apexComment = snippetUtils.getApexComment(apexClassOrMethod, JSON.parse(templateContent));
             FileWriter.replaceEditorContent(editor, new Range(position.line, countStartWhitespaces(editor.document.lineAt(position.line).text), position.line, editor.document.lineAt(position.line).text.length), '');
 			editor.insertSnippet(new SnippetString(`${apexComment}`), position);
         } else{

@@ -189,7 +189,10 @@ class Utils {
             fieldName = splits[0].trim().replace(new RegExp('"', "g"), "").replace(new RegExp("'", "g"), "");
         if (splits.length >= 1 && splits[1]) {
             fieldValue = splits[1].trim().replace(new RegExp('"', "g"), "").replace(new RegExp("'", "g"), "");
-            fieldValue = fieldValue.substring(fieldValue, fieldValue.length - 1);
+            if(fieldValue.endsWith(","))
+                fieldValue = fieldValue.substring(0, fieldValue.length - 1);
+            else
+            fieldValue = fieldValue.substring(0, fieldValue.length);
         }
         return {
             name: fieldName,
