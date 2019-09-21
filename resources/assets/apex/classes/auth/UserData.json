@@ -1,0 +1,142 @@
+{
+  "name": "UserData",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "identifier",
+      "signature": "public String identifier {get; set;}",
+      "description": "An identifier from the third party for the authenticated user, such as the Facebook user number or the Salesforce user ID.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "firstName",
+      "signature": "public String firstName {get; set;}",
+      "description": "The first name of the authenticated user, according to the third party.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "lastName",
+      "signature": "public String lastName {get; set;}",
+      "description": "The last name of the authenticated user, according to the third party.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "fullName",
+      "signature": "public String fullName {get; set;}",
+      "description": "The full name of the authenticated user, according to the third party.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "email",
+      "signature": "public String email {get; set;}",
+      "description": "The email address of the authenticated user, according to the third party.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "link",
+      "signature": "public String link {get; set;}",
+      "description": "A stable link for the authenticated user such as https://www.facebook.com/MyUsername.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "username",
+      "signature": "public String username {get; set;}",
+      "description": "The username of the authenticated user in the third party.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "locale",
+      "signature": "public String locale {get; set;}",
+      "description": "The standard locale string for the authenticated user.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "provider",
+      "signature": "public String provider {get; set;}",
+      "description": "The service used to log in, such as Facebook or Janrain.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "siteLoginUrl",
+      "signature": "public String siteLoginUrl {get; set;}",
+      "description": "The site login page URL passed in if used with a site; null otherwise.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [
+    {
+      "name": "UserData",
+      "signature": "public UserData(String identifier, String firstName, String lastName, String fullName, String email, String link, String userName, String locale, String provider, String siteLoginUrl, Map<String,String> attributeMap)",
+      "description": "Creates a new instance of the Auth.UserData class using the specified arguments.",
+      "methodParams": [
+        {
+          "name": "identifier",
+          "datatype": "String"
+        },
+        {
+          "name": "firstName",
+          "datatype": "String"
+        },
+        {
+          "name": "lastName",
+          "datatype": "String"
+        },
+        {
+          "name": "fullName",
+          "datatype": "String"
+        },
+        {
+          "name": "email",
+          "datatype": "String"
+        },
+        {
+          "name": "link",
+          "datatype": "String"
+        },
+        {
+          "name": "userName",
+          "datatype": "String"
+        },
+        {
+          "name": "locale",
+          "datatype": "String"
+        },
+        {
+          "name": "provider",
+          "datatype": "String"
+        },
+        {
+          "name": "siteLoginUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "attributeMap",
+          "datatype": "Map<String, String>"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [],
+  "description": "Stores user information for Auth.RegistrationHandler.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_UserData.htm#apex_class_Auth_UserData"
+}

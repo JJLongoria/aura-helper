@@ -1,0 +1,1163 @@
+{
+  "name": "Recommendations",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "createRecommendationAudience",
+      "signature": "public static ConnectApi.RecommendationAudience createRecommendationAudience(String communityId, ConnectApi.RecommendationAudienceInput recommendationAudience)",
+      "description": "Create an audience for a custom recommendation.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationAudience",
+          "datatype": "ConnectApi.RecommendationAudienceInput"
+        }
+      ],
+      "datatype": "ConnectApi.​RecommendationAudience"
+    },
+    {
+      "name": "createRecommendationAudience",
+      "signature": "public static ConnectApi.RecommendationAudience createRecommendationAudience(String communityId, String name)",
+      "description": "Create an audience for a custom recommendation.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "name",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​RecommendationAudience"
+    },
+    {
+      "name": "createRecommendationDefinition",
+      "signature": "public static ConnectApi.RecommendationDefinition createRecommendationDefinition(String communityId, ConnectApi.RecommendationDefinitionInput recommendationDefinition)",
+      "description": "Create a custom recommendation definition.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinition",
+          "datatype": "ConnectApi.RecommendationDefinitionInput"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationDefinition"
+    },
+    {
+      "name": "createRecommendationDefinition",
+      "signature": "public static ConnectApi.RecommendationDefinition createRecommendationDefinition(String communityId, String name, String title, String actionUrl, String actionUrlName, String explanation)",
+      "description": "Create a custom recommendation definition with the specified parameters.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "name",
+          "datatype": "String"
+        },
+        {
+          "name": "title",
+          "datatype": "String"
+        },
+        {
+          "name": "actionUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "actionUrlName",
+          "datatype": "String"
+        },
+        {
+          "name": "explanation",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationDefinition"
+    },
+    {
+      "name": "createScheduledRecommendation",
+      "signature": "public static ConnectApi.ScheduledRecommendation createScheduledRecommendation(String communityId, ConnectApi.ScheduledRecommendationInput scheduledRecommendation)",
+      "description": "Create a scheduled custom recommendation.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "scheduledRecommendation",
+          "datatype": "ConnectApi.ScheduledRecommendationInput"
+        }
+      ],
+      "datatype": "ConnectApi.ScheduledRecommendation"
+    },
+    {
+      "name": "createScheduledRecommendation",
+      "signature": "public static ConnectApi.ScheduledRecommendation createScheduledRecommendation(String communityId, String recommendationDefinitionId, Integer rank, Boolean enabled, String recommendationAudienceId)",
+      "description": "Create a scheduled custom recommendation with the specified parameters.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        },
+        {
+          "name": "rank",
+          "datatype": "Integer"
+        },
+        {
+          "name": "enabled",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "recommendationAudienceId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.ScheduledRecommendation"
+    },
+    {
+      "name": "createScheduledRecommendation",
+      "signature": "public static ConnectApi.ScheduledRecommendation createScheduledRecommendation(String communityId, String recommendationDefinitionId, Integer rank, Boolean enabled, String recommendationAudienceId, ConnectApi.RecommendationChannel channel)",
+      "description": "Create a scheduled custom recommendation with the specified parameters.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        },
+        {
+          "name": "rank",
+          "datatype": "Integer"
+        },
+        {
+          "name": "enabled",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "recommendationAudienceId",
+          "datatype": "String"
+        },
+        {
+          "name": "channel",
+          "datatype": "ConnectApi.RecommendationChannel"
+        }
+      ],
+      "datatype": "ConnectApi.ScheduledRecommendation"
+    },
+    {
+      "name": "deleteRecommendationAudience",
+      "signature": "public static Void deleteRecommendationAudience(String communityId, String recommendationAudienceId)",
+      "description": "Delete a custom recommendation audience.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationAudienceId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "deleteRecommendationDefinition",
+      "signature": "public static Void deleteRecommendationDefinition(String communityId, String recommendationDefinitionId)",
+      "description": "Delete a custom recommendation definition.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "deleteRecommendationDefinitionPhoto",
+      "signature": "public static Void deleteRecommendationDefinitionPhoto(String communityId, String recommendationDefinitionId)",
+      "description": "Delete a custom recommendation definition photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "deleteScheduledRecommendation",
+      "signature": "public static Void deleteScheduledRecommendation(String communityId, String scheduledRecommendationId, Boolean deleteDefinitionIfLast)",
+      "description": "Delete a scheduled custom recommendation.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "scheduledRecommendationId",
+          "datatype": "String"
+        },
+        {
+          "name": "deleteDefinitionIfLast",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "getRecommendationAudience",
+      "signature": "public static ConnectApi.RecommendationAudience getRecommendationAudience(String communityId, String recommendationAudienceId)",
+      "description": "Get information about a custom recommendation audience.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationAudienceId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​RecommendationAudience"
+    },
+    {
+      "name": "getRecommendationAudienceMembership",
+      "signature": "public static ConnectApi.UserReferencePage getRecommendationAudienceMembership(String communityId, String recommendationAudienceId)",
+      "description": "Get the members of a custom recommendation audience.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationAudienceId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​UserReferencePage"
+    },
+    {
+      "name": "getRecommendationAudienceMembership",
+      "signature": "public static ConnectApi.UserReferencePage getRecommendationAudienceMembership(String communityId, String recommendationAudienceId, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of custom recommendation audience members.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationAudienceId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​UserReferencePage"
+    },
+    {
+      "name": "getRecommendationAudiences",
+      "signature": "public static ConnectApi.RecommendationAudiencePage getRecommendationAudiences(String communityId)",
+      "description": "Get custom recommendation audiences.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationAudiencePage"
+    },
+    {
+      "name": "getRecommendationAudiences",
+      "signature": "public static ConnectApi.RecommendationAudiencePage getRecommendationAudiences(String communityId, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of custom recommendation audiences.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationAudiencePage"
+    },
+    {
+      "name": "getRecommendationDefinition",
+      "signature": "public static ConnectApi.RecommendationDefinition getRecommendationDefinition(String communityId, String recommendationDefinitionId)",
+      "description": "Get a custom recommendation definition.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationDefinition"
+    },
+    {
+      "name": "getRecommendationDefinitionPhoto",
+      "signature": "public static ConnectApi.Photo getRecommendationDefinitionPhoto(String communityId, String recommendationDefinitionId)",
+      "description": "Get a custom recommendation definition photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "getRecommendationDefinitions",
+      "signature": "public static ConnectApi.RecommendationDefinitionPage getRecommendationDefinitions(String communityId)",
+      "description": "Get custom recommendation definitions.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationDefinitionPage"
+    },
+    {
+      "name": "getRecommendationForUser",
+      "signature": "public static ConnectApi.RecommendationCollection getRecommendationForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, String objectId)",
+      "description": "Get the Chatter, custom, or static recommendation for the context user for the specified action and object ID.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "objectId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationCollection"
+    },
+    {
+      "name": "getRecommendationsForUser",
+      "signature": "public static ConnectApi.RecommendationCollection getRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType contextAction, String contextObjectId, Integer maxResults)",
+      "description": "Get the Chatter recommendations, such as user, group, file, and record recommendations for the context user. Get the custom and static recommendations for the context user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationCollection"
+    },
+    {
+      "name": "getRecommendationsForUser",
+      "signature": "public static ConnectApi.RecommendationCollection getRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType contextAction, String contextObjectId, ConnectApi.RecommendationChannel channel, Integer maxResults)",
+      "description": "Get the Chatter recommendations, such as user, group, file, article, record, and topic recommendations for the context user. Get the custom and static recommendations for the context user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "channel",
+          "datatype": "ConnectApi.RecommendationChannel"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationCollection"
+    },
+    {
+      "name": "getRecommendationsForUser",
+      "signature": "public static ConnectApi.RecommendationCollection getRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, ConnectApi.RecommendationActionType contextAction, String contextObjectId, Integer maxResults)",
+      "description": "Get the Chatter, custom, and static recommendations for the context user for the specified action.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationCollection"
+    },
+    {
+      "name": "getRecommendationsForUser",
+      "signature": "public static ConnectApi.RecommendationCollection getRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, ConnectApi.RecommendationActionType contextAction, String contextObjectId, ConnectApi.RecommendationChannel channel, Integer maxResults)",
+      "description": "Get the Chatter, custom, and static recommendations for the context user for the specified action.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "channel",
+          "datatype": "ConnectApi.RecommendationChannel"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationCollection"
+    },
+    {
+      "name": "getRecommendationsForUser",
+      "signature": "public static ConnectApi.RecommendationCollection getRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, String objectCategory, ConnectApi.RecommendationActionType contextAction, String contextObjectId, Integer maxResults)",
+      "description": "Get the Chatter, custom, and static recommendations for the context user for the specified action and object category.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "objectCategory",
+          "datatype": "String"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationCollection"
+    },
+    {
+      "name": "getRecommendationsForUser",
+      "signature": "public static ConnectApi.RecommendationCollection getRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, String objectCategory, ConnectApi.RecommendationActionType contextAction, String contextObjectId, ConnectApi.RecommendationChannel channel, Integer maxResults)",
+      "description": "Get the Chatter, custom, and static recommendations for the context user for the specified action and object category.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "objectCategory",
+          "datatype": "String"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "channel",
+          "datatype": "ConnectApi.RecommendationChannel"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationCollection"
+    },
+    {
+      "name": "getScheduledRecommendation",
+      "signature": "public static ConnectApi.ScheduledRecommendation getScheduledRecommendation(String communityId, String scheduledRecommendationId)",
+      "description": "Get a scheduled custom recommendation.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "scheduledRecommendationId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.ScheduledRecommendation"
+    },
+    {
+      "name": "getScheduledRecommendations",
+      "signature": "public static ConnectApi.ScheduledRecommendationPage getScheduledRecommendations(String communityId)",
+      "description": "Get scheduled custom recommendations.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.ScheduledRecommendationPage"
+    },
+    {
+      "name": "getScheduledRecommendations",
+      "signature": "public static ConnectApi.ScheduledRecommendationPage getScheduledRecommendations(String communityId, ConnectApi.RecommendationChannel channel)",
+      "description": "Get scheduled custom recommendations.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "channel",
+          "datatype": "ConnectApi.RecommendationChannel"
+        }
+      ],
+      "datatype": "ConnectApi.ScheduledRecommendationPage"
+    },
+    {
+      "name": "rejectRecommendationForUser",
+      "signature": "public static rejectRecommendationForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, String objectId)",
+      "description": "Reject a Chatter, custom, or static recommendation for the context user for the specified action and object ID.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "objectId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "rejectRecommendationForUser",
+      "signature": "public static rejectRecommendationForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, ConnectApi.RecommendedObjectType objectEnum)",
+      "description": "Reject a static recommendation for the context user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "objectEnum",
+          "datatype": "ConnectApi.​RecommendedObjectType"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "updateRecommendationAudience",
+      "signature": "public static ConnectApi.RecommendationAudience updateRecommendationAudience(String communityId, String recommendationAudienceId, ConnectApi.RecommendationAudienceInput recommendationAudience)",
+      "description": "Update a custom recommendation audience.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationAudienceId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationAudience",
+          "datatype": "ConnectApi.RecommendationAudienceInput"
+        }
+      ],
+      "datatype": "ConnectApi.​RecommendationAudience"
+    },
+    {
+      "name": "updateRecommendationDefinition",
+      "signature": "public static ConnectApi.RecommendationDefinition updateRecommendationDefinition(String communityId, String recommendationDefinitionId, String name, String title, String actionUrl, String actionUrlName, String explanation recommendationDefinition)",
+      "description": "Update a custom recommendation definition with the specified parameters.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        },
+        {
+          "name": "name",
+          "datatype": "String"
+        },
+        {
+          "name": "title",
+          "datatype": "String"
+        },
+        {
+          "name": "actionUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "actionUrlName",
+          "datatype": "String"
+        },
+        {
+          "name": "explanation",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationDefinition"
+    },
+    {
+      "name": "updateRecommendationDefinition",
+      "signature": "public static ConnectApi.RecommendationDefinition updateRecommendationDefinition(String communityId, String recommendationDefinitionId, ConnectApi.RecommendationDefinitionInput recommendationDefinition)",
+      "description": "Update a custom recommendation definition.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinition",
+          "datatype": "ConnectApi.RecommendationDefinitionInput"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationDefinition"
+    },
+    {
+      "name": "updateRecommendationDefinitionPhoto",
+      "signature": "public static ConnectApi.Photo updateRecommendationDefinitionPhoto(String communityId, String recommendationDefinitionId, ConnectApi.BinaryInput fileUpload)",
+      "description": "Update a custom recommendation definition photo with a file that hasn’t been uploaded.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        },
+        {
+          "name": "fileUpload",
+          "datatype": "ConnectApi.Binary​​Input"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "updateRecommendationDefinitionPhoto",
+      "signature": "public static ConnectApi.Photo updateRecommendationDefinitionPhoto(String communityId, String recommendationDefinitionId, String fileId, Integer versionNumber)",
+      "description": "Update a custom recommendation definition photo with an uploaded file.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        },
+        {
+          "name": "fileId",
+          "datatype": "String"
+        },
+        {
+          "name": "versionNumber",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "updateRecommendationDefinitionPhotoWithAttributes",
+      "signature": "public static ConnectApi.Photo updateRecommendationDefinitionPhotoWithAttributes(String communityId, String recommendationDefinitionId, ConnectApi.PhotoInput photo)",
+      "description": "Update a custom recommendation definition photo with an uploaded file that requires cropping.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        },
+        {
+          "name": "photo",
+          "datatype": "ConnectApi.PhotoInput"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "updateRecommendationDefinitionPhotoWithAttributes",
+      "signature": "public static ConnectApi.Photo updateRecommendationDefinitionPhotoWithAttributes(String communityId, String recommendationDefinitionId, ConnectApi.PhotoInput photo, ConnectApi.BinaryInput fileUpload)",
+      "description": "Update a custom recommendation definition photo with a file that hasn’t been uploaded and requires cropping.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recommendationDefinitionId",
+          "datatype": "String"
+        },
+        {
+          "name": "photo",
+          "datatype": "ConnectApi.PhotoInput"
+        },
+        {
+          "name": "fileUpload",
+          "datatype": "ConnectApi.Binary​​Input"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "updateScheduledRecommendation",
+      "signature": "public static ConnectApi.ScheduledRecommendation updateScheduledRecommendation(String communityId, String scheduledRecommendationId, ConnectApi.ScheduledRecommendationInput scheduledRecommendation)",
+      "description": "Update a scheduled custom recommendation.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "scheduledRecommendationId",
+          "datatype": "String"
+        },
+        {
+          "name": "scheduledRecommendation",
+          "datatype": "ConnectApi.ScheduledRecommendationInput"
+        }
+      ],
+      "datatype": "ConnectApi.ScheduledRecommendation"
+    },
+    {
+      "name": "updateScheduledRecommendation",
+      "signature": "public static ConnectApi.ScheduledRecommendation updateScheduledRecommendation(String communityId, String scheduledRecommendationId, Integer rank, Boolean enabled, String recommendationAudienceId)",
+      "description": "Update a scheduled custom recommendation with the specified parameters.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "scheduledRecommendationId",
+          "datatype": "String"
+        },
+        {
+          "name": "rank",
+          "datatype": "Integer"
+        },
+        {
+          "name": "enabled",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "recommendationAudienceId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.ScheduledRecommendation"
+    },
+    {
+      "name": "setTestGetRecommendationForUser",
+      "signature": "public static Void setTestGetRecommendationForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, String objectId, ConnectApi.RecommendationCollection result)",
+      "description": "Register a ConnectApi.RecommendationCollection object to be returned when getRecommendationForUser is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "objectId",
+          "datatype": "String"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.RecommendationCollection"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetRecommendationsForUser",
+      "signature": "public static Void setTestGetRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType contextAction, String contextObjectId, Integer maxResults, ConnectApi.RecommendationCollection result)",
+      "description": "Register a ConnectApi.RecommendationCollection object to be returned when getRecommendationsForUser is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.RecommendationCollection"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetRecommendationsForUser",
+      "signature": "public static Void setTestGetRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType contextAction, String contextObjectId, ConnectApi.RecommendationChannel channel, Integer maxResults, ConnectApi.RecommendationCollection result)",
+      "description": "Register a ConnectApi.RecommendationCollection object to be returned when getRecommendationsForUser is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "channel",
+          "datatype": "ConnectApi.RecommendationChannel"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.RecommendationCollection"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetRecommendationsForUser",
+      "signature": "public static Void setTestGetRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, ConnectApi.RecommendationActionType contextAction, String contextObjectId, Integer maxResults, ConnectApi.RecommendationCollection result)",
+      "description": "Register a ConnectApi.RecommendationCollection object to be returned when getRecommendationsForUser is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.RecommendationCollection"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetRecommendationsForUser",
+      "signature": "public static Void setTestGetRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, ConnectApi.RecommendationActionType contextAction, String contextObjectId, ConnectApi.RecommendationChannel channel, Integer maxResults, ConnectApi.RecommendationCollection result)",
+      "description": "Register a ConnectApi.RecommendationCollection object to be returned when getRecommendationsForUser is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "channel",
+          "datatype": "ConnectApi.RecommendationChannel"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.RecommendationCollection"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetRecommendationsForUser",
+      "signature": "public static Void setTestGetRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, String objectCategory, ConnectApi.RecommendationActionType contextAction, String contextObjectId, Integer maxResults, ConnectApi.RecommendationCollection result)",
+      "description": "Register a ConnectApi.RecommendationCollection object to be returned when getRecommendationsForUser is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "objectCategory",
+          "datatype": "String"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.RecommendationCollection"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetRecommendationsForUser",
+      "signature": "public static Void setTestGetRecommendationsForUser(String communityId, String userId, ConnectApi.RecommendationActionType action, String objectCategory, ConnectApi.RecommendationActionType contextAction, String contextObjectId, ConnectApi.RecommendationChannel channel, Integer maxResults, ConnectApi.RecommendationCollection result)",
+      "description": "Register a ConnectApi.RecommendationCollection object to be returned when getRecommendationsForUser is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "action",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "objectCategory",
+          "datatype": "String"
+        },
+        {
+          "name": "contextAction",
+          "datatype": "ConnectApi.​RecommendationActionType"
+        },
+        {
+          "name": "contextObjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "channel",
+          "datatype": "ConnectApi.RecommendationChannel"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.RecommendationCollection"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Get and reject Chatter, custom, and static recommendations. Create, get, update, and",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Recommendations_static_methods.htm#apex_ConnectAPI_Recommendations_static_methods"
+}

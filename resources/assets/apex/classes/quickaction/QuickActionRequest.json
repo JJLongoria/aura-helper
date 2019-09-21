@@ -1,0 +1,84 @@
+{
+  "name": "QuickActionRequest",
+  "namespace": "QuickAction",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "QuickActionRequest",
+      "signature": "public QuickActionRequest()",
+      "description": "Creates a new instance of the QuickAction.QuickActionRequest class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "getContextId",
+      "signature": "public Id getContextId()",
+      "description": "Returns this QuickAction’s context record ID.",
+      "methodParams": [],
+      "datatype": "ID"
+    },
+    {
+      "name": "getQuickActionName",
+      "signature": "public String getQuickActionName()",
+      "description": "Returns this QuickAction’s name.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getRecord",
+      "signature": "public SObject getRecord()",
+      "description": "Returns the QuickAction’s associated record.",
+      "methodParams": [],
+      "datatype": "sObject"
+    },
+    {
+      "name": "setContextId",
+      "signature": "public Void setContextId(Id contextId)",
+      "description": "Sets this QuickAction’s context ID. Returned by getContextId.",
+      "methodParams": [
+        {
+          "name": "contextId",
+          "datatype": "ID"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setQuickActionName",
+      "signature": "public Void setQuickActionName(String name)",
+      "description": "Sets this QuickAction’s name. Returned by getQuickActionName.",
+      "methodParams": [
+        {
+          "name": "name",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setRecord",
+      "signature": "public Void setRecord(SObject record)",
+      "description": "Sets a record for this QuickAction. Returned by getRecord.",
+      "methodParams": [
+        {
+          "name": "record",
+          "datatype": "sObject"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Use the QuickAction.QuickActionRequest class for providing action information for quick",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_quickactionrequest.htm#apex_class_quickaction_quickactionrequest"
+}

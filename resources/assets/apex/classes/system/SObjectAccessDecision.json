@@ -1,0 +1,40 @@
+{
+  "name": "SObjectAccessDecision",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getModifiedIndexes",
+      "signature": "public Set<Integer> getModifiedIndexes()",
+      "description": "Returns the indexes of sObjects that are modified by the stripInaccessible method.",
+      "methodParams": [],
+      "datatype": "Set<Integer>"
+    },
+    {
+      "name": "getRecords",
+      "signature": "public List<SObject> getRecords()",
+      "description": "Returns a list of new sObjects that are identical to the source records, except that they are stripped of fields that fail the field-level security check for the current user.",
+      "methodParams": [],
+      "datatype": "List<SObject>"
+    },
+    {
+      "name": "getRemovedFields",
+      "signature": "public Map<String,Set<String>> getRemovedFields()",
+      "description": "Returns a map of sObject types to their corresponding inaccessible fields. The map key is a string representation of the sObject type. The map value is a set of strings, which denote the fields names that are inaccessible.",
+      "methodParams": [],
+      "datatype": "Map<String,Set<String>>"
+    }
+  ],
+  "description": "Contains the results of a call to the Security.stripInaccessible method and methods to retrieve those",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_SObjectAccessDecision.htm#apex_class_System_SObjectAccessDecision"
+}

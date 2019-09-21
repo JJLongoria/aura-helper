@@ -1,0 +1,49 @@
+{
+  "name": "StandardFilterInfoPicklist",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDefaultValue",
+      "signature": "public String getDefaultValue()",
+      "description": "Returns the default value for the standard filter picklist.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getFilterValues",
+      "signature": "public List<Reports.FilterValue> getFilterValues()",
+      "description": "Returns a list of standard filter picklist values.",
+      "methodParams": [],
+      "datatype": "List<Reports.FilterValue>"
+    },
+    {
+      "name": "getLabel",
+      "signature": "public String getLabel()",
+      "description": "Returns the display name of the standard filter picklist.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getType",
+      "signature": "public Reports.StandardFilterType getType()",
+      "description": "Returns the type of the standard filter picklist.",
+      "methodParams": [],
+      "datatype": "Reports.StandardFilterType"
+    }
+  ],
+  "description": "Contains information about the standard filter picklist, such as the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardFilterInfoPicklist.htm#apex_class_reports_StandardFilterInfoPicklist"
+}

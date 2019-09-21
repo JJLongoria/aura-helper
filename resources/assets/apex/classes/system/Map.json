@@ -1,0 +1,202 @@
+{
+  "name": "Map",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "Map&lt;T1,T2&gt;",
+      "signature": "public Map<T1,T2>()",
+      "description": "Creates a new instance of the Map class. T1 is the data type of the keys and T2 is the data type of the values.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "Map&lt;T1,T2&gt;",
+      "signature": "public Map<T1,T2>(Map<T1,T2> mapToCopy)",
+      "description": "Creates a new instance of the Map class and initializes it by copying the entries from the specified map. T1 is the data type of the keys and T2 is the data type of the values.",
+      "methodParams": [
+        {
+          "name": "mapToCopy",
+          "datatype": "Map<T1, T2>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "Map&lt;ID,sObject&gt;",
+      "signature": "public Map<ID,sObject>(List<sObject> recordList)",
+      "description": "Creates a new instance of the Map class and populates it with the passed-in list of sObject records. The keys are populated with the sObject IDs and the values are the sObjects.",
+      "methodParams": [
+        {
+          "name": "recordList",
+          "datatype": "List<sObject>"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "clear",
+      "signature": "public Void clear()",
+      "description": "Removes all of the key-value mappings from the map.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "clone",
+      "signature": "public Map<Object, Object> clone()",
+      "description": "Makes a duplicate copy of the map.",
+      "methodParams": [],
+      "datatype": "Map (of same"
+    },
+    {
+      "name": "containsKey",
+      "signature": "public Boolean containsKey(Object key)",
+      "description": "Returns true if the map contains a mapping for the specified key.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "deepClone",
+      "signature": "public Map<Object, Object> deepClone()",
+      "description": "Makes a duplicate copy of a map, including sObject records if this is a map with sObject record values.",
+      "methodParams": [],
+      "datatype": "Map (of the"
+    },
+    {
+      "name": "equals",
+      "signature": "public Boolean equals(Map map2)",
+      "description": "Compares this map with the specified map and returns true if both maps are equal; otherwise, returns false.",
+      "methodParams": [
+        {
+          "name": "map2",
+          "datatype": "Map"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "get",
+      "signature": "public Object get(Object key)",
+      "description": "Returns the value to which the specified key is mapped, or null if the map contains no value for this key.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "getSObjectType",
+      "signature": "public Schema.SObjectType getSObjectType()",
+      "description": "Returns the token of the sObject type that makes up the map values.",
+      "methodParams": [],
+      "datatype": "Schema.SObjectType"
+    },
+    {
+      "name": "hashCode",
+      "signature": "public Integer hashCode()",
+      "description": "Returns the hashcode corresponding to this map.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "isEmpty",
+      "signature": "public Boolean isEmpty()",
+      "description": "Returns true if the map has zero key-value pairs.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "keySet",
+      "signature": "public Set<Object> keySet()",
+      "description": "Returns a set that contains all of the keys in the map.",
+      "methodParams": [],
+      "datatype": "Set (of key"
+    },
+    {
+      "name": "put",
+      "signature": "public Object put(Object key, Object value)",
+      "description": "Associates the specified value with the specified key in the map.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "Object"
+        },
+        {
+          "name": "value",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "putAll",
+      "signature": "public Void putAll(Map fromMap)",
+      "description": "Copies all of the mappings from the specified map to the original map.",
+      "methodParams": [
+        {
+          "name": "fromMap",
+          "datatype": "Map"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "putAll",
+      "signature": "public Void putAll(sObject[] sobjectArray)",
+      "description": "Adds the list of sObject records to a map declared as Map<ID, sObject> or Map<String, sObject>.",
+      "methodParams": [
+        {
+          "name": "sobjectArray",
+          "datatype": "sObject[]"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "remove",
+      "signature": "public Object remove(Key key)",
+      "description": "Removes the mapping for the specified key from the map, if present, and returns the corresponding value.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "Key"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "size",
+      "signature": "public Integer size()",
+      "description": "Returns the number of key-value pairs in the map.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "values",
+      "signature": "public List<Object> values()",
+      "description": "Returns a list that contains all the values in the map.",
+      "methodParams": [],
+      "datatype": "List<Object>"
+    }
+  ],
+  "description": "Contains methods for the Map collection type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_map.htm#apex_methods_system_map"
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Schedulable",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "execute",
+      "signature": "public Void execute(SchedulableContext context)",
+      "description": "Executes the scheduled Apex job.",
+      "methodParams": [
+        {
+          "name": "context",
+          "datatype": "System.SchedulableContext"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "The class that implements this interface can be scheduled",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_schedulable.htm#apex_interface_system_schedulable"
+}

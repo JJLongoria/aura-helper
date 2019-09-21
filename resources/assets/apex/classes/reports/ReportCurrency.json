@@ -1,0 +1,35 @@
+{
+  "name": "ReportCurrency",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getAmount",
+      "signature": "",
+      "description": "Returns the amount of the currency value.",
+      "methodParams": [],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "getCurrencyCode",
+      "signature": "",
+      "description": "Returns the report currency code, such as USD, EUR, or GBP, for an organization that has multicurrency enabled. The value is null if the organization does not have multicurrency enabled.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Contains information about a currency value, including",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportcurrency.htm#apex_class_reports_reportcurrency"
+}

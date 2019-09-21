@@ -1,0 +1,42 @@
+{
+  "name": "ReportFactWithSummaries",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getAggregates",
+      "signature": "",
+      "description": "Returns summary-level data for a report, including the record count.",
+      "methodParams": [],
+      "datatype": "List<Reports.SummaryValue>"
+    },
+    {
+      "name": "getKey",
+      "signature": "",
+      "description": "Returns the unique identifier for a row or column grouping. This identifier can be used to index specific data values within each grouping.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Returns a string.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Contains the fact map for the report, which represents the report’s data values,",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportfactwithsummaries.htm#apex_class_reports_reportfactwithsummaries"
+}

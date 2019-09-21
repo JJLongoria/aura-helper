@@ -1,0 +1,55 @@
+{
+  "name": "ConsoleComponent",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "height",
+      "signature": "public Integer height {get; set;}",
+      "description": "The height of the custom console component in pixels.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "location",
+      "signature": "public String location {get; set;}",
+      "description": "The location of the custom console component on the page layout. Valid values are right, left, top, and bottom.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "visualforcePage",
+      "signature": "public String visualforcePage {get; set;}",
+      "description": "The unique name of the custom console component.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "width",
+      "signature": "public Integer width {get; set;}",
+      "description": "The width of the custom console component in pixels.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.ConsoleComponent.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "Represents a custom console component on a section of a page",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_ConsoleComponent.htm#apex_class_Metadata_ConsoleComponent"
+}

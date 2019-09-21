@@ -49,6 +49,9 @@ class Paths {
     static getStoredOrgsPath() {
         return applicationContext.context.storagePath + "\\" + "activeOrgs.json";
     }
+    static getSystemClassesPath() {
+        return applicationContext.context.asAbsolutePath("./resources/assets/system/classes");
+    }
     static getBasename(filePath) {
         return path.basename(filePath);
     }

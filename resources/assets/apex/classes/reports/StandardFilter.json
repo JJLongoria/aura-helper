@@ -1,0 +1,59 @@
+{
+  "name": "StandardFilter",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getName",
+      "signature": "public String getName()",
+      "description": "Return the API name of the standard filter.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getValue",
+      "signature": "public String getValue()",
+      "description": "Returns the standard filter value.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setName",
+      "signature": "public void setName(String name)",
+      "description": "Sets the API name of the standard filter.",
+      "methodParams": [
+        {
+          "name": "name",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setValue",
+      "signature": "public void setValue(String value)",
+      "description": "Sets the standard filter value.",
+      "methodParams": [
+        {
+          "name": "value",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Contains information about the standard filter defined in the report,",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardFilter.htm#apex_class_reports_StandardFilter"
+}

@@ -1,0 +1,31 @@
+{
+  "name": "CacheBuilder",
+  "namespace": "Cache",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "doLoad",
+      "signature": "public Object doLoad(String var)",
+      "description": "Contains the logic that builds a cached value. You don’t call this method directly. Instead, it’s called indirectly when you reference the class that implements the CacheBuilder interface.",
+      "methodParams": [
+        {
+          "name": "var",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Object"
+    }
+  ],
+  "description": "An interface for safely retrieving and removing values from a",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_cache_CacheBuilder.htm#apex_interface_cache_CacheBuilder"
+}

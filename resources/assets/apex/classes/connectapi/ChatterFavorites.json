@@ -1,0 +1,523 @@
+{
+  "name": "ChatterFavorites",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "addFavorite",
+      "signature": "public static ConnectApi.FeedFavorite addFavorite(String communityId, String subjectId, String searchText)",
+      "description": "Add a feed search favorite for a user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "searchText",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.FeedFavorite"
+    },
+    {
+      "name": "addRecordFavorite",
+      "signature": "public static ConnectApi.FeedFavorite addRecordFavorite(String communityId, String subjectId, String targetId)",
+      "description": "Add a topic as a favorite.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "targetId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.FeedFavorite"
+    },
+    {
+      "name": "deleteFavorite",
+      "signature": "public static Void deleteFavorite(String communityId, String subjectId, String favoriteId)",
+      "description": "Delete a favorite.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "getFavorite",
+      "signature": "public static ConnectApi.FeedFavorite getFavorite(String communityId, String subjectId, String favoriteId)",
+      "description": "Get information about a favorite.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.FeedFavorite"
+    },
+    {
+      "name": "getFavorites",
+      "signature": "public static ConnectApi.FeedFavorites getFavorites(String communityId, String subjectId)",
+      "description": "Get a list of favorites for a user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.FeedFavorites"
+    },
+    {
+      "name": "getFeedElements",
+      "signature": "public static ConnectApi.FeedElementPage getFeedElements(String communityId, String subjectId, String favoriteId)",
+      "description": "Get the first page of feed elements for a favorite.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.FeedElementPage"
+    },
+    {
+      "name": "getFeedElements",
+      "signature": "public static ConnectApi.FeedElementPage getFeedElements(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)",
+      "description": "Get a page of sorted feed elements for a favorite.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "sortParam",
+          "datatype": "ConnectApi.FeedSortOrder"
+        }
+      ],
+      "datatype": "ConnectApi.FeedElementPage"
+    },
+    {
+      "name": "getFeedElements",
+      "signature": "public static ConnectApi.FeedElementPage getFeedElements(String communityId, String subjectId, String favoriteId, Integer recentCommentCount, Integer elementsPerBundle, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)",
+      "description": "Get a page of sorted feed elements for a favorite. Include no more than the specified number of comments per feed element.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        },
+        {
+          "name": "recentCommentCount",
+          "datatype": "Integer"
+        },
+        {
+          "name": "elementsPerBundle",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "sortParam",
+          "datatype": "ConnectApi.FeedSortOrder"
+        }
+      ],
+      "datatype": "ConnectApi.FeedElementPage"
+    },
+    {
+      "name": "getFeedItems",
+      "signature": "public static ConnectApi.FeedItemPage getFeedItems(String communityId, String subjectId, String favoriteId)",
+      "description": "Get the first page of feed items for a favorite.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.FeedItemPage"
+    },
+    {
+      "name": "getFeedItems",
+      "signature": "public static ConnectApi.FeedItemPage getFeedItems(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)",
+      "description": "Get a page of sorted feed items for a favorite.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "sortParam",
+          "datatype": "ConnectApi.FeedSortOrder"
+        }
+      ],
+      "datatype": "ConnectApi.FeedItemPage"
+    },
+    {
+      "name": "getFeedItems",
+      "signature": "public static ConnectApi.FeedItemPage getFeedItems(String communityId, String subjectId, String favoriteId, Integer recentCommentCount, String pageParam, Integer pageSize, FeedSortOrder sortParam)",
+      "description": "Get a page of sorted feed items for a favorite. Include no more than the specified number of comments per feed item.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        },
+        {
+          "name": "recentCommentCount",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "sortParam",
+          "datatype": "ConnectApi.FeedSortOrder"
+        }
+      ],
+      "datatype": "ConnectApi.FeedItemPage"
+    },
+    {
+      "name": "updateFavorite",
+      "signature": "public static ConnectApi.FeedFavorite updateFavorite(String communityId, String subjectId, String favoriteId, Boolean updateLastViewDate)",
+      "description": "Update the last view date of the saved search or list view feed to the current system time.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        },
+        {
+          "name": "updateLastViewDate",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "ConnectApi.FeedFavorite"
+    },
+    {
+      "name": "setTestGetFeedElements",
+      "signature": "public static Void setTestGetFeedElements(String communityId, String subjectId, String favoriteId, ConnectApi.FeedElementPage result)",
+      "description": "Register a ConnectApi.FeedElementPage object to be returned when getFeedElements​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.FeedElementPage"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetFeedElements",
+      "signature": "public static Void setTestGetFeedElements(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedElementPage result)",
+      "description": "Register a ConnectApi.FeedElementPage object to be returned when getFeedElements​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "sortParam",
+          "datatype": "ConnectApi.FeedSortOrder"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.FeedElementPage"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetFeedElements",
+      "signature": "public static Void setTestGetFeedElements(String communityId, String subjectId, String favoriteId, Integer recentCommentCount, Integer elementsPerBundle, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedElementPage result)",
+      "description": "Register a ConnectApi.FeedElementPage object to be returned when getFeedElements​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        },
+        {
+          "name": "recentCommentCount",
+          "datatype": "Integer"
+        },
+        {
+          "name": "elementsPerBundle",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "sortParam",
+          "datatype": "ConnectApi.FeedSortOrder"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.FeedElementPage"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetFeedItems",
+      "signature": "public static Void setTestGetFeedItems(String communityId, String subjectId, String favoriteId, ConnectApi.FeedItemPage result)",
+      "description": "Register a ConnectApi.FeedItemPage object to be returned when getFeedItems​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.FeedItemPage"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetFeedItems",
+      "signature": "public static Void setTestGetFeedItems(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, FeedSortOrder sortParam, ConnectApi.FeedItemPage result)",
+      "description": "Register a ConnectApi.FeedItemPage object to be returned when getFeedItems​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "sortParam",
+          "datatype": "ConnectApi.FeedSortOrder"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.FeedItemPage"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetFeedItems",
+      "signature": "public static Void setTestGetFeedItems(String communityId, String subjectId, String favoriteId, Integer recentCommentCount, String pageParam, Integer pageSize, FeedSortOrder sortParam, ConnectApi.FeedItemPage result)",
+      "description": "Register a ConnectApi.FeedItemPage object to be returned when getFeedItems​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        },
+        {
+          "name": "favoriteId",
+          "datatype": "String"
+        },
+        {
+          "name": "recentCommentCount",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "sortParam",
+          "datatype": "ConnectApi.FeedSortOrder"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.FeedItemPage"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Chatter favorites give you easy access to topics, list views, and feed",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ChatterFavorites_static_methods.htm#apex_ConnectAPI_ChatterFavorites_static_methods"
+}

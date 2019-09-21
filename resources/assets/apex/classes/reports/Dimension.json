@@ -1,0 +1,28 @@
+{
+  "name": "Dimension",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getGroupings",
+      "signature": "",
+      "description": "Returns information for each row or column grouping as a list.",
+      "methodParams": [],
+      "datatype": "List<Reports.GroupingValue>"
+    }
+  ],
+  "description": "Contains information for each row or column grouping.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_dimension.htm#apex_class_reports_dimension"
+}

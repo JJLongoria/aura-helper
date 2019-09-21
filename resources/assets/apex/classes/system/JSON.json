@@ -1,0 +1,143 @@
+{
+  "name": "JSON",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "createGenerator",
+      "signature": "public static System.JSONGenerator createGenerator(Boolean prettyPrint)",
+      "description": "Returns a new JSON generator.",
+      "methodParams": [
+        {
+          "name": "prettyPrint",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "System.JSONGenerator"
+    },
+    {
+      "name": "createParser",
+      "signature": "public static System.JSONParser createParser(String jsonString)",
+      "description": "Returns a new JSON parser.",
+      "methodParams": [
+        {
+          "name": "jsonString",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "System.JSONParser"
+    },
+    {
+      "name": "deserialize",
+      "signature": "public static Object deserialize(String jsonString, System.Type apexType)",
+      "description": "Deserializes the specified JSON string into an Apex object of the specified type.",
+      "methodParams": [
+        {
+          "name": "jsonString",
+          "datatype": "String"
+        },
+        {
+          "name": "apexType",
+          "datatype": "System.Type"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "deserializeStrict",
+      "signature": "public static Object deserializeStrict(String jsonString, System.Type apexType)",
+      "description": "Deserializes the specified JSON string into an Apex object of the specified type.",
+      "methodParams": [
+        {
+          "name": "jsonString",
+          "datatype": "String"
+        },
+        {
+          "name": "apexType",
+          "datatype": "System.Type"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "deserializeUntyped",
+      "signature": "public static Object deserializeUntyped(String jsonString)",
+      "description": "Deserializes the specified JSON string into collections of primitive data types.",
+      "methodParams": [
+        {
+          "name": "jsonString",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "serialize",
+      "signature": "public static String serialize(Object objectToSerialize)",
+      "description": "Serializes Apex objects into JSON content.",
+      "methodParams": [
+        {
+          "name": "objectToSerialize",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "serialize",
+      "signature": "public static String serialize(Object objectToSerialize, Boolean suppressApexObjectNulls)",
+      "description": "Suppresses null values when serializing Apex objects into JSON content.",
+      "methodParams": [
+        {
+          "name": "objectToSerialize",
+          "datatype": "Object"
+        },
+        {
+          "name": "suppressApexObjectNulls",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "serializePretty",
+      "signature": "public static String serializePretty(Object objectToSerialize)",
+      "description": "Serializes Apex objects into JSON content and generates indented content using the pretty-print format.",
+      "methodParams": [
+        {
+          "name": "objectToSerialize",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "serializePretty",
+      "signature": "public static String serializePretty(Object objectToSerialize, Boolean suppressApexObjectNulls)",
+      "description": "Suppresses null values when serializing Apex objects into JSON content and generates indented content using the pretty-print format.",
+      "methodParams": [
+        {
+          "name": "objectToSerialize",
+          "datatype": "Object"
+        },
+        {
+          "name": "suppressApexObjectNulls",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "String"
+    }
+  ],
+  "description": "Contains methods for serializing Apex objects into JSON format",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Json.htm#apex_class_System_Json"
+}

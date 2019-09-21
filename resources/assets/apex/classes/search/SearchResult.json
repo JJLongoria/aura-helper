@@ -1,0 +1,47 @@
+{
+  "name": "SearchResult",
+  "namespace": "Search",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getSObject",
+      "signature": "public SObject getSObject()",
+      "description": "Returns an sObject from a SearchResult object.",
+      "methodParams": [],
+      "datatype": "SObject"
+    },
+    {
+      "name": "getSnippet",
+      "signature": "public String getSnippet(String fieldName)",
+      "description": "Returns a snippet from a Case, Feed, or Knowledge Article SearchResult object based on the specified field name.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getSnippet",
+      "signature": "public String getSnippet()",
+      "description": "Returns a snippet from a SearchResult object based on the default field.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "A wrapper object that contains an sObject and search",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SearchResult.htm#apex_class_Search_SearchResult"
+}

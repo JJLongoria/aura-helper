@@ -1,0 +1,31 @@
+{
+  "name": "AsyncDeleteCallback",
+  "namespace": "DataSource",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "processDelete",
+      "signature": "public void processDelete(Database.DeleteResult deleteResult)",
+      "description": "Override this method to define actions that Salesforce executes after a remote Database.deleteAsync operation is completed. For example, based on the results of the remote operation, you can update custom object data or other data that's stored in the Salesforce org..",
+      "methodParams": [
+        {
+          "name": "deleteResult",
+          "datatype": "Database.DeleteResult"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "A callback class that the Database.deleteAsync method references. Salesforce calls this class after",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_AsyncDeleteCallback.htm#apex_class_DataSource_AsyncDeleteCallback"
+}

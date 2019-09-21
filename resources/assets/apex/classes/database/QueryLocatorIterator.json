@@ -1,0 +1,33 @@
+{
+  "name": "QueryLocatorIterator",
+  "namespace": "Database",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "hasNext",
+      "signature": "public Boolean hasNext()",
+      "description": "Returns true if there are one or more records remaining in the collection; otherwise, returns false.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "next",
+      "signature": "public sObject next()",
+      "description": "Advances the iterator to the next sObject record and returns the sObject.",
+      "methodParams": [],
+      "datatype": "sObject"
+    }
+  ],
+  "description": "Represents an iterator over a query locator record set.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_querylocatoriterator.htm#apex_class_database_querylocatoriterator"
+}

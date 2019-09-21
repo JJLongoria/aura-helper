@@ -1,0 +1,119 @@
+{
+  "name": "Knowledge",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getTopViewedArticlesForTopic",
+      "signature": "public static ConnectApi.KnowledgeArticleVersionCollection getTopViewedArticlesForTopic(String communityId, String topicId, Integer maxResults)",
+      "description": "Get the top viewed articles for a topic.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "topicId",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.KnowledgeArticleVersionCollection"
+    },
+    {
+      "name": "getTrendingArticles",
+      "signature": "public static ConnectApi.KnowledgeArticleVersionCollection getTrendingArticles(String communityId, Integer maxResults)",
+      "description": "Get trending articles for a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.KnowledgeArticleVersionCollection"
+    },
+    {
+      "name": "getTrendingArticlesForTopic",
+      "signature": "public static ConnectApi.KnowledgeArticleVersionCollection getTrendingArticlesForTopic(String communityId, String topicId, Integer maxResults)",
+      "description": "Get the trending articles for a topic in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "topicId",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.KnowledgeArticleVersionCollection"
+    },
+    {
+      "name": "setTestGetTrendingArticles",
+      "signature": "public static Void setTestGetTrendingArticles(String communityId, Integer maxResults, ConnectApi.KnowledgeArticleVersionCollection result)",
+      "description": "Register a ConnectApi.KnowledgeVersionArticleCollection object to be returned when the matching ConnectApi.getTrendingArticles method is called in a test context. Use the method with the same parameters or you receive an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.KnowledgeArticleVersionCollection"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetTrendingArticlesForTopic",
+      "signature": "public static Void setTestGetTrendingArticlesForTopic(String communityId, String topicId, Integer maxResults, ConnectApi.KnowledgeArticleVersionCollection result)",
+      "description": "Register a ConnectApi.KnowledgeVersionArticleCollection object to be returned when the matching ConnectApi.getTrendingArticlesForTopic method is called in a test context. Use the method with the same parameters or you receive an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "topicId",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.KnowledgeArticleVersionCollection"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Access information about trending articles in communities.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Knowledge_static_methods.htm#apex_ConnectAPI_Knowledge_static_methods"
+}

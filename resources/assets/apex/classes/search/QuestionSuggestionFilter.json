@@ -1,0 +1,105 @@
+{
+  "name": "QuestionSuggestionFilter",
+  "namespace": "Search",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "addGroupId",
+      "signature": "public void addGroupId(String groupId)",
+      "description": "Adds a filter to display questions associated with the single specified group whose ID is passed in as an argument. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "groupId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "addNetworkId",
+      "signature": "public void addNetworkId(String networkId)",
+      "description": "Adds a filter to display questions associated with the single specified network whose ID is passed in as an argument. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "networkId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "addUserId",
+      "signature": "public void addUserId(String userId)",
+      "description": "Adds a filter to display questions belonging to the single specified user whose ID is passed in as an argument. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGroupIds",
+      "signature": "public void setGroupIds(List<String> groupIds)",
+      "description": "Sets a new list of groups to replace the current list of groups where the group IDs are passed in as an argument. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "groupIds",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setNetworkIds",
+      "signature": "public void setNetworkIds(List<String> networkIds)",
+      "description": "Sets a new list of networks to replace the current list of networks where the network IDs are passed in as an argument. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "networkIds",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setTopicId",
+      "signature": "public void setTopicId(String topicId)",
+      "description": "Sets a filter to display questions associated with the single specified topic whose ID is passed in as an argument. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "topicId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setUserIds",
+      "signature": "public void setUserIds(List<String> userIds)",
+      "description": "Sets a new list of users to replace the current list of users where the users IDs are passed in as an argument. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "userIds",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "The Search.QuestionSuggestionFilter class filters results from a call to System.Search.suggest(searchQuery, sObjectType, options)",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_QuestionSuggestionFilter.htm#apex_class_Search_QuestionSuggestionFilter"
+}

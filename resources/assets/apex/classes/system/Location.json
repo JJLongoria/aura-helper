@@ -1,0 +1,85 @@
+{
+  "name": "Location",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDistance",
+      "signature": "public Double getDistance(Location toLocation, String unit)",
+      "description": "Calculates the distance between this location and the specified location, using an approximation of the haversine formula and the specified unit.",
+      "methodParams": [
+        {
+          "name": "toLocation",
+          "datatype": "Location"
+        },
+        {
+          "name": "unit",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "getDistance",
+      "signature": "public static Double getDistance(Location firstLocation, Location secondLocation, String unit)",
+      "description": "Calculates the distance between the two specified locations, using an approximation of the haversine formula and the specified unit.",
+      "methodParams": [
+        {
+          "name": "firstLocation",
+          "datatype": "Location"
+        },
+        {
+          "name": "secondLocation",
+          "datatype": "Location"
+        },
+        {
+          "name": "unit",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "getLatitude",
+      "signature": "public Double getLatitude()",
+      "description": "Returns the latitude field of this location.",
+      "methodParams": [],
+      "datatype": "Double"
+    },
+    {
+      "name": "getLongitude",
+      "signature": "public Double getLongitude()",
+      "description": "Returns the longitude field of this location.",
+      "methodParams": [],
+      "datatype": "Double"
+    },
+    {
+      "name": "newInstance",
+      "signature": "public static Location newInstance(Decimal latitude, Decimal longitude)",
+      "description": "Creates an instance of the Location class, with the specified latitude and longitude.",
+      "methodParams": [
+        {
+          "name": "latitude",
+          "datatype": "Decimal"
+        },
+        {
+          "name": "longitude",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Location"
+    }
+  ],
+  "description": "Contains methods for accessing the component fields of geolocation",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Location.htm#apex_class_system_Location"
+}

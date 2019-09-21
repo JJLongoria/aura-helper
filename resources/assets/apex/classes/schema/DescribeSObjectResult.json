@@ -1,0 +1,210 @@
+{
+  "name": "DescribeSObjectResult",
+  "namespace": "Schema",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "fields",
+      "signature": "public Schema.SObjectTypeFields fields()",
+      "description": "Follow fields with a field member variable name or with the getMap method.",
+      "methodParams": [],
+      "datatype": "The return value is a special data type. See the example to learn how to use fields."
+    },
+    {
+      "name": "fieldSets",
+      "signature": "public Schema.SObjectTypeFields fieldSets()",
+      "description": "Follow fieldSets with a field set name or with the getMap method.",
+      "methodParams": [],
+      "datatype": "The return value is a special data type. See the example to learn how to use fieldSets."
+    },
+    {
+      "name": "getChildRelationships",
+      "signature": "public Schema.ChildRelationship getChildRelationships()",
+      "description": "Returns a list of child relationships, which are the names of the sObjects that have a foreign key to the sObject being described.",
+      "methodParams": [],
+      "datatype": "List<Schema.ChildRelationship>"
+    },
+    {
+      "name": "getHasSubtypes",
+      "signature": "public Boolean getHasSubtypes()",
+      "description": "Indicates whether the object has subtypes. The Account object, which has subtype PersonAccount, is the only object that will return true.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getKeyPrefix",
+      "signature": "public String getKeyPrefix()",
+      "description": "Returns the three-character prefix code for the object. Record IDs are prefixed with three-character codes that specify the type of the object (for example, accounts have a prefix of 001 and opportunities have a prefix of 006).",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getLabel",
+      "signature": "public String getLabel()",
+      "description": "Returns the object's label, which may or may not match the object name.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getLabelPlural",
+      "signature": "public String getLabelPlural()",
+      "description": "Returns the object's plural label, which may or may not match the object name.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getLocalName",
+      "signature": "public String getLocalName()",
+      "description": "Returns the name of the object, similar to the getName method. However, if the object is part of the current namespace, the namespace portion of the name is omitted.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getName",
+      "signature": "public String getName()",
+      "description": "Returns the name of the object.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getRecordTypeInfos",
+      "signature": "public List<Schema.RecordTypeInfo> getRecordTypeInfos()",
+      "description": "Returns a list of the record types supported by this object. The current user is not required to have access to a record type to see it in this list.",
+      "methodParams": [],
+      "datatype": "List<Schema.RecordTypeInfo>"
+    },
+    {
+      "name": "getRecordTypeInfosByDeveloperName",
+      "signature": "public Map<String, Schema.RecordTypeInfo> getRecordTypeInfosByDeveloperName()",
+      "description": "Returns a map that matches developer names to their associated record type. The current user is not required to have access to a record type to see it in this map.",
+      "methodParams": [],
+      "datatype": "Map<String, Schema.RecordTypeInfo>"
+    },
+    {
+      "name": "getRecordTypeInfosById",
+      "signature": "public Schema.RecordTypeInfo getRecordTypeInfosById()",
+      "description": "Returns a map that matches record IDs to their associated record types. The current user is not required to have access to a record type to see it in this map.",
+      "methodParams": [],
+      "datatype": "Map<ID, Schema.RecordTypeInfo>"
+    },
+    {
+      "name": "getRecordTypeInfosByName",
+      "signature": "public Schema.RecordTypeInfo getRecordTypeInfosByName()",
+      "description": "Returns a map that matches record labels to their associated record type. The current user is not required to have access to a record type to see it in this map.",
+      "methodParams": [],
+      "datatype": "Map<String, Schema.RecordTypeInfo>"
+    },
+    {
+      "name": "getSobjectType",
+      "signature": "public Schema.SObjectType getSobjectType()",
+      "description": "Returns the Schema.SObjectType object for the sObject. You can use this to create a similar sObject.",
+      "methodParams": [],
+      "datatype": "Schema.SObjectType"
+    },
+    {
+      "name": "isAccessible",
+      "signature": "public Boolean isAccessible()",
+      "description": "Returns true if the current user can see this object, false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isCreateable",
+      "signature": "public Boolean isCreateable()",
+      "description": "Returns true if the object can be created by the current user, false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isCustom",
+      "signature": "public Boolean isCustom()",
+      "description": "Returns true if the object is a custom object, false if it is a standard object.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isCustomSetting",
+      "signature": "public Boolean isCustomSetting()",
+      "description": "Returns true if the object is a custom setting, false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isDeletable",
+      "signature": "public Boolean isDeletable()",
+      "description": "Returns true if the object can be deleted by the current user, false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isDeprecatedAndHidden",
+      "signature": "public Boolean isDeprecatedAndHidden()",
+      "description": "Reserved for future use.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isFeedEnabled",
+      "signature": "public Boolean isFeedEnabled()",
+      "description": "Returns true if Chatter feeds are enabled for the object, false otherwise. This method is only available for Apex classes and triggers saved using SalesforceAPI version 19.0 and later.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isMergeable",
+      "signature": "public Boolean isMergeable()",
+      "description": "Returns true if the object can be merged with other objects of its type by the current user, false otherwise. true is returned for leads, contacts, and accounts.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isMruEnabled",
+      "signature": "public Boolean isMruEnabled()",
+      "description": "Returns true if Most Recently Used (MRU) list functionality is enabled for the object, false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isQueryable",
+      "signature": "public Boolean isQueryable()",
+      "description": "Returns true if the object can be queried by the current user, false otherwise",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isSearchable",
+      "signature": "public Boolean isSearchable()",
+      "description": "Returns true if the object can be searched by the current user, false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isUndeletable",
+      "signature": "public Boolean isUndeletable()",
+      "description": "Returns true if the object can be undeleted by the current user, false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isUpdateable",
+      "signature": "public Boolean isUpdateable()",
+      "description": "Returns true if the object can be updated by the current user, false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Contains methods for describing sObjects.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_sobject_describe.htm#apex_methods_system_sobject_describe"
+}

@@ -1,0 +1,70 @@
+{
+  "name": "OAuthRefreshResult",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "accessToken",
+      "signature": "public String accessToken {get; set;}",
+      "description": "The OAuth access token for the user who is currently logged in.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "error",
+      "signature": "public String error {get; set;}",
+      "description": "Error that occurs when a user unsuccessfully attempts to authenticate with the custom authentication provider.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [
+    {
+      "name": "OAuthRefreshResult",
+      "signature": "public OAuthRefreshResult(String accessToken, String refreshToken, String error)",
+      "description": "Creates an instance of the OAuthRefreshResult class using the specified access token, refresh token, and error for a custom authentication provider plug-in.",
+      "methodParams": [
+        {
+          "name": "accessToken",
+          "datatype": "String"
+        },
+        {
+          "name": "refreshToken",
+          "datatype": "String"
+        },
+        {
+          "name": "error",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "OAuthRefreshResult",
+      "signature": "public OAuthRefreshResult(String accessToken, String refreshToken)",
+      "description": "Creates an instance of the OAuthRefreshResult class using the specified access token and refresh token for a custom authentication provider plug-in. Use this method when you know that the refresh was successful.",
+      "methodParams": [
+        {
+          "name": "accessToken",
+          "datatype": "String"
+        },
+        {
+          "name": "refreshToken",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [],
+  "description": "Stores the result of an AuthProviderPluginClass refresh method. OAuth authentication flow provides a",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_OAuthRefreshResult.htm#apex_class_Auth_OAuthRefreshResult"
+}

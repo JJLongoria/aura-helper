@@ -1,0 +1,159 @@
+{
+  "name": "CrossFilter",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "CrossFilter",
+      "signature": "public CrossFilter(List<Reports.ReportFilter> criteria, Boolean includesObject, String primaryEntityField, String relatedEntity, String relatedEntityJoinField)",
+      "description": "Creates an instance of the Reports.CrossFilter class using the specified parameters.",
+      "methodParams": [
+        {
+          "name": "criteria",
+          "datatype": "List<Reports.ReportFilter>"
+        },
+        {
+          "name": "includesObject",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "primaryEntityField",
+          "datatype": "String"
+        },
+        {
+          "name": "relatedEntity",
+          "datatype": "String"
+        },
+        {
+          "name": "relatedEntityJoinField",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "CrossFilter",
+      "signature": "public CrossFilter()",
+      "description": "Creates an instance of the Reports.CrossFilter class. You can then set values by using the class’s set methods.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "getCriteria",
+      "signature": "public List<Reports.ReportFilter> getCriteria()",
+      "description": "Returns information about how to filter the relatedEntity. Describes the subset of the relatedEntity which the primary entity is evaluated against.",
+      "methodParams": [],
+      "datatype": "List<Reports.ReportFilter>"
+    },
+    {
+      "name": "getIncludesObject",
+      "signature": "public Boolean getIncludesObject()",
+      "description": "Returns true if primary object has a relationship with the relatedEntity, otherwise returns false.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getPrimaryEntityField",
+      "signature": "public String getPrimaryEntityField()",
+      "description": "Returns the name of the object on which the cross filter is evaluated.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getRelatedEntity",
+      "signature": "public String getRelatedEntity()",
+      "description": "Returns name of the object that the primaryEntityField is evaluated against—the right-hand side of the cross filter.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getRelatedEntityJoinField",
+      "signature": "public String getRelatedEntityJoinField()",
+      "description": "Returns the name of the field used to join the primaryEntityField and relatedEntity.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setCriteria",
+      "signature": "public void setCriteria(List<Reports.ReportFilter> criteria)",
+      "description": "Specifis how to filter the relatedEntity. Relates the primary entity with a subset of the relatedEntity.",
+      "methodParams": [
+        {
+          "name": "criteria",
+          "datatype": "List<Reports.ReportFilter>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setIncludesObject",
+      "signature": "public void setIncludesObject(Boolean includesObject)",
+      "description": "Specifies whether objects returned have a relationship with the relatedEntity (true) or not (false).",
+      "methodParams": [
+        {
+          "name": "includesObject",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setPrimaryEntityField",
+      "signature": "public void setPrimaryEntityField(String primaryEntityField)",
+      "description": "Specifies the name of the object on which the cross filter is evaluated.",
+      "methodParams": [
+        {
+          "name": "primaryEntityField",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setRelatedEntity",
+      "signature": "public void setRelatedEntity(String relatedEntity)",
+      "description": "Specifies the name of the object that the primaryEntityField is evaluated against—the right-hand side of the cross filter.",
+      "methodParams": [
+        {
+          "name": "relatedEntity",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setRelatedEntityJoinField",
+      "signature": "public void setRelatedEntityJoinField(String relatedEntityJoinField)",
+      "description": "Specifies the name of the field used to join the primaryEntityField and relatedEntity.",
+      "methodParams": [
+        {
+          "name": "relatedEntityJoinField",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Returns a string.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Contains methods and constructors used to work with information about",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_CrossFilter.htm#apex_class_reports_CrossFilter"
+}

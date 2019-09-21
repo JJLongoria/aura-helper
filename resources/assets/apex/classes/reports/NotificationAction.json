@@ -1,0 +1,33 @@
+{
+  "name": "NotificationAction",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "execute",
+      "signature": "public void execute(Reports.NotificationActionContext context)",
+      "description": "Executes the custom Apex action specified in the context parameter of the context object, NotificationActionContext. The object contains information about the report instance and the conditions that must be met for a notification to be triggered. The method executes whenever the specified conditions are met.",
+      "methodParams": [
+        {
+          "name": "context",
+          "datatype": "Reports.NotificationActionContext"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Implement this interface to trigger a custom Apex class when the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_reports_NotificationAction.htm#apex_interface_reports_NotificationAction"
+}

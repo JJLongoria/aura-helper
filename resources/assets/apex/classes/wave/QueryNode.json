@@ -1,0 +1,124 @@
+{
+  "name": "QueryNode",
+  "namespace": "wave",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "build",
+      "signature": "public String build(String streamName)",
+      "description": "Build the query string represented by this QueryNode and assign it to a stream name.",
+      "methodParams": [
+        {
+          "name": "streamName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "foreach",
+      "signature": "public wave.QueryNode foreach(List<wave.ProjectionNode> projections)",
+      "description": "Applies a set of expressions to every row in a dataset. This action is often referred to as projection.",
+      "methodParams": [
+        {
+          "name": "projections",
+          "datatype": "List<wave.ProjectionNode>"
+        }
+      ],
+      "datatype": "wave.QueryNode"
+    },
+    {
+      "name": "group",
+      "signature": "public wave.QueryNode group(List<String> groups)",
+      "description": "Groups matched records (group by specific dataset attributes).",
+      "methodParams": [
+        {
+          "name": "groups",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "wave.QueryNode"
+    },
+    {
+      "name": "group",
+      "signature": "public wave.QueryNode group()",
+      "description": "Groups matched records (group by all).",
+      "methodParams": [],
+      "datatype": "wave.QueryNode"
+    },
+    {
+      "name": "order",
+      "signature": "public wave.QueryNode group(List<String> groups)",
+      "description": "Sorts in ascending or descending order on one or more fields.",
+      "methodParams": [
+        {
+          "name": "groups",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "wave.QueryNode"
+    },
+    {
+      "name": "cap",
+      "signature": "global Wave.QueryNode cap(Integer cap)",
+      "description": "Limits the number of results that are returned.",
+      "methodParams": [
+        {
+          "name": "cap",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "wave.QueryNode"
+    },
+    {
+      "name": "filter",
+      "signature": "public wave.QueryNode filter(String filterCondition)",
+      "description": "Selects rows from a dataset based on a filter condition (a predicate).",
+      "methodParams": [
+        {
+          "name": "filterCondition",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "wave.QueryNode"
+    },
+    {
+      "name": "filter",
+      "signature": "public wave.QueryNode filter(List<String> filterCondition)",
+      "description": "Selects rows from a dataset based on multiple filter conditions (predicates).",
+      "methodParams": [
+        {
+          "name": "filterCondition",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "wave.QueryNode"
+    },
+    {
+      "name": "execute",
+      "signature": "global ConnectApi.LiteralJson execute(String streamName)",
+      "description": "Execute the query and return rows as JSON.",
+      "methodParams": [
+        {
+          "name": "streamName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.LiteralJson"
+    }
+  ],
+  "description": "Define each node of the query - such as projection, groups, order,",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_QueryNode.htm#apex_class_wave_QueryNode"
+}

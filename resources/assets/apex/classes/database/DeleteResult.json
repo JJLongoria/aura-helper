@@ -1,0 +1,40 @@
+{
+  "name": "DeleteResult",
+  "namespace": "Database",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getErrors",
+      "signature": "public Database.Error[] getErrors()",
+      "description": "If an error occurred, returns an array of one or more database error objects providing the error code and description. If no error occurred, returns an empty set.",
+      "methodParams": [],
+      "datatype": "Database.Error[]"
+    },
+    {
+      "name": "getId",
+      "signature": "public ID getId()",
+      "description": "Returns the ID of the sObject you were trying to delete.",
+      "methodParams": [],
+      "datatype": "ID"
+    },
+    {
+      "name": "isSuccess",
+      "signature": "public Boolean isSuccess()",
+      "description": "A Boolean value that is set to true if the DML operation was successful for this object, false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Represents the result of a delete DML",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_deleteresult.htm#apex_methods_system_database_deleteresult"
+}

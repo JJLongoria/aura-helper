@@ -1,0 +1,55 @@
+{
+  "name": "CustomMetadata",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "description",
+      "signature": "public String description {get; set;}",
+      "description": "The description of the custom metadata.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "label",
+      "signature": "public String label {get; set;}",
+      "description": "The label of the custom metadata record.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "protected_x",
+      "signature": "public Boolean protected_x {get; set;}",
+      "description": "Property that describes whether the custom metadata record is a protected component.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "values",
+      "signature": "public List<Metadata.CustomMetadataValue> values {get; set;}",
+      "description": "A list of custom metadata values, such as custom fields, for the custom metadata record.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.CustomMetadata.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "Represents records of custom metadata types.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_CustomMetadata.htm#apex_class_Metadata_CustomMetadata"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "VerificationMethod",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "isEnum": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "enumValues": [
+      "EMAIL",
+      "PASSWORD",
+      "SALESFORCE_AUTHENTICATOR",
+      "SMS",
+      "TOTP",
+      "U2F"
+  ],
+  "fields": [],
+  "constuctors": [],
+  "methods": [],
+  "description": "Contains the different ways users can identify themselves when logging in. You can use it to implement mobile-centric passwordless login pages and to self-register (and deregister) verification methods.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Auth_VerificationMethod.htm"
+}

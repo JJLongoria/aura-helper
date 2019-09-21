@@ -1,0 +1,534 @@
+{
+  "name": "ReportMetadata",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getAggregates",
+      "signature": "",
+      "description": "Returns unique identifiers for summary or custom summary formula fields in the report.",
+      "methodParams": [],
+      "datatype": "List<String>"
+    },
+    {
+      "name": "getBuckets",
+      "signature": "public List<Reports.BucketField> getBuckets()",
+      "description": "Returns a list of bucket fields in the report.",
+      "methodParams": [],
+      "datatype": "List<Reports.BucketField>"
+    },
+    {
+      "name": "getCrossFilters",
+      "signature": "public Reports.CrossFilter getCrossFilters()",
+      "description": "Returns information about cross filters applied to a report.",
+      "methodParams": [],
+      "datatype": "List<Reports.CrossFilter>"
+    },
+    {
+      "name": "getCurrencyCode",
+      "signature": "",
+      "description": "Returns report currency, such as USD, EUR, or GBP, for an organization that has multicurrency enabled. The value is null if the organization does not have multicurrency enabled.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getCustomSummaryFormula",
+      "signature": "public Map<String,Reports.ReportCsf> getCustomSummaryFormula()",
+      "description": "Returns information about custom summary formulas in a report.",
+      "methodParams": [],
+      "datatype": "Map<String,Reports.ReportCsf>"
+    },
+    {
+      "name": "getDescription",
+      "signature": "public String getDescription()",
+      "description": "Returns the description of the report.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getDetailColumns",
+      "signature": "",
+      "description": "Returns unique API names (column names) for the fields that contain detailed data. For example, the method might return the following values: “OPPORTUNITY_NAME, TYPE, LEAD_SOURCE, AMOUNT.”",
+      "methodParams": [],
+      "datatype": "List<String>"
+    },
+    {
+      "name": "getDeveloperName",
+      "signature": "",
+      "description": "Returns the report API name. For example, the method might return the following value: “Closed_Sales_This_Quarter.”",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getDivision",
+      "signature": "Note Reports that use standard filters (such as My Cases or My Team’s Accounts) show records in all divisions. These reports can’t be further limited to a specific division.",
+      "description": "Returns the division specified in the report.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getGroupingsAcross",
+      "signature": "",
+      "description": "Returns column groupings in a report.",
+      "methodParams": [],
+      "datatype": "List<Reports.GroupingInfo>"
+    },
+    {
+      "name": "getGroupingsDown",
+      "signature": "",
+      "description": "Returns row groupings for a report.",
+      "methodParams": [],
+      "datatype": "List<Reports.GroupingInfo>"
+    },
+    {
+      "name": "getHasDetailRows",
+      "signature": "public Boolean getHasDetailRows()",
+      "description": "Indicates whether the report has detail rows.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getHasRecordCount",
+      "signature": "public Boolean getHasRecordCount()",
+      "description": "Indicates whether the report shows the total number of records.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getHistoricalSnapshotDates",
+      "signature": "",
+      "description": "Returns a list of historical snapshot dates.",
+      "methodParams": [],
+      "datatype": "List<String>"
+    },
+    {
+      "name": "getId",
+      "signature": "",
+      "description": "Returns the unique report ID.",
+      "methodParams": [],
+      "datatype": "Id"
+    },
+    {
+      "name": "getName",
+      "signature": "",
+      "description": "Returns the report name.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getReportBooleanFilter",
+      "signature": "",
+      "description": "Returns logic to parse custom field filters. The value is null when filter logic is not specified.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getReportFilters",
+      "signature": "",
+      "description": "Returns a list of each custom filter in the report along with the field name, filter operator, and filter value.",
+      "methodParams": [],
+      "datatype": "List<Reports.ReportFilter>"
+    },
+    {
+      "name": "getReportFormat",
+      "signature": "",
+      "description": "Returns the format of the report.",
+      "methodParams": [],
+      "datatype": "Reports.ReportFormat"
+    },
+    {
+      "name": "getReportType",
+      "signature": "",
+      "description": "Returns the unique API name and display name for the report type.",
+      "methodParams": [],
+      "datatype": "Reports.ReportType"
+    },
+    {
+      "name": "getScope",
+      "signature": "public String getScope()",
+      "description": "Returns the API name for the scope defined for the report. Scope values depend on the report type.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getShowGrandTotal",
+      "signature": "public Boolean getShowGrandTotal()",
+      "description": "Indicates whether the report shows the grand total.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getShowSubtotals",
+      "signature": "public Boolean getShowSubtotals()",
+      "description": "Indicates whether the report shows subtotals, such as column or row totals.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getSortBy",
+      "signature": "public List<Reports.SortColumn> getSortBy()",
+      "description": "Returns the list of columns on which the report is sorted. Currently, you can sort on only one column.",
+      "methodParams": [],
+      "datatype": "List<Reports.SortColumn>"
+    },
+    {
+      "name": "getStandardDateFilter",
+      "signature": "public Reports.StandardDateFilter getStandardDateFilter()",
+      "description": "Returns information about the standard date filter for the report, such as the start date, end date, date range, and date field API name.",
+      "methodParams": [],
+      "datatype": "Reports.StandardDateFilter"
+    },
+    {
+      "name": "getStandardFilters",
+      "signature": "public List<Reports.StandardFilter> getStandardFilters()",
+      "description": "Returns a list of standard filters for the report.",
+      "methodParams": [],
+      "datatype": "List<Reports.StandardFilter>"
+    },
+    {
+      "name": "getTopRows",
+      "signature": "public Reports.TopRows getTopRows()",
+      "description": "Returns information about a row limit filter, including the number of rows returned and the sort order.",
+      "methodParams": [],
+      "datatype": "Reports.TopRows"
+    },
+    {
+      "name": "setAggregates",
+      "signature": "public void setAggregates(List<String> aggregates)",
+      "description": "Sets unique identifiers for standard or custom summary formula fields in the report.",
+      "methodParams": [
+        {
+          "name": "aggregates",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setBuckets",
+      "signature": "public void setBuckets(List<Reports.BucketField> buckets)",
+      "description": "Creates bucket fields in a report.",
+      "methodParams": [
+        {
+          "name": "buckets",
+          "datatype": "List<Reports.BucketField>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setCrossFilters",
+      "signature": "public void setCrossFilters(List<Reports.CrossFilter> crossFilters)",
+      "description": "Applies cross filters to a report.",
+      "methodParams": [
+        {
+          "name": "crossFilter",
+          "datatype": "List<Reports.CrossFilter>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setCurrencyCode",
+      "signature": "public void setCurrencyCode(String currencyCode)",
+      "description": "Sets the currency, such as USD, EUR, or GBP, for report summary fields in an organization that has multicurrency enabled.",
+      "methodParams": [
+        {
+          "name": "currencyCode",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setCustomSummaryFormula",
+      "signature": "public void setCustomSummaryFormula(MAP<String,Reports.ReportCsf> customSummaryFormula)",
+      "description": "Adds a custom summary formula to a report.",
+      "methodParams": [
+        {
+          "name": "customSummaryFormula",
+          "datatype": "Map<String, Reports.ReportCsf>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setDescription",
+      "signature": "public void setDescription(String description)",
+      "description": "Sets the description of the report.",
+      "methodParams": [
+        {
+          "name": "description",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setDetailColumns",
+      "signature": "public void setDetailColumns(List<String> detailColumns)",
+      "description": "Sets the unique API names for the fields that contain detailed data—for example, OPPORTUNITY_NAME, TYPE, LEAD_SOURCE, or AMOUNT.",
+      "methodParams": [
+        {
+          "name": "detailColumns",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setDeveloperName",
+      "signature": "public void setDeveloperName(String developerName)",
+      "description": "Sets the report API name—for example, Closed_Sales_This_Quarter.",
+      "methodParams": [
+        {
+          "name": "developerName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setDivision",
+      "signature": "Note Reports that use standard filters (such as My Cases or My Team’s Accounts) show records in all divisions. These reports can’t be further limited to a specific division.",
+      "description": "Sets the division of the report.",
+      "methodParams": [
+        {
+          "name": "division",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGroupingsAcross",
+      "signature": "public void setGroupingsAcross(List<Reports.GroupingInfo> groupingInfo)",
+      "description": "Sets column groupings in a report.",
+      "methodParams": [
+        {
+          "name": "groupingInfo",
+          "datatype": "List<Reports.GroupingInfo>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGroupingsDown",
+      "signature": "public void setGroupingsDown(List<Reports.GroupingInfo> groupingInfo)",
+      "description": "Sets row groupings for a report.",
+      "methodParams": [
+        {
+          "name": "groupingInfo",
+          "datatype": "List<Reports.GroupingInfo>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setHasDetailRows",
+      "signature": "public void setHasDetailRows(Boolean hasDetailRows)",
+      "description": "Specifies whether the report has detail rows.",
+      "methodParams": [
+        {
+          "name": "hasDetailRows",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setHasRecordCount",
+      "signature": "public void setHasRecordCount(Boolean hasRecordCount)",
+      "description": "Specifies whether the report is configured to show the total number of records.",
+      "methodParams": [
+        {
+          "name": "hasRecordCount",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setHistoricalSnapshotDates",
+      "signature": "",
+      "description": "Sets a list of historical snapshot dates.",
+      "methodParams": [
+        {
+          "name": "historicalSnapshot",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setId",
+      "signature": "public void setId(Id id)",
+      "description": "Sets the unique report ID.",
+      "methodParams": [
+        {
+          "name": "id",
+          "datatype": "Id"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setName",
+      "signature": "public void setName(String name)",
+      "description": "Sets the report name.",
+      "methodParams": [
+        {
+          "name": "name",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setReportBooleanFilter",
+      "signature": "",
+      "description": "Sets logic to parse custom field filters.",
+      "methodParams": [
+        {
+          "name": "reportBooleanFilter",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setReportFilters",
+      "signature": "",
+      "description": "Sets a list of each custom filter in the report along with the field name, filter operator, and filter value.",
+      "methodParams": [
+        {
+          "name": "reportFilters",
+          "datatype": "List<Reports.ReportFilter>"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setReportFormat",
+      "signature": "public void setReportFormat(Reports.ReportFormat format)",
+      "description": "Sets the format of the report.",
+      "methodParams": [
+        {
+          "name": "format",
+          "datatype": "Reports.ReportFormat"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setReportType",
+      "signature": "public void setReportType(Reports.ReportType reportType)",
+      "description": "Sets the unique API name and display name for the report type.",
+      "methodParams": [
+        {
+          "name": "reportType",
+          "datatype": "Reports.ReportType"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setScope",
+      "signature": "public void setScope(String scopeName)",
+      "description": "Sets the API name for the scope defined for the report. Scope values depend on the report type.",
+      "methodParams": [
+        {
+          "name": "scopeName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setShowGrandTotal",
+      "signature": "public void setShowGrandTotal(Boolean showGrandTotal)",
+      "description": "Specifies whether the report shows the grand total.",
+      "methodParams": [
+        {
+          "name": "showGrandTotal",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setShowSubtotals",
+      "signature": "public void setShowSubtotals(Boolean showSubtotals)",
+      "description": "Specifies whether the report shows subtotals, such as column or row totals.",
+      "methodParams": [
+        {
+          "name": "showSubtotals",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setSortBy",
+      "signature": "public void setSortBy(List<Reports.SortColumn> column)",
+      "description": "Sets the list of columns on which the report is sorted. Currently, you can only sort on one column.",
+      "methodParams": [
+        {
+          "name": "column",
+          "datatype": "List<Reports.SortColumn>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setStandardDateFilter",
+      "signature": "public void setStandardDateFilter(Reports.StandardDateFilter dateFilter)",
+      "description": "Sets the standard date filter—which includes the start date, end date, date range, and date field API name—for the report.",
+      "methodParams": [
+        {
+          "name": "dateFilter",
+          "datatype": "Reports.StandardDateFilter"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setStandardFilters",
+      "signature": "public void setStandardFilters(List<Reports.StandardFilter> filters)",
+      "description": "Sets one or more standard filters on the report.",
+      "methodParams": [
+        {
+          "name": "filters",
+          "datatype": "List<Reports.StandardFilter>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setTopRows",
+      "signature": "public Reports.TopRows setTopRows(Reports.TopRows topRows)",
+      "description": "Applies a row limit filter to a report.",
+      "methodParams": [
+        {
+          "name": "topRows",
+          "datatype": "Reports.TopRows"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Contains report metadata for a tabular, summary, or matrix",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportmetadata.htm#apex_class_reports_reportmetadata"
+}

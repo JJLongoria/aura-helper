@@ -1,0 +1,31 @@
+{
+  "name": "SandboxPostCopy",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "runApexClass",
+      "signature": "public void runApexClass(System.SandboxContext context)",
+      "description": "Executes actions in a new sandbox to prepare it for use. For example, add logic to this method to create users, run sanitizing code on records, and perform other setup tasks.",
+      "methodParams": [
+        {
+          "name": "context",
+          "datatype": "System.SandboxContext"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "To make your sandbox environment business ready, automate data",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_System_SandboxPostCopy.htm#apex_interface_System_SandboxPostCopy"
+}

@@ -1,0 +1,69 @@
+{
+  "name": "SendEmailQuickActionDefaults",
+  "namespace": "QuickAction",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getFromAddressList",
+      "signature": "public List<String> getFromAddressList()",
+      "description": "Returns a list of email addresses that are available in the From: address drop-down menu for the standard Email Action.",
+      "methodParams": [],
+      "datatype": "List<String>"
+    },
+    {
+      "name": "getInReplyToId",
+      "signature": "public Id getInReplyToId()",
+      "description": "Returns the email message ID of the email to which the reply/reply all action has been invoked.",
+      "methodParams": [],
+      "datatype": "Id"
+    },
+    {
+      "name": "setIgnoreTemplateSubject",
+      "signature": "public void setIgnoreTemplateSubject(Boolean useOriginalSubject)",
+      "description": "Specifies whether the template subject should be ignored (true), thus using the original subject, or whether the template subject should replace the original subject (false).",
+      "methodParams": [
+        {
+          "name": "useOriginalSubject",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setInsertTemplateBody",
+      "signature": "public void setInsertTemplateBody(Boolean keepOriginalBodyContent)",
+      "description": "Specifies whether the template body should be inserted above the original body content (true) or whether it should replace the entire content with the template body (false).",
+      "methodParams": [
+        {
+          "name": "keepOriginalBodyContent",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setTemplateId",
+      "signature": "public void setTemplateId(Id templateId)",
+      "description": "Sets the email template ID to load into the email body.",
+      "methodParams": [
+        {
+          "name": "templateId",
+          "datatype": "Id"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Represents an Apex class that provides: the From address list; the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_QuickAction_SendEmailQuickActionDefaults.htm#apex_class_QuickAction_SendEmailQuickActionDefaults"
+}

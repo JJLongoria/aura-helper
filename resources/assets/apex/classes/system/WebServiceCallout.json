@@ -1,0 +1,43 @@
+{
+  "name": "WebServiceCallout",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "invoke",
+      "signature": "public static void invoke(Object stub, Object request, Map<String,Object> response, List<String> infoArray)",
+      "description": "Invokes an external SOAP web service operation based on an Apex class that is auto-generated from a WSDL.",
+      "methodParams": [
+        {
+          "name": "stub",
+          "datatype": "Object"
+        },
+        {
+          "name": "request",
+          "datatype": "Object"
+        },
+        {
+          "name": "response",
+          "datatype": "Map<String, Object>"
+        },
+        {
+          "name": "infoArray",
+          "datatype": "String[]"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Enables making callouts to SOAP operations on an external Web service. This class is",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_WebServiceCallout.htm#apex_class_System_WebServiceCallout"
+}

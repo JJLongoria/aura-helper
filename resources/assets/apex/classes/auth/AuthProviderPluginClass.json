@@ -1,0 +1,90 @@
+{
+  "name": "AuthProviderPluginClass",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getCustomMetadataType",
+      "signature": "public String getCustomMetadataType()",
+      "description": "Returns the custom metadata type API name for a custom OAuth-based authentication provider for single sign-on to Salesforce.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getUserInfo",
+      "signature": "public Auth.UserData getUserInfo(Map<String,String> authProviderConfiguration, Auth.AuthProviderTokenResponse response)",
+      "description": "Returns information from the custom authentication provider about the current user. This information is used by the registration handler and in other authentication provider flows.",
+      "methodParams": [
+        {
+          "name": "authProviderConfiguration",
+          "datatype": "Map<String,String>"
+        },
+        {
+          "name": "response",
+          "datatype": "Auth.AuthProviderTokenResponse"
+        }
+      ],
+      "datatype": "Auth.UserData"
+    },
+    {
+      "name": "handleCallback",
+      "signature": "public Auth.AuthProviderTokenResponse handleCallback(Map<String,String> authProviderConfiguration, Auth.AuthProviderCallbackState callbackState)",
+      "description": "Uses the authentication provider’s supported authentication protocol to return an OAuth access token, OAuth secret or refresh token, and the state passed in when the request for the current user was initiated.",
+      "methodParams": [
+        {
+          "name": "authProviderConfiguration",
+          "datatype": "Map<StringString>"
+        },
+        {
+          "name": "callbackState",
+          "datatype": "Auth.AuthProviderCallbackState"
+        }
+      ],
+      "datatype": "Auth.AuthProviderTokenResponse"
+    },
+    {
+      "name": "initiate",
+      "signature": "public System.PageReference initiate(Map<String,String> authProviderConfiguration, String stateToPropagate)",
+      "description": "Returns the URL where the user is redirected for authentication.",
+      "methodParams": [
+        {
+          "name": "authProviderConfiguration",
+          "datatype": "Map<StringString>"
+        },
+        {
+          "name": "stateToPropagate",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "refresh",
+      "signature": "public Auth.OAuthRefreshResult refresh(Map<String,String> authProviderConfiguration, String refreshToken)",
+      "description": "Returns a new access token, which is used to update an expired access token.",
+      "methodParams": [
+        {
+          "name": "authProviderConfiguration",
+          "datatype": "Map<String,String>"
+        },
+        {
+          "name": "refreshToken",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Auth.OAuthRefreshResult"
+    }
+  ],
+  "description": "Contains methods to create a custom OAuth-based authentication",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthProviderPluginClass.htm#apex_class_Auth_AuthProviderPluginClass"
+}

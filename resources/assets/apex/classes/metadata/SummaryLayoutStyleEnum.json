@@ -1,0 +1,31 @@
+{
+    "name": "SummaryLayoutStyleEnum",
+    "namespace": "Metadata",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "isEnum": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "enumValues": [
+        "CaseInteraction",
+        "ChildServiceReportTemplateStyle",
+        "DefaultQuoteTemplate",
+        "DefaultServiceReportTemplate",
+        "Default_x",
+        "PathAssistant",
+        "QuickActionLayoutLeftRight",
+        "QuickActionLayoutTopDown",
+        "QuoteTemplate",
+        "ServiceReportTemplate"
+    ],
+    "fields": [],
+    "constuctors": [],
+    "methods": [],
+    "description": "Describes the highlights panel style for a SummaryLayout.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_SummaryLayoutStyleEnum.htm"
+  }

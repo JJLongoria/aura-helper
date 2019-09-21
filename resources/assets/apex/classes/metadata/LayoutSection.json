@@ -1,0 +1,69 @@
+{
+  "name": "LayoutSection",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "customLabel",
+      "signature": "public Boolean customLabel {get; set;}",
+      "description": "Indicates if this section's label is custom or standard (built-in).",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "detailHeading",
+      "signature": "public Boolean detailHeading {get; set;}",
+      "description": "Controls if this section appears in the detail page.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "editHeading",
+      "signature": "public Boolean editHeading {get; set;}",
+      "description": "Controls if this section appears in the edit page.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "label",
+      "signature": "public String label {get; set;}",
+      "description": "The label; either standard or custom, based on the customLabel property.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "layoutColumns",
+      "signature": "public List<Metadata.LayoutColumn> layoutColumns {get; set;}",
+      "description": "Lists the layout columns. You can have one, two, or three columns, ordered left to right, are possible.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "style",
+      "signature": "public Metadata.LayoutSectionStyle style {get; set;}",
+      "description": "The style of the layout for this section.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.LayoutSection.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "Represents a section of a page layout, such as the Custom Links",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_LayoutSection.htm#apex_class_Metadata_LayoutSection"
+}

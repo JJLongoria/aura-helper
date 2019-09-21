@@ -1,0 +1,83 @@
+{
+    "name": "PushNotificationPayload ",
+    "namespace": "Messaging",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constuctors": [],
+    "methods": [
+        {
+            "name": "apple",
+            "signature": "public static Map<String,Object> apple(String alert, String sound, Integer badgeCount, Map<String,Object> userData)",
+            "description": "Helper method that creates a valid Apple payload from the specified arguments.",
+            "methodParams": [
+                {
+                    "name": "alert",
+                    "datatype": "String"
+                },
+                {
+                    "name": "sound",
+                    "datatype": "String"
+                },
+                {
+                    "name": "badgeCount",
+                    "datatype": "Integer"
+                },
+                {
+                    "name": "userData",
+                    "datatype": "Map<String,Object>"
+                }
+            ],
+            "datatype": "Map<String,Object>"
+        },
+        {
+            "name": "apple",
+            "signature": "public static Map<String,Object> apple(String alertBody, String actionLocKey, String locKey, String[] locArgs, String launchImage, String sound, Integer badgeCount, Map<String,Object> userData)",
+            "description": "Helper method that creates a valid Apple payload from the specified arguments.",
+            "methodParams": [
+                {
+                    "name": "alertBody",
+                    "datatype": "String"
+                },
+                {
+                    "name": "actionLocKey",
+                    "datatype": "String"
+                },
+                {
+                    "name": "locKey",
+                    "datatype": "String"
+                },
+                {
+                    "name": "locArgs",
+                    "datatype": "String[]"
+                },
+                {
+                    "name": "launchImage",
+                    "datatype": "String[]"
+                },
+                {
+                    "name": "sound",
+                    "datatype": "String"
+                },
+                {
+                    "name": "badgeCount",
+                    "datatype": "Integer"
+                },
+                {
+                    "name": "userData",
+                    "datatype": "Map<String,Object>"
+                }
+            ],
+            "datatype": "Map<String,Object>"
+        }
+    ],
+    "description": "PushNotification is used to configure push notifications and send them from an Apex trigger.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_push_notification.htm"
+}

@@ -1,0 +1,55 @@
+{
+  "name": "PlatformActionListItem",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "actionName",
+      "signature": "public String actionName {get; set;}",
+      "description": "The API name for the action in the list.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "actionType",
+      "signature": "public Metadata.PlatformActionTypeEnum actionType {get; set;}",
+      "description": "The type of action.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "sortOrder",
+      "signature": "public Integer sortOrder {get; set;}",
+      "description": "The placement of the action in the list.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "subtype",
+      "signature": "public String subtype {get; set;}",
+      "description": "The subtype of the action.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.PlatformActionListItem.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "Represents an action in the platform action list for a",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_PlatformActionListItem.htm#apex_class_Metadata_PlatformActionListItem"
+}

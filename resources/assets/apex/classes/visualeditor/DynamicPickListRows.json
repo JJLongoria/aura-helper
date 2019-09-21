@@ -1,0 +1,140 @@
+{
+  "name": "DynamicPickListRows",
+  "namespace": "VisualEditor",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "DynamicPickListRows",
+      "signature": "public DynamicPickListRows(List<VisualEditor.DataRow> rows, Boolean containsAllRows)",
+      "description": "Creates an instance of the VisualEditor.DynamicPickListRows class using the specified parameters.",
+      "methodParams": [
+        {
+          "name": "rows",
+          "datatype": "List VisualEditor.DataRow"
+        },
+        {
+          "name": "containsAllRows",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "DynamicPickListRows",
+      "signature": "public DynamicPickListRows(List<VisualEditor.DataRow> rows)",
+      "description": "Creates an instance of the VisualEditor.DynamicPickListRows class using the specified parameter.",
+      "methodParams": [
+        {
+          "name": "rows",
+          "datatype": "List VisualEditor.DataRow"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "DynamicPickListRows",
+      "signature": "public DynamicPickListRows()",
+      "description": "Creates an instance of the VisualEditor.DynamicPickListRows class. You can then add rows by using the class’s addRow or addAllRows methods.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "addAllRows",
+      "signature": "public void addAllRows(List<VisualEditor.DataRow> rows)",
+      "description": "Adds a list of picklist items to a dynamic picklist rendered in a Lightning component on a Lightning page.",
+      "methodParams": [
+        {
+          "name": "rows",
+          "datatype": "List VisualEditor.DataRow"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "addRow",
+      "signature": "public void addRow(VisualEditor.DataRow row)",
+      "description": "Adds a single picklist item to a dynamic picklist rendered in a Lightning component on a Lightning page.",
+      "methodParams": [
+        {
+          "name": "row",
+          "datatype": "VisualEditor.DataRow"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the VisualEditor.DynamicPickListRows object.",
+      "methodParams": [],
+      "datatype": "Object"
+    },
+    {
+      "name": "containsAllRows",
+      "signature": "public Boolean containsAllRows()",
+      "description": "Returns a Boolean value indicating whether all values of the picklist are included when a user does a type-ahead search query (true) or only those values initially displayed when the list is clicked on (false).",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "get",
+      "signature": "public VisualEditor.DataRow get(Integer i)",
+      "description": "Returns a picklist element stored at the specified index.",
+      "methodParams": [
+        {
+          "name": "i",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "VisualEditor.DataRow"
+    },
+    {
+      "name": "getDataRows",
+      "signature": "public List<VisualEditor.DataRow> getDataRows()",
+      "description": "Returns a list of picklist items.",
+      "methodParams": [],
+      "datatype": "List VisualEditor.DataRow"
+    },
+    {
+      "name": "setContainsAllRows",
+      "signature": "public void setContainsAllRows(Boolean containsAllRows)",
+      "description": "Sets the value indicating whether all values of the picklist are included when a user does a type-ahead search query (true) or only those values initially displayed when the list is clicked on (false).",
+      "methodParams": [
+        {
+          "name": "containsAllRows",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "size",
+      "signature": "public Integer size()",
+      "description": "Returns the size of the list of VisualEditor.DynamicPickListRows.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "sort",
+      "signature": "public void sort()",
+      "description": "Sorts the list of VisualEditor.DynamicPickListRows.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "description": "Contains a list of picklist items in a Lightning component on a Lightning page.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_VisualEditor_DynamicPickListRows.htm#apex_class_VisualEditor_DynamicPickListRows"
+}

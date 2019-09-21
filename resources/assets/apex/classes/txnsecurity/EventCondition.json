@@ -1,0 +1,33 @@
+{
+  "name": "EventCondition",
+  "namespace": "TxnSecurity",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "evaluate",
+      "signature": "public Boolean evaluate(SObject event)",
+      "description": "Evaluates an event against a transaction security policy created in Real-Time Event Monitoring. If the event triggers the policy, the method returns true.",
+      "methodParams": [
+        {
+          "name": "var1",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Allows an implementing class to specify whether to take action when",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_EventCondition.htm#apex_interface_TxnSecurity_EventCondition"
+}

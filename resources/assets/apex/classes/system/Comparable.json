@@ -1,0 +1,31 @@
+{
+  "name": "Comparable",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "compareTo",
+      "signature": "public Integer compareTo(Object objectToCompareTo)",
+      "description": "Returns an Integer value that is the result of the comparison.",
+      "methodParams": [
+        {
+          "name": "objectToCompareTo",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Integer"
+    }
+  ],
+  "description": "Adds sorting support for Lists that contain non-primitive",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_comparable.htm"
+}

@@ -1,0 +1,76 @@
+{
+  "name": "ApexPages",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "addMessage",
+      "signature": "public Void addMessage(ApexPages.Message message)",
+      "description": "Add a message to the current page context.",
+      "methodParams": [
+        {
+          "name": "message",
+          "datatype": "ApexPages.Message"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addMessages",
+      "signature": "public Void addMessages(Exception exceptionThrown)",
+      "description": "Adds a list of messages to the current page context based on a thrown exception.",
+      "methodParams": [
+        {
+          "name": "exceptionThrown",
+          "datatype": "Exception"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "currentPage",
+      "signature": "public System.PageReference currentPage()",
+      "description": "Returns the current page's PageReference.",
+      "methodParams": [],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "getMessages",
+      "signature": "public ApexPages.Message[] getMessages()",
+      "description": "Returns a list of the messages associated with the current context.",
+      "methodParams": [],
+      "datatype": "ApexPages.Message[]"
+    },
+    {
+      "name": "hasMessages",
+      "signature": "public Boolean hasMessages()",
+      "description": "Returns true if there are messages associated with the current context, false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "hasMessages",
+      "signature": "public Boolean hasMessages(ApexPages.Severity severity)",
+      "description": "Returns true if messages of the specified severity exist, false otherwise.",
+      "methodParams": [
+        {
+          "name": "sev",
+          "datatype": "ApexPages.Severity"
+        }
+      ],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Use ApexPages to",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_apexpages.htm"
+}

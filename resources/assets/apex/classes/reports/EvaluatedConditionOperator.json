@@ -1,0 +1,27 @@
+{
+  "name": "EvaluatedConditionOperator",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "EQUAL",
+    "GREATER_THAN",
+    "GREATER_THAN_EQUAL",
+    "LESS_THAN",
+    "LESS_THAN_EQUAL",
+    "NOT_EQUAL"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [],
+  "description": "The Reports.EvaluatedConditionOperator enum",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_evaluatedconditionoperator.htm"
+}

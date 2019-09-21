@@ -1,0 +1,74 @@
+{
+  "name": "AuthProviderPlugin",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getCustomMetadataType",
+      "signature": "public String getCustomMetadataType()",
+      "description": "Deprecated as of API version 39.0. Use the corresponding method in Auth.AuthProviderPluginClass.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getUserInfo",
+      "signature": "public Auth.UserData getUserInfo(Map<String,String> authProviderConfiguration, Auth.AuthProviderTokenResponse response)",
+      "description": "Deprecated as of API version 39.0. Use the corresponding method in Auth.AuthProviderPluginClass.",
+      "methodParams": [
+        {
+          "name": "authProviderConfiguration",
+          "datatype": "Map<String,String>"
+        },
+        {
+          "name": "response",
+          "datatype": "Auth.AuthProviderTokenResponse"
+        }
+      ],
+      "datatype": "Auth.UserData"
+    },
+    {
+      "name": "handleCallback",
+      "signature": "public Auth.AuthProviderTokenResponse handleCallback(Map<String,String> authProviderConfiguration, Auth.AuthProviderCallbackState callbackState)",
+      "description": "Deprecated as of API version 39.0. Use the corresponding method in Auth.AuthProviderPluginClass.",
+      "methodParams": [
+        {
+          "name": "authProviderConfiguration",
+          "datatype": "Map<StringString>"
+        },
+        {
+          "name": "callbackState",
+          "datatype": "Auth.AuthProviderCallbackState"
+        }
+      ],
+      "datatype": "Auth.AuthProviderTokenResponse"
+    },
+    {
+      "name": "initiate",
+      "signature": "public System.PageReference initiate(Map<String,String> authProviderConfiguration, String stateToPropagate)",
+      "description": "Deprecated as of API version 39.0. Use the corresponding method in Auth.AuthProviderPluginClass.",
+      "methodParams": [
+        {
+          "name": "authProviderConfiguration",
+          "datatype": "Map<StringString>"
+        },
+        {
+          "name": "stateToPropagate",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "System.PageReference"
+    }
+  ],
+  "description": "This interface is deprecated. For new development, use the abstract",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Auth_AuthProviderPlugin.htm#apex_interface_Auth_AuthProviderPlugin"
+}

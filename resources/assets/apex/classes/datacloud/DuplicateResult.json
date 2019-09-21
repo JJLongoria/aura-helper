@@ -1,0 +1,47 @@
+{
+  "name": "DuplicateResult",
+  "namespace": "Datacloud",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDuplicateRule",
+      "signature": "public String getDuplicateRule()",
+      "description": "Returns the developer name of the executed duplicate rule that returned duplicate records.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getErrorMessage",
+      "signature": "public String getErrorMessage()",
+      "description": "Returns the error message configured by the administrator to warn users they may be creating duplicate records. This message is associated with a duplicate rule.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getMatchResults",
+      "signature": "public List<Datacloud.MatchResult> getMatchResults()",
+      "description": "Returns the duplicate records and match information.",
+      "methodParams": [],
+      "datatype": "List<Datacloud.MatchResult>"
+    },
+    {
+      "name": "isAllowSave",
+      "signature": "public Boolean isAllowSave()",
+      "description": "Indicates whether the duplicate rule will allow a record that’s identified as a duplicate to be saved. Set to true if duplicate rule should allow save; otherwise, false.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Returns the developer name of the executed duplicate rule that",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_DuplicateResult.htm#apex_class_Datacloud_DuplicateResult"
+}

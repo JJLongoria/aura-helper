@@ -1,0 +1,43 @@
+{
+  "name": "DataSourceUtil",
+  "namespace": "DataSource",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "logWarning",
+      "signature": "public void logWarning(String message)",
+      "description": "Logs the error message in the debug log.",
+      "methodParams": [
+        {
+          "name": "message",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "throwException",
+      "signature": "public void throwException(String message)",
+      "description": "Throws a DataSourceException and displays the provided message to the user.",
+      "methodParams": [
+        {
+          "name": "message",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Parent class for the DataSource.Provider, DataSource.Connection, DataSource.Table, and",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_DataSourceUtil.htm#apex_class_DataSource_DataSourceUtil"
+}

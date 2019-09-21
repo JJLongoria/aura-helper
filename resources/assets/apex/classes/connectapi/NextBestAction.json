@@ -1,0 +1,159 @@
+{
+  "name": "NextBestAction",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "deleteRecommendationReaction",
+      "signature": "public static Void deleteRecommendationReaction(String reactionId)",
+      "description": "Delete a recommendation reaction.",
+      "methodParams": [
+        {
+          "name": "reactionId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "executeStrategy",
+      "signature": "public static ConnectApi.NBARecommendations executeStrategy(String strategyName, Integer maxResults, String contextRecordId)",
+      "description": "Execute a strategy.",
+      "methodParams": [
+        {
+          "name": "strategyName",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "contextRecordId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.NBARecommendations"
+    },
+    {
+      "name": "executeStrategy",
+      "signature": "public static ConnectApi.NBARecommendations executeStrategy(String strategyName, Integer maxResults, String contextRecordId, Boolean debugTrace)",
+      "description": "Execute a strategy and request a trace.",
+      "methodParams": [
+        {
+          "name": "strategyName",
+          "datatype": "String"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "contextRecordId",
+          "datatype": "String"
+        },
+        {
+          "name": "debugTrace",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "ConnectApi.NBARecommendations"
+    },
+    {
+      "name": "executeStrategy",
+      "signature": "public static ConnectApi.NBARecommendations executeStrategy(String strategyName, ConnectApi.NBAStrategyExecutionInput strategyInput)",
+      "description": "Execute a strategy using an input class.",
+      "methodParams": [
+        {
+          "name": "strategyName",
+          "datatype": "String"
+        },
+        {
+          "name": "strategyInput",
+          "datatype": "ConnectApi.NBAStrategyExecutionInput"
+        }
+      ],
+      "datatype": "ConnectApi.NBARecommendations"
+    },
+    {
+      "name": "getRecommendation",
+      "signature": "public static ConnectApi.Recommendation getRecommendation(String recommendationId)",
+      "description": "Get a recommendation.",
+      "methodParams": [
+        {
+          "name": "recommendationId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.Recommendation"
+    },
+    {
+      "name": "getRecommendationReaction",
+      "signature": "public static ConnectApi.RecommendationReaction getRecommendationReaction(String reactionId)",
+      "description": "Get a recommendation reaction.",
+      "methodParams": [
+        {
+          "name": "reactionId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationReaction"
+    },
+    {
+      "name": "getRecommendationReactions",
+      "signature": "public static ConnectApi.RecommendationReactions getRecommendationReactions(String onBehalfOfId, String createdById, String targetId, String contextRecordId, Integer pageParam, Integer pageSize)",
+      "description": "Get recommendation reactions.",
+      "methodParams": [
+        {
+          "name": "onBehalfOfId",
+          "datatype": "String"
+        },
+        {
+          "name": "createdById",
+          "datatype": "String"
+        },
+        {
+          "name": "targetId",
+          "datatype": "String"
+        },
+        {
+          "name": "contextRecordId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationReactions"
+    },
+    {
+      "name": "setRecommendationReaction",
+      "signature": "public static ConnectApi.RecommendationReaction setRecommendationReaction(ConnectApi.RecommendationReactionInput reaction)",
+      "description": "Record user reactions to recommendations.",
+      "methodParams": [
+        {
+          "name": "reaction",
+          "datatype": "ConnectApi.RecommendationReactionInput"
+        }
+      ],
+      "datatype": "ConnectApi.RecommendationReaction"
+    }
+  ],
+  "description": "Execute recommendation strategies, get recommendations, manage recommendation",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_NextBestAction_static_methods.htm#apex_ConnectAPI_NextBestAction_static_methods"
+}

@@ -1,0 +1,43 @@
+{
+  "name": "DesignTimePageContext",
+  "namespace": "VisualEditor",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "entityName",
+      "signature": "public String entityName {get; set;}",
+      "description": "The API name of the sObject that a Lightning page is associated with, such as Account, Contact or Custom_object__c. Not all Lightning pages are associated with objects.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "pageType",
+      "signature": "public String pageType {get; set;}",
+      "description": "The type of Lightning page, such as HomePage, AppPage, or RecordPage.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the VisualEditor.DesignTimePageContext object.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "An abstract class that provides context information about a",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_VisualEditor_DesignTimePageContext.htm#apex_class_VisualEditor_DesignTimePageContext"
+}

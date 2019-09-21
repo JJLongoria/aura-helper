@@ -1,0 +1,34 @@
+{
+  "name": "Metadata",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "fullName",
+      "signature": "public String fullName {get; set;}",
+      "description": "The full name of the custom metadata, which can include the namespace, type, and component name.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.Metadata.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "An abstract base class that represents a custom metadata",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_Metadata.htm#apex_class_Metadata_Metadata"
+}

@@ -1,0 +1,69 @@
+{
+  "name": "DeployContainer",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "addMetadata",
+      "signature": "public void addMetadata(Metadata.Metadata md)",
+      "description": "Add a custom metadata component to the container.",
+      "methodParams": [
+        {
+          "name": "md",
+          "datatype": "Metadata.Metadata"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.DeployContainer.",
+      "methodParams": [],
+      "datatype": "Object"
+    },
+    {
+      "name": "getMetadata",
+      "signature": "public List<Metadata.Metadata> getMetadata()",
+      "description": "Retrieves a list of custom metadata components from the container.",
+      "methodParams": [],
+      "datatype": "List<Metadata.Metadata>"
+    },
+    {
+      "name": "removeMetadata",
+      "signature": "public Boolean removeMetadata(Metadata.Metadata md)",
+      "description": "Removes a metadata component from the container.",
+      "methodParams": [
+        {
+          "name": "md",
+          "datatype": "Metadata.Metadata"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "removeMetadataByFullName",
+      "signature": "public Boolean removeMetadataByFullName(String fullName)",
+      "description": "Removes a metadata component from the container using the component’s full name.",
+      "methodParams": [
+        {
+          "name": "fullName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Represents a container for custom metadata components to be",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployContainer.htm#apex_class_Metadata_DeployContainer"
+}

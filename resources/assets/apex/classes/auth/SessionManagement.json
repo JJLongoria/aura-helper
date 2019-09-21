@@ -1,0 +1,228 @@
+{
+  "name": "SessionManagement",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "finishLoginDiscovery",
+      "signature": "public static System.PageReference finishLoginDiscovery(Auth.LoginDiscoveryMethod method, Id userId)",
+      "description": "Finishes the My Domain Login Discovery login process.",
+      "methodParams": [
+        {
+          "name": "method",
+          "datatype": "Auth.LoginDiscoveryMethod LoginDiscoveryMethod Enum"
+        },
+        {
+          "name": "userId",
+          "datatype": "Id"
+        }
+      ],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "finishLoginFlow",
+      "signature": "public static System.PageReference finishLoginFlow()",
+      "description": "Finish the Visualforce Page login flow process, and redirect the user to the default home page.",
+      "methodParams": [],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "finishLoginFlow",
+      "signature": "public static System.PageReference finishLoginFlow(String startUrl)",
+      "description": "Finish the Visualforce Page login flow process, and redirect the user to the specified start URL.",
+      "methodParams": [
+        {
+          "name": "startUrl",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "generateVerificationUrl",
+      "signature": "public static String generateVerificationUrl(Auth.VerificationPolicy policy, String description, String destinationUrl)",
+      "description": "Initiates a user identity verification flow with the verification method that the user registered with, and returns a URL to the identity verification screen. For example, if you have a custom Visualforce page that displays sensitive account details, you can prompt the user to verify identity before viewing it.",
+      "methodParams": [
+        {
+          "name": "policy",
+          "datatype": "Auth.VerificationPolicy"
+        },
+        {
+          "name": "description",
+          "datatype": "String"
+        },
+        {
+          "name": "destinationUrl",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getCurrentSession",
+      "signature": "public static Map<String, String> getCurrentSession()",
+      "description": "Returns a map of attributes for the current session.",
+      "methodParams": [],
+      "datatype": "Map<String, String>"
+    },
+    {
+      "name": "getLightningLoginEligibility",
+      "signature": "public static Auth.LightningLoginEligibility getLightningLoginEligibility(Id userId)",
+      "description": "Returns the eligibility status for a user who’s logging in with Lightning Login when you set up your org with My Domain and use the Login Discovery page type. Use this method to redirect the user to a custom login flow. For example, use after a login attempt to redirect the user to password flow if the user is ineligible for Lightning Login.",
+      "methodParams": [
+        {
+          "name": "userId",
+          "datatype": "Id"
+        }
+      ],
+      "datatype": "Auth.LightningLoginEligibility"
+    },
+    {
+      "name": "getQrCode",
+      "signature": "public static Map<String, String> getQrCode()",
+      "description": "Returns a map containing a URL to a quick response (QR) code and a time-based one-time password (TOTP) shared secret to configure two-factor authentication apps or devices.",
+      "methodParams": [],
+      "datatype": "Map<String, String>"
+    },
+    {
+      "name": "getRequiredSessionLevelForProfile",
+      "signature": "public static Auth.SessionLevel getRequiredSessionLevelForProfile(String profileId)",
+      "description": "Indicates the required login security session level for the given profile.",
+      "methodParams": [
+        {
+          "name": "profileId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Auth.SessionLevel"
+    },
+    {
+      "name": "ignoreForConcurrentSessionLimit",
+      "signature": "public static Map<String,String> ignoreForConcurrentSessionLimit(Object sessions)",
+      "description": "This method is reserved for internal Salesforce use.",
+      "methodParams": [
+        {
+          "name": "sessions",
+          "datatype": ""
+        }
+      ],
+      "datatype": "Map<String, String>"
+    },
+    {
+      "name": "inOrgNetworkRange",
+      "signature": "public static Boolean inOrgNetworkRange(String ipAddress)",
+      "description": "Indicates whether the given IP address is within the organization's trusted IP range according to the organization's Network Access settings.",
+      "methodParams": [
+        {
+          "name": "ipAddress",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isIpAllowedForProfile",
+      "signature": "public static Boolean isIpAllowedForProfile(String profileId, String ipAddress)",
+      "description": "Indicates whether the given IP address is within the trusted IP range for the given profile.",
+      "methodParams": [
+        {
+          "name": "profileId",
+          "datatype": "String"
+        },
+        {
+          "name": "ipAddress",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "setSessionLevel",
+      "signature": "public static Void setSessionLevel(Auth.SessionLevel level)",
+      "description": "Sets the user's current session security level.",
+      "methodParams": [
+        {
+          "name": "level",
+          "datatype": ""
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "validateTotpTokenForKey",
+      "signature": "public static Boolean validateTotpTokenForKey(String sharedKey, String totpCode)",
+      "description": "Deprecated. Use validateTotpTokenForKey(totpSharedKey, totpCode, description) instead.",
+      "methodParams": [
+        {
+          "name": "sharedKey",
+          "datatype": "String"
+        },
+        {
+          "name": "totpCode",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "validateTotpTokenForKey",
+      "signature": "public static Boolean validateTotpTokenForKey(String totpSharedKey, String totpCode, String description)",
+      "description": "Indicates whether a time-based one-time password (TOTP) code (token) is valid for the given shared key.",
+      "methodParams": [
+        {
+          "name": "totpSharedKey",
+          "datatype": "String"
+        },
+        {
+          "name": "totpCode",
+          "datatype": "String"
+        },
+        {
+          "name": "description",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "validateTotpTokenForUser",
+      "signature": "public static Boolean validateTotpTokenForUser(String totpCode)",
+      "description": "Deprecated. Use validateTotpTokenForUser(totpCode, description) instead.",
+      "methodParams": [
+        {
+          "name": "totpCode",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "validateTotpTokenForUser",
+      "signature": "public static Boolean validateTotpTokenForUser(String totpCode, String description)",
+      "description": "Indicates whether a time-based one-time password (TOTP) code (token) is valid for the current user.",
+      "methodParams": [
+        {
+          "name": "totpCode",
+          "datatype": "String"
+        },
+        {
+          "name": "description",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Contains methods for verifying users’ identity,",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_SessionManagement.htm#apex_class_Auth_SessionManagement"
+}

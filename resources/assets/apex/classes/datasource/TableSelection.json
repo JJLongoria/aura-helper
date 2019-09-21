@@ -1,0 +1,40 @@
+{
+  "name": "TableSelection",
+  "namespace": "DataSource",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "columnsSelected",
+      "signature": "public List<DataSource.ColumnSelection> columnsSelected {get; set;}",
+      "description": "List of columns to query. Corresponds to the SELECT clause in a SOQL or SOSL query.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "filter",
+      "signature": "public DataSource.Filter filter {get; set;}",
+      "description": "Identifies the query filter, which can be a compound filter that has a list of subfilters. The filter corresponds to the WHERE clause in a SOQL or SOSL query.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "order",
+      "signature": "public List<DataSource.Order> order {get; set;}",
+      "description": "Identifies the order for sorting the query results. Corresponds to the ORDER BY clause in a SOQL or SOSL query.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [],
+  "description": "Contains a breakdown of the SOQL or SOSL query. Its properties",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_TableSelection.htm#apex_class_DataSource_TableSelection"
+}

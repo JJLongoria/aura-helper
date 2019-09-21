@@ -1,0 +1,100 @@
+{
+  "name": "StandardController",
+  "namespace": "ApexPages",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "StandardController",
+      "signature": "public StandardController(SObject controllerSObject)",
+      "description": "Creates a new instance of the ApexPages.StandardController class for the specified standard or custom object.",
+      "methodParams": [
+        {
+          "name": "controllerSObject",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "addFields",
+      "signature": "public Void addFields(List<String> fieldNames)",
+      "description": "When a Visualforce page is loaded, the fields accessible to the page are based on the fields referenced in the Visualforce markup. This method adds a reference to each field specified in fieldNames so that the controller can explicitly access those fields as well.",
+      "methodParams": [
+        {
+          "name": "fieldNames",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "cancel",
+      "signature": "public System.PageReference cancel()",
+      "description": "Returns the PageReference of the cancel page.",
+      "methodParams": [],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "delete",
+      "signature": "public System.PageReference delete()",
+      "description": "Deletes record and returns the PageReference of the delete page.",
+      "methodParams": [],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "edit",
+      "signature": "public System.PageReference edit()",
+      "description": "Returns the PageReference of the standard edit page.",
+      "methodParams": [],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "getId",
+      "signature": "public String getId()",
+      "description": "Returns the ID of the record that is currently in context, based on the value of the id query string parameter in the Visualforce page URL.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getRecord",
+      "signature": "public SObject getRecord()",
+      "description": "Returns the record that is currently in context, based on the value of the id query string parameter in the Visualforce page URL.",
+      "methodParams": [],
+      "datatype": "sObject"
+    },
+    {
+      "name": "reset",
+      "signature": "public Void reset()",
+      "description": "Forces the controller to reacquire access to newly referenced fields. Any changes made to the record prior to this method call are discarded.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "save",
+      "signature": "public System.PageReference save()",
+      "description": "Saves changes and returns the updated PageReference.",
+      "methodParams": [],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "view",
+      "signature": "public System.PageReference view()",
+      "description": "Returns the PageReference object of the standard detail page.",
+      "methodParams": [],
+      "datatype": "System.PageReference"
+    }
+  ],
+  "description": "Use a StandardController when defining an extension for",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_standardcontroller.htm#apex_pages_standardcontroller"
+}

@@ -1,0 +1,38 @@
+{
+  "name": "EmployeeLoginLinkController",
+  "namespace": "AppLauncher",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getEmployeeLoginUrl",
+      "signature": "public static String getEmployeeLoginUrl(String startUrl)",
+      "description": "Returns the path to the page that employees see after they log in.",
+      "methodParams": [
+        {
+          "name": "startUrl",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getIsAllowInternalUserLoginEnabled",
+      "signature": "public static Boolean getIsAllowInternalUserLoginEnabled()",
+      "description": "Indicates whether an internal user is allowed to log in to the community.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Represents the link on the login form that employees can click to",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_EmployeeLoginLinkController.htm#apex_class_applauncher_EmployeeLoginLinkController"
+}

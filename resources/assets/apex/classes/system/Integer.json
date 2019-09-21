@@ -1,0 +1,50 @@
+{
+  "name": "Integer",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "format",
+      "signature": "public String format()",
+      "description": "Returns the integer as a string using the locale of the context user.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "valueOf",
+      "signature": "public static Integer valueOf(String stringToInteger)",
+      "description": "Returns an Integer that contains the value of the specified String. As in Java, the String is interpreted as representing a signed decimal integer.",
+      "methodParams": [
+        {
+          "name": "stringToInteger",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "valueOf",
+      "signature": "public static Integer valueOf(Object fieldValue)",
+      "description": "Converts the specified object to an Integer. Use this method to convert a history tracking field value or an object that represents an Integer value.",
+      "methodParams": [
+        {
+          "name": "fieldValue",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Integer"
+    }
+  ],
+  "description": "Contains methods for the Integer primitive data type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_integer.htm#apex_methods_system_integer"
+}

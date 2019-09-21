@@ -1,0 +1,311 @@
+{
+  "name": "Approval",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "isLocked",
+      "signature": "public static Boolean isLocked(Id id)",
+      "description": "Returns true if the record with the ID id is locked, or false if it’s not.",
+      "methodParams": [
+        {
+          "name": "id",
+          "datatype": "Id"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isLocked",
+      "signature": "public static Map<Id,Boolean> isLocked(List<Id> ids)",
+      "description": "Returns a map of record IDs and their lock statuses. If the record is locked the status is true. If the record is not locked the status is false.",
+      "methodParams": [
+        {
+          "name": "ids",
+          "datatype": "List<Id>"
+        }
+      ],
+      "datatype": "Map<Id,Boolean>"
+    },
+    {
+      "name": "isLocked",
+      "signature": "public static Boolean isLocked(SObject sobject)",
+      "description": "Returns true if the sobject record is locked, or false if it’s not.",
+      "methodParams": [
+        {
+          "name": "sobject",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isLocked",
+      "signature": "public static Map<Id,Boolean> isLocked(List<SObject> sobjects)",
+      "description": "Returns a map of record IDs to lock statuses. If the record is locked the status is true. If the record is not locked the status is false.",
+      "methodParams": [
+        {
+          "name": "sobjects",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "Map<Id,Boolean>"
+    },
+    {
+      "name": "lock",
+      "signature": "public static Approval.LockResult lock(Id recordId)",
+      "description": "Locks an object, and returns the lock results.",
+      "methodParams": [
+        {
+          "name": "recordId",
+          "datatype": "Id"
+        }
+      ],
+      "datatype": "Approval.LockResult"
+    },
+    {
+      "name": "lock",
+      "signature": "public static List<Approval.LockResult> lock(List<Id> ids)",
+      "description": "Locks a set of objects, and returns the lock results, including failures.",
+      "methodParams": [
+        {
+          "name": "ids",
+          "datatype": "List<Id>"
+        }
+      ],
+      "datatype": "List<Approval.LockResult>"
+    },
+    {
+      "name": "lock",
+      "signature": "public static Approval.LockResult lock(SObject recordToLock)",
+      "description": "Locks an object, and returns the lock results.",
+      "methodParams": [
+        {
+          "name": "recordToLock",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "Approval.LockResult"
+    },
+    {
+      "name": "lock",
+      "signature": "public static List<Approval.LockResult> lock(List<SObject> recordsToLock)",
+      "description": "Locks a set of objects, and returns the lock results, including failures.",
+      "methodParams": [
+        {
+          "name": "recordsToLock",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "List<Approval.LockResult>"
+    },
+    {
+      "name": "lock",
+      "signature": "public static Approval.LockResult lock(Id recordId, Boolean allOrNothing)",
+      "description": "Locks an object, with the option for partial success, and returns the lock result.",
+      "methodParams": [
+        {
+          "name": "recordId",
+          "datatype": "Id"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Approval.LockResult"
+    },
+    {
+      "name": "lock",
+      "signature": "public static List<Approval.LockResult> lock(List<Id> recordIds, Boolean allOrNothing)",
+      "description": "Locks a set of objects, with the option for partial success. It returns the lock results, including failures.",
+      "methodParams": [
+        {
+          "name": "recordIds",
+          "datatype": "List<Id>"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "List<Approval.LockResult>"
+    },
+    {
+      "name": "lock",
+      "signature": "public static Approval.LockResult lock(SObject recordToLock, Boolean allOrNothing)",
+      "description": "Locks an object, with the option for partial success, and returns the lock result.",
+      "methodParams": [
+        {
+          "name": "recordToLock",
+          "datatype": "SObject"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Approval.LockResult"
+    },
+    {
+      "name": "lock",
+      "signature": "public static List<Approval.LockResult> lock(List<SObject> recordsToLock, Boolean allOrNothing)",
+      "description": "Locks a set of objects, with the option for partial success. It returns the lock results, including failures.",
+      "methodParams": [
+        {
+          "name": "recordsToLock",
+          "datatype": "List<SObject>"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "List<Approval.LockResult>"
+    },
+    {
+      "name": "process",
+      "signature": "public static Approval.ProcessResult process(Approval.ProcessRequest approvalRequest)",
+      "description": "Submits a new approval request and approves or rejects existing approval requests.",
+      "methodParams": [
+        {
+          "name": "approvalRequest",
+          "datatype": "Approval.ProcessRequest"
+        }
+      ],
+      "datatype": "Approval.ProcessResult"
+    },
+    {
+      "name": "unlock",
+      "signature": "public static Approval.ProcessResult process(Approval.ProcessRequest approvalRequest, Boolean allOrNone) public static Approval.ProcessResult [] process(Approval.ProcessRequest[] approvalRequests) public static Approval.ProcessResult [] process(Approval.ProcessRequest[] approvalRequests, Boolean allOrNone)   public static Approval.UnlockResult unlock(Id recordId)",
+      "description": "Unlocks an object, and returns the unlock results.",
+      "methodParams": [
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "recordId",
+          "datatype": "Id"
+        }
+      ],
+      "datatype": "Approval.UnlockResult"
+    },
+    {
+      "name": "unlock",
+      "signature": "public static List<Approval.UnlockResult> unlock(List<Id> recordIds)",
+      "description": "Unlocks a set of objects, and returns the unlock results, including failures.",
+      "methodParams": [
+        {
+          "name": "recordIds",
+          "datatype": "List<Id>"
+        }
+      ],
+      "datatype": "List<Approval.UnlockResult>"
+    },
+    {
+      "name": "unlock",
+      "signature": "public static Approval.UnlockResult unlock(SObject recordToUnlock)",
+      "description": "Unlocks an object, and returns the unlock results.",
+      "methodParams": [
+        {
+          "name": "recordToUnlock",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "Approval.UnlockResult"
+    },
+    {
+      "name": "unlock",
+      "signature": "public static List<Approval.UnlockResult> unlock(List<SObject> recordsToUnlock)",
+      "description": "Unlocks a set of objects, and returns the unlock results, including failures.",
+      "methodParams": [
+        {
+          "name": "recordsToUnlock",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "List<Approval.UnlockResult>"
+    },
+    {
+      "name": "unlock",
+      "signature": "public static Approval.UnlockResult unlock(Id recordId, Boolean allOrNothing)",
+      "description": "Unlocks an object, with the option for partial success, and returns the unlock result.",
+      "methodParams": [
+        {
+          "name": "recordId",
+          "datatype": "Id"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Approval.UnlockResult"
+    },
+    {
+      "name": "unlock",
+      "signature": "public static List<Approval.UnlockResult> unlock(List<Id> recordIds, Boolean allOrNothing)",
+      "description": "Unlocks a set of objects, with the option for partial success. It returns the unlock results, including failures.",
+      "methodParams": [
+        {
+          "name": "recordIds",
+          "datatype": "List<Id>"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "List<Approval.UnlockResult>"
+    },
+    {
+      "name": "unlock",
+      "signature": "public static Approval.UnlockResult unlock(SObject recordToUnlock, Boolean allOrNothing)",
+      "description": "Unlocks an object, with the option for partial success, and returns the unlock result.",
+      "methodParams": [
+        {
+          "name": "recordToUnlock",
+          "datatype": "SObject"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Approval.UnlockResult"
+    },
+    {
+      "name": "unlock",
+      "signature": "public static List<Approval.UnlockResult> unlock(List<SObject> recordsToUnlock, Boolean allOrNothing)",
+      "description": "Unlocks a set of objects, with the option for partial success. It returns the unlock results, including failures.",
+      "methodParams": [
+        {
+          "name": "recordsToUnlock",
+          "datatype": "List<SObject>"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "List<Approval.UnlockResult>"
+    }
+  ],
+  "description": "Contains methods for processing approval requests and setting approval-process locks and",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_approval.htm"
+}

@@ -1,0 +1,60 @@
+{
+  "name": "TriggerContext",
+  "namespace": "EventBus",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "lastError",
+      "signature": "public String lastError {get;}",
+      "description": "Read-only. The error message that the last thrown EventBus.RetryableException contains.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "retries",
+      "signature": "public Integer retries {get;}",
+      "description": "Read-only. The number of times the trigger was retried due to throwing the EventBus.RetryableException.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "currentContext",
+      "signature": "public static eventbus.TriggerContext currentContext()",
+      "description": "Returns an instance of the EventBus.TriggerContext class containing information about the currently executing trigger.",
+      "methodParams": [],
+      "datatype": "EventBus.TriggerContext"
+    },
+    {
+      "name": "getResumeCheckpoint",
+      "signature": "public String getResumeCheckpoint()",
+      "description": "Returns the replay ID that was set by setResumeCheckpoint(). The returned value is the replay ID of the event message after which trigger processing resumes in a new trigger invocation.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setResumeCheckpoint",
+      "signature": "public void setResumeCheckpoint(String resumeReplayId)",
+      "description": "Sets a checkpoint in the event stream where the platform event trigger resumes execution in a new invocation. Use this method to recover from limit and uncaught exceptions, or to control the number of events processed in one trigger execution. When calling this method, pass in the replay ID of the last successfully processed event message. When the trigger stops execution before all events in Trigger.New are processed, either because of an uncaught exception or intentionally, the trigger is invoked again. The new execution starts with the event message in the stream after the one with the checkpointed Replay ID.",
+      "methodParams": [
+        {
+          "name": "resumeReplayId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Provides information about the platform event or change event trigger",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_eventbus_TriggerContext.htm#apex_class_eventbus_TriggerContext"
+}

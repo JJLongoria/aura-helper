@@ -1,0 +1,91 @@
+{
+  "name": "RemoteObjectController",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "create",
+      "signature": "public static Map<String,Object> create(String type, Map<String,Object> fields)",
+      "description": "Create a record in the database.",
+      "methodParams": [
+        {
+          "name": "type",
+          "datatype": "String"
+        },
+        {
+          "name": "fields",
+          "datatype": "Map<String,Object>"
+        }
+      ],
+      "datatype": "Map<String,Object>"
+    },
+    {
+      "name": "del",
+      "signature": "public static Map<String,Object> del(String type, List<String> recordIds)",
+      "description": "Delete records from the database.",
+      "methodParams": [
+        {
+          "name": "type",
+          "datatype": "String"
+        },
+        {
+          "name": "recordIds",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "Map<String,Object>"
+    },
+    {
+      "name": "retrieve",
+      "signature": "public static Map<String,Object> retrieve(String type, List<String> fields, Map<String,Object> criteria)",
+      "description": "Retrieve records from the database.",
+      "methodParams": [
+        {
+          "name": "type",
+          "datatype": "String"
+        },
+        {
+          "name": "fields",
+          "datatype": "List<String>"
+        },
+        {
+          "name": "criteria",
+          "datatype": "Map<String,Object>"
+        }
+      ],
+      "datatype": "Map<String,Object>"
+    },
+    {
+      "name": "updat",
+      "signature": "public static Map<String,Object> updat(String type, List<String> recordIds, Map<String,Object> fields)",
+      "description": "Update records in the database.",
+      "methodParams": [
+        {
+          "name": "type",
+          "datatype": "String"
+        },
+        {
+          "name": "recordIds",
+          "datatype": "List<String>"
+        },
+        {
+          "name": "fields",
+          "datatype": "Map<String,Object>"
+        }
+      ],
+      "datatype": "Map<String,Object>"
+    }
+  ],
+  "description": "Use RemoteObjectController to access the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_remoteobjectcontroller.htm#apex_methods_system_remoteobjectcontroller"
+}

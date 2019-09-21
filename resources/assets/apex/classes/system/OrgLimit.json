@@ -1,0 +1,40 @@
+{
+  "name": "OrgLimit",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getLimit",
+      "signature": "public Integer getLimit()",
+      "description": "Returns the maximum allowed limit value.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "getName",
+      "signature": "public String getName()",
+      "description": "Returns the limit’s name.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getValue",
+      "signature": "public Integer getValue()",
+      "description": "Returns the limit usage value.",
+      "methodParams": [],
+      "datatype": "Integer"
+    }
+  ],
+  "description": "Contains methods that provide the name, maximum value, and current",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_OrgLimit.htm#apex_class_System_OrgLimit"
+}

@@ -1,0 +1,962 @@
+{
+  "name": "Database",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "convertLead",
+      "signature": "public static Database.LeadConvertResult convertLead(Database.LeadConvert leadToConvert, Boolean allOrNone)",
+      "description": "Converts a lead into an account and contact, as well as (optionally) an opportunity.",
+      "methodParams": [
+        {
+          "name": "leadToConvert",
+          "datatype": "Database.LeadConvert"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.LeadConvertResult"
+    },
+    {
+      "name": "convertLead",
+      "signature": "public static Database.LeadConvertResult[] convertLead(Database.LeadConvert[] leadsToConvert, Boolean allOrNone)",
+      "description": "Converts a list of LeadConvert objects into accounts and contacts, as well as (optionally) opportunities.",
+      "methodParams": [
+        {
+          "name": "leadsToConvert",
+          "datatype": "Database.LeadConvert[]"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.LeadConvertResult[]"
+    },
+    {
+      "name": "countQuery",
+      "signature": "public static Integer countQuery(String query)",
+      "description": "Returns the number of records that a dynamic SOQL query would return when executed.",
+      "methodParams": [
+        {
+          "name": "query",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "delete",
+      "signature": "public static Database.DeleteResult delete(SObject recordToDelete, Boolean allOrNone)",
+      "description": "Deletes an existing sObject record, such as an individual account or contact, from your organization's data.",
+      "methodParams": [
+        {
+          "name": "recordToDelete",
+          "datatype": "sObject"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.DeleteResult"
+    },
+    {
+      "name": "delete",
+      "signature": "public static Database.DeleteResult[] delete(SObject[] recordsToDelete, Boolean allOrNone)",
+      "description": "Deletes a list of existing sObject records, such as individual accounts or contacts, from your organization’s data.",
+      "methodParams": [
+        {
+          "name": "recordsToDelete",
+          "datatype": "sObject[]"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.DeleteResult[]"
+    },
+    {
+      "name": "delete",
+      "signature": "public static Database.DeleteResult delete(ID recordID, Boolean allOrNone)",
+      "description": "Deletes existing sObject records, such as individual accounts or contacts, from your organization’s data.",
+      "methodParams": [
+        {
+          "name": "recordID",
+          "datatype": "ID"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.DeleteResult"
+    },
+    {
+      "name": "delete",
+      "signature": "public static Database.DeleteResult[] delete(ID[] recordIDs, Boolean allOrNone)",
+      "description": "Deletes a list of existing sObject records, such as individual accounts or contacts, from your organization’s data.",
+      "methodParams": [
+        {
+          "name": "recordIDs",
+          "datatype": "ID[]"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.DeleteResult[]"
+    },
+    {
+      "name": "deleteAsync",
+      "signature": "public static List<Database.DeleteResult> deleteAsync(List<SObject> sobjects, DataSource.AsyncDeleteCallback callback)",
+      "description": "Initiates requests to delete the external data that corresponds to the specified external object records. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source. Allows referencing a callback class whose processDelete method is called for each record after deletion.",
+      "methodParams": [
+        {
+          "name": "sobjects",
+          "datatype": "List<SObject>"
+        },
+        {
+          "name": "callback",
+          "datatype": "DataSource.AsyncDeleteCallback"
+        }
+      ],
+      "datatype": "List<Database.DeleteResult>"
+    },
+    {
+      "name": "deleteAsync",
+      "signature": "public static Database.DeleteResult deleteAsync(SObject sobject, DataSource.AsyncDeleteCallback callback)",
+      "description": "Initiates a request to delete the external data that corresponds to the specified external object record. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source. Allows referencing a callback class whose processDelete method is called after deletion.",
+      "methodParams": [
+        {
+          "name": "sobject",
+          "datatype": "SObject"
+        },
+        {
+          "name": "callback",
+          "datatype": "DataSource.AsyncDeleteCallback"
+        }
+      ],
+      "datatype": "Database.DeleteResult"
+    },
+    {
+      "name": "deleteAsync",
+      "signature": "public static List<Database.DeleteResult> deleteAsync(List<SObject> sobjects)",
+      "description": "Initiates requests to delete the external data that corresponds to the specified external object records. The requests are executed asynchronously, as background operations, and are sent to the external systems that are defined by the external objects' associated external data sources.",
+      "methodParams": [
+        {
+          "name": "sobjects",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "List<Database.DeleteResult>"
+    },
+    {
+      "name": "deleteAsync",
+      "signature": "public static Database.DeleteResult deleteAsync(SObject sobject)",
+      "description": "Initiates a request to delete the external data that corresponds to the specified external object record. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source.",
+      "methodParams": [
+        {
+          "name": "sobject",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "Database.DeleteResult"
+    },
+    {
+      "name": "deleteImmediate",
+      "signature": "public static List<Database.DeleteResult> deleteImmediate(List<SObject> sobjects)",
+      "description": "Initiates requests to delete the external data that corresponds to the specified external object records. The requests are executed synchronously and are sent to the external systems that are defined by the external objects' associated external data sources. If the Apex transaction contains pending changes, the synchronous operations can't be completed and throw exceptions.",
+      "methodParams": [
+        {
+          "name": "sobjects",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "List<Database.DeleteResult>"
+    },
+    {
+      "name": "deleteImmediate",
+      "signature": "public static Database.DeleteResult deleteImmediate(SObject sobject)",
+      "description": "Initiates a request to delete the external data that corresponds to the specified external object record. The request is executed synchronously and is sent to the external system that's defined by the external object's associated external data source. If the Apex transaction contains pending changes, the synchronous operation can't be completed and throws an exception.",
+      "methodParams": [
+        {
+          "name": "sobject",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "Database.DeleteResult"
+    },
+    {
+      "name": "emptyRecycleBin",
+      "signature": "public static Database.EmptyRecycleBinResult[] emptyRecycleBin(ID [] recordIds)",
+      "description": "Permanently deletes the specified records from the Recycle Bin.",
+      "methodParams": [
+        {
+          "name": "recordIds",
+          "datatype": "ID[]"
+        }
+      ],
+      "datatype": "Database.EmptyRecycleBinResult[]"
+    },
+    {
+      "name": "emptyRecycleBin",
+      "signature": "public static Database.EmptyRecycleBinResult emptyRecycleBin(sObject obj)",
+      "description": "Permanently deletes the specified sObject from the Recycle Bin.",
+      "methodParams": [
+        {
+          "name": "obj",
+          "datatype": "sObject"
+        }
+      ],
+      "datatype": "Database.EmptyRecycleBinResult"
+    },
+    {
+      "name": "emptyRecycleBin",
+      "signature": "public static Database.EmptyRecycleBinResult[] emptyRecycleBin(sObject[] listOfSObjects)",
+      "description": "Permanently deletes the specified sObjects from the Recycle Bin.",
+      "methodParams": [
+        {
+          "name": "listOfSObjects",
+          "datatype": "sObject[]"
+        }
+      ],
+      "datatype": "Database.EmptyRecycleBinResult[]"
+    },
+    {
+      "name": "executeBatch",
+      "signature": "public static ID executeBatch(Object batchClassObject)",
+      "description": "Submits a batch Apex job for execution corresponding to the specified class.",
+      "methodParams": [
+        {
+          "name": "batchClassObject",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "ID"
+    },
+    {
+      "name": "executeBatch",
+      "signature": "public static ID executeBatch(Object batchClassObject, Integer scope)",
+      "description": "Submits a batch Apex job for execution using the specified class and scope.",
+      "methodParams": [
+        {
+          "name": "batchClassObject",
+          "datatype": "Object"
+        },
+        {
+          "name": "scope",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ID"
+    },
+    {
+      "name": "getAsyncDeleteResult",
+      "signature": "public static Database.DeleteResult getAsyncDeleteResult(Database.DeleteResult deleteResult)",
+      "description": "Retrieves the status of an asynchronous delete operation that’s identified by a Database.DeleteResult object.",
+      "methodParams": [
+        {
+          "name": "deleteResult",
+          "datatype": "Database.DeleteResult"
+        }
+      ],
+      "datatype": "Database.DeleteResult"
+    },
+    {
+      "name": "getAsyncDeleteResult",
+      "signature": "public static Database.DeleteResult getAsyncDeleteResult(String asyncLocator)",
+      "description": "Retrieves the result of an asynchronous delete operation based on the result’s unique identifier.",
+      "methodParams": [
+        {
+          "name": "asyncLocator",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Database.DeleteResult"
+    },
+    {
+      "name": "getAsyncLocator",
+      "signature": "public static String getAsyncLocator(Object result)",
+      "description": "Returns the asyncLocator associated with the result of a specified asynchronous insert, update, or delete operation.",
+      "methodParams": [
+        {
+          "name": "result",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getAsyncSaveResult",
+      "signature": "public static Database.SaveResult getAsyncSaveResult(Database.SaveResult saveResult)",
+      "description": "Returns the status of an asynchronous insert or update operation that’s identified by a Database.SaveResult object.",
+      "methodParams": [
+        {
+          "name": "saveResult",
+          "datatype": "Database.SaveResult"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "getAsyncSaveResult",
+      "signature": "public static Database.SaveResult getAsyncSaveResult(String asyncLocator)",
+      "description": "Returns the status of an asynchronous insert or update operation based on the unique identifier associated with each modification.",
+      "methodParams": [
+        {
+          "name": "asyncLocator",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "getDeleted",
+      "signature": "public static Database.GetDeletedResult getDeleted(String sObjectType, Datetime startDate, Datetime endDate)",
+      "description": "Returns the list of individual records that have been deleted for an sObject type within the specified start and end dates and times and that are still in the Recycle Bin.",
+      "methodParams": [
+        {
+          "name": "sObjectType",
+          "datatype": "String"
+        },
+        {
+          "name": "startDate",
+          "datatype": "Datetime"
+        },
+        {
+          "name": "endDate",
+          "datatype": "Datetime"
+        }
+      ],
+      "datatype": "Database.GetDeletedResult"
+    },
+    {
+      "name": "getQueryLocator",
+      "signature": "public static Database. QueryLocator getQueryLocator(sObject [] listOfQueries)",
+      "description": "Creates a QueryLocator object used in batch Apex or Visualforce.",
+      "methodParams": [
+        {
+          "name": "listOfQueries",
+          "datatype": "sObject []"
+        }
+      ],
+      "datatype": "Database.QueryLocator"
+    },
+    {
+      "name": "getQueryLocator",
+      "signature": "public static Database.QueryLocator getQueryLocator(String query)",
+      "description": "Creates a QueryLocator object used in batch Apex or Visualforce.",
+      "methodParams": [
+        {
+          "name": "query",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Database.QueryLocator"
+    },
+    {
+      "name": "getUpdated",
+      "signature": "public static Database.GetUpdatedResult getUpdated(String sobjectType, Datetime startDate, Datetime endDate)",
+      "description": "Returns the list of individual records that have been updated for an sObject type within the specified start and end dates and times.",
+      "methodParams": [
+        {
+          "name": "sobjectType",
+          "datatype": "String"
+        },
+        {
+          "name": "startDate",
+          "datatype": "Datetime"
+        },
+        {
+          "name": "endDate",
+          "datatype": "Datetime"
+        }
+      ],
+      "datatype": "Database.GetUpdatedResult"
+    },
+    {
+      "name": "insert",
+      "signature": "public static Database.SaveResult insert(sObject recordToInsert, Boolean allOrNone)",
+      "description": "Adds an sObject, such as an individual account or contact, to your organization's data.",
+      "methodParams": [
+        {
+          "name": "recordToInsert",
+          "datatype": "sObject"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.SaveResult"
+    },
+    {
+      "name": "insert",
+      "signature": "public static Database.SaveResult[] insert(sObject[] recordsToInsert, Boolean allOrNone)",
+      "description": "Adds one or more sObjects, such as individual accounts or contacts, to your organization’s data.",
+      "methodParams": [
+        {
+          "name": "recordsToInsert",
+          "datatype": "sObject []"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.SaveResult[]"
+    },
+    {
+      "name": "insert",
+      "signature": "public static Database.SaveResult insert(sObject recordToInsert, Database.DMLOptions dmlOptions)",
+      "description": "Adds an sObject, such as an individual account or contact, to your organization's data.",
+      "methodParams": [
+        {
+          "name": "recordToInsert",
+          "datatype": "sObject"
+        },
+        {
+          "name": "dmlOptions",
+          "datatype": "Database.DMLOptions"
+        }
+      ],
+      "datatype": "Database.SaveResult"
+    },
+    {
+      "name": "insert",
+      "signature": "public static Database.SaveResult insert(sObject[] recordsToInsert, Database.DMLOptions dmlOptions)",
+      "description": "Adds one or more sObjects, such as individual accounts or contacts, to your organization's data.",
+      "methodParams": [
+        {
+          "name": "recordsToInsert",
+          "datatype": "sObject[]"
+        },
+        {
+          "name": "dmlOptions",
+          "datatype": "Database.DMLOptions"
+        }
+      ],
+      "datatype": "Database.SaveResult[]"
+    },
+    {
+      "name": "insertAsync",
+      "signature": "public static List<Database.SaveResult> insertAsync(List<SObject> sobjects, DataSource.AsyncSaveCallback callback)",
+      "description": "Initiates requests to add external object data to the relevant external systems. The requests are executed asynchronously, as background operations, and are sent to the external systems that are defined by the external objects' associated external data sources. Allows referencing a callback class whose processSave method is called for each record after the remote operations are completed.",
+      "methodParams": [
+        {
+          "name": "sobjects",
+          "datatype": "List<SObject>"
+        },
+        {
+          "name": "callback",
+          "datatype": "DataSource.AsyncSaveCallback"
+        }
+      ],
+      "datatype": "List<Database.SaveResult>"
+    },
+    {
+      "name": "insertAsync",
+      "signature": "public static Database.SaveResult insertAsync(SObject sobject, DataSource.AsyncSaveCallback callback)",
+      "description": "Initiates a request to add external object data to the relevant external system. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source. Allows referencing a callback class whose processSave method is called after the remote operation is completed.",
+      "methodParams": [
+        {
+          "name": "sobject",
+          "datatype": "SObject"
+        },
+        {
+          "name": "callback",
+          "datatype": "DataSource.AsyncSaveCallback"
+        }
+      ],
+      "datatype": "Database.SaveResult"
+    },
+    {
+      "name": "insertAsync",
+      "signature": "public static List<Database.SaveResult> insertAsync(List<SObject> sobjects)",
+      "description": "Initiates requests to add external object data to the relevant external systems. The requests are executed asynchronously, as background operations, and are sent to the external systems that are defined by the external objects' associated external data sources.",
+      "methodParams": [
+        {
+          "name": "sobjects",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "List<Database.SaveResult>"
+    },
+    {
+      "name": "insertAsync",
+      "signature": "public static Database.SaveResult insertAsync(SObject sobject)",
+      "description": "Initiates a request to add external object data to the relevant external system. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source.",
+      "methodParams": [
+        {
+          "name": "sobject",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "Database.SaveResult"
+    },
+    {
+      "name": "insertImmediate",
+      "signature": "public static List<Database.SaveResult> insertImmediate(List<SObject> sobjects)",
+      "description": "Initiates requests to add external object data to the relevant external systems. The requests are executed synchronously and are sent to the external systems that are defined by the external objects' associated external data sources. If the Apex transaction contains pending changes, the synchronous operations can't be completed and throw exceptions.",
+      "methodParams": [
+        {
+          "name": "sobjects",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "List<Database.SaveResult>"
+    },
+    {
+      "name": "insertImmediate",
+      "signature": "public static Database.SaveResult insertImmediate(SObject sobject)",
+      "description": "Initiates a request to add external object data to the relevant external system. The request is executed synchronously and is sent to the external system that's defined by the external object's associated external data source. If the Apex transaction contains pending changes, the synchronous operation can't be completed and throws an exception.",
+      "methodParams": [
+        {
+          "name": "sobject",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "Database.SaveResult"
+    },
+    {
+      "name": "merge",
+      "signature": "public static Database.MergeResult merge(sObject masterRecord, Id duplicateId)",
+      "description": "Merges the specified duplicate record into the master sObject record of the same type, deleting the duplicate, and reparenting any related records. Merges only accounts, contacts, or leads.",
+      "methodParams": [
+        {
+          "name": "masterRecord",
+          "datatype": "sObject"
+        },
+        {
+          "name": "duplicateId",
+          "datatype": "ID"
+        }
+      ],
+      "datatype": "Database.MergeResult"
+    },
+    {
+      "name": "merge",
+      "signature": "public static Database.MergeResult merge(sObject masterRecord, sObject duplicateRecord)",
+      "description": "Merges the specified duplicate sObject record into the master sObject of the same type, deleting the duplicate, and reparenting any related records.",
+      "methodParams": [
+        {
+          "name": "masterRecord",
+          "datatype": "sObject"
+        },
+        {
+          "name": "duplicateRecord",
+          "datatype": "sObject"
+        }
+      ],
+      "datatype": "Database.MergeResult"
+    },
+    {
+      "name": "merge",
+      "signature": "public static List<Database.MergeResult> merge(sObject masterRecord, List<Id> duplicateIds)",
+      "description": "Merges up to two records of the same sObject type into the master sObject record, deleting the others, and reparenting any related records.",
+      "methodParams": [
+        {
+          "name": "masterRecord",
+          "datatype": "SObject"
+        },
+        {
+          "name": "duplicateIds",
+          "datatype": "List<Id>"
+        }
+      ],
+      "datatype": "List<Database.MergeResult>"
+    },
+    {
+      "name": "merge",
+      "signature": "public static List<Database.MergeResult> merge(sObject masterRecord, List<SObject> duplicateRecords)",
+      "description": "Merges up to two records of the same object type into the master sObject record, deleting the others, and reparenting any related records.",
+      "methodParams": [
+        {
+          "name": "masterRecord",
+          "datatype": "SObject"
+        },
+        {
+          "name": "duplicateRecords",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "List<Database.MergeResult>"
+    },
+    {
+      "name": "merge",
+      "signature": "public static Database.MergeResult merge(sObject masterRecord, Id duplicateId, Boolean allOrNone)",
+      "description": "Merges the specified duplicate record into the master sObject record of the same type, optionally returning errors, if any, deleting the duplicate, and reparenting any related records. Merges only accounts, contacts, or leads.",
+      "methodParams": [
+        {
+          "name": "masterRecord",
+          "datatype": "sObject"
+        },
+        {
+          "name": "duplicate",
+          "datatype": "ID"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.MergeResult"
+    },
+    {
+      "name": "merge",
+      "signature": "public static Database.MergeResult merge(sObject masterRecord, sObject duplicateRecord, Boolean allOrNone)",
+      "description": "Merges the specified duplicate sObject record into the master sObject of the same type, optionally returning errors, if any, deleting the duplicate, and reparenting any related records.",
+      "methodParams": [
+        {
+          "name": "masterRecord",
+          "datatype": "sObject"
+        },
+        {
+          "name": "duplicateRecord",
+          "datatype": "sObject"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.MergeResult"
+    },
+    {
+      "name": "merge",
+      "signature": "public static List<Database.MergeResult> merge(sObject masterRecord, List<Id> duplicateIds, Boolean allOrNone)",
+      "description": "Merges up to two records of the same sObject type into the master sObject record, optionally returning errors, if any, deleting the duplicates, and reparenting any related records.",
+      "methodParams": [
+        {
+          "name": "masterRecord",
+          "datatype": "SObject"
+        },
+        {
+          "name": "duplicateIds",
+          "datatype": "List<Id>"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "List<Database.MergeResult>"
+    },
+    {
+      "name": "merge",
+      "signature": "public static List<Database.MergeResult> merge(sObject masterRecord, List<SObject> duplicateRecords, Boolean allOrNone)",
+      "description": "Merges up to two records of the same object type into the master sObject record, optionally returning errors, if any, deleting the duplicates, and reparenting any related records.",
+      "methodParams": [
+        {
+          "name": "masterRecord",
+          "datatype": "sObject"
+        },
+        {
+          "name": "duplicateRecords",
+          "datatype": "List<SObject>"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "List<Database.MergeResult>"
+    },
+    {
+      "name": "query",
+      "signature": "public static sObject[] query(String queryString)",
+      "description": "Creates a dynamic SOQL query at runtime.",
+      "methodParams": [
+        {
+          "name": "queryString",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "sObject[]"
+    },
+    {
+      "name": "rollback",
+      "signature": "public static Void rollback(System.Savepoint databaseSavepoint)",
+      "description": "Restores the database to the state specified by the savepoint variable. Any emails submitted since the last savepoint are also rolled back and not sent.",
+      "methodParams": [
+        {
+          "name": "databaseSavepoint",
+          "datatype": "System.Savepoint"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setSavepoint",
+      "signature": "public static System.Savepoint setSavepoint()",
+      "description": "Returns a savepoint variable that can be stored as a local variable, then used with the rollback method to restore the database to that point.",
+      "methodParams": [],
+      "datatype": "System.Savepoint"
+    },
+    {
+      "name": "undelete",
+      "signature": "public static Database.UndeleteResult undelete(sObject recordToUndelete, Boolean allOrNone)",
+      "description": "Restores an existing sObject record, such as an individual account or contact, from your organization's Recycle Bin.",
+      "methodParams": [
+        {
+          "name": "recordToUndelete",
+          "datatype": "sObject"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.UndeleteResult"
+    },
+    {
+      "name": "undelete",
+      "signature": "public static Database.UndeleteResult[] undelete(sObject[] recordsToUndelete, Boolean allOrNone)",
+      "description": "Restores one or more existing sObject records, such as individual accounts or contacts, from your organization’s Recycle Bin.",
+      "methodParams": [
+        {
+          "name": "recordsToUndelete",
+          "datatype": "sObject []"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.UndeleteResult[]"
+    },
+    {
+      "name": "undelete",
+      "signature": "public static Database.UndeleteResult undelete(ID recordID, Boolean allOrNone)",
+      "description": "Restores an existing sObject record, such as an individual account or contact, from your organization's Recycle Bin.",
+      "methodParams": [
+        {
+          "name": "recordID",
+          "datatype": "ID"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.UndeleteResult"
+    },
+    {
+      "name": "undelete",
+      "signature": "public static Database.UndeleteResult[] undelete(ID[] recordIDs, Boolean allOrNone)",
+      "description": "Restores one or more existing sObject records, such as individual accounts or contacts, from your organization’s Recycle Bin.",
+      "methodParams": [
+        {
+          "name": "RecordIDs",
+          "datatype": "ID[]"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.UndeleteResult[]"
+    },
+    {
+      "name": "update",
+      "signature": "public static Database.SaveResult update(sObject recordToUpdate, Boolean allOrNone)",
+      "description": "Modifies an existing sObject record, such as an individual account or contact, in your organization's data.",
+      "methodParams": [
+        {
+          "name": "recordToUpdate",
+          "datatype": "sObject"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.SaveResult"
+    },
+    {
+      "name": "update",
+      "signature": "public static Database.SaveResult[] update(sObject[] recordsToUpdate, Boolean allOrNone)",
+      "description": "Modifies one or more existing sObject records, such as individual accounts or contactsinvoice statements, in your organization’s data.",
+      "methodParams": [
+        {
+          "name": "recordsToUpdate",
+          "datatype": "sObject []"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.SaveResult[]"
+    },
+    {
+      "name": "update",
+      "signature": "public static Database.SaveResult update(sObject recordToUpdate, Database.DmlOptions dmlOptions)",
+      "description": "Modifies an existing sObject record, such as an individual account or contact, in your organization's data.",
+      "methodParams": [
+        {
+          "name": "recordToUpdate",
+          "datatype": "sObject"
+        },
+        {
+          "name": "dmlOptions",
+          "datatype": "Database.DMLOptions"
+        }
+      ],
+      "datatype": "Database.SaveResult"
+    },
+    {
+      "name": "update",
+      "signature": "public static Database.SaveResult[] update(sObject[] recordsToUpdate, Database.DMLOptions dmlOptions)",
+      "description": "Modifies one or more existing sObject records, such as individual accounts or contactsinvoice statements, in your organization’s data.",
+      "methodParams": [
+        {
+          "name": "recordsToUpdate",
+          "datatype": "sObject []"
+        },
+        {
+          "name": "dmlOptions",
+          "datatype": "Database.DMLOptions"
+        }
+      ],
+      "datatype": "Database.SaveResult[]"
+    },
+    {
+      "name": "upsert",
+      "signature": "public static Database.UpsertResult upsert(sObject recordToUpsert, Schema.SObjectField externalIDField, Boolean allOrNone)",
+      "description": "Creates a new sObject record or updates an existing sObject record within a single statement, using a specified field to determine the presence of existing objects, or the ID field if no field is specified.",
+      "methodParams": [
+        {
+          "name": "recordToUpsert",
+          "datatype": "sObject"
+        },
+        {
+          "name": "externalIdField",
+          "datatype": "Schema.SObjectField"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.UpsertResult"
+    },
+    {
+      "name": "upsert",
+      "signature": "public static Database.UpsertResult[] upsert(sObject[] recordsToUpsert, Schema.SObjectField externalIdField, Boolean allOrNone)",
+      "description": "Creates new sObject records or updates existing sObject records within a single statement, using a specified field to determine the presence of existing objects, or the ID field if no field is specified.",
+      "methodParams": [
+        {
+          "name": "recordsToUpsert",
+          "datatype": "sObject []"
+        },
+        {
+          "name": "externalIdField",
+          "datatype": "Schema.SObjectField"
+        },
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Database.UpsertResult[]"
+    },
+    {
+      "name": "updateAsync",
+      "signature": "public static List<Database.SaveResult> updateAsync(List<SObject> sobjects, DataSource.AsyncSaveCallback callback)",
+      "description": "Initiates requests to update external object data on the relevant external systems. The requests are executed asynchronously, as background operations, and are sent to the external systems that are defined by the external objects' associated external data sources. Allows referencing a callback class whose processSave method is called for each record after the remote operations are completed.",
+      "methodParams": [
+        {
+          "name": "sobjects",
+          "datatype": "List<SObject>"
+        },
+        {
+          "name": "callback",
+          "datatype": "DataSource.AsyncSaveCallback"
+        }
+      ],
+      "datatype": "List<Database.SaveResult>"
+    },
+    {
+      "name": "updateAsync",
+      "signature": "public static Database.SaveResult updateAsync(SObject sobject, DataSource.AsyncSaveCallback callback)",
+      "description": "Initiates a request to update external object data on the relevant external system. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source. Allows referencing a callback class whose processSave method is called after the remote operation is completed.",
+      "methodParams": [
+        {
+          "name": "sobject",
+          "datatype": "SObject"
+        },
+        {
+          "name": "callback",
+          "datatype": "DataSource.AsyncSaveCallback"
+        }
+      ],
+      "datatype": "Database.SaveResult"
+    },
+    {
+      "name": "updateAsync",
+      "signature": "public static List<Database.SaveResult> updateAsync(List<SObject> sobjects)",
+      "description": "Initiates requests to update external object data on the relevant external systems. The requests are executed asynchronously, as background operations, and are sent to the external systems that are defined by the external objects' associated external data sources.",
+      "methodParams": [
+        {
+          "name": "sobjects",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "List<Database.SaveResult>"
+    },
+    {
+      "name": "updateAsync",
+      "signature": "public static Database.SaveResult updateAsync(SObject sobject)",
+      "description": "Initiates a request to update external object data on the relevant external system. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source.",
+      "methodParams": [
+        {
+          "name": "sobject",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "Database.SaveResult"
+    },
+    {
+      "name": "updateImmediate",
+      "signature": "public static List<Database.SaveResult> updateImmediate(List<SObject> sobjects)",
+      "description": "Initiates requests to update external object data on the relevant external systems. The requests are executed synchronously and are sent to the external systems that are defined by the external objects' associated external data sources. If the Apex transaction contains pending changes, the synchronous operations can't be completed and throw exceptions.",
+      "methodParams": [
+        {
+          "name": "sobjects",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "List<Database.SaveResult>"
+    },
+    {
+      "name": "updateImmediate",
+      "signature": "public static Database.SaveResult updateImmediate(SObject sobject)",
+      "description": "Initiates a request to update external object data on the relevant external system. The request is executed synchronously and is sent to the external system that's defined by the external object's associated external data source. If the Apex transaction contains pending changes, the synchronous operation can't be completed and throws an exception.",
+      "methodParams": [
+        {
+          "name": "sobject",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "Database.SaveResult"
+    }
+  ],
+  "description": "Contains methods for creating and manipulating data.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database.htm#apex_methods_system_database"
+}

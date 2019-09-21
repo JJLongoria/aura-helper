@@ -1,0 +1,47 @@
+{
+  "name": "VerificationResult",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "message",
+      "signature": "public String message {get; set;}",
+      "description": "Message that displays as a result of a verification challenge. SUCCESS if the identity verification is successful. Other values are FAILURE, PENDING, RATE_LIMITED, or FAILURE_REPORT.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "redirect",
+      "signature": "public System.PageReference redirect {get; set;}",
+      "description": "Where the user is directed after entering the verification code successfully, for example, the community home page or location specified by the start URL.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "success",
+      "signature": "public Boolean success {get; set;}",
+      "description": "The verification challenge is successful.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Duplicates the Auth.VerificationResult object.",
+      "methodParams": [],
+      "datatype": "VerificationResult"
+    }
+  ],
+  "constuctors": [],
+  "methods": [],
+  "description": "Contains the result of a verification challenge",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_VerificationResult.htm#apex_class_Auth_VerificationResult"
+}

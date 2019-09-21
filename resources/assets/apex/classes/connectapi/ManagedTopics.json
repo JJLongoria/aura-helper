@@ -1,0 +1,295 @@
+{
+  "name": "ManagedTopics",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "createManagedTopic",
+      "signature": "public static ConnectApi.ManagedTopic createManagedTopic(String communityId, String recordId, ConnectApi.ManagedTopicType managedTopicType)",
+      "description": "Create a managed topic of a specific type for a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recordId",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicType",
+          "datatype": "ConnectApi.ManagedTopicType"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopic"
+    },
+    {
+      "name": "createManagedTopic",
+      "signature": "public static ConnectApi.ManagedTopic createManagedTopic(String communityId, String recordId, ConnectApi.ManagedTopicType managedTopicType, String parentId)",
+      "description": "Create a child managed topic for a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recordId",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicType",
+          "datatype": "ConnectApi.ManagedTopicType"
+        },
+        {
+          "name": "parentId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopic"
+    },
+    {
+      "name": "createManagedTopicByName",
+      "signature": "public static ConnectApi.ManagedTopic createManagedTopicByName(String communityId, String name, ConnectApi.ManagedTopicType managedTopicType)",
+      "description": "Create a managed topic of a specific type by name for a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "name",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicType",
+          "datatype": "ConnectApi.ManagedTopicType"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopic"
+    },
+    {
+      "name": "createManagedTopicByName",
+      "signature": "public static ConnectApi.ManagedTopic createManagedTopicByName(String communityId, String name, ConnectApi.ManagedTopicType managedTopicType, String parentId)",
+      "description": "Create a child managed topic by name for a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "name",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicType",
+          "datatype": "ConnectApi.ManagedTopicType"
+        },
+        {
+          "name": "parentId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopic"
+    },
+    {
+      "name": "deleteManagedTopic",
+      "signature": "public static  deleteManagedTopic(String communityId, String managedTopicId)",
+      "description": "Delete a managed topic from a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "getManagedTopic",
+      "signature": "public static ConnectApi.ManagedTopic getManagedTopic(String communityId, String managedTopicId)",
+      "description": "Get a managed topic in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopic"
+    },
+    {
+      "name": "getManagedTopic",
+      "signature": "public static ConnectApi.ManagedTopic getManagedTopic(String communityId, String managedTopicId, Integer depth)",
+      "description": "Get a managed topic, including its parent and children managed topics, in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicId",
+          "datatype": "String"
+        },
+        {
+          "name": "depth",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopic"
+    },
+    {
+      "name": "getManagedTopics",
+      "signature": "public static ConnectApi.ManagedTopicCollection getManagedTopics(String communityId)",
+      "description": "Get the featured and navigational managed topics for the community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopicCollection"
+    },
+    {
+      "name": "getManagedTopics",
+      "signature": "public static ConnectApi.ManagedTopicCollection getManagedTopics(String communityId, ConnectApi.ManagedTopicType managedTopicType)",
+      "description": "Get managed topics of the specified type for a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicType",
+          "datatype": "ConnectApi.ManagedTopicType"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopicCollection"
+    },
+    {
+      "name": "getManagedTopics",
+      "signature": "public static ConnectApi.ManagedTopicCollection getManagedTopics(String communityId, ConnectApi.ManagedTopicType managedTopicType, Integer depth)",
+      "description": "Get managed topics of the specified type, including their parent and children managed topics, in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicType",
+          "datatype": "ConnectApi.ManagedTopicType"
+        },
+        {
+          "name": "depth",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopicCollection"
+    },
+    {
+      "name": "getManagedTopics",
+      "signature": "public static ConnectApi.ManagedTopicCollection getManagedTopics(String communityId, ConnectApi.ManagedTopicType managedTopicType, String recordId, Integer depth)",
+      "description": "Get managed topics of the specified type, including their parent and children managed topics, that are associated with a given topic in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicType",
+          "datatype": "ConnectApi.ManagedTopicType"
+        },
+        {
+          "name": "recordId",
+          "datatype": "String"
+        },
+        {
+          "name": "depth",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopicCollection"
+    },
+    {
+      "name": "getManagedTopics",
+      "signature": "public static ConnectApi.ManagedTopicCollection getManagedTopics(String communityId, ConnectApi.ManagedTopicType managedTopicType, List<String> recordIds, Integer depth)",
+      "description": "Get managed topics of the specified type, including their parent and children managed topics, that are associated with topics in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicType",
+          "datatype": "ConnectApi.ManagedTopicType"
+        },
+        {
+          "name": "recordIds",
+          "datatype": "List<String>"
+        },
+        {
+          "name": "depth",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopicCollection"
+    },
+    {
+      "name": "getManagedTopics",
+      "signature": "public static ConnectApi.ManagedTopicCollection getManagedTopics(String communityId, ConnectApi.ManagedTopicType managedTopicType, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of managed topics.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicType",
+          "datatype": "ConnectApi.ManagedTopicType"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopicCollection"
+    },
+    {
+      "name": "reorderManagedTopics",
+      "signature": "public static ConnectApi.ManagedTopicCollection reorderManagedTopics(String communityId, ConnectApi.ManagedTopicPositionCollectionInput managedTopicPositionCollection)",
+      "description": "Reorder the relative positions of managed topics in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "managedTopicPositionCollection",
+          "datatype": "ConnectApi.ManagedTopicPositionCollectionInput"
+        }
+      ],
+      "datatype": "ConnectApi.ManagedTopicCollection"
+    }
+  ],
+  "description": "Access information about managed topics in a community.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ManagedTopics_static_methods.htm#apex_ConnectAPI_ManagedTopics_static_methods"
+}

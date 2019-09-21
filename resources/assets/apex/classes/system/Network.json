@@ -1,0 +1,103 @@
+{
+  "name": "Network",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "Network",
+      "signature": "public Network()",
+      "description": "Creates a new instance of the System.Network class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "communitiesLanding",
+      "signature": "public static String communitiesLanding()",
+      "description": "Returns a Page Reference to the default landing page for the community. This is the first tab of the community.",
+      "methodParams": [],
+      "datatype": "PageReference"
+    },
+    {
+      "name": "forwardToAuthPage",
+      "signature": "public static PageReference forwardToAuthPage(String startURL)",
+      "description": "Returns a Page Reference to the default login page. StartURL is included as a query paremeter for where to redirect after a successful login.",
+      "methodParams": [
+        {
+          "name": "startURL",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "PageReference"
+    },
+    {
+      "name": "getLoginUrl",
+      "signature": "public static String getLoginUrl(String networkId)",
+      "description": "Returns the absolute URL of the login page used by the community.",
+      "methodParams": [
+        {
+          "name": "networkId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getLogoutUrl",
+      "signature": "public static String getLogoutUrl(String networkId)",
+      "description": "Returns the absolute URL of the logout page used by the community.",
+      "methodParams": [
+        {
+          "name": "networkId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getNetworkId",
+      "signature": "public static String getNetworkId()",
+      "description": "Returns the user’s current community.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getSelfRegUrl",
+      "signature": "public static String getSelfRegUrl(String networkId)",
+      "description": "Returns the absolute URL of the self-registration page used by the community.",
+      "methodParams": [
+        {
+          "name": "networkId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "loadAllPackageDefaultNetworkDashboardSettings",
+      "signature": "public static Integer loadAllPackageDefaultNetworkDashboardSettings()",
+      "description": "Maps the dashboards from the Salesforce Communities Management package onto each community’s unconfigured dashboard settings. Returns the number of settings it configures.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "loadAllPackageDefaultNetworkPulseSettings",
+      "signature": "public static Integer loadAllPackageDefaultNetworkPulseSettings()",
+      "description": "Maps the Insights reports from the Salesforce Communities Management package onto each community’s unconfigured Insights settings. Returns the number of settings it configures.",
+      "methodParams": [],
+      "datatype": "Integer"
+    }
+  ],
+  "description": "Represents a community.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_network.htm#apex_classes_network"
+}

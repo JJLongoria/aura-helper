@@ -1,0 +1,211 @@
+{
+  "name": "StandardSetController",
+  "namespace": "ApexPages",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "StandardSetController",
+      "signature": "public StandardSetController(Database.QueryLocator queryLocator)",
+      "description": "Creates an instance of the ApexPages.StandardSetController class for the list of objects returned by the query locator.",
+      "methodParams": [
+        {
+          "name": "queryLocator",
+          "datatype": "Database.QueryLocator"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "StandardSetController",
+      "signature": "public StandardSetController(List<sObject> controllerSObjects)",
+      "description": "Creates an instance of the ApexPages.StandardSetController class for the specified list of standard or custom objects.",
+      "methodParams": [
+        {
+          "name": "controllerSObjects",
+          "datatype": "List<sObject>"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "cancel",
+      "signature": "public System.PageReference cancel()",
+      "description": "Returns the PageReference of the original page, if known, or the home page.",
+      "methodParams": [],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "first",
+      "signature": "public Void first()",
+      "description": "Returns the first page of records.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "getCompleteResult",
+      "signature": "public Boolean getCompleteResult()",
+      "description": "Indicates whether there are more records in the set than the maximum record limit. If this is false, there are more records than you can process using the list controller. The maximum record limit is 10,000 records.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getFilterId",
+      "signature": "public String getFilterId()",
+      "description": "Returns the ID of the filter that is currently in context.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getHasNext",
+      "signature": "public Boolean getHasNext()",
+      "description": "Indicates whether there are more records after the current page set.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getHasPrevious",
+      "signature": "public Boolean getHasPrevious()",
+      "description": "Indicates whether there are more records before the current page set.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getListViewOptions",
+      "signature": "public System.SelectOption getListViewOptions()",
+      "description": "Returns a list of the listviews available to the current user.",
+      "methodParams": [],
+      "datatype": "System.SelectOption[]"
+    },
+    {
+      "name": "getPageNumber",
+      "signature": "public Integer getPageNumber()",
+      "description": "Returns the page number of the current page set. Note that the first page returns 1.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "getPageSize",
+      "signature": "public Integer getPageSize()",
+      "description": "Returns the number of records included in each page set.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "getRecord",
+      "signature": "public sObject getRecord()",
+      "description": "Returns the sObject that represents the changes to the selected records. This retrieves the prototype object contained within the class, and is used for performing mass updates.",
+      "methodParams": [],
+      "datatype": "sObject"
+    },
+    {
+      "name": "getRecords",
+      "signature": "public sObject[] getRecords()",
+      "description": "Returns the list of sObjects in the current page set. This list is immutable, i.e. you can't call clear() on it.",
+      "methodParams": [],
+      "datatype": "sObject[]"
+    },
+    {
+      "name": "getResultSize",
+      "signature": "public Integer getResultSize()",
+      "description": "Returns the number of records in the set.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "getSelected",
+      "signature": "public sObject[] getSelected()",
+      "description": "Returns the list of sObjects that have been selected.",
+      "methodParams": [],
+      "datatype": "sObject[]"
+    },
+    {
+      "name": "last",
+      "signature": "public Void last()",
+      "description": "Returns the last page of records.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "next",
+      "signature": "public Void next()",
+      "description": "Returns the next page of records.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "previous",
+      "signature": "public Void previous()",
+      "description": "Returns the previous page of records.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "save",
+      "signature": "public System.PageReference save()",
+      "description": "Inserts new records or updates existing records that have been changed. After this operation is finished, it returns a PageReference to the original page, if known, or the home page.",
+      "methodParams": [],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "setFilterID",
+      "signature": "public Void setFilterID(String filterId)",
+      "description": "Sets the filter ID of the controller.",
+      "methodParams": [
+        {
+          "name": "filterId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setpageNumber",
+      "signature": "public Void setpageNumber(Integer pageNumber)",
+      "description": "Sets the page number.",
+      "methodParams": [
+        {
+          "name": "pageNumber",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setPageSize",
+      "signature": "public Void setPageSize(Integer pageSize)",
+      "description": "Sets the number of records in each page set.",
+      "methodParams": [
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setSelected",
+      "signature": "public Void setSelected(sObject[] selectedRecords)",
+      "description": "Set the selected records.",
+      "methodParams": [
+        {
+          "name": "selectedRecords",
+          "datatype": "sObject[]"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Creates an instance of the ApexPages.StandardSetController class for the list of objects returned by the query",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_standardsetcontroller.htm#apex_pages_standardsetcontroller"
+}

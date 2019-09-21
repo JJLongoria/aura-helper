@@ -1,0 +1,26 @@
+{
+  "name": "UpsertContext",
+  "namespace": "DataSource",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "rows",
+      "signature": "public List<Map<String,ANY>> rows {get; set;}",
+      "description": "List of rows corresponding to the external object records to upsert.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [],
+  "description": "An instance of UpsertContext",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_UpsertContext.htm#apex_class_DataSource_UpsertContext"
+}

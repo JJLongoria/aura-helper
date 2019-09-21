@@ -1,0 +1,31 @@
+{
+  "name": "QuickActionDefaultsHandler",
+  "namespace": "QuickAction",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "onInitDefaults",
+      "signature": "public void onInitDefaults(QuickAction.QuickActionDefaults[] actionDefaults)",
+      "description": "Implement this method to provide default values for the standard Email action in the case feed.",
+      "methodParams": [
+        {
+          "name": "actionDefaults",
+          "datatype": "QuickAction.QuickActionDefaults[]"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "The QuickAction.QuickActionDefaultsHandler interface lets you specify the default",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_QuickAction_QuickActionDefaultsHandler.htm#apex_interface_QuickAction_QuickActionDefaultsHandler"
+}

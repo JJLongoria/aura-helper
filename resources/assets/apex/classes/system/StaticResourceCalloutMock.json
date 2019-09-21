@@ -1,0 +1,79 @@
+{
+  "name": "StaticResourceCalloutMock",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "StaticResourceCalloutMock",
+      "signature": "public StaticResourceCalloutMock()",
+      "description": "Creates a new instance of the StaticResourceCalloutMock class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "setHeader",
+      "signature": "public Void setHeader(String headerName, String headerValue)",
+      "description": "Sets the specified header name and value for the fake response.",
+      "methodParams": [
+        {
+          "name": "headerName",
+          "datatype": "String"
+        },
+        {
+          "name": "headerValue",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setStaticResource",
+      "signature": "public Void setStaticResource(String resourceName)",
+      "description": "Sets the specified static resource, which contains the response body.",
+      "methodParams": [
+        {
+          "name": "resourceName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setStatus",
+      "signature": "public Void setStatus(String httpStatus)",
+      "description": "Sets the specified HTTP status for the response.",
+      "methodParams": [
+        {
+          "name": "httpStatus",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setStatusCode",
+      "signature": "public Void setStatusCode(Integer httpStatusCode)",
+      "description": "Sets the specified HTTP status for the response.",
+      "methodParams": [
+        {
+          "name": "httpStatusCode",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Utility class used to specify a fake response for testing",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_staticresourcecalloutmock.htm#apex_methods_system_staticresourcecalloutmock"
+}

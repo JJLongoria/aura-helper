@@ -1,0 +1,26 @@
+{
+  "name": "SchedulableContext",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getTriggerId",
+      "signature": "public Id getTriggerId()",
+      "description": "Returns the ID of the CronTrigger scheduled job.",
+      "methodParams": [],
+      "datatype": "ID"
+    }
+  ],
+  "description": "Represents the parameter type of a method in a class that implements the Schedulable interface and contains the scheduled job ID. This",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_schedulablecontext.htm#apex_interface_system_schedulablecontext"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "DeletedRecord",
+  "namespace": "Database",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDeletedDate",
+      "signature": "public Date getDeletedDate()",
+      "description": "Returns the deleted date of this record.",
+      "methodParams": [],
+      "datatype": "Date"
+    },
+    {
+      "name": "getId",
+      "signature": "public Id getId()",
+      "description": "Returns the ID of a record deleted within the time window specified in the Database.getDeleted method.",
+      "methodParams": [],
+      "datatype": "ID"
+    }
+  ],
+  "description": "Contains information about a deleted record.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_deletedrecord.htm#apex_class_database_deletedrecord"
+}

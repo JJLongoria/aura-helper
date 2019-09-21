@@ -1,0 +1,54 @@
+{
+  "name": "UserProvisioningPlugin",
+  "namespace": "UserProvisioning",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "buildDescribeCall",
+      "signature": "public Process.PluginDescribeResult buildDescribeCall()",
+      "description": "Use this method to add more input and output parameters to those defined in the base class.",
+      "methodParams": [],
+      "datatype": "Process.PluginDescribeResult"
+    },
+    {
+      "name": "describe",
+      "signature": "public Process.PluginDescribeResult describe()",
+      "description": "Returns a Process.PluginDescribeResult object that describes this method call.",
+      "methodParams": [],
+      "datatype": "Process.PluginDescribeResult"
+    },
+    {
+      "name": "getPluginClassName",
+      "signature": "public String getPluginClassName()",
+      "description": "Returns the name of the class implementing the plugin.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "invoke",
+      "signature": "public Process.PluginResult invoke(Process.PluginRequest request)",
+      "description": "Primary method that the system invokes when the class that implements the interface is instantiated.",
+      "methodParams": [
+        {
+          "name": "request",
+          "datatype": "Process.PluginRequest"
+        }
+      ],
+      "datatype": "Process.PluginDescribeResult"
+    }
+  ],
+  "description": "The UserProvisioningPlugin",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_UserProvisioning_UserProvisioningPlugin.htm#apex_class_UserProvisioning_UserProvisioningPlugin"
+}

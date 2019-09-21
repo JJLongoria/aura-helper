@@ -1,0 +1,85 @@
+{
+  "name": "UserProvisioningLog",
+  "namespace": "UserProvisioning",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "log",
+      "signature": "public void log(String userProvisioningRequestId, String details)",
+      "description": "Writes a specific message, such as an error message, to monitor the progress of a user provisioning request.",
+      "methodParams": [
+        {
+          "name": "userProvisioningRequestId",
+          "datatype": "String"
+        },
+        {
+          "name": "details",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "log",
+      "signature": "public void log(String userProvisioningRequestId, String status, String details)",
+      "description": "Writes a specific status and message, such a status and detailed error message, to monitor the progress of a user provisioning request.",
+      "methodParams": [
+        {
+          "name": "userProvisioningRequestId",
+          "datatype": "String"
+        },
+        {
+          "name": "status",
+          "datatype": "String"
+        },
+        {
+          "name": "details",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "log",
+      "signature": "public void log(String userProvisioningRequestId, String externalUserId, String externalUserName, String userId, String details)",
+      "description": "Writes a specific message, such as an error message, to monitor the progress of a user provisioning request associated with a specific user.",
+      "methodParams": [
+        {
+          "name": "userProvisioningRequestId",
+          "datatype": "String"
+        },
+        {
+          "name": "externalUserId",
+          "datatype": "String"
+        },
+        {
+          "name": "externalUserName",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "details",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Provides methods for writing messages to monitor outbound user",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_userprovisioning_userprovisioninglog.htm#apex_class_UserProvisioning_UserProvisioningLog"
+}

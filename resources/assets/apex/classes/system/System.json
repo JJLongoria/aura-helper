@@ -1,0 +1,437 @@
+{
+  "name": "System",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "abortJob",
+      "signature": "public static Void abortJob(String jobId)",
+      "description": "Stops the specified job. The stopped job is still visible in the job queue in the Salesforce user interface.",
+      "methodParams": [
+        {
+          "name": "jobId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "assert",
+      "signature": "public static Void assert(Boolean condition, Object msg)",
+      "description": "Asserts that the specified condition is true. If it is not, a fatal error is returned that causes code execution to halt.",
+      "methodParams": [
+        {
+          "name": "condition",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "msg",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "assertEquals",
+      "signature": "public static Void assertEquals(Object expected, Object actual, Object msg)",
+      "description": "Asserts that the first two arguments are the same. If they are not, a fatal error is returned that causes code execution to halt.",
+      "methodParams": [
+        {
+          "name": "expected",
+          "datatype": "Object"
+        },
+        {
+          "name": "actual",
+          "datatype": "Object"
+        },
+        {
+          "name": "msg",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "assertNotEquals",
+      "signature": "public static Void assertNotEquals(Object expected, Object actual, Object msg)",
+      "description": "Asserts that the first two arguments are different. If they are the same, a fatal error is returned that causes code execution to halt.",
+      "methodParams": [
+        {
+          "name": "expected",
+          "datatype": "Object"
+        },
+        {
+          "name": "actual",
+          "datatype": "Object"
+        },
+        {
+          "name": "msg",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "currentPageReference",
+      "signature": "public static System.PageReference currentPageReference()",
+      "description": "Returns a reference to the current page. This is used with Visualforce pages.",
+      "methodParams": [],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "currentTimeMillis",
+      "signature": "public static Long currentTimeMillis()",
+      "description": "Returns the current time in milliseconds, which is expressed as the difference between the current time and midnight, January 1, 1970 UTC.",
+      "methodParams": [],
+      "datatype": "Long"
+    },
+    {
+      "name": "debug",
+      "signature": "public static Void debug(Object msg)",
+      "description": "Writes the specified message, in string format, to the execution debug log. The DEBUG log level is used.",
+      "methodParams": [
+        {
+          "name": "msg",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "debug",
+      "signature": "public static Void debug(LoggingLevel logLevel, Object msg)",
+      "description": "Writes the specified message, in string format, to the execution debug log with the specified log level.",
+      "methodParams": [
+        {
+          "name": "logLevel",
+          "datatype": "System.LoggingLevel"
+        },
+        {
+          "name": "msg",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "enqueueJob",
+      "signature": "public static ID enqueueJob(Object queueableObj)",
+      "description": "Adds a job to the Apex job queue that corresponds to the specified queueable class and returns the job ID.",
+      "methodParams": [
+        {
+          "name": "queueableObj",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "ID"
+    },
+    {
+      "name": "equals",
+      "signature": "public static Boolean equals(Object obj1, Object obj2)",
+      "description": "Returns true if both arguments are equal. Otherwise, returns false.",
+      "methodParams": [
+        {
+          "name": "obj1",
+          "datatype": "Object"
+        },
+        {
+          "name": "obj2",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getApplicationReadWriteMode",
+      "signature": "public static System.ApplicationReadWriteMode getApplicationReadWriteMode()",
+      "description": "Returns the read write mode set for an organization during Salesforce.com upgrades and downtimes.",
+      "methodParams": [],
+      "datatype": "System.ApplicationReadWriteMode"
+    },
+    {
+      "name": "hashCode",
+      "signature": "public static Integer hashCode(Object obj)",
+      "description": "Returns the hash code of the specified object.",
+      "methodParams": [
+        {
+          "name": "obj",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "isBatch",
+      "signature": "public static Boolean isBatch()",
+      "description": "Returns true if a batch Apex job invoked the executing code, or false if not. In API version 35.0 and earlier, also returns true if a queueable Apex job invoked the code.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isFuture",
+      "signature": "public static Boolean isFuture()",
+      "description": "Returns true if the currently executing code is invoked by code contained in a method annotated with future; false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isQueueable",
+      "signature": "public static Boolean isQueueable()",
+      "description": "Returns true if a queueable Apex job invoked the executing code. Returns false if not, including if a batch Apex job or a future method invoked the code.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isScheduled",
+      "signature": "public static Boolean isScheduled()",
+      "description": "Returns true if the currently executing code is invoked by a scheduled Apex job; false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "movePassword",
+      "signature": "public static Void movePassword(ID targetUserId, ID sourceUserId)",
+      "description": "Moves the specified user’s password to a different user.",
+      "methodParams": [
+        {
+          "name": "targetUserId",
+          "datatype": "ID"
+        },
+        {
+          "name": "sourceUserId",
+          "datatype": "ID"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "now",
+      "signature": "public static Datetime now()",
+      "description": "Returns the current date and time in the GMT time zone.",
+      "methodParams": [],
+      "datatype": "Datetime"
+    },
+    {
+      "name": "process",
+      "signature": "public static List<Id> process(List<Id> workItemIds, String action, String comments, String nextApprover)",
+      "description": "Processes the list of work item IDs.",
+      "methodParams": [
+        {
+          "name": "workItemIds",
+          "datatype": "List<Id>"
+        },
+        {
+          "name": "action",
+          "datatype": "String"
+        },
+        {
+          "name": "comments",
+          "datatype": "String"
+        },
+        {
+          "name": "nextApprover",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "List<Id>"
+    },
+    {
+      "name": "purgeOldAsyncJobs",
+      "signature": "public static Integer purgeOldAsyncJobs(Date dt)",
+      "description": "Deletes asynchronous Apex job records for jobs that have finished execution before the specified date with a Completed, Aborted, or Failed status, and returns the number of records deleted.",
+      "methodParams": [
+        {
+          "name": "dt",
+          "datatype": "Date"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "requestVersion",
+      "signature": "public static System.Version requestVersion()",
+      "description": "Returns a two-part version that contains the major and minor version numbers of a package.",
+      "methodParams": [],
+      "datatype": "System.Version"
+    },
+    {
+      "name": "resetPassword",
+      "signature": "public static System.ResetPasswordResult resetPassword(ID userId, Boolean sendUserEmail)",
+      "description": "Resets the password for the specified user.",
+      "methodParams": [
+        {
+          "name": "userId",
+          "datatype": "ID"
+        },
+        {
+          "name": "sendUserEmail",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "System.ResetPasswordResult"
+    },
+    {
+      "name": "resetPasswordWithEmailTemplate",
+      "signature": "public static System.ResetPasswordResult resetPasswordWithEmailTemplate(Id userId, Boolean sendUserEmail, String emailTemplateName)",
+      "description": "Resets the user's password and sends an email to the user with their new password. You specify the email template that is sent to the specified user. Use this method for external users of communities.",
+      "methodParams": [
+        {
+          "name": "userId",
+          "datatype": "Id"
+        },
+        {
+          "name": "sendUserEmail",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "emailTemplateName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "System.ResetPasswordResult"
+    },
+    {
+      "name": "runAs",
+      "signature": "public static Void runAs(System.Version version)",
+      "description": "Changes the current package version to the package version specified in the argument.",
+      "methodParams": [
+        {
+          "name": "version",
+          "datatype": "System.Version"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "runAs",
+      "signature": "public static Void runAs(User userSObject)",
+      "description": "Changes the current user to the specified user.",
+      "methodParams": [
+        {
+          "name": "userSObject",
+          "datatype": "User"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "schedule",
+      "signature": "public static String schedule(String jobName, String cronExpression, Object schedulableClass)",
+      "description": "Use schedule with an Apex class that implements the Schedulable interface to schedule the class to run at the time specified by a Cron expression.",
+      "methodParams": [
+        {
+          "name": "jobName",
+          "datatype": "String"
+        },
+        {
+          "name": "cronExpression",
+          "datatype": "String"
+        },
+        {
+          "name": "schedulableClass",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "scheduleBatch",
+      "signature": "public static String scheduleBatch(Database.Batchable batchable, String jobName, Integer minutesFromNow)",
+      "description": "Schedules a batch job to run once in the future after the specified time interval and with the specified job name.",
+      "methodParams": [
+        {
+          "name": "batchable",
+          "datatype": "Database.Batchable"
+        },
+        {
+          "name": "jobName",
+          "datatype": "String"
+        },
+        {
+          "name": "minutesFromNow",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "scheduleBatch",
+      "signature": "public static String scheduleBatch(Database.Batchable batchable, String jobName, Integer minutesFromNow, Integer scopeSize)",
+      "description": "Schedules a batch job to run once in the future after the specified the time interval, with the specified job name and scope size. Returns the scheduled job ID (CronTrigger ID).",
+      "methodParams": [
+        {
+          "name": "batchable",
+          "datatype": "Database.Batchable"
+        },
+        {
+          "name": "jobName",
+          "datatype": "String"
+        },
+        {
+          "name": "minutesFromNow",
+          "datatype": "Integer"
+        },
+        {
+          "name": "scopeSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "setPassword",
+      "signature": "public static Void setPassword(ID userId, String password)",
+      "description": "Sets the password for the specified user.",
+      "methodParams": [
+        {
+          "name": "userId",
+          "datatype": "ID"
+        },
+        {
+          "name": "password",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "submit",
+      "signature": "public static List<ID> submit(List<ID> workItemIds, String comments, String nextApprover)",
+      "description": "Submits the processed approvals. The current user is the submitter and the entry criteria is evaluated for all processes applicable to the current user.",
+      "methodParams": [
+        {
+          "name": "workItemIds",
+          "datatype": "List<ID>"
+        },
+        {
+          "name": "comments",
+          "datatype": "String"
+        },
+        {
+          "name": "nextApprover",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "List<ID>"
+    },
+    {
+      "name": "today",
+      "signature": "public static Date today()",
+      "description": "Returns the current date in the current user's time zone.",
+      "methodParams": [],
+      "datatype": "Date"
+    }
+  ],
+  "description": "Contains methods for system operations, such as writing",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_system.htm#apex_methods_system_system"
+}

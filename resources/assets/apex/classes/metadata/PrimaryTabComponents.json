@@ -1,0 +1,41 @@
+{
+  "name": "PrimaryTabComponents",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "component",
+      "signature": "public List<Metadata.ConsoleComponent> component {get; set;}",
+      "description": "Represents a custom console component (Visualforce page, lookup field, or related lists) on a section of a page layout.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "containers",
+      "signature": "public List<Metadata.Container> containers {get; set;}",
+      "description": "Represents a location and style in which to display more than one custom console component on the sidebars of the Salesforce console.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.PrimaryTabComponents.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "Represents custom console components on primary tabs in the Salesforce",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_PrimaryTabComponents.htm#apex_class_Metadata_PrimaryTabComponents"
+}

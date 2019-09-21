@@ -1,0 +1,119 @@
+{
+  "name": "Datacloud",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getCompaniesFromOrder",
+      "signature": "public static ConnectApi.DatacloudCompanies getCompaniesFromOrder(String orderId, String pageSize, String page)",
+      "description": "Get a list of purchased company records for an order.",
+      "methodParams": [
+        {
+          "name": "orderId",
+          "datatype": "String"
+        },
+        {
+          "name": "page",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.DatacloudCompanies"
+    },
+    {
+      "name": "getCompany",
+      "signature": "public static ConnectApi.DatacloudCompany getCompany(String companyId)",
+      "description": "Get a company record.",
+      "methodParams": [
+        {
+          "name": "companyId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.DatacloudCompany"
+    },
+    {
+      "name": "getContact",
+      "signature": "public static ConnectApi.DatacloudContact getContact(String contactId)",
+      "description": "Get a contact.",
+      "methodParams": [
+        {
+          "name": "contactId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.DatacloudContact"
+    },
+    {
+      "name": "getContactsFromOrder",
+      "signature": "public static ConnectApi.DatacloudContacts getContactsFromOrder(String orderId, String page, String pageSize)",
+      "description": "Get a list of purchased contacts for an order.",
+      "methodParams": [
+        {
+          "name": "orderId",
+          "datatype": "String"
+        },
+        {
+          "name": "page",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.DatacloudContacts"
+    },
+    {
+      "name": "getOrder",
+      "signature": "public static ConnectApi.DatacloudOrder getOrder(String orderId)",
+      "description": "Get an order.",
+      "methodParams": [
+        {
+          "name": "orderId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.DatacloudOrder"
+    },
+    {
+      "name": "getUsage",
+      "signature": "public static ConnectApi.DatacloudPurchaseUsage getUsage(String userId)",
+      "description": "Get purchase usage information for a user.",
+      "methodParams": [
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.DatacloudPurchaseUsage"
+    },
+    {
+      "name": "postOrder",
+      "signature": "public static ConnectApi.DatacloudOrder postOrder(ConnectApi.DatacloudOrderInput orderInput)",
+      "description": "Purchase records that are listed in an input file.",
+      "methodParams": [
+        {
+          "name": "orderInput",
+          "datatype": "ConnectApi.DatacloudOrderInput"
+        }
+      ],
+      "datatype": "ConnectApi.DatacloudOrder"
+    }
+  ],
+  "description": "Get a list of purchased company records for an order.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Datacloud_static_methods.htm#apex_ConnectAPI_Datacloud_static_methods"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "QueueableContext",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getJobId",
+      "signature": "public ID getJobId()",
+      "description": "Returns the ID of the submitted job that uses the Queueable interface.",
+      "methodParams": [],
+      "datatype": "ID"
+    }
+  ],
+  "description": "Represents the parameter type of the execute()",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_queueablecontext.htm#apex_interface_system_queueablecontext"
+}

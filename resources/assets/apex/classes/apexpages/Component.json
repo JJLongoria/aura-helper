@@ -1,0 +1,33 @@
+{
+  "name": "Component",
+  "namespace": "ApexPages",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "childComponents",
+      "signature": "public List <ApexPages.Component> childComponents {get; set;}",
+      "description": "Returns a reference to the child components for the component.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "expressions",
+      "signature": "public String expressions {get; set;}",
+      "description": "Sets the content of an attribute using the expression language notation. The notation for this is expressions.name_of_attribute.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [],
+  "description": "Represents a dynamic Visualforce component in",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_dynamic_components.htm#apex_pages_dynamic_components"
+}

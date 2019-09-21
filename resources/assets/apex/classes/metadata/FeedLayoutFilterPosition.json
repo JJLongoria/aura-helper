@@ -1,0 +1,24 @@
+{
+    "name": "FeedLayoutFilterPosition",
+    "namespace": "Metadata",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "isEnum": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "enumValues": [
+        "CenterDropDown",
+        "LeftFixed",
+        "LeftFloat"
+    ],
+    "fields": [],
+    "constuctors": [],
+    "methods": [],
+    "description": "Indicates the type of feed layout component.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_FeedLayoutFilterPosition.htm"
+  }

@@ -1,0 +1,94 @@
+{
+  "name": "Id",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "addError",
+      "signature": "public Void addError(String errorMsg)",
+      "description": "Marks a trigger record with a custom error message and prevents any DML operation from occurring.",
+      "methodParams": [
+        {
+          "name": "errorMsg",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addError",
+      "signature": "public Void addError(String errorMsg, Boolean escape)",
+      "description": "Marks a trigger record with a custom error message, specifies if the error message should be escaped, and prevents any DML operation from occurring.",
+      "methodParams": [
+        {
+          "name": "errorMsg",
+          "datatype": "String"
+        },
+        {
+          "name": "escape",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addError",
+      "signature": "public Void addError(Exception exceptionError)",
+      "description": "Marks a trigger record with a custom error message and prevents any DML operation from occurring.",
+      "methodParams": [
+        {
+          "name": "exceptionError",
+          "datatype": "System.Exception"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addError",
+      "signature": "public Void addError(Exception exceptionError, Boolean escape)",
+      "description": "Marks a trigger record with a custom error message and prevents any DML operation from occurring.",
+      "methodParams": [
+        {
+          "name": "exceptionError",
+          "datatype": "System.Exception"
+        },
+        {
+          "name": "escape",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "getSObjectType",
+      "signature": "public Schema.SObjectType getSObjectType()",
+      "description": "Returns the token for the sObject corresponding to this ID. This method is primarily used with describe information.",
+      "methodParams": [],
+      "datatype": "Schema.SObjectType"
+    },
+    {
+      "name": "valueOf",
+      "signature": "public static ID valueOf(String toID)",
+      "description": "Converts the specified String into an ID and returns the ID.",
+      "methodParams": [
+        {
+          "name": "toID",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ID"
+    }
+  ],
+  "description": "Contains methods for the ID primitive data type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_id.htm#apex_methods_system_id"
+}

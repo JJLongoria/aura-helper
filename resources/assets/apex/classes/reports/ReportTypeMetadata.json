@@ -1,0 +1,56 @@
+{
+  "name": "ReportTypeMetadata",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getCategories",
+      "signature": "",
+      "description": "Returns all fields in the report type. The fields are organized by section.",
+      "methodParams": [],
+      "datatype": "List<Reports.ReportTypeColumnCategory>"
+    },
+    {
+      "name": "getDivisionInfo",
+      "signature": "public Reports.ReportDivisionInfo getDivisionInfo()",
+      "description": "Returns the default division and a list of all possible divisions that can be applied to this type of report.",
+      "methodParams": [],
+      "datatype": "Reports.ReportDivisionInfo"
+    },
+    {
+      "name": "getScopeInfo",
+      "signature": "public Reports.ReportScopeInfo getScopeInfo()",
+      "description": "Returns information about the scopes that can be applied to this type of report.",
+      "methodParams": [],
+      "datatype": "Reports.ReportScopeInfo"
+    },
+    {
+      "name": "getStandardDateFilterDurationGroups",
+      "signature": "public List<Reports.StandardDateFilterDurationGroup> getStandardDateFilterDurationGroups()",
+      "description": "Returns information about the standard date filter groupings that can be applied to this type of report. Standard date filter groupings include Calendar Year, Calendar Quarter, Calendar Month, Calendar Week, Fiscal Year, Fiscal Quarter, Day and a custom value based on a user-defined date range.",
+      "methodParams": [],
+      "datatype": "List<Reports.StandardDateFilterDurationGroup>"
+    },
+    {
+      "name": "getStandardFilterInfos",
+      "signature": "public Map<String,Reports.StandardFilterInfo> getStandardFilterInfos()",
+      "description": "Returns information about standard date filters that can be applied to this type of report.",
+      "methodParams": [],
+      "datatype": "Map<String,Reports.StandardFilterInfo>"
+    }
+  ],
+  "description": "Contains report type metadata, which gives you information",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportTypeMetadata.htm#apex_class_reports_reporttypemetadata"
+}

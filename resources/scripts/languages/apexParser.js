@@ -2,310 +2,1011 @@ const logger = require('../main/logger');
 const Tokenizer = require('./tokenizer').Tokenizer;
 const TokenType = require('./tokenTypes');
 const Utils = require('./Utils').Utils;
+const fileSystem = require('../fileSystem');
+const FileReader = fileSystem.FileReader;
+const FileChecker = fileSystem.FileChecker;
+const Paths = fileSystem.Paths;
+
+const apexKeywords = [
+    "abstract",
+    "and",
+    "any",
+    "activate",
+    "array",
+    "as",
+    "asc",
+    "autonomous",
+    "begin",
+    "bigdecimal",
+    "blob",
+    "break",
+    "bulk",
+    "by",
+    "byte",
+    "case",
+    "cast",
+    "catch",
+    "char",
+    "class",
+    "collect",
+    "commit",
+    "const",
+    "continue",
+    "convertcurrency",
+    "decimal",
+    "default",
+    "delete",
+    "desc",
+    "do",
+    "else",
+    "end",
+    "enum",
+    "exception",
+    "exit",
+    "export",
+    "extends",
+    "false",
+    "final",
+    "finally",
+    "float",
+    "for",
+    "from",
+    "future",
+    "global",
+    "goto",
+    "group",
+    "having",
+    "hint",
+    "if",
+    "implements",
+    "import",
+    "in",
+    "inner",
+    "insert",
+    "instanceof",
+    "interface",
+    "into",
+    "int",
+    "join",
+    "last_90_days",
+    "last_month",
+    "last_n_days",
+    "last_week",
+    "like",
+    "limit",
+    "list",
+    "long",
+    "loop",
+    "map",
+    "merge",
+    "new",
+    "next_90_days",
+    "next_month",
+    "next_n_days",
+    "next_week",
+    "not",
+    "null",
+    "nulls",
+    "number",
+    "object",
+    "of",
+    "on",
+    "or",
+    "outer",
+    "override",
+    "package",
+    "parallel",
+    "pragma",
+    "private",
+    "protected",
+    "public",
+    "switch",
+    "synchronized",
+    "system",
+    "testmethod",
+    "then",
+    "this",
+    "this_month",
+    "this_week",
+    "throw",
+    "today",
+    "tolabel",
+    "tomorrow",
+    "transaction",
+    "trigger",
+    "true",
+    "try",
+    "type",
+    "undelete",
+    "update",
+    "upsert",
+    "using",
+    "virtual",
+    "webservice",
+    "when",
+    "where",
+    "while",
+    "yesterday",
+];
 
 class ApexParser {
-    static parse(content, position) {
-        let tokens = Tokenizer.tokenize(content);
-        let fileStructure = {
-            modifier: "",
+
+    static getClassBaseStructure() {
+        return {
+            accessModifier: "",
+            definitionModifier: "",
             withSharing: true,
-            abstract: false,
-            virtual: false,
-            className: "",
+            inheritedSharing: false,
+            name: "",
             implements: [],
-            extends: "",
+            extendsType: "",
+            isInterface: false,
+            commenTokens: [],
+            classes: {},
+            enums: {},
             fields: [],
             methods: [],
-            posData: {
-
-            },
+            constuctors: [],
+            inheritedClasses: {},
+            inheritedEnums: {},
+            inheritedFields: [],
+            inheritedMethods: [],
+            inheritedConstructors: [],
+            posData: undefined
         };
+    }
+
+    static parse(content, position) {
+        let tokens = Tokenizer.tokenize(content);
+        let fileStructure = this.getClassBaseStructure();
         let index = 0;
         let bracketIndent = 0;
-        let parenIndent = 0;
-        let aBracketIndent = 0;
-        let modifier;
+        let accessModifier;
         let isStatic = false;
-        let name;
         let isFinal = false;
-        let isAbstrac = false;
+        let isAbstract = false;
         let isVirtual = false;
-        let methodParams = [];
+        let definitionModifier;
+        let withSharing = true;
+        let inheritedSharing = false;
         let annotation;
-        let comment;
-        let signature;
-        let returnType;
-        let returnIndexStart;
-        let returnIndexEnd;
+        let override;
+        let commentTokens = [];
         let dataTypeIndexStart;
         let dataTypeIndexEnd;
-        let isCommentLine = false;
+        let activeClassName = "";
+        let testMethod;
+        let transient;
+        let positionData;
         while (index < tokens.length) {
             let lastToken = Utils.getLastToken(tokens, index);
             let token = tokens[index];
             let nextToken = Utils.getNextToken(tokens, index);
+            let twoNextToken = Utils.getTwoNextToken(tokens, index);
             if (token.tokenType === TokenType.LBRACKET) {
                 bracketIndent++;
             }
             else if (token.tokenType === TokenType.RBRACKET) {
                 bracketIndent--;
+                if (bracketIndent === 1)
+                    activeClassName = fileStructure.name;
             }
-            if (token.tokenType === 'operator' && token.content === "/" && nextToken && nextToken.tokenType === 'operator' && nextToken.content === "/")
-                isCommentLine = true;
-            if (isCommentLine && nextToken && token.line != nextToken.line)
-                isCommentLine = false;
-            if (!nextToken)
-                isCommentLine = false;
-            if (!isCommentLine) {
-                if (bracketIndent === 0) {
-                    if (token.tokenType === TokenType.IDENTIFIER && (token.content.toLowerCase() === 'public' || token.content.toLowerCase() === 'global' || token.content.toLowerCase() === 'private'))
-                        fileStructure.modifier = token.content;
-                    else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'without' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER && nextToken.content.toLowerCase() === 'sharing')
-                        fileStructure.withSharing = false;
-                    else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'class' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER)
-                        fileStructure.className = nextToken.content;
-                    else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'abstract')
-                        fileStructure.abstract = true;
-                    else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'virtual')
-                        fileStructure.virtual = true;
-                    else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'implements') {
-                        var interfaceName = "";
-                        while (token.content.toLowerCase() !== 'extends' && token.tokenType !== TokenType.LBRACKET) {
-                            token = tokens[index];
-                            if (token.tokenType === TokenType.LABRACKET) {
-                                aBracketIndent++;
-                            }
-                            else if (token.tokenType === TokenType.RABRACKET) {
-                                aBracketIndent--;
-                            }
-                            if (token.tokenType === TokenType.COMMA && aBracketIndent == 0) {
-                                fileStructure.implements.push(interfaceName);
-                                interfaceName = "";
-                            } else if(token.content.toLowerCase() !== 'implements' && token.tokenType !== TokenType.LBRACKET){
-                                interfaceName += token.content;
-                            }
-                            index++;
-                        }
-                        if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'extends') {
-                            var extendsName = "";
-                            while (token.tokenType !== TokenType.LBRACKET) {
-                                token = tokens[index];
-                                if (token.tokenType !== TokenType.LBRACKET)
-                                    extendsName += token.content;
-                                index++;
-                            }
-                            fileStructure.extends = extendsName;
-                        }
-                        if (token.tokenType === TokenType.LBRACKET)
-                            bracketIndent++;
-                    } else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'extends') {
-                        var extendsName = "";
-                        while (token.tokenType !== TokenType.LBRACKET) {
-                            token = tokens[index];
-                            if (token.tokenType !== TokenType.LBRACKET)
-                                extendsName += token.content;
-                            index++;
-                        }
-                        fileStructure.extends = extendsName;
-                        if (token.tokenType === TokenType.LBRACKET)
-                            bracketIndent++;
-                    }
-                } else if (bracketIndent === 1) {
-                    if (token.tokenType === TokenType.OPERATOR && token.content === '/' && nextToken && nextToken.tokenType === TokenType.OPERATOR && nextToken.content === '*') {
-                        let endComment = false;
-                        while (!endComment) {
-                            token = tokens[index];
-                            nextToken = Utils.getNextToken(tokens, index);
-                            endComment = token.tokenType === TokenType.OPERATOR && token.content === '*' && nextToken && nextToken.tokenType === TokenType.OPERATOR && nextToken.content === '/';
-                            index++;
-                        }
-                    } else if (token.tokenType === TokenType.IDENTIFIER && (token.content.toLowerCase() === 'public' || token.content.toLowerCase() === 'global' || token.content.toLowerCase() === 'private' || token.content.toLowerCase() === 'webservice' || token.content.toLowerCase() === 'protected')) {
-                        modifier = token.content;
-                        returnIndexStart = index + 1;
-                        dataTypeIndexStart = index + 1;
-                    } else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'abstract') {
-                        isAbstrac = true;
-                        returnIndexStart = index + 1;
-                        dataTypeIndexStart = index + 1;
-                    } else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'virtual') {
-                        isVirtual = true;
-                        returnIndexStart = index + 1;
-                        dataTypeIndexStart = index + 1;
-                    } else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'static') {
-                        isStatic = true;
-                        returnIndexStart = index + 1;
-                        dataTypeIndexStart = index + 1;
-                    } else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'final') {
-                        isFinal = true;
-                        returnIndexStart = index + 1;
-                        dataTypeIndexStart = index + 1;
-                    } else if (token.tokenType === TokenType.AT && nextToken && nextToken.tokenType === TokenType.IDENTIFIER) {
-                        annotation = "@";
-                        while (token.line == nextToken.line) {
-                            index++;
-                            token = tokens[index];
-                            nextToken = Utils.getNextToken(tokens, index);
-                            annotation += token.content;
-                        }
-                    } else if (token.tokenType === TokenType.IDENTIFIER && nextToken && (nextToken.tokenType === TokenType.EQUAL || nextToken.tokenType === TokenType.SEMICOLON)) {
-                        dataTypeIndexEnd = index;
-                        name = token.content;
-                        let assignTokens = [];
-                        let isOnAssignment = false;
-                        while (token.tokenType !== TokenType.SEMICOLON) {
-                            token = tokens[index];
-                            if (isOnAssignment) {
-                                assignTokens.push(token);
-                            }
-                            if (token.tokenType === TokenType.EQUAL) {
-                                isOnAssignment = true;
-                            }
-                            index++;
-                        }
-                        index--;
-                        let dataType = this.getDataType(dataTypeIndexStart, dataTypeIndexEnd, tokens);
-                        let variable = {
-                            name: name,
-                            annotation: annotation,
-                            modifier: modifier,
-                            isStatic: isStatic,
-                            isFinal: isFinal,
-                            dataType: dataType,
-                            assignTokens: assignTokens
-                        };
-                        modifier = undefined;
-                        isStatic = false;
-                        name = undefined;
-                        isFinal = false;
-                        isAbstrac = false;
-                        isVirtual = false;
-                        methodParams = [];
-                        annotation = undefined;
-                        comment = undefined;
-                        fileStructure.fields.push(variable);
-                    } else if (token.tokenType === TokenType.IDENTIFIER && nextToken && nextToken.tokenType === TokenType.LPAREN) {
-                        returnIndexEnd = index;
-                        name = token.content;
-                        let bodyTokens = [];
-                        let param = {
-                            name: "",
-                            type: ""
-                        };
-                        let methodBracketIndent = 0;
-                        let endLoop = false;
-                        let methodStartToken;
-                        let methodEndToken;
-                        while (!endLoop) {
-                            token = tokens[index];
-                            lastToken = Utils.getLastToken(tokens, index);
-                            nextToken = Utils.getNextToken(tokens, index);
-                            if (token.tokenType === TokenType.LPAREN) {
-                                parenIndent++;
-                            }
-                            else if (token.tokenType === TokenType.RPAREN) {
-                                parenIndent--;
-                            }
-                            else if (token.tokenType === TokenType.LABRACKET) {
-                                aBracketIndent++;
-                            }
-                            else if (token.tokenType === TokenType.RABRACKET) {
-                                aBracketIndent--;
-                            } else if (token.tokenType === TokenType.LBRACKET) {
-                                methodBracketIndent++;
-                                if (methodBracketIndent === 1)
-                                    methodStartToken = token;
-                            } else if (token.tokenType === TokenType.RBRACKET) {
-                                methodBracketIndent--;
-                                if (methodBracketIndent === 0) {
-                                    endLoop = true;
-                                    methodEndToken = token;
-                                }
-                            }
-                            if (methodStartToken && methodEndToken && position) {
-                                if ((methodStartToken.line - 1) <= position.line && position.line <= (methodEndToken.line - 1))
-                                    fileStructure.posData.isOnMethod = true;
-                            }
-                            if (!endLoop) {
-                                if (methodBracketIndent > 0) {
-                                    bodyTokens.push(token);
-                                } else {
-                                    if ((nextToken.tokenType === TokenType.COMMA || nextToken.tokenType === TokenType.RPAREN) && token.tokenType !== TokenType.LPAREN && aBracketIndent == 0) {
-                                        param.name = token.content;
-                                        methodParams.push(param);
-                                        param = {
-                                            name: "",
-                                            type: ""
-                                        };
-                                    } else if (parenIndent > 0 && token.tokenType !== TokenType.LPAREN && token.tokenType !== TokenType.COMMA) {
-                                        param.type += token.content;
-                                    }
-                                }
-                            }
-                            index++;
-                        }
-                        index--;
-                        if (!modifier)
-                            modifier = 'public';
-                        returnType = ApexParser.getDataType(returnIndexStart, returnIndexEnd, tokens);
-                        signature = modifier;
-                        if (isStatic)
-                            signature += ' static';
-                        if (isAbstrac)
-                            signature += ' abstract';
-                        if (isVirtual)
-                            signature += ' virtual'
-                        if (isVirtual)
-                            signature += ' virtual'
-                        if (returnType)
-                            signature += ' ' + returnType;
-                        else
-                            signature += ' void';
-                        signature += ' ' + name + '(';
-                        let params = [];
-                        for (const param of methodParams) {
-                            params.push(param.type + ' ' + param.name);
-                        }
-                        signature += params.join(', ');
-                        signature += ')';
-                        bodyTokens.shift();
-                        let method = {
-                            name: name,
-                            annotation: annotation,
-                            modifier: modifier,
-                            isStatic: isStatic,
-                            abstract: isAbstrac,
-                            virtual: isVirtual,
-                            params: methodParams,
-                            bodyTokens: bodyTokens,
-                            comment: undefined,
-                            returnType: returnType,
-                            signature: signature
-                        };
-                        if (fileStructure.posData.isOnMethod) {
-                            if (!fileStructure.posData.methodName)
-                                fileStructure.posData.methodName = method.name;
-                            if (!fileStructure.posData.methodSignature)
-                                fileStructure.posData.methodSignature = method.signature;
-                        }
-                        modifier = undefined;
-                        isStatic = false;
-                        name = undefined;
-                        isFinal = false;
-                        isAbstrac = false;
-                        isVirtual = false;
-                        methodParams = [];
-                        annotation = undefined;
-                        comment = undefined;
-                        bodyTokens = [];
-                        returnType = undefined;
-                        signature = undefined;
-                        fileStructure.methods.push(method);
+            if (this.isOnPosition(position, token, nextToken)) {
+                positionData = this.getPositionData(position, token, nextToken);
+                if (positionData) {
+                    positionData.isOnClass = true;
+                }
+            }
+            if (this.isOnText(lastToken, token, nextToken)) {
+                let data = this.getText(tokens, index, position);
+                index = data.index;
+                if (data.positionData) {
+                    positionData = data.positionData;
+                    positionData.isOnClass = true;
+                }
+            } else if (this.isOnCommentLine(token, nextToken)) {
+                let data = this.getCommentLine(tokens, index, position);
+                index = data.index;
+                if (data.positionData) {
+                    positionData = data.positionData;
+                    positionData.isOnClass = true;
+                }
+            } else if (this.isOnCommentBlock(token, nextToken)) {
+                let data = this.getCommentBlock(tokens, index, position);
+                index = data.index;
+                commentTokens = data.commenTokens;
+                if (data.positionData) {
+                    positionData = data.positionData;
+                    positionData.isOnClass = true;
+                }
+            } else if (this.isOnAnnotation(token, bracketIndent)) {
+                let data = this.getAnnotation(tokens, index, position);
+                index = data.index;
+                annotation = data.annotation;
+                if (data.positionData) {
+                    positionData = data.positionData;
+                    positionData.isOnClass = true;
+                }
+            } else if (this.isAccessModifier(token)) {
+                accessModifier = token.content;
+                dataTypeIndexStart = index;
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
                     }
                 }
+            } else if (this.isDefinitionModifier(token)) {
+                definitionModifier = token.content;
+                dataTypeIndexStart = index;
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+            } else if (this.isWithoutSharing(token, nextToken)) {
+                withSharing = false;
+                inheritedSharing = false;
+                dataTypeIndexStart = index + 1;
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+            } else if (this.isInheritedSharing(token, nextToken)) {
+                withSharing = false;
+                inheritedSharing = true;
+                dataTypeIndexStart = index + 1;
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+            } else if (this.isStatic(token)) {
+                isStatic = true;
+                dataTypeIndexStart = index;
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+            } else if (this.isFinal(token)) {
+                isFinal = true;
+                dataTypeIndexStart = index;
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+            } else if (this.isOverride(token)) {
+                override = true;
+                dataTypeIndexStart = index;
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+            } else if (this.isAbstract(token)) {
+                isAbstract = true;
+                dataTypeIndexStart = index;
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+            } else if (this.isVirtual(token)) {
+                isVirtual = true;
+                dataTypeIndexStart = index;
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+            } else if (this.isTestMethod(token)) {
+                testMethod = true;
+                dataTypeIndexStart = index;
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+            } else if (this.isTransient(token)) {
+                transient = true;
+                dataTypeIndexStart = index;
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+            } else if (this.isClass(token, nextToken) || this.isInterface(token, nextToken)) {
+                activeClassName = nextToken.content;
+                if (bracketIndent === 0) {
+                    fileStructure.name = activeClassName;
+                    fileStructure.isInterface = this.isInterface(token, nextToken);
+                    fileStructure.accessModifier = accessModifier;
+                    fileStructure.definitionModifier = definitionModifier;
+                    fileStructure.withSharing = withSharing && !inheritedSharing;
+                    fileStructure.inheritedSharing = !withSharing && inheritedSharing;
+                    fileStructure.commenTokens = commentTokens;
+                    fileStructure.annotation = annotation;
+                    fileStructure.line = token.line;
+                    fileStructure.column = token.startColumn;
+                    fileStructure.abstract = isAbstract;
+                    fileStructure.virtual = token.isVirtual;
+                } else if (bracketIndent === 1) {
+                    fileStructure.classes[activeClassName] = this.getClassBaseStructure();
+                    fileStructure.classes[activeClassName].name = activeClassName;
+                    fileStructure.classes[activeClassName].accessModifier = accessModifier;
+                    fileStructure.classes[activeClassName].definitionModifier = definitionModifier;
+                    fileStructure.classes[activeClassName].withSharing = withSharing && !inheritedSharing;
+                    fileStructure.classes[activeClassName].inheritedSharing = !withSharing && inheritedSharing;
+                    fileStructure.classes[activeClassName].annotation = annotation;
+                    fileStructure.classes[activeClassName].isInterface = this.isInterface(token, nextToken);
+                    fileStructure.classes[activeClassName].commenTokens = commentTokens;
+                    fileStructure.classes[activeClassName].line = token.line;
+                    fileStructure.classes[activeClassName].column = token.startColumn;
+                    fileStructure.classes[activeClassName].abstract = isAbstract;
+                    fileStructure.classes[activeClassName].virtual = token.isVirtual;
+                }
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+                commentTokens = [];
+                accessModifier = undefined;
+                definitionModifier = undefined;
+                withSharing = true;
+                inheritedSharing = false;
+                isStatic = undefined;
+                isFinal = undefined;
+                isAbstract = false;
+                isVirtual = false;
+                annotation = undefined;
+                override = undefined;
+                testMethod = undefined;
+                transient = false;
+            } else if (this.isOnImplements(token)) {
+                let data = this.getInterfaces(tokens, index, position);
+                index = data.index;
+                if (data.positionData) {
+                    positionData = data.positionData;
+                    positionData.isOnClass = true;
+                }
+                if (bracketIndent === 0) {
+                    fileStructure.implements = data.interfaces;
+                } else {
+                    fileStructure.classes[activeClassName].implements = data.interfaces;
+                }
+            } else if (this.isOnExtends(token)) {
+                let data = this.getExtends(tokens, index, position);
+                index = data.index;
+                if (data.positionData) {
+                    positionData = data.positionData;
+                    positionData.isOnClass = true;
+                }
+                if (bracketIndent === 0) {
+                    fileStructure.extendsType = data.extendsName;
+                } else {
+                    fileStructure.classes[activeClassName].extendsType = data.extendsName;
+                }
+            } else if (this.isOnVariableDeclaration(lastToken, token, nextToken, twoNextToken)) {
+                dataTypeIndexEnd = index;
+                let variable = {
+                    name: token.content,
+                    datatype: this.getDataType(dataTypeIndexStart + 1, dataTypeIndexEnd, tokens),
+                    line: token.line,
+                    column: token.startColumn,
+                    accessModifier: accessModifier,
+                    definitionModifier: definitionModifier,
+                    isStatic: isStatic,
+                    isFinal: isFinal,
+                    transient: transient,
+                };
+                if (bracketIndent === 1) {
+                    fileStructure.fields.push(variable);
+                } else if (bracketIndent === 2 && fileStructure.classes[activeClassName]) {
+                    fileStructure.classes[activeClassName].fields.push(variable);
+                }
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnClass = true;
+                    }
+                }
+                if (nextToken.tokenType === TokenType.COMMA) {
+                    index++;
+                    token = tokens[index];
+                    while (token.tokenType !== TokenType.SEMICOLON) {
+                        token = tokens[index];
+                        nextToken = Utils.getNextToken(tokens, index);
+                        if (token.tokenType === TokenType.IDENTIFIER) {
+                            let variable = {
+                                name: token.content,
+                                datatype: this.getDataType(dataTypeIndexStart + 1, dataTypeIndexEnd, tokens),
+                                line: token.line,
+                                column: token.startColumn,
+                                accessModifier: accessModifier,
+                                definitionModifier: definitionModifier,
+                                isStatic: isStatic,
+                                isFinal: isFinal,
+                                transient: transient,
+                            };
+                            if (bracketIndent === 1) {
+                                fileStructure.fields.push(variable);
+                            } else if (bracketIndent === 2 && fileStructure.classes[activeClassName]) {
+                                fileStructure.classes[activeClassName].fields.push(variable);
+                            }
+                        }
+                        if (this.isOnPosition(position, token, nextToken)) {
+                            positionData = this.getPositionData(position, token, nextToken);
+                            if (positionData) {
+                                positionData.isOnClass = true;
+                            }
+                        }
+                        index++;
+                    }
+                }
+                commentTokens = [];
+                accessModifier = undefined;
+                definitionModifier = undefined;
+                withSharing = true;
+                inheritedSharing = false;
+                isStatic = undefined;
+                isFinal = undefined;
+                isAbstract = false;
+                isVirtual = false;
+                annotation = undefined;
+                override = undefined;
+                testMethod = undefined;
+                transient = false;
+
+            } else if (this.isOnConstructorDeclaration(lastToken, token, nextToken, activeClassName)) {
+                let data = this.getMethodData(tokens, undefined, index, position);
+                data.method.commentTokens = commentTokens;
+                data.method.annotation = annotation;
+                data.method.accesssModifier = accessModifier;
+                data.method.definitionModifier = definitionModifier;
+                data.method.override = override;
+                data.method.testMethod = testMethod;
+                data.method.abstract = isAbstract;
+                data.method.virtual = isVirtual;
+                data.method.signature = this.getMethodSignature(data.method);
+                if (data.positionData){
+                    positionData = data.positionData;
+                    positionData.methodSignature = data.method.signature;
+                }
+                index = data.index;
+                if (bracketIndent === 1) {
+                    fileStructure.constuctors.push(data.method);
+                } else {
+                    fileStructure.classes[activeClassName].constuctors.push(data.method);
+                }
+                commentTokens = [];
+                accessModifier = undefined;
+                definitionModifier = undefined;
+                withSharing = true;
+                inheritedSharing = false;
+                isStatic = undefined;
+                isFinal = undefined;
+                isAbstract = false;
+                isVirtual = false;
+                annotation = undefined;
+                override = undefined;
+                testMethod = undefined;
+                transient = false;
+            } else if (this.isOnMethodDeclaration(lastToken, token, nextToken)) {
+                dataTypeIndexEnd = index;
+                let data = this.getMethodData(tokens, this.getDataType(dataTypeIndexStart + 1, dataTypeIndexEnd, tokens), index, position);
+                data.method.commentTokens = commentTokens;
+                data.method.annotation = annotation;
+                data.method.accesssModifier = accessModifier;
+                data.method.definitionModifier = definitionModifier;
+                data.method.override = override;
+                data.method.testMethod = testMethod;
+                data.method.abstract = isAbstract;
+                data.method.virtual = isVirtual;
+                data.method.signature = this.getMethodSignature(data.method);
+                if (data.positionData){
+                    positionData = data.positionData;
+                    positionData.methodSignature = data.method.signature;
+                }
+                index = data.index;
+                if (bracketIndent === 1) {
+                    fileStructure.methods.push(data.method);
+                } else {
+                    fileStructure.classes[activeClassName].methods.push(data.method);
+                }
+                commentTokens = [];
+                accessModifier = undefined;
+                definitionModifier = undefined;
+                withSharing = true;
+                inheritedSharing = false;
+                isStatic = undefined;
+                isFinal = undefined;
+                isAbstract = false;
+                isVirtual = false;
+                annotation = undefined;
+                override = undefined;
+                testMethod = undefined;
+                transient = false;
             }
             index++;
         }
+        fileStructure.posData = positionData;
         return fileStructure;
+    }
+
+    static getInterfaces(tokens, index, position) {
+        var interfaceName = "";
+        let token = tokens[index];
+        let aBracketIndent = 0;
+        let interfaces = [];
+        let positionData;
+        while (token.content.toLowerCase() !== 'extends' && token.tokenType !== TokenType.LBRACKET) {
+            token = tokens[index];
+            let nextToken = Utils.getNextToken(tokens, index);
+            if (token.tokenType === TokenType.LABRACKET) {
+                aBracketIndent++;
+            }
+            else if (token.tokenType === TokenType.RABRACKET) {
+                aBracketIndent--;
+            }
+            if (token.tokenType === TokenType.COMMA && aBracketIndent == 0) {
+                interfaces.push(interfaceName);
+                interfaceName = "";
+            } else if (token.content.toLowerCase() !== 'implements' && token.tokenType !== TokenType.LBRACKET) {
+                interfaceName += token.content;
+            }
+            if (this.isOnPosition(position, token, nextToken)) {
+                positionData = this.getPositionData(position, token, nextToken);
+            }
+            index++;
+        }
+        interfaces.push(interfaceName);
+        if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'extends')
+            index = index - 2;
+        if (token.tokenType === TokenType.LBRACKET)
+            index = index - 2;
+        return {
+            index: index,
+            interfaces: interfaces,
+            positionData: positionData
+        };
+    }
+
+    static getMethodData(tokens, datatype, index, position) {
+        let token = tokens[index];
+        let method = {
+            name: token.content,
+            datatype: datatype,
+            params: [],
+            declaredVariables: [],
+            bodyTokens: [],
+            commentTokens: [],
+            isConstructor: (datatype === undefined),
+            line: token.line,
+            column: token.startColumn
+        };
+        let bracketIndent = 0;
+        let parenIndent = 0;
+        let startDatatypeIndex;
+        let endDataTypeIndex;
+        let endLoop = false;
+        let positionData;
+        while (!endLoop) {
+            let lastToken = Utils.getLastToken(tokens, index);
+            token = tokens[index];
+            let nextToken = Utils.getNextToken(tokens, index);
+            let twoNextToken = Utils.getTwoNextToken(tokens, index);
+            if (token.tokenType === TokenType.LBRACKET)
+                bracketIndent++;
+            else if (token.tokenType === TokenType.RBRACKET)
+                bracketIndent--;
+            if (bracketIndent === 0)
+                method.bodyTokens.push(token);
+            if (token.tokenType === TokenType.LBRACKET || token.tokenType === TokenType.SEMICOLON || token.tokenType === TokenType.LPAREN)
+                startDatatypeIndex = index;
+            if (token.tokenType === TokenType.LPAREN)
+                parenIndent++;
+            else if (token.tokenType === TokenType.RPAREN)
+                parenIndent--;
+
+            if (this.isOnPosition(position, token, nextToken)) {
+                positionData = this.getPositionData(position, token, nextToken);
+                if (positionData) {
+                    if (bracketIndent === 0 && parenIndent === 1)
+                        positionData.isOnMethodParams = true;
+                    else if (bracketIndent === 0)
+                        positionData.isOnClass = true;
+                    else
+                        positionData.isOnMethod = true;
+                }
+            }
+            if (bracketIndent == 0 && parenIndent == 1) {
+                if (this.isOnPosition(position, token, nextToken)) {
+                    positionData = this.getPositionData(position, token, nextToken);
+                    if (positionData) {
+                        positionData.isOnMethodParams = true;
+                    }
+                }
+                if (token.tokenType === TokenType.COMMA) {
+                    startDatatypeIndex = index;
+                }
+                else if (this.isOnMethodParam(token, nextToken)) {
+                    endDataTypeIndex = index;
+                    let param = {
+                        name: token.content,
+                        datatype: this.getDataType(startDatatypeIndex + 1, endDataTypeIndex, tokens),
+                        line: token.line,
+                        column: token.startColumn
+                    };
+                    method.params.push(param);
+                }
+            } else if (bracketIndent > 0) {
+                if (this.isOnText(lastToken, token, nextToken)) {
+                    let data = this.getText(tokens, index, position);
+                    index = data.index;
+                    if (data.positionData) {
+                        positionData = data.positionData;
+                        positionData.isOnMethod = true;
+                    }
+                    let textTokens = data.textTokens;
+                    for (const textToken of textTokens) {
+                        method.bodyTokens.push(textToken);
+                    }
+                } else if (this.isOnCommentLine(token, nextToken)) {
+                    let data = this.getCommentLine(tokens, index, position);
+                    index = data.index;
+                    if (data.positionData) {
+                        positionData = data.positionData;
+                        positionData.isOnMethod = true;
+                    }
+                    let commentTokens = data.commenTokens;
+                    for (const commentToken of commentTokens) {
+                        method.bodyTokens.push(commentToken);
+                    }
+                } else if (this.isOnCommentBlock(token, nextToken)) {
+                    let data = this.getCommentBlock(tokens, index, position);
+                    index = data.index;
+                    if (data.positionData) {
+                        positionData = data.positionData;
+                        positionData.isOnMethod = true;
+                    }
+                    let commentTokens = data.commenTokens;
+                    for (const commentToken of commentTokens) {
+                        method.bodyTokens.push(commentToken);
+                    }
+                } else if (this.isOnVariableDeclaration(lastToken, token, nextToken, twoNextToken)) {
+                    endDataTypeIndex = index;
+                    let variable = {
+                        name: token.content,
+                        dataType: this.getDataType(startDatatypeIndex + 1, endDataTypeIndex, tokens),
+                        line: token.line,
+                        column: token.startColumn
+                    };
+                    method.declaredVariables.push(variable);
+                    if (nextToken.tokenType === TokenType.COMMA) {
+                        index++;
+                        token = tokens[index];
+                        while (token.tokenType !== TokenType.SEMICOLON) {
+                            token = tokens[index];
+                            if (token.tokenType === TokenType.IDENTIFIER) {
+                                let variable = {
+                                    name: token.content,
+                                    datatype: this.getDataType(startDatatypeIndex + 1, endDataTypeIndex, tokens),
+                                    line: token.line,
+                                    column: token.startColumn
+                                };
+                                method.declaredVariables.push(variable);
+                            }
+                            index++;
+                            method.bodyTokens.push(token);
+                            if (this.isOnPosition(position, token, nextToken)) {
+                                positionData = this.getPositionData(position, token, nextToken);
+                                if (positionData) {
+                                    positionData.isOnMethod = true;
+                                }
+                            }
+                        }
+                    } else {
+                        method.bodyTokens.push(token);
+                        if (this.isOnPosition(position, token, nextToken)) {
+                            positionData = this.getPositionData(position, token, nextToken);
+                            if (positionData) {
+                                positionData.isOnMethod = true;
+                            }
+                        }
+                    }
+                } else {
+                    method.bodyTokens.push(token);
+                    if (this.isOnPosition(position, token, nextToken)) {
+                        positionData = this.getPositionData(position, token, nextToken);
+                        if (positionData) {
+                            positionData.isOnMethod = true;
+                        }
+                    }
+                }
+            }
+            if (bracketIndent === 0 && (token.tokenType === TokenType.RBRACKET || token.tokenType === TokenType.SEMICOLON))
+                endLoop = true;
+            index++;
+        }
+        index--;
+        return {
+            index: index,
+            method: method,
+            positionData: positionData
+        };
+    }
+
+    static getExtends(tokens, index, position) {
+        var extendsName = "";
+        let token = tokens[index];
+        let positionData;
+        while (token.tokenType !== TokenType.LBRACKET) {
+            token = tokens[index];
+            let nextToken = Utils.getNextToken(tokens, index);
+            if (token.tokenType !== TokenType.LBRACKET && token.content.toLowerCase() !== 'extends')
+                extendsName += token.content;
+            if (this.isOnPosition(position, token, nextToken)) {
+                positionData = this.getPositionData(position, token, nextToken);
+            }
+            index++;
+        }
+        if (token.tokenType === TokenType.LBRACKET)
+            index = index - 2;
+        return {
+            extendsName: extendsName,
+            index: index,
+            positionData: positionData
+        };
+    }
+
+    static getCommentLine(tokens, index, position) {
+        let commenTokens = [];
+        let token = tokens[index];
+        let nextToken = Utils.getNextToken(tokens, index);
+        let positionData;
+        if (this.isOnPosition(position, token, nextToken)) {
+            positionData = this.getPositionData(position, token, nextToken);
+        }
+        while (token.line == nextToken.line) {
+            token = tokens[index];
+            nextToken = Utils.getNextToken(tokens, index);
+            commenTokens.push(token);
+            if (this.isOnPosition(position, token, nextToken)) {
+                positionData = this.getPositionData(position, token, nextToken);
+            }
+            index++;
+        }
+        index--;
+        return {
+            index: index,
+            commenTokens: commenTokens,
+            positionData
+        };
+    }
+
+    static getText(tokens, index, position) {
+        let textTokens = [];
+        let token = tokens[index];
+        let nextToken = Utils.getNextToken(tokens, index);
+        textTokens.push(token);
+        let positionData;
+        if (this.isOnPosition(position, token, nextToken)) {
+            positionData = this.getPositionData(position, token, nextToken);
+        }
+        index++;
+        let endText = false;
+        while (!endText) {
+            let lastToken = Utils.getLastToken(tokens, index);
+            nextToken = Utils.getNextToken(tokens, index);
+            token = tokens[index];
+            textTokens.push(token);
+            if (this.isOnPosition(position, token, nextToken)) {
+                positionData = this.getPositionData(position, token, nextToken);
+            }
+            if (token.tokenType === TokenType.SQUOTTE && lastToken && lastToken.tokenType !== TokenType.BACKSLASH)
+                endText = true;
+            else
+                index++;
+        }
+        return {
+            index: index,
+            textTokens: textTokens,
+            positionData: positionData
+        };
+    }
+
+    static getCommentBlock(tokens, index, position) {
+        let endComment = false;
+        let commenTokens = [];
+        let nextToken;
+        let positionData;
+        while (!endComment) {
+            let token = tokens[index];
+            let nextToken = Utils.getNextToken(tokens, index);
+            commenTokens.push(token);
+            endComment = token.tokenType === TokenType.OPERATOR && token.content === '*' && nextToken && nextToken.tokenType === TokenType.OPERATOR && nextToken.content === '/';
+            if (this.isOnPosition(position, token, nextToken)) {
+                positionData = this.getPositionData(position, token, nextToken);
+            }
+            index++;
+        }
+        if (nextToken)
+            commenTokens.push(nextToken);
+        return {
+            index: index,
+            commenTokens: commenTokens,
+            positionData: positionData
+        };
+    }
+
+    static getAnnotation(tokens, index, position) {
+        let annotation = "";
+        let token = tokens[index];
+        let nextToken = Utils.getNextToken(tokens, index);
+        let positionData;
+        while (token.line == nextToken.line) {
+            token = tokens[index];
+            nextToken = Utils.getNextToken(tokens, index);
+            annotation += token.content;
+            if (this.isOnPosition(position, token, nextToken)) {
+                positionData = this.getPositionData(position, token, nextToken);
+            }
+            index++;
+        }
+        return {
+            index: index,
+            annotation: annotation
+        };
+    }
+
+    static getPositionData(position, token, nextToken) {
+        let positionData;
+        if (token.startColumn <= position.character && position.character <= token.endColumn) {
+            if (positionData === undefined)
+                positionData = {
+                    startPart: undefined,
+                    endPart: undefined,
+                    isOnClass: undefined,
+                    isOnMethod: undefined,
+                    isOnMethodParams: undefined,
+                    methodSignature: undefined
+                };
+            let startIndex = position.character - token.startColumn;
+            positionData.startPart = token.content.substring(0, startIndex + 1);
+            positionData.endPart = token.content.substring(startIndex + 1, token.content.length - 1);
+        } else if (token.endColumn <= position.character && position.character <= nextToken.startColumn) {
+            if (positionData === undefined)
+                positionData = {
+                    startPart: undefined,
+                    endPart: undefined,
+                    isOnClass: undefined,
+                    isOnMethod: undefined,
+                    isOnMethodParams: undefined,
+                    methodSignature: undefined
+                };
+            positionData.startPart = token.content;
+        }
+        return positionData;
+    }
+
+    static isOnPosition(position, token, nextToken) {
+        if (position && token.line == position.line) {
+            if (token.startColumn <= position.character && position.character <= nextToken.startColumn)
+                return true;
+        }
+        return false;
+    }
+
+    static isOnAnnotation(token, bracketIndent) {
+        return (bracketIndent === 0 || bracketIndent === 1) && token.tokenType === TokenType.AT;
+    }
+
+    static isOnCommentLine(token, nextToken) {
+        return token.tokenType === 'operator' && token.content === "/" && nextToken && nextToken.tokenType === 'operator' && nextToken.content === "/";
+    }
+
+    static isOnCommentBlock(token, nextToken) {
+        return token.tokenType === TokenType.OPERATOR && token.content === '/' && nextToken && nextToken.tokenType === TokenType.OPERATOR && nextToken.content === '*';
+    }
+
+    static isOnMethodParam(token, nextToken) {
+        return token.tokenType === TokenType.IDENTIFIER && (nextToken.tokenType === TokenType.COMMA || nextToken.tokenType === TokenType.RPAREN) && !apexKeywords.includes(token.content.toLowerCase());
+    }
+
+    static isOnVariableDeclaration(lastToken, token, nextToken, twoNextToken) {
+        if (lastToken && (lastToken.tokenType === TokenType.IDENTIFIER || lastToken.tokenType === TokenType.RABRACKET || lastToken.tokenType === TokenType.RSQBRACKET) && token.tokenType === TokenType.IDENTIFIER && nextToken && (nextToken.tokenType === TokenType.EQUAL || nextToken.tokenType === TokenType.SEMICOLON || nextToken.tokenType === TokenType.LBRACKET || nextToken.tokenType === TokenType.COLON) && !apexKeywords.includes(token.content.toLowerCase()) && !apexKeywords.includes(lastToken.content.toLowerCase()))
+            return true;
+        else if (lastToken && (lastToken.tokenType === TokenType.IDENTIFIER || lastToken.tokenType === TokenType.RABRACKET || lastToken.tokenType === TokenType.RSQBRACKET) && token.tokenType === TokenType.IDENTIFIER && nextToken && nextToken.tokenType === TokenType.COMMA && twoNextToken && twoNextToken.tokenType === TokenType.IDENTIFIER && !apexKeywords.includes(token.content.toLowerCase()) && !apexKeywords.includes(lastToken.content.toLowerCase()))
+            if (lastToken.content.toLowerCase() !== 'select')
+                true;
+        return false;
+    }
+
+    static isOnMethodDeclaration(lastToken, token, nextToken) {
+        return lastToken && (lastToken.tokenType === TokenType.IDENTIFIER || lastToken.tokenType === TokenType.RABRACKET || lastToken.tokenType === TokenType.RSQBRACKET) && lastToken.content.toLowerCase() !== 'new' && token.tokenType === TokenType.IDENTIFIER && nextToken && nextToken.tokenType === TokenType.LPAREN && !apexKeywords.includes(token.content.toLowerCase());
+    }
+
+    static isOnConstructorDeclaration(lastToken, token, nextToken, className) {
+        return lastToken && lastToken.content.toLowerCase() !== "new" && token.tokenType === TokenType.IDENTIFIER && nextToken && nextToken.tokenType === TokenType.LPAREN && token.content.toLowerCase() === className.toLowerCase();
+    }
+
+    static isOnImplements(token) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'implements';
+    }
+
+    static isOnExtends(token) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'extends';
+    }
+
+    static isOnText(lastToken, token, nextToken) {
+        return token.tokenType === TokenType.SQUOTTE && nextToken && nextToken.tokenType != TokenType.SQUOTTE && lastToken && lastToken.tokenType !== TokenType.BACKSLASH && lastToken.tokenType !== TokenType.SQUOTTE;
+    }
+
+    static isAccessModifier(token) {
+        return token.tokenType === TokenType.IDENTIFIER && (token.content.toLowerCase() === 'public' || token.content.toLowerCase() === 'global' || token.content.toLowerCase() === 'private' || token.content.toLowerCase() === 'protected' || token.content.toLowerCase() === 'webservice');
+    }
+
+    static isDefinitionModifier(token) {
+        return token.tokenType === TokenType.IDENTIFIER && (token.content.toLowerCase() === 'abstract' || token.content.toLowerCase() === 'virtual');
+    }
+
+    static isFinal(token) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "final";
+    }
+
+    static isStatic(token) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "static";
+    }
+
+    static isTransient(token) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "transient";
+    }
+
+    static isTestMethod(token) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "testmethod";
+    }
+
+    static isOverride(token) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "override";
+    }
+
+    static isAbstract(token) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "abstract";
+    }
+
+    static isVirtual(token) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "virtual";
+    }
+
+    static isWithoutSharing(token, nextToken) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'without' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER && nextToken.content.toLowerCase() === 'sharing';
+    }
+
+    static isInheritedSharing(token, nextToken) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'inherited' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER && nextToken.content.toLowerCase() === 'sharing';
+    }
+
+    static isClass(token, nextToken) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'class' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER;
+    }
+
+    static isInterface(token, nextTokentoken, nextToken) {
+        return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'interface' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER;
     }
 
     static parseForComment(content) {
@@ -490,7 +1191,7 @@ class ApexParser {
 
     static getDataType(indexStart, indexEnd, tokens) {
         let returnType = '';
-        if(tokens[indexStart] && tokens[indexStart].tokenType === TokenType.RBRACKET)
+        if (tokens[indexStart] && tokens[indexStart].tokenType === TokenType.RBRACKET)
             indexStart++;
         for (let index = indexStart; index < indexEnd; index++) {
             returnType += tokens[index].content;
@@ -498,29 +1199,137 @@ class ApexParser {
         return returnType;
     }
 
-    static parseMethod(methodTokens) {
-        let index = 0;
-        let newCommandIndex = 0;
-        let methodData = {
-            declaredVars: [],
-        };
-        while (index < methodTokens.length) {
-            let token = methodTokens[index];
-            let lastToken = Utils.getLastToken(methodTokens, index);
-            let nextToken = Utils.getNextToken(methodTokens, index);
-            if(token.tokenType === TokenType.LBRACKET || token.tokenType === TokenType.SEMICOLON)
-                newCommandIndex = index + 1;
-            if (token.tokenType === TokenType.IDENTIFIER && lastToken && (lastToken.tokenType === TokenType.IDENTIFIER || lastToken.tokenType === TokenType.RSQBRACKET || lastToken.tokenType === TokenType.RABRACKET) && nextToken && (nextToken.tokenType === TokenType.EQUAL || nextToken.tokenType === TokenType.SEMICOLON || nextToken.tokenType === TokenType.COLON)) {
-                methodData.declaredVars.push({
-                    name: token.content,
-                    type: this.getDataType(newCommandIndex, index, methodTokens),
-                    line: token.line - 1,
-                    character: token.startColumn - 1
-                });
+    static getParentData(classStructure, parentClass, filePath) {
+        if (parentClass.extendsType && parentClass.extendsType.length > 0) {
+            let extendsType = parentClass.extendsType;
+            if (extendsType.indexOf('<') !== -1)
+                extendsType = extendsType.split('<')[0];
+            if (extendsType.indexOf('[') !== -1)
+                extendsType = extendsType.split('[')[0];
+            let className = extendsType + ".cls";
+            let systemClassName = extendsType + ".json";
+            let userClassPath = Paths.getBasename(filePath) + "/" + className;
+            let systemClassPath = Paths.getSystemClassesPath() + "/" + systemClassName;
+            if (FileChecker.isExists(userClassPath)) {
+                parentClass = ApexParser.parse(FileReader.readFileSync(userClassPath));
+            } else if (FileChecker.isExists(systemClassPath)) {
+                parentClass = JSON.parse(FileReader.readFileSync(systemClassPath));
             }
-            index++;
+            classStructure = this.getParentData(classStructure, parentClass, filePath);
+        } else if (parentClass.implements.length > 0) {
+            for (let implement of parentClass.implements) {
+                if (implement.indexOf('<') !== -1)
+                    implement = implement.split('<')[0];
+                if (implement.indexOf('[') !== -1)
+                    implement = implement.split('[')[0];
+                let className = implement + ".cls";
+                let systemClassName = implement + ".json";
+                let userClassPath = Paths.getBasename(filePath) + "/" + className;
+                let systemClassPath = Paths.getSystemClassesPath() + "/" + systemClassName;
+                if (FileChecker.isExists(userClassPath)) {
+                    parentClass = ApexParser.parse(FileReader.readFileSync(userClassPath));
+                } else if (FileChecker.isExists(systemClassPath)) {
+                    parentClass = JSON.parse(FileReader.readFileSync(systemClassPath));
+                }
+                classStructure = this.getParentData(classStructure, parentClass, filePath);
+            }
+        } else {
+            if (parentClass && parentClass.name !== classStructure.name) {
+                if (parentClass.fields && parentClass.fields.length > 0) {
+                    for (const field of parentClass.fields) {
+                        let exists = false;
+                        for (const existingField of classStructure.fields) {
+                            if (field.name.toLowerCase() === existingField.name.toLowerCase()) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        classStructure.inheritedFields.push(field);
+                        if (!exists)
+                            classStructure.fields.push(field);
+                    }
+                }
+                if (parentClass.methods && parentClass.methods.length > 0) {
+                    for (const method of parentClass.methods) {
+                        let exists = false;
+                        for (const existingMethod of classStructure.methods) {
+                            if (method.signature.toLowerCase() === existingMethod.signature.toLowerCase()) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        classStructure.inheritedMethods.push(method);
+                        if (!exists)
+                            classStructure.methods.push(method);
+                    }
+                }
+                if (parentClass.constuctors && parentClass.constuctors.length > 0) {
+                    for (const constructor of parentClass.constuctors) {
+                        let exists = false;
+                        for (const existingConstructor of classStructure.constuctors) {
+                            if (constructor.signature.toLowerCase() === existingConstructor.signature.toLowerCase()) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        classStructure.inheritedConstructors.push(constructor);
+                        if (!exists)
+                            classStructure.constuctors.push(constructor);
+                    }
+                }
+                if (parentClass.classes && parentClass.classes.length > 0) {
+                    Object.keys(parentClass.classes).forEach(function (key) {
+                        let exists = false;
+                        Object.keys(classStructure.classes).forEach(function (existingKey) {
+                            if (key.toLowerCase() === existingKey.toLowerCase())
+                                exists = true;
+                        });
+                        classStructure.inheritedClasses[key] = parentClass.classes[key];
+                        if (!exists)
+                            classStructure.classes[key] = parentClass.classes[key];
+                    });
+                }
+                if (parentClass.enums && parentClass.enums.length > 0) {
+                    Object.keys(parentClass.enums).forEach(function (key) {
+                        let exists = false;
+                        Object.keys(classStructure.enums).forEach(function (existingKey) {
+                            if (key.toLowerCase() === existingKey.toLowerCase())
+                                exists = true;
+                        });
+                        classStructure.inheritedEnums[key] = parentClass.enums[key];
+                        if (!exists)
+                            classStructure.enums[key] = parentClass.enums[key];
+                    });
+                }
+            }
         }
-        return methodData;
+        return classStructure;
+    }
+
+    static getMethodSignature(method) {
+        let signature = "";
+        if (method.accessModifier)
+            signature += method.accessModifier.toLowerCase() + " ";
+        else
+            signature += "public ";
+        if (method.isStatic)
+            signature += "static ";
+        if (method.abstract)
+            signature += "abstract ";
+        if (method.virtual)
+            signature += "virtual ";
+        if (method.virtual)
+            signature += "override ";
+        if (method.datatype)
+            signature += method.datatype + " ";
+        signature += method.name + "("
+        let params = [];
+        for (const param of method.params) {
+            params.push(param.datatype + " " + param.name);
+        }
+        signature += params.join(", ");
+        signature += method.name + ")"
+        return signature;
     }
 }
 exports.ApexParser = ApexParser;

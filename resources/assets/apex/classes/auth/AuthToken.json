@@ -1,0 +1,95 @@
+{
+  "name": "AuthToken",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getAccessToken",
+      "signature": "public static String getAccessToken(String authProviderId, String providerName)",
+      "description": "Returns an access token for the current user using the specified 18-character identifier of an AuthProvider definition in your org and the proper name of the third party, such as Salesforce or Facebook. Note that querying the ProviderType field on the AuthProvider object sometimes returns a value that differs from the expected provider name value. For example, for Open ID Connect providers, OpenIdConnect is the ProviderType value for the AuthProvider object, but the expected providerName is Open ID Connect.",
+      "methodParams": [
+        {
+          "name": "authProviderId",
+          "datatype": "String"
+        },
+        {
+          "name": "providerName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getAccessTokenMap",
+      "signature": "public static Map<String, String> getAccessTokenMap(String authProviderId, String providerName)",
+      "description": "Returns a map from the third-party identifier to the access token for the currently logged-in Salesforce user. The identifier value depends on the third party. For example, for Salesforce it would be the user ID, while for Facebook it would be the user number. Note that querying the ProviderType field on the AuthProvider object sometimes returns a value that differs from the expected provider name value. For example, for Open ID Connect providers, OpenIdConnect is the ProviderType value for the AuthProvider object, but the expected providerName is Open ID Connect.",
+      "methodParams": [
+        {
+          "name": "authProviderId",
+          "datatype": "String"
+        },
+        {
+          "name": "providerName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Map<String, String>"
+    },
+    {
+      "name": "refreshAccessToken",
+      "signature": "public static Map<String, String> refreshAccessToken(String authProviderId, String providerName, String oldAccessToken)",
+      "description": "Returns a map from the third-party identifier containing a refreshed access token for the currently logged-in Salesforce user. Note that querying the ProviderType field on the AuthProvider object sometimes returns a value that differs from the expected provider name value. For example, for Open ID Connect providers, OpenIdConnect is the ProviderType value for the AuthProvider object, but the expected providerName is Open ID Connect.",
+      "methodParams": [
+        {
+          "name": "authProviderId",
+          "datatype": "String"
+        },
+        {
+          "name": "providerName",
+          "datatype": "String"
+        },
+        {
+          "name": "oldAccessToken",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Map<String, String>"
+    },
+    {
+      "name": "revokeAccess",
+      "signature": "public static Boolean revokeAccess(String authProviderId, String providerName, String userId, String remoteIdentifier)",
+      "description": "Revokes the access token for a specified social sign-on user from a third-party service such as Facebook©. Note that querying the ProviderType field on the AuthProvider object sometimes returns a value that differs from the expected provider name value. For example, for Open ID Connect providers, OpenIdConnect is the ProviderType value for the AuthProvider object, but the expected providerName is Open ID Connect.",
+      "methodParams": [
+        {
+          "name": "authProviderId",
+          "datatype": "String"
+        },
+        {
+          "name": "providerName",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "remoteIdentifier",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Contains methods for providing the access token associated",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthToken.htm#apex_class_Auth_AuthToken"
+}

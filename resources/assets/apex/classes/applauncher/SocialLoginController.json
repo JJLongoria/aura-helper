@@ -1,0 +1,51 @@
+{
+  "name": "SocialLoginController",
+  "namespace": "AppLauncher",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getSamlSsoUrl",
+      "signature": "public static String getSamlSsoUrl(String startUrl, String samlId)",
+      "description": "Returns the URL to the SAML provider for the community.",
+      "methodParams": [
+        {
+          "name": "startUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "samlId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getSsoUrl",
+      "signature": "public static String getSsoUrl(String startUrl, String developerName)",
+      "description": "Returns the single sign-on URL for the community.",
+      "methodParams": [
+        {
+          "name": "startUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "developerName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    }
+  ],
+  "description": "Represents the social authentication providers configured for the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_SocialLoginController.htm#apex_class_applauncher_SocialLoginController"
+}

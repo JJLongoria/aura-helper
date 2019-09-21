@@ -1,0 +1,54 @@
+{
+  "name": "AggregateColumn",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getName",
+      "signature": "",
+      "description": "Returns the unique API name of the summary field.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getLabel",
+      "signature": "",
+      "description": "Returns the localized display name for the summarized or custom summary formula field.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getDataType",
+      "signature": "",
+      "description": "Returns the data type of the summarized or custom summary formula field.",
+      "methodParams": [],
+      "datatype": "Reports.ColumnDataType"
+    },
+    {
+      "name": "getAcrossGroupingContext",
+      "signature": "",
+      "description": "Returns the column grouping in the report where the summary field is displayed.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getDownGroupingContext",
+      "signature": "",
+      "description": "Returns the row grouping in the report where the summary field is displayed.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Contains methods for describing summary fields such as",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_aggregatecolumn.htm#apex_class_reports_aggregatecolumn"
+}

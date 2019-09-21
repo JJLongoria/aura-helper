@@ -1,0 +1,83 @@
+{
+  "name": "MultiStaticResourceCalloutMock",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "MultiStaticResourceCalloutMock",
+      "signature": "public MultiStaticResourceCalloutMock()",
+      "description": "Creates a new instance of the System.MultiStaticResourceCalloutMock class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "setHeader",
+      "signature": "public Void setHeader(String headerName, String headerValue)",
+      "description": "Sets the specified header name and value for the fake response.",
+      "methodParams": [
+        {
+          "name": "headerName",
+          "datatype": "String"
+        },
+        {
+          "name": "headerValue",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setStaticResource",
+      "signature": "public Void setStaticResource(String endpoint, String resourceName)",
+      "description": "Sets the specified static resource corresponding to the endpoint. The static resource contains the response body.",
+      "methodParams": [
+        {
+          "name": "endpoint",
+          "datatype": "String"
+        },
+        {
+          "name": "resourceName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setStatus",
+      "signature": "public Void setStatus(String httpStatus)",
+      "description": "Sets the specified HTTP status for the response.",
+      "methodParams": [
+        {
+          "name": "httpStatus",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setStatusCode",
+      "signature": "public Void setStatusCode(Integer httpStatusCode)",
+      "description": "Sets the specified HTTP status code for the response.",
+      "methodParams": [
+        {
+          "name": "httpStatusCode",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Utility class used to specify a fake response using multiple",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_multistaticresourcecalloutmock.htm#apex_methods_system_multistaticresourcecalloutmock"
+}

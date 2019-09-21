@@ -1,0 +1,135 @@
+{
+  "name": "FeatureManagement",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "changeProtection",
+      "signature": "public static void changeProtection(String apiName, String typeApiName, String protection)",
+      "description": "Hides or reveals custom permissions, or reveals custom objects, in your subscriber’s org.",
+      "methodParams": [
+        {
+          "name": "apiName",
+          "datatype": "String"
+        },
+        {
+          "name": "typeApiName",
+          "datatype": "String"
+        },
+        {
+          "name": "protection",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "checkPackageBooleanValue",
+      "signature": "public static Boolean checkPackageBooleanValue(String apiName)",
+      "description": "Checks the value__c value of the FeatureParameterBoolean__c record for a feature parameter in your subscriber’s org. You set the record’s value using setPackageBooleanValue(apiName, value).",
+      "methodParams": [
+        {
+          "name": "apiName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "checkPackageDateValue",
+      "signature": "public static Date checkPackageDateValue(String apiName)",
+      "description": "Checks the value__c value of the FeatureParameterDate__c record for a feature parameter in your subscriber’s org. You can set the record’s value using setPackageDateValue(apiName, value).",
+      "methodParams": [
+        {
+          "name": "apiName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Date"
+    },
+    {
+      "name": "checkPackageIntegerValue",
+      "signature": "public static Integer checkPackageIntegerValue(String apiName)",
+      "description": "Checks the value__c value of the FeatureParameterInteger__c record for a feature parameter in your subscriber’s org. You can set the record’s value using setPackageIntegerValue(apiName, value).",
+      "methodParams": [
+        {
+          "name": "apiName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "checkPermission",
+      "signature": "public static Boolean checkPermission(String apiName)",
+      "description": "Checks whether a custom permission is enabled.",
+      "methodParams": [
+        {
+          "name": "apiName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "setPackageBooleanValue",
+      "signature": "public static void setPackageBooleanValue(String apiName, Boolean value)",
+      "description": "Sets the value__c value of the FeatureParameterBoolean__c record for a subscriber-to-LMO feature parameter in your subscriber’s org. You can check the record’s value using checkPackageBooleanValue(apiName).",
+      "methodParams": [
+        {
+          "name": "apiName",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setPackageDateValue",
+      "signature": "public static void setPackageDateValue(String apiName, Date value)",
+      "description": "Sets the value__c value of the FeatureParameterDate__c record for a subscriber-to-LMO feature parameter in your subscriber’s org. You can check the record’s value using checkPackageDateValue(apiName).",
+      "methodParams": [
+        {
+          "name": "apiName",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "Date"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setPackageIntegerValue",
+      "signature": "public static void setPackageIntegerValue(String apiName, Integer value)",
+      "description": "Sets the value__c value of the FeatureParameterInteger__c record for a subscriber-to-LMO feature parameter in your subscriber’s org. You can check the record’s value using checkPackageIntegerValue(apiName).",
+      "methodParams": [
+        {
+          "name": "apiName",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Use the methods in the System.FeatureManagement class to check and modify the values of feature",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FeatureManagement.htm#apex_class_System_FeatureManagement"
+}

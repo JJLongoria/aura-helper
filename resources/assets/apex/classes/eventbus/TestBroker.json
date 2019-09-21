@@ -1,0 +1,26 @@
+{
+  "name": "TestBroker",
+  "namespace": "EventBus",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "deliver",
+      "signature": "public void deliver()",
+      "description": "Delivers platform event messages to the test event bus. Use this method to deliver test event messages multiple times and verify that event subscribers have processed the test events each step of the way.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "description": "Contains a method that delivers platform event or change event",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_eventbus_TestBroker.htm#apex_class_eventbus_TestBroker"
+}

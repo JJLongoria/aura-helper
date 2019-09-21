@@ -1,0 +1,22 @@
+{
+    "name": "VerificationPolicy",
+    "namespace": "Auth",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "isEnum": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "enumValues": [
+        "HIGH_ASSURANCE"
+    ],
+    "fields": [],
+    "constuctors": [],
+    "methods": [],
+    "description": "The Auth.VerificationPolicy enum contains an identity verification policy value used by the SessionManagement.generateVerificationUrl method.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Auth_VerificationPolicy.htm"
+  }

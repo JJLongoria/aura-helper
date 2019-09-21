@@ -1,0 +1,253 @@
+{
+  "name": "Session",
+  "namespace": "Cache",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "contains",
+      "signature": "public static Boolean contains(String key)",
+      "description": "Returns true if the session cache contains a cached value corresponding to the specified key.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "get",
+      "signature": "public static Object get(String key)",
+      "description": "Returns the cached value corresponding to the specified key from the session cache.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "get",
+      "signature": "public static Object get(System.Type cacheBuilder, String key)",
+      "description": "Returns the cached value corresponding to the specified key from the session cache. Use this method if your cached value is a class that implements the CacheBuilder interface.",
+      "methodParams": [
+        {
+          "name": "cacheBuilder",
+          "datatype": "System.Type"
+        },
+        {
+          "name": "key",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "getAvgGetTime",
+      "signature": "public static Long getAvgGetTime()",
+      "description": "Returns the average time taken to get a key from the session cache, in nanoseconds.",
+      "methodParams": [],
+      "datatype": "Long"
+    },
+    {
+      "name": "getAvgValueSize",
+      "signature": "public static Long getAvgValueSize()",
+      "description": "Returns the average item size for keys in the session cache, in bytes.",
+      "methodParams": [],
+      "datatype": "Long"
+    },
+    {
+      "name": "getCapacity",
+      "signature": "public static Double getCapacity()",
+      "description": "Returns the percentage of session cache capacity that has been used.",
+      "methodParams": [],
+      "datatype": "Double"
+    },
+    {
+      "name": "getKeys",
+      "signature": "public static Set<String> getKeys()",
+      "description": "Returns all keys that are stored in the session cache and visible to the invoking namespace.",
+      "methodParams": [],
+      "datatype": "Set<String>"
+    },
+    {
+      "name": "getMaxGetTime",
+      "signature": "public static Long getMaxGetTime()",
+      "description": "Returns the maximum time taken to get a key from the session cache, in nanoseconds.",
+      "methodParams": [],
+      "datatype": "Long"
+    },
+    {
+      "name": "getMaxValueSize",
+      "signature": "public static Long getMaxValueSize()",
+      "description": "Returns the maximum item size for keys in the session cache, in bytes.",
+      "methodParams": [],
+      "datatype": "Long"
+    },
+    {
+      "name": "getMissRate",
+      "signature": "public static Double getMissRate()",
+      "description": "Returns the miss rate in the session cache.",
+      "methodParams": [],
+      "datatype": "Double"
+    },
+    {
+      "name": "getName",
+      "signature": "public String getName()",
+      "description": "Returns the name of the default cache partition.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getNumKeys",
+      "signature": "public static Long getNumKeys()",
+      "description": "Returns the total number of keys in the session cache.",
+      "methodParams": [],
+      "datatype": "Long"
+    },
+    {
+      "name": "getPartition",
+      "signature": "public static cache.SessionPartition getPartition(String partitionName)",
+      "description": "Returns a partition from the session cache that corresponds to the specified partition name.",
+      "methodParams": [
+        {
+          "name": "partitionName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Cache.SessionPartition"
+    },
+    {
+      "name": "isAvailable",
+      "signature": "public static Boolean isAvailable()",
+      "description": "Returns true if the session cache is available for use. The session cache isn’t available when an active session isn’t present, such as in asynchronous Apex or code called by asynchronous Apex. For example, if batch Apex causes an Apex trigger to execute, the session cache isn’t available in the trigger because the trigger runs in asynchronous context.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "put",
+      "signature": "public static void put(String key, Object value)",
+      "description": "Stores the specified key/value pair as a cached entry in the session cache. The put method can write only to the cache in your org’s namespace.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "put",
+      "signature": "public static void put(String key, Object value, Cache.Visibility visibility)",
+      "description": "Stores the specified key/value pair as a cached entry in the session cache and sets the cached value’s visibility.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "Object"
+        },
+        {
+          "name": "visibility",
+          "datatype": "Cache.Visibility"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "put",
+      "signature": "public static void put(String key, Object value, Integer ttlSecs)",
+      "description": "Stores the specified key/value pair as a cached entry in the session cache and sets the cached value’s lifetime.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "Object"
+        },
+        {
+          "name": "ttlSecs",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "put",
+      "signature": "public static void put(String key, Object value, Integer ttlSecs, cache.Visibility visibility, Boolean immutable)",
+      "description": "Stores the specified key/value pair as a cached entry in the session cache. This method also sets the cached value’s lifetime, visibility, and whether it can be overwritten by another namespace.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "Object"
+        },
+        {
+          "name": "ttlSecs",
+          "datatype": "Integer"
+        },
+        {
+          "name": "visibility",
+          "datatype": "Cache.Visibility"
+        },
+        {
+          "name": "immutable",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "remove",
+      "signature": "public static Boolean remove(String key)",
+      "description": "Deletes the cached value corresponding to the specified key from the session cache.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "remove",
+      "signature": "public static Boolean remove(System.Type cacheBuilder, String key)",
+      "description": "Deletes the cached value corresponding to the specified key from the session cache. Use this method if your cached value is a class that implements the CacheBuilder interface.",
+      "methodParams": [
+        {
+          "name": "cacheBuilder",
+          "datatype": "System.Type"
+        },
+        {
+          "name": "key",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Use the Cache.Session",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_cache_Session.htm#apex_class_cache_Session"
+}

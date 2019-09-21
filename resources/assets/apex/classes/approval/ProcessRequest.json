@@ -1,0 +1,57 @@
+{
+  "name": "ProcessRequest",
+  "namespace": "Approval",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getComments",
+      "signature": "public String getComments()",
+      "description": "Returns the comments that have been added previously to the approval request.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getNextApproverIds",
+      "signature": "public ID[] getNextApproverIds()",
+      "description": "Returns the list of user IDs of user specified as approvers.",
+      "methodParams": [],
+      "datatype": "ID[]"
+    },
+    {
+      "name": "setComments",
+      "signature": "public Void setComments(String comments)",
+      "description": "Sets the comments to be added to the approval request.",
+      "methodParams": [
+        {
+          "name": "comments",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setNextApproverIds",
+      "signature": "public Void setNextApproverIds(ID[] nextApproverIds)",
+      "description": "If the next step in your approval process is another Apex approval process, you specify exactly one user ID as the next approver. If not, you cannot specify a user ID and this method must be null.",
+      "methodParams": [
+        {
+          "name": "nextApproverIds",
+          "datatype": "ID[]"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "The ProcessRequest class is the parent class",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessRequest.htm#apex_ProcessRequest"
+}

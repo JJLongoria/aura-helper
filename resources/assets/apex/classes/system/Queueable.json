@@ -1,0 +1,31 @@
+{
+  "name": "Queueable",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "execute",
+      "signature": "public void execute(QueueableContext context)",
+      "description": "Executes the queueable job.",
+      "methodParams": [
+        {
+          "name": "context",
+          "datatype": "QueueableContext"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Enables the asynchronous execution of Apex jobs that can be",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Queueable.htm#apex_class_System_Queueable"
+}

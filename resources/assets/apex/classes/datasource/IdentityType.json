@@ -1,0 +1,24 @@
+{
+    "name": "IdentityType",
+    "namespace": "Datasource",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "isEnum": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "enumValues": [
+        "ANONYMOUS",
+        "NAMED_USER",
+        "PER_USER"
+    ],
+    "fields": [],
+    "constuctors": [],
+    "methods": [],
+    "description": "Determines which set of credentials is used to authenticate to the external system.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_IdentityType.htm"
+  }

@@ -1,0 +1,45 @@
+{
+  "name": "SuggestionOption",
+  "namespace": "Search",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "setFilter",
+      "signature": "public void setFilter(Search.KnowledegeSuggestionFilter knowledgeSuggestionFilter)",
+      "description": "Set filters that narrow Salesforce Knowledge article results in a call to System.Search.suggest(String, String, Search.SuggestionOption).",
+      "methodParams": [
+        {
+          "name": "knowledgeSuggestionFilter",
+          "datatype": "KnowledgeSuggestionFilter"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setLimit",
+      "signature": "public void setLimit(Integer limit)",
+      "description": "The maximum number of record or article suggestions to retrieve.",
+      "methodParams": [
+        {
+          "name": "limit",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Options that narrow record and article suggestion results returned",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SuggestionOption.htm#apex_class_Search_SuggestionOption"
+}

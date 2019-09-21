@@ -1,13 +1,24 @@
 const TokenType = require('./tokenTypes');
 
+let symbols = [
+    "€",
+    "º",
+    "~",
+    "¬",
+    "‘",
+    "·",
+    "╔",
+];
+
 class Tokenizer {
     static tokenize(str) {
         const NUM_FORMAT = /[0-9]/;
-        const ID_FORMAT = /([a-zA-Z0-9À-ú]|_)/;
-        const OPERATORS = /\+|-|\*|\/|\^/
+        const ID_FORMAT = /([a-zA-Z0-9À-ÿ]|_|–)/;
+        const OPERATORS = /\+|-|\*|\/|\^/;
+        const SYMBOLS_FORMAT = /[^\x00-\x7F]/;
         let tokens = [];
         let charIndex = 0;
-        let lineNumber = 1;
+        let lineNumber = 0;
         let column = 0;
         while (charIndex < str.length) {
             let char = str.charAt(charIndex);
@@ -132,6 +143,18 @@ class Tokenizer {
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
+            } else if (char === "¡") {
+                token.tokenType = TokenType.OPEN_EXMARK;
+                token.content = char;
+                token.line = lineNumber;
+                token.startColumn = column;
+                token.endColumn = column + char.length;
+            } else if (char === "¿") {
+                token.tokenType = TokenType.OPEN_QMARK;
+                token.content = char;
+                token.line = lineNumber;
+                token.startColumn = column;
+                token.endColumn = column + char.length;
             } else if (char === "@") {
                 token.tokenType = TokenType.AT;
                 token.content = char;
@@ -174,7 +197,7 @@ class Tokenizer {
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
-            } else if (char === "€" || char === "º" || char === "~" || char === "¬") {
+            } else if (symbols.includes(char) || SYMBOLS_FORMAT.test(char)) {
                 token.tokenType = TokenType.SYMBOL;
                 token.content = char;
                 token.line = lineNumber;
@@ -186,8 +209,8 @@ class Tokenizer {
                 while (NUM_FORMAT.test(char)) {
                     content += char;
                     char = str.charAt(++charIndex);
-                    column++;
                 }
+                column =  column + content.length;
                 token.tokenType = TokenType.NUMBER;
                 token.content = content;
                 token.line = lineNumber;
@@ -200,8 +223,8 @@ class Tokenizer {
                 while (ID_FORMAT.test(char)) {
                     content += char;
                     char = str.charAt(++charIndex);
-                    column++;
                 }
+                column =  column + content.length;
                 token.tokenType = TokenType.IDENTIFIER;
                 token.content = content;
                 token.line = lineNumber;
@@ -211,8 +234,10 @@ class Tokenizer {
             } else if (char === "\n") {
                 lineNumber++;
                 column = 0;
-            } else if (char !== "\t" && char !== "\r" && char !== " ") {
-                throw new Error('Character not recognized: ' + char + ' at line: ' + lineNumber + '; Start Column: ' + column + '; End Column: ' + (column + char.length));
+            } else if (char !== "\t" && char !== "\r" && char !== " " && char.trim().length != 0) {
+                throw new Error('Character not recognized: <<' + char + '>> at line: ' + lineNumber + '; Start Column: ' + column + '; End Column: ' + (column + char.length));
+            } else if(char === "\t"){
+                column = column + 3;
             }
             if (token.tokenType) {
                 tokens.push(token);

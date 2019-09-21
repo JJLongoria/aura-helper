@@ -1,0 +1,31 @@
+{
+  "name": "UninstallHandler",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "onUninstall",
+      "signature": "public Void onUninstall(UninstallContext context)",
+      "description": "Specifies the actions to be performed on uninstall.",
+      "methodParams": [
+        {
+          "name": "context",
+          "datatype": "UninstallContext"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Enables custom code to run after a managed package is uninstalled.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_uninstall_handler.htm#apex_uninstall_handler"
+}

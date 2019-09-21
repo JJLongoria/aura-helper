@@ -1,0 +1,111 @@
+{
+  "name": "BucketFieldValue",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "BucketFieldValue",
+      "signature": "public BucketFieldValue(String label, List<String> sourceDimensionValues, Double rangeUpperBound)",
+      "description": "Creates an instance of the Reports.BucketFieldValue class using the specified parameters.",
+      "methodParams": [
+        {
+          "name": "label",
+          "datatype": "String"
+        },
+        {
+          "name": "sourceDimensionValues",
+          "datatype": "List<String>"
+        },
+        {
+          "name": "rangeUpperBound",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "BucketFieldValue",
+      "signature": "public BucketFieldValue()",
+      "description": "Creates an instance of the Reports.BucketFieldValue class. You can then set values by using the class’s set methods.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "getLabel",
+      "signature": "public String getLabel()",
+      "description": "Returns the user-facing name of the bucket category.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getRangeUpperBound",
+      "signature": "public Double getRangeUpperBound()",
+      "description": "Returns the greatest range limit under which values are included in this bucket category (in buckets of type NUMBER).",
+      "methodParams": [],
+      "datatype": "Double"
+    },
+    {
+      "name": "getSourceDimensionValues",
+      "signature": "public List<String> getSourceDimensionValues()",
+      "description": "Returns a list of the values from the source field included in this bucket category (in buckets of type PICKLIST and buckets of type TEXT).",
+      "methodParams": [],
+      "datatype": "List<String>"
+    },
+    {
+      "name": "setLabel",
+      "signature": "public void setLabel(String label)",
+      "description": "Set the user-facing name of the bucket category.",
+      "methodParams": [
+        {
+          "name": "label",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setRangeUpperBound",
+      "signature": "public void setRangeUpperBound(Double rangeUpperBound)",
+      "description": "Sets the greatest limit of a range under which values are included in this bucket category (in buckets of type NUMBER).",
+      "methodParams": [
+        {
+          "name": "rangeUpperBound",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setSourceDimensionValues",
+      "signature": "public void setSourceDimensionValues(List<String> sourceDimensionValues)",
+      "description": "Specifies the values from the source field included in this bucket category (in buckets of type PICKLIST and buckets of type TEXT).",
+      "methodParams": [
+        {
+          "name": "sourceDimensionValues",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Returns a string.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Contains information about the report values included in a bucket",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_BucketFieldValue.htm#apex_class_reports_BucketFieldValue"
+}

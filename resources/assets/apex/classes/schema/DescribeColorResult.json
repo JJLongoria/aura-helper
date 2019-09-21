@@ -1,0 +1,42 @@
+{
+  "name": "DescribeColorResult",
+  "namespace": "Schema",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getColor",
+      "signature": "public String getColor()",
+      "description": "Returns the Web RGB color code, such as 00FF00.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getContext",
+      "signature": "public String getContext()",
+      "description": "Returns the color context. The context determines whether the color is the main color for the tab or not.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getTheme",
+      "signature": "public String getTheme()",
+      "description": "Returns the color theme.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Contains color metadata information for",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describecolorresult.htm#apex_class_schema_describecolorresult"
+}

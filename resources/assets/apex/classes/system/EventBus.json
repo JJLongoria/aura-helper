@@ -1,0 +1,55 @@
+{
+  "name": "EventBus",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getOperationId",
+      "signature": "public static String getOperationId(Object result)",
+      "description": "Returns the ID of the asynchronous event publishing operation based on the passed-in SaveResult. Use this ID to correlate the asynchronous publishing result sent on the /event/AsyncOperationEvent channel.",
+      "methodParams": [
+        {
+          "name": "result",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "publish",
+      "signature": "public static Database.SaveResult publish(SObject event)",
+      "description": "Publishes the given platform event.",
+      "methodParams": [
+        {
+          "name": "event",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "Database.SaveResult"
+    },
+    {
+      "name": "publish",
+      "signature": "public static List<Database.SaveResult> publish(List<SObject> events)",
+      "description": "Publishes the given list of platform events.",
+      "methodParams": [
+        {
+          "name": "events",
+          "datatype": "List<sObject>"
+        }
+      ],
+      "datatype": "List<Database.SaveResult>"
+    }
+  ],
+  "description": "Contains methods for publishing platform events.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_eventbus.htm#apex_class_System_eventbus"
+}
