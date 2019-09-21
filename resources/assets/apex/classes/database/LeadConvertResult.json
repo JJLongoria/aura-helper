@@ -1,0 +1,61 @@
+{
+  "name": "LeadConvertResult",
+  "namespace": "Database",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getAccountId",
+      "signature": "public ID getAccountId()",
+      "description": "The ID of the new account (if a new account was specified) or the ID of the account specified when convertLead was invoked.",
+      "methodParams": [],
+      "datatype": "ID"
+    },
+    {
+      "name": "getContactId",
+      "signature": "public ID getContactId()",
+      "description": "The ID of the new contact (if a new contact was specified) or the ID of the contact specified when convertLead was invoked.",
+      "methodParams": [],
+      "datatype": "ID"
+    },
+    {
+      "name": "getErrors",
+      "signature": "public Database.Error[] getErrors()",
+      "description": "If an error occurred, an array of one or more database error objects providing the error code and description.",
+      "methodParams": [],
+      "datatype": "Database.Error[]"
+    },
+    {
+      "name": "getLeadId",
+      "signature": "public ID getLeadId()",
+      "description": "The ID of the converted lead.",
+      "methodParams": [],
+      "datatype": "ID"
+    },
+    {
+      "name": "getOpportunityId",
+      "signature": "public ID getOpportunityId()",
+      "description": "The ID of the new opportunity, if one was created when convertLead was invoked.",
+      "methodParams": [],
+      "datatype": "ID"
+    },
+    {
+      "name": "isSuccess",
+      "signature": "public Boolean isSuccess()",
+      "description": "A Boolean value that is set to true if the DML operation was successful for this object, false otherwise",
+      "methodParams": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "The result of a lead conversion.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_leadconvertresult.htm#apex_class_database_leadconvertresult"
+}

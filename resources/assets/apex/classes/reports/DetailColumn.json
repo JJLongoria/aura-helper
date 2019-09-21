@@ -1,0 +1,20 @@
+{
+  "name": "DetailColumn",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [],
+  "description": "Contains methods for describing fields that contain detailed",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_detailcolumn.htm#apex_class_reports_detailcolumn"
+}

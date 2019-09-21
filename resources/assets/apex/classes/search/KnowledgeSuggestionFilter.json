@@ -1,0 +1,121 @@
+{
+  "name": "KnowledgeSuggestionFilter",
+  "namespace": "Search",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "addArticleType",
+      "signature": "public void addArticleType(String articleType)",
+      "description": "Adds a filter that narrows suggestion results to display the specified article type. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "articleType",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "addDataCategory",
+      "signature": "public void addDataCategory(String dataCategoryGroupName, String dataCategoryName)",
+      "description": "Adds a filter that narrows suggestion results to display articles in the specified data category. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "dataCategoryGroupName",
+          "datatype": "String"
+        },
+        {
+          "name": "dataCategoryName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "addTopic",
+      "signature": "public void addTopic(String topic)",
+      "description": "Specifies the article topic to return. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "addTopic",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setChannel",
+      "signature": "public void setChannel(String channelName)",
+      "description": "Sets a channel to narrow the suggestion results to articles in the specified channel. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "channelName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setDataCategories",
+      "signature": "public void setDataCategories(Map dataCategoryFilters)",
+      "description": "Adds filters that narrow suggestion results to display articles in the specified data categories. Use this method to set multiple data category group and name pairs in one call. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "dataCategoryFilters",
+          "datatype": "Map"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setLanguage",
+      "signature": "public void setLanguage(String localeCode)",
+      "description": "Sets a language to narrow the suggestion results to display articles in that language. This filter value is required in calls to System.Search.suggest(String, String, Search.SuggestionOption).",
+      "methodParams": [
+        {
+          "name": "localeCode",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setPublishStatus",
+      "signature": "public void setPublishStatus(String publishStatus)",
+      "description": "Sets a publish status to narrow the suggestion results to display articles with that status. This filter value is required in calls to System.Search.suggest(String, String, Search.SuggestionOption).",
+      "methodParams": [
+        {
+          "name": "publishStatus",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setValidationStatus",
+      "signature": "public void setValidationStatus(String validationStatus)",
+      "description": "Sets a validation status to narrow the suggestion results to display articles with that status. This filter is optional.",
+      "methodParams": [
+        {
+          "name": "validationStatus",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Filter settings that narrow the results from a call to System.Search.suggest(searchQuery, sObjectType, options)",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_KnowledgeSuggestionFilter.htm#apex_class_Search_KnowledgeSuggestionFilter"
+}

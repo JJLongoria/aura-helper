@@ -1,0 +1,39 @@
+{
+  "name": "MyDomainLoginDiscoveryHandler",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "login",
+      "signature": "public System.PageReference login(String identifier, String startUrl, Map<String,String>requestAttributes)",
+      "description": "Log in a Salesforce user given the specified identifier, such as email or phone number. If successful, redirect the user to the page specified by the start URL.",
+      "methodParams": [
+        {
+          "name": "identifier",
+          "datatype": "String"
+        },
+        {
+          "name": "startUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "requestAttributes",
+          "datatype": "Map<String,String>"
+        }
+      ],
+      "datatype": "System.PageReference"
+    }
+  ],
+  "description": "The handler used to implement the My Domain Login Discovery page,",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Auth_MyDomainLoginDiscoveryHandler.htm#apex_interface_Auth_MyDomainLoginDiscoveryHandler"
+}

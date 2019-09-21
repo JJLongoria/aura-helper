@@ -1,0 +1,216 @@
+{
+  "name": "HttpRequest",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "HttpRequest",
+      "signature": "public HttpRequest()",
+      "description": "Creates a new instance of the HttpRequest class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "getBody",
+      "signature": "public String getBody()",
+      "description": "Retrieves the body of this request.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getBodyAsBlob",
+      "signature": "public Blob getBodyAsBlob()",
+      "description": "Retrieves the body of this request as a Blob.",
+      "methodParams": [],
+      "datatype": "Blob"
+    },
+    {
+      "name": "getBodyDocument",
+      "signature": "public Dom.Document getBodyDocument()",
+      "description": "Retrieves the body of this request as a DOM document.",
+      "methodParams": [],
+      "datatype": "Dom.Document"
+    },
+    {
+      "name": "getCompressed",
+      "signature": "public Boolean getCompressed()",
+      "description": "If true, the request body is compressed, false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getEndpoint",
+      "signature": "public String getEndpoint()",
+      "description": "Retrieves the URL for the endpoint of the external server for this request.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getHeader",
+      "signature": "public String getHeader(String key)",
+      "description": "Retrieves the contents of the request header.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getMethod",
+      "signature": "public String getMethod()",
+      "description": "Returns the type of method used by HttpRequest.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setBody",
+      "signature": "public Void setBody(String body)",
+      "description": "Sets the contents of the body for this request.",
+      "methodParams": [
+        {
+          "name": "body",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setBodyAsBlob",
+      "signature": "public Void setBodyAsBlob(Blob body)",
+      "description": "Sets the contents of the body for this request using a Blob.",
+      "methodParams": [
+        {
+          "name": "body",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setBodyDocument",
+      "signature": "public Void setBodyDocument(Dom.Document document)",
+      "description": "Sets the contents of the body for this request. The contents represent a DOM document.",
+      "methodParams": [
+        {
+          "name": "document",
+          "datatype": "Dom.Document"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setClientCertificate",
+      "signature": "public Void setClientCertificate(String clientCert, String password)",
+      "description": "This method is deprecated. Use setClientCertificateName instead.",
+      "methodParams": [
+        {
+          "name": "clientCert",
+          "datatype": "String"
+        },
+        {
+          "name": "password",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setClientCertificateName",
+      "signature": "public Void setClientCertificateName(String certDevName)",
+      "description": "If the external service requires a client certificate for authentication, set the certificate name.",
+      "methodParams": [
+        {
+          "name": "certDevName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setCompressed",
+      "signature": "public Void setCompressed(Boolean flag)",
+      "description": "If true, the data in the body is delivered to the endpoint in the gzip compressed format. If false, no compression format is used.",
+      "methodParams": [
+        {
+          "name": "flag",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setEndpoint",
+      "signature": "public Void setEndpoint(String endpoint)",
+      "description": "Specifies the endpoint for this request.",
+      "methodParams": [
+        {
+          "name": "endpoint",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setHeader",
+      "signature": "public Void setHeader(String key, String value)",
+      "description": "Sets the contents of the request header.",
+      "methodParams": [
+        {
+          "name": "key",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setMethod",
+      "signature": "public Void setMethod(String method)",
+      "description": "Sets the type of method to be used for the HTTP request.",
+      "methodParams": [
+        {
+          "name": "method",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTimeout",
+      "signature": "public Void setTimeout(Integer timeout)",
+      "description": "Sets the timeout in milliseconds for the request.",
+      "methodParams": [
+        {
+          "name": "timeout",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Returns a string containing the URL for the endpoint of the external server for this request and the method used, for example, Endpoint=http://YourServer, Method=POST",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Use the HttpRequest class to programmatically create HTTP requests like GET, POST, PUT,",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_httprequest.htm#apex_classes_restful_http_httprequest"
+}

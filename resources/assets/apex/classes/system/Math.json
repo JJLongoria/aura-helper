@@ -1,0 +1,762 @@
+{
+  "name": "Math",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "abs",
+      "signature": "public static Decimal abs(Decimal decimalValue)",
+      "description": "Returns the absolute value of the specified Decimal.",
+      "methodParams": [
+        {
+          "name": "decimalValue",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "abs",
+      "signature": "public static Double abs(Double doubleValue)",
+      "description": "Returns the absolute value of the specified Double.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "abs",
+      "signature": "public static Integer abs(Integer integerValue)",
+      "description": "Returns the absolute value of the specified Integer.",
+      "methodParams": [
+        {
+          "name": "integerValue",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "abs",
+      "signature": "public static Long abs(Long longValue)",
+      "description": "Returns the absolute value of the specified Long.",
+      "methodParams": [
+        {
+          "name": "longValue",
+          "datatype": "Long"
+        }
+      ],
+      "datatype": "Long"
+    },
+    {
+      "name": "acos",
+      "signature": "public static Decimal acos(Decimal decimalAngle)",
+      "description": "Returns the arc cosine of an angle, in the range of 0.0 through pi.",
+      "methodParams": [
+        {
+          "name": "decimalAngle",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "acos",
+      "signature": "public static Double acos(Double doubleAngle)",
+      "description": "Returns the arc cosine of an angle, in the range of 0.0 through pi.",
+      "methodParams": [
+        {
+          "name": "doubleAngle",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "asin",
+      "signature": "public static Decimal asin(Decimal decimalAngle)",
+      "description": "Returns the arc sine of an angle, in the range of -pi/2 through pi/2.",
+      "methodParams": [
+        {
+          "name": "decimalAngle",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "asin",
+      "signature": "public static Double asin(Double doubleAngle)",
+      "description": "Returns the arc sine of an angle, in the range of -pi/2 through pi/2.",
+      "methodParams": [
+        {
+          "name": "doubleAngle",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "atan",
+      "signature": "public static Decimal atan(Decimal decimalAngle)",
+      "description": "Returns the arc tangent of an angle, in the range of -pi/2 through pi/2.",
+      "methodParams": [
+        {
+          "name": "decimalAngle",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "atan",
+      "signature": "public static Double atan(Double doubleAngle)",
+      "description": "Returns the arc tangent of an angle, in the range of -pi/2 through pi/2.",
+      "methodParams": [
+        {
+          "name": "doubleAngle",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "atan2",
+      "signature": "public static Decimal atan2(Decimal xCoordinate, Decimal yCoordinate)",
+      "description": "Converts rectangular coordinates (xCoordinate and yCoordinate) to polar (r and theta). This method computes the phase theta by computing an arc tangent of xCoordinate/yCoordinate in the range of -pi to pi.",
+      "methodParams": [
+        {
+          "name": "xCoordinate",
+          "datatype": "Decimal"
+        },
+        {
+          "name": "yCoordinate",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "atan2",
+      "signature": "public static Double atan2(Double xCoordinate, Double yCoordinate)",
+      "description": "Converts rectangular coordinates (xCoordinate and yCoordinate) to polar (r and theta). This method computes the phase theta by computing an arc tangent of xCoordinate/yCoordinate in the range of -pi to pi.",
+      "methodParams": [
+        {
+          "name": "xCoordinate",
+          "datatype": "Double"
+        },
+        {
+          "name": "yCoordinate",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "cbrt",
+      "signature": "public static Decimal cbrt(Decimal decimalValue)",
+      "description": "Returns the cube root of the specified Decimal. The cube root of a negative value is the negative of the cube root of that value's magnitude.",
+      "methodParams": [
+        {
+          "name": "decimalValue",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "cbrt",
+      "signature": "public static Double cbrt(Double doubleValue)",
+      "description": "Returns the cube root of the specified Double. The cube root of a negative value is the negative of the cube root of that value's magnitude.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "ceil",
+      "signature": "public static Decimal ceil(Decimal decimalValue)",
+      "description": "Returns the smallest (closest to negative infinity) Decimal that is not less than the argument and is equal to a mathematical integer.",
+      "methodParams": [
+        {
+          "name": "decimalValue",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "ceil",
+      "signature": "public static Double ceil(Double doubleValue)",
+      "description": "Returns the smallest (closest to negative infinity) Double that is not less than the argument and is equal to a mathematical integer.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "cos",
+      "signature": "public static Decimal cos(Decimal decimalAngle)",
+      "description": "Returns the trigonometric cosine of the angle specified by decimalAngle.",
+      "methodParams": [
+        {
+          "name": "decimalAngle",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "cos",
+      "signature": "public static Double cos(Double doubleAngle)",
+      "description": "Returns the trigonometric cosine of the angle specified by doubleAngle.",
+      "methodParams": [
+        {
+          "name": "doubleAngle",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "cosh",
+      "signature": "public static Decimal cosh(Decimal decimalAngle)",
+      "description": "Returns the hyperbolic cosine of decimalAngle. The hyperbolic cosine of d is defined to be (ex + e-x)/2 where e is Euler's number.",
+      "methodParams": [
+        {
+          "name": "decimalAngle",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "cosh",
+      "signature": "public static Double cosh(Double doubleAngle)",
+      "description": "Returns the hyperbolic cosine of doubleAngle. The hyperbolic cosine of d is defined to be (ex + e-x)/2 where e is Euler's number.",
+      "methodParams": [
+        {
+          "name": "doubleAngle",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "exp",
+      "signature": "public static Decimal exp(Decimal exponentDecimal)",
+      "description": "Returns Euler's number e raised to the power of the specified Decimal.",
+      "methodParams": [
+        {
+          "name": "exponentDecimal",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "exp",
+      "signature": "public static Double exp(Double exponentDouble)",
+      "description": "Returns Euler's number e raised to the power of the specified Double.",
+      "methodParams": [
+        {
+          "name": "exponentDouble",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "floor",
+      "signature": "public static Decimal floor(Decimal decimalValue)",
+      "description": "Returns the largest (closest to positive infinity) Decimal that is not greater than the argument and is equal to a mathematical integer.",
+      "methodParams": [
+        {
+          "name": "decimalValue",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "floor",
+      "signature": "public static Double floor(Double doubleValue)",
+      "description": "Returns the largest (closest to positive infinity) Double that is not greater than the argument and is equal to a mathematical integer.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "log",
+      "signature": "public static Decimal log(Decimal decimalValue)",
+      "description": "Returns the natural logarithm (base e) of the specified Decimal.",
+      "methodParams": [
+        {
+          "name": "decimalValue",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "log",
+      "signature": "public static Double log(Double doubleValue)",
+      "description": "Returns the natural logarithm (base e) of the specified Double.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "log10",
+      "signature": "public static Decimal log10(Decimal decimalValue)",
+      "description": "Returns the logarithm (base 10) of the specified Decimal.",
+      "methodParams": [
+        {
+          "name": "decimalValue",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "log10",
+      "signature": "public static Double log10(Double doubleValue)",
+      "description": "Returns the logarithm (base 10) of the specified Double.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "max",
+      "signature": "public static Decimal max(Decimal decimalValue1, Decimal decimalValue2)",
+      "description": "Returns the larger of the two specified Decimals.",
+      "methodParams": [
+        {
+          "name": "decimalValue1",
+          "datatype": "Decimal"
+        },
+        {
+          "name": "decimalValue2",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "max",
+      "signature": "public static Double max(Double doubleValue1, Double doubleValue2)",
+      "description": "Returns the larger of the two specified Doubles.",
+      "methodParams": [
+        {
+          "name": "doubleValue1",
+          "datatype": "Double"
+        },
+        {
+          "name": "doubleValue2",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "max",
+      "signature": "public static Integer max(Integer integerValue1, Integer integerValue2)",
+      "description": "Returns the larger of the two specified Integers.",
+      "methodParams": [
+        {
+          "name": "integerValue1",
+          "datatype": "Integer"
+        },
+        {
+          "name": "integerValue2",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "max",
+      "signature": "public static Long max(Long longValue1, Long longValue2)",
+      "description": "Returns the larger of the two specified Longs.",
+      "methodParams": [
+        {
+          "name": "longValue1",
+          "datatype": "Long"
+        },
+        {
+          "name": "longValue2",
+          "datatype": "Long"
+        }
+      ],
+      "datatype": "Long"
+    },
+    {
+      "name": "min",
+      "signature": "public static Decimal min(Decimal decimalValue1, Decimal decimalValue2)",
+      "description": "Returns the smaller of the two specified Decimals.",
+      "methodParams": [
+        {
+          "name": "decimalValue1",
+          "datatype": "Decimal"
+        },
+        {
+          "name": "decimalValue2",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "min",
+      "signature": "public static Double min(Double doubleValue1, Double doubleValue2)",
+      "description": "Returns the smaller of the two specified Doubles.",
+      "methodParams": [
+        {
+          "name": "doubleValue1",
+          "datatype": "Double"
+        },
+        {
+          "name": "doubleValue2",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "min",
+      "signature": "public static Integer min(Integer integerValue1, Integer integerValue2)",
+      "description": "Returns the smaller of the two specified Integers.",
+      "methodParams": [
+        {
+          "name": "integerValue1",
+          "datatype": "Integer"
+        },
+        {
+          "name": "integerValue2",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "min",
+      "signature": "public static Long min(Long longValue1, Long longValue2)",
+      "description": "Returns the smaller of the two specified Longs.",
+      "methodParams": [
+        {
+          "name": "longValue1",
+          "datatype": "Long"
+        },
+        {
+          "name": "longValue2",
+          "datatype": "Long"
+        }
+      ],
+      "datatype": "Long"
+    },
+    {
+      "name": "mod",
+      "signature": "public static Integer mod(Integer integerValue1, Integer integerValue2)",
+      "description": "Returns the remainder of integerValue1 divided by integerValue2.",
+      "methodParams": [
+        {
+          "name": "integerValue1",
+          "datatype": "Integer"
+        },
+        {
+          "name": "integerValue2",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "mod",
+      "signature": "public static Long mod(Long longValue1, Long longValue2)",
+      "description": "Returns the remainder of longValue1 divided by longValue2.",
+      "methodParams": [
+        {
+          "name": "longValue1",
+          "datatype": "Long"
+        },
+        {
+          "name": "longValue2",
+          "datatype": "Long"
+        }
+      ],
+      "datatype": "Long"
+    },
+    {
+      "name": "pow",
+      "signature": "public static Double pow(Double doubleValue, Double exponent)",
+      "description": "Returns the value of the first Double raised to the power of exponent.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        },
+        {
+          "name": "exponent",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "random",
+      "signature": "public static Double random()",
+      "description": "Returns a positive Double that is greater than or equal to 0.0 and less than 1.0.",
+      "methodParams": [],
+      "datatype": "Double"
+    },
+    {
+      "name": "rint",
+      "signature": "public static Decimal rint(Decimal decimalValue)",
+      "description": "Returns the value that is closest in value to decimalValue and is equal to a mathematical integer.",
+      "methodParams": [
+        {
+          "name": "decimalValue",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "rint",
+      "signature": "public static Double rint(Double doubleValue)",
+      "description": "Returns the value that is closest in value to doubleValue and is equal to a mathematical integer.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "round",
+      "signature": "public static Integer round(Double doubleValue)",
+      "description": "Do not use. This method is deprecated as of the Winter '08 release. Instead, use Math.roundToLong. Returns the closest Integer to the specified Double. If the result is less than -2,147,483,648 or greater than 2,147,483,647, Apex generates an error.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "round",
+      "signature": "public static Integer round(Decimal decimalValue)",
+      "description": "Returns the rounded approximation of this Decimal. The number  is rounded to zero decimal places using half-even rounding mode, that is, it rounds towards the “nearest neighbor” unless both neighbors are equidistant, in which case, this mode rounds towards the even neighbor.",
+      "methodParams": [
+        {
+          "name": "decimalValue",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "roundToLong",
+      "signature": "public static Long roundToLong(Decimal decimalValue)",
+      "description": "Returns the rounded approximation of this Decimal. The number  is rounded to zero decimal places using half-even rounding mode, that is, it rounds towards the “nearest neighbor” unless both neighbors are equidistant, in which case, this mode rounds towards the even neighbor.",
+      "methodParams": [
+        {
+          "name": "decimalValue",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Long"
+    },
+    {
+      "name": "roundToLong",
+      "signature": "public static Long roundToLong(Double doubleValue)",
+      "description": "Returns the closest Long to the specified Double.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Long"
+    },
+    {
+      "name": "signum",
+      "signature": "public static Decimal signum(Decimal decimalValue)",
+      "description": "Returns the signum function of the specified Decimal, which is 0 if decimalValue is 0, 1.0 if decimalValue is greater than 0, -1.0 if decimalValue is less than 0.",
+      "methodParams": [
+        {
+          "name": "decimalValue",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "signum",
+      "signature": "public static Double signum(Double doubleValue)",
+      "description": "Returns the signum function of the specified Double, which is 0 if doubleValue is 0, 1.0 if doubleValue is greater than 0, -1.0 if doubleValue is less than 0.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "sin",
+      "signature": "public static Decimal sin(Decimal decimalAngle)",
+      "description": "Returns the trigonometric sine of the angle specified by decimalAngle.",
+      "methodParams": [
+        {
+          "name": "decimalAngle",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "sin",
+      "signature": "public static Double sin(Double doubleAngle)",
+      "description": "Returns the trigonometric sine of the angle specified by doubleAngle.",
+      "methodParams": [
+        {
+          "name": "doubleAngle",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "sinh",
+      "signature": "public static Decimal sinh(Decimal decimalAngle)",
+      "description": "Returns the hyperbolic sine of decimalAngle. The hyperbolic sine of decimalAngle is defined to be (ex - e-x)/2 where e is Euler's number.",
+      "methodParams": [
+        {
+          "name": "decimalAngle",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "sinh",
+      "signature": "public static Double sinh(Double doubleAngle)",
+      "description": "Returns the hyperbolic sine of doubleAngle. The hyperbolic sine of doubleAngle is defined to be (ex - e-x)/2 where e is Euler's number.",
+      "methodParams": [
+        {
+          "name": "doubleAngle",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "sqrt",
+      "signature": "public static Decimal sqrt(Decimal decimalValue)",
+      "description": "Returns the correctly rounded positive square root of decimalValue.",
+      "methodParams": [
+        {
+          "name": "decimalValue",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "sqrt",
+      "signature": "public static Double sqrt(Double doubleValue)",
+      "description": "Returns the correctly rounded positive square root of doubleValue.",
+      "methodParams": [
+        {
+          "name": "doubleValue",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "tan",
+      "signature": "public static Decimal tan(Decimal decimalAngle)",
+      "description": "Returns the trigonometric tangent of the angle specified by decimalAngle.",
+      "methodParams": [
+        {
+          "name": "decimalAngle",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "tan",
+      "signature": "public static Double tan(Double doubleAngle)",
+      "description": "Returns the trigonometric tangent of the angle specified by doubleAngle.",
+      "methodParams": [
+        {
+          "name": "doubleAngle",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    },
+    {
+      "name": "tanh",
+      "signature": "public static Decimal tanh(Decimal decimalAngle)",
+      "description": "Returns the hyperbolic tangent of decimalAngle. The hyperbolic tangent of decimalAngle is defined to be (ex - e-x)/(ex + e-x) where e is Euler's number. In other words, it is equivalent to sinh(x)/cosinh(x). The absolute value of the exact tanh is always less than 1.",
+      "methodParams": [
+        {
+          "name": "decimalAngle",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "tanh",
+      "signature": "public static Double tanh(Double doubleAngle)",
+      "description": "Returns the hyperbolic tangent of doubleAngle. The hyperbolic tangent of doubleAngle is defined to be (ex - e-x)/(ex + e-x) where e is Euler's number. In other words, it is equivalent to sinh(x)/cosinh(x). The absolute value of the exact tanh is always less than 1.",
+      "methodParams": [
+        {
+          "name": "doubleAngle",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Double"
+    }
+  ],
+  "description": "Contains methods for mathematical operations.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_math.htm#apex_system_methods_math"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "ConnectorTestUtil",
+  "namespace": "UserProvisioning",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [],
+  "description": "Enables developers to write Apex test classes for connectors used by",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_UserProvisioning_ConnectorTestUtil.htm#apex_class_UserProvisioning_ConnectorTestUtil"
+}

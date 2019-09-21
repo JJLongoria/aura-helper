@@ -1,0 +1,26 @@
+{
+  "name": "IdeaStandardController",
+  "namespace": "ApexPages",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getCommentList",
+      "signature": "public IdeaComment[] getCommentList()",
+      "description": "Returns the list of read-only comments from the current page.",
+      "methodParams": [],
+      "datatype": "IdeaComment[]"
+    }
+  ],
+  "description": "Returns the list of read-only comments from the current",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardcontroller.htm#apex_pages_ideastandardcontroller"
+}

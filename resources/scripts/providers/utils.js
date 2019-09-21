@@ -38,6 +38,25 @@ class Utils {
         return classes;
     }
 
+    static getSystemClassesFromFolder() {
+        let classes = {
+            classesToLower: [],
+            classesMap: {},
+        };
+        let classesPath = Paths.getSystemClassesPath()
+        logger.log('classesPath', classesPath);
+        let files = FileReader.readDirSync(classesPath);
+        if (files && files.length > 0) {
+            for (const fileName of files) {
+                let className = fileName.replace(".json", "").trim();
+                let nameToLower = className.toLowerCase();
+                classes.classesToLower.push(nameToLower);
+                classes.classesMap[nameToLower] = className;
+            }
+        }
+        return classes;
+    }
+
     static getObjectsFromMetadataIndex() {
         let sObjects = {
             sObjectsToLower: [],
@@ -68,8 +87,14 @@ class Utils {
 
     static getClassStructure(document, className) {
         let classStructure;
+        if (className.indexOf('<') !== -1)
+            className = className.split('<')[0];
+        if (className.indexOf('[') !== -1 && className.indexOf(']') !== -1)
+            className = "List";
         if (FileChecker.isExists(Paths.getFolderPath(document.uri.fsPath) + "/" + className + ".cls"))
             classStructure = ApexParser.parse(FileReader.readFileSync(Paths.getFolderPath(document.uri.fsPath) + "/" + className + ".cls"));
+        else if (FileChecker.isExists(Paths.getSystemClassesPath() + "/" + className + ".json"))
+            classStructure = JSON.parse(FileReader.readFileSync(Paths.getSystemClassesPath() + "/" + className + ".json"));
         return classStructure;
 
     }
@@ -198,61 +223,10 @@ class Utils {
         return items;
     }
 
-    static getApexClassCompletionItems(position, apexClass, command) {
-        let items = [];
-        if (apexClass) {
-            for (const field of apexClass.fields) {
-                let item = new CompletionItem(field.name, CompletionItemKind.Field);
-                item.detail = 'Class field';
-                item.documentation = 'Type: ' + field.type;
-                item.insertText = field.name;
-                item.preselect = true;
-                item.command = {
-                    title: 'sObject',
-                    command: command,
-                    arguments: [position, 'ClassField', field]
-                };
-                items.push(item);
-            }
-            for (const method of apexClass.methods) {
-                let insertText = method.name + "(";
-                let snippetNum = 1;
-                let name = method.name + "(";
-                for (const param of method.params) {
-                    if (snippetNum === 1) {
-                        name += param.name;
-                        insertText += "${" + snippetNum + ":" + param.name + "}";
-                    }
-                    else {
-                        name += ", " + param.name;
-                        insertText += ", ${" + snippetNum + ":" + param.name + "}";
-                    }
-                    snippetNum++;
-                }
-                name += ")";
-                insertText += ")";
-                if (method.returnType.toLowerCase() === 'void')
-                    insertText += ';';
-                let item = new CompletionItem(name, CompletionItemKind.Method);
-                item.detail = method.signature;
-                item.documentation = 'Return: ' + method.returnType;
-                item.insertText = new SnippetString(insertText);
-                item.preselect = true;
-                item.command = {
-                    title: 'sObject',
-                    command: command,
-                    arguments: [position, 'ClassMethod', method]
-                };
-                items.push(item);
-            }
-        }
-        return items;
-    }
-
     static getAllAvailableCompletionItems(similarClasses, similarSobjects, fileStructure, position, command, classes, sObjects) {
         let items = [];
         if (config.getConfig().activeApexSuggestion) {
-            if (fileStructure.posData.isOnMethod) {
+            if (fileStructure.posData && fileStructure.posData.isOnMethod) {
                 let method = this.getMethod(fileStructure, fileStructure.posData.methodSignature);
                 for (const param of method.params) {
                     let item = new CompletionItem(param.name, CompletionItemKind.Field);
@@ -267,8 +241,7 @@ class Utils {
                     };
                     items.push(item);
                 }
-                let methodData = ApexParser.parseMethod(method.bodyTokens);
-                for (const field of methodData.declaredVars) {
+                for (const field of method.declaredVariables) {
                     let item = new CompletionItem(field.name, CompletionItemKind.Field);
                     item.detail = 'Declared variable';
                     item.documentation = 'Type: ' + field.type;
@@ -299,11 +272,11 @@ class Utils {
                 }
                 name += ")";
                 insertText += ")";
-                if (method.returnType.toLowerCase() === 'void')
+                if (method.datatype.toLowerCase() === 'void')
                     insertText += ';';
                 let item = new CompletionItem(name, CompletionItemKind.Method);
                 item.detail = method.signature;
-                item.documentation = 'Return: ' + method.returnType;
+                item.documentation = 'Return: ' + method.datatype;
                 item.insertText = new SnippetString(insertText);
                 item.preselect = true;
                 item.command = {
@@ -357,189 +330,36 @@ class Utils {
         return items;
     }
 
-    static provideSObjetsCompletion(document, position, command) {
-        let items = [];
-        let activation = Utils.getActivation(document, position);
-        let activationTokens = activation.split('.');
-        let queryData = langUtils.getQueryData(document, position);
-        logger.logJSON("queryData", queryData);
-        logger.log("activationTokens", activationTokens);
-        logger.log("activationTokens.length", activationTokens.length);
-        if (queryData) {
-            if (!config.getConfig().activeQuerySuggestion)
-                return Promise.resolve(undefined);
-            let sObjects = Utils.getObjectsFromMetadataIndex();
-            let classes = Utils.getClassesFromClassFolder(document);
-            let similarSobjects;
-            if (activationTokens.length === 1) {
-                similarSobjects = Utils.getSimilar(sObjects.sObjectsToLower, activationTokens[0]);
-            }
-            if (sObjects.sObjectsToLower.includes(queryData.from.toLowerCase())) {
-                let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[queryData.from.toLowerCase()]);
-                if (activationTokens.length === 0) {
-                    items = Utils.getSobjectsFieldsCompletionItems(position, sObject, command);
-                } else {
-                    let lastObject = sObject;
-                    let index = 0;
-                    for (const activationToken of activationTokens) {
-                        let actToken = activationToken;
-                        if (actToken.endsWith('__r'))
-                            actToken = actToken.substring(0, actToken.length - 3) + '__c';
-                        let fielData = Utils.getFieldData(lastObject, actToken);
-                        if (fielData) {
-                            if (fielData.referenceTo.length === 1) {
-                                lastObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
-                            } else {
-                                lastObject = undefined;
-                            }
-                        }
-                        index++;
-                    }
-                    items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, command);
-                }
-            }
-        } else if (activationTokens.length > 0) {
-            if (activationTokens[0] === 'v' && activationTokens.length > 1) {
-                let componentStructure = BundleAnalizer.getComponentStructure(document.fileName);
-                let attribute = Utils.getAttribute(componentStructure, activationTokens[1]);
-                if (attribute) {
-                    let sObjects = Utils.getObjectsFromMetadataIndex();
-                    if (sObjects.sObjectsToLower.includes(attribute.type.toLowerCase())) {
-                        if (!config.getConfig().activeSobjectFieldsSuggestion)
-                            return Promise.resolve(undefined);
-                        let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[attribute.type.toLowerCase()]);
-                        if (activationTokens.length > 2) {
-                            let lastObject = sObject;
-                            let index = 0;
-                            for (const activationToken of activationTokens) {
-                                let actToken = activationToken;
-                                if (index > 1) {
-                                    if (actToken.endsWith('__r'))
-                                        actToken = actToken.substring(0, actToken.length - 3) + '__c';
-                                    let fielData = Utils.getFieldData(lastObject, actToken);
-                                    if (fielData) {
-                                        if (fielData.referenceTo.length === 1) {
-                                            lastObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
-                                        } else {
-                                            lastObject = undefined;
-                                        }
-                                    }
-                                }
-                                index++;
-                            }
-                            items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, command);
-                        }
-                    }
-                }
+    static getQueryCompletionItems(activationTokens, queryData, position, command) {
+        if (!config.getConfig().activeQuerySuggestion)
+            return Promise.resolve(undefined);
+        let sObjects = Utils.getObjectsFromMetadataIndex();
+        let similarSobjects;
+        let items;
+        if (activationTokens.length === 1)
+            similarSobjects = Utils.getSimilar(sObjects.sObjectsToLower, activationTokens[0]);
+        if (sObjects.sObjectsToLower.includes(queryData.from.toLowerCase())) {
+            let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[queryData.from.toLowerCase()]);
+            if (activationTokens.length === 0) {
+                items = Utils.getSobjectsFieldsCompletionItems(position, sObject, command);
             } else {
-                if (FileChecker.isApexClass(document.uri.fsPath)) {
-                    let classes = Utils.getClassesFromClassFolder(document);
-                    let sObjects = Utils.getObjectsFromMetadataIndex();
-                    let similarSobjects = [];
-                    let similarClasses = [];
-                    let objName = activationTokens[0];
-                    if (activationTokens.length === 1) {
-                        similarSobjects = Utils.getSimilar(sObjects.sObjectsToLower, objName);
-                        similarClasses = Utils.getSimilar(classes.classesToLower, activationTokens[0]);
-                    }
-                    let fileStructure = ApexParser.parse(FileReader.readDocument(document), position);
-                    if (fileStructure.posData.isOnMethod) {
-                        if (!config.getConfig().activeApexSuggestion)
-                            return Promise.resolve(undefined);
-                        let method = Utils.getMethod(fileStructure, fileStructure.posData.methodSignature);
-                        let methodData = ApexParser.parseMethod(method.bodyTokens);
-                        let variable = this.getVariable(method, methodData, objName);
-                        if (objName.toLowerCase() === 'this' && activationTokens.length > 1) {
-                            let field = this.getClassField(fileStructure, activationTokens[1]);
-                            if (field)
-                                objName = field.type;
-                        } else if (variable)
-                            objName = variable.type;
-                        else {
-                            let field = this.getClassField(fileStructure, objName);
-                            if (field)
-                                objName = field.type;
+                let lastObject = sObject;
+                let index = 0;
+                for (const activationToken of activationTokens) {
+                    let actToken = activationToken;
+                    if (actToken.endsWith('__r'))
+                        actToken = actToken.substring(0, actToken.length - 3) + '__c';
+                    let fielData = Utils.getFieldData(lastObject, actToken);
+                    if (fielData) {
+                        if (fielData.referenceTo.length === 1) {
+                            lastObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
+                        } else {
+                            lastObject = undefined;
                         }
                     }
-                    if (objName.toLowerCase() === 'this') {
-                        if (!config.getConfig().activeApexSuggestion)
-                            return Promise.resolve(undefined);
-                        items = Utils.getApexClassCompletionItems(position, fileStructure, command);
-                    } else if (sObjects.sObjectsToLower.includes(objName.toLowerCase()) || classes.classesToLower.includes(objName.toLowerCase())) {
-                        if (!config.getConfig().activeSobjectFieldsSuggestion)
-                            return Promise.resolve(undefined);
-                        let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[objName.toLowerCase()]);
-                        let classStructure = Utils.getClassStructure(document, classes.classesMap[objName.toLowerCase()]);
-                        if (FileChecker.isExists(Paths.getFolderPath(document.uri.fsPath) + "/" + objName + ".cls"))
-                            classStructure = ApexParser.parse(FileReader.readFileSync(Paths.getFolderPath(document.uri.fsPath) + "/" + objName + ".cls"));
-                        if (activationTokens.length > 1) {
-                            let lastObject = sObject;
-                            let lastClass = classStructure;
-                            let index = 0;
-                            for (const activationToken of activationTokens) {
-                                let actToken = activationToken;
-                                if (index > 0) {
-                                    if (lastObject) {
-                                        lastClass = undefined;
-                                        if (actToken.endsWith('__r'))
-                                            actToken = actToken.substring(0, actToken.length - 3) + '__c';
-                                        let fielData = Utils.getFieldData(lastObject, actToken);
-                                        if (fielData) {
-                                            if (fielData.referenceTo.length === 1) {
-                                                lastObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
-                                            } else {
-                                                lastObject = undefined;
-                                            }
-                                        }
-                                    } else if (lastClass) {
-                                        lastObject = undefined;
-                                        let memberData = Utils.getMemberData(lastClass, actToken);
-                                        if (memberData) {
-                                            if (memberData.type === "method") {
-                                                let method = memberData.data;
-                                                if (method.returnType.toLowerCase() !== 'void') {
-                                                    let sObjectTmp = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[method.returnType.toLowerCase()]);
-                                                    let classStructureTmp = Utils.getClassStructure(document, classes.classesMap[method.returnType.toLowerCase()]);
-                                                    if (sObjectTmp) {
-                                                        lastObject = sObjectTmp;
-                                                        lastClass = undefined;
-                                                    } else if (classStructureTmp) {
-                                                        lastClass = classStructureTmp;
-                                                        lastObject = undefined;
-                                                    } else {
-                                                        lastClass = undefined;
-                                                        lastObject = undefined;
-                                                    }
-                                                }
-                                            } else {
-                                                let field = memberData.data;
-                                                let sObjectTmp = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[field.dataType.toLowerCase()]);
-                                                let classStructureTmp = Utils.getClassStructure(document, classes.classesMap[field.dataType.toLowerCase()]);
-                                                if (sObjectTmp) {
-                                                    lastObject = sObjectTmp;
-                                                    lastClass = undefined;
-                                                } else if (classStructureTmp) {
-                                                    lastClass = classStructureTmp;
-                                                    lastObject = undefined;
-                                                } else {
-                                                    lastClass = undefined;
-                                                    lastObject = undefined;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                index++;
-                            }
-                            if (lastObject)
-                                items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, command);
-                            else if (lastClass)
-                                items = Utils.getApexClassCompletionItems(position, lastClass, command);
-                        }
-                    } else {
-                        items = Utils.getAllAvailableCompletionItems(similarClasses, similarSobjects, fileStructure, position, command, classes, sObjects);
-                    }
+                    index++;
                 }
+                items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, command);
             }
         }
         return items;
@@ -584,15 +404,13 @@ class Utils {
         return undefined;
     }
 
-    static getVariable(method, methodData, varName) {
+    static getVariable(method, varName) {
         if (method) {
             for (const param of method.params) {
                 if (param.name.toLowerCase() === varName.toLowerCase())
                     return param;
             }
-        }
-        if (methodData) {
-            for (const variable of methodData.declaredVars) {
+            for (const variable of method.declaredVariables) {
                 if (variable.name.toLowerCase() === varName.toLowerCase())
                     return variable;
             }
@@ -618,6 +436,21 @@ class Utils {
             }
         }
         return undefined;
+    }
+
+    static isSObject(objectName) {
+        let sObjects = Utils.getObjectsFromMetadataIndex();
+        return sObjects && sObjects.sObjectsToLower.includes(objectName.toLowerCase());
+    }
+
+    static isUserClass(className, document) {
+        let classes = Utils.getClassesFromClassFolder(document);
+        return classes && classes.classesToLower.includes(className.toLowerCase());
+    }
+
+    static isSystemClass(className) {
+        let classes = Utils.getSystemClassesFromFolder();
+        return classes && classes.classesToLower.includes(className.toLowerCase());
     }
 }
 exports.Utils = Utils;

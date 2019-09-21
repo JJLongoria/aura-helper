@@ -1,0 +1,227 @@
+{
+  "name": "XmlStreamWriter",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "XmlStreamWriter",
+      "signature": "public XmlStreamWriter()",
+      "description": "Creates a new instance of the XmlStreamWriter class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "close",
+      "signature": "public Void close()",
+      "description": "Closes this instance of an XmlStreamWriter and free any resources associated with it.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "getXmlString",
+      "signature": "public String getXmlString()",
+      "description": "Returns the XML written by the XmlStreamWriter instance.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setDefaultNamespace",
+      "signature": "public Void setDefaultNamespace(String uri)",
+      "description": "Binds the specified URI to the default namespace. This URI is bound in the scope of the current START_ELEMENT – END_ELEMENT pair.",
+      "methodParams": [
+        {
+          "name": "uri",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeAttribute",
+      "signature": "public Void writeAttribute(String prefix, String namespaceUri, String localName, String value)",
+      "description": "Writes an attribute to the output stream.",
+      "methodParams": [
+        {
+          "name": "prefix",
+          "datatype": "String"
+        },
+        {
+          "name": "namespaceUri",
+          "datatype": "String"
+        },
+        {
+          "name": "localName",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeCData",
+      "signature": "public Void writeCData(String data)",
+      "description": "Writes the specified CData to the output stream.",
+      "methodParams": [
+        {
+          "name": "data",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeCharacters",
+      "signature": "public Void writeCharacters(String text)",
+      "description": "Writes the specified text to the output stream.",
+      "methodParams": [
+        {
+          "name": "text",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeComment",
+      "signature": "public Void writeComment(String comment)",
+      "description": "Writes the specified comment to the output stream.",
+      "methodParams": [
+        {
+          "name": "comment",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeDefaultNamespace",
+      "signature": "public Void writeDefaultNamespace(String namespaceUri)",
+      "description": "Writes the specified namespace to the output stream.",
+      "methodParams": [
+        {
+          "name": "namespaceUri",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeEmptyElement",
+      "signature": "public Void writeEmptyElement(String prefix, String localName, String namespaceUri)",
+      "description": "Writes an empty element tag to the output stream.",
+      "methodParams": [
+        {
+          "name": "prefix",
+          "datatype": "String"
+        },
+        {
+          "name": "localName",
+          "datatype": "String"
+        },
+        {
+          "name": "namespaceUri",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeEndDocument",
+      "signature": "public Void writeEndDocument()",
+      "description": "Closes any start tags and writes corresponding end tags to the output stream.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeEndElement",
+      "signature": "public Void writeEndElement()",
+      "description": "Writes an end tag to the output stream, relying on the internal state of the writer to determine the prefix and local name.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeNamespace",
+      "signature": "public Void writeNamespace(String prefix, String namespaceUri)",
+      "description": "Writes the specified namespace to the output stream.",
+      "methodParams": [
+        {
+          "name": "prefix",
+          "datatype": "String"
+        },
+        {
+          "name": "namespaceUri",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeProcessingInstruction",
+      "signature": "public Void writeProcessingInstruction(String target, String data)",
+      "description": "Writes the specified processing instruction.",
+      "methodParams": [
+        {
+          "name": "target",
+          "datatype": "String"
+        },
+        {
+          "name": "data",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeStartDocument",
+      "signature": "public Void writeStartDocument(String encoding, String version)",
+      "description": "Writes the XML Declaration using the specified XML encoding and version.",
+      "methodParams": [
+        {
+          "name": "encoding",
+          "datatype": "String"
+        },
+        {
+          "name": "version",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeStartElement",
+      "signature": "public Void writeStartElement(String prefix, String localName, String namespaceUri)",
+      "description": "Writes the start tag specified by localName to the output stream.",
+      "methodParams": [
+        {
+          "name": "prefix",
+          "datatype": "String"
+        },
+        {
+          "name": "localName",
+          "datatype": "String"
+        },
+        {
+          "name": "namespaceUri",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "The XmlStreamWriter class provides methods",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_XmlStream_writer.htm#apex_classes_XmlStream_writer"
+}

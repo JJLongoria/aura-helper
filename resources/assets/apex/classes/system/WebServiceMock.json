@@ -1,0 +1,63 @@
+{
+  "name": "WebServiceMock",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "doInvoke",
+      "signature": "public Void doInvoke(Object stub, Object soapRequest, Map<String,Object> responseMap, String endpoint, String soapAction, String requestName, String responseNamespace, String responseName, String responseType)",
+      "description": "The implementation of this method is called by the Apex runtime to send a fake response when a Web service callout is made after Test.setMock has been called.",
+      "methodParams": [
+        {
+          "name": "stub",
+          "datatype": "Object"
+        },
+        {
+          "name": "soapRequest",
+          "datatype": "Object"
+        },
+        {
+          "name": "responseMap",
+          "datatype": "Map<String, Object>"
+        },
+        {
+          "name": "endpoint",
+          "datatype": "String"
+        },
+        {
+          "name": "soapAction",
+          "datatype": "String"
+        },
+        {
+          "name": "requestName",
+          "datatype": "String"
+        },
+        {
+          "name": "responseNamespace",
+          "datatype": "String"
+        },
+        {
+          "name": "responseName",
+          "datatype": "String"
+        },
+        {
+          "name": "responseType",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Enables sending fake responses when testing",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_webservicemock.htm#apex_interface_webservicemock"
+}

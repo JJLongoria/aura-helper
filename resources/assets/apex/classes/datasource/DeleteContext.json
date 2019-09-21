@@ -1,0 +1,26 @@
+{
+  "name": "DeleteContext",
+  "namespace": "DataSource",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "externalIds",
+      "signature": "public List<String> externalIds {get; set;}",
+      "description": "The external IDs of the rows representing external object records to delete.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [],
+  "description": "An instance of DeleteContext",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_DeleteContext.htm#apex_class_DataSource_DeleteContext"
+}

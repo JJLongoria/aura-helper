@@ -1,0 +1,47 @@
+{
+  "name": "QuickActionDefaults",
+  "namespace": "QuickAction",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getActionName",
+      "signature": "public String getActionName()",
+      "description": "Returns the name of the standard Email Action on Case Feed (Case.Email).",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getActionType",
+      "signature": "public String getActionType()",
+      "description": "Returns the type of the standard Email Action on Case Feed (Email).",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getContextId",
+      "signature": "public Id getContextId()",
+      "description": "The ID of the context related to the standard Email Action on Case Feed (Case ID).",
+      "methodParams": [],
+      "datatype": "Id"
+    },
+    {
+      "name": "getTargetSObject",
+      "signature": "public SObject getTargetSObject()",
+      "description": "The target object of the standard Email Action on Case Feed (EmailMessage).",
+      "methodParams": [],
+      "datatype": "SObject"
+    }
+  ],
+  "description": "Represents an abstract Apex class that provides the context for",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_QuickAction_QuickActionDefaults.htm#apex_class_QuickAction_QuickActionDefaults"
+}

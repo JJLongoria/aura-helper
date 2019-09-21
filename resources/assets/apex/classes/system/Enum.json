@@ -1,0 +1,43 @@
+{
+    "name": "Enum",
+    "namespace": "System",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "isEnum": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "enumValues": [],
+    "fields": [],
+    "constuctors": [],
+    "methods": [
+        {
+            "name": "values",
+            "signature": "values",
+            "description": "This method returns the values of the Enum as a list of the same Enum type.",
+            "methodParams": [],
+            "datatype": "?",
+            "isStatic": true
+        },
+        {
+            "name": "name",
+            "signature": "name",
+            "description": "Returns the name of the Enum item as a String.",
+            "methodParams": [],
+            "datatype": "?"
+        },
+        {
+            "name": "ordinal",
+            "signature": "ordinal",
+            "description": "Returns the position of the item, as an Integer, in the list of Enum values starting with zero.",
+            "methodParams": [],
+            "datatype": "?"
+        }
+    ],
+    "description": "An enum is an abstract data type with values that each take on exactly one of a finite set of identifiers that you specify. Apex provides built-in enums, such as LoggingLevel, and you can define your own enum.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_enum.htm"
+}

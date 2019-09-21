@@ -1,0 +1,79 @@
+{
+  "name": "PushNotification",
+  "namespace": "Messaging",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "PushNotification",
+      "signature": "public PushNotification()",
+      "description": "Creates a new instance of the Messaging.PushNotification class",
+      "methodParams": [],
+      "datatype": ""
+    },
+    {
+      "name": "PushNotification",
+      "signature": "public PushNotification(Map<String,Object> payload)",
+      "description": "Creates a new instance of the Messaging.PushNotification class using the specified payload parameters as key-value pairs. When you use this constructor, you don’t need to call setPayload to set the payload.",
+      "methodParams": [
+        {
+          "name": "payload",
+          "datatype": "Map<String, Object>"
+        }
+      ],
+      "datatype": ""
+    }
+  ],
+  "methods": [
+    {
+      "name": "send",
+      "signature": "public void send(String application, Set<String> users)",
+      "description": "Sends a push notification message to the specified users.",
+      "methodParams": [
+        {
+          "name": "application",
+          "datatype": "String"
+        },
+        {
+          "name": " users",
+          "datatype": "Set<String>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setPayload",
+      "signature": "public void setPayload(Map<String,Object> payload)",
+      "description": "Sets the payload of the push notification message.",
+      "methodParams": [
+        {
+          "name": "payload",
+          "datatype": "Map<String,Object>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setTtl",
+      "signature": "public void setTtl(Integer ttl)",
+      "description": "Reserved for future use.",
+      "methodParams": [
+        {
+          "name": "ttl",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "PushNotification is used to configure push notifications and send them from an Apex trigger.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_push_notification.htm"
+}

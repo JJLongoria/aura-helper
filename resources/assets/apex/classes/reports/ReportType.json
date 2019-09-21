@@ -1,0 +1,35 @@
+{
+  "name": "ReportType",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getLabel",
+      "signature": "",
+      "description": "Returns the localized display name of the report type.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getType",
+      "signature": "",
+      "description": "Returns the unique identifier of the report type.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Contains the unique API name and display name for the report",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reporttype.htm#apex_class_reports_reporttype"
+}

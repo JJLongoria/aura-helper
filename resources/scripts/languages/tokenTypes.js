@@ -18,6 +18,8 @@ const SQUOTTE = "sQuotte";
 const QUOTTE = "quotte";
 const EXMARK = "exMark";
 const QMARK = "qMark";
+const OPEN_EXMARK = "openExMark";
+const OPEN_QMARK = "openQMark";
 const AT = "at";
 const SHARP = "sharp";
 const EQUAL = "equal";
@@ -58,5 +60,7 @@ module.exports = {
     NUMBER,
     IDENTIFIER,
     SLQUOTTE,
-    BSLQUOTTE
+    BSLQUOTTE,
+    OPEN_EXMARK,
+    OPEN_QMARK
 }

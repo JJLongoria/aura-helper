@@ -1,0 +1,35 @@
+{
+  "name": "StandardFilterInfo",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getLabel",
+      "signature": "public String getLabel()",
+      "description": "Returns the display label of the standard filter.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getType",
+      "signature": "public Reports.StandardFilterType getType()",
+      "description": "Returns the type of standard filter.",
+      "methodParams": [],
+      "datatype": "Reports.StandardFilterType"
+    }
+  ],
+  "description": "Is an abstract base class for an object that provides standard filter",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardFilterInfo.htm#apex_class_reports_StandardFilterInfo"
+}

@@ -1,0 +1,61 @@
+{
+  "name": "ProcessResult",
+  "namespace": "Approval",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getEntityId",
+      "signature": "public String getEntityId()",
+      "description": "The ID of the record being processed.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getErrors",
+      "signature": "public Database.Error[] getErrors()",
+      "description": "If an error occurred, returns an array of one or more database error objects including the error code and description.",
+      "methodParams": [],
+      "datatype": "Database.Error[]"
+    },
+    {
+      "name": "getInstanceId",
+      "signature": "public String getInstanceId()",
+      "description": "The ID of the approval process that has been submitted for approval.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getInstanceStatus",
+      "signature": "public String getInstanceStatus()",
+      "description": "The status of the current approval process. Valid values are: Approved, Rejected, Removed or Pending.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getNewWorkitemIds",
+      "signature": "public ID[] getNewWorkitemIds()",
+      "description": "The IDs of the new items submitted to the approval process. There can be 0 or 1 approval processes.",
+      "methodParams": [],
+      "datatype": "ID[]"
+    },
+    {
+      "name": "isSuccess",
+      "signature": "public Boolean isSuccess()",
+      "description": "A Boolean value that is set to true if the approval process completed successfully; otherwise, it is set to false.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "After you submit a record for approval, use the ProcessResult class to process the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessResult.htm#apex_ProcessResult"
+}

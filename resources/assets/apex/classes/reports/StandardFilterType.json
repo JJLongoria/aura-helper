@@ -1,0 +1,23 @@
+{
+  "name": "StandardFilterType",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "PICKLIST",
+    "STRING"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [],
+  "description": "The StandardFilterType enum describes the type of",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_StandardFilterType.htm"
+}

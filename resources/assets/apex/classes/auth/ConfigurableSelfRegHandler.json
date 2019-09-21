@@ -1,0 +1,43 @@
+{
+  "name": "ConfigurableSelfRegHandler",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "createUser",
+      "signature": "public Id createUser(Id accountId, Id profileId, Map<Schema.SObjectField,String> registrationAttributes, String password)",
+      "description": "Create a community member from the information that the visitor provided on your community’s self-registration page.",
+      "methodParams": [
+        {
+          "name": "accountId",
+          "datatype": "Id"
+        },
+        {
+          "name": "profileId",
+          "datatype": "Id"
+        },
+        {
+          "name": "registrationAttributes",
+          "datatype": "Map<Schema.SObjectField,String>"
+        },
+        {
+          "name": "password",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Id"
+    }
+  ],
+  "description": "Gives you more control over how visitors self-register for your",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Auth_ConfigurableSelfRegHandler.htm#apex_interface_Auth_ConfigurableSelfRegHandler"
+}

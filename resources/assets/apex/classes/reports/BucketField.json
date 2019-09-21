@@ -1,0 +1,215 @@
+{
+  "name": "BucketField",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "BucketField",
+      "signature": "public BucketField(Reports.BucketType bucketType, String devloperName, String label, Boolean nullTreatedAsZero, String otherBucketLabel, String sourceColumnName, List<Reports.BucketFieldValue> values)",
+      "description": "Creates an instance of the Reports.BucketField class using the specified parameters.",
+      "methodParams": [
+        {
+          "name": "bucketType",
+          "datatype": "Reports.BucketType"
+        },
+        {
+          "name": "devloperName",
+          "datatype": "String"
+        },
+        {
+          "name": "label",
+          "datatype": "String"
+        },
+        {
+          "name": "nullTreatedAsZero",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "otherBucketLabel",
+          "datatype": "String"
+        },
+        {
+          "name": "sourceColumnName",
+          "datatype": "String"
+        },
+        {
+          "name": "values",
+          "datatype": "List<Reports.BucketType>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "BucketField",
+      "signature": "public BucketField()",
+      "description": "Creates an instance of the Reports.BucketField class. You can then set values by using the class’s set methods.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "getBucketType",
+      "signature": "public Reports.BucketType getBucketType()",
+      "description": "Returns the bucket type.",
+      "methodParams": [],
+      "datatype": "Reports.BucketType"
+    },
+    {
+      "name": "getDevloperName",
+      "signature": "public String getDevloperName()",
+      "description": "Returns the bucket’s API name.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getLabel",
+      "signature": "public String getLabel()",
+      "description": "Returns the user-facing name of the bucket.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getNullTreatedAsZero",
+      "signature": "public Boolean getNullTreatedAsZero()",
+      "description": "Returns true if null values are converted to the number zero, otherwise returns false.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getOtherBucketLabel",
+      "signature": "public String getOtherBucketLabel()",
+      "description": "Returns the name of fields grouped as Other in buckets of type PICKLIST.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getSourceColumnName",
+      "signature": "public String getSourceColumnName()",
+      "description": "Returns the API name of the bucketed field.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getValues",
+      "signature": "public List<Reports.BucketFieldValue> getValues()",
+      "description": "Returns the report values grouped by the bucket field.",
+      "methodParams": [],
+      "datatype": "List<Reports.BucketFieldValue>"
+    },
+    {
+      "name": "setBucketType",
+      "signature": "public void setBucketType(String value)",
+      "description": "Sets the BucketType of the bucket.",
+      "methodParams": [
+        {
+          "name": "value",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setBucketType",
+      "signature": "public void setBucketType(Reports.BucketType bucketType)",
+      "description": "Sets the BucketType of the bucket.",
+      "methodParams": [
+        {
+          "name": "bucketType",
+          "datatype": "Reports.BucketType"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setDevloperName",
+      "signature": "public void setDevloperName(String devloperName)",
+      "description": "Sets the API name of the bucket.",
+      "methodParams": [
+        {
+          "name": "devloperName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setLabel",
+      "signature": "public void setLabel(String label)",
+      "description": "Sets the user-facing name of the bucket.",
+      "methodParams": [
+        {
+          "name": "label",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setNullTreatedAsZero",
+      "signature": "public void setNullTreatedAsZero(Boolean nullTreatedAsZero)",
+      "description": "Specifies whether null values in the bucket are converted to zero (true) or not (false).",
+      "methodParams": [
+        {
+          "name": "nullTreatedAsZero",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setOtherBucketLabel",
+      "signature": "public void setOtherBucketLabel(String otherBucketLabel)",
+      "description": "Sets the name of the fields grouped as Other (in buckets of BucketType PICKLIST).",
+      "methodParams": [
+        {
+          "name": "otherBucketLabel",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setSourceColumnName",
+      "signature": "public void setSourceColumnName(String sourceColumnName)",
+      "description": "Specifies the name of the bucketed field.",
+      "methodParams": [
+        {
+          "name": "sourceColumnName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setValues",
+      "signature": "public void setValues(List<Reports.BucketFieldValue> values)",
+      "description": "Specifies which type of values are included in the bucket.",
+      "methodParams": [
+        {
+          "name": "values",
+          "datatype": "List<Reports.BucketFieldValue>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Returns a string.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Contains methods and constructors to work with information about a",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_BucketField.htm#apex_class_reports_BucketField"
+}

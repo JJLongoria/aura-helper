@@ -1,0 +1,65 @@
+{
+  "name": "AuthProviderTokenResponse",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "oauthSecretOrRefreshToken",
+      "signature": "public String oauthSecretOrRefreshToken {get; set;}",
+      "description": "The OAuth secret or refresh token for the currently logged-in user.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "oauthToken",
+      "signature": "public String oauthToken {get; set;}",
+      "description": "The OAuth access token.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "provider",
+      "signature": "public String provider {get; set;}",
+      "description": "The authentication provider.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [
+    {
+      "name": "AuthProviderTokenResponse",
+      "signature": "public AuthProviderTokenResponse(String provider, String oauthToken, String oauthSecretOrRefreshToken, String state)",
+      "description": "Creates an instance of the AuthProviderTokenResponse class using the specified authentication provider, OAuth access token, OAuth secret or refresh token, and state for a custom authentication provider plug-in.",
+      "methodParams": [
+        {
+          "name": "provider",
+          "datatype": "String"
+        },
+        {
+          "name": "oauthToken",
+          "datatype": "String"
+        },
+        {
+          "name": "oauthSecretOrRefreshToken",
+          "datatype": "String"
+        },
+        {
+          "name": "state",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [],
+  "description": "Stores the response from the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthProviderTokenResponse.htm#apex_class_Auth_AuthProviderTokenResponse"
+}

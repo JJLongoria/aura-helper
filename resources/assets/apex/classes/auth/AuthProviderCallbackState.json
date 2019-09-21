@@ -1,0 +1,54 @@
+{
+  "name": "AuthProviderCallbackState",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "body",
+      "signature": "public String body {get; set;}",
+      "description": "The HTTP body of the authentication request.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "headers",
+      "signature": "public Map<String,String> headers {get; set;}",
+      "description": "The HTTP headers of the authentication request.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [
+    {
+      "name": "AuthProviderCallbackState",
+      "signature": "public AuthProviderCallbackState(Map<String,String> headers, String body, Map<String,String> queryParameters)",
+      "description": "Creates an instance of the AuthProviderCallbackState class using the specified HTTP headers, body, and query parameters of the authentication request.",
+      "methodParams": [
+        {
+          "name": "headers",
+          "datatype": "Map<String,String>"
+        },
+        {
+          "name": "body",
+          "datatype": "String"
+        },
+        {
+          "name": "queryParameters",
+          "datatype": "Map<String,String>"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [],
+  "description": "Provides request HTTP headers, body, and query parameters to the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthProviderCallbackState.htm#apex_class_Auth_AuthProviderCallbackState"
+}

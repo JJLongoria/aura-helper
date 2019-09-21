@@ -1,0 +1,33 @@
+{
+  "name": "BatchableContext",
+  "namespace": "Database",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getChildJobId",
+      "signature": "public Id getChildJobId()",
+      "description": "Returns the ID of the current batch job chunk that is being processed.",
+      "methodParams": [],
+      "datatype": "ID"
+    },
+    {
+      "name": "getJobId",
+      "signature": "public Id getJobId()",
+      "description": "Returns the batch job ID.",
+      "methodParams": [],
+      "datatype": "ID"
+    }
+  ],
+  "description": "Represents the parameter type of a batch job method and contains the batch job ID. This",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_database_batchablecontext.htm#apex_interface_database_batchablecontext"
+}

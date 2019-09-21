@@ -1,0 +1,103 @@
+{
+  "name": "Chatter",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "deleteSubscription",
+      "signature": "public static void deleteSubscription(String communityId, String subscriptionId)",
+      "description": "Delete a subscription. Use this method to stop following a record, a user, or a file.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subscriptionId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "getFollowers",
+      "signature": "public static ConnectApi.FollowerPage getFollowers(String communityId, String recordId)",
+      "description": "Get the first page of followers for a record.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recordId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​FollowerPage"
+    },
+    {
+      "name": "getFollowers",
+      "signature": "public static ConnectApi.FollowerPage getFollowers(String communityId, String recordId, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of followers for a record.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "recordId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​FollowerPage"
+    },
+    {
+      "name": "getSubscription",
+      "signature": "public static ConnectApi.Subscription getSubscription(String communityId, String subscriptionId)",
+      "description": "Get information about a subscription.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "subscriptionId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Subscription"
+    },
+    {
+      "name": "submitDigestJob",
+      "signature": "public static ConnectApi.DigestJobRepresentation submitDigestJob(ConnectApi.DigestPeriod period)",
+      "description": "Submit a daily or weekly Chatter email digest job.",
+      "methodParams": [
+        {
+          "name": "period",
+          "datatype": "ConnectApi.DigestPeriod"
+        }
+      ],
+      "datatype": "ConnectApi.DigestJob"
+    }
+  ],
+  "description": "Access information about followers and subscriptions for",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Chatter_static_methods.htm#apex_ConnectAPI_Chatter_static_methods"
+}

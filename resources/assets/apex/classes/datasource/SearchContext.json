@@ -1,0 +1,62 @@
+{
+  "name": "SearchContext",
+  "namespace": "DataSource",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "searchPhrase",
+      "signature": "public String searchPhrase {get; set;}",
+      "description": "The user-entered search string as a case-sensitive single phrase, with all non-alphanumeric characters removed.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [
+    {
+      "name": "SearchContext",
+      "signature": "public SearchContext(List<DataSource.Table> metadata, Integer offset, Integer maxResults, List<DataSource.TableSelection> tableSelections, String searchPhrase)",
+      "description": "Creates an instance of the SearchContext class with the specified parameter values.",
+      "methodParams": [
+        {
+          "name": "metadata",
+          "datatype": "List<DataSource.Table>"
+        },
+        {
+          "name": "offset",
+          "datatype": "Integer"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "tableSelections",
+          "datatype": "List<DataSource.TableSelection>"
+        },
+        {
+          "name": "searchPhrase",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "SearchContext",
+      "signature": "public SearchContext()",
+      "description": "Creates an instance of the SearchContext class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [],
+  "description": "An instance of SearchContext",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_SearchContext.htm#apex_class_DataSource_SearchContext"
+}

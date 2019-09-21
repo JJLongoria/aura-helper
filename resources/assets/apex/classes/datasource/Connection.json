@@ -1,0 +1,74 @@
+{
+  "name": "Connection",
+  "namespace": "DataSource",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "deleteRows",
+      "signature": "public List<DataSource.DeleteResult> deleteRows(DataSource.DeleteContext deleteContext)",
+      "description": "Invoked when external object records are deleted via the Salesforce user interface, APIs, or Apex.",
+      "methodParams": [
+        {
+          "name": "deleteContext",
+          "datatype": "DataSource.DeleteContext"
+        }
+      ],
+      "datatype": "List<DataSource.DeleteResult>"
+    },
+    {
+      "name": "query",
+      "signature": "public DataSource.TableResult query(DataSource.QueryContext queryContext)",
+      "description": "Invoked by a SOQL query of an external object. A SOQL query is generated and executed when a user visits an external object’s list view or record detail page in Salesforce. Returns the results of the query.",
+      "methodParams": [
+        {
+          "name": "queryContext",
+          "datatype": "DataSource.QueryContext"
+        }
+      ],
+      "datatype": "DataSource.TableResult"
+    },
+    {
+      "name": "search",
+      "signature": "public List<DataSource.TableResult> search(DataSource.SearchContext searchContext)",
+      "description": "Invoked by a SOSL query of an external object or when a user performs a Salesforce global search that also searches external objects. Returns the results of the query.",
+      "methodParams": [
+        {
+          "name": "searchContext",
+          "datatype": "DataSource.SearchContext"
+        }
+      ],
+      "datatype": "List<DataSource.TableResult>"
+    },
+    {
+      "name": "sync",
+      "signature": "public List<DataSource.Table> sync()",
+      "description": "Invoked when an administrator clicks Validate and Sync on the external data source detail page. Returns a list of tables that describe the external system’s schema.",
+      "methodParams": [],
+      "datatype": "List<DataSource.Table>"
+    },
+    {
+      "name": "upsertRows",
+      "signature": "public List<DataSource.UpsertResult> upsertRows(DataSource.UpsertContext upsertContext)",
+      "description": "Invoked when external object records are created or updated via the Salesforce user interface, APIs, or Apex.",
+      "methodParams": [
+        {
+          "name": "upsertContext",
+          "datatype": "DataSource.UpsertContext"
+        }
+      ],
+      "datatype": "List<DataSource.UpsertResult>"
+    }
+  ],
+  "description": "Extend this class to enable your Salesforce org to sync the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Connection.htm#apex_class_DataSource_Connection"
+}

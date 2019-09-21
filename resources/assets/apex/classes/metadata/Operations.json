@@ -1,0 +1,58 @@
+{
+  "name": "Operations",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.Operations.",
+      "methodParams": [],
+      "datatype": "Object"
+    },
+    {
+      "name": "enqueueDeployment",
+      "signature": "public static Id enqueueDeployment(Metadata.DeployContainer container, Metadata.DeployCallback callback)",
+      "description": "Deploys custom metadata components asynchronously.",
+      "methodParams": [
+        {
+          "name": "container",
+          "datatype": "Metadata.DeployContainer"
+        },
+        {
+          "name": "callback",
+          "datatype": "Metadata.DeployCallback"
+        }
+      ],
+      "datatype": "Id"
+    },
+    {
+      "name": "retrieve",
+      "signature": "public static List<Metadata.Metadata> retrieve(Metadata.MetadataType type, List<String> fullNames)",
+      "description": "Retrieves a list of custom metadata components.",
+      "methodParams": [
+        {
+          "name": "type",
+          "datatype": "Metadata.MetadataType"
+        },
+        {
+          "name": "fullNames",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "List<Metadata.Metadata>"
+    }
+  ],
+  "description": "Represents a class to execute metadata operations, such as",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_Operations.htm#apex_class_Metadata_Operations"
+}

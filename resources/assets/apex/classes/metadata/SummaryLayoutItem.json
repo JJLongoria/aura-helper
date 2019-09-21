@@ -1,0 +1,62 @@
+{
+  "name": "SummaryLayoutItem",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "customLink",
+      "signature": "public String customLink {get; set;}",
+      "description": "The custom link reference.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "field",
+      "signature": "public String field {get; set;}",
+      "description": "The field name reference, relative to the page layout. Must be a standard or custom field that also exists on the detail page.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "posX",
+      "signature": "public Integer posX {get; set;}",
+      "description": "The item's column position in the highlights panel grid. Must be within the range of sizeX.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "posY",
+      "signature": "public Integer posY {get; set;}",
+      "description": "The item's row position in the highlights panel grid. Must be within the range of sizeY.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "posZ",
+      "signature": "public Integer posZ {get; set;}",
+      "description": "Reserved for future use. If provided, the setting is not visible to users.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.SummaryLayoutItem.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "Controls the appearance of an individual field and its column and row",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_SummaryLayoutItem.htm#apex_class_Metadata_SummaryLayoutItem"
+}

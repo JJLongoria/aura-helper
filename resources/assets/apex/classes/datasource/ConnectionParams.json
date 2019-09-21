@@ -1,0 +1,68 @@
+{
+  "name": "ConnectionParams",
+  "namespace": "DataSource",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "certificateName",
+      "signature": "public String certificateName {get; set;}",
+      "description": "The name of the certificate for establishing each connection to the external system.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "endpoint",
+      "signature": "public String endpoint {get; set;}",
+      "description": "The URL of the external system.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "oauthToken",
+      "signature": "public String oauthToken {get; set;}",
+      "description": "The OAuth token that’s issued by the external system.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "password",
+      "signature": "public String password {get; set;}",
+      "description": "The password for authenticating to the external system.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "principalType",
+      "signature": "public DataSource.IdentityType principalType {get; set;}",
+      "description": "An instance of DataSource.IdentityType, which determines which set of credentials to use to access the external system.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "protocol",
+      "signature": "public DataSource.AuthenticationProtocol protocol {get; set;}",
+      "description": "The type of protocol that’s used to authenticate to the external system.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "repository",
+      "signature": "public String repository {get; set;}",
+      "description": "Reserved for future use.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [],
+  "description": "Contains the credentials for authenticating to the external",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ConnectionParams.htm#apex_class_DataSource_ConnectionParams"
+}

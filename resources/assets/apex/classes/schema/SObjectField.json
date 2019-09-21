@@ -1,0 +1,40 @@
+{
+  "name": "SObjectField",
+  "namespace": "Schema",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDescribe",
+      "signature": "public Schema.DescribeFieldResult getDescribe()",
+      "description": "Returns the describe field result for this field.",
+      "methodParams": [],
+      "datatype": "Schema.DescribeFieldResult"
+    },
+    {
+      "name": "getDescribe",
+      "signature": "public Schema.DescribeFieldResult getDescribe(Object options)",
+      "description": "Returns the describe field result for this field. This method also provides an option to get all the describe field results for an object.",
+      "methodParams": [
+        {
+          "name": "options",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Schema.DescribeFieldResult"
+    }
+  ],
+  "description": "A Schema.sObjectField object is returned from the field describe result using the getControler and getSObjectField methods.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_SObjectField.htm#apex_class_Schema_SObjectField"
+}

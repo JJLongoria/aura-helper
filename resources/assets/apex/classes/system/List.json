@@ -1,0 +1,255 @@
+{
+  "name": "List",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "List&lt;T&gt;",
+      "signature": "public List<T>()",
+      "description": "Creates a new instance of the List class. A list can hold elements of any data type T.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "List&lt;T&gt;",
+      "signature": "public List<T>(List<T> listToCopy)",
+      "description": "Creates a new instance of the List class by copying the elements from the specified list. T is the data type of the elements in both lists and can be any data type.",
+      "methodParams": [
+        {
+          "name": "listToCopy",
+          "datatype": "List<T>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "List&lt;T&gt;",
+      "signature": "public List<T>(Set<T> setToCopy)",
+      "description": "Creates a new instance of the List class by copying the elements from the specified set. T is the data type of the elements in the set and list and can be any data type.",
+      "methodParams": [
+        {
+          "name": "setToCopy",
+          "datatype": "Set<T>"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "add",
+      "signature": "public Void add(Object listElement)",
+      "description": "Adds an element to the end of the list.",
+      "methodParams": [
+        {
+          "name": "listElement",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "add",
+      "signature": "public Void add(Integer index, Object listElement)",
+      "description": "Inserts an element into the list at the specified index position.",
+      "methodParams": [
+        {
+          "name": "index",
+          "datatype": "Integer"
+        },
+        {
+          "name": "listElement",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addAll",
+      "signature": "public Void addAll(List fromList)",
+      "description": "Adds all of the elements in the specified list to the list that calls the method. Both lists must be of the same type.",
+      "methodParams": [
+        {
+          "name": "fromList",
+          "datatype": "List"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addAll",
+      "signature": "public Void addAll(Set fromSet)",
+      "description": "Add all of the elements in specified set to the  list that calls the method. The set and the list must be of the same type.",
+      "methodParams": [
+        {
+          "name": "fromSet",
+          "datatype": "Set"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "clear",
+      "signature": "public Void clear()",
+      "description": "Removes all elements from a list, consequently setting the  list's length to zero.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "clone",
+      "signature": "public List<Object> clone()",
+      "description": "Makes a duplicate copy of a list.",
+      "methodParams": [],
+      "datatype": "List<Object>"
+    },
+    {
+      "name": "contains",
+      "signature": "public Boolean contains(Object listElement)",
+      "description": "Returns true if the list contains the specified element.",
+      "methodParams": [
+        {
+          "name": "listElement",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "deepClone",
+      "signature": "public List<Object> deepClone(Boolean preserveId, Boolean preserveReadonlyTimestamps, Boolean preserveAutonumber)",
+      "description": "Makes a duplicate copy of a list of sObject records, including the sObject records themselves.",
+      "methodParams": [
+        {
+          "name": "preserveId",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "preserveReadonlyTimestamps",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "preserveAutonumber",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "List<Object>"
+    },
+    {
+      "name": "equals",
+      "signature": "public Boolean equals(List list2)",
+      "description": "Compares this list with the specified list and returns true if both lists are equal; otherwise, returns false.",
+      "methodParams": [
+        {
+          "name": "list2",
+          "datatype": "List"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "get",
+      "signature": "public Object get(Integer index)",
+      "description": "Returns the list element stored at the specified index.",
+      "methodParams": [
+        {
+          "name": "index",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "getSObjectType",
+      "signature": "public Schema.SObjectType getSObjectType()",
+      "description": "Returns the token of the sObject type that makes up a list of sObjects.",
+      "methodParams": [],
+      "datatype": "Schema.SObjectType"
+    },
+    {
+      "name": "hashCode",
+      "signature": "public Integer hashCode()",
+      "description": "Returns the hashcode corresponding to this list and its contents.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "indexOf",
+      "signature": "public Integer indexOf(Object listElement)",
+      "description": "Returns the index of the first occurrence of the specified element in this list. If this list does not contain the element, returns -1.",
+      "methodParams": [
+        {
+          "name": "listElement",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "isEmpty",
+      "signature": "public Boolean isEmpty()",
+      "description": "Returns true if the list has zero elements.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "iterator",
+      "signature": "public Iterator iterator()",
+      "description": "Returns an instance of an iterator for this list.",
+      "methodParams": [],
+      "datatype": "Iterator"
+    },
+    {
+      "name": "remove",
+      "signature": "public Object remove(Integer index)",
+      "description": "Removes the list element stored at the specified index, returning the element that was removed.",
+      "methodParams": [
+        {
+          "name": "index",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "set",
+      "signature": "public Void set(Integer index, Object listElement)",
+      "description": "Sets the specified value for the element at the given index.",
+      "methodParams": [
+        {
+          "name": "index",
+          "datatype": "Integer"
+        },
+        {
+          "name": "listElement",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "size",
+      "signature": "public Integer size()",
+      "description": "Returns the number of elements in the list.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "sort",
+      "signature": "public Void sort()",
+      "description": "Sorts the items in the list in ascending order.",
+      "methodParams": [],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Contains methods for the List collection type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_list.htm#apex_methods_system_list"
+}

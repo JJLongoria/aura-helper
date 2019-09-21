@@ -1,0 +1,35 @@
+{
+  "name": "ContentDownloadHandler",
+  "namespace": "Sfc",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "downloadErrorMessage",
+      "signature": "public String downloadErrorMessage {get; set;}",
+      "description": "A customized error message explaining why the download isn’t allowed.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "isDownloadAllowed",
+      "signature": "public Boolean isDownloadAllowed {get; set;}",
+      "description": "Indicates whether or not download is allowed.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [],
+  "description": "Use ContentDownloadHandler to define a custom download handler that",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Sfc_ContentDownloadHandler.htm#apex_class_Sfc_ContentDownloadHandler"
+}

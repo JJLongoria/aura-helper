@@ -1,0 +1,40 @@
+{
+  "name": "UnlockResult",
+  "namespace": "Approval",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getErrors",
+      "signature": "public List<Database.Error> getErrors()",
+      "description": "If an error occurred, returns an array of one or more database error objects, providing the error code and description.",
+      "methodParams": [],
+      "datatype": "List<Database.Error>"
+    },
+    {
+      "name": "getId",
+      "signature": "public Id getId()",
+      "description": "Returns the ID of the sObject you are trying to unlock.",
+      "methodParams": [],
+      "datatype": "Id"
+    },
+    {
+      "name": "isSuccess",
+      "signature": "public Boolean isSuccess()",
+      "description": "A Boolean value that is set to true if the unlock operation is successful for this object, or false otherwise.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "The result of a record unlock, returned by a System.Approval.unlock() method.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Approval_UnlockResult.htm#apex_class_Approval_UnlockResult"
+}

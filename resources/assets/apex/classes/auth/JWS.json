@@ -1,0 +1,66 @@
+{
+  "name": "JWS",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "JWS",
+      "signature": "public JWS(Auth.JWT jwt, String certDevName)",
+      "description": "Creates an instance of the JWS class using the specified Auth.JWT payload and the certificate used for signing the JWT bearer token.",
+      "methodParams": [
+        {
+          "name": "jwt",
+          "datatype": "Auth.JWT"
+        },
+        {
+          "name": "certDevName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "JWS",
+      "signature": "public JWS(String payload, String certDevName)",
+      "description": "Creates an instance of the JWS class using the specified payload and certificate used for signing the JWT bearer token.",
+      "methodParams": [
+        {
+          "name": "payload",
+          "datatype": "String"
+        },
+        {
+          "name": "certDevName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the JWS object.",
+      "methodParams": [],
+      "datatype": "JWS"
+    },
+    {
+      "name": "getCompactSerialization",
+      "signature": "public String getCompactSerialization()",
+      "description": "Returns the compact serialization representation of the JWS as a concatenated string, with the encoded JWS header, encoded JWS payload, and encoded JWS signature strings separated by period ('.') characters.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Contains methods that apply a digital signature to a JSON Web Token",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_JWS.htm#apex_class_Auth_JWS"
+}

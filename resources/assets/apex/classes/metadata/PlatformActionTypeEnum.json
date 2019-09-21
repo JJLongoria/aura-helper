@@ -1,0 +1,27 @@
+{
+    "name": "PlatformActionTypeEnum",
+    "namespace": "Metadata",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "isEnum": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "enumValues": [
+        "ActionLink",
+        "CustomButton",
+        "InvocableAction",
+        "ProductivityAction",
+        "QuickAction",
+        "StandardButton"
+    ],
+    "fields": [],
+    "constuctors": [],
+    "methods": [],
+    "description": "The type of action for a PlatformActionListItem.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_PlatformActionTypeEnum.htm"
+  }

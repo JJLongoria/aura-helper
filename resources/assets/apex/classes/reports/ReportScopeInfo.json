@@ -1,0 +1,35 @@
+{
+  "name": "ReportScopeInfo",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDefaultValue",
+      "signature": "public String getDefaultValue()",
+      "description": "Returns the default scope of the data to display in the report.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getValues",
+      "signature": "public List<Reports.ReportScopeValue> getValues()",
+      "description": "Returns a list of scope values specified for the report.",
+      "methodParams": [],
+      "datatype": "List<Reports.ReportScopeValue>"
+    }
+  ],
+  "description": "Contains information about possible scope values that you can choose.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportScopeInfo.htm#apex_class_reports_ReportScopeInfo"
+}

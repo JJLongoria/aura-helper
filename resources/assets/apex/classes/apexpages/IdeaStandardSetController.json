@@ -1,0 +1,26 @@
+{
+  "name": "IdeaStandardSetController",
+  "namespace": "ApexPages",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getIdeaList",
+      "signature": "public Idea[] getIdeaList()",
+      "description": "Returns the list of read-only ideas in the current page set.",
+      "methodParams": [],
+      "datatype": "Idea[]"
+    }
+  ],
+  "description": "Returns the list of read-only ideas in the current page",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardsetcontroller.htm#apex_pages_ideastandardsetcontroller"
+}

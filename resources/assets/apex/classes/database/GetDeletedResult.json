@@ -1,0 +1,40 @@
+{
+  "name": "GetDeletedResult",
+  "namespace": "Database",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDeletedRecords",
+      "signature": "public List<Database.DeletedRecord> getDeletedRecords()",
+      "description": "Returns a list of deleted records for the time window specified in the Database.getDeleted method call.",
+      "methodParams": [],
+      "datatype": "List<Database.DeletedRecord>"
+    },
+    {
+      "name": "getEarliestDateAvailable",
+      "signature": "public Date getEarliestDateAvailable()",
+      "description": "Returns the date in Coordinated Universal Time (UTC) of the earliest physically deleted object for the sObject type specified in Database.getDeleted.",
+      "methodParams": [],
+      "datatype": "Date"
+    },
+    {
+      "name": "getLatestDateCovered",
+      "signature": "public Date getLatestDateCovered()",
+      "description": "Returns the date in Coordinated Universal Time (UTC) of the last date covered in the Database.getDeleted call.",
+      "methodParams": [],
+      "datatype": "Date"
+    }
+  ],
+  "description": "Contains the deleted records retrieved",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_getdeletedresult.htm#apex_class_database_getdeletedresult"
+}

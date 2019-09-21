@@ -1,0 +1,58 @@
+{
+  "name": "QueryContext",
+  "namespace": "DataSource",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "queryMoreToken",
+      "signature": "public String queryMoreToken {get; set;}",
+      "description": "Query token that’s used for server-driven paging to determine and fetch the subsequent batch of results.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "tableSelection",
+      "signature": "public DataSource.TableSelection tableSelection {get; set;}",
+      "description": "Query details that represent the FROM, ORDER BY, SELECT, and WHERE clauses in a SOQL or SOSL query.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "get",
+      "signature": "public static DataSource.QueryContext get(List<DataSource.Table> metadata, Integer offset, Integer maxResults, DataSource.TableSelection tableSelection)",
+      "description": "Creates an instance of the QueryContext class.",
+      "methodParams": [
+        {
+          "name": "metadata",
+          "datatype": "List<DataSource.Table>"
+        },
+        {
+          "name": "offset",
+          "datatype": "Integer"
+        },
+        {
+          "name": "maxResults",
+          "datatype": "Integer"
+        },
+        {
+          "name": "tableSelection",
+          "datatype": "DataSource.TableSelection"
+        }
+      ],
+      "datatype": "DataSource.QueryContext"
+    }
+  ],
+  "description": "An instance of QueryContext is",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_QueryContext.htm#apex_class_DataSource_QueryContext"
+}

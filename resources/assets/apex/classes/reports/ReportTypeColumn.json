@@ -1,0 +1,56 @@
+{
+  "name": "ReportTypeColumn",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDataType",
+      "signature": "",
+      "description": "Returns the data type of the field.",
+      "methodParams": [],
+      "datatype": "Reports.ColumnDataType"
+    },
+    {
+      "name": "getFilterValues",
+      "signature": "",
+      "description": "If the field data type is picklist, multi-select picklist, boolean, or checkbox, returns all filter values for a field. For example, checkbox fields always have a value of true or false. For fields of other data types, the filter value is an empty array, because their values can’t be determined.",
+      "methodParams": [],
+      "datatype": "List<Reports.FilterValue>"
+    },
+    {
+      "name": "getFilterable",
+      "signature": "",
+      "description": "If the field is of a type that can’t be filtered, returns False. For example, fields of the type Encrypted Text can’t be filtered.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getLabel",
+      "signature": "",
+      "description": "Returns the localized display name of the field.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getName",
+      "signature": "",
+      "description": "Returns the unique API name of the field.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Contains detailed report type metadata about a field, including",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reporttypecolumn.htm#apex_class_reports_reporttypecolumn"
+}

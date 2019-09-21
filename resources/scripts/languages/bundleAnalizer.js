@@ -9,7 +9,7 @@ const Paths = fileSystem.Paths;
 const FileChecker = fileSystem.FileChecker;
 
 class BundleAnalizer {
-    static getComponentStructure(componentPath) {
+    static getComponentStructure(componentPath, position) {
         let baseComponentsDetail = applicationContext.componentsDetail;
         let componentName = Paths.getBasename(componentPath).replace('.cmp', '');
         let componentFileText = FileReader.readFileSync(componentPath);

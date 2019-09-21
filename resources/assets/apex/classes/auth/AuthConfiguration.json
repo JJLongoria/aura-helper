@@ -1,0 +1,232 @@
+{
+  "name": "AuthConfiguration",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "AuthConfiguration",
+      "signature": "public AuthConfiguration(String communityOrCustomUrl, String startUrl)",
+      "description": "Creates an instance of the AuthConfiguration class using the specified URL for a community or a My Domain subdomain and the start URL for authenticated users.",
+      "methodParams": [
+        {
+          "name": "communityOrCustomUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "startUrl",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "AuthConfiguration",
+      "signature": "public AuthConfiguration(Id networkId, String startUrl)",
+      "description": "Creates an instance of the AuthConfiguration class using the specified community ID and authenticated-user starting URL.",
+      "methodParams": [
+        {
+          "name": "networkId",
+          "datatype": "Id"
+        },
+        {
+          "name": "startUrl",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "getAllowInternalUserLoginEnabled",
+      "signature": "public Boolean getAllowInternalUserLoginEnabled()",
+      "description": "Indicates whether the community allows internal users to log in using the community login page. To enable, admins configure the setting Allow internal users to log in directly to the community on the Login &amp; Registration page in Community Workspaces. It’s disabled by default.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "getAuthConfig",
+      "signature": "public AuthConfig getAuthConfig()",
+      "description": "Returns the AuthConfig sObject, which represents the authentication options for a community or Salesforce My Domain subdomain.",
+      "methodParams": [],
+      "datatype": "AuthConfig"
+    },
+    {
+      "name": "getAuthConfigProviders",
+      "signature": "public List<AuthConfigProviders> getAuthConfigProviders()",
+      "description": "Returns the list of authentication providers configured for a community or Salesforce My Domain subdomain.",
+      "methodParams": [],
+      "datatype": "List<AuthConfigProviders>"
+    },
+    {
+      "name": "getAuthProviders",
+      "signature": "public List<AuthProvider> getAuthProviders()",
+      "description": "Returns the list of authentication providers available for a community or Salesforce My Domain subdomain.",
+      "methodParams": [],
+      "datatype": "List<AuthProvider>"
+    },
+    {
+      "name": "getAuthProviderSsoUrl",
+      "signature": "public static String getAuthProviderSsoUrl(String communityUrl, String startUrl, String developerName)",
+      "description": "Returns the single sign-on URL for a community or Salesforce My Domain subdomain.",
+      "methodParams": [
+        {
+          "name": "communityUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "startUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "developerName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getBackgroundColor",
+      "signature": "public String getBackgroundColor()",
+      "description": "Returns the color for the background of the login page for a community.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getCertificateLoginEnabled",
+      "signature": "public Boolean getCertificateLoginEnabled(String domainUrl)",
+      "description": "Returns true if certificate-based authentication is enabled for the My Domain URL.",
+      "methodParams": [
+        {
+          "name": "domainUrl",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getCertificateLoginUrl",
+      "signature": "public static String getCertificateLoginUrl(String domainUrl, String startUrl)",
+      "description": "Returns the certificate-based authentication endpoint for the My Domain URL if the org has certificate-based authentication enabled.",
+      "methodParams": [
+        {
+          "name": "domainUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "startUrl",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getDefaultProfileForRegistration",
+      "signature": "public String getDefaultProfileForRegistration()",
+      "description": "Returns the profile ID assigned to new community users.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getFooterText",
+      "signature": "public String getFooterText()",
+      "description": "Returns the text at the bottom of the login page for a community.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getForgotPasswordUrl",
+      "signature": "public String getForgotPasswordUrl()",
+      "description": "Returns the URL for the standard or custom Forgot Password page that is specified for a community or portal by the administrator.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getLogoUrl",
+      "signature": "public String getLogoUrl()",
+      "description": "Returns the location of the icon image at the bottom of the login page for a community.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getRightFrameUrl",
+      "signature": "public String getLoginRightFrameUrl()",
+      "description": "Returns the URL for the right-frame content to display on the right side of the community login page. The admin supplies the URL.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getSamlProviders",
+      "signature": "public List<SamlSsoConfig> getSamlProviders()",
+      "description": "Returns the list of SAML-based authentication providers available for a community or Salesforce My Domain subdomain.",
+      "methodParams": [],
+      "datatype": "List<SamlSsoConfig>"
+    },
+    {
+      "name": "getSamlSsoUrl",
+      "signature": "public static String getSamlSsoUrl(String communityUrl, String startURL, String samlId)",
+      "description": "Returns the single sign-on URL for a community or Salesforce My Domain subdomain.",
+      "methodParams": [
+        {
+          "name": "communityUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "startUrl",
+          "datatype": "String"
+        },
+        {
+          "name": "samlId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "String"
+    },
+    {
+      "name": "getSelfRegistrationEnabled",
+      "signature": "public Boolean getSelfRegistrationEnabled()",
+      "description": "Indicates whether the current community allows new users to create their own account by filling out a registration form.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getSelfRegistrationUrl",
+      "signature": "public String getSelfRegistrationUrl()",
+      "description": "Returns the location of the self-registration page for new users to sign up for an account with a community.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getStartUrl",
+      "signature": "public String getStartUrl()",
+      "description": "Returns the start page of a community or Salesforce My Domain subdomain. This URL is the first page that users see when they log in.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getUsernamePasswordEnabled",
+      "signature": "public Boolean getUsernamePasswordEnabled()",
+      "description": "Indicates whether the current community is set to display a login form asking for a username and password. You can configure the community not to request a username and password if it is for unauthenticated users or users logging in with a third-party authentication provider.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isCommunityUsingSiteAsContainer",
+      "signature": "public Boolean isCommunityUsingSiteAsContainer()",
+      "description": "Returns true if the community uses Site.com pages; otherwise, returns false.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Contains methods for configuring settings for",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthConfiguration.htm#apex_class_Auth_AuthConfiguration"
+}

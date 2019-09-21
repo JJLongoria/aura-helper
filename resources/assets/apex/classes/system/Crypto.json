@@ -1,0 +1,324 @@
+{
+  "name": "Crypto",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "decrypt",
+      "signature": "public static Blob decrypt(String algorithmName, Blob privateKey, Blob initializationVector, Blob cipherText)",
+      "description": "Decrypts the Blob cipherText using the specified algorithm, private key, and initialization vector. Use this method to decrypt blobs encrypted using a third party application or the encrypt method.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "privateKey",
+          "datatype": "Blob"
+        },
+        {
+          "name": "initializationVector",
+          "datatype": "Blob"
+        },
+        {
+          "name": "cipherText",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Blob"
+    },
+    {
+      "name": "decryptWithManagedIV",
+      "signature": "public static Blob decryptWithManagedIV(String algorithmName, Blob privateKey, Blob IVAndCipherText)",
+      "description": "Decrypts the Blob IVAndCipherText using the specified algorithm and private key. Use this method to decrypt blobs encrypted using a third party application or the encryptWithManagedIV method.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "privateKey",
+          "datatype": "Blob"
+        },
+        {
+          "name": "IVAndCipherText",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Blob"
+    },
+    {
+      "name": "encrypt",
+      "signature": "public static Blob encrypt(String algorithmName, Blob privateKey, Blob initializationVector, Blob clearText)",
+      "description": "Encrypts the Blob clearText using the specified algorithm, private key and initialization vector. Use this method when you want to specify your own initialization vector.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "privateKey",
+          "datatype": "Blob"
+        },
+        {
+          "name": "initializationVector",
+          "datatype": "Blob"
+        },
+        {
+          "name": "clearText",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Blob"
+    },
+    {
+      "name": "encryptWithManagedIV",
+      "signature": "public static Blob encryptWithManagedIV(String algorithmName, Blob privateKey, Blob clearText)",
+      "description": "Encrypts the Blob clearText using the specified algorithm and private key. Use this method when you want Salesforce to generate the initialization vector for you.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "privateKey",
+          "datatype": "Blob"
+        },
+        {
+          "name": "clearText",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Blob"
+    },
+    {
+      "name": "generateAesKey",
+      "signature": "",
+      "description": "Generates an Advanced Encryption Standard (AES) key.",
+      "methodParams": [],
+      "datatype": "Blob"
+    },
+    {
+      "name": "generateDigest",
+      "signature": "public static Blob generateDigest(String algorithmName, Blob input)",
+      "description": "Computes a secure, one-way hash digest based on the supplied input string and algorithm name.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "input",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Blob"
+    },
+    {
+      "name": "generateMac",
+      "signature": "public static Blob generateMac(String algorithmName, Blob input, Blob privateKey)",
+      "description": "Computes a message authentication code (MAC) for the input string, using the private key and the specified algorithm.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "input",
+          "datatype": "Blob"
+        },
+        {
+          "name": "privateKey",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Blob"
+    },
+    {
+      "name": "getRandomInteger",
+      "signature": "public static Integer getRandomInteger()",
+      "description": "Returns a random Integer.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "getRandomLong",
+      "signature": "public static Long getRandomLong()",
+      "description": "Returns a random Long.",
+      "methodParams": [],
+      "datatype": "Long"
+    },
+    {
+      "name": "sign",
+      "signature": "public static Blob sign(String algorithmName, Blob input, Blob privateKey)",
+      "description": "Computes a unique digital signature for the input string, using the specified algorithm and the supplied private key.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "input",
+          "datatype": "Blob"
+        },
+        {
+          "name": "privateKey",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Blob"
+    },
+    {
+      "name": "signWithCertificate",
+      "signature": "public static Blob signWithCertificate(String algorithmName, Blob input, String certDevName)",
+      "description": "Computes a unique digital signature for the input string, using the specified algorithm and the supplied certificate and key pair.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "input",
+          "datatype": "Blob"
+        },
+        {
+          "name": "certDevName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Blob"
+    },
+    {
+      "name": "signXML",
+      "signature": "public Void signXML(String algorithmName, Dom.XmlNode node, String idAttributeName, String certDevName)",
+      "description": "Envelops the signature into an XML document.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "node",
+          "datatype": "Dom.XmlNode"
+        },
+        {
+          "name": "idAttributeName",
+          "datatype": "String"
+        },
+        {
+          "name": "certDevName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "signXML",
+      "signature": "public static void signXml(String algorithmName, Dom.XmlNode node, String idAttributeName, String certDevName, Dom.XmlNode refChild)",
+      "description": "Inserts the signature envelope before the specified child node.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "node",
+          "datatype": "Dom.XmlNode"
+        },
+        {
+          "name": "idAttributeName",
+          "datatype": "String"
+        },
+        {
+          "name": "certDevName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "",
+      "signature": "public static Blob verify(String algorithmName, Blob data, Blob signature, Blob publicKey)",
+      "description": "Verifies the digital signature for the Blob data using the specified algorithm and the supplied public key. Use this method to verify a Blob signed by a digital signature created using a third-party application or the sign method.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "data",
+          "datatype": "Blob"
+        },
+        {
+          "name": "signature",
+          "datatype": ""
+        },
+        {
+          "name": "publicKey",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Blob"
+    },
+    {
+      "name": "",
+      "signature": "public static Blob verify(String algorithmName, Blob data, Blob signature, String certDevName)",
+      "description": "Verifies the digital signature for the Blob data using the specified algorithm and the public key associated with the certDevName. Use this method to verify a Blob signed by a digital signature created using a third-party application or the sign method.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "data",
+          "datatype": "Blob"
+        },
+        {
+          "name": "signature",
+          "datatype": ""
+        },
+        {
+          "name": "certDevName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Blob"
+    },
+    {
+      "name": "",
+      "signature": "public static Blob verifyHMac(String algorithmName, Blob input, Blob privateKey, Blob macToVerify)",
+      "description": "Verifies the HMAC signature for Blob data using the specified algorithm, input data, privateKey, and the mac. Use this method to verify a Blob signed by a digital signature created using a third-party application or the sign method.",
+      "methodParams": [
+        {
+          "name": "algorithmName",
+          "datatype": "String"
+        },
+        {
+          "name": "data",
+          "datatype": "Blob"
+        },
+        {
+          "name": "privateKey",
+          "datatype": "Blob"
+        },
+        {
+          "name": "hmacToVerify",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Provides methods for creating digests, message authentication codes, and signatures, as",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_crypto.htm#apex_classes_restful_crypto"
+}

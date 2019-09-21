@@ -1,0 +1,34 @@
+{
+  "name": "RelatedContentItem",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "layoutItem",
+      "signature": "public Metadata.LayoutItem layoutItem {get; set;}",
+      "description": "An individual layout item in the Mobile Cards section.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.RelatedContentItem.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "Represents an individual item in the RelatedContent list.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_RelatedContentItem.htm#apex_class_Metadata_RelatedContentItem"
+}

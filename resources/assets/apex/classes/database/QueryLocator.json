@@ -1,0 +1,33 @@
+{
+  "name": "QueryLocator",
+  "namespace": "Database",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getQuery",
+      "signature": "public String getQuery()",
+      "description": "Returns the query used to instantiate the Database.QueryLocator object. This is useful when testing the start method.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "iterator",
+      "signature": "public Database.QueryLocatorIterator iterator()",
+      "description": "Returns a new instance of a query locator iterator.",
+      "methodParams": [],
+      "datatype": "Database.QueryLocatorIterator"
+    }
+  ],
+  "description": "Represents the record set returned by Database.getQueryLocator and used with Batch Apex.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_batch.htm#apex_methods_system_database_batch"
+}

@@ -1,0 +1,823 @@
+{
+  "name": "ChatterUsers",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "deletePhoto",
+      "signature": "public static Void deletePhoto(String communityId, String userId)",
+      "description": "Delete a user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "exportUserActivities",
+      "signature": "public static ConnectApi.UserActivitiesJob exportUserActivities(String communityId, String userId)",
+      "description": "Export Chatter-related user activity, such as bookmarks, topic endorsements, and votes.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserActivitiesJob"
+    },
+    {
+      "name": "follow",
+      "signature": "public static ConnectApi.Subscription follow(String communityId, String userId, String subjectId)",
+      "description": "Follow a user or record.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "subjectId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Subscription"
+    },
+    {
+      "name": "getChatterSettings",
+      "signature": "public static ConnectApi.UserChatterSettings getChatterSettings(String communityId, String userId)",
+      "description": "Get the default Chatter settings for a user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​User​​ChatterSettings"
+    },
+    {
+      "name": "getFollowers",
+      "signature": "public static ConnectApi.FollowerPage getFollowers(String communityId, String userId)",
+      "description": "Get the first page of followers for a user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​FollowerPage"
+    },
+    {
+      "name": "getFollowers",
+      "signature": "public static ConnectApi.FollowerPage getFollowers(String communityId, String userId, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of followers for a user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​FollowerPage"
+    },
+    {
+      "name": "getFollowings",
+      "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId)",
+      "description": "Get the first page of users and records that a user follows.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​FollowingPage"
+    },
+    {
+      "name": "getFollowings",
+      "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId, Integer pageParam)",
+      "description": "Get a page of users and records that a user follows.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​FollowingPage"
+    },
+    {
+      "name": "getFollowings",
+      "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId, Integer pageParam, Integer pageSize)",
+      "description": "Get a page with the specified number of users and records that a user follows.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​FollowingPage"
+    },
+    {
+      "name": "getFollowings",
+      "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId, String filterType)",
+      "description": "Get the first page of records, filtered by key prefix, that a user follows.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "filterType",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​FollowingPage"
+    },
+    {
+      "name": "getFollowings",
+      "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId, String filterType, Integer pageParam)",
+      "description": "Get a page of records, filtered by key prefix, that a user follows.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "filterType",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​FollowingPage"
+    },
+    {
+      "name": "getFollowings",
+      "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId, String filterType, Integer pageParam, Integer pageSize)",
+      "description": "Get a page with the specified number of records, filtered by key prefix, that a user follows.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "filterType",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​FollowingPage"
+    },
+    {
+      "name": "getGroups",
+      "signature": "public static ConnectApi.UserGroupPage getGroups(String communityId, String userId)",
+      "description": "Get the groups that a user is a member of.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.User​​GroupPage"
+    },
+    {
+      "name": "getGroups",
+      "signature": "public static ConnectApi.UserGroupPage getGroups(String communityId, String userId, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of groups that a user is a member of.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.User​​GroupPage"
+    },
+    {
+      "name": "getPhoto",
+      "signature": "public static ConnectApi.Photo getPhoto(String communityId, String userId)",
+      "description": "Get a user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "getReputation",
+      "signature": "public static ConnectApi.Reputation getReputation(String communityId, String userId)",
+      "description": "Get a user’s reputation.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.Reputation"
+    },
+    {
+      "name": "getUser",
+      "signature": "public static ConnectApi.UserSummary getUser(String communityId, String userId)",
+      "description": "Get information about a user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserDetail"
+    },
+    {
+      "name": "",
+      "signature": "public static ConnectApi.BatchResult[] getUserBatch(String communityId, List<String> userIds)",
+      "description": "Get information about a list of users.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userIds",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "ConnectApi.BatchResult[]"
+    },
+    {
+      "name": "getUserGroups",
+      "signature": "public static ConnectApi.UserGroupDetailPage getUserGroups(String communityId, String userId)",
+      "description": "Get a user’s groups.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserGroupDetailPage"
+    },
+    {
+      "name": "getUserGroups",
+      "signature": "public static ConnectApi.UserGroupDetailPage getUserGroups(String communityId, String userId, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of a user’s groups.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.UserGroupDetailPage"
+    },
+    {
+      "name": "getUsers",
+      "signature": "public static ConnectApi.UserPage getUsers(String communityId)",
+      "description": "Get the first page of users.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserPage"
+    },
+    {
+      "name": "getUsers",
+      "signature": "public static ConnectApi.UserPage getUsers(String communityId, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of users.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.UserPage"
+    },
+    {
+      "name": "purgeUserActivities",
+      "signature": "public static ConnectApi.UserActivitiesJob purgeUserActivities(String communityId, String userId)",
+      "description": "Start a job to purge Chatter-related user activity, such as bookmarks, topic endorsements, and votes.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserActivitiesJob"
+    },
+    {
+      "name": "searchUserGroupDetails",
+      "signature": "public static ConnectApi.UserGroupDetailPage searchUserGroupDetails(String communityId, String userId, String q)",
+      "description": "Get the user’s groups that match the search criteria.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserGroupDetailPage"
+    },
+    {
+      "name": "searchUserGroupDetails",
+      "signature": "public static ConnectApi.UserGroupDetailPage searchUserGroupDetails(String communityId, String userId, String q, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of a user’s groups that match the search criteria.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.UserGroupDetailPage"
+    },
+    {
+      "name": "",
+      "signature": "public static ConnectApi.UserGroupPage searchUserGroups(String communityId, String userId, String q)",
+      "description": "Get the user’s groups that match the search criteria.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.User​​GroupPage"
+    },
+    {
+      "name": "",
+      "signature": "public static ConnectApi.UserGroupPage searchUserGroups(String communityId, String userId, String q, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of a user’s groups that match the search criteria.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.User​​GroupPage"
+    },
+    {
+      "name": "searchUsers",
+      "signature": "public static ConnectApi.UserPage searchUsers(String communityId, String q)",
+      "description": "Get the first page of users that match the search criteria.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserPage"
+    },
+    {
+      "name": "searchUsers",
+      "signature": "public static ConnectApi.UserPage searchUsers(String communityId, String q, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of users that match the search criteria.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.UserPage"
+    },
+    {
+      "name": "searchUsers",
+      "signature": "public static ConnectApi.UserPage searchUsers(String communityId, String q, String searchContextId, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of users that match the search criteria.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "searchContextId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.UserPage"
+    },
+    {
+      "name": "setPhoto",
+      "signature": "public static ConnectApi.Photo setPhoto(String communityId, String userId, String fileId, Integer versionNumber)",
+      "description": "Set an uploaded file as a user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "fileId",
+          "datatype": "String"
+        },
+        {
+          "name": "versionNumber",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "setPhoto",
+      "signature": "public static ConnectApi.Photo setPhoto(String communityId, String userId, ConnectApi.BinaryInput fileUpload)",
+      "description": "Set a file that hasn’t been uploaded as the user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "fileUpload",
+          "datatype": "ConnectApi.Binary​​Input"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "setPhotoWithAttributes",
+      "signature": "public static ConnectApi.Photo setPhotoWithAttributes(String communityId, String userId, ConnectApi.PhotoInput photo)",
+      "description": "Set and crop an uploaded file as a user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "photo",
+          "datatype": "ConnectApi.PhotoInput"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "setPhotoWithAttributes",
+      "signature": "public static ConnectApi.Photo setPhotoWithAttributes(String communityId, String userId, ConnectApi.PhotoInput photo, ConnectApi.BinaryInput fileUpload)",
+      "description": "Set and crop a file that hasn’t been uploaded as a user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "photo",
+          "datatype": "ConnectApi.PhotoInput"
+        },
+        {
+          "name": "fileUpload",
+          "datatype": "ConnectApi.Binary​​Input"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "updateChatterSettings",
+      "signature": "public static ConnectApi.UserChatterSettings updateChatterSettings(String communityId, String userId, ConnectApi.GroupEmailFrequency defaultGroupEmailFrequency)",
+      "description": "Update the default Chatter settings for a user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "defaultGroupEmailFrequency",
+          "datatype": "ConnectApi.​GroupEmail​Frequency"
+        }
+      ],
+      "datatype": "ConnectApi.​User​​ChatterSettings"
+    },
+    {
+      "name": "updateUser",
+      "signature": "public static ConnectApi.UserDetail updateUser(String communityId, String userId, ConnectApi.UserInput userInput)",
+      "description": "Update the About Me section for a user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "userInput",
+          "datatype": "ConnectApi.UserInput"
+        }
+      ],
+      "datatype": "ConnectApi.​User​Detail"
+    },
+    {
+      "name": "setTestSearchUsers",
+      "signature": "public static Void setTestSearchUsers(String communityId, String q, ConnectApi.UserPage result)",
+      "description": "Register a ConnectApi.UserPage object to be returned when the matching ConnectApi.searchUsers method is called in a test context. Use the method with the same parameters or you receive an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.UserPage"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestSearchUsers",
+      "signature": "public static Void setTestSearchUsers(String communityId, String q, Integer pageParam, Integer pageSize, ConnectApi.UserPage result)",
+      "description": "Register a ConnectApi.UserPage object to be returned when the matching ConnectApi.searchUsers method is called in a test context. Use the method with the same parameters or you receive an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.UserPage"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestSearchUsers",
+      "signature": "public static Void setTestSearchUsers(String communityId, String q, String searchContextId, Integer pageParam, Integer pageSize, ConnectApi.UserPage result)",
+      "description": "Register a ConnectApi.UserPage object to be returned when the matching ConnectApi.searchUsers method is called in a test context. Use the method with the same parameters or you receive an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "searchContextId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.UserPage"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Access information about users, such as activity, followers, subscriptions, files, and",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ChatterUsers_static_methods.htm#apex_ConnectAPI_ChatterUsers_static_methods"
+}

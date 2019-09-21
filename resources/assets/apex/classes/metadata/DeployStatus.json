@@ -1,0 +1,28 @@
+{
+    "name": "DeployStatus",
+    "namespace": "Metadata",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "isEnum": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "enumValues": [
+        "Canceled",
+        "Canceling",
+        "Failed",
+        "InProgress",
+        "Pending",
+        "Succeeded",
+        "SucceededPartial"
+    ],
+    "fields": [],
+    "constuctors": [],
+    "methods": [],
+    "description": "The result status of a deployment.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_DeployStatus.htm"
+  }

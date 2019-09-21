@@ -1,0 +1,247 @@
+{
+  "name": "Zones",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getZone",
+      "signature": "public static ConnectApi.Zone getZone(String communityId, String zoneId)",
+      "description": "Get a zone.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "zoneId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.Zone"
+    },
+    {
+      "name": "getZones",
+      "signature": "public static ConnectApi.ZonePage getZones(String communityId)",
+      "description": "Get a list of zones.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.ZonePage"
+    },
+    {
+      "name": "getZones",
+      "signature": "public static ConnectApi.Zone getZones(String communityId, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of zones.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.ZonePage"
+    },
+    {
+      "name": "searchInZone",
+      "signature": "public static ConnectApi.ZoneSearchPage searchInZone(String communityId, String zoneId, String q, ConnectApi.ZoneSearchResultType filter)",
+      "description": "Search articles or questions in a zone.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "zoneId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "filter",
+          "datatype": "ConnectApi.ZoneSearchResultType"
+        }
+      ],
+      "datatype": "ConnectApi.ZoneSearchPage"
+    },
+    {
+      "name": "searchInZone",
+      "signature": "public static ConnectApi.ZoneSearchPage searchInZone(String communityId, String zoneId, String q, ConnectApi.ZoneSearchResultType filter, String pageParam, Integer pageSize)",
+      "description": "Search a page of articles or questions in a zone.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "zoneId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "filter",
+          "datatype": "ConnectApi.ZoneSearchResultType"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.ZoneSearchPage"
+    },
+    {
+      "name": "searchInZone",
+      "signature": "public static ConnectApi.ZoneSearchPage searchInZone(String communityId, String zoneId, String q, ConnectApi.ZoneSearchResultType filter, String language)",
+      "description": "Search articles or questions in a zone, and specify the language of the results.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "zoneId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "filter",
+          "datatype": "ConnectApi.ZoneSearchResultType"
+        },
+        {
+          "name": "language",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.ZoneSearchPage"
+    },
+    {
+      "name": "setTestSearchInZone",
+      "signature": "public static Void setTestSearchInZone(String communityId, String zoneId, String q, ConnectApi.ZoneSearchResultType filter, ConnectApi.ZoneSearchPage result)",
+      "description": "Register a ConnectApi.ZoneSearchPage object to be returned when searchInZone(communityId, zoneId, q, filter) is called in a test context. Use the method with the same parameters or you receive an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "zoneId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "filter",
+          "datatype": "ConnectApi.ZoneSearchResultType"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.ZoneSearchPage"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestSearchInZone",
+      "signature": "public static Void setTestSearchInZone(String communityId, String zoneId, String q, ConnectApi.ZoneSearchResultType filter, String pageParam, Integer pageSize, ConnectApi.ZoneSearchPage result)",
+      "description": "Register a ConnectApi.ZoneSearchPage object to be returned when searchInZone(communityId, zoneId, q, filter, pageParam, pageSize) is called in a test context. Use the method with the same parameters or you receive an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "zoneId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "filter",
+          "datatype": "ConnectApi.ZoneSearchResultType"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.ZoneSearchPage"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestSearchInZone",
+      "signature": "public static Void setTestSearchInZone(String communityId, String zoneId, String q, ConnectApi.ZoneSearchResultType filter, String language, ConnectApi.ZoneSearchPage result)",
+      "description": "Register a ConnectApi.ZoneSearchPage object to be returned when searchInZone(communityId, zoneId, q, filter, language) is called in a test context. Use the method with the same parameters or you receive an exception.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "zoneId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "filter",
+          "datatype": "ConnectApi.ZoneSearchResultType"
+        },
+        {
+          "name": "language",
+          "datatype": "String"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.ZoneSearchPage"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Access information about Chatter Answers zones in your organization. Zones organize",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Zones_static_methods.htm#apex_ConnectAPI_Zones_static_methods"
+}

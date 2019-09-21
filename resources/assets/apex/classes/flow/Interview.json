@@ -1,0 +1,74 @@
+{
+  "name": "Interview",
+  "namespace": "Flow",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "createInterview",
+      "signature": "public static Flow.Interview createInterview(String namespace, String flowName, Map<String,ANY> inputVariables)",
+      "description": "Creates an interview for a namespaced flow.",
+      "methodParams": [
+        {
+          "name": "namespace",
+          "datatype": "String"
+        },
+        {
+          "name": "flowName",
+          "datatype": "String"
+        },
+        {
+          "name": "inputVariables",
+          "datatype": "Map<String,Object>"
+        }
+      ],
+      "datatype": "Flow.Interview"
+    },
+    {
+      "name": "createInterview",
+      "signature": "public static Flow.Interview createInterview(String flowName, Map<String,Object> inputVariables)",
+      "description": "Creates an interview for a flow.",
+      "methodParams": [
+        {
+          "name": "",
+          "datatype": "String"
+        },
+        {
+          "name": "",
+          "datatype": "Map<String,Object>"
+        }
+      ],
+      "datatype": "Flow.Interview"
+    },
+    {
+      "name": "getVariableValue",
+      "signature": "public Object getVariableValue(String variableName)",
+      "description": "Returns the value of the specified flow variable. The flow variable can be in the flow embedded in the Visualforce page, or in a separate flow that is called by a subflow element.",
+      "methodParams": [
+        {
+          "name": "variableName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "start",
+      "signature": "public Void start()",
+      "description": "Starts an instance (interview) for an autolaunched or user provisioning flow.",
+      "methodParams": [],
+      "datatype": "Void"
+    }
+  ],
+  "description": "The Flow.Interview class provides",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/flow_interview_class.htm#flow_interview_class"
+}

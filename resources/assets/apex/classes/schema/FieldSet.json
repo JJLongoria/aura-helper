@@ -1,0 +1,63 @@
+{
+  "name": "FieldSet",
+  "namespace": "Schema",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDescription",
+      "signature": "public String getDescription()",
+      "description": "Returns the field set’s description.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getFields",
+      "signature": "public List<FieldSetMember> getFields()",
+      "description": "Returns a list of Schema.FieldSetMember objects for the fields making up the field set.",
+      "methodParams": [],
+      "datatype": "List<Schema.FieldSetMember>"
+    },
+    {
+      "name": "getLabel",
+      "signature": "public String getLabel()",
+      "description": "Returns the translation of the text label that is displayed next to the field in the Salesforce user interface.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getName",
+      "signature": "public String getName()",
+      "description": "Returns the field set’s name.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getNamespace",
+      "signature": "public String getNamespace()",
+      "description": "Returns the field set’s namespace.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getSObjectType",
+      "signature": "public Schema.SObjectType getSObjectType()",
+      "description": "Returns the Schema.sObjectType of the sObject containing the field set definition.",
+      "methodParams": [],
+      "datatype": "Schema.SObjectType"
+    }
+  ],
+  "description": "Contains methods for discovering and retrieving the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_fieldsets_describe.htm#apex_methods_system_fieldsets_describe"
+}

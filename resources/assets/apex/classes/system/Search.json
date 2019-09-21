@@ -1,0 +1,63 @@
+{
+  "name": "Search",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "find",
+      "signature": "public static Search.SearchResults find(String searchQuery)",
+      "description": "Performs a dynamic SOSL query that can include the SOSL WITH SNIPPET clause. Snippets provide more context for users in Salesforce Knowledge article search results.",
+      "methodParams": [
+        {
+          "name": "searchQuery",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Search.SearchResults"
+    },
+    {
+      "name": "query",
+      "signature": "public static sObject[sObject[]] query(String query)",
+      "description": "Performs a dynamic SOSL query.",
+      "methodParams": [
+        {
+          "name": "query",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "sObject[sObject[]]"
+    },
+    {
+      "name": "suggest",
+      "signature": "public static Search.SuggestionResults suggest(String searchQuery, String sObjectType, Search.SuggestionOption suggestions)",
+      "description": "Returns a list of records or Salesforce Knowledge articles whose names or titles match the user’s search query string. Use this method to provide users with shortcuts to navigate to relevant records or articles before they perform a search.",
+      "methodParams": [
+        {
+          "name": "searchQuery",
+          "datatype": "String"
+        },
+        {
+          "name": "sObjectType",
+          "datatype": "String"
+        },
+        {
+          "name": "options",
+          "datatype": "Search.SuggestionOption"
+        }
+      ],
+      "datatype": "SuggestionResults"
+    }
+  ],
+  "description": "Use the methods of the Search class to perform dynamic SOSL queries.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_search.htm#apex_methods_system_search"
+}

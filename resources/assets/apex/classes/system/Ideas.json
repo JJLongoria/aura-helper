@@ -1,0 +1,91 @@
+{
+  "name": "Ideas",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "findSimilar",
+      "signature": "public static ID[] findSimilar(Idea idea)",
+      "description": "Returns a list of similar ideas based on the title of the specified idea.",
+      "methodParams": [
+        {
+          "name": "idea",
+          "datatype": "Idea"
+        }
+      ],
+      "datatype": "ID[]"
+    },
+    {
+      "name": "getAllRecentReplies",
+      "signature": "public static ID[] getAllRecentReplies(String userID, String communityID)",
+      "description": "Returns ideas that have recent replies for the specified user or zone. This includes all read and unread replies.",
+      "methodParams": [
+        {
+          "name": "userID",
+          "datatype": "String"
+        },
+        {
+          "name": "communityID",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ID[]"
+    },
+    {
+      "name": "getReadRecentReplies",
+      "signature": "public static ID[] getReadRecentReplies(String userID, String communityID)",
+      "description": "Returns ideas that have recent replies marked as read.",
+      "methodParams": [
+        {
+          "name": "userID",
+          "datatype": "String"
+        },
+        {
+          "name": "communityID",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ID[]"
+    },
+    {
+      "name": "getUnreadRecentReplies",
+      "signature": "public static ID[] getUnreadRecentReplies(String userID, String communityID)",
+      "description": "Returns ideas that have recent replies marked as unread.",
+      "methodParams": [
+        {
+          "name": "userID",
+          "datatype": "String"
+        },
+        {
+          "name": "communityID",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ID[]"
+    },
+    {
+      "name": "markRead",
+      "signature": "public static Void markRead(String ideaID)",
+      "description": "Marks all comments as read for the user that is currently logged in.",
+      "methodParams": [
+        {
+          "name": "ideaID",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Represents zone",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_ideas.htm#apex_classes_ideas"
+}

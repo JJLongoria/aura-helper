@@ -1,0 +1,588 @@
+{
+  "name": "ChatterMessages",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getConversation",
+      "signature": "public static ConnectApi.ChatterConversation getConversation(String conversationId)",
+      "description": "Get a conversation.",
+      "methodParams": [
+        {
+          "name": "conversationId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Conversation"
+    },
+    {
+      "name": "getConversation",
+      "signature": "public static ConnectApi.ChatterConversation getConversation(String conversationId, String pageParam, Integer pageSize)",
+      "description": "Get a page of a conversation.",
+      "methodParams": [
+        {
+          "name": "conversationId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Conversation"
+    },
+    {
+      "name": "getConversation",
+      "signature": "public static ConnectApi.ChatterConversation getConversation(String communityId, String conversationId)",
+      "description": "Get a conversation from a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "conversationId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Conversation"
+    },
+    {
+      "name": "getConversation",
+      "signature": "public static ConnectApi.ChatterConversation getConversation(String communityId, String conversationId, String pageParam, String pageSize)",
+      "description": "Get a page of a conversation from a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "conversationId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Conversation"
+    },
+    {
+      "name": "getConversations",
+      "signature": "public static ConnectApi.ChatterConversationPage getConversations()",
+      "description": "Get the most recent conversations.",
+      "methodParams": [],
+      "datatype": "ConnectApi.​Chatter​ConversationPage"
+    },
+    {
+      "name": "getConversations",
+      "signature": "public static ConnectApi.ChatterConversationPage getConversations(String pageParam, Integer pageSize)",
+      "description": "Get a page of conversations.",
+      "methodParams": [
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​ConversationPage"
+    },
+    {
+      "name": "getConversations",
+      "signature": "public static ConnectApi.ChatterConversationPage getConversations(String communityId)",
+      "description": "Get the most recent conversations from a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​ConversationPage"
+    },
+    {
+      "name": "getConversations",
+      "signature": "public static ConnectApi.ChatterConversationPage getConversations(String communityId, String pageParam, Integer pageSize)",
+      "description": "Get a page of conversations from a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​ConversationPage"
+    },
+    {
+      "name": "getMessage",
+      "signature": "public static ConnectApi.ChatterMessage getMessage(String messageId)",
+      "description": "Get a message.",
+      "methodParams": [
+        {
+          "name": "messageId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Message"
+    },
+    {
+      "name": "getMessage",
+      "signature": "public static ConnectApi.ChatterMessage getMessage(String communityId, String messageId)",
+      "description": "Get a message from a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "messageId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "getMessages",
+      "signature": "public static ConnectApi.ChatterMessagePage getMessages()",
+      "description": "Get the most recent messages.",
+      "methodParams": [],
+      "datatype": "ConnectApi.​Chatter​MessagePage"
+    },
+    {
+      "name": "getMessages",
+      "signature": "public static ConnectApi.ChatterMessagePage getMessages(String pageParam, Integer pageSize)",
+      "description": "Get a page of messages.",
+      "methodParams": [
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​MessagePage"
+    },
+    {
+      "name": "getMessages",
+      "signature": "public static ConnectApi.ChatterMessagePage getMessages(String communityId)",
+      "description": "Get the most recent messages from a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​MessagePage"
+    },
+    {
+      "name": "getMessages",
+      "signature": "public static ConnectApi.ChatterMessagePage getMessages(String communityId, String pageParam, Integer pageSize)",
+      "description": "Get a page of messages from a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​MessagePage"
+    },
+    {
+      "name": "getUnreadCount",
+      "signature": "public static ConnectApi.UnreadConversationCount getUnreadCount()",
+      "description": "Get the number of conversations that are marked unread.",
+      "methodParams": [],
+      "datatype": "ConnectApi.​​UnreadConversationCount"
+    },
+    {
+      "name": "getUnreadCount",
+      "signature": "public static ConnectApi.UnreadConversationCount getUnreadCount(String communityId)",
+      "description": "Get the number of conversations that are marked unread in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​​UnreadConversationCount"
+    },
+    {
+      "name": "markConversationRead",
+      "signature": "public static ConnectApi.ChatterConversationSummary markConversationRead(String conversationId, Boolean read)",
+      "description": "Mark a conversation as read or unread.",
+      "methodParams": [
+        {
+          "name": "conversationId",
+          "datatype": "String"
+        },
+        {
+          "name": "read",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​ConversationSummary"
+    },
+    {
+      "name": "markConversationRead",
+      "signature": "public static ConnectApi.ChatterConversationSummary markConversationRead(String communityId, String conversationID, Boolean read)",
+      "description": "Mark a conversation as read or unread in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "conversationId",
+          "datatype": "String"
+        },
+        {
+          "name": "read",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​ConversationSummary"
+    },
+    {
+      "name": "replyToMessage",
+      "signature": "public static ConnectApi.ChatterMessage replyToMessage(String text, String inReplyTo)",
+      "description": "Reply to a message.",
+      "methodParams": [
+        {
+          "name": "text",
+          "datatype": "String"
+        },
+        {
+          "name": "inReplyTo",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Message"
+    },
+    {
+      "name": "replyToMessage",
+      "signature": "public static ConnectApi.ChatterMessage replyToMessage(String communityId, String text, String inReplyTo)",
+      "description": "Reply to a message in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "text",
+          "datatype": "String"
+        },
+        {
+          "name": "inReplyTo",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Message"
+    },
+    {
+      "name": "searchConversation",
+      "signature": "public static ConnectApi.ChatterConversation searchConversation(String conversationId, String q)",
+      "description": "Get a conversation that matches the search criteria.",
+      "methodParams": [
+        {
+          "name": "conversationId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Conversation"
+    },
+    {
+      "name": "searchConversation",
+      "signature": "public static ConnectApi.ChatterConversation searchConversation(String conversationId, String pageParam, Integer pageSize, String q)",
+      "description": "Get a conversation with a page of messages that match the search criteria.",
+      "methodParams": [
+        {
+          "name": "conversationId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Conversation"
+    },
+    {
+      "name": "searchConversation",
+      "signature": "public static ConnectApi.ChatterConversation searchConversation(String communityId, String conversationId, String q)",
+      "description": "Get a conversation with messages that match the search criteria in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "conversationId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Conversation"
+    },
+    {
+      "name": "searchConversation",
+      "signature": "public static ConnectApi.ChatterConversation searchConversation(String communityId, String conversationId, String pageParam, Integer pageSize, String q)",
+      "description": "Get a conversation with a page of messages that match the search criteria in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "conversationId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Conversation"
+    },
+    {
+      "name": "searchConversations",
+      "signature": "public static ConnectApi.ChatterConversationPage searchConversations(String q)",
+      "description": "Get conversations in which member names and messages match the search criteria.",
+      "methodParams": [
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​ConversationPage"
+    },
+    {
+      "name": "searchConversations",
+      "signature": "public static ConnectApi.ChatterConversationPage searchConversations(String pageParam, Integer pageSize, String q)",
+      "description": "Get a page of conversations in which member names and messages match the search criteria.",
+      "methodParams": [
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​ConversationPage"
+    },
+    {
+      "name": "searchConversations",
+      "signature": "public static ConnectApi.ChatterConversationPage searchConversations(String communityId, String q)",
+      "description": "Get conversations in which member names and messages match the search criteria in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​ConversationPage"
+    },
+    {
+      "name": "searchConversations",
+      "signature": "public static ConnectApi.ChatterConversationPage searchConversations(String communityId, String pageParam, Integer pageSize, String q)",
+      "description": "Get a page of conversations in which member names and messages match the search criteria in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​ConversationPage"
+    },
+    {
+      "name": "searchMessages",
+      "signature": "public static ConnectApi.ChatterMessagePage searchMessages(String q)",
+      "description": "Get messages that match the search criteria.",
+      "methodParams": [
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​MessagePage"
+    },
+    {
+      "name": "searchMessages",
+      "signature": "public static ConnectApi.ChatterMessagePage searchMessages(String pageParam, Integer pageSize, String q)",
+      "description": "Get a page of messages that match the search criteria.",
+      "methodParams": [
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​MessagePage"
+    },
+    {
+      "name": "searchMessages",
+      "signature": "public static ConnectApi.ChatterMessagePage searchMessages(String communityId, String q)",
+      "description": "Get messages that match the search criteria in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​MessagePage"
+    },
+    {
+      "name": "searchMessages",
+      "signature": "public static ConnectApi.ChatterMessagePage searchMessages(String communityId, String pageParam, Integer pageSize, String q)",
+      "description": "Get a page of messages that match the search criteria in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "String"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​MessagePage"
+    },
+    {
+      "name": "sendMessage",
+      "signature": "public static ConnectApi.ChatterMessage sendMessage(String text, String recipients)",
+      "description": "Send a message to a list of recipients.",
+      "methodParams": [
+        {
+          "name": "text",
+          "datatype": "String"
+        },
+        {
+          "name": "recipients",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Message"
+    },
+    {
+      "name": "sendMessage",
+      "signature": "public static ConnectApi.ChatterMessage sendMessage(String communityId, String text, String recipients)",
+      "description": "Send a message to a list of recipients in a community.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "text",
+          "datatype": "String"
+        },
+        {
+          "name": "recipients",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Chatter​Message"
+    }
+  ],
+  "description": "Access and modify message and conversation data.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ChatterMessages_static_methods.htm#apex_ConnectAPI_ChatterMessages_static_methods"
+}

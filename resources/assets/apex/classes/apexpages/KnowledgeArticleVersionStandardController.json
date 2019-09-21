@@ -1,0 +1,18 @@
+{
+  "name": "KnowledgeArticleVersionStandardController",
+  "namespace": "ApexPages",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [],
+  "description": "Creates a new instance of the ApexPages.KnowledgeArticleVersionStandardController class",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_knowledgearticleversionstandardcontroller.htm#apex_pages_knowledgearticleversionstandardcontroller"
+}

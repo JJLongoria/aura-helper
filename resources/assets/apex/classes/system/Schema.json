@@ -1,0 +1,69 @@
+{
+  "name": "Schema",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getGlobalDescribe",
+      "signature": "public static Map<String, Schema.SObjectType> getGlobalDescribe()",
+      "description": "Returns a map of all sObject names (keys) to sObject tokens (values) for the standard and custom objects defined in your organization.",
+      "methodParams": [],
+      "datatype": "Map<String, Schema.SObjectType>"
+    },
+    {
+      "name": "describeDataCategoryGroups",
+      "signature": "public static List<Schema.DescribeDataCategoryGroupResult> describeDataCategoryGroups(List<String> sObjectNames)",
+      "description": "Returns a list of the category groups associated with the specified objects.",
+      "methodParams": [
+        {
+          "name": "sObjectNames",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "List<Schema.DescribeDataCategoryGroupResult>"
+    },
+    {
+      "name": "describeSObjects",
+      "signature": "public static List<Schema.DescribeSObjectResult> describeSObjects(List<String> sObjectTypes)",
+      "description": "Describes metadata (field list and object properties) for the specified sObject or array of sObjects.",
+      "methodParams": [
+        {
+          "name": "sObjectTypes",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "List<Schema.DescribeSObjectResult>"
+    },
+    {
+      "name": "describeTabs",
+      "signature": "public static List<Schema.DescribeTabSetResult> describeTabs()",
+      "description": "Returns information about the standard and custom apps available to the running user.",
+      "methodParams": [],
+      "datatype": "List<Schema.DescribeTabSetResult>"
+    },
+    {
+      "name": "GroupStructures",
+      "signature": "public static List<Schema.DescribeDataCategoryGroupStructureResult> describeDataCategory GroupStructures(List<Schema.DataCategoryGroupSobjectTypePair> pairs)",
+      "description": "Returns available category groups along with their data category structure for objects specified in the request.",
+      "methodParams": [
+        {
+          "name": "pairs",
+          "datatype": "List<Schema.DataCategoryGroupSobjectTypePair>"
+        }
+      ],
+      "datatype": "List<Schema.Describe​DataCategoryGroupStructureResult>"
+    }
+  ],
+  "description": "Contains methods for obtaining schema describe information.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_schema.htm#apex_methods_system_schema"
+}

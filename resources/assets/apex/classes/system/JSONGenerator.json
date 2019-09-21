@@ -1,0 +1,435 @@
+{
+  "name": "JSONGenerator",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "close",
+      "signature": "public Void close()",
+      "description": "Closes the JSON generator.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "getAsString",
+      "signature": "public String getAsString()",
+      "description": "Returns the generated JSON content.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "isClosed",
+      "signature": "public Boolean isClosed()",
+      "description": "Returns true if the JSON generator is closed; otherwise, returns false.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "writeBlob",
+      "signature": "public Void writeBlob(Blob blobValue)",
+      "description": "Writes the specified Blob value as a base64-encoded string.",
+      "methodParams": [
+        {
+          "name": "blobValue",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeBlobField",
+      "signature": "public Void writeBlobField(String fieldName, Blob blobValue)",
+      "description": "Writes a field name and value pair using the specified field name and BLOB value.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "blobValue",
+          "datatype": "Blob"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeBoolean",
+      "signature": "public Void writeBoolean(Boolean blobValue)",
+      "description": "Writes the specified Boolean value.",
+      "methodParams": [
+        {
+          "name": "blobValue",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeBooleanField",
+      "signature": "public Void writeBooleanField(String fieldName, Boolean booleanValue)",
+      "description": "Writes a field name and value pair using the specified field name and Boolean value.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "booleanValue",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeDate",
+      "signature": "public Void writeDate(Date dateValue)",
+      "description": "Writes the specified date value in the ISO-8601 format.",
+      "methodParams": [
+        {
+          "name": "dateValue",
+          "datatype": "Date"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeDateField",
+      "signature": "public Void writeDateField(String fieldName, Date dateValue)",
+      "description": "Writes a field name and value pair using the specified field name and date value. The date value is written in the ISO-8601 format.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "dateValue",
+          "datatype": "Date"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeDateTime",
+      "signature": "public Void writeDateTime(Datetime datetimeValue)",
+      "description": "Writes the specified date and time value in the ISO-8601 format.",
+      "methodParams": [
+        {
+          "name": "datetimeValue",
+          "datatype": "Datetime"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeDateTimeField",
+      "signature": "public Void writeDateTimeField(String fieldName, Datetime datetimeValue)",
+      "description": "Writes a field name and value pair using the specified field name and date and time value. The date and time value is written in the ISO-8601 format.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "datetimeValue",
+          "datatype": "Datetime"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeEndArray",
+      "signature": "public Void writeEndArray()",
+      "description": "Writes the ending marker of a JSON array (']').",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeEndObject",
+      "signature": "public Void writeEndObject()",
+      "description": "Writes the ending marker of a JSON object ('}').",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeFieldName",
+      "signature": "public Void writeFieldName(String fieldName)",
+      "description": "Writes a field name.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeId",
+      "signature": "public Void writeId(ID identifier)",
+      "description": "Writes the specified ID value.",
+      "methodParams": [
+        {
+          "name": "identifier",
+          "datatype": "ID"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeIdField",
+      "signature": "public Void writeIdField(String fieldName, Id identifier)",
+      "description": "Writes a field name and value pair using the specified field name and identifier value.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "identifier",
+          "datatype": "ID"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeNull",
+      "signature": "public Void writeNull()",
+      "description": "Writes the JSON null literal value.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeNullField",
+      "signature": "public Void writeNullField(String fieldName)",
+      "description": "Writes a field name and value pair using the specified field name and the JSON null literal value.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeNumber",
+      "signature": "public Void writeNumber(Decimal number)",
+      "description": "Writes the specified decimal value.",
+      "methodParams": [
+        {
+          "name": "number",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeNumber",
+      "signature": "public Void writeNumber(Double number)",
+      "description": "Writes the specified double value.",
+      "methodParams": [
+        {
+          "name": "number",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeNumber",
+      "signature": "public Void writeNumber(Integer number)",
+      "description": "Writes the specified integer value.",
+      "methodParams": [
+        {
+          "name": "number",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeNumber",
+      "signature": "public Void writeNumber(Long number)",
+      "description": "Writes the specified long value.",
+      "methodParams": [
+        {
+          "name": "number",
+          "datatype": "Long"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeNumberField",
+      "signature": "public Void writeNumberField(String fieldName, Decimal number)",
+      "description": "Writes a field name and value pair using the specified field name and decimal value.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "number",
+          "datatype": "Decimal"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeNumberField",
+      "signature": "public Void writeNumberField(String fieldName, Double number)",
+      "description": "Writes a field name and value pair using the specified field name and double value.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "number",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeNumberField",
+      "signature": "public Void writeNumberField(String fieldName, Integer number)",
+      "description": "Writes a field name and value pair using the specified field name and integer value.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "number",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeNumberField",
+      "signature": "public Void writeNumberField(String fieldName, Long number)",
+      "description": "Writes a field name and value pair using the specified field name and long value.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "number",
+          "datatype": "Long"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeObject",
+      "signature": "public Void writeObject(Object anyObject)",
+      "description": "Writes the specified Apex object in JSON format.",
+      "methodParams": [
+        {
+          "name": "anyObject",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeObjectField",
+      "signature": "public Void writeObjectField(String fieldName, Object value)",
+      "description": "Writes a field name and value pair using the specified field name and Apex object.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeStartArray",
+      "signature": "public Void writeStartArray()",
+      "description": "Writes the starting marker of a JSON array ('[').",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeStartObject",
+      "signature": "public Void writeStartObject()",
+      "description": "Writes the starting marker of a JSON object ('{').",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeString",
+      "signature": "public Void writeString(String stringValue)",
+      "description": "Writes the specified string value.",
+      "methodParams": [
+        {
+          "name": "stringValue",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeStringField",
+      "signature": "public Void writeStringField(String fieldName, String stringValue)",
+      "description": "Writes a field name and value pair using the specified field name and string value.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "stringValue",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeTime",
+      "signature": "public Void writeTime(Time timeValue)",
+      "description": "Writes the specified time value in the ISO-8601 format.",
+      "methodParams": [
+        {
+          "name": "timeValue",
+          "datatype": "Time"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "writeTimeField",
+      "signature": "public Void writeTimeField(String fieldName, Time timeValue)",
+      "description": "Writes a field name and value pair using the specified field name and time value in the ISO-8601 format.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "timeValue",
+          "datatype": "Time"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Contains methods used to",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_JsonGenerator.htm#apex_class_System_JsonGenerator"
+}

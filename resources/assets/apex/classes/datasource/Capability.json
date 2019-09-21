@@ -1,0 +1,24 @@
+{
+    "name": "Capability",
+    "namespace": "Datasource",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "isEnum": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "enumValues": [
+        "NONE",
+        "OAUTH",
+        "PASSWORD"
+    ],
+    "fields": [],
+    "constuctors": [],
+    "methods": [],
+    "description": "Declares which functional operations the external system supports. Also specifies required endpoint settings for the external data source definition.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_Capability.htm"
+  }

@@ -1,0 +1,132 @@
+{
+  "name": "SelectOption",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "SelectOption",
+      "signature": "public SelectOption(String value, String label)",
+      "description": "Creates a new instance of the SelectOption class using the specified value and label.",
+      "methodParams": [
+        {
+          "name": "value",
+          "datatype": "String"
+        },
+        {
+          "name": "label",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "SelectOption",
+      "signature": "public SelectOption(String value, String label, Boolean isDisabled)",
+      "description": "Creates a new instance of the SelectOption class using the specified value, label, and disabled setting.",
+      "methodParams": [
+        {
+          "name": "value",
+          "datatype": "String"
+        },
+        {
+          "name": "label",
+          "datatype": "String"
+        },
+        {
+          "name": "isDisabled",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "getDisabled",
+      "signature": "public Boolean getDisabled()",
+      "description": "Returns the current value of the SelectOption object's isDisabled attribute.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getEscapeItem",
+      "signature": "public Boolean getEscapeItem()",
+      "description": "Returns the current value of the SelectOption object's itemEscaped attribute.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getLabel",
+      "signature": "public String getLabel()",
+      "description": "Returns the option label that is displayed to the user.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getValue",
+      "signature": "public String getValue()",
+      "description": "Returns the option value that is returned to the controller if a user selects the option.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setDisabled",
+      "signature": "public Void setDisabled(Boolean isDisabled)",
+      "description": "Sets the value of the SelectOption object's isDisabled attribute.",
+      "methodParams": [
+        {
+          "name": "isDisabled",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setEscapeItem",
+      "signature": "public Void setEscapeItem(Boolean itemsEscaped)",
+      "description": "Sets the value of the SelectOption object's itemEscaped attribute.",
+      "methodParams": [
+        {
+          "name": "itemsEscaped",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setLabel",
+      "signature": "public Void setLabel(String label)",
+      "description": "Sets the value of the option label that is displayed to the user.",
+      "methodParams": [
+        {
+          "name": "label",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setValue",
+      "signature": "public Void setValue(String value)",
+      "description": "Sets the value of the option value that is returned to the controller if a user selects the option.",
+      "methodParams": [
+        {
+          "name": "value",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "A SelectOption object specifies one of the possible values for a Visualforce selectCheckboxes, selectList, or selectRadio component.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_selectoption.htm#apex_pages_selectoption"
+}

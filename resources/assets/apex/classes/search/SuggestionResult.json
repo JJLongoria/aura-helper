@@ -1,0 +1,20 @@
+{
+  "name": "SuggestionResult",
+  "namespace": "Search",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [],
+  "description": "Options that narrow record and article suggestion results returned",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SuggestionResult.htm#apex_class_Search_SuggestionResult"
+}

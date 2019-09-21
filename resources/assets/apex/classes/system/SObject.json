@@ -1,0 +1,355 @@
+{
+  "name": "SObject",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "addError",
+      "signature": "public Void addError(String errorMsg)",
+      "description": "Marks a trigger record with a custom error message and prevents any DML operation from occurring.",
+      "methodParams": [
+        {
+          "name": "errorMsg",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addError",
+      "signature": "public Void addError(String errorMsg, Boolean escape)",
+      "description": "Marks a trigger record with a custom error message, specifies if the error message should be escaped, and prevents any DML operation from occurring.",
+      "methodParams": [
+        {
+          "name": "errorMsg",
+          "datatype": "String"
+        },
+        {
+          "name": "escape",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addError",
+      "signature": "public Void addError(Exception exceptionError)",
+      "description": "Marks a trigger record with a custom error message and prevents any DML operation from occurring.",
+      "methodParams": [
+        {
+          "name": "exceptionError",
+          "datatype": "System.Exception"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addError",
+      "signature": "public Void addError(Exception exceptionError, Boolean escape)",
+      "description": "Marks a trigger record with a custom exception error message, specifies whether or not the exception error message should be escaped, and prevents any DML operation from occurring.",
+      "methodParams": [
+        {
+          "name": "exceptionError",
+          "datatype": "System.Exception"
+        },
+        {
+          "name": "escape",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addError",
+      "signature": "public Void addError(String errorMsg)",
+      "description": "Places the specified error message on a trigger record field in the Salesforce user interface and prevents any DML operation from occurring.",
+      "methodParams": [
+        {
+          "name": "errorMsg",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addError",
+      "signature": "public Void addError(String errorMsg, Boolean escape)",
+      "description": "Places the specified error message, which can be escaped or unescaped, on a trigger record field in the Salesforce user interface, and prevents any DML operation from occurring.",
+      "methodParams": [
+        {
+          "name": "errorMsg",
+          "datatype": "String"
+        },
+        {
+          "name": "escape",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": ""
+    },
+    {
+      "name": "clear",
+      "signature": "public Void clear()",
+      "description": "Clears all field values",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "clone",
+      "signature": "public SObject clone(Boolean preserveId, Boolean isDeepClone, Boolean preserveReadonlyTimestamps, Boolean preserveAutonumber)",
+      "description": "Creates a copy of the SObject record.",
+      "methodParams": [
+        {
+          "name": "preserveId",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "isDeepClone",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "preserveReadonlyTimestamps",
+          "datatype": "Boolean"
+        },
+        {
+          "name": "preserveAutonumber",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "SObject (of same type)"
+    },
+    {
+      "name": "get",
+      "signature": "public Object get(String fieldName)",
+      "description": "Returns the value for the field specified by fieldName, such as AccountNumber.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "get",
+      "signature": "public Object get(Schema.sObjectField field)",
+      "description": "Returns the value for the field specified by the field token Schema.sObjectField, such as, Schema.Account.AccountNumber.",
+      "methodParams": [
+        {
+          "name": "field",
+          "datatype": "Schema.SObjectField"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "getCloneSourceId",
+      "signature": "public Id getCloneSourceId()",
+      "description": "Returns the ID of the entity from which an object was cloned. You can use it for objects cloned through the Salesforce user interface. If you don’t use a preserveId parameter, of if you use a preserveId value of false, you can also used it  for objects created using the System.SObject.clone(preserveId, isDeepClone, preserveReadonlyTimestamps, preserveAutonumber) method.",
+      "methodParams": [],
+      "datatype": "Id"
+    },
+    {
+      "name": "getOptions",
+      "signature": "public Database.DMLOptions getOptions()",
+      "description": "Returns the database.DMLOptions object for the SObject.",
+      "methodParams": [],
+      "datatype": "Database.DMLOptions"
+    },
+    {
+      "name": "getPopulatedFieldsAsMap",
+      "signature": "public Map<String,Object> getPopulatedFieldsAsMap()",
+      "description": "Returns a map of populated field names and their corresponding values. The map contains only the fields that have been populated in memory for the SObject instance.",
+      "methodParams": [],
+      "datatype": "Map<String,Object>"
+    },
+    {
+      "name": "getSObject",
+      "signature": "public SObject getSObject(String fieldName)",
+      "description": "Returns the value for the specified field. This method is primarily used with dynamic DML to access values for external IDs.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "SObject"
+    },
+    {
+      "name": "getSObject",
+      "signature": "public SObject getSObject(Schema.SObjectField fieldName)",
+      "description": "Returns the value for the field specified by the field token Schema.fieldName, such as, Schema.MyObj.MyExternalId. This method is primarily used with dynamic DML to access values for external IDs.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "Schema.SObjectField"
+        }
+      ],
+      "datatype": "SObject"
+    },
+    {
+      "name": "getSObjects",
+      "signature": "public SObject[] getSObjects(String fieldName)",
+      "description": "Returns the values for the specified field. This method is primarily used with dynamic DML to access values  for associated objects, such as child relationships.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "SObject[]"
+    },
+    {
+      "name": "getSObjects",
+      "signature": "public SObject[] getSObjects(Schema.SObjectType fieldName)",
+      "description": "Returns the value for the field specified by the field token Schema.fieldName, such as, Schema.Account.Contact. This method is primarily used with dynamic DML to access values for associated objects, such as child relationships.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "Schema.SObjectType"
+        }
+      ],
+      "datatype": "SObject[]"
+    },
+    {
+      "name": "getSObjectType",
+      "signature": "public Schema.SObjectType getSObjectType()",
+      "description": "Returns the token for this SObject. This method is primarily used with describe information.",
+      "methodParams": [],
+      "datatype": "Schema.SObjectType"
+    },
+    {
+      "name": "getQuickActionName",
+      "signature": "public String getQuickActionName()",
+      "description": "Retrieves the name of a quick action associated with this SObject. Typically used in triggers.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "isClone",
+      "signature": "public Boolean isClone()",
+      "description": "Returns true if an entity is cloned from something, even if the entity hasn’t been saved.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isSet",
+      "signature": "public Void isSet(String fieldName)",
+      "description": "Returns information about the queried sObject field. Returns true if the sObject field is populated, either by direct assignment or by inclusion in a SOQL query. Returns false if the sObject field is not set. If an invalid field is specified, an SObjectException is thrown.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "isSet",
+      "signature": "public Void isSet(Schema.SObjectField field)",
+      "description": "Returns information about the queried sObject field. Returns true if the sObject field is populated, either by direct assignment or by inclusion in a SOQL query. Returns false if the sObject field is not set. If an invalid field is specified, an SObjectException is thrown.",
+      "methodParams": [
+        {
+          "name": "field",
+          "datatype": "SObjectField Class"
+        }
+      ],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "put",
+      "signature": "public Object put(String fieldName, Object value)",
+      "description": "Sets the value for the specified field and returns the previous value for the field.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "put",
+      "signature": "public Object put(Schema.SObjectField fieldName, Object value)",
+      "description": "Sets the value for the field specified by the field token Schema.sObjectField, such as, Schema.Account.AccountNumber and returns the previous value for the field.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "Schema.SObjectField"
+        },
+        {
+          "name": "value",
+          "datatype": "Object"
+        }
+      ],
+      "datatype": "Object"
+    },
+    {
+      "name": "putSObject",
+      "signature": "public SObject putSObject(String fieldName, SObject value)",
+      "description": "Sets the value for the specified field. This method is primarily used with dynamic DML for setting external IDs. The method returns the previous value of the field.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "SObject"
+    },
+    {
+      "name": "putSObject",
+      "signature": "public SObject putSObject(Schema.SObjectType fieldName, SObject value)",
+      "description": "Sets the value for the field specified by the token Schema.SObjectType. This method is primarily used with dynamic DML for setting external IDs. The method returns the previous value of the field.",
+      "methodParams": [
+        {
+          "name": "fieldName",
+          "datatype": "Schema.SObjectType"
+        },
+        {
+          "name": "value",
+          "datatype": "SObject"
+        }
+      ],
+      "datatype": "SObject"
+    },
+    {
+      "name": "recalculateFormulas",
+      "signature": "public Void recalculateFormulas()",
+      "description": "Recalculates all formula fields on an SObject, and sets updated field values. Rather than inserting or updating objects each time you want to test changes to your formula logic, call this method and inspect your new field values. Then make further logic changes as needed.",
+      "methodParams": [],
+      "datatype": "Void"
+    },
+    {
+      "name": "setOptions",
+      "signature": "public Void setOptions(database.DMLOptions DMLOptions)",
+      "description": "Sets the DMLOptions object for the SObject.",
+      "methodParams": [
+        {
+          "name": "DMLOptions",
+          "datatype": "Database.DMLOptions"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Contains methods for the sObject data type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_sobject.htm#apex_methods_system_sobject"
+}

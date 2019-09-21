@@ -1,0 +1,109 @@
+{
+  "name": "RestRequest",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "headers",
+      "signature": "public Map<String, String> headers {get; set;}",
+      "description": "Returns the headers that are received by the request.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "httpMethod",
+      "signature": "public String httpMethod {get; set;}",
+      "description": "Returns one of the supported HTTP request methods.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "params",
+      "signature": "public Map <String, String> params {get; set;}",
+      "description": "Returns the parameters that are received by the request.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "remoteAddress",
+      "signature": "public String remoteAddress {get; set;}",
+      "description": "Returns the IP address of the client making the request.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "requestBody",
+      "signature": "public Blob requestBody {get; set;}",
+      "description": "Returns or sets the body of the request.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "requestURI",
+      "signature": "public String requestURI {get; set;}",
+      "description": "Returns or sets everything after the host in the HTTP request string.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "resourcePath",
+      "signature": "public String resourcePath {get; set;}",
+      "description": "Returns the REST resource path for the request.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [
+    {
+      "name": "RestRequest",
+      "signature": "public RestRequest()",
+      "description": "Creates a new instance of the System.RestRequest class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "addHeader",
+      "signature": "public Void addHeader(String name, String value)",
+      "description": "Adds a header to the request header map.",
+      "methodParams": [
+        {
+          "name": "name",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "addParameter",
+      "signature": "public Void addParameter(String name, String value)",
+      "description": "Adds a parameter to the request params map.",
+      "methodParams": [
+        {
+          "name": "name",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Represents an object used to pass data from an HTTP",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_restrequest.htm"
+}

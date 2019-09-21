@@ -1,0 +1,40 @@
+{
+  "name": "EmptyRecycleBinResult",
+  "namespace": "Database",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getErrors",
+      "signature": "public Database.Errors[] getErrors()",
+      "description": "If an error occurred during the delete for this record or sObject, returns a list of one or more Database.Error objects. If no errors occurred, the returned list is empty.",
+      "methodParams": [],
+      "datatype": "Database.Errors"
+    },
+    {
+      "name": "getId",
+      "signature": "public ID getId()",
+      "description": "Returns the ID of the record or sObject you attempted to delete.",
+      "methodParams": [],
+      "datatype": "ID"
+    },
+    {
+      "name": "isSuccess",
+      "signature": "public Boolean isSuccess()",
+      "description": "Returns true if the record or sObject was successfully removed from the Recycle Bin; otherwise false.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "The result of the emptyRecycleBin DML operation returned",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_EmptyRecycleBinResult.htm#apex_methods_system_database_EmptyRecycleBinResult"
+}

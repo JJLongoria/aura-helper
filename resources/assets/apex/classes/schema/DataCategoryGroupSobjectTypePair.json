@@ -1,0 +1,67 @@
+{
+  "name": "DataCategoryGroupSobjectTypePair",
+  "namespace": "Schema",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "DataCategoryGroupSobjectTypePair",
+      "signature": "public DataCategoryGroupSobjectTypePair()",
+      "description": "Creates a new instance of the Schema.DataCategoryGroupSobjectTypePair class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "getDataCategoryGroupName",
+      "signature": "public String getDataCategoryGroupName()",
+      "description": "Returns the unique name used by the API to access the data category group.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getSobject",
+      "signature": "public String getSobject()",
+      "description": "Returns the object name associated with the data category group.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setDataCategoryGroupName",
+      "signature": "public String setDataCategoryGroupName(String name)",
+      "description": "Specifies the unique name used by the API to access the data category group.",
+      "methodParams": [
+        {
+          "name": "name",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setSobject",
+      "signature": "public Void setSobject(String sObjectName)",
+      "description": "Sets the sObject associated with the data category group.",
+      "methodParams": [
+        {
+          "name": "sObjectName",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Specifies a category group and an associated object.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DataCategoryGroupSobjectTypePair.htm#apex_class_Schema_DataCategoryGroupSobjectTypePair"
+}

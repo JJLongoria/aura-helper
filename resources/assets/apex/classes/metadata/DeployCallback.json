@@ -1,0 +1,35 @@
+{
+  "name": "DeployCallback",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "handleResult",
+      "signature": "public void handleResult(Metadata.DeployResult var1, Metadata.DeployCallbackContext var2)",
+      "description": "Method that is called when the asynchronous deployment of custom metadata completes.",
+      "methodParams": [
+        {
+          "name": "var1",
+          "datatype": "Metadata.DeployResult"
+        },
+        {
+          "name": "var2",
+          "datatype": "Metadata.DeployCallbackContext"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "An interface for metadata deployment callback",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Metadata_DeployCallback.htm#apex_interface_Metadata_DeployCallback"
+}

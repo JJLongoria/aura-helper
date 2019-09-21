@@ -1,0 +1,31 @@
+{
+  "name": "AsyncSaveCallback",
+  "namespace": "DataSource",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "processSave",
+      "signature": "public void processSave(Database.SaveResult saveResult)",
+      "description": "Override this method to define actions that Salesforce executes after the remote Database.insertAsync or Database.updateAsync operation is completed. For example, based on the results of the remote operation, you can update custom object data or other data that's stored in the Salesforce org.",
+      "methodParams": [
+        {
+          "name": "saveResult",
+          "datatype": "Database.SaveResult"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "A callback class that the Database.insertAsync or Database.updateAsync method references. Salesforce calls this class after",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_AsyncSaveCallback.htm#apex_class_DataSource_AsyncSaveCallback"
+}

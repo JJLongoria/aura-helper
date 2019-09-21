@@ -1,0 +1,47 @@
+{
+  "name": "DescribeLayoutComponent",
+  "namespace": "QuickAction",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDisplayLines",
+      "signature": "public Integer getDisplayLines()",
+      "description": "Returns the vertical lines displayed for a field. Applies to textarea and multi-select picklist fields.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "getTabOrder",
+      "signature": "public Integer getTabOrder()",
+      "description": "Returns the tab order for the item in the row.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "getType",
+      "signature": "public String getType()",
+      "description": "Returns the name of the QuickAction.DescribeLayoutComponent type for this component.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getValue",
+      "signature": "public String getValue()",
+      "description": "Returns the name of the field if the type for QuickAction.DescribeLayoutComponent is textarea.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Represents the smallest unit in a layout—a field",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutcomponent.htm#apex_class_quickaction_describelayoutcomponent"
+}

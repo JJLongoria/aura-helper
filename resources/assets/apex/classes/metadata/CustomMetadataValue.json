@@ -1,0 +1,41 @@
+{
+  "name": "CustomMetadataValue",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "field",
+      "signature": "public String field {get; set;}",
+      "description": "The field name for the custom metadata value.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "value",
+      "signature": "public Object value {get; set;}",
+      "description": "The field value for the custom metadata value.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.CustomMetadataValue.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "Represents custom metadata values for a custom metadata",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_CustomMetadataValue.htm#apex_class_Metadata_CustomMetadataValue"
+}

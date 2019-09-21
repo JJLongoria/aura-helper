@@ -1,0 +1,57 @@
+{
+  "name": "Blob",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "size",
+      "signature": "public Integer size()",
+      "description": "Returns the number of characters in the Blob.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "toPdf",
+      "signature": "public static Blob toPdf(String stringToConvert)",
+      "description": "Creates a binary object out of the given string, encoding it as a PDF file.",
+      "methodParams": [
+        {
+          "name": "stringToConvert",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Blob"
+    },
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Casts the Blob into a String.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "valueOf",
+      "signature": "public static Blob valueOf(String stringToBlob)",
+      "description": "Casts the specified String to a Blob.",
+      "methodParams": [
+        {
+          "name": "stringToBlob",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Blob"
+    }
+  ],
+  "description": "Contains methods for the Blob primitive data type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_blob.htm"
+}

@@ -1,0 +1,57 @@
+{
+  "name": "ProcessWorkitemRequest",
+  "namespace": "Approval",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getAction",
+      "signature": "public String getAction()",
+      "description": "Returns the type of action already associated with the approval request. Valid values are: Approve, Reject, or Removed.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getWorkitemId",
+      "signature": "public String getWorkitemId()",
+      "description": "Returns the ID of the approval request that is in the process of being approved, rejected, or removed.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setAction",
+      "signature": "public Void setAction(String actionType)",
+      "description": "Sets the type of action to take for processing an approval request.",
+      "methodParams": [
+        {
+          "name": "actionType",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setWorkitemId",
+      "signature": "public Void setWorkitemId(String id)",
+      "description": "Sets the ID of the approval request that is being approved, rejected, or removed.",
+      "methodParams": [
+        {
+          "name": "id",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Use the ProcessWorkitemRequest class for processing an approval request after it is submitted.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessWorkitemRequest.htm#apex_ProcessWorkitemRequest"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "DateGranularity",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "DAY",
+    "DAY_IN_MONTH",
+    "FISCAL_PERIOD",
+    "FISCAL_QUARTER",
+    "FISCAL_WEEK",
+    "FISCAL_YEAR",
+    "MONTH",
+    "MONTH_IN_YEAR",
+    "NONE",
+    "QUARTER",
+    "WEEK",
+    "YEAR"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [],
+  "description": "The Reports.DateGranularity enum describes the date interval that is used for grouping.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_dategranularity.htm"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "StandardDateFilterDurationGroup",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getLabel",
+      "signature": "public String getLabel()",
+      "description": "Returns the display label for the standard date filter grouping.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getStandardDateFilterDurations",
+      "signature": "public List<Reports.StandardDateFilterDuration> getStandardDateFilterDurations()",
+      "description": "Returns the standard date filter groupings.",
+      "methodParams": [],
+      "datatype": "List<Reports.StandardDateFilterDuration>"
+    }
+  ],
+  "description": "Contains information about the standard date filter groupings, such as",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardDateFilterDurationGroup.htm#apex_class_reports_StandardDateFilterDurationGroup"
+}

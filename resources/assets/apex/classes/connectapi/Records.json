@@ -1,0 +1,51 @@
+{
+  "name": "Records",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getMotif",
+      "signature": "public static ConnectApi.Motif getMotif(String communityId, String idOrPrefix)",
+      "description": "Get a motif that contains the URLs for a set of small, medium, and large motif icons for a record. It can also contain a base color for the record.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "idOrPrefix",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​Motif"
+    },
+    {
+      "name": "",
+      "signature": "public static ConnectApi.BatchResult[] getMotifBatch(String communityId, List<String> idOrPrefixList)",
+      "description": "Get a motif for a list of objects.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "idOrPrefixList",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "ConnectApi.BatchResult[]"
+    }
+  ],
+  "description": "Access information about record motifs, which are small",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Records_static_methods.htm#apex_ConnectAPI_Records_static_methods"
+}

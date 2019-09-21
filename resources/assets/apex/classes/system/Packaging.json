@@ -1,0 +1,28 @@
+{
+    "name": "Packaging",
+    "namespace": "System",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "isEnum": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "enumValues": [],
+    "fields": [],
+    "constuctors": [],
+    "methods": [
+        {
+        "name": "getCurrentPackageId",
+        "signature": "public String getCurrentPackageId()",
+        "description": "Returns the context packageID in managed and unlocked packages.",
+        "methodParams": [],
+        "datatype": "String"
+      }
+    ],
+    "description": "Contains a method for obtaining information about managed and unlocked packages..",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Packaging.htm"
+}

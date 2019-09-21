@@ -1,0 +1,38 @@
+{
+  "name": "Http",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "send",
+      "signature": "public HttpResponse send(HttpRequest request)",
+      "description": "Sends an HttpRequest and returns the response.",
+      "methodParams": [
+        {
+          "name": "request",
+          "datatype": "System.HttpRequest"
+        }
+      ],
+      "datatype": "System.HttpResponse"
+    },
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Returns a string that displays and identifies the object's properties.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Use the Http class",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_http.htm#apex_classes_restful_http_http"
+}

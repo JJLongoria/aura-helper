@@ -23,21 +23,26 @@ function provideJSCompletion(document, position) {
     let activation = Utils.getActivation(document, position);
     let activationTokens = activation.split('.');
     if (activationTokens[0] === 'v' || activationTokens[0] === 'c' || activationTokens[0] === 'helper') {
+        // Code for completions when user types v. c. or helper.
         let componentStructure = BundleAnalizer.getComponentStructure(document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp'));
         if (activationTokens[0] === 'v') {
+            // Code for completions when user types v.
             if (!config.getConfig().activeAttributeSuggest)
                 return Promise.resolve(undefined);
             items = getAttributes(componentStructure, position, undefined);
         } else if (activationTokens[0] === 'c') {
+            // Code for completions when user types c.
             if (!config.getConfig().activeControllerMethodsSuggest)
                 return Promise.resolve(undefined);
             items = getApexControllerFunctions(componentStructure, position);
         } else if (activationTokens[0] === 'helper') {
+            // Code for completions when user types helper.
             if (!config.getConfig().activeHelperFunctionsSuggest)
                 return Promise.resolve(undefined);
             items = getHelperFunctions(componentStructure, position);
         }
     } else {
+        // Code for completions in othercases
         items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.aura');
     }
     return items;

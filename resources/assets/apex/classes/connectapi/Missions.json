@@ -1,0 +1,91 @@
+{
+  "name": "Missions",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "exportUserMissionsActivities",
+      "signature": "public static ConnectApi.UserMissionActivitiesJob exportUserMissionsActivities(String communityId, String userId)",
+      "description": "Export mission activity for a user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserMissionActivitiesJob"
+    },
+    {
+      "name": "getUserMissionsProgress",
+      "signature": "public static ConnectApi.UserMissionActivityCollection getUserMissionsProgress(String communityId, String userId)",
+      "description": "Get mission activity progress for a user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserMissionActivityCollection"
+    },
+    {
+      "name": "purgeUserMissionsActivities",
+      "signature": "public static ConnectApi.UserMissionActivitiesJob purgeUserMissionsActivities(String communityId, String userId)",
+      "description": "Start a job to purge mission activity for a user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserMissionActivitiesJob"
+    },
+    {
+      "name": "updateUserMissionActivityCount",
+      "signature": "public static ConnectApi.UserMissionActivityStatus updateUserMissionActivityCount(ConnectApi.UserMissionActivityType activityType, Integer activityCount, String communityId, String userId)",
+      "description": "Update the mission activity count for a user.",
+      "methodParams": [
+        {
+          "name": "activityType",
+          "datatype": "ConnectApi.UserMissionActivityType"
+        },
+        {
+          "name": "activityCount",
+          "datatype": "Integer"
+        },
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserMissionActivityStatus"
+    }
+  ],
+  "description": "Export and purge mission activity for users. Get a user’s mission progress. Update",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Missions_static_methods.htm#apex_ConnectAPI_Missions_static_methods"
+}

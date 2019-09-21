@@ -1,0 +1,55 @@
+{
+  "name": "EmailFileAttachment",
+  "namespace": "Messaging",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "body",
+      "signature": "public Blob body {get; set;}",
+      "description": "Gets or sets the attachment itself.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "contenttype",
+      "signature": "public String contenttype {get; set;}",
+      "description": "Gets or sets the attachment's Content-Type.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "filename",
+      "signature": "public String filename {get; set;}",
+      "description": "Gets or sets the name of the file to attach.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "id",
+      "signature": "public Id id {get;}",
+      "description": "Read-Only. Gets the attachment ID.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [
+    {
+      "name": "EmailFileAttachment",
+      "signature": "public EmailFileAttachment()",
+      "description": "Creates a new instance of the Messaging.EmailFileAttachment class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [],
+  "description": "EmailFileAttachment is used in SingleEmailMessage to specify",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_attachment.htm#apex_classes_email_outbound_attachment"
+}

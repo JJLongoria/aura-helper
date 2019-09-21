@@ -1,0 +1,62 @@
+{
+  "name": "FindDuplicatesResult",
+  "namespace": "Datacloud",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "duplicateresults",
+      "signature": "public List<Datacloud.DuplicateResult> duplicateresults",
+      "description": "A list of DuplicateResult objects representing the results of calling FindDuplicates.findDuplicates(sObjects) or FindDuplicatesByIds.findDuplicatesByIds(ids). Elements in the list correspond to sObjects or IDs in the input list.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "errors",
+      "signature": "public List<Database.Error> errors {get; set;}",
+      "description": "A list of Database.Error objects holding errors resulting from calling FindDuplicates.findDuplicates(sObjects) or FindDuplicatesByIds.findDuplicatesByIds(ids).",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "success",
+      "signature": "public Boolean success {get; set;}",
+      "description": "Boolean signifying whether the call to FindDuplicates.findDuplicates(sObjects) or FindDuplicatesByIds.findDuplicatesByIds(ids) was successful.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDuplicateResults",
+      "signature": "public List<Datacloud.DuplicateResult> getDuplicateResults()",
+      "description": "Returns  a list of DuplicateResult objects representing the results of calling FindDuplicates.findDuplicates(sObjects) or FindDuplicatesByIds.findDuplicatesByIds(ids). Elements in the list correspond to sObjects or IDs in the input list.",
+      "methodParams": [],
+      "datatype": "List<DuplicateResult>"
+    },
+    {
+      "name": "getErrors",
+      "signature": "public List<Database.Error> getErrors()",
+      "description": "Returns a list of DatabaseError objects containing errors resulting from calling FindDuplicates.findDuplicates(sObjects) or FindDuplicatesByIds.findDuplicatesByIds(ids), if errors were encountered.",
+      "methodParams": [],
+      "datatype": "List<Database.Error>"
+    },
+    {
+      "name": "isSuccess",
+      "signature": "public Boolean isSuccess()",
+      "description": "Returns a Boolean signifying whether the call to FindDuplicates.findDuplicates(sObjects) or FindDuplicatesByIds.findDuplicatesByIds(ids) was successful.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Output for rule-based searches for duplicate records. FindDuplicatesResult contains results of detecting duplicates",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FindDuplicatesResult.htm#apex_class_Datacloud_FindDuplicatesResult"
+}

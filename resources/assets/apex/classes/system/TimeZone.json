@@ -1,0 +1,64 @@
+{
+  "name": "TimeZone",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDisplayName",
+      "signature": "public String getDisplayName()",
+      "description": "Returns this time zone’s display name.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getID",
+      "signature": "public String getID()",
+      "description": "Returns this time zone’s ID.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getOffset",
+      "signature": "public Integer getOffset(Datetime date)",
+      "description": "Returns the time zone offset, in milliseconds, of the&nbsp;specified date to the GMT time zone.",
+      "methodParams": [
+        {
+          "name": "date",
+          "datatype": "Datetime"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "getTimeZone",
+      "signature": "public static TimeZone getTimeZone(String timeZoneIdString)",
+      "description": "Returns the time zone corresponding to the specified time zone ID.",
+      "methodParams": [
+        {
+          "name": "timeZoneIdString",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "TimeZone"
+    },
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Returns the string representation of this time zone.",
+      "methodParams": [],
+      "datatype": "String"
+    }
+  ],
+  "description": "Represents a time zone. Contains methods for creating a",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_timezone.htm#apex_methods_system_timezone"
+}

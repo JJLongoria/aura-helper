@@ -1,0 +1,27 @@
+{
+    "name": "QueryAggregation",
+    "namespace": "Datasource",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "isEnum": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "enumValues": [
+        "AVG",
+        "COUNT",
+        "MAX",
+        "MIN",
+        "NONE",
+        "SUM"
+    ],
+    "fields": [],
+    "constuctors": [],
+    "methods": [],
+    "description": "Specifies how to aggregate a column in a query.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_QueryAggregation.htm"
+  }

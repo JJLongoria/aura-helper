@@ -1,0 +1,18 @@
+{
+  "name": "ExternalEmailServices",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [],
+  "description": "Access information about integration with external email services, such as sending email",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ExternalEmailService_static_methods.htm#apex_ConnectAPI_ExternalEmailService_static_methods"
+}

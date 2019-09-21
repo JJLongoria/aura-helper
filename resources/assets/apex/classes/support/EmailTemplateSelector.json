@@ -1,0 +1,33 @@
+{
+  "name": "EmailTemplateSelector",
+  "namespace": "Support",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDefaultTemplateId",
+      "signature": "public ID getDefaultTemplateId(ID caseId)",
+      "description": "Returns the ID of the email template to preload for the case currently being viewed in the case feed using the specified case ID.",
+      "methodParams": [
+        {
+          "name": "caseId",
+          "datatype": "ID"
+        }
+      ],
+      "datatype": "ID"
+    }
+  ],
+  "description": "The Support.EmailTemplateSelector interface",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_email_template_selector.htm#apex_email_template_selector"
+}

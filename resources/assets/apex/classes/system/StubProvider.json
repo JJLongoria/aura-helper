@@ -1,0 +1,51 @@
+{
+  "name": "StubProvider",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "handleMethodCall",
+      "signature": "public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, System.Type returnType, List<System.Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs)",
+      "description": "Use this method to define the behavior of each method of a stubbed class.",
+      "methodParams": [
+        {
+          "name": "stubbedObject",
+          "datatype": "Object"
+        },
+        {
+          "name": "stubbedMethodName",
+          "datatype": "String"
+        },
+        {
+          "name": "returnType",
+          "datatype": "System.Type"
+        },
+        {
+          "name": "listOfParamTypes",
+          "datatype": "List<System.Type>"
+        },
+        {
+          "name": "listOfParamNames",
+          "datatype": "List<String>"
+        },
+        {
+          "name": "listOfArgs",
+          "datatype": "List<Object>"
+        }
+      ],
+      "datatype": "Object"
+    }
+  ],
+  "description": "StubProvider is a callback",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_System_StubProvider.htm#apex_interface_System_StubProvider"
+}

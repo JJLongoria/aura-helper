@@ -1,0 +1,89 @@
+{
+  "name": "Version",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "Version",
+      "signature": "public Version(Integer major, Integer minor)",
+      "description": "Creates a new instance of the Version class as a two-part package version using the specified major and minor version numbers.",
+      "methodParams": [
+        {
+          "name": "major",
+          "datatype": "Integer"
+        },
+        {
+          "name": "minor",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "Version",
+      "signature": "public Version(Integer major, Integer minor, Integer patch)",
+      "description": "Creates a new instance of the Version class as a three-part package version using the specified major, minor, and patch version numbers.",
+      "methodParams": [
+        {
+          "name": "major",
+          "datatype": "Integer"
+        },
+        {
+          "name": "minor",
+          "datatype": "Integer"
+        },
+        {
+          "name": "patch",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "compareTo",
+      "signature": "public Integer compareTo(System.Version version)",
+      "description": "Compares the current version with the specified version.",
+      "methodParams": [
+        {
+          "name": "version",
+          "datatype": "System.Version"
+        }
+      ],
+      "datatype": "Integer"
+    },
+    {
+      "name": "major",
+      "signature": "public Integer major()",
+      "description": "Returns the major package version of the of the calling code.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "minor",
+      "signature": "public Integer minor()",
+      "description": "Returns the minor package version of the calling code.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "patch",
+      "signature": "public Integer patch()",
+      "description": "Returns the patch package version of the calling code or null if there is no patch version.",
+      "methodParams": [],
+      "datatype": "Integer"
+    }
+  ],
+  "description": "Use the Version methods to get the version of a managed",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_version.htm#apex_methods_system_version"
+}

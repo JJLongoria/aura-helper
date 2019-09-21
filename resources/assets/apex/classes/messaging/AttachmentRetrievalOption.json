@@ -1,0 +1,24 @@
+{
+    "name": "AttachmentRetrievalOption",
+    "namespace": "Messaging",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "extendsType": "",
+    "isInterface": false,
+    "isEnum": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "enumValues": [
+        "METADATA_ONLY",
+        "METADATA_WITH_BODY",
+        "NONE"
+    ],
+    "fields": [],
+    "constuctors": [],
+    "methods": [],
+    "description": "Provides options for including attachment metadata only, attachment metadata and content, or excluding attachments.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Messaging_AttachmentRetrievalOptionEnum.htm"
+  }

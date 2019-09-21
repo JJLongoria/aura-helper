@@ -1,0 +1,59 @@
+{
+  "name": "AppMenu",
+  "namespace": "AppLauncher",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "setAppVisibility",
+      "signature": "public static void setAppVisibility(Id appMenuItemId, Boolean isVisible)",
+      "description": "Shows or hides specific apps in the App Launcher.",
+      "methodParams": [
+        {
+          "name": "appMenuItemId",
+          "datatype": "Id"
+        },
+        {
+          "name": "isVisible",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setOrgSortOrder",
+      "signature": "public static void setOrgSortOrder(List<Id> appIds)",
+      "description": "Sets the organization-wide default sort order for the App Launcher based on a List of app menu item IDs in the desired order.",
+      "methodParams": [
+        {
+          "name": "appIds",
+          "datatype": "List<Id>"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setUserSortOrder",
+      "signature": "public static void setUserSortOrder(List<Id> appIds)",
+      "description": "Sets an individual user’s default sort order for the App Launcher based on a List of app menu item IDs in the desired order.",
+      "methodParams": [
+        {
+          "name": "appIds",
+          "datatype": "List<Id>"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Contains methods to set the appearance of apps in the App Launcher.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_AppMenu.htm#apex_class_applauncher_AppMenu"
+}

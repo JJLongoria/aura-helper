@@ -1,0 +1,30 @@
+{
+  "name": "SOAPType",
+  "namespace": "Schema",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "String",
+    "Boolean",
+    "Integer",
+    "Double",
+    "ID",
+    "Date",
+    "DateTime",
+    "base64binary",
+    "Time"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [],
+  "description": "A Schema.SOAPType enum value is returned by the field describe result getSoapType method.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Schema_SOAPType.htm"
+}

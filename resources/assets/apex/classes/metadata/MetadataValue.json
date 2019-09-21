@@ -1,0 +1,26 @@
+{
+  "name": "MetadataValue",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.MetadataValue.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "An abstract base class that represents a custom metadata component",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_MetadataValue.htm#apex_class_Metadata_MetadataValue"
+}

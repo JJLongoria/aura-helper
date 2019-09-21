@@ -1,0 +1,33 @@
+{
+  "name": "OpportunityTerritory2AssignmentFilter",
+  "namespace": "TerritoryMgmt",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getOpportunityTerritory2Assignments",
+      "signature": "public Map<Id,Id> getOpportunityTerritory2Assignments(List<Id> opportunityIds)",
+      "description": "Returns the mapping of opportunities to territory IDs. When Salesforce invokes this method, it supplies the list of opportunity IDs, except for opportunities that have been excluded from territory assignment (IsExcludedFromTerritory2Filter=false).",
+      "methodParams": [
+        {
+          "name": "opportunityIds",
+          "datatype": "List<Id>"
+        }
+      ],
+      "datatype": "Map<Id,Id>"
+    }
+  ],
+  "description": "Apex interface that allows an implementing class to assign a single",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_support_milestonetriggertimecalculator.htm#apex_interface_support_milestonetriggertimecalculator"
+}

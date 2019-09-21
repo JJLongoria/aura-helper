@@ -1,0 +1,26 @@
+{
+  "name": "InboundEnvelope",
+  "namespace": "Messaging",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "fromAddress",
+      "signature": "public String fromAddress {get; set;}",
+      "description": "The name that appears in the From field of the envelope, if any.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [],
+  "description": "The InboundEnvelope object stores the envelope information",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_envelope.htm#apex_classes_email_inbound_envelope"
+}

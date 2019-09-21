@@ -1,0 +1,183 @@
+{
+  "name": "Messaging",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "extractInboundEmail",
+      "signature": "public static Messaging.InboundEmail extractInboundEmail(Object source, Boolean includeForwardedAttachments)",
+      "description": "Use this method in your email service code to control how to parse and process forwarded or attached emails. Returns an instance of Messaging.InboundEmail from a stream of data that is in RFC822 format. The data stream can be a forwarded email in an attachment to an existing InboundEmail, or a stream from another source.",
+      "methodParams": [
+        {
+          "name": "source",
+          "datatype": "Object"
+        },
+        {
+          "name": "includeForwardedAttachments",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Messaging.InboundEmail"
+    },
+    {
+      "name": "reserveMassEmailCapacity",
+      "signature": "public Void reserveMassEmailCapacity(Integer amountReserved)",
+      "description": "Reserves email capacity to send mass email to the specified number of email addresses, after the current transaction commits.",
+      "methodParams": [
+        {
+          "name": "amountReserved",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "reserveSingleEmailCapacity",
+      "signature": "public Void reserveSingleEmailCapacity(Integer amountReserved)",
+      "description": "Reserves email capacity to send single email to the specified number of email addresses, after the current transaction commits.",
+      "methodParams": [
+        {
+          "name": "amountReserved",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "sendEmail",
+      "signature": "public Messaging.SendEmailResult[] sendEmail(Messaging.Email[] emails, Boolean allOrNothing)",
+      "description": "Sends the list of up to 10 emails instantiated with either SingleEmailMessage or MassEmailMessage and returns a list of SendEmailResult objects. When org preferences are set to save EmailMessage objects and a trigger is defined for EmailMessage objects, the trigger is fired for each SingleEmailMessage individually.",
+      "methodParams": [
+        {
+          "name": "emails",
+          "datatype": "Messaging.Email[]"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Messaging.SendEmailResult[]"
+    },
+    {
+      "name": "sendEmailMessage",
+      "signature": "public Messaging.SendEmailResult[] sendEmailMessage(List<ID> emailMessageIds, Boolean allOrNothing)",
+      "description": "Sends up to 10 draft email messages as defined by the specified email message IDs and returns a list of SendEmailResult objects.",
+      "methodParams": [
+        {
+          "name": "emailMessageIds",
+          "datatype": "List<ID>"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Messaging.SendEmailResult[]"
+    },
+    {
+      "name": "renderEmailTemplate",
+      "signature": "public static List<Messaging.RenderEmailTemplateBodyResult> renderEmailTemplate(String whoId, String whatId, List<String> bodies)",
+      "description": "Replaces merge fields in text bodies of email templates with values from Salesforce records. Returns an array of RenderEmailTemplateBodyResult objects, each of which corresponds to an element in the supplied array of text bodies. Each RenderEmailTemplateBodyResult provides a success or failure indication, along with either an error code or the rendered text.",
+      "methodParams": [
+        {
+          "name": "whoId",
+          "datatype": "String"
+        },
+        {
+          "name": "whatId",
+          "datatype": "String"
+        },
+        {
+          "name": "bodies",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "List<Messaging.RenderEmailTemplateBodyResult>"
+    },
+    {
+      "name": "renderStoredEmailTemplate",
+      "signature": "public static Messaging.SingleEmailMessage renderStoredEmailTemplate(String templateId, String whoId, String whatId)",
+      "description": "Renders a text, custom, HTML, or Visualforce email template that exists in the database into an instance of Messaging.SingleEmailMessage. Includes all attachment content in the returned email message.",
+      "methodParams": [
+        {
+          "name": "templateId",
+          "datatype": "String"
+        },
+        {
+          "name": "whoId",
+          "datatype": "String"
+        },
+        {
+          "name": "whatId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Messaging.SingleEmailMessage"
+    },
+    {
+      "name": "renderStoredEmailTemplate",
+      "signature": "public static Messaging.SingleEmailMessage renderStoredEmailTemplate(String templateId, String whoId, String whatId, Messaging.AttachmentRetrievalOption attachmentRetrievalOption)",
+      "description": "Renders a text, custom, HTML, or Visualforce email template that exists in the database into an instance of Messaging.SingleEmailMessage. Provides options for including attachment metadata only, attachment metadata and content, or excluding attachments.",
+      "methodParams": [
+        {
+          "name": "templateId",
+          "datatype": "String"
+        },
+        {
+          "name": "whoId",
+          "datatype": "String"
+        },
+        {
+          "name": "whatId",
+          "datatype": "String"
+        },
+        {
+          "name": "attachmentRetrievalOption",
+          "datatype": "Messaging.AttachmentRetrievalOption"
+        }
+      ],
+      "datatype": "Messaging.SingleEmailMessage"
+    },
+    {
+      "name": "renderStoredEmailTemplate",
+      "signature": "public static Messaging.SingleEmailMessage renderStoredEmailTemplate(String templateId, String whoId, String whatId, Messaging.AttachmentRetrievalOption attachmentRetrievalOption, Boolean updateEmailTemplateUsage)",
+      "description": "Renders a text, custom, HTML, or Visualforce email template that exists in the database into an instance of Messaging.SingleEmailMessage. Provides options for including attachment metadata only, attachment metadata and content, or excluding attachments.",
+      "methodParams": [
+        {
+          "name": "templateId",
+          "datatype": "String"
+        },
+        {
+          "name": "whoId",
+          "datatype": "String"
+        },
+        {
+          "name": "whatId",
+          "datatype": "String"
+        },
+        {
+          "name": "attachmentRetrievalOption",
+          "datatype": "Messaging.AttachmentRetrievalOption"
+        },
+        {
+          "name": "updateEmailTemplateUsage",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Messaging.SingleEmailMessage"
+    }
+  ],
+  "description": "Contains messaging methods used when sending a single or",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_messaging.htm#apex_classes_email_outbound_messaging"
+}

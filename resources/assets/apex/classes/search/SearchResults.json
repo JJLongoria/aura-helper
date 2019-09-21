@@ -1,0 +1,33 @@
+{
+  "name": "SearchResults",
+  "namespace": "Search",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "get",
+      "signature": "public List<Search.SearchResult> get(String sObjectType)",
+      "description": "Returns a list of Search.SearchResult objects that contain an sObject of the specified type.",
+      "methodParams": [
+        {
+          "name": "sObjectType",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "List<Search.SearchResult>"
+    }
+  ],
+  "description": "Wraps the results returned by the Search.find(String​) method.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SearchResults.htm#apex_class_Search_SearchResults"
+}

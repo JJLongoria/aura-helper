@@ -1,0 +1,46 @@
+{
+  "name": "Action",
+  "namespace": "ApexPages",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "Action",
+      "signature": "public Action(String action)",
+      "description": "Creates a new instance of the ApexPages.Action class using the specified action.",
+      "methodParams": [
+        {
+          "name": "action",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "getExpression",
+      "signature": "public String getExpression()",
+      "description": "Returns the expression that is evaluated when the action is invoked.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "invoke",
+      "signature": "public System.PageReference invoke()",
+      "description": "Invokes the action.",
+      "methodParams": [],
+      "datatype": "System.PageReference"
+    }
+  ],
+  "description": "You can use ApexPages.Action to create an action method that you can use in a Visualforce custom controller or controller extension.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_action.htm#apex_pages_action"
+}

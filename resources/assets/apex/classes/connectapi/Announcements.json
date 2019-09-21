@@ -1,0 +1,127 @@
+{
+  "name": "Announcements",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "deleteAnnouncement",
+      "signature": "public static void deleteAnnouncement(String communityId, String announcementId)",
+      "description": "Delete an announcement.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "announcementId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "getAnnouncement",
+      "signature": "public static ConnectApi.Announcement getAnnouncement(String communityId, String announcementId)",
+      "description": "Get an announcement.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "announcementId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.Announcement"
+    },
+    {
+      "name": "getAnnouncements",
+      "signature": "public static ConnectApi.AnnouncementPage getAnnouncements(String communityId, String parentId)",
+      "description": "Get the first page of announcements.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "parentId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.AnnouncementPage"
+    },
+    {
+      "name": "getAnnouncements",
+      "signature": "public static ConnectApi.AnnouncementPage getAnnouncements(String communityId, String parentId, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of announcements.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "parentId",
+          "datatype": "String"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.AnnouncementPage"
+    },
+    {
+      "name": "postAnnouncement",
+      "signature": "public static ConnectApi.Announcement postAnnouncement(String communityId, ConnectApi.AnnouncementInput announcement)",
+      "description": "Post an announcement.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "announcement",
+          "datatype": "ConnectApi.AnnouncementInput"
+        }
+      ],
+      "datatype": "ConnectApi.Announcement"
+    },
+    {
+      "name": "updateAnnouncement",
+      "signature": "public static ConnectApi.Announcement updateAnnouncement(String communityId, String announcementId, Datetime expirationDate)",
+      "description": "Update the expiration date of an announcement.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "announcementId",
+          "datatype": "String"
+        },
+        {
+          "name": "expirationDate",
+          "datatype": "Datetime"
+        }
+      ],
+      "datatype": "ConnectApi.Announcement"
+    }
+  ],
+  "description": "Access information about announcements and post announcements.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Announcements_static_methods.htm#apex_ConnectAPI_Annoucements_static_methods"
+}

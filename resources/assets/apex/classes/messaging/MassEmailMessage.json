@@ -1,0 +1,63 @@
+{
+  "name": "MassEmailMessage",
+  "namespace": "Messaging",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "MassEmailMessage",
+      "signature": "public MassEmailMessage()",
+      "description": "Creates a new instance of the Messaging.MassEmailMessage class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "setDescription",
+      "signature": "public Void setDescription(String description)",
+      "description": "The description of the email.",
+      "methodParams": [
+        {
+          "name": "description",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTargetObjectIds",
+      "signature": "public Void setTargetObjectIds(ID[] targetObjectIds)",
+      "description": "A list of IDs of the contacts, leads, or users to which the email will be sent. The IDs you specify set the context and ensure that merge fields in the template contain the correct data. The objects must be of the same type (all contacts, all leads, or all users).",
+      "methodParams": [
+        {
+          "name": "targetObjectIds",
+          "datatype": "ID[]"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setWhatIds",
+      "signature": "public Void setWhatIds(ID[] whatIds)",
+      "description": "Optional. If you specify a list of contacts for the targetObjectIds field, you can specify a list of whatIds as well. This helps to further ensure that merge fields in the template contain the correct data.",
+      "methodParams": [
+        {
+          "name": "whatIds",
+          "datatype": "ID[]"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Contains methods for sending mass email.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_mass.htm#apex_classes_email_outbound_mass"
+}

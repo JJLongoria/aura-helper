@@ -1,0 +1,95 @@
+{
+  "name": "ProcessSubmitRequest",
+  "namespace": "Approval",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getObjectId",
+      "signature": "public String getObjectId()",
+      "description": "Returns the ID of the record that has been submitted for approval. For example, it can return an account, contact, or custom object record.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "",
+      "signature": "public String getProcessDefinitionNameOrId()",
+      "description": "Returns the developer name or ID of the process definition.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "",
+      "signature": "public Boolean getSkipEntryCriteria()",
+      "description": "If getProcessDefinitionNameOrId() returns a value other than null, getSkipEntryCriteria() determines whether to evaluate the entry criteria for the process (true) or not (false).",
+      "methodParams": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getSubmitterId",
+      "signature": "public String getSubmitterId()",
+      "description": "Returns the user ID of the submitter requesting the approval record. The user must be one of the allowed submitters in the process definition setup.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setObjectId",
+      "signature": "public Void setObjectId(String recordId)",
+      "description": "Sets the ID of the record to be submitted for approval. For example, it can specify an account, contact, or custom object record.",
+      "methodParams": [
+        {
+          "name": "recordId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setProcessDefinitionNameOrId",
+      "signature": "public Void setProcessDefinitionNameOrId(String nameOrId)",
+      "description": "Sets the developer name or ID of the process definition to be evaluated.",
+      "methodParams": [
+        {
+          "name": "nameOrId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setSkipEntryCriteria",
+      "signature": "public Void setSkipEntryCriteria(Boolean skipEntryCriteria)",
+      "description": "If the process definition name or ID is not null, setSkipEntryCriteria() determines whether to evaluate the entry criteria for the process (true) or not (false).",
+      "methodParams": [
+        {
+          "name": "skipEntryCriteria",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setSubmitterId",
+      "signature": "public Void setSubmitterId(String userID)",
+      "description": "Sets the user ID of the submitter requesting the approval record. The user must be one of the allowed submitters in the process definition setup. If you don’t set a submitter ID, the process uses the current user as the submitter.",
+      "methodParams": [
+        {
+          "name": "userID",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Use the ProcessSubmitRequest class to submit a",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessSubmitRequest.htm#apex_ProcessSubmitRequest"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "InboundEmailResult",
+  "namespace": "Messaging",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "message",
+      "signature": "public String message {get; set;}",
+      "description": "A message that Salesforce returns in the body of a reply email. This field can be populated with text irrespective of the value returned by the Success field.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [],
+  "description": "The InboundEmailResult object is used to return the result",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_result.htm#apex_classes_email_inbound_result"
+}

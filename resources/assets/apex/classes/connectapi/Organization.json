@@ -1,0 +1,26 @@
+{
+  "name": "Organization",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getSettings",
+      "signature": "public static ConnectApi. OrganizationSettings getSettings()",
+      "description": "Get information about the context user and the org, including which features are enabled.",
+      "methodParams": [],
+      "datatype": "ConnectApi.OrganizationSettings"
+    }
+  ],
+  "description": "Access information about an org.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Organization_static_methods.htm#apex_ConnectAPI_Organization_static_methods"
+}

@@ -1,0 +1,31 @@
+{
+  "name": "InstallHandler",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "onInstall",
+      "signature": "public Void onInstall(InstallContext context)",
+      "description": "Specifies the actions to be performed on install/upgrade.",
+      "methodParams": [
+        {
+          "name": "context",
+          "datatype": "System.InstallContext"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Enables custom code to run after a managed package installation or upgrade.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_install_handler.htm#apex_install_handler"
+}

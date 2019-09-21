@@ -1,0 +1,87 @@
+{
+  "name": "SamlJitHandler",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "createUser",
+      "signature": "public User createUser(Id samlSsoProviderId, Id communityId, Id portalId, String federationId, Map<String,String> attributes, String assertion)",
+      "description": "Returns a User object using the specified Federation ID. The User object corresponds to the user information and may be a new user that hasn’t t been inserted in the database or may represent an existing user record in the database.",
+      "methodParams": [
+        {
+          "name": "samlSsoProviderId",
+          "datatype": "Id"
+        },
+        {
+          "name": "communityId",
+          "datatype": "Id"
+        },
+        {
+          "name": "portalId",
+          "datatype": "Id"
+        },
+        {
+          "name": "federationId",
+          "datatype": "String"
+        },
+        {
+          "name": "attributes",
+          "datatype": "Map<String,String>"
+        },
+        {
+          "name": "assertion",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "User"
+    },
+    {
+      "name": "updateUser",
+      "signature": "public void updateUser(Id userId, Id samlSsoProviderId, Id communityId, Id portalId, String federationId, Map<String,String> attributes, String assertion)",
+      "description": "Updates the specified user’s information. This method is called if the user has logged in before with SAML single sign-on and then logs in again, or if your application is using the Existing User Linking URL.",
+      "methodParams": [
+        {
+          "name": "userId",
+          "datatype": "Id"
+        },
+        {
+          "name": "samlSsoProviderId",
+          "datatype": "Id"
+        },
+        {
+          "name": "communityId",
+          "datatype": "Id"
+        },
+        {
+          "name": "portalId",
+          "datatype": "Id"
+        },
+        {
+          "name": "federationId",
+          "datatype": "String"
+        },
+        {
+          "name": "attributes",
+          "datatype": "Map<String,String>"
+        },
+        {
+          "name": "assertion",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Use this interface to control and customize Just-in-Time user",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Auth_SamlJitHandler.htm#apex_interface_Auth_SamlJitHandler"
+}

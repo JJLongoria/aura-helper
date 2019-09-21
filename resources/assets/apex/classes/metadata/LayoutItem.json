@@ -1,0 +1,125 @@
+{
+  "name": "LayoutItem",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "analyticsCloudComponent",
+      "signature": "public Metadata.AnalyticsCloudComponentLayoutItem analyticsCloudComponent {get; set;}",
+      "description": "A Wave Analytics dashboard component on a page.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "behavior",
+      "signature": "public Metadata.UiBehavior behavior {get; set;}",
+      "description": "Determines the field behavior.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "canvas",
+      "signature": "public String canvas {get; set;}",
+      "description": "References a canvas app.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "component",
+      "signature": "public String component {get; set;}",
+      "description": "References a component.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "customLink",
+      "signature": "public String customLink {get; set;}",
+      "description": "The custom link reference.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "emptySpace",
+      "signature": "public Boolean emptySpace {get; set;}",
+      "description": "Controls if this layout item is a blank space.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "field",
+      "signature": "public String field {get; set;}",
+      "description": "The field name reference, relative to the layout, for example “Description” or “MyField__c”.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "height",
+      "signature": "public Integer height {get; set;}",
+      "description": "For s-controls and pages only, the height in pixels.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "page_x",
+      "signature": "public String page_x {get; set;}",
+      "description": "Reference to a Visualforce page.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "reportChartComponent",
+      "signature": "public Metadata.ReportChartComponentLayoutItem reportChartComponent {get; set;}",
+      "description": "Refers to a report chart that you can add to a standard or custom object page.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "scontrol",
+      "signature": "public String scontrol {get; set;}",
+      "description": "Reference to an s-control.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "showLabel",
+      "signature": "public Boolean showLabel {get; set;}",
+      "description": "For s-control and pages only, whether to show the label.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "showScrollbars",
+      "signature": "public Boolean showScrollbars {get; set;}",
+      "description": "For s-control and pages only, whether to show scrollbars.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "width",
+      "signature": "public String width {get; set;}",
+      "description": "For s-control and pages only, the width in pixels or percent. Pixel values are simply the number of pixels, for example, 500. Percentage values must include the percent sign, for example, 20%.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the Metadata.LayoutItem.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "Represents the valid values that define a layout",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_LayoutItem.htm#apex_class_Metadata_LayoutItem"
+}

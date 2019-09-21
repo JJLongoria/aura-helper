@@ -1,0 +1,31 @@
+{
+  "name": "FindDuplicates",
+  "namespace": "Datacloud",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "findDuplicates",
+      "signature": "public static List<Datacloud.FindDuplicatesResult> findDuplicates(List<SObject> sObjects)",
+      "description": "Identifies duplicates for sObjects provided and returns a list of FindDuplicatesResult objects.",
+      "methodParams": [
+        {
+          "name": "sObjects",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "List<FindDuplicatesResult>"
+    }
+  ],
+  "description": "Performs rule-based searches for duplicate records. The input is an",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FindDuplicates.htm#apex_class_Datacloud_FindDuplicates"
+}

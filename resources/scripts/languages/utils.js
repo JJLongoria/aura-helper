@@ -16,6 +16,11 @@ class Utils {
             return tokens[index + 1];
     }
 
+    static getTwoNextToken(tokens, index) {
+        if (index + 2 < tokens.length)
+            return tokens[index + 2];
+    }
+
     static getLastToken(tokens, index) {
         if (index - 1 >= 0)
             return tokens[index - 1];

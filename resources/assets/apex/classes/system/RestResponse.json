@@ -1,0 +1,65 @@
+{
+  "name": "RestResponse",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "responseBody",
+      "signature": "public Blob responseBody {get; set;}",
+      "description": "Returns or sets the body of the response.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "headers",
+      "signature": "public Map<String, String> headers {get; set;}",
+      "description": "Returns the headers to be sent to the response.",
+      "methodParams": [],
+      "datatype": "void"
+    },
+    {
+      "name": "statusCode",
+      "signature": "public Integer statuscode {get; set;}",
+      "description": "Returns or sets the response status code.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "constuctors": [
+    {
+      "name": "RestResponse",
+      "signature": "public RestResponse()",
+      "description": "Creates a new instance of the System.RestResponse class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "addHeader",
+      "signature": "public Void addHeader(String name, String value)",
+      "description": "Adds a header to the response header map.",
+      "methodParams": [
+        {
+          "name": "name",
+          "datatype": "String"
+        },
+        {
+          "name": "value",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Represents an object used to pass data from an Apex",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_restresponse.htm#apex_methods_system_restresponse"
+}

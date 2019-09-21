@@ -1,0 +1,55 @@
+{
+  "name": "Security",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "stripInaccessible",
+      "signature": "public static System.SObjectAccessDecision stripInaccessible(System.AccessType accessCheckType, List<SObject> sourceRecords, Boolean enforceRootObjectCRUD)",
+      "description": "Creates a list of sObjects from the source records, which are stripped of fields that fail the field-level security checks for the current user. The method also provides an option to enforce an object-level access check.",
+      "methodParams": [
+        {
+          "name": "accessCheckType",
+          "datatype": "System.AccessType"
+        },
+        {
+          "name": "sourceRecords",
+          "datatype": "List<SObject>"
+        },
+        {
+          "name": "enforceRootObjectCRUD",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "System.SObjectAccessDecision"
+    },
+    {
+      "name": "stripInaccessible",
+      "signature": "public static System.SObjectAccessDecision stripInaccessible(System.AccessType accessCheckType, List<SObject> sourceRecords)",
+      "description": "Creates a list of sObjects from the source records, which are stripped of fields that fail the field-level security checks for the current user.",
+      "methodParams": [
+        {
+          "name": "accessCheckType",
+          "datatype": "System.AccessType"
+        },
+        {
+          "name": "sourceRecords",
+          "datatype": "List<SObject>"
+        }
+      ],
+      "datatype": "System.SObjectAccessDecision"
+    }
+  ],
+  "description": "Contains methods to securely implement Apex",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Security.htm#apex_class_System_Security"
+}

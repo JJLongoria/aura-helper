@@ -1,0 +1,33 @@
+{
+  "name": "SendEmailResult",
+  "namespace": "Messaging",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getErrors",
+      "signature": "public SendEmailError[] getErrors()",
+      "description": "If an error occurred during the sendEmail method, a SendEmailError object is returned.",
+      "methodParams": [],
+      "datatype": "Messaging.SendEmailError[]"
+    },
+    {
+      "name": "isSuccess",
+      "signature": "public Boolean isSuccess()",
+      "description": "Indicates whether the email was successfully submitted for delivery (true) or not (false). Even if isSuccess is true, it does not mean the intended recipients received the email, as there could have been a problem with the email address or it could have bounced or been blocked by a spam blocker.",
+      "methodParams": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "Contains the result of sending an email message.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_sendemailresult.htm#apex_classes_email_outbound_sendemailresult"
+}

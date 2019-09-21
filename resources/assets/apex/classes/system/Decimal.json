@@ -1,0 +1,213 @@
+{
+  "name": "Decimal",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "abs",
+      "signature": "public Decimal abs()",
+      "description": "Returns the absolute value of the Decimal.",
+      "methodParams": [],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "divide",
+      "signature": "public Decimal divide(Decimal divisor, Integer scale)",
+      "description": "Divides this Decimal by the specified divisor, and sets the scale, that is, the number of decimal places, of the result using the specified scale.",
+      "methodParams": [
+        {
+          "name": "divisor",
+          "datatype": "Decimal"
+        },
+        {
+          "name": "scale",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "divide",
+      "signature": "public Decimal divide(Decimal divisor, Integer scale, System.RoundingMode roundingMode)",
+      "description": "Divides this Decimal by the specified divisor, sets the scale, that is, the number of decimal places, of the result using the specified scale, and if necessary, rounds the value using the rounding mode.",
+      "methodParams": [
+        {
+          "name": "divisor",
+          "datatype": "Decimal"
+        },
+        {
+          "name": "scale",
+          "datatype": "Integer"
+        },
+        {
+          "name": "roundingMode",
+          "datatype": "System.RoundingMode"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "doubleValue",
+      "signature": "public Double doubleValue()",
+      "description": "Returns the Double value of this Decimal.",
+      "methodParams": [],
+      "datatype": "Double"
+    },
+    {
+      "name": "format",
+      "signature": "public String format()",
+      "description": "Returns the String value of this Decimal using the locale of the context user.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "intValue",
+      "signature": "public Integer intValue()",
+      "description": "Returns the Integer value of this Decimal.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "longValue",
+      "signature": "public Long longValue()",
+      "description": "Returns the Long value of this Decimal.",
+      "methodParams": [],
+      "datatype": "Long"
+    },
+    {
+      "name": "pow",
+      "signature": "public Decimal pow(Integer exponent)",
+      "description": "Returns the value of this decimal raised to the power of the specified exponent.",
+      "methodParams": [
+        {
+          "name": "exponent",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "precision",
+      "signature": "public Integer precision()",
+      "description": "Returns the total number of digits for the Decimal.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "round",
+      "signature": "public Long round()",
+      "description": "Returns the rounded approximation of this Decimal. The number  is rounded to zero decimal places using half-even rounding mode, that  is, it rounds towards the “nearest neighbor” unless both neighbors are equidistant, in which case, this mode rounds towards the even neighbor.",
+      "methodParams": [],
+      "datatype": "Long"
+    },
+    {
+      "name": "round",
+      "signature": "public Long round(System.RoundingMode roundingMode)",
+      "description": "Returns the rounded approximation of this Decimal. The number  is rounded to zero decimal places using the rounding mode specified by the rounding mode.",
+      "methodParams": [
+        {
+          "name": "roundingMode",
+          "datatype": "System.RoundingMode"
+        }
+      ],
+      "datatype": "Long"
+    },
+    {
+      "name": "scale",
+      "signature": "public Integer scale()",
+      "description": "Returns the scale of the Decimal, that is, the number of decimal  places.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "setScale",
+      "signature": "public Decimal setScale(Integer scale)",
+      "description": "Returns the Decimal scaled to the specified number of decimal places, using half-even rounding, if necessary. Half-even rounding mode rounds toward the “nearest neighbor.” If both neighbors are equidistant, the number is rounded toward the even neighbor.",
+      "methodParams": [
+        {
+          "name": "scale",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "setScale",
+      "signature": "public Decimal setScale(Integer scale, System.RoundingMode roundingMode)",
+      "description": "Returns the Decimal scaled to the specified number of decimal places, using the specified rounding mode, if necessary.",
+      "methodParams": [
+        {
+          "name": "scale",
+          "datatype": "Integer"
+        },
+        {
+          "name": "roundingMode",
+          "datatype": "System.RoundingMode"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "stripTrailingZeros",
+      "signature": "public Decimal stripTrailingZeros()",
+      "description": "Returns the Decimal with any trailing zeros removed.",
+      "methodParams": [],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "toPlainString",
+      "signature": "public String toPlainString()",
+      "description": "Returns the String value of this Decimal, without using scientific notation.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "valueOf",
+      "signature": "public static Decimal valueOf(Double doubleToDecimal)",
+      "description": "Returns a Decimal that contains the value of the specified Double.",
+      "methodParams": [
+        {
+          "name": "doubleToDecimal",
+          "datatype": "Double"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "valueOf",
+      "signature": "public static Decimal valueOf(Long longToDecimal)",
+      "description": "Returns a Decimal that contains the value of the specified Long.",
+      "methodParams": [
+        {
+          "name": "longToDecimal",
+          "datatype": "Long"
+        }
+      ],
+      "datatype": "Decimal"
+    },
+    {
+      "name": "valueOf",
+      "signature": "public static Decimal valueOf(String stringToDecimal)",
+      "description": "Returns a Decimal that contains the value of the specified String. As in Java, the string is interpreted as representing a signed Decimal.",
+      "methodParams": [
+        {
+          "name": "stringToDecimal",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Decimal"
+    }
+  ],
+  "description": "Contains methods for the Decimal primitive data type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_decimal.htm#apex_methods_system_decimal"
+}

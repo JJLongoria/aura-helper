@@ -1,0 +1,39 @@
+{
+  "name": "AccountCreator",
+  "namespace": "ChatterAnswers",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "createAccount",
+      "signature": "public String createAccount(String firstName, String lastName, Id siteAdminId)",
+      "description": "Accepts basic user information and creates an Account record. The implementation of this method returns the account ID.",
+      "methodParams": [
+        {
+          "name": "firstName",
+          "datatype": "String"
+        },
+        {
+          "name": "lastName",
+          "datatype": "String"
+        },
+        {
+          "name": "siteAdminId",
+          "datatype": "ID"
+        }
+      ],
+      "datatype": "String"
+    }
+  ],
+  "description": "Creates Account records that will be associated with Chatter Answers",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_chatteranswers_accountcreator.htm#apex_interface_chatteranswers_accountcreator"
+}

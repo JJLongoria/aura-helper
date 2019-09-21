@@ -1,0 +1,275 @@
+{
+  "name": "UserProfiles",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "deleteBannerPhoto",
+      "signature": "public static Void deleteBannerPhoto(String communityId, String userId)",
+      "description": "Delete a user’s banner photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "deletePhoto",
+      "signature": "public static Void deletePhoto(String communityId, String userId)",
+      "description": "Delete a user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "getBannerPhoto",
+      "signature": "public static ConnectApi.BannerPhoto getBannerPhoto(String communityId, String userId)",
+      "description": "Get a user’s banner photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.BannerPhoto"
+    },
+    {
+      "name": "getPhoto",
+      "signature": "public static ConnectApi.Photo getPhoto(String communityId, String userId)",
+      "description": "Get a user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "getUserProfile",
+      "signature": "public static ConnectApi.UserProfile getUserProfile(String communityId, String userId)",
+      "description": "Get the user profile of the context user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.UserProfile"
+    },
+    {
+      "name": "setBannerPhoto",
+      "signature": "public static ConnectApi.BannerPhoto setBannerPhoto(String communityId, String userId, String fileId, Integer versionNumber)",
+      "description": "Set an uploaded file as a user’s banner photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "fileId",
+          "datatype": "String"
+        },
+        {
+          "name": "versionNumber",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.BannerPhoto"
+    },
+    {
+      "name": "setBannerPhoto",
+      "signature": "public static ConnectApi.BannerPhoto setBannerPhoto(String communityId, String userId, ConnectApi.BinaryInput fileUpload)",
+      "description": "Set a file that hasn’t been uploaded as a user’s banner photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "fileUpload",
+          "datatype": "ConnectApi.Binary​​Input"
+        }
+      ],
+      "datatype": "ConnectApi.BannerPhoto"
+    },
+    {
+      "name": "setBannerPhotoWithAttributes",
+      "signature": "public static ConnectApi.BannerPhoto setBannerPhotoWithAttributes(String communityId, String userId, ConnectApi.BannerPhotoInput bannerPhoto)",
+      "description": "Set and crop an uploaded file as a user’s banner photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "bannerPhoto",
+          "datatype": "ConnectApi.BannerPhotoInput"
+        }
+      ],
+      "datatype": "ConnectApi.BannerPhoto"
+    },
+    {
+      "name": "setBannerPhotoWithAttributes",
+      "signature": "public static ConnectApi.BannerPhoto setBannerPhotoWithAttributes(String communityId, String userId, ConnectApi.BannerPhotoInput bannerPhoto, ConnectApi.BinaryInput fileUpload)",
+      "description": "Set and crop a file that hasn’t been uploaded as a user’s banner photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "bannerPhoto",
+          "datatype": "ConnectApi.BannerPhotoInput"
+        },
+        {
+          "name": "fileUpload",
+          "datatype": "ConnectApi.Binary​​Input"
+        }
+      ],
+      "datatype": "ConnectApi.BannerPhoto"
+    },
+    {
+      "name": "setPhoto",
+      "signature": "public static ConnectApi.Photo setPhoto(String communityId, String userId, String fileId, Integer versionNumber)",
+      "description": "Set an uploaded file as a user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "fileId",
+          "datatype": "String"
+        },
+        {
+          "name": "versionNumber",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "setPhoto",
+      "signature": "public static ConnectApi.Photo setPhoto(String communityId, String userId, ConnectApi.BinaryInput fileUpload)",
+      "description": "Set a file that hasn’t been uploaded as a user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "fileUpload",
+          "datatype": "ConnectApi.Binary​​Input"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "setPhotoWithAttributes",
+      "signature": "public static ConnectApi.Photo setPhotoWithAttributes(String communityId, String userId, ConnectApi.PhotoInput photo)",
+      "description": "Set and crop an uploaded file as a user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "photo",
+          "datatype": "ConnectApi.PhotoInput"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    },
+    {
+      "name": "setPhotoWithAttributes",
+      "signature": "public static ConnectApi.Photo setPhotoWithAttributes(String communityId, String userId, ConnectApi.PhotoInput photo, ConnectApi.BinaryInput fileUpload)",
+      "description": "Set and crop a file that hasn’t been uploaded as a user’s photo.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "userId",
+          "datatype": "String"
+        },
+        {
+          "name": "photo",
+          "datatype": "ConnectApi.PhotoInput"
+        },
+        {
+          "name": "fileUpload",
+          "datatype": "ConnectApi.Binary​​Input"
+        }
+      ],
+      "datatype": "ConnectApi.Photo"
+    }
+  ],
+  "description": "Access user profile data. The user profile data populates the profile page (also called the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_UserProfiles_static_methods.htm#apex_ConnectAPI_UserProfiles_static_methods"
+}

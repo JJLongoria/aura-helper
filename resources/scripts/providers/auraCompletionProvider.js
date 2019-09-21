@@ -15,6 +15,7 @@ const MarkdownString = vscode.MarkdownString;
 const BundleAnalizer = languages.BundleAnalizer;
 const AuraParser = languages.AuraParser;
 const Tokenizer = languages.Tokenizer;
+const langUtils = languages.Utils;
 
 exports.provider = {
     provideCompletionItems(document, position) {
@@ -40,6 +41,7 @@ function provideAuraComponentCompletion(document, position) {
     let similarAuraSnippetsNs = getSimilarSnippetsNS(applicationContext.auraSnippets, activationTokens[0]);
     let similarSldsSnippetsNs = getSimilarSnippetsNS(applicationContext.sldsSnippets, activationTokens[0]);
     let similarJSSnippetsNs = getSimilarSnippetsNS(applicationContext.jsSnippets, activationTokens[0]);
+    let queryData = langUtils.getQueryData(document, position);
     let snippets;
     if (FileChecker.isAuraComponent(document.uri.fsPath) && applicationContext.auraSnippets[activationTokens[0]] && applicationContext.auraSnippets[activationTokens[0]].length > 0) {
         snippets = applicationContext.auraSnippets[activationTokens[0]];
@@ -48,36 +50,52 @@ function provideAuraComponentCompletion(document, position) {
     } else if (FileChecker.isJavaScript(document.uri.fsPath) && applicationContext.jsSnippets[activationTokens[0]] && applicationContext.jsSnippets[activationTokens[0]].length > 0) {
         snippets = applicationContext.jsSnippets[activationTokens[0]];
     }
-    if (snippets && snippets.length > 0) {
-        items = getSnippets(position, snippets);
+    if (queryData) {
+        // Code for support completion on queries
+        items = Utils.getQueryCompletionItems(activationTokens, queryData, position, 'aurahelper.completion.aura');
+    } else if (snippets && snippets.length > 0) {
+        // Code for completions when user types any snippets activation preffix (ltn., slds., ltng. ...)
+        items = getSnippetsCompletionItems(position, snippets);
     } else if (similarAuraSnippetsNs.length > 0 && FileChecker.isAuraComponent(document.uri.fsPath)) {
+        // Code for completions when user types a similar words of snippets activations (lt (ltn.), sl (ltng.) ...)
         items = getSimilarCompletionItems(position, similarAuraSnippetsNs);
     } else if (similarSldsSnippetsNs.length > 0 && FileChecker.isAuraComponent(document.uri.fsPath)) {
+        // Code for completions when user types a similar words of snippets activations (sl (slds.) ...)
         items = getSimilarCompletionItems(position, similarSldsSnippetsNs);
     } else if (similarJSSnippetsNs.length > 0 && FileChecker.isJavaScript(document.uri.fsPath)) {
+        // Code for completions when user types a similar words of snippets activations (au (aura.) ...)
         items = getSimilarCompletionItems(position, similarJSSnippetsNs);
-    } else if ((activationTokens[0] === 'v' || activationTokens[0] === 'c') && activationTokens.length === 2) {
+    } else if ((activationTokens[0] === 'v' || activationTokens[0] === 'c')) {
         let componentStructure = BundleAnalizer.getComponentStructure(document.fileName);
-        if (activationTokens[0] === 'v') {
+        if (activationTokens[0] === 'v' && activationTokens.length > 1) {
+            // Code for completions when user types v.
             if (!config.getConfig().activeAttributeSuggest)
                 return Promise.resolve(undefined);
-            items = getAttributes(componentStructure, position, componentTagData);
-        } else if (activationTokens[0] === 'c') {
+            let attribute = Utils.getAttribute(componentStructure, activationTokens[1]);
+            if(activationTokens.length === 2) {
+                items = getAttributesCompletionItems(componentStructure, position, componentTagData);
+            } else if (attribute) {
+                items = getComponentAttributeMembersCompletionItems(attribute, activationTokens, position);
+            }
+        } else if (activationTokens[0] === 'c' && activationTokens.length === 2) {
+            // Code for completions when user types c.
             if (!config.getConfig().activeControllerFunctionsSuggest)
                 return Promise.resolve(undefined);
-            items = getControllerFunctions(componentStructure, position, componentTagData);
+            items = getControllerFunctionsCompletionItems(componentStructure, position, componentTagData);
         }
     } else if (activationOption1 === 'c:' && activationOption2 !== '<c:') {
         if (!config.getConfig().activeComponentSuggest)
             return Promise.resolve(undefined);
-        items = getComponents(position, document, componentTagData);
+        // Code for completions when user types c:
+        items = getComponentsCompletionItems(position, document, componentTagData);
     } else if (line.indexOf('<c:') !== -1) {
         if (line.toLowerCase().trim() === '<c:' && !isComponentTag) {
+            // Code for completions when user types <c:
             if (!config.getConfig().activeComponentSuggest)
                 return Promise.resolve(undefined);
-            items = getComponents(position, document, componentTagData);
-        }
-        else if (isComponentTag) {
+            items = getComponentsCompletionItems(position, document, componentTagData);
+        } else if (isComponentTag) {
+            // Code for completions when position is on a start custom component tag <c:componentName >
             if (!config.getConfig().activeCustomComponentCallSuggest)
                 return Promise.resolve(undefined);
             let lineSplits = line.split(':');
@@ -86,22 +104,63 @@ function provideAuraComponentCompletion(document, position) {
                 if (componentName) {
                     let filePath = Paths.getFolderPath(Paths.getFolderPath(document.uri.fsPath)) + '\\' + componentName + '\\' + componentName + '.cmp';
                     let componentStructure = BundleAnalizer.getComponentStructure(filePath);
-                    items = getComponentAttributes(componentStructure, componentTagData, position);
+                    items = getComponentAttributesCompletionItems(componentStructure, componentTagData, position);
                 }
             }
         }
     } else if (isComponentTag) {
+        // Code for completions when position is on a start standard component tag <ns:componentName >
         if (!config.getConfig().activeComponentCallSuggest)
             return Promise.resolve(undefined);
         if (!componentTagData.isOnAttributeValue) {
-            items = getBaseComponentsAttributes(componentTagData, position);
+            // Code for completions when position is on attribute value (position to put attributes) <ns:componentName attr="value" [thispos] attr="value">
+            items = getBaseComponentsAttributesCompletionItems(componentTagData, position);
         } else if (componentTagData.isOnAttributeValue && componentTagData.isParamEmpty) {
+            // Code for completions when position is on attribute param value and value is empty <ns:componentName attr="[thispos]" attr="value">
             items = getAttributeTypesCompletionItems(position, componentTagData, getBaseComponentAttributes(componentTagData));
-        } else {
-            items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.aura');
+        } else if (activationTokens.length > 0) {
+            // Code for completions when position is on attribute param value and value have value <ns:componentName attr="val[thispos]ue" attr="value">
+            //items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.aura');
+
+        }
+    } else if (activationTokens.length > 0) {
+        // Code for completions when position is on empty line or withot components
+        //items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.aura');
+
+    }
+    return items;
+}
+
+function getComponentAttributeMembersCompletionItems(attribute, activationTokens, position) {
+    let items;
+    let sObjects = Utils.getObjectsFromMetadataIndex();
+    if (sObjects.sObjectsToLower.includes(attribute.type.toLowerCase())) {
+        if (!config.getConfig().activeSobjectFieldsSuggestion)
+            return Promise.resolve(undefined);
+        let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[attribute.type.toLowerCase()]);
+        if (activationTokens.length > 2) {
+            let lastObject = sObject;
+            let index = 0;
+            for (const activationToken of activationTokens) {
+                let actToken = activationToken;
+                if (index > 1) {
+                    if (actToken.endsWith('__r'))
+                        actToken = actToken.substring(0, actToken.length - 3) + '__c';
+                    let fielData = Utils.getFieldData(lastObject, actToken);
+                    if (fielData) {
+                        if (fielData.referenceTo.length === 1) {
+                            lastObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
+                        } else {
+                            lastObject = undefined;
+                        }
+                    }
+                }
+                index++;
+            }
+            items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, 'aurahelper.completion.aura');
         }
     } else {
-        items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.aura');
+        // include Apex Classes Completion
     }
     return items;
 }
@@ -119,7 +178,7 @@ function getAttributeTypesCompletionItems(position, componentTagData, componentA
         }
     }
     if (attributeData) {
-        if(componentTagData.namespace === "aura" && componentTagData.name === "attribute" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string'){
+        if (componentTagData.namespace === "aura" && componentTagData.name === "attribute" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
             for (const dataType of dataTypes) {
                 let item = new CompletionItem(dataType, CompletionItemKind.Value);
                 item.detail = "Attribute Datatype";
@@ -145,7 +204,7 @@ function getAttributeTypesCompletionItems(position, componentTagData, componentA
                 };
                 items.push(item);
             }
-        } else if(attributeData.name === 'access' && attributeData.type.toLowerCase() === 'string'){
+        } else if (attributeData.name === 'access' && attributeData.type.toLowerCase() === 'string') {
             for (const access of accesses) {
                 let item = new CompletionItem(access, CompletionItemKind.Value);
                 item.detail = "Attribute / Component access";
@@ -183,7 +242,7 @@ function getSimilarCompletionItems(position, similars) {
     return items;
 }
 
-function getSnippets(position, snippets) {
+function getSnippetsCompletionItems(position, snippets) {
     let items = [];
     for (const snippet of snippets) {
         let item = new CompletionItem(snippet.prefix, CompletionItemKind.Snippet);
@@ -320,7 +379,7 @@ function getBaseComponentAttributes(componentTagData) {
     return attributes;
 }
 
-function getBaseComponentsAttributes(componentTagData, position) {
+function getBaseComponentsAttributesCompletionItems(componentTagData, position) {
     logger.logJSON("componentTagData", componentTagData);
     let baseComponentsDetail = applicationContext.componentsDetail;
     let items = [];
@@ -430,7 +489,7 @@ function getRootItems(baseComponentsDetail, rootElement, componentTagData, posit
     return items;
 }
 
-function getComponentAttributes(componentStructure, componentTagData, position) {
+function getComponentAttributesCompletionItems(componentStructure, componentTagData, position) {
     let items = [];
     for (const attribute of componentStructure.attributes) {
         let exists = false;
@@ -447,7 +506,7 @@ function getComponentAttributes(componentStructure, componentTagData, position) 
     return items;
 }
 
-function getAttributes(componentStructure, position, componentTagData) {
+function getAttributesCompletionItems(componentStructure, position, componentTagData) {
     let items = [];
     for (const attribute of componentStructure.attributes) {
         let item = new CompletionItem('v.' + attribute.name, CompletionItemKind.Field);
@@ -464,7 +523,7 @@ function getAttributes(componentStructure, position, componentTagData) {
     return items;
 }
 
-function getControllerFunctions(componentStructure, position, componentTagData) {
+function getControllerFunctionsCompletionItems(componentStructure, position, componentTagData) {
     let items = [];
     for (const func of componentStructure.controllerFunctions) {
         let item = new CompletionItem('c.' + func.name, CompletionItemKind.Function);
@@ -490,7 +549,7 @@ function getControllerFunctions(componentStructure, position, componentTagData) 
     return items;
 }
 
-function getComponents(position, document, componentTagData) {
+function getComponentsCompletionItems(position, document, componentTagData) {
     let items = [];
     let auraFolder = Paths.getFolderPath(Paths.getFolderPath(document.uri.fsPath));
     let folders = FileReader.readDirSync(auraFolder);

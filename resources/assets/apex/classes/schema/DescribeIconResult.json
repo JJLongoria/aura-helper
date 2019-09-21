@@ -1,0 +1,56 @@
+{
+  "name": "DescribeIconResult",
+  "namespace": "Schema",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getContentType",
+      "signature": "public String getContentType()",
+      "description": "Returns the tab icon’s content type, such as image/png.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getHeight",
+      "signature": "public Integer getHeight()",
+      "description": "Returns the tab icon’s height in pixels.",
+      "methodParams": [],
+      "datatype": "Integer"
+    },
+    {
+      "name": "getTheme",
+      "signature": "public String getTheme()",
+      "description": "Returns the tab’s icon theme.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getUrl",
+      "signature": "public String getUrl()",
+      "description": "Returns the tab’s icon fully qualified URL.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getWidth",
+      "signature": "public Integer getWidth()",
+      "description": "Returns the tab’s icon width in pixels.",
+      "methodParams": [],
+      "datatype": "Integer"
+    }
+  ],
+  "description": "Contains icon metadata information for",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describeiconresult.htm#apex_class_schema_describeiconresult"
+}

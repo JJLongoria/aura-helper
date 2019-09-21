@@ -1,0 +1,35 @@
+{
+  "name": "SummaryValue",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getLabel",
+      "signature": "",
+      "description": "Returns the formatted summary data for a specified cell.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getValue",
+      "signature": "",
+      "description": "Returns the numeric value of the summary data for a specified cell.",
+      "methodParams": [],
+      "datatype": "Object"
+    }
+  ],
+  "description": "Contains summary data for a cell of the report.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_summaryvalue.htm#apex_class_reports_summaryvalue"
+}

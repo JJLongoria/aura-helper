@@ -1,0 +1,33 @@
+{
+  "name": "DescribeLayoutRow",
+  "namespace": "QuickAction",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getLayoutItems",
+      "signature": "public List<QuickAction.DescribeLayoutItem> getLayoutItems()",
+      "description": "Returns either a specific field or an empty QuickAction.DescribeLayoutItem (one that contains no QuickAction.DescribeLayoutComponent objects).",
+      "methodParams": [],
+      "datatype": "List<QuickAction.DescribeLayoutItem>"
+    },
+    {
+      "name": "getNumItems",
+      "signature": "public Integer getNumItems()",
+      "description": "Returns the number of QuickAction.DescribeLayoutItem.",
+      "methodParams": [],
+      "datatype": "Integer"
+    }
+  ],
+  "description": "Represents a row in a QuickAction.DescribeLayoutSection.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutrow.htm#apex_class_quickaction_describelayoutrow"
+}

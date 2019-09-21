@@ -1,0 +1,28 @@
+{
+  "name": "ReportDetailRow",
+  "namespace": "Reports",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getDataCells",
+      "signature": "",
+      "description": "Returns a list of data cells for a detail row.",
+      "methodParams": [],
+      "datatype": "List<Reports.ReportDataCell>"
+    }
+  ],
+  "description": "Contains data cells for a detail row of a report.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportdetailrow.htm"
+}

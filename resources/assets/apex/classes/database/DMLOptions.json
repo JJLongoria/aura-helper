@@ -1,0 +1,104 @@
+{
+  "name": "DMLOptions",
+  "namespace": "Database",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {
+    "AssignmentRuleHeader":{
+      "name": "AssignmentRuleHeader",
+      "namespace": "Database",
+      "accessModifier": "global",
+      "definitionModifier": "",
+      "withSharing": false,
+      "inheritedSharing": false,
+      "extendsType": "",
+      "isInterface": false,
+      "implements": [],
+      "classes": {},
+      "enums": {},
+      "fields": [
+        {
+          "name": "assignmentRuleID",
+          "signature": "public Id assignmentRuleID {get; set;}",
+          "description": "Specifies the ID of a specific assignment rule to run for the case or lead. The assignment rule can be active or inactive.",
+          "methodParams": [],
+          "datatype": "void"
+        }
+      ],
+      "constuctors": [],
+      "methods": [],
+      "description": "Enables setting assignment rule",
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_AssignmentRuleHeader.htm#apex_class_Database_AssignmentRuleHeader"
+    },
+    "DuplicateRuleHeader": {
+      "name": "DuplicateRuleHeader",
+      "namespace": "Database",
+      "accessModifier": "global",
+      "definitionModifier": "",
+      "withSharing": false,
+      "inheritedSharing": false,
+      "extendsType": "",
+      "isInterface": false,
+      "implements": [],
+      "classes": {},
+      "enums": {},
+      "fields": [
+        {
+          "name": "allowSave",
+          "signature": "public Boolean allowSave {get; set;}",
+          "description": "For a duplicate rule, when the Alert option is enabled, bypass alerts and save duplicate records by setting this property to true. Prevent duplicate records from being saved by setting this property to false.",
+          "methodParams": [],
+          "datatype": "void"
+        }
+      ],
+      "constuctors": [],
+      "methods": [],
+      "description": "Determines options for using duplicate rules to detect duplicate",
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_DMLOptions_DuplicateRuleHeader.htm#apex_class_Database_DMLOptions_DuplicateRuleHeader"
+    },
+    "EmailHeader": {
+      "name": "EmailHeader",
+      "namespace": "Database",
+      "accessModifier": "global",
+      "definitionModifier": "",
+      "withSharing": false,
+      "inheritedSharing": false,
+      "extendsType": "",
+      "isInterface": false,
+      "implements": [],
+      "classes": {},
+      "enums": {},
+      "fields": [
+        {
+          "name": "triggerAutoResponseEmail",
+          "signature": "public Boolean triggerAutoResponseEmail {get; set;}",
+          "description": "Indicates whether to trigger auto-response rules (true) or not (false), for leads and cases.",
+          "methodParams": [],
+          "datatype": "void"
+        },
+        {
+          "name": "triggerOtherEmail",
+          "signature": "public Boolean triggerOtherEmail {get; set;}",
+          "description": "Indicates whether to trigger email outside the organization (true) or not (false).",
+          "methodParams": [],
+          "datatype": "void"
+        }
+      ],
+      "constuctors": [],
+      "methods": [],
+      "description": "Enables setting email options.",
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_EmailHeader.htm#apex_class_Database_EmailHeader"
+    }
+  },
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [],
+  "description": "Enables you to set options related to DML operations.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_dmloptions.htm#apex_methods_system_database_dmloptions"
+}

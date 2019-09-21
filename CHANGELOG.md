@@ -316,6 +316,6 @@ All notable changes to this project will be documented in this file.
     - Autocompletion tools for sobjects and fields on Apex, Aura Components and JavaScript files.
     - Autocompletion for Attributes on Components and Javascript files if are sobjet types
     - Support for queries completion on Apex and Lightning
-    - Autocompletion Support for Apex Code (Classes, Fields, Methods)
+    - Autocompletion Support for Apex Code (Classes, Fields, Methods). More than 400 system classes
     - Autocompletion Support for some attribute types
     - Added support for call and use easy more standard components (custom components are fully supported)

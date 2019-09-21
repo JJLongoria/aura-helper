@@ -1,0 +1,155 @@
+{
+  "name": "Mentions",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "getMentionCompletions",
+      "signature": "public static ConnectApi.MentionCompletionPage getMentionCompletions (String communityId, String q, String contextId)",
+      "description": "Get the first page of possible users and groups to mention in a feed item body or comment body.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "contextId",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "ConnectApi.​MentionCompletion​Page"
+    },
+    {
+      "name": "getMentionCompletions",
+      "signature": "public static ConnectApi.Mentions getMentionCompletions (String communityId, String q, String contextId, ConnectApi.MentionCompletionType type, Integer pageParam, Integer pageSize)",
+      "description": "Get a page of possible mention proposals of the specified type.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "contextId",
+          "datatype": "String"
+        },
+        {
+          "name": "type",
+          "datatype": "ConnectApi.MentionCompletionType"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        }
+      ],
+      "datatype": "ConnectApi.​MentionCompletion​Page"
+    },
+    {
+      "name": "getMentionValidations",
+      "signature": "public static ConnectApi.Mentions getMentionValidations(String communityId, String parentId, List<String> recordIds, ConnectApi.FeedItemVisibilityType visibility)",
+      "description": "Get information about whether the mentions are valid for the context user.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "parentId",
+          "datatype": "String"
+        },
+        {
+          "name": "recordIds",
+          "datatype": "List<String>"
+        },
+        {
+          "name": "visibility",
+          "datatype": "ConnectApi.FeedItemVisibilityType"
+        }
+      ],
+      "datatype": "ConnectApi.​​Mention​Validations"
+    },
+    {
+      "name": "setTestGetMentionCompletions",
+      "signature": "public static Void setTestGetMentionCompletions (String communityId, String q, String contextId, ConnectApi.MentionCompletionPage result)",
+      "description": "Register a ConnectApi.MentionCompletionPage object to be returned when getMentionCompletions(String, String, String) is called in a test context.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "contextId",
+          "datatype": "String"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.​MentionCompletion​Page"
+        }
+      ],
+      "datatype": "Void"
+    },
+    {
+      "name": "setTestGetMentionCompletions",
+      "signature": "public static Void setTestGetMentionCompletions (String communityId, String q, String contextId, ConnectApi.MentionCompletionType type, Integer pageParam, Integer pageSize, ConnectApi.MentionCompletionPage result)",
+      "description": "Register a ConnectApi.MentionCompletionPage object to be returned when getMentionCompletions(String, String, String, ConnectApi.MentionCompletionType, Integer, Integer) is called in a test context.",
+      "methodParams": [
+        {
+          "name": "communityId",
+          "datatype": "String"
+        },
+        {
+          "name": "q",
+          "datatype": "String"
+        },
+        {
+          "name": "contextId",
+          "datatype": "String"
+        },
+        {
+          "name": "type",
+          "datatype": "ConnectApi.MentionCompletionType"
+        },
+        {
+          "name": "pageParam",
+          "datatype": "Integer"
+        },
+        {
+          "name": "pageSize",
+          "datatype": "Integer"
+        },
+        {
+          "name": "result",
+          "datatype": "ConnectApi.​MentionCompletion​Page"
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "Access information about mentions. A mention is an “@”",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Mentions_static_methods.htm#apex_ConnectAPI_Mentions_static_methods"
+}

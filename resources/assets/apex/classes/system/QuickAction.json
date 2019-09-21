@@ -1,0 +1,99 @@
+{
+  "name": "QuickAction",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "describeAvailableQuickActions",
+      "signature": "public static List<QuickAction.DescribeAvailableQuickActionResult> describeAvailableQuickActions(String parentType)",
+      "description": "Returns metadata information for the available quick actions of the provided parent object.",
+      "methodParams": [
+        {
+          "name": "parentType",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "List<QuickAction.DescribeAvailableQuickActionResult>"
+    },
+    {
+      "name": "describeAvailableQuickActions",
+      "signature": "public static List<QuickAction.DescribeQuickActionResult> describeAvailableQuickActions(List<String> sObjectNames)",
+      "description": "Returns the metadata information for the provided quick actions.",
+      "methodParams": [
+        {
+          "name": "sObjectNames",
+          "datatype": "List<String>"
+        }
+      ],
+      "datatype": "List<QuickAction.DescribeQuickActionResult>"
+    },
+    {
+      "name": "performQuickAction",
+      "signature": "public static QuickAction.QuickActionResult performQuickAction(QuickAction.QuickActionRequest quickActionRequest)",
+      "description": "Performs the quick action specified in the quick action request and returns the action result.",
+      "methodParams": [
+        {
+          "name": "quickActionRequest",
+          "datatype": "QuickAction.QuickActionRequest"
+        }
+      ],
+      "datatype": "QuickAction.QuickActionResult"
+    },
+    {
+      "name": "performQuickAction",
+      "signature": "public static QuickAction.QuickActionResult performQuickAction(QuickAction.QuickActionRequest quickActionRequest, Boolean allOrNothing)",
+      "description": "Performs the quick action specified in the quick action request with the option for partial success, and returns the result.",
+      "methodParams": [
+        {
+          "name": "quickActionRequest",
+          "datatype": "QuickAction.QuickActionRequest"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "QuickAction.QuickActionResult"
+    },
+    {
+      "name": "performQuickActions",
+      "signature": "public static List<QuickAction.QuickActionResult> performQuickActions(List<QuickAction.QuickActionRequest> quickActionRequests)",
+      "description": "Performs the quick actions specified in the quick action request list and returns action results.",
+      "methodParams": [
+        {
+          "name": "quickActionRequests",
+          "datatype": "List<QuickAction.QuickActionRequest>"
+        }
+      ],
+      "datatype": "List<QuickAction.QuickActionResult>"
+    },
+    {
+      "name": "performQuickActions",
+      "signature": "public static List<QuickAction.QuickActionResult> performQuickActions(List<QuickAction.QuickActionRequest> quickActionRequests, Boolean allOrNothing)",
+      "description": "Performs the quick actions specified in the quick action request list with the option for partial success, and returns action results.",
+      "methodParams": [
+        {
+          "name": "quickActionRequests",
+          "datatype": "List<QuickAction.QuickActionRequest>"
+        },
+        {
+          "name": "allOrNothing",
+          "datatype": "Boolean"
+        }
+      ],
+      "datatype": "List<QuickAction.QuickActionResult>"
+    }
+  ],
+  "description": "Use Apex to request and process actions on objects",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_quickaction.htm#apex_class_system_quickaction"
+}

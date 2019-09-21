@@ -1,0 +1,121 @@
+{
+  "name": "JWTBearerTokenExchange",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [
+    {
+      "name": "JWTBearerTokenExchange",
+      "signature": "public JWTBearerTokenExchange(String tokenEndpoint, Auth.JWS jws)",
+      "description": "Creates an instance of the JWTBearerTokenExchange class using the specified token endpoint and the signed JWT bearer token.",
+      "methodParams": [
+        {
+          "name": "tokenEndpoint",
+          "datatype": "String"
+        },
+        {
+          "name": "jws",
+          "datatype": "Auth.JWS"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "JWTBearerTokenExchange",
+      "signature": "public JWTBearerTokenExchange()",
+      "description": "Creates an instance of the Auth.JWTBearerTokenExchange class.",
+      "methodParams": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "clone",
+      "signature": "public Object clone()",
+      "description": "Makes a duplicate copy of the JWTBearerTokenExchange object.",
+      "methodParams": [],
+      "datatype": "JWTBearerTokenExchange"
+    },
+    {
+      "name": "getAccessToken",
+      "signature": "public String getAccessToken()",
+      "description": "Returns the access_token in the token response to the JWT bearer token request.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getGrantType",
+      "signature": "public String getGrantType()",
+      "description": "Returns the grant type specified in the JWT bearer token request. The grant type value defaults to urn:ietf:params:oauth:grant-type:jwt-bearer.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getHttpResponse",
+      "signature": "public System.HttpResponse getHttpResponse()",
+      "description": "Returns the full System.HttpResponse token response to the JWT bearer token request.",
+      "methodParams": [],
+      "datatype": "System.HttpResponse"
+    },
+    {
+      "name": "getJWS",
+      "signature": "public Auth.JWS getJWS()",
+      "description": "Returns the JWS specified in the JWT bearer token request.",
+      "methodParams": [],
+      "datatype": "Auth.JWS"
+    },
+    {
+      "name": "getTokenEndpoint",
+      "signature": "public String getTokenEndpoint()",
+      "description": "Returns the token endpoint that the JWT bearer token request is POSTed to.",
+      "methodParams": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setGrantType",
+      "signature": "public void setGrantType(String grantType)",
+      "description": "Sets the grant type in the JWT bearer token request. Returned by the getGrantType() method.",
+      "methodParams": [
+        {
+          "name": "grantType",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setJWS",
+      "signature": "public void setJWS(Auth.JWS jws)",
+      "description": "Sets the JWS in the JWT bearer token request. Returned by the getJWS() method.",
+      "methodParams": [
+        {
+          "name": "jws",
+          "datatype": "Auth.JWS"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setTokenEndpoint",
+      "signature": "public void setTokenEndpoint(String tokenEndpoint)",
+      "description": "Sets the token endpoint that the JWT bearer token request is POSTed to. Returned by the getTokenEndpoint() method.",
+      "methodParams": [
+        {
+          "name": "tokenEndpoint",
+          "datatype": "String"
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Contains methods that POST the signed JWT bearer token to a token",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_JWTBearerTokenExchange.htm#apex_class_Auth_JWTBearerTokenExchange"
+}

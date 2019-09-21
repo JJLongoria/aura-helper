@@ -1,0 +1,31 @@
+{
+  "name": "HttpCalloutMock",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constuctors": [],
+  "methods": [
+    {
+      "name": "respond",
+      "signature": "public HttpResponse respond(HttpRequest request)",
+      "description": "Returns an HTTP response for the given request. The implementation of this method is called by the Apex runtime to send a fake response when an HTTP callout is made after Test.setMock has been called.",
+      "methodParams": [
+        {
+          "name": "request",
+          "datatype": "System.HttpRequest"
+        }
+      ],
+      "datatype": "System.HttpResponse"
+    }
+  ],
+  "description": "Enables sending fake responses when testing",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_httpcalloutmock.htm#apex_interface_httpcalloutmock"
+}
