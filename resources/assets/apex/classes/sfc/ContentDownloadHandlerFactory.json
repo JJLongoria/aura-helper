@@ -13,25 +13,22 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getContentDownloadHandler",
       "signature": "public Sfc.ContentDownloadHandler getContentDownloadHandler(List<Id> var1, Sfc.ContentDownloadContext var2)",
       "description": "Returns a ContentDownloadHandler for a given list of content IDs and a download context.",
-      "methodParams": [
-        {
-          "name": "var1",
-          "datatype": "List<Id>"
-        },
+      "params": [
         {
           "name": "var2",
-          "datatype": "Sfc.ContentDownloadContext"
+          "datatype": "Sfc.ContentDownloadContext",
+          "description": ""
         }
       ],
       "datatype": "Sfc.ContentDownloadHandler"
     }
   ],
-  "description": "Use this interface to provide a class factory that Salesforce can call",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Sfc_ContentDownloadHandlerFactory.htm#apex_interface_Sfc_ContentDownloadHandlerFactory"
+  "description": "Use this interface to provide a class factory that Salesforce can call to create instances of your custom ContentDownloadHandler.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Sfc_ContentDownloadHandlerFactory.htm"
 }

@@ -5,30 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "authorize",
       "signature": "public Boolean authorize(Id userId, Id connectedAppId, Boolean isAdminApproved)",
       "description": "Deprecated and available only in API versions 35.0 and 36.0. As of version 37.0, use authorize(userId, connectedAppId, isAdminApproved, context) instead.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "Id"
-        },
-        {
-          "name": "connectedAppId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "isAdminApproved",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The 15-character ID of the user attempting to use the connected app. The 15-character ID of the connected app. The approval state of the specified user when the connected app requires approval."
         }
       ],
       "datatype": "Boolean"
@@ -37,22 +32,11 @@
       "name": "authorize",
       "signature": "public Boolean authorize(Id userId, Id connectedAppId, Boolean isAdminApproved, Auth.InvocationContext context)",
       "description": "Authorizes the specified user to access the connected app. If the connected app is set for users to self-authorize, this method isn’t invoked.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "Id"
-        },
-        {
-          "name": "connectedAppId",
-          "datatype": "Id"
-        },
-        {
-          "name": "isAdminApproved",
-          "datatype": "Boolean"
-        },
+      "params": [
         {
           "name": "context",
-          "datatype": "InvocationContext"
+          "datatype": "InvocationContext",
+          "description": "The 15-character ID of the user attempting to use the connected app. The 15-character ID of the connected app. The approval state of the specified user when the connected app requires approval. The context in which the connected app is invoked."
         }
       ],
       "datatype": "Boolean"
@@ -61,18 +45,11 @@
       "name": "customAttributes",
       "signature": "public Map<String,String> customAttributes(Id userId, Id connectedAppId, Map<String,String> formulaDefinedAttributes,)",
       "description": "Deprecated and available only in API versions 35.0 and 36.0. As of version 37.0, use customAttributes(userId, connectedAppId, formulaDefinedAttributes, context) instead.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "Id"
-        },
-        {
-          "name": "connectedAppId",
-          "datatype": "Id"
-        },
+      "params": [
         {
           "name": "formulaDefinedAttributes",
-          "datatype": "Map<String,String>"
+          "datatype": "Map<String,String>",
+          "description": "The 15-character ID of the user attempting to use the connected app. The 15-character ID of the connected app. A map of the new set of attributes from the UserInfo endpoint (OAuth) or from a SAML assertion. For more information, see The UserInfo Endpoint in the online help."
         }
       ],
       "datatype": "Map<String,String>"
@@ -81,22 +58,11 @@
       "name": "customAttributes",
       "signature": "public Map<String,String> customAttributes(Id userId, Id connectedAppId, Map<String,String> formulaDefinedAttributes, Auth.InvocationContext context)",
       "description": "Sets new attributes for the specified user. When the connected app gets the user’s attributes from the UserInfo endpoint or through a SAML assertion, use this method to update the attribute values.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "Id"
-        },
-        {
-          "name": "connectedAppId",
-          "datatype": "Id"
-        },
+      "params": [
         {
           "name": "formulaDefinedAttributes",
-          "datatype": "Map<String,String>"
-        },
-        {
-          "name": "formulaDefinedAttributes",
-          "datatype": "InvocationContext"
+          "datatype": "InvocationContext",
+          "description": "The 15-character ID of the user attempting to use the connected app. The 15-character ID for the connected app. A map of the current set of attributes from the UserInfo endpoint (OAuth) or from a SAML assertion. For more information, see The UserInfo Endpoint in the online help. The context in which the connected app is invoked."
         }
       ],
       "datatype": "Map<String,String>"
@@ -105,18 +71,11 @@
       "name": "modifySAMLResponse",
       "signature": "public dom.XmlNode modifySAMLResponse(Map<String,String> authSession, Id connectedAppId, dom.XmlNode samlResponse)",
       "description": "Modifies the XML generated by the Salesforce SAML Identity Provider (IDP) before it’s sent to the service provider.",
-      "methodParams": [
-        {
-          "name": "authSession",
-          "datatype": "Map<String,String>"
-        },
-        {
-          "name": "connectedAppId",
-          "datatype": "Id"
-        },
+      "params": [
         {
           "name": "samlResponse",
-          "datatype": "Dom.XmlNode"
+          "datatype": "Dom.XmlNode",
+          "description": "The attributes for the authorized user’s session. The map includes the 15-character ID of the authorized user who’s accessing the connected app. The 15-character ID of the connected app. Contains the SAML XML response generated by the IDP."
         }
       ],
       "datatype": "Dom.XmlNode"
@@ -125,14 +84,11 @@
       "name": "refresh",
       "signature": "public void refresh(Id userId, Id connectedAppId)",
       "description": "Deprecated and available only in API versions 35.0 and 36.0. As of version 37.0, use refresh(userId, connectedAppId, context) instead.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "Id"
-        },
+      "params": [
         {
           "name": "connectedAppId",
-          "datatype": "Id"
+          "datatype": "Id",
+          "description": "The 15-character ID of the user requesting the refresh token. The 15-character ID of the connected app."
         }
       ],
       "datatype": "void"
@@ -141,23 +97,16 @@
       "name": "refresh",
       "signature": "public void refresh(Id userId, Id connectedAppId, Auth.InvocationContext context)",
       "description": "Salesforce calls this method during a refresh token exchange.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "Id"
-        },
-        {
-          "name": "connectedAppId",
-          "datatype": "Id"
-        },
+      "params": [
         {
           "name": "context",
-          "datatype": "InvocationContext"
+          "datatype": "InvocationContext",
+          "description": "The 15-character ID of the user requesting the refresh token. The 15-character ID of the connected app. The context in which the connected app is invoked."
         }
       ],
       "datatype": "void"
     }
   ],
-  "description": "Contains methods for extending the behavior of a connected app, for example,",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_ConnectedAppPlugin.htm#apex_class_Auth_ConnectedAppPlugin"
+  "description": "Contains methods for extending the behavior of a connected app, for example, customizing how a connected app is invoked depending on the protocol used. This class gives you more control over the interaction between Salesforce and your connected app.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_ConnectedAppPlugin.htm"
 }

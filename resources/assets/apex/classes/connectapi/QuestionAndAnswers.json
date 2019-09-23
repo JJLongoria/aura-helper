@@ -5,38 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getSuggestions",
       "signature": "public static ConnectApi.QuestionAndAnswersSuggestions getSuggestions(String communityId, String q, String subjectId, Boolean includeArticles, Integer maxResults)",
       "description": "Get question and answers suggestions.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "includeArticles",
-          "datatype": "Boolean"
-        },
+      "params": [
         {
           "name": "maxResults",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards.  Specify a subject ID to search only questions on that object. If the ID is a topic or a user, the ID is ignored. Specify true to include knowledge articles in the search results. To return only questions, specify false. The maximum number of results to return for each type of item. Possible values are 1–10. The default value is 5."
         }
       ],
       "datatype": "ConnectApi.QuestionAndAnswersSuggestions"
@@ -45,30 +32,11 @@
       "name": "setTestGetSuggestions",
       "signature": "public static Void setTestGetSuggestions(String communityId, String q, String subjectId, Boolean includeArticles, Integer maxResults, ConnectApi.QuestionAndAnswersSuggestions result)",
       "description": "Register a ConnectApi.QuestionAndAnswersSuggestions object to be returned when getSuggestions is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "includeArticles",
-          "datatype": "Boolean"
-        },
-        {
-          "name": "maxResults",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.QuestionAndAnswersSuggestions"
+          "datatype": "ConnectApi.QuestionAndAnswersSuggestions",
+          "description": "Use either the ID for a community, internal, or null. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards.  Specify a subject ID to search only questions on that object. If the ID is a topic or a user, the ID is ignored. Specify true to include knowledge articles in the search results. To return only questions, specify false. The maximum number of results to return for each type of item. Possible values are 1–10. The default value is 5. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -77,23 +45,16 @@
       "name": "updateQuestionAndAnswers",
       "signature": "public static ConnectApi.QuestionAndAnswersCapability updateQuestionAndAnswers(String communityId, String feedElementId, ConnectApi.QuestionAndAnswersCapabilityInput questionAndAnswersCapability)",
       "description": "Choose or change the best answer for a question.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "feedElementId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "questionAndAnswersCapability",
-          "datatype": "ConnectApi.​QuestionAndAnswers​CapabilityInput"
+          "datatype": "ConnectApi.​QuestionAndAnswers​CapabilityInput",
+          "description": "Use either the ID for a community, internal, or null. ID of the feed element. Specify the best answer (comment ID) for the question."
         }
       ],
       "datatype": "ConnectApi.QuestionAndAnswersCapability"
     }
   ],
   "description": "Access question and answers suggestions.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_QuestionAndAnswers_static_methods.htm#apex_ConnectAPI_QuestionAndAnswers_static_methods"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_QuestionAndAnswers_static_methods.htm"
 }

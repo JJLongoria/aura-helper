@@ -1,25 +1,25 @@
 {
-    "name": "AccessType",
-    "namespace": "System",
-    "accessModifier": "global",
-    "definitionModifier": "",
-    "withSharing": false,
-    "inheritedSharing": false,
-    "extendsType": "",
-    "isInterface": false,
-    "isEnum": true,
-    "implements": [],
-    "classes": {},
-    "enums": {},
-    "enumValues": [
-        "CREATABLE",
-        "READABLE",
-        "UPDATABLE",
-        "UPSERTABLE"
-    ],
-    "fields": [],
-    "constuctors": [],
-    "methods": [],
-    "description": "Specifies the access check type for the fields of an sObject.",
-    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_System_AccessType.htm"
+  "name": "AccessType",
+  "namespace": "System",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "CREATABLE",
+    "READABLE",
+    "UPDATABLE",
+    "UPSERTABLE"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Specifies the access check type for the fields of an sObject.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_System_AccessType.htm"
 }

@@ -1,0 +1,35 @@
+{
+  "ConnectorTestUtil": {
+    "name": "ConnectorTestUtil",
+    "namespace": "UserProvisioning",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Enables developers to write Apex test classes for connectors used by",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_UserProvisioning_ConnectorTestUtil.htm#apex_class_UserProvisioning_ConnectorTestUtil",
+    "classes": [],
+    "enums": []
+  },
+  "UserProvisioningLog": {
+    "name": "UserProvisioningLog",
+    "namespace": "UserProvisioning",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Provides methods for writing messages to monitor outbound user",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_userprovisioning_userprovisioninglog.htm#apex_class_UserProvisioning_UserProvisioningLog",
+    "classes": [],
+    "enums": []
+  },
+  "UserProvisioningPlugin": {
+    "name": "UserProvisioningPlugin",
+    "namespace": "UserProvisioning",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "The UserProvisioningPlugin",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_UserProvisioning_UserProvisioningPlugin.htm#apex_class_UserProvisioning_UserProvisioningPlugin",
+    "classes": [],
+    "enums": []
+  }
+}

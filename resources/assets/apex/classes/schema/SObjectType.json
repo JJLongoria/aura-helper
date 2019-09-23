@@ -13,30 +13,31 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDescribe",
       "signature": "public Schema.DescribeSObjectResult getDescribe()",
       "description": "Returns the describe sObject result for this field.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Schema.DescribeSObjectResult"
     },
     {
       "name": "newSObject",
       "signature": "public sObject newSObject()",
       "description": "Constructs a new sObject of this type.",
-      "methodParams": [],
+      "params": [],
       "datatype": "sObject"
     },
     {
       "name": "newSObject",
       "signature": "public sObject newSObject(ID id)",
       "description": "Constructs a new sObject of this type, with the specified ID.",
-      "methodParams": [
+      "params": [
         {
           "name": "id",
-          "datatype": "ID"
+          "datatype": "ID",
+          "description": ""
         }
       ],
       "datatype": "sObject"
@@ -45,19 +46,16 @@
       "name": "newSObject",
       "signature": "public sObject newSObject(ID recordTypeId, Boolean loadDefaults)",
       "description": "Constructs a new sObject of this type, and optionally, of the specified record type ID and with default custom field values.",
-      "methodParams": [
-        {
-          "name": "recordTypeId",
-          "datatype": "ID"
-        },
+      "params": [
         {
           "name": "loadDefaults",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Specifies the record type ID of the sObject to create. If no record type exists for this sObject, use null. If the sObject has record types and you specify null, the default record type is used. Specifies whether to populate custom fields with their predefined default values (true) or not (false)."
         }
       ],
       "datatype": "sObject"
     }
   ],
-  "description": "A Schema.sObjectType object is returned from the field describe result using the getReferenceTo method, or from the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_SObjectType.htm#apex_class_Schema_SObjectType"
+  "description": "A Schema.sObjectType object is returned from the field describe result using the getReferenceTo method, or from the sObject describe result using the getSObjectType method.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_SObjectType.htm"
 }

@@ -13,58 +13,58 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getCompletionDate",
       "signature": "",
       "description": "Returns the date and time when the instance of the report finished running. The completion date is available only if the report instance ran successfully or couldn’t be run because of an error. Date and time information is in ISO-8601 format.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Datetime"
     },
     {
       "name": "getId",
       "signature": "",
       "description": "Returns the unique ID for an instance of a report that was run asynchronously.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Id"
     },
     {
       "name": "getOwnerId",
       "signature": "",
       "description": "Returns the ID of the user who created the report instance.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Id"
     },
     {
       "name": "getReportId",
       "signature": "",
       "description": "Returns the unique ID of the report this instance is based on.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Id"
     },
     {
       "name": "getReportResults",
       "signature": "",
       "description": "Retrieves results for an instance of an asynchronous report. When you request your report, you can specify whether to summarize data or include details.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Reports.ReportResults"
     },
     {
       "name": "getRequestDate",
       "signature": "",
       "description": "Returns the date and time when an instance of the report was run. Date and time information is in ISO-8601 format.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Datetime"
     },
     {
       "name": "getStatus",
       "signature": "",
       "description": "Returns the status of a report.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Returns an instance of a report that was run asynchronously.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportinstance.htm#apex_class_reports_reportinstance"
+  "description": "Returns an instance of a report that was run asynchronously. Retrieves the results for that instance.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportinstance.htm"
 }

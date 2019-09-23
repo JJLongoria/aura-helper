@@ -1,0 +1,41 @@
+{
+  "Plugin": {
+    "name": "Plugin",
+    "namespace": "Process",
+    "isInterface": true,
+    "description": "Allows you to pass data between your organization and a",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Process_Plugin.htm#apex_interface_Process_Plugin",
+    "classes": [],
+    "enums": []
+  },
+  "PluginDescribeResult": {
+    "name": "PluginDescribeResult",
+    "namespace": "Process",
+    "isInterface": false,
+    "description": "Describes the input and output parameters for Process.PluginResult.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Process_PluginDescribeResult.htm#apex_class_Process_PluginDescribeResult",
+    "classes": [
+      "InputParameter",
+      "OutputParameter"
+    ],
+    "enums": []
+  },
+  "PluginRequest": {
+    "name": "PluginRequest",
+    "namespace": "Process",
+    "isInterface": false,
+    "description": "Passes input parameters from the class that implements",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Process_PluginRequest.htm#apex_class_Process_PluginRequest",
+    "classes": [],
+    "enums": []
+  },
+  "PluginResult": {
+    "name": "PluginResult",
+    "namespace": "Process",
+    "isInterface": false,
+    "description": "Returns output parameters from the class that implements",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Process_PluginResult.htm#apex_class_Process_PluginResult",
+    "classes": [],
+    "enums": []
+  }
+}

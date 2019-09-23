@@ -5,33 +5,32 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the System.UserManagement object.",
-      "methodParams": [],
+      "params": [],
       "datatype": "User Management"
     },
     {
       "name": "deregisterVerificationMethod",
       "signature": "public static void deregisterVerificationMethod(Id userId, Auth.VerificationMethod method)",
       "description": "Deregisters an identity verification method. Use this method to let users delete an existing verification method.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "Id"
-        },
+      "params": [
         {
           "name": "method",
-          "datatype": "Auth.VerificationMethod"
+          "datatype": "Auth.VerificationMethod",
+          "description": "User ID of the user deregistering the verification method. Verification method used to verify the identity of the user."
         }
       ],
       "datatype": "void"
@@ -40,14 +39,11 @@
       "name": "formatPhoneNumber",
       "signature": "global static String formatPhoneNumber(String countryCode, String phoneNumber)",
       "description": "Formats a mobile phone number for a user. Call this method to ensure that the phone number is formatted properly before updating a user’s mobile phone number.",
-      "methodParams": [
-        {
-          "name": "countryCode",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "phoneNumber",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "A valid country code. A mobile number that contains from 3 through 49 numeric characters, without the country code. For example, (415) 555-1234."
         }
       ],
       "datatype": "String"
@@ -56,14 +52,11 @@
       "name": "initPasswordlessLogin",
       "signature": "public static String initPasswordlessLogin(Id userId, Auth.VerificationMethod method)",
       "description": "Invokes a verification challenge for passwordless login when creating custom (Visualforce) Login and Verify pages for external users.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "Id"
-        },
+      "params": [
         {
           "name": "method",
-          "datatype": "Auth.VerificationMethod"
+          "datatype": "Auth.VerificationMethod",
+          "description": "ID of the user who’s logging in. Method used to verify the user’s identity, which can be EMAIL or SMS."
         }
       ],
       "datatype": "String"
@@ -72,10 +65,11 @@
       "name": "initRegisterVerificationMethod",
       "signature": "public static String initRegisterVerificationMethod(Auth.VerificationMethod method)",
       "description": "Invokes a verification challenge for registering identity verification methods with a custom (Visualforce) page. Users can register either their email address or phone number.",
-      "methodParams": [
+      "params": [
         {
           "name": "method",
-          "datatype": "Auth.VerificationMethod"
+          "datatype": "Auth.VerificationMethod",
+          "description": "Method used to verify the user’s identity, which can be EMAIL or SMS."
         }
       ],
       "datatype": "String"
@@ -84,14 +78,11 @@
       "name": "initSelfRegistration",
       "signature": "public static String initSelfRegistration(Auth.VerificationMethod method, User user)",
       "description": "Invokes a verification challenge for self-registration when creating a custom (Visualforce) Verify page for community self-registration.",
-      "methodParams": [
-        {
-          "name": "method",
-          "datatype": "Auth.VerificationMethod"
-        },
+      "params": [
         {
           "name": "user",
-          "datatype": "User"
+          "datatype": "User",
+          "description": "Method used to verify the identity of the user, which can be EMAIL or SMS. User object to insert after successful registration."
         }
       ],
       "datatype": "String"
@@ -100,14 +91,11 @@
       "name": "obfuscateUser",
       "signature": "public static void obfuscateUser(Id userId, String username)",
       "description": "Scrambles users’ data on their request when they no longer want their personal data recognized in Salesforce. When you invoke the method for the user, the data becomes anonymous, and you can never recover it. Use this method to set the username to a specific value after it’s scrambled.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "Id"
-        },
+      "params": [
         {
           "name": "username",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the user whose data this method scrambles. The username after the user’s data is scrambled. Sets the value of the scrambled username to a specific string."
         }
       ],
       "datatype": "void"
@@ -116,10 +104,11 @@
       "name": "obfuscateUser",
       "signature": "public static void obfuscateUser(Id userId)",
       "description": "Scrambles users’ data on their request when they no longer want their personal data recognized in Salesforce. When you invoke the method for the user, the data becomes anonymous, and you can never recover it.",
-      "methodParams": [
+      "params": [
         {
           "name": "userId",
-          "datatype": "Id"
+          "datatype": "Id",
+          "description": "ID of the user whose data this method scrambles."
         }
       ],
       "datatype": "void"
@@ -128,14 +117,11 @@
       "name": "registerVerificationMethod",
       "signature": "public static System.PageReference registerVerificationMethod(Auth.VerificationMethod method, String startUrl)",
       "description": "Registers an identity verification method. Verification methods can be a time-based one-time password (TOTP), email or text verification code, Salesforce Authenticator, or U2F. End users register their verification methods.",
-      "methodParams": [
-        {
-          "name": "method",
-          "datatype": "Auth.VerificationMethod"
-        },
+      "params": [
         {
           "name": "startUrl",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Verification method used to verify the identity of the user. Path to the page that users see after they log in."
         }
       ],
       "datatype": "void"
@@ -144,22 +130,11 @@
       "name": "sendAsyncEmailConfirmation",
       "signature": "public static Boolean sendAsyncEmailConfirmation(String userId, String emailTemplateId, String networkId, String startUrl)",
       "description": "Send an email message to a user’s email address for verification. The message contains a verification link (URL) that the user clicks to verify the email address later on. You can send email verifications in bulk.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "emailTemplateId",
-          "datatype": "String"
-        },
-        {
-          "name": "networkId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "startUrl",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the user to receive the email confirmation. ID of the email template in which the verification link is defined. ID of the community. The user is redirected to this page after verification, with a success or error message as the parameter. If null, the user is redirected to the login page."
         }
       ],
       "datatype": "Boolean"
@@ -168,26 +143,11 @@
       "name": "verifyPasswordlessLogin",
       "signature": "public static Auth.VerificationResult verifyPasswordlessLogin(Id userId, Auth.VerificationMethod method, String identifier, String code, String startUrl)",
       "description": "Completes a verification challenge when creating a custom (Visualforce) Verify page for passwordless login. If the user who is trying to login enters the verification code successfully, the user is logged in.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "Id"
-        },
-        {
-          "name": "method",
-          "datatype": "Auth.VerificationMethod"
-        },
-        {
-          "name": "identifier",
-          "datatype": "String"
-        },
-        {
-          "name": "code",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "startUrl",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the user who’s logging in. Method used to verify the identity of the user, which can be either EMAIL or SMS. ID of the verification attempt received from the initPasswordlessLogin method. Code used to verify the identity of the user. The page where the user is directed after successful login."
         }
       ],
       "datatype": "Auth.VerificationResult"
@@ -196,14 +156,11 @@
       "name": "verifyRegisterVerificationMethod",
       "signature": "public static String verifyRegisterVerificationMethod(String code, Auth.VerificationMethod method)",
       "description": "Completes registering a user’s email address or phone number as a verification method when customizing the identity verification process.",
-      "methodParams": [
-        {
-          "name": "code",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "method",
-          "datatype": "Auth.VerificationMethod"
+          "datatype": "Auth.VerificationMethod",
+          "description": "Code used to verify the identity of the user. Method used to verify the identity of the user, which can be either EMAIL or SMS."
         }
       ],
       "datatype": "String"
@@ -212,27 +169,16 @@
       "name": "verifySelfRegistration",
       "signature": "public static Auth.VerificationResult verifySelfRegistration(Auth.VerificationMethod method, String identifier, String code, String startUrl)",
       "description": "Completes a verification challenge when creating a custom (Visualforce) Verify page for community self-registration. If the person who is attempting to register enters the verification code successfully, the user is created and logged in.",
-      "methodParams": [
-        {
-          "name": "method",
-          "datatype": "Auth.VerificationMethod"
-        },
-        {
-          "name": "identifier",
-          "datatype": "String"
-        },
-        {
-          "name": "code",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "startUrl",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Method used to verify the identity of the user, which can be either EMAIL or SMS. The unique identifier received from the initSelfRegistration method. Code used to verify the identity of the user. The page where the user is directed after successful self-registration."
         }
       ],
       "datatype": "Auth.VerificationResult"
     }
   ],
-  "description": "Contains methods to manage end users, for example, to register",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_UserManagement.htm#apex_class_System_UserManagement"
+  "description": "Contains methods to manage end users, for example, to register their verification methods, verify their identity, or remove their personal information.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_UserManagement.htm"
 }

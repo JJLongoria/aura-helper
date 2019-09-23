@@ -5,57 +5,59 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getLabel",
       "signature": "public String getLabel()",
       "description": "Returns the label text for this item.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLayoutComponents",
       "signature": "public List<QuickAction.DescribeLayoutComponent> getLayoutComponents()",
       "description": "Returns a list of QuickAction.DescribeLayoutComponents for this item.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<QuickAction.DescribeLayoutComponent>"
     },
     {
       "name": "isEditableForNew",
       "signature": "public Boolean isEditableForNew()",
       "description": "Indicates whether this item can be edited for new (true) or not (false).",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isEditableForUpdate",
       "signature": "public Boolean isEditableForUpdate()",
       "description": "Indicates whether this item can be edited for update(true) or not (false).",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isPlaceholder",
       "signature": "public Boolean isPlaceholder()",
       "description": "Indicates whether this item is a placeholder (true) or not (false). If true, then this item is blank.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isRequired",
       "signature": "public Boolean isRequired()",
       "description": "Indicates whether this item is required (true) or not (false).",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     }
   ],
   "description": "Represents an individual item in a QuickAction.DescribeLayoutRow.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutitem.htm#apex_class_quickaction_describelayoutitem"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutitem.htm"
 }

@@ -32,7 +32,7 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [],
   "description": "The Reports.ColumnDataType enum describes the type of data in a column. It is returned by the getDataType method.",
   "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_columndatatype.htm"

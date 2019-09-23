@@ -13,23 +13,23 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDefaultValue",
       "signature": "public String getDefaultValue()",
       "description": "Returns the default division for the report.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getValues",
       "signature": "public List<Reports.FilterValue> getValues()",
       "description": "Returns a list of all possible divisions for the report.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Reports.FilterValue>"
     }
   ],
-  "description": "Contains information about the divisions that can be used to filter a",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportDivisionInfo.htm#apex_class_reports_ReportDivisionInfo"
+  "description": "Contains information about the divisions that can be used to filter a report.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportDivisionInfo.htm"
 }

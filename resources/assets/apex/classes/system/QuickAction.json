@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "describeAvailableQuickActions",
       "signature": "public static List<QuickAction.DescribeAvailableQuickActionResult> describeAvailableQuickActions(String parentType)",
       "description": "Returns metadata information for the available quick actions of the provided parent object.",
-      "methodParams": [
+      "params": [
         {
           "name": "parentType",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The parent object type. This can be an object type name ('Account') or 'Global' (meaning that this method is called at a global level and not an entity level)."
         }
       ],
       "datatype": "List<QuickAction.DescribeAvailableQuickActionResult>"
@@ -29,10 +32,11 @@
       "name": "describeAvailableQuickActions",
       "signature": "public static List<QuickAction.DescribeQuickActionResult> describeAvailableQuickActions(List<String> sObjectNames)",
       "description": "Returns the metadata information for the provided quick actions.",
-      "methodParams": [
+      "params": [
         {
           "name": "sObjectNames",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": "The names of the quick actions. The quick action name can contain the entity name if it is at the entity level ('Account.QuickCreateContact'), or 'Global' if used for the action at the global level ('Global.CreateNewContact')."
         }
       ],
       "datatype": "List<QuickAction.DescribeQuickActionResult>"
@@ -41,10 +45,11 @@
       "name": "performQuickAction",
       "signature": "public static QuickAction.QuickActionResult performQuickAction(QuickAction.QuickActionRequest quickActionRequest)",
       "description": "Performs the quick action specified in the quick action request and returns the action result.",
-      "methodParams": [
+      "params": [
         {
           "name": "quickActionRequest",
-          "datatype": "QuickAction.QuickActionRequest"
+          "datatype": "QuickAction.QuickActionRequest",
+          "description": ""
         }
       ],
       "datatype": "QuickAction.QuickActionResult"
@@ -53,14 +58,11 @@
       "name": "performQuickAction",
       "signature": "public static QuickAction.QuickActionResult performQuickAction(QuickAction.QuickActionRequest quickActionRequest, Boolean allOrNothing)",
       "description": "Performs the quick action specified in the quick action request with the option for partial success, and returns the result.",
-      "methodParams": [
-        {
-          "name": "quickActionRequest",
-          "datatype": "QuickAction.QuickActionRequest"
-        },
+      "params": [
         {
           "name": "allOrNothing",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Specifies whether this operation allows partial success. If you specify false for this argument and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why."
         }
       ],
       "datatype": "QuickAction.QuickActionResult"
@@ -69,10 +71,11 @@
       "name": "performQuickActions",
       "signature": "public static List<QuickAction.QuickActionResult> performQuickActions(List<QuickAction.QuickActionRequest> quickActionRequests)",
       "description": "Performs the quick actions specified in the quick action request list and returns action results.",
-      "methodParams": [
+      "params": [
         {
           "name": "quickActionRequests",
-          "datatype": "List<QuickAction.QuickActionRequest>"
+          "datatype": "List<QuickAction.QuickActionRequest>",
+          "description": ""
         }
       ],
       "datatype": "List<QuickAction.QuickActionResult>"
@@ -81,19 +84,16 @@
       "name": "performQuickActions",
       "signature": "public static List<QuickAction.QuickActionResult> performQuickActions(List<QuickAction.QuickActionRequest> quickActionRequests, Boolean allOrNothing)",
       "description": "Performs the quick actions specified in the quick action request list with the option for partial success, and returns action results.",
-      "methodParams": [
-        {
-          "name": "quickActionRequests",
-          "datatype": "List<QuickAction.QuickActionRequest>"
-        },
+      "params": [
         {
           "name": "allOrNothing",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Specifies whether this operation allows partial success. If you specify false for this argument and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why."
         }
       ],
       "datatype": "List<QuickAction.QuickActionResult>"
     }
   ],
-  "description": "Use Apex to request and process actions on objects",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_quickaction.htm#apex_class_system_quickaction"
+  "description": "Use Apex to request and process actions on objects that allow custom fields, on objects that appear in a Chatter feed, or on objects that are available globally.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_quickaction.htm"
 }

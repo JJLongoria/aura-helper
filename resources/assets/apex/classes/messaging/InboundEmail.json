@@ -5,17 +5,21 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {
-    "BinaryAttachment":{
+    "BinaryAttachment" : {
       "name": "BinaryAttachment",
       "namespace": "Messaging",
       "accessModifier": "global",
       "definitionModifier": "",
       "withSharing": false,
       "inheritedSharing": false,
+      "isEnum": false,
+      "enumValues": [],
       "extendsType": "",
       "isInterface": false,
       "implements": [],
@@ -26,106 +30,46 @@
           "name": "body",
           "signature": "public Blob body {get; set;}",
           "description": "The body of the attachment.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         },
         {
           "name": "fileName",
           "signature": "public String fileName {get; set;}",
           "description": "The name of the attached file.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         },
         {
           "name": "headers",
           "signature": "public List<Messaging.InboundEmail.Header> headers {get; set;}",
           "description": "Any header values associated with the attachment. Examples of header names include Content-Type, Content-Transfer-Encoding, and Content-ID.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         }
       ],
-      "constuctors": [
+      "constructors": [
         {
           "name": "InboundEmail.BinaryAttachment",
           "signature": "public InboundEmail.BinaryAttachment()",
           "description": "Creates a new instance of the Messaging.InboundEmail.BinaryAttachment class.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         }
       ],
       "methods": [],
-      "description": "An InboundEmail object stores binary attachments in an",
-      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_binary.htm#apex_classes_email_inbound_binary"
+      "description": "An InboundEmail object stores binary attachments in an InboundEmail.BinaryAttachment object.",
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_binary.htm"
     },
-    "TextAttachment":{
-      "name": "TextAttachment",
-      "namespace": "Messaging",
-      "accessModifier": "global",
-      "definitionModifier": "",
-      "withSharing": false,
-      "inheritedSharing": false,
-      "extendsType": "",
-      "isInterface": false,
-      "implements": [],
-      "classes": {},
-      "enums": {},
-      "fields": [
-        {
-          "name": "body",
-          "signature": "public String body {get; set;}",
-          "description": "The body of the attachment.",
-          "methodParams": [],
-          "datatype": "void"
-        },
-        {
-          "name": "bodyIsTruncated",
-          "signature": "public Boolean bodyIsTruncated {get; set;}",
-          "description": "Indicates whether the attachment body text is truncated (true) or not (false.)",
-          "methodParams": [],
-          "datatype": "void"
-        },
-        {
-          "name": "charset",
-          "signature": "public String charset {get; set;}",
-          "description": "The original character set of the body field. The body is re-encoded as UTF-8 as input to the Apex method.",
-          "methodParams": [],
-          "datatype": "void"
-        },
-        {
-          "name": "fileName",
-          "signature": "public String fileName {get; set;}",
-          "description": "The name of the attached file.",
-          "methodParams": [],
-          "datatype": "void"
-        },
-        {
-          "name": "headers",
-          "signature": "public List<Messaging.InboundEmail.Header> headers {get; set;}",
-          "description": "Any header values associated with the attachment. Examples of header names include Content-Type, Content-Transfer-Encoding, and Content-ID.",
-          "methodParams": [],
-          "datatype": "void"
-        }
-      ],
-      "constuctors": [
-        {
-          "name": "InboundEmail.TextAttachment",
-          "signature": "public InboundEmail.TextAttachment()",
-          "description": "Creates a new instance of the Messaging.InboundEmail.TextAttachment class.",
-          "methodParams": [],
-          "datatype": "void"
-        }
-      ],
-      "methods": [],
-      "description": "An InboundEmail object stores text attachments in an InboundEmail.TextAttachment",
-      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_text.htm#apex_classes_inbound_text"
-    },
-    "Header": {
+    "Header" : {
       "name": "Header",
       "namespace": "Messaging",
       "accessModifier": "global",
       "definitionModifier": "",
       "withSharing": false,
       "inheritedSharing": false,
+      "isEnum": false,
+      "enumValues": [],
       "extendsType": "",
       "isInterface": false,
       "implements": [],
@@ -136,14 +80,78 @@
           "name": "name",
           "signature": "public String name {get; set;}",
           "description": "The name of the header parameter, such as Date or Message-ID.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         }
       ],
-      "constuctors": [],
+      "constructors": [],
       "methods": [],
-      "description": "An InboundEmail object stores RFC 2822 email header information",
-      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_header.htm#apex_classes_email_inbound_header"
+      "description": "An InboundEmail object stores RFC 2822 email header information in an InboundEmail.Header object with the following properties.",
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_header.htm"
+    },
+    "TextAttachment" : {
+      "name": "TextAttachment",
+      "namespace": "Messaging",
+      "accessModifier": "global",
+      "definitionModifier": "",
+      "withSharing": false,
+      "inheritedSharing": false,
+      "isEnum": false,
+      "enumValues": [],
+      "extendsType": "",
+      "isInterface": false,
+      "implements": [],
+      "classes": {},
+      "enums": {},
+      "fields": [
+        {
+          "name": "body",
+          "signature": "public String body {get; set;}",
+          "description": "The body of the attachment.",
+          "params": [],
+          "datatype": "void"
+        },
+        {
+          "name": "bodyIsTruncated",
+          "signature": "public Boolean bodyIsTruncated {get; set;}",
+          "description": "Indicates whether the attachment body text is truncated (true) or not (false.)",
+          "params": [],
+          "datatype": "void"
+        },
+        {
+          "name": "charset",
+          "signature": "public String charset {get; set;}",
+          "description": "The original character set of the body field. The body is re-encoded as UTF-8 as input to the Apex method.",
+          "params": [],
+          "datatype": "void"
+        },
+        {
+          "name": "fileName",
+          "signature": "public String fileName {get; set;}",
+          "description": "The name of the attached file.",
+          "params": [],
+          "datatype": "void"
+        },
+        {
+          "name": "headers",
+          "signature": "public List<Messaging.InboundEmail.Header> headers {get; set;}",
+          "description": "Any header values associated with the attachment. Examples of header names include Content-Type, Content-Transfer-Encoding, and Content-ID.",
+          "params": [],
+          "datatype": "void"
+        }
+      ],
+      "constructors": [
+        {
+          "name": "InboundEmail.TextAttachment",
+          "signature": "public InboundEmail.TextAttachment()",
+          "description": "Creates a new instance of the Messaging.InboundEmail.TextAttachment class.",
+          "params": [],
+          "datatype": "void"
+        }
+      ],
+      "methods": [],
+      "description": "An InboundEmail object stores text attachments in an InboundEmail.TextAttachment object.",
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_text.htm"
     }
   },
   "enums": {},
@@ -152,118 +160,118 @@
       "name": "binaryAttachments",
       "signature": "public InboundEmail.BinaryAttachment[] binaryAttachments {get; set;}",
       "description": "A list of binary attachments received with the email, if any.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "ccAddresses",
       "signature": "public String[] ccAddresses {get; set;}",
       "description": "A list of carbon copy (CC) addresses, if any.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "fromAddress",
       "signature": "public String fromAddress {get; set;}",
       "description": "The email address that appears in the From field.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "fromName",
       "signature": "public String fromName {get; set;}",
       "description": "The name that appears in the From field, if any.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "headers",
       "signature": "public InboundEmail.Header[] headers {get; set;}",
       "description": "A list of the RFC 2822 headers in the email.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "htmlBody",
       "signature": "public String htmlBody {get; set;}",
       "description": "The HTML version of the email, if specified by the sender.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "htmlBodyIsTruncated",
       "signature": "public Boolean htmlBodyIsTruncated {get; set;}",
       "description": "Indicates whether the HTML body text is truncated (true) or not (false.)",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "inReplyTo",
       "signature": "public String inReplyTo {get; set;}",
       "description": "The In-Reply-To field of the incoming email. Identifies the email or emails to which this one is a reply (parent emails). Contains the parent email or emails' message-IDs.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "messageId",
       "signature": "public String messageId {get; set;}",
       "description": "The Message-ID—the incoming email's unique identifier.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "plainTextBody",
       "signature": "public String plainTextBody {get; set;}",
       "description": "The plain text version of the email, if specified by the sender.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "plainTextBodyIsTruncated",
       "signature": "public Boolean plainTextBodyIsTruncated {get; set;}",
       "description": "Indicates whether the plain body text is truncated (true) or not (false.)",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "references",
       "signature": "public String[] references {get; set;}",
       "description": "The References field of the incoming email. Identifies an email thread. Contains a list of the parent emails' References and message IDs, and possibly the In-Reply-To fields.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "replyTo",
       "signature": "public String replyTo {get; set;}",
       "description": "The email address that appears in the reply-to header.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "subject",
       "signature": "public String subject {get; set;}",
       "description": "The subject line of the email, if any.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "textAttachments",
       "signature": "public InboundEmail.TextAttachment[] textAttachments {get; set;}",
       "description": "A list of text attachments received with the email, if any.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [
+  "constructors": [
     {
       "name": "InboundEmail",
       "signature": "public InboundEmail()",
       "description": "Creates a new instance of the Messaging.InboundEmail class.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
   "methods": [],
   "description": "Represents an inbound email object.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_inbound.htm#apex_classes_email_inbound_inbound"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_inbound.htm"
 }

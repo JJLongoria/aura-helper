@@ -5,43 +5,45 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getLogoutUrl",
       "signature": "public static String getLogoutUrl()",
       "description": "Returns the page to display after the current community user logs out.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getUserDisplayName",
       "signature": "public static String getUserDisplayName()",
       "description": "Returns the current user’s community display name.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "isGuestUser",
       "signature": "public static Boolean isGuestUser()",
       "description": "Indicates whether the current user isn’t logged in to the community and may need to be redirected to log in, if required.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isInternalUser",
       "signature": "public static Boolean isInternalUser()",
       "description": "Indicates whether the current user is logged in as a member of the parent Salesforce organization, such as an employee.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     }
   ],
-  "description": "Contains methods for getting information about a community",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_CommunitiesUtil.htm#apex_class_Auth_CommunitiesUtil"
+  "description": "Contains methods for getting information about a community user.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_CommunitiesUtil.htm"
 }

@@ -1,24 +1,29 @@
 {
-    "name": "AttachmentRetrievalOption",
-    "namespace": "Messaging",
-    "accessModifier": "global",
-    "definitionModifier": "",
-    "withSharing": false,
-    "inheritedSharing": false,
-    "extendsType": "",
-    "isInterface": false,
-    "isEnum": true,
-    "implements": [],
-    "classes": {},
-    "enums": {},
-    "enumValues": [
-        "METADATA_ONLY",
-        "METADATA_WITH_BODY",
-        "NONE"
-    ],
-    "fields": [],
-    "constuctors": [],
-    "methods": [],
-    "description": "Provides options for including attachment metadata only, attachment metadata and content, or excluding attachments.",
-    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Messaging_AttachmentRetrievalOptionEnum.htm"
-  }
+  "name": "AttachmentRetrievalOption",
+  "namespace": "Messaging",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "The following are the values of the Messaging.AttachmentRetrievalOption enum.",
+    "METADATA_ONLY",
+    "Includes only the file name, content type, and the object ID in the fileAttachments property of Messaging.SingleEmailMessage.",
+    "METADATA_WITH_BODY",
+    "and the object ID in the fileAttachments",
+    "property of Messaging.SingleEmailMessage.",
+    "NONE",
+    "Doesn’t include any attachments in Messaging.SingleEmailMessage."
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Provides options for including attachment metadata only, attachment metadata and content, or excluding attachments.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Messaging_AttachmentRetrievalOptionEnum.htm"
+}

@@ -5,14 +5,170 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
-  "methods": [],
-  "description": "A PageReference is a reference to",
+  "constructors": [
+    {
+      "name": "PageReference",
+      "signature": "public PageReference(String partialURL)",
+      "description": "Creates a new instance of the PageReference class using the specified URL.",
+      "params": [
+        {
+          "name": "partialURL",
+          "datatype": "String",
+          "description": "The partial URL of a page hosted on the Lightning platform or a full external URL."
+        }
+      ],
+      "datatype": ""
+    },
+    {
+      "name": "PageReference",
+      "signature": "public PageReference(SObject record)",
+      "description": "Generate a new instance of the PageReference class for the specified sObject record.",
+      "params": [
+        {
+          "name": "record",
+          "datatype": "SObject",
+          "description": "The sObject record that references the ApexPage. The reference must be an ApexPage."
+        }
+      ],
+      "datatype": ""
+    }
+  ],
+  "methods": [
+    {
+      "name": "forResource",
+      "signature": "public static System.PageReference forResource(String resourceName, String path)",
+      "description": "Generate a new instance of the PageReference class for the specified sObject record.",
+      "params": [
+        {
+          "name": "resourceName",
+          "datatype": "String",
+          "description": "The resource name"
+        },
+        {
+          "name": "path",
+          "datatype": "String",
+          "description": "The resource path"
+        }
+      ],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "forResource",
+      "signature": "public static System.PageReference forResource(String resourceName)",
+      "description": "Create a PageReference for a static resource, by name.",
+      "params": [
+        {
+          "name": "resourceName",
+          "datatype": "String",
+          "description": "The resource name"
+        }
+      ],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "getAnchor",
+      "signature": "public String getAnchor()",
+      "description": "Returns the name of the anchor referenced in the page’s URL. That is, the part of the URL after the hashtag (#).",
+      "params": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getContent",
+      "signature": "public Blob getContent()",
+      "description": "Returns the output of the page, as displayed to a user in a web browser.",
+      "params": [],
+      "datatype": "Blob"
+    },
+    {
+      "name": "getContentAsPDF",
+      "signature": "public Blob getContentAsPDF()",
+      "description": "Returns the page in PDF, regardless of the <apex:page> component’s renderAs attribute.",
+      "params": [],
+      "datatype": "Blob"
+    },
+    {
+      "name": "getCookies",
+      "signature": "public Map<String, System.Cookie> getCookies()",
+      "description": "Returns a map of cookie names and cookie objects, where the key is a String of the cookie name and the the value contains the cookie object with that name.",
+      "params": [],
+      "datatype": "Map<String, System.Cookie>"
+    },
+    {
+      "name": "getHeaders",
+      "signature": "public Map<String, String> getHeaders()",
+      "description": "Returns a map of the request headers, where the key string contains the name of the header, and the value string contains the value of the header.",
+      "params": [],
+      "datatype": "Map<String, String>"
+    },
+    {
+      "name": "getParameters",
+      "signature": "public Map<String, String> getParameters()",
+      "description": "Returns a map of the query string parameters for the PageReference; both POST and GET parameters are included. The key string contains the name of the parameter, while the value string contains the value of the parameter.",
+      "params": [],
+      "datatype": "Map<String, String>"
+    },
+    {
+      "name": "getRedirect",
+      "signature": "public Boolean getRedirect()",
+      "description": "Returns the current value of the PageReference object's redirect attribute.",
+      "params": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "getUrl",
+      "signature": "public String getUrl()",
+      "description": "Returns the relative URL associated with the PageReference when it was originally defined, including any query string parameters and anchors.",
+      "params": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setAnchor",
+      "signature": "public System.PageReference setAnchor(String anchor)",
+      "description": "Create a PageReference for a static resource, by name.",
+      "params": [
+        {
+          "name": "anchor",
+          "datatype": "String",
+          "description": ""
+        }
+      ],
+      "datatype": "System.PageReference"
+    },
+    {
+      "name": "setCookies",
+      "signature": "public void setCookies(Cookie[] cookies)",
+      "description": "Creates a list of cookie objects. Used in conjunction with the Cookie class.",
+      "params": [
+        {
+          "name": "cookies",
+          "datatype": "Cookie[]",
+          "description": ""
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setRedirect",
+      "signature": "public System.PageReference setRedirect(Boolean redirect)",
+      "description": "Sets the value of the PageReference object's redirect attribute. If set to true, a redirect is performed through a client side redirect.",
+      "params": [
+        {
+          "name": "redirect",
+          "datatype": "Boolean",
+          "description": ""
+        }
+      ],
+      "datatype": "System.PageReference"
+    }
+  ],
+  "description": "A PageReference is a reference to an instantiation of a page. Among other attributes, PageReferences consist of a URL and a set of query parameter names and values.",
   "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_system_pagereference.htm"
 }

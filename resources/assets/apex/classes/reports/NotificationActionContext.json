@@ -13,19 +13,16 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "NotificationActionContext",
       "signature": "public NotificationActionContext(Reports.ReportInstance reportInstance, Reports.ThresholdInformation thresholdInformation)",
       "description": "Creates a new instance of the Reports.NotificationActionContext class using the specified parameters.",
-      "methodParams": [
-        {
-          "name": "reportInstance",
-          "datatype": "Reports.ReportInstance"
-        },
+      "params": [
         {
           "name": "thresholdInformation",
-          "datatype": "Reports.ThresholdInformation"
+          "datatype": "Reports.ThresholdInformation",
+          "description": "An instance of a report. The evaluated conditions for the notification."
         }
       ],
       "datatype": "void"
@@ -36,17 +33,17 @@
       "name": "getReportInstance",
       "signature": "public Reports.ReportInstance getReportInstance()",
       "description": "Returns the report instance associated with the notification.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Reports.ReportInstance"
     },
     {
       "name": "getThresholdInformation",
       "signature": "public Reports.ThresholdInformation getThresholdInformation()",
       "description": "Returns the threshold information associated with the notification.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Reports.ThresholdInformation"
     }
   ],
-  "description": "Contains information about the report instance and condition threshold",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_NotificationActionContext.htm#apex_class_reports_NotificationActionContext"
+  "description": "Contains information about the report instance and condition threshold for a report notification.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_NotificationActionContext.htm"
 }

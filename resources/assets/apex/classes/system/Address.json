@@ -5,47 +5,46 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getCity",
-      "signature": "",
-      "description": "Returns the city field of this address.  Signature public String getCity()",
-      "methodParams": [],
+      "signature": "public String getCity()",
+      "description": "Returns the city field of this address.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getCountry",
       "signature": "public String getCountry()",
       "description": "Returns the text-only country name component of this address.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getCountryCode",
       "signature": "public String getCountryCode()",
       "description": "Returns the country code of this address if state and country picklists are enabled in your organization. Otherwise, returns null.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getDistance",
       "signature": "public Double getDistance(Location toLocation, String unit)",
       "description": "Returns the distance from this location to the specified location using the specified unit.",
-      "methodParams": [
-        {
-          "name": "toLocation",
-          "datatype": "Location"
-        },
+      "params": [
         {
           "name": "unit",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The Location to which you want to calculate the distance from the current Location. The distance unit you want to use: mi or km."
         }
       ],
       "datatype": "Double"
@@ -54,52 +53,52 @@
       "name": "getGeocodeAccuracy",
       "signature": "public String getGeocodeAccuracy()",
       "description": "When using geolocation data for a given address, this method gives you relative location information based on latitude and longitude values. For example, you can find out if the latitude and longitude values point to the middle of the street, instead of the exact address.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLatitude",
-      "signature": "",
-      "description": "Returns the latitude field of this address.  Signature public Double getLatitude()",
-      "methodParams": [],
+      "signature": "public Double getLatitude()",
+      "description": "Returns the latitude field of this address.",
+      "params": [],
       "datatype": "Double"
     },
     {
       "name": "getLongitude",
-      "signature": "",
-      "description": "Returns the longitude field of this address.  Signature public Double getLongitude()",
-      "methodParams": [],
+      "signature": "public Double getLongitude()",
+      "description": "Returns the longitude field of this address.",
+      "params": [],
       "datatype": "Double"
     },
     {
       "name": "getPostalCode",
-      "signature": "",
-      "description": "Returns the postal code of this address.  Signature public String getPostalCode()",
-      "methodParams": [],
+      "signature": "public String getPostalCode()",
+      "description": "Returns the postal code of this address.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getState",
       "signature": "public String getState()",
       "description": "Returns the text-only state name component of this address.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getStateCode",
       "signature": "public String getStateCode()",
       "description": "Returns the state code of this address if state and country picklists are enabled in your organization. Otherwise, returns null.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getStreet",
-      "signature": "",
-      "description": "Returns the street field of this address.  Signature public String getStreet()",
-      "methodParams": [],
+      "signature": "public String getStreet()",
+      "description": "Returns the street field of this address.",
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Contains methods for accessing the component fields of address",
+  "description": "Contains methods for accessing the component fields of address compound fields.",
   "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Address.htm"
 }

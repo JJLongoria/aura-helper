@@ -50,7 +50,7 @@ class Paths {
         return applicationContext.context.storagePath + "\\" + "activeOrgs.json";
     }
     static getSystemClassesPath() {
-        return applicationContext.context.asAbsolutePath("./resources/assets/system/classes");
+        return applicationContext.context.asAbsolutePath("./resources/assets/apex/classes");
     }
     static getBasename(filePath) {
         return path.basename(filePath);

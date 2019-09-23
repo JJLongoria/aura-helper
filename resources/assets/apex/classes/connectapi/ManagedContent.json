@@ -5,38 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getAllManagedContent",
       "signature": "public static ConnectApi.ManagedContentVersionCollection getAllManagedContent(String communityId, Integer pageParam, Integer pageSize, String language, String managedContentType)",
       "description": "Get all managed content versions for a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
-        {
-          "name": "language",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "managedContentType",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the community. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 250. If you pass in null, the default size is 25. Language locale for the managed content, for example, en_US. If the requested translation isn’t available, the language defaults to the context user’s language. If the context user’s language isn’t available, the language defaults to the content type’s original language. The developer name of the content version."
         }
       ],
       "datatype": "ConnectApi.ManagedContentVersionCollection"
@@ -45,30 +32,11 @@
       "name": "getManagedContentByIds",
       "signature": "public static ConnectApi.ManagedContentVersionCollection getManagedContentByIds(String communityId, List<String> managedContentIds, Integer pageParam, Integer pageSize, String language, String managedContentType)",
       "description": "Get managed content versions using a list of managed content IDs.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "managedContentIds",
-          "datatype": "List<String>"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
-        {
-          "name": "language",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "managedContentType",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the community. Comma-separated list of up to 200 managed content IDs. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 250. If you pass in null, the default size is 25. Language locale for the managed content, for example, en_US. If the requested translation isn’t available, the language defaults to the context user’s language. If the context user’s language isn’t available, the language defaults to the content type’s original language. The developer name of the content version."
         }
       ],
       "datatype": "ConnectApi.ManagedContentVersionCollection"
@@ -77,30 +45,11 @@
       "name": "getManagedContentByTopics",
       "signature": "public static ConnectApi.ManagedContentVersionCollection getManagedContentByTopics(String communityId, List<String> topics, Integer pageParam, Integer pageSize, String language, String managedContentType)",
       "description": "Get managed content versions using a list of content topic names.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "topics",
-          "datatype": "List<String>"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
-        {
-          "name": "language",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "managedContentType",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the community. Comma-separated list of up to 15 content topic names. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 250. If you pass in null, the default size is 25. Language locale for the managed content, for example, en_US. If the requested translation isn’t available, the language defaults to the context user’s language. If the context user’s language isn’t available, the language defaults to the content type’s original language. The developer name of the content version."
         }
       ],
       "datatype": "ConnectApi.ManagedContentVersionCollection"
@@ -109,39 +58,16 @@
       "name": "getManagedContentByTopicsAndIds",
       "signature": "public static ConnectApi.ManagedContentVersionCollection getManagedContentByTopicsAndIds(String communityId, List<String> managedContentIds, List<String> topics, Integer pageParam, Integer pageSize, String language, String managedContentType)",
       "description": "Get managed content versions using a list of managed content IDs and content topic names.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "managedContentIds",
-          "datatype": "List<String>"
-        },
-        {
-          "name": "topics",
-          "datatype": "List<String>"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
-        {
-          "name": "language",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "managedContentType",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the community. Comma-separated list of up to 200 managed content IDs. Comma-separated list of up to 15 content topic names. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 250. If you pass in null, the default size is 25. Language locale for the managed content, for example, en_US. If the requested translation isn’t available, the language defaults to the context user’s language. If the context user’s language isn’t available, the language defaults to the content type’s original language. The developer name of the content version."
         }
       ],
       "datatype": "ConnectApi.ManagedContentVersionCollection"
     }
   ],
   "description": "Get managed content versions.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ManagedContent_static_methods.htm#apex_ConnectAPI_ManagedContent_static_methods"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ManagedContent_static_methods.htm"
 }

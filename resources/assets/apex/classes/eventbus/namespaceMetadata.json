@@ -1,0 +1,29 @@
+{
+  "ChangeEventHeader": {
+    "name": "ChangeEventHeader",
+    "namespace": "EventBus",
+    "isInterface": false,
+    "description": "Contains header fields of Change Data Capture events.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_eventbus_ChangeEventHeader.htm#apex_class_eventbus_ChangeEventHeader",
+    "classes": [],
+    "enums": []
+  },
+  "TestBroker": {
+    "name": "TestBroker",
+    "namespace": "EventBus",
+    "isInterface": false,
+    "description": "Contains a method that delivers platform event or change event",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_eventbus_TestBroker.htm#apex_class_eventbus_TestBroker",
+    "classes": [],
+    "enums": []
+  },
+  "TriggerContext": {
+    "name": "TriggerContext",
+    "namespace": "EventBus",
+    "isInterface": false,
+    "description": "Provides information about the platform event or change event trigger",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_eventbus_TriggerContext.htm#apex_class_eventbus_TriggerContext",
+    "classes": [],
+    "enums": []
+  }
+}

@@ -1,0 +1,287 @@
+{
+  "AuthConfiguration": {
+    "name": "AuthConfiguration",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Contains methods for configuring settings for",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthConfiguration.htm#apex_class_Auth_AuthConfiguration",
+    "classes": [],
+    "enums": []
+  },
+  "AuthProviderCallbackState": {
+    "name": "AuthProviderCallbackState",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Provides request HTTP headers, body, and query parameters to the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthProviderCallbackState.htm#apex_class_Auth_AuthProviderCallbackState",
+    "classes": [],
+    "enums": []
+  },
+  "AuthProviderPlugin": {
+    "name": "AuthProviderPlugin",
+    "namespace": "Auth",
+    "isInterface": true,
+    "description": "This interface is deprecated. For new development, use the abstract",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Auth_AuthProviderPlugin.htm#apex_interface_Auth_AuthProviderPlugin",
+    "classes": [],
+    "enums": []
+  },
+  "AuthProviderPluginClass": {
+    "name": "AuthProviderPluginClass",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Contains methods to create a custom OAuth-based authentication",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthProviderPluginClass.htm#apex_class_Auth_AuthProviderPluginClass",
+    "classes": [],
+    "enums": []
+  },
+  "AuthProviderTokenResponse": {
+    "name": "AuthProviderTokenResponse",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Stores the response from the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthProviderTokenResponse.htm#apex_class_Auth_AuthProviderTokenResponse",
+    "classes": [],
+    "enums": []
+  },
+  "AuthToken": {
+    "name": "AuthToken",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Contains methods for providing the access token associated",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthToken.htm#apex_class_Auth_AuthToken",
+    "classes": [],
+    "enums": []
+  },
+  "CommunitiesUtil": {
+    "name": "CommunitiesUtil",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Contains methods for getting information about a community",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_CommunitiesUtil.htm#apex_class_Auth_CommunitiesUtil",
+    "classes": [],
+    "enums": []
+  },
+  "ConfigurableSelfRegHandler": {
+    "name": "ConfigurableSelfRegHandler",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Gives you more control over how visitors self-register for your",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Auth_ConfigurableSelfRegHandler.htm#apex_interface_Auth_ConfigurableSelfRegHandler",
+    "classes": [],
+    "enums": []
+  },
+  "ConnectedAppPlugin": {
+    "name": "ConnectedAppPlugin",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Contains methods for extending the behavior of a connected app, for example,",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_ConnectedAppPlugin.htm#apex_class_Auth_ConnectedAppPlugin",
+    "classes": [],
+    "enums": []
+  },
+  "InvocationContext": {
+    "name": "InvocationContext",
+    "namespace": "Auth",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "ASSET_TOKEN",
+      "OAUTH1",
+      "OAUTH2_JWT_BEARER_TOKEN",
+      "OAUTH2_SAML_ASSERTION",
+      "OAUTH2_SAML_BEARER_ASSERTION",
+      "OAUTH2_USERNAME_PASSWORD",
+      "OAUTH2_USER_AGENT_ID_TOKEN",
+      "OAUTH2_USER_AGENT_TOKEN",
+      "OAUTH2_WEB_SERVER",
+      "OPENIDCONNECT",
+      "REFRESH_TOKEN",
+      "SAML_ASSERTION",
+      "UNKNOWN",
+      "USERID_ENDPOINT"
+    ],
+    "description": "The context in which the connected app is invoked, such as the protocol flow used and the token type issued, if any. Developers can use the context information to write code that is unique to the type of invocation.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Auth_InvocationContext.htm",
+    "classes": [],
+    "enums": []
+  },
+  "JWS": {
+    "name": "JWS",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Contains methods that apply a digital signature to a JSON Web Token",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_JWS.htm#apex_class_Auth_JWS",
+    "classes": [],
+    "enums": []
+  },
+  "JWT": {
+    "name": "JWT",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Generates the JSON Claims Set in a JSON Web Token (JWT). The resulting",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_JWT.htm#apex_class_Auth_JWT",
+    "classes": [],
+    "enums": []
+  },
+  "JWTBearerTokenExchange": {
+    "name": "JWTBearerTokenExchange",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Contains methods that POST the signed JWT bearer token to a token",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_JWTBearerTokenExchange.htm#apex_class_Auth_JWTBearerTokenExchange",
+    "classes": [],
+    "enums": []
+  },
+  "LightningLoginEligibility": {
+    "name": "LightningLoginEligibility",
+    "namespace": "Auth",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "ELIGIBLE",
+      "ORG_AUTHENTICATOR_NOT_ENABLED",
+      "ORG_PREF_NOT_ENABLED",
+      "USER_AUTHENTICATOR_NOT_CONNECTED",
+      "USER_NOT_ALLOWED",
+      "USER_NOT_ENROLLED",
+      "USER_PERM_NOT_ENABLED"
+    ],
+    "description": "Contains a Lightning Login eligibility value used by the Auth.SessionManagement.getLightningLoginEligibility method.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Auth_LightningLoginEligibility.htm",
+    "classes": [],
+    "enums": []
+  },
+  "LoginDiscoveryHandler": {
+    "name": "LoginDiscoveryHandler",
+    "namespace": "Auth",
+    "isInterface": true,
+    "description": "Salesforce gives you the ability to log in users based on other",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Auth_LoginDiscoveryHandler.htm#apex_interface_Auth_LoginDiscoveryHandler",
+    "classes": [],
+    "enums": []
+  },
+  "LoginDiscoveryMethod": {
+    "name": "LoginDiscoveryMethod",
+    "namespace": "Auth",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "LIGHTNING_LOGIN",
+      "PASSWORD"
+    ],
+    "description": "Contains methods used to verify the user’s identity when the My Domain login process uses Login Discovery.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Auth_LoginDiscoveryMethod.htm",
+    "classes": [],
+    "enums": []
+  },
+  "MyDomainLoginDiscoveryHandler": {
+    "name": "MyDomainLoginDiscoveryHandler",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "The handler used to implement the My Domain Login Discovery page,",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Auth_MyDomainLoginDiscoveryHandler.htm#apex_interface_Auth_MyDomainLoginDiscoveryHandler",
+    "classes": [],
+    "enums": []
+  },
+  "OAuthRefreshResult": {
+    "name": "OAuthRefreshResult",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Stores the result of an AuthProviderPluginClass refresh method. OAuth authentication flow provides a",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_OAuthRefreshResult.htm#apex_class_Auth_OAuthRefreshResult",
+    "classes": [],
+    "enums": []
+  },
+  "RegistrationHandler": {
+    "name": "RegistrationHandler",
+    "namespace": "Auth",
+    "isInterface": true,
+    "description": "Salesforce provides the ability to use an authentication provider, such",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_auth_plugin.htm#apex_auth_plugin",
+    "classes": [],
+    "enums": []
+  },
+  "SamlJitHandler": {
+    "name": "SamlJitHandler",
+    "namespace": "Auth",
+    "isInterface": true,
+    "description": "Use this interface to control and customize Just-in-Time user",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Auth_SamlJitHandler.htm#apex_interface_Auth_SamlJitHandler",
+    "classes": [],
+    "enums": []
+  },
+  "SessionLevel": {
+    "name": "SessionLevel",
+    "namespace": "Auth",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "LOW",
+      "STANDARD",
+      "HIGH_ASSURANCE"
+    ],
+    "description": "An Auth.SessionLevel enum value is used by the SessionManagement.setSessionLevel method",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Auth_SessionLevel.htm",
+    "classes": [],
+    "enums": []
+  },
+  "SessionManagement": {
+    "name": "SessionManagement",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Contains methods for verifying users’ identity,",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_SessionManagement.htm#apex_class_Auth_SessionManagement",
+    "classes": [],
+    "enums": []
+  },
+  "UserData": {
+    "name": "UserData",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Stores user information for Auth.RegistrationHandler.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_UserData.htm#apex_class_Auth_UserData",
+    "classes": [],
+    "enums": []
+  },
+  "VerificationMethod": {
+    "name": "VerificationMethod",
+    "namespace": "Auth",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "EMAIL",
+      "PASSWORD",
+      "SALESFORCE_AUTHENTICATOR",
+      "SMS",
+      "TOTP",
+      "U2F"
+    ],
+    "description": "Contains the different ways users can identify themselves when logging in. You can use it to implement mobile-centric passwordless login pages and to self-register (and deregister) verification methods.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Auth_VerificationMethod.htm",
+    "classes": [],
+    "enums": []
+  },
+  "VerificationPolicy": {
+    "name": "VerificationPolicy",
+    "namespace": "Auth",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "HIGH_ASSURANCE"
+    ],
+    "description": "The Auth.VerificationPolicy enum contains an identity verification policy value used by the SessionManagement.generateVerificationUrl method.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Auth_VerificationPolicy.htm",
+    "classes": [],
+    "enums": []
+  },
+  "VerificationResult": {
+    "name": "VerificationResult",
+    "namespace": "Auth",
+    "isInterface": false,
+    "description": "Contains the result of a verification challenge",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_VerificationResult.htm#apex_class_Auth_VerificationResult",
+    "classes": [],
+    "enums": []
+  }
+}

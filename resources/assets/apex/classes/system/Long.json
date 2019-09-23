@@ -5,41 +5,44 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "format",
       "signature": "public String format()",
       "description": "Returns the String format for this Long using the locale of the context user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "intValue",
       "signature": "public Integer intValue()",
       "description": "Returns the Integer value for this Long.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "valueOf",
       "signature": "public static Long valueOf(String stringToLong)",
       "description": "Returns a Long that contains the value of the specified String. As in Java, the string is interpreted as representing a signed decimal Long.",
-      "methodParams": [
+      "params": [
         {
           "name": "stringToLong",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Long"
     }
   ],
   "description": "Contains methods for the Long primitive data type.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_long.htm#apex_methods_system_long"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_long.htm"
 }

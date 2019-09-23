@@ -5,43 +5,45 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getActionEnumOrId",
       "signature": "public String getActionEnumOrId()",
       "description": "Returns the unique ID for the action. If the action doesn’t have an ID, its API name is used.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLabel",
       "signature": "public String getLabel()",
       "description": "The quick action label.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getName",
       "signature": "public String getName()",
       "description": "The quick action name.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getType",
       "signature": "public String getType()",
       "description": "The quick action type.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Contains describe metadata information for a quick action",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describeavailablequickactionresult.htm#apex_class_quickaction_describeavailablequickactionresult"
+  "description": "Contains describe metadata information for a quick action that is available for a specified parent.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describeavailablequickactionresult.htm"
 }

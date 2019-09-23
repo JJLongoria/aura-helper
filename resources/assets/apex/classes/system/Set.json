@@ -5,28 +5,31 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "Set&lt;T&gt;",
       "signature": "public Set<T>()",
       "description": "Creates a new instance of the Set class. A set can hold elements of any data type T.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "Set&lt;T&gt;",
       "signature": "public Set<T>(Set<T> setToCopy)",
       "description": "Creates a new instance of the Set class by copying the elements of the specified set. T is the data type of the elements in both sets and can be any data type.",
-      "methodParams": [
+      "params": [
         {
           "name": "setToCopy",
-          "datatype": "Set<T>"
+          "datatype": "Set<T>",
+          "description": "The set to initialize this set with."
         }
       ],
       "datatype": "void"
@@ -35,10 +38,11 @@
       "name": "Set&lt;T&gt;",
       "signature": "public Set<T>(List<T> listToCopy)",
       "description": "Creates a new instance of the Set class by coping the list elements. T is the data type of the elements in the set and list and can be any data type.",
-      "methodParams": [
+      "params": [
         {
           "name": "listToCopy",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The list to copy the elements of into this set."
         }
       ],
       "datatype": "void"
@@ -49,10 +53,11 @@
       "name": "add",
       "signature": "public Boolean add(Object setElement)",
       "description": "Adds an element to the set if it is not already present.",
-      "methodParams": [
+      "params": [
         {
           "name": "setElement",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -61,10 +66,11 @@
       "name": "addAll",
       "signature": "public Boolean addAll(List<Object> fromList)",
       "description": "Adds all of the elements in the specified list to the set if they are not already present.",
-      "methodParams": [
+      "params": [
         {
           "name": "fromList",
-          "datatype": "List"
+          "datatype": "List",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -73,10 +79,11 @@
       "name": "addAll",
       "signature": "public Boolean addAll(Set<Object> fromSet)",
       "description": "Adds all of the elements in the specified set to the set that calls the method if they are not already present.",
-      "methodParams": [
+      "params": [
         {
           "name": "fromSet",
-          "datatype": "Set<Object>"
+          "datatype": "Set<Object>",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -85,24 +92,25 @@
       "name": "clear",
       "signature": "public Void clear()",
       "description": "Removes all of the elements from the set.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Void"
     },
     {
       "name": "clone",
       "signature": "public Set<Object> clone()",
       "description": "Makes a duplicate copy of the set.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Set (of same type)"
     },
     {
       "name": "contains",
       "signature": "public Boolean contains(Object setElement)",
       "description": "Returns true if the set contains the specified element.",
-      "methodParams": [
+      "params": [
         {
           "name": "setElement",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -111,10 +119,11 @@
       "name": "containsAll",
       "signature": "public Boolean containsAll(List<Object> listToCompare)",
       "description": "Returns true if the set contains all of the elements in the specified list. The list must be of the same type as the set that calls the method.",
-      "methodParams": [
+      "params": [
         {
           "name": "listToCompare",
-          "datatype": "List<Object>"
+          "datatype": "List<Object>",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -123,10 +132,11 @@
       "name": "containsAll",
       "signature": "public Boolean containsAll(Set<Object> setToCompare)",
       "description": "Returns true if the set contains all of the elements in the specified set. The specified set must be of the same type as the original set that calls the method.",
-      "methodParams": [
+      "params": [
         {
           "name": "setToCompare",
-          "datatype": "Set<Object>"
+          "datatype": "Set<Object>",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -135,10 +145,11 @@
       "name": "equals",
       "signature": "public Boolean equals(Set<Object> set2)",
       "description": "Compares this set with the specified set and returns true if both sets are equal; otherwise, returns false.",
-      "methodParams": [
+      "params": [
         {
           "name": "set2",
-          "datatype": "Set<Object>"
+          "datatype": "Set<Object>",
+          "description": "The set2 argument is the set to compare this set with."
         }
       ],
       "datatype": "Boolean"
@@ -147,24 +158,25 @@
       "name": "hashCode",
       "signature": "public Integer hashCode()",
       "description": "Returns the hashcode corresponding to this set and its contents.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "isEmpty",
       "signature": "public Boolean isEmpty()",
       "description": "Returns true if the set has zero elements.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "remove",
       "signature": "public Boolean remove(Object setElement)",
       "description": "Removes the specified element from the set if it is present.",
-      "methodParams": [
+      "params": [
         {
           "name": "setElement",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -173,10 +185,11 @@
       "name": "removeAll",
       "signature": "public Boolean removeAll(List<Object> listOfElementsToRemove)",
       "description": "Removes the elements in the specified list from the set if they are present.",
-      "methodParams": [
+      "params": [
         {
           "name": "listOfElementsToRemove",
-          "datatype": "List<Object>"
+          "datatype": "List<Object>",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -185,10 +198,11 @@
       "name": "removeAll",
       "signature": "public Boolean removeAll(Set<Object> setOfElementsToRemove)",
       "description": "Removes the elements in the specified set from the original set if they are present.",
-      "methodParams": [
+      "params": [
         {
           "name": "setOfElementsToRemove",
-          "datatype": "Set<Object>"
+          "datatype": "Set<Object>",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -197,10 +211,11 @@
       "name": "retainAll",
       "signature": "public Boolean retainAll(List<Object> listOfElementsToRetain)",
       "description": "Retains only the elements in this set that are contained in the specified list.",
-      "methodParams": [
+      "params": [
         {
           "name": "listOfElementsToRetain",
-          "datatype": "List<Object>"
+          "datatype": "List<Object>",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -209,10 +224,11 @@
       "name": "retainAll",
       "signature": "public Boolean retainAll(Set setOfElementsToRetain)",
       "description": "Retains only the elements in the original set that are contained in the specified set.",
-      "methodParams": [
+      "params": [
         {
           "name": "setOfElementsToRetain",
-          "datatype": "Set"
+          "datatype": "Set",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -221,10 +237,10 @@
       "name": "size",
       "signature": "public Integer size()",
       "description": "Returns the number of elements in the set (its cardinality).",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     }
   ],
   "description": "Represents a collection of unique elements with no duplicate values.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_set.htm#apex_methods_system_set"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_set.htm"
 }

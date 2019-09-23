@@ -1,24 +1,24 @@
 {
-    "name": "FeedLayoutFilterPosition",
-    "namespace": "Metadata",
-    "accessModifier": "global",
-    "definitionModifier": "",
-    "withSharing": false,
-    "inheritedSharing": false,
-    "extendsType": "",
-    "isInterface": false,
-    "isEnum": true,
-    "implements": [],
-    "classes": {},
-    "enums": {},
-    "enumValues": [
-        "CenterDropDown",
-        "LeftFixed",
-        "LeftFloat"
-    ],
-    "fields": [],
-    "constuctors": [],
-    "methods": [],
-    "description": "Indicates the type of feed layout component.",
-    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_FeedLayoutFilterPosition.htm"
-  }
+  "name": "FeedLayoutFilterPosition",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "CenterDropDown",
+    "LeftFixed",
+    "LeftFloat"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Describes where the feed filters list is included in the layout.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_FeedLayoutFilterPosition.htm"
+}

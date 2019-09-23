@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,27 +17,27 @@
       "name": "primaryTabComponents",
       "signature": "public Metadata.PrimaryTabComponents primaryTabComponents {get; set;}",
       "description": "Represents custom console components on primary tabs in the Salesforce console.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "subtabComponents",
       "signature": "public Metadata.SubtabComponents subtabComponents {get; set;}",
       "description": "Represents custom console components on subtabs in the Salesforce console.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.CustomConsoleComponents.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Represents custom console components (Visualforce pages, lookup",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_CustomConsoleComponents.htm#apex_class_Metadata_CustomConsoleComponents"
+  "description": "Represents custom console components (Visualforce pages, lookup fields, or related lists) on a page layout.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_CustomConsoleComponents.htm"
 }

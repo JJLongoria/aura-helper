@@ -13,44 +13,44 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDescription",
       "signature": "public String getDescription()",
       "description": "Returns the description of the data category group.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLabel",
       "signature": "public String getLabel()",
       "description": "Returns the label for the data category group used in the Salesforce user interface.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getName",
       "signature": "public String getName()",
       "description": "Returns the unique name used by the API to access to the data category group.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getSobject",
       "signature": "public String getSobject()",
       "description": "Returns the name of object associated with the data category group.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getTopCategories",
       "signature": "public List<Schema.DataCategory> getTopCategories()",
       "description": "Returns a Schema.DataCategory object, that contains the top categories visible depending on the user's data category group visibility settings.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Schema.DataCategory>"
     }
   ],
-  "description": "Contains the category groups and categories associated",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DescribeDataCategoryGroupStructureResult.htm#apex_class_Schema_DescribeDataCategoryGroupStructureResult"
+  "description": "Contains the category groups and categories associated with KnowledgeArticleVersion and Question.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DescribeDataCategoryGroupStructureResult.htm"
 }

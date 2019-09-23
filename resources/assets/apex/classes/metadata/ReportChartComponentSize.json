@@ -1,24 +1,24 @@
 {
-    "name": "ReportChartComponentSize",
-    "namespace": "Metadata",
-    "accessModifier": "global",
-    "definitionModifier": "",
-    "withSharing": false,
-    "inheritedSharing": false,
-    "extendsType": "",
-    "isInterface": false,
-    "isEnum": true,
-    "implements": [],
-    "classes": {},
-    "enums": {},
-    "enumValues": [
-        "LARGE",
-        "MEDIUM",
-        "SMALL"
-    ],
-    "fields": [],
-    "constuctors": [],
-    "methods": [],
-    "description": "Describes the size of the displayed report chart component.",
-    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_ReportChartComponentSize.htm"
-  }
+  "name": "ReportChartComponentSize",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "LARGE",
+    "MEDIUM",
+    "SMALL"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Describes the size of the displayed report chart component.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_ReportChartComponentSize.htm"
+}

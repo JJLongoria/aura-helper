@@ -1,10 +1,12 @@
 {
   "name": "ReadContext",
-  "namespace": "DataSource",
+  "namespace": "Datasource",
   "accessModifier": "global",
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,19 +17,19 @@
       "name": "maxResults",
       "signature": "public Integer maxResults {get; set;}",
       "description": "Maximum number of rows that the query can return.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "metadata",
       "signature": "public List<DataSource.Table> metadata {get; set;}",
       "description": "Describes the external system’s tables to query.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [],
-  "description": "Abstract base class for the QueryContext and SearchContext",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ReadContext.htm#apex_class_DataSource_ReadContext"
+  "description": "Abstract base class for the QueryContext and SearchContext classes.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ReadContext.htm"
 }

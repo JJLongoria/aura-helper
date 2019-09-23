@@ -5,18 +5,20 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "HttpRequest",
       "signature": "public HttpRequest()",
       "description": "Creates a new instance of the HttpRequest class.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
@@ -25,45 +27,46 @@
       "name": "getBody",
       "signature": "public String getBody()",
       "description": "Retrieves the body of this request.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getBodyAsBlob",
       "signature": "public Blob getBodyAsBlob()",
       "description": "Retrieves the body of this request as a Blob.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Blob"
     },
     {
       "name": "getBodyDocument",
       "signature": "public Dom.Document getBodyDocument()",
       "description": "Retrieves the body of this request as a DOM document.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Dom.Document"
     },
     {
       "name": "getCompressed",
       "signature": "public Boolean getCompressed()",
       "description": "If true, the request body is compressed, false otherwise.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "getEndpoint",
       "signature": "public String getEndpoint()",
       "description": "Retrieves the URL for the endpoint of the external server for this request.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getHeader",
       "signature": "public String getHeader(String key)",
       "description": "Retrieves the contents of the request header.",
-      "methodParams": [
+      "params": [
         {
           "name": "key",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -72,17 +75,18 @@
       "name": "getMethod",
       "signature": "public String getMethod()",
       "description": "Returns the type of method used by HttpRequest.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "setBody",
       "signature": "public Void setBody(String body)",
       "description": "Sets the contents of the body for this request.",
-      "methodParams": [
+      "params": [
         {
           "name": "body",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -91,10 +95,11 @@
       "name": "setBodyAsBlob",
       "signature": "public Void setBodyAsBlob(Blob body)",
       "description": "Sets the contents of the body for this request using a Blob.",
-      "methodParams": [
+      "params": [
         {
           "name": "body",
-          "datatype": "Blob"
+          "datatype": "Blob",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -103,10 +108,11 @@
       "name": "setBodyDocument",
       "signature": "public Void setBodyDocument(Dom.Document document)",
       "description": "Sets the contents of the body for this request. The contents represent a DOM document.",
-      "methodParams": [
+      "params": [
         {
           "name": "document",
-          "datatype": "Dom.Document"
+          "datatype": "Dom.Document",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -115,14 +121,11 @@
       "name": "setClientCertificate",
       "signature": "public Void setClientCertificate(String clientCert, String password)",
       "description": "This method is deprecated. Use setClientCertificateName instead.",
-      "methodParams": [
-        {
-          "name": "clientCert",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "password",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -131,10 +134,11 @@
       "name": "setClientCertificateName",
       "signature": "public Void setClientCertificateName(String certDevName)",
       "description": "If the external service requires a client certificate for authentication, set the certificate name.",
-      "methodParams": [
+      "params": [
         {
           "name": "certDevName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -143,10 +147,11 @@
       "name": "setCompressed",
       "signature": "public Void setCompressed(Boolean flag)",
       "description": "If true, the data in the body is delivered to the endpoint in the gzip compressed format. If false, no compression format is used.",
-      "methodParams": [
+      "params": [
         {
           "name": "flag",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -155,10 +160,11 @@
       "name": "setEndpoint",
       "signature": "public Void setEndpoint(String endpoint)",
       "description": "Specifies the endpoint for this request.",
-      "methodParams": [
+      "params": [
         {
           "name": "endpoint",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Possible values for the endpoint: Endpoint URLhttps://my_endpoint.example.com/some_path   Named credential URL, which contains the scheme callout, the name of the named credential, and, optionally, an appended pathcallout:My_Named_Credential/some_path"
         }
       ],
       "datatype": "Void"
@@ -167,14 +173,11 @@
       "name": "setHeader",
       "signature": "public Void setHeader(String key, String value)",
       "description": "Sets the contents of the request header.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "value",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -183,10 +186,11 @@
       "name": "setMethod",
       "signature": "public Void setMethod(String method)",
       "description": "Sets the type of method to be used for the HTTP request.",
-      "methodParams": [
+      "params": [
         {
           "name": "method",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Possible values for the method type include: DELETE  GET  HEAD  POST  PUT  TRACE"
         }
       ],
       "datatype": "Void"
@@ -195,10 +199,11 @@
       "name": "setTimeout",
       "signature": "public Void setTimeout(Integer timeout)",
       "description": "Sets the timeout in milliseconds for the request.",
-      "methodParams": [
+      "params": [
         {
           "name": "timeout",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -207,10 +212,10 @@
       "name": "toString",
       "signature": "public String toString()",
       "description": "Returns a string containing the URL for the endpoint of the external server for this request and the method used, for example, Endpoint=http://YourServer, Method=POST",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Use the HttpRequest class to programmatically create HTTP requests like GET, POST, PUT,",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_httprequest.htm#apex_classes_restful_http_httprequest"
+  "description": "Use the HttpRequest class to programmatically create HTTP requests like GET, POST, PUT, and DELETE.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_httprequest.htm"
 }

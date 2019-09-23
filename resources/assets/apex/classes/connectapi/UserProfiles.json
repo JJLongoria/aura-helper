@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "deleteBannerPhoto",
       "signature": "public static Void deleteBannerPhoto(String communityId, String userId)",
       "description": "Delete a user’s banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the user."
         }
       ],
       "datatype": "Void"
@@ -33,14 +32,11 @@
       "name": "deletePhoto",
       "signature": "public static Void deletePhoto(String communityId, String userId)",
       "description": "Delete a user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me."
         }
       ],
       "datatype": "Void"
@@ -49,14 +45,11 @@
       "name": "getBannerPhoto",
       "signature": "public static ConnectApi.BannerPhoto getBannerPhoto(String communityId, String userId)",
       "description": "Get a user’s banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the user."
         }
       ],
       "datatype": "ConnectApi.BannerPhoto"
@@ -65,14 +58,11 @@
       "name": "getPhoto",
       "signature": "public static ConnectApi.Photo getPhoto(String communityId, String userId)",
       "description": "Get a user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -81,14 +71,11 @@
       "name": "getUserProfile",
       "signature": "public static ConnectApi.UserProfile getUserProfile(String communityId, String userId)",
       "description": "Get the user profile of the context user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user."
         }
       ],
       "datatype": "ConnectApi.UserProfile"
@@ -97,22 +84,11 @@
       "name": "setBannerPhoto",
       "signature": "public static ConnectApi.BannerPhoto setBannerPhoto(String communityId, String userId, String fileId, Integer versionNumber)",
       "description": "Set an uploaded file as a user’s banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "fileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "versionNumber",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. ID of the user. ID of the uploaded file to use as the user banner. The key prefix must be 069, and the image must be smaller than 8 MB. Version number of the file. Specify an existing version number or, to get the latest version, specify null."
         }
       ],
       "datatype": "ConnectApi.BannerPhoto"
@@ -121,18 +97,11 @@
       "name": "setBannerPhoto",
       "signature": "public static ConnectApi.BannerPhoto setBannerPhoto(String communityId, String userId, ConnectApi.BinaryInput fileUpload)",
       "description": "Set a file that hasn’t been uploaded as a user’s banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "fileUpload",
-          "datatype": "ConnectApi.Binary​​Input"
+          "datatype": "ConnectApi.Binary​​Input",
+          "description": "Use either the ID for a community, internal, or null. ID of the user. A file to use as the photo. The content type must be usable as an image."
         }
       ],
       "datatype": "ConnectApi.BannerPhoto"
@@ -141,18 +110,11 @@
       "name": "setBannerPhotoWithAttributes",
       "signature": "public static ConnectApi.BannerPhoto setBannerPhotoWithAttributes(String communityId, String userId, ConnectApi.BannerPhotoInput bannerPhoto)",
       "description": "Set and crop an uploaded file as a user’s banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "bannerPhoto",
-          "datatype": "ConnectApi.BannerPhotoInput"
+          "datatype": "ConnectApi.BannerPhotoInput",
+          "description": "Use either the ID for a community, internal, or null. ID of the user. A ConnectApi.BannerPhotoInput object that specifies the ID and version of the file, and how to crop the file."
         }
       ],
       "datatype": "ConnectApi.BannerPhoto"
@@ -161,22 +123,11 @@
       "name": "setBannerPhotoWithAttributes",
       "signature": "public static ConnectApi.BannerPhoto setBannerPhotoWithAttributes(String communityId, String userId, ConnectApi.BannerPhotoInput bannerPhoto, ConnectApi.BinaryInput fileUpload)",
       "description": "Set and crop a file that hasn’t been uploaded as a user’s banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "bannerPhoto",
-          "datatype": "ConnectApi.BannerPhotoInput"
-        },
+      "params": [
         {
           "name": "fileUpload",
-          "datatype": "ConnectApi.Binary​​Input"
+          "datatype": "ConnectApi.Binary​​Input",
+          "description": "Use either the ID for a community, internal, or null. ID of the user. A ConnectApi.BannerPhotoInput object specifying the cropping parameters. A file to use as the photo. The content type must be usable as an image."
         }
       ],
       "datatype": "ConnectApi.BannerPhoto"
@@ -185,22 +136,11 @@
       "name": "setPhoto",
       "signature": "public static ConnectApi.Photo setPhoto(String communityId, String userId, String fileId, Integer versionNumber)",
       "description": "Set an uploaded file as a user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "fileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "versionNumber",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me. ID of an uploaded file. The file must be an image, and be smaller than 2 GB. Version number of the existing file. Specify either an existing version number, or null to get the latest version."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -209,18 +149,11 @@
       "name": "setPhoto",
       "signature": "public static ConnectApi.Photo setPhoto(String communityId, String userId, ConnectApi.BinaryInput fileUpload)",
       "description": "Set a file that hasn’t been uploaded as a user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "fileUpload",
-          "datatype": "ConnectApi.Binary​​Input"
+          "datatype": "ConnectApi.Binary​​Input",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me. A file to use as the photo. The content type must be usable as an image."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -229,18 +162,11 @@
       "name": "setPhotoWithAttributes",
       "signature": "public static ConnectApi.Photo setPhotoWithAttributes(String communityId, String userId, ConnectApi.PhotoInput photo)",
       "description": "Set and crop an uploaded file as a user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "photo",
-          "datatype": "ConnectApi.PhotoInput"
+          "datatype": "ConnectApi.PhotoInput",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me. A ConnectApi.PhotoInput object specifying the file ID, version number, and cropping parameters."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -249,27 +175,16 @@
       "name": "setPhotoWithAttributes",
       "signature": "public static ConnectApi.Photo setPhotoWithAttributes(String communityId, String userId, ConnectApi.PhotoInput photo, ConnectApi.BinaryInput fileUpload)",
       "description": "Set and crop a file that hasn’t been uploaded as a user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "photo",
-          "datatype": "ConnectApi.PhotoInput"
-        },
+      "params": [
         {
           "name": "fileUpload",
-          "datatype": "ConnectApi.Binary​​Input"
+          "datatype": "ConnectApi.Binary​​Input",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me. A ConnectApi.PhotoInput object specifying the cropping parameters. A file to use as the photo. The content type must be usable as an image."
         }
       ],
       "datatype": "ConnectApi.Photo"
     }
   ],
-  "description": "Access user profile data. The user profile data populates the profile page (also called the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_UserProfiles_static_methods.htm#apex_ConnectAPI_UserProfiles_static_methods"
+  "description": "Access user profile data. The user profile data populates the profile page (also called the Chatter profile page). This data includes user information (such as address, manager, and phone number), some user capabilities (permissions), and a set of subtab apps, which are custom tabs on the profile page.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_UserProfiles_static_methods.htm"
 }

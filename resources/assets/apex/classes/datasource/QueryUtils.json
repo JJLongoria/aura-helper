@@ -1,30 +1,29 @@
 {
   "name": "QueryUtils",
-  "namespace": "DataSource",
+  "namespace": "Datasource",
   "accessModifier": "global",
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "applyLimitAndOffset",
       "signature": "public static List<Map<String,Object>> applyLimitAndOffset(DataSource.QueryContext queryContext, List<Map<String,Object>> rows)",
       "description": "Returns a subset of data rows after locally applying limit and offset clauses from the query. This helper method is provided for your convenience during early development and tests, but it isn’t supported for use in production environments.",
-      "methodParams": [
-        {
-          "name": "queryContext",
-          "datatype": "DataSource.QueryContext"
-        },
+      "params": [
         {
           "name": "rows",
-          "datatype": "List<Map<String, Object>>"
+          "datatype": "List<Map<String, Object>>",
+          "description": "Represents the query to run against a data table. Rows of data."
         }
       ],
       "datatype": "List<Map<String, Object>>"
@@ -33,14 +32,11 @@
       "name": "filter",
       "signature": "public static List<Map<String,bject>> filter(DataSource.QueryContext queryContext, List<Map<String,Object>> rows)",
       "description": "Returns a subset of data rows after locally ordering and applying filters from the query. This helper method is provided for your convenience during early development and tests, but it isn’t supported for use in production environments.",
-      "methodParams": [
-        {
-          "name": "queryContext",
-          "datatype": "DataSource.QueryContext"
-        },
+      "params": [
         {
           "name": "rows",
-          "datatype": "List<Map<String, Object>>"
+          "datatype": "List<Map<String, Object>>",
+          "description": "Represents the query to run against a data table. Rows of data."
         }
       ],
       "datatype": "List<Map<String, Object>>"
@@ -49,14 +45,11 @@
       "name": "process",
       "signature": "public static List<Map<String,bject>> process(DataSource.QueryContext queryContext, List<Map<String,Object>> rows)",
       "description": "Returns data rows after locally filtering, sorting, ordering, and applying limit and offset clauses from the query. This helper method is provided for your convenience during early development and tests, but it isn’t supported for use in production environments.",
-      "methodParams": [
-        {
-          "name": "queryContext",
-          "datatype": "DataSource.QueryContext"
-        },
+      "params": [
         {
           "name": "rows",
-          "datatype": "List<Map<String, Object>>"
+          "datatype": "List<Map<String, Object>>",
+          "description": "Represents the query to run against a data table. Rows of data."
         }
       ],
       "datatype": "List<Map<String, Object>>"
@@ -65,19 +58,16 @@
       "name": "sort",
       "signature": "public static List<Map<String,ject>> sort(DataSource.QueryContext queryContext, List<Map<String,bject>> rows)",
       "description": "Returns data rows after locally sorting and applying the order from the query. This helper method is provided for your convenience during early development and tests, but it isn’t supported for use in production environments.",
-      "methodParams": [
-        {
-          "name": "queryContext",
-          "datatype": "DataSource.QueryContext"
-        },
+      "params": [
         {
           "name": "rows",
-          "datatype": "List<Map<String, Object>>"
+          "datatype": "List<Map<String, Object>>",
+          "description": "Represents the query to run against a data table. Rows of data."
         }
       ],
       "datatype": "List<Map<String, Object>>"
     }
   ],
-  "description": "Contains helper methods to locally filter, sort, and apply limit and",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_QueryUtils.htm#apex_class_DataSource_QueryUtils"
+  "description": "Contains helper methods to locally filter, sort, and apply limit and offset clauses to data rows. This helper class is provided for your convenience during early development and tests, but it isn’t supported for use in production environments.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_QueryUtils.htm"
 }

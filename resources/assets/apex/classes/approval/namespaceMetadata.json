@@ -1,0 +1,56 @@
+{
+  "LockResult": {
+    "name": "LockResult",
+    "namespace": "Approval",
+    "isInterface": false,
+    "description": "The result of a record lock returned by a System.Approval.lock() method.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Approval_LockResult.htm#apex_class_Approval_LockResult",
+    "classes": [],
+    "enums": []
+  },
+  "ProcessRequest": {
+    "name": "ProcessRequest",
+    "namespace": "Approval",
+    "isInterface": false,
+    "description": "The ProcessRequest class is the parent class",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessRequest.htm#apex_ProcessRequest",
+    "classes": [],
+    "enums": []
+  },
+  "ProcessResult": {
+    "name": "ProcessResult",
+    "namespace": "Approval",
+    "isInterface": false,
+    "description": "After you submit a record for approval, use the ProcessResult class to process the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessResult.htm#apex_ProcessResult",
+    "classes": [],
+    "enums": []
+  },
+  "ProcessSubmitRequest": {
+    "name": "ProcessSubmitRequest",
+    "namespace": "Approval",
+    "isInterface": false,
+    "description": "Use the ProcessSubmitRequest class to submit a",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessSubmitRequest.htm#apex_ProcessSubmitRequest",
+    "classes": [],
+    "enums": []
+  },
+  "ProcessWorkitemRequest": {
+    "name": "ProcessWorkitemRequest",
+    "namespace": "Approval",
+    "isInterface": false,
+    "description": "Use the ProcessWorkitemRequest class for processing an approval request after it is submitted.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessWorkitemRequest.htm#apex_ProcessWorkitemRequest",
+    "classes": [],
+    "enums": []
+  },
+  "UnlockResult": {
+    "name": "UnlockResult",
+    "namespace": "Approval",
+    "isInterface": false,
+    "description": "The result of a record unlock, returned by a System.Approval.unlock() method.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Approval_UnlockResult.htm#apex_class_Approval_UnlockResult",
+    "classes": [],
+    "enums": []
+  }
+}

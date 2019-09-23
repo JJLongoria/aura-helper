@@ -1,0 +1,44 @@
+{
+  "ContentDownloadContext": {
+    "name": "ContentDownloadContext",
+    "namespace": "Sfc",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "CHATTER",
+      "CONTENT",
+      "DELIVERY",
+      "MOBILE",
+      "REST_API",
+      "RETRIEVE",
+      "S1",
+      "SOQL"
+    ],
+    "description": "This enum specifies the download context.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Sfc_ContentDownloadContext.htm",
+    "classes": [],
+    "enums": []
+  },
+  "ContentDownloadHandler": {
+    "name": "ContentDownloadHandler",
+    "namespace": "Sfc",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Use ContentDownloadHandler to define a custom download handler that",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Sfc_ContentDownloadHandler.htm#apex_class_Sfc_ContentDownloadHandler",
+    "classes": [],
+    "enums": []
+  },
+  "ContentDownloadHandlerFactory": {
+    "name": "ContentDownloadHandlerFactory",
+    "namespace": "Sfc",
+    "isEnum": false,
+    "isInterface": true,
+    "enumValues": [],
+    "description": "Use this interface to provide a class factory that Salesforce can call",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Sfc_ContentDownloadHandlerFactory.htm#apex_interface_Sfc_ContentDownloadHandlerFactory",
+    "classes": [],
+    "enums": []
+  }
+}

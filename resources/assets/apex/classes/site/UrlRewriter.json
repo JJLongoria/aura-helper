@@ -13,16 +13,17 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "generateUrlFor",
       "signature": "public System.PageReference[] generateUrlFor(System.PageReference[] salesforceUrls)",
       "description": "Maps a list of Salesforce URLs to a list of user-friendly URLs.",
-      "methodParams": [
+      "params": [
         {
           "name": "salesforceUrls",
-          "datatype": "System.PageReference[]"
+          "datatype": "System.PageReference[]",
+          "description": ""
         }
       ],
       "datatype": "System.PageReference[]"
@@ -31,15 +32,16 @@
       "name": "mapRequestUrl",
       "signature": "public System.PageReference mapRequestUrl(System.PageReference userFriendlyUrl)",
       "description": "Maps a user-friendly URL to a Salesforce URL.",
-      "methodParams": [
+      "params": [
         {
           "name": "userFriendlyUrl",
-          "datatype": "System.PageReference"
+          "datatype": "System.PageReference",
+          "description": ""
         }
       ],
       "datatype": "System.PageReference"
     }
   ],
   "description": "Enables rewriting Sites URLs.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_site_urlRewriter_reference.htm#apex_site_urlRewriter_reference"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_site_urlRewriter_reference.htm"
 }

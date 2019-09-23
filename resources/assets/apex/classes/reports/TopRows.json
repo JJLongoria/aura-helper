@@ -13,19 +13,16 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "TopRows",
       "signature": "public TopRows(Integer rowLimit, Reports.ColumnSortOrder direction)",
       "description": "Creates an instance of the Reports.TopRows class using the specified parameters.",
-      "methodParams": [
-        {
-          "name": "rowLimit",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "direction",
-          "datatype": "Reports.ColumnSortOrder"
+          "datatype": "Reports.ColumnSortOrder",
+          "description": "The number of rows returned in the report. The sort order of the report rows."
         }
       ],
       "datatype": "void"
@@ -34,7 +31,7 @@
       "name": "TopRows",
       "signature": "public TopRows()",
       "description": "Creates an instance of the Reports.TopRows class. You can then set values by using the class’s set methods.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
@@ -43,24 +40,25 @@
       "name": "getDirection",
       "signature": "public Reports.ColumnSortOrder getDirection()",
       "description": "Returns the sort order of the report rows.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Reports.ColumnSortOrder"
     },
     {
       "name": "getRowLimit",
       "signature": "public Integer getRowLimit()",
       "description": "Returns the maximum number of rows shown in the report.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "setDirection",
       "signature": "public void setDirection(String value)",
       "description": "Sets the sort order of the report’s rows.",
-      "methodParams": [
+      "params": [
         {
           "name": "value",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "For possible values, see Reports.ColumnSortOrder."
         }
       ],
       "datatype": "void"
@@ -69,10 +67,11 @@
       "name": "setDirection",
       "signature": "public void setDirection(Reports.ColumnSortOrder direction)",
       "description": "Sets the sort order of the report’s rows.",
-      "methodParams": [
+      "params": [
         {
           "name": "direction",
-          "datatype": "Reports.ColumnSortOrder"
+          "datatype": "Reports.ColumnSortOrder",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -81,10 +80,11 @@
       "name": "setRowLimit",
       "signature": "public void setRowLimit(Integer rowLimit)",
       "description": "Sets the maximum number of rows included in the report.",
-      "methodParams": [
+      "params": [
         {
           "name": "rowLimit",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -93,10 +93,10 @@
       "name": "toString",
       "signature": "public String toString()",
       "description": "Returns a string.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Contains methods and constructors for working with information about a",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_TopRows.htm#apex_class_reports_TopRows"
+  "description": "Contains methods and constructors for working with information about a row limit filter.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_TopRows.htm"
 }

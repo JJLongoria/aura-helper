@@ -13,23 +13,23 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getAmount",
       "signature": "",
       "description": "Returns the amount of the currency value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Decimal"
     },
     {
       "name": "getCurrencyCode",
       "signature": "",
       "description": "Returns the report currency code, such as USD, EUR, or GBP, for an organization that has multicurrency enabled. The value is null if the organization does not have multicurrency enabled.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Contains information about a currency value, including",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportcurrency.htm#apex_class_reports_reportcurrency"
+  "description": "Contains information about a currency value, including the amount and currency code.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportcurrency.htm"
 }

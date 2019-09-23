@@ -13,23 +13,16 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "DataRow",
       "signature": "public DataRow(String label, Object value, Boolean selected)",
       "description": "Creates an instance of the VisualEditor.DataRow class using the specified label, value, and selected option.",
-      "methodParams": [
-        {
-          "name": "label",
-          "datatype": "String"
-        },
-        {
-          "name": "value",
-          "datatype": "Object"
-        },
+      "params": [
         {
           "name": "selected",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "User-facing label for the picklist item. The value of the picklist item. Specifies whether the picklist item is selected (true) or not (false)."
         }
       ],
       "datatype": "void"
@@ -38,14 +31,11 @@
       "name": "DataRow",
       "signature": "public DataRow(String label, Object value)",
       "description": "Creates an instance of the VisualEditor.DataRow class using the specified label and value.",
-      "methodParams": [
-        {
-          "name": "label",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "value",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": "User-facing label for the picklist item. The value of the picklist item."
         }
       ],
       "datatype": "void"
@@ -56,17 +46,18 @@
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the VisualEditor.DataRow object.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     },
     {
       "name": "compareTo",
       "signature": "public Integer compareTo(VisualEditor.DataRow o)",
       "description": "Compares the current VisualEditor.DataRow object to the specified one. Returns an integer value that is the result of the comparison.",
-      "methodParams": [
+      "params": [
         {
           "name": "o",
-          "datatype": "VisualEditor.DataRow"
+          "datatype": "VisualEditor.DataRow",
+          "description": "A single item in a picklist."
         }
       ],
       "datatype": "Integer"
@@ -75,24 +66,24 @@
       "name": "getLabel",
       "signature": "public String getLabel()",
       "description": "Returns the user-facing label of the picklist item.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getValue",
       "signature": "public Object getValue()",
       "description": "Returns the value of the picklist item.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     },
     {
       "name": "isSelected",
       "signature": "public Boolean isSelected()",
       "description": "Returns the state of the picklist item, indicating whether it’s selected or not.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     }
   ],
   "description": "Contains information about one item in a picklist used in a Lightning component on a Lightning page.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_VisualEditor_DataRow.htm#apex_class_VisualEditor_DataRow"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_VisualEditor_DataRow.htm"
 }

@@ -5,43 +5,45 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getFieldName",
       "signature": "public String getFieldName()",
       "description": "Returns the name of the merge field in the error.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getMessage",
       "signature": "public String getMessage()",
       "description": "Returns a message describing the error.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getOffset",
       "signature": "public Integer getOffset()",
       "description": "Returns the offset within the supplied body text where the error was discovered. If the offset cannot be determined, -1 is returned.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getStatusCode",
       "signature": "public System.StatusCode getStatusCode()",
       "description": "Returns a Salesforce API status code.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.StatusCode"
     }
   ],
   "description": "Represents an error that the RenderEmailTemplateBodyResult object can contain.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Messaging_RenderEmailTemplateError.htm#apex_class_Messaging_RenderEmailTemplateError"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Messaging_RenderEmailTemplateError.htm"
 }

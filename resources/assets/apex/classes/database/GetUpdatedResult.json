@@ -5,29 +5,31 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getIds",
       "signature": "public List<Id> getIds()",
       "description": "Returns the IDs of records updated within the time window specified in the Database.getUpdated method.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<ID>"
     },
     {
       "name": "getLatestDateCovered",
       "signature": "public Date getLatestDateCovered()",
       "description": "Returns the date in Coordinated Universal Time (UTC) of the last date covered in the Database.getUpdated call.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Date"
     }
   ],
   "description": "Contains the result for the Database.getUpdated method call.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_getupdatedresult.htm#apex_class_database_getupdatedresult"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_getupdatedresult.htm"
 }

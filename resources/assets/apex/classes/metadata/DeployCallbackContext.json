@@ -5,29 +5,31 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.DeployCallbackContext.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     },
     {
       "name": "getCallbackJobId",
       "signature": "public Id getCallbackJobId()",
       "description": "Gets the asynchronous Apex job ID for the callback job.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Id"
     }
   ],
   "description": "Represents context information for a deployment job.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployCallbackContext.htm#apex_class_Metadata_DeployCallbackContext"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployCallbackContext.htm"
 }

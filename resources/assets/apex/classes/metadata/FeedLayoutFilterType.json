@@ -1,24 +1,24 @@
 {
-    "name": "FeedLayoutFilterType",
-    "namespace": "Metadata",
-    "accessModifier": "global",
-    "definitionModifier": "",
-    "withSharing": false,
-    "inheritedSharing": false,
-    "extendsType": "",
-    "isInterface": false,
-    "isEnum": true,
-    "implements": [],
-    "classes": {},
-    "enums": {},
-    "enumValues": [
-        "AllUpdates",
-        "Custom",
-        "FeedItemType"
-    ],
-    "fields": [],
-    "constuctors": [],
-    "methods": [],
-    "description": "The type of feed layout filter.",
-    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_FeedLayoutFilterType.htm"
-  }
+  "name": "FeedLayoutFilterType",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "AllUpdates",
+    "Custom",
+    "FeedItemType"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "The type of feed layout filter.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_FeedLayoutFilterType.htm"
+}

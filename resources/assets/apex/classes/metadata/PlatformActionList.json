@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,34 +17,34 @@
       "name": "actionListContext",
       "signature": "public Metadata.PlatformActionListContextEnum actionListContext {get; set;}",
       "description": "The context of the action list.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "platformActionListItems",
       "signature": "public List<Metadata.PlatformActionListItem> platformActionListItems {get; set;}",
       "description": "The actions in the platform action list.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "relatedSourceEntity",
       "signature": "public String relatedSourceEntity {get; set;}",
       "description": "When the actionListContext property is “RelatedList” or” “RelatedListRecord”, this field represents the API name of the related list to which the action belongs.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.PlatformActionList.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Represents the list of actions, and their order, that display in the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_PlatformActionList.htm#apex_class_Metadata_PlatformActionList"
+  "description": "Represents the list of actions, and their order, that display in the Salesforce mobile action bar for the layout.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_PlatformActionList.htm"
 }

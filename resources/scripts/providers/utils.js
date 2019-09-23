@@ -20,6 +20,7 @@ class Utils {
     static getClassesFromClassFolder(document) {
         let classes = {
             classesToLower: [],
+            classes: [],
             classesMap: {},
         };
         let classesPath = Paths.getFolderPath(document.uri.fsPath);
@@ -31,6 +32,7 @@ class Utils {
                     let className = fileName.replace(".cls", "").trim();
                     let nameToLower = className.toLowerCase();
                     classes.classesToLower.push(nameToLower);
+                    classes.classes.push(className);
                     classes.classesMap[nameToLower] = className;
                 }
             }
@@ -38,28 +40,59 @@ class Utils {
         return classes;
     }
 
-    static getSystemClassesFromFolder() {
+    static getClassesFromNamespace(namespace) {
         let classes = {
             classesToLower: [],
+            classes: [],
             classesMap: {},
         };
-        let classesPath = Paths.getSystemClassesPath()
+        let classesPath = Paths.getSystemClassesPath() + '/' + namespace;
         logger.log('classesPath', classesPath);
-        let files = FileReader.readDirSync(classesPath);
-        if (files && files.length > 0) {
-            for (const fileName of files) {
-                let className = fileName.replace(".json", "").trim();
-                let nameToLower = className.toLowerCase();
-                classes.classesToLower.push(nameToLower);
-                classes.classesMap[nameToLower] = className;
+        if (FileChecker.isExists(classesPath)) {
+            let files = FileReader.readDirSync(classesPath);
+            if (files && files.length > 0) {
+                for (const fileName of files) {
+                    if (fileName !== 'namespaceMetadata.json') {
+                        let className = fileName.replace(".json", "").trim();
+                        let nameToLower = className.toLowerCase();
+                        classes.classesToLower.push(nameToLower);
+                        classes.classes.push(className);
+                        classes.classesMap[nameToLower] = className;
+                    }
+                }
             }
         }
         return classes;
     }
 
+    static getNamespaceMetadataFile(namespace) {
+        let nsMetadataPath = Paths.getSystemClassesPath() + '/' + namespace + "/namespaceMetadata.json";
+        return JSON.parse(FileReader.readFileSync(nsMetadataPath));
+    }
+
+    static getNamespacesFromFolder() {
+        let namespaces = {
+            namespacesToLower: [],
+            namespaces: [],
+            namespacesMap: {},
+        };
+        let classesPath = Paths.getSystemClassesPath();
+        logger.log('classesPath', classesPath);
+        let files = FileReader.readDirSync(classesPath);
+        if (files && files.length > 0) {
+            for (const fileName of files) {
+                namespaces.namespacesToLower.push(fileName.toLowerCase());
+                namespaces.namespaces.push(fileName);
+                namespaces.namespacesMap[fileName.toLowerCase()] = fileName;
+            }
+        }
+        return namespaces;
+    }
+
     static getObjectsFromMetadataIndex() {
         let sObjects = {
             sObjectsToLower: [],
+            sObjects: [],
             sObjectsMap: {},
         };
         let metadataPath = Paths.getMetadataIndexPath();
@@ -69,6 +102,7 @@ class Utils {
                 let sObjectName = fileName.replace(".json", "").trim();
                 let nameToLower = sObjectName.toLowerCase();
                 sObjects.sObjectsToLower.push(nameToLower);
+                sObjects.sObjects.push(sObjectName);
                 sObjects.sObjectsMap[nameToLower] = sObjectName;
             }
         }
@@ -85,16 +119,18 @@ class Utils {
         }
     }
 
-    static getClassStructure(document, className) {
+    static getClassStructure(document, ns, className) {
         let classStructure;
         if (className.indexOf('<') !== -1)
             className = className.split('<')[0];
         if (className.indexOf('[') !== -1 && className.indexOf(']') !== -1)
             className = "List";
-        if (FileChecker.isExists(Paths.getFolderPath(document.uri.fsPath) + "/" + className + ".cls"))
-            classStructure = ApexParser.parse(FileReader.readFileSync(Paths.getFolderPath(document.uri.fsPath) + "/" + className + ".cls"));
-        else if (FileChecker.isExists(Paths.getSystemClassesPath() + "/" + className + ".json"))
-            classStructure = JSON.parse(FileReader.readFileSync(Paths.getSystemClassesPath() + "/" + className + ".json"));
+        let userClassPath = Paths.getFolderPath(document.uri.fsPath) + "/" + className + ".cls";
+        let systemClassPath = Paths.getSystemClassesPath() + "/" + ns + '/' + className + ".json";
+        if (FileChecker.isExists(userClassPath))
+            classStructure = ApexParser.parse(FileReader.readFileSync(userClassPath));
+        else if (FileChecker.isExists(systemClassPath))
+            classStructure = JSON.parse(FileReader.readFileSync(systemClassPath));
         return classStructure;
 
     }
@@ -110,11 +146,17 @@ class Utils {
     }
 
     static getSimilar(list, source) {
-        let similar = [];
+        let similar = {
+            similarToLower: [],
+            similar: [],
+            similarMap: {}
+        };
         source = source.toLowerCase();
         for (const name of list) {
             if (name && name.toLowerCase().indexOf(source) !== -1)
-                similar.push(name);
+                similar.similarToLower.push(name.toLowerCase());
+            similar.similar.push(name);
+            similar.similarMap[name.toLowerCase()] = name;
         }
         return similar;
     }
@@ -370,14 +412,26 @@ class Utils {
         if (actToken.indexOf('(') !== -1 && actToken.indexOf(')') !== -1) {
             let name = actToken.split("(")[0].toLowerCase();
             let params = actToken.substring(actToken.indexOf("(") + 1, actToken.indexOf(")"));
-            let paramSplits = params.split(",");
+            let paramSplits = [];
+            if (params.indexOf(',') !== -1)
+                params.split(",");
             for (const method of lastClass.methods) {
-                if (method.name.toLowerCase() === name && method.params.length === paramSplits.length) {
-                    memberData = {
-                        type: "method",
-                        data: method
-                    };
-                    return memberData;
+                if (method.params) {
+                    if (method.name.toLowerCase() === name && method.params.length === paramSplits.length) {
+                        memberData = {
+                            type: "method",
+                            data: method
+                        };
+                        return memberData;
+                    }
+                } else if (method.methodParams) {
+                    if (method.name.toLowerCase() === name && method.methodParams.length === paramSplits.length) {
+                        memberData = {
+                            type: "method",
+                            data: method
+                        };
+                        return memberData;
+                    }
                 }
             }
         } else {
@@ -434,8 +488,28 @@ class Utils {
                 if (method.signature.toLowerCase() === methodSignature.toLowerCase())
                     return method;
             }
+            if (fileStructure.constructors) {
+                for (const method of fileStructure.constructors) {
+                    if (method.signature.toLowerCase() === methodSignature.toLowerCase())
+                        return method;
+                }
+            }
+            if (fileStructure.constuctors) {
+                for (const method of fileStructure.constuctors) {
+                    if (method.signature.toLowerCase() === methodSignature.toLowerCase())
+                        return method;
+                }
+            }
         }
         return undefined;
+    }
+
+    static isStaticMember(member) {
+        if (member.isStatic)
+            return true;
+        if (member.signature && member.signature.toLowerCase().indexOf(' static ') !== -1)
+            return true;
+        return false;
     }
 
     static isSObject(objectName) {
@@ -449,8 +523,15 @@ class Utils {
     }
 
     static isSystemClass(className) {
-        let classes = Utils.getSystemClassesFromFolder();
+        let classes = Utils.getClassesFromNamespace('system');
         return classes && classes.classesToLower.includes(className.toLowerCase());
+    }
+
+    static getSystemClass(ns, className) {
+        let path = Paths.getSystemClassesPath() + '/' + ns + '/' + className + '.json';
+        if (FileChecker.isExists(path))
+            return JSON.parse(FileReader.readFileSync(path));
+        return undefined;
     }
 }
 exports.Utils = Utils;

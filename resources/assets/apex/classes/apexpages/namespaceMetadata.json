@@ -1,0 +1,74 @@
+{
+  "Action": {
+    "name": "Action",
+    "namespace": "ApexPages",
+    "isInterface": false,
+    "description": "You can use ApexPages.Action to create an action method that you can use in a Visualforce custom controller or controller extension.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_action.htm#apex_pages_action",
+    "classes": [],
+    "enums": []
+  },
+  "Component": {
+    "name": "Component",
+    "namespace": "ApexPages",
+    "isInterface": false,
+    "description": "Represents a dynamic Visualforce component in",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_dynamic_components.htm#apex_pages_dynamic_components",
+    "classes": [],
+    "enums": []
+  },
+  "IdeaStandardController": {
+    "name": "IdeaStandardController",
+    "namespace": "ApexPages",
+    "isInterface": false,
+    "description": "Returns the list of read-only comments from the current",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardcontroller.htm#apex_pages_ideastandardcontroller",
+    "classes": [],
+    "enums": []
+  },
+  "IdeaStandardSetController": {
+    "name": "IdeaStandardSetController",
+    "namespace": "ApexPages",
+    "isInterface": false,
+    "description": "Returns the list of read-only ideas in the current page",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardsetcontroller.htm#apex_pages_ideastandardsetcontroller",
+    "classes": [],
+    "enums": []
+  },
+  "KnowledgeArticleVersionStandardController": {
+    "name": "KnowledgeArticleVersionStandardController",
+    "namespace": "ApexPages",
+    "isInterface": false,
+    "description": "Creates a new instance of the ApexPages.KnowledgeArticleVersionStandardController class",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_knowledgearticleversionstandardcontroller.htm#apex_pages_knowledgearticleversionstandardcontroller",
+    "classes": [],
+    "enums": []
+  },
+  "Message": {
+    "name": "Message",
+    "namespace": "ApexPages",
+    "isInterface": false,
+    "description": "Contains validation errors that occur when the end user",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_message.htm#apex_pages_message",
+    "classes": [],
+    "enums": []
+  },
+  "StandardController": {
+    "name": "StandardController",
+    "namespace": "ApexPages",
+    "isInterface": false,
+    "description": "Use a StandardController when defining an extension for",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_standardcontroller.htm#apex_pages_standardcontroller",
+    "classes": [],
+    "enums": []
+  },
+  "StandardSetController": {
+    "name": "StandardSetController",
+    "namespace": "ApexPages",
+    "isInterface": false,
+    "description": "Creates an instance of the ApexPages.StandardSetController class for the list of objects returned by the query",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_standardsetcontroller.htm#apex_pages_standardsetcontroller",
+    "classes": [],
+    "enums": []
+  }
+}

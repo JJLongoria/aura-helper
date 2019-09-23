@@ -5,30 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "addFavorite",
       "signature": "public static ConnectApi.FeedFavorite addFavorite(String communityId, String subjectId, String searchText)",
       "description": "Add a feed search favorite for a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "searchText",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. Specify the text of the search to be saved as a favorite. This method can only create a feed search favorite, not a list view favorite or a topic."
         }
       ],
       "datatype": "ConnectApi.FeedFavorite"
@@ -37,18 +32,11 @@
       "name": "addRecordFavorite",
       "signature": "public static ConnectApi.FeedFavorite addRecordFavorite(String communityId, String subjectId, String targetId)",
       "description": "Add a topic as a favorite.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "targetId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of the topic to add as a favorite."
         }
       ],
       "datatype": "ConnectApi.FeedFavorite"
@@ -57,18 +45,11 @@
       "name": "deleteFavorite",
       "signature": "public static Void deleteFavorite(String communityId, String subjectId, String favoriteId)",
       "description": "Delete a favorite.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "favoriteId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite."
         }
       ],
       "datatype": "Void"
@@ -77,18 +58,11 @@
       "name": "getFavorite",
       "signature": "public static ConnectApi.FeedFavorite getFavorite(String communityId, String subjectId, String favoriteId)",
       "description": "Get information about a favorite.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "favoriteId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite."
         }
       ],
       "datatype": "ConnectApi.FeedFavorite"
@@ -97,14 +71,11 @@
       "name": "getFavorites",
       "signature": "public static ConnectApi.FeedFavorites getFavorites(String communityId, String subjectId)",
       "description": "Get a list of favorites for a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "subjectId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me."
         }
       ],
       "datatype": "ConnectApi.FeedFavorites"
@@ -113,18 +84,11 @@
       "name": "getFeedElements",
       "signature": "public static ConnectApi.FeedElementPage getFeedElements(String communityId, String subjectId, String favoriteId)",
       "description": "Get the first page of feed elements for a favorite.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "favoriteId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite."
         }
       ],
       "datatype": "ConnectApi.FeedElementPage"
@@ -133,30 +97,11 @@
       "name": "getFeedElements",
       "signature": "public static ConnectApi.FeedElementPage getFeedElements(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)",
       "description": "Get a page of sorted feed elements for a favorite.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "favoriteId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "sortParam",
-          "datatype": "ConnectApi.FeedSortOrder"
+          "datatype": "ConnectApi.FeedSortOrder",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite. The page token to use to view the page. Page tokens are returned as part of the response class, for example, currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of feed elements per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Values are:  CreatedDateAsc—Sorts by oldest creation date. This sort order is available only for DirectMessageModeration, Draft, Moderation, and PendingReview feeds.    CreatedDateDesc—Sorts by most recent creation date.   LastModifiedDateDesc—Sorts by most recent activity.   MostViewed—Sorts by most viewed content. This sort order is available only for Home feeds when the ConnectApi.FeedFilter is UnansweredQuestions.   Relevance—Sorts by most relevant content. This sort order is available only for Company, Home, and Topics feeds.   If you pass in null, the default value CreatedDateDesc is used."
         }
       ],
       "datatype": "ConnectApi.FeedElementPage"
@@ -165,38 +110,11 @@
       "name": "getFeedElements",
       "signature": "public static ConnectApi.FeedElementPage getFeedElements(String communityId, String subjectId, String favoriteId, Integer recentCommentCount, Integer elementsPerBundle, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)",
       "description": "Get a page of sorted feed elements for a favorite. Include no more than the specified number of comments per feed element.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "favoriteId",
-          "datatype": "String"
-        },
-        {
-          "name": "recentCommentCount",
-          "datatype": "Integer"
-        },
-        {
-          "name": "elementsPerBundle",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "sortParam",
-          "datatype": "ConnectApi.FeedSortOrder"
+          "datatype": "ConnectApi.FeedSortOrder",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite. Maximum number of comments to return with each feed element. The default value is 3. Maximum number of feed elements per bundle. The default and maximum value is 10. The page token to use to view the page. Page tokens are returned as part of the response class, for example, currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of feed elements per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Values are:  CreatedDateAsc—Sorts by oldest creation date. This sort order is available only for DirectMessageModeration, Draft, Moderation, and PendingReview feeds.    CreatedDateDesc—Sorts by most recent creation date.   LastModifiedDateDesc—Sorts by most recent activity.   MostViewed—Sorts by most viewed content. This sort order is available only for Home feeds when the ConnectApi.FeedFilter is UnansweredQuestions.   Relevance—Sorts by most relevant content. This sort order is available only for Company, Home, and Topics feeds.   If you pass in null, the default value CreatedDateDesc is used."
         }
       ],
       "datatype": "ConnectApi.FeedElementPage"
@@ -205,18 +123,11 @@
       "name": "getFeedItems",
       "signature": "public static ConnectApi.FeedItemPage getFeedItems(String communityId, String subjectId, String favoriteId)",
       "description": "Get the first page of feed items for a favorite.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "favoriteId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite."
         }
       ],
       "datatype": "ConnectApi.FeedItemPage"
@@ -225,30 +136,11 @@
       "name": "getFeedItems",
       "signature": "public static ConnectApi.FeedItemPage getFeedItems(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam)",
       "description": "Get a page of sorted feed items for a favorite.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "favoriteId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "sortParam",
-          "datatype": "ConnectApi.FeedSortOrder"
+          "datatype": "ConnectApi.FeedSortOrder",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite. The page token to use to view the page. Page tokens are returned as part of the response class, for example, currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of feed items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Values are:  CreatedDateAsc—Sorts by oldest creation date. This sort order is available only for DirectMessageModeration, Draft, Moderation, and PendingReview feeds.    CreatedDateDesc—Sorts by most recent creation date.   LastModifiedDateDesc—Sorts by most recent activity.   MostViewed—Sorts by most viewed content. This sort order is available only for Home feeds when the ConnectApi.FeedFilter is UnansweredQuestions.   Relevance—Sorts by most relevant content. This sort order is available only for Company, Home, and Topics feeds.   Sorts the returned feed by the most recently created feed item, or by the most recently modified feed item. If you pass in null, the default value CreatedDateDesc is used."
         }
       ],
       "datatype": "ConnectApi.FeedItemPage"
@@ -257,34 +149,11 @@
       "name": "getFeedItems",
       "signature": "public static ConnectApi.FeedItemPage getFeedItems(String communityId, String subjectId, String favoriteId, Integer recentCommentCount, String pageParam, Integer pageSize, FeedSortOrder sortParam)",
       "description": "Get a page of sorted feed items for a favorite. Include no more than the specified number of comments per feed item.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "favoriteId",
-          "datatype": "String"
-        },
-        {
-          "name": "recentCommentCount",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "sortParam",
-          "datatype": "ConnectApi.FeedSortOrder"
+          "datatype": "ConnectApi.FeedSortOrder",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite. The maximum number of comments to return with each feed item. The default value is 3. The page token to use to view the page. Page tokens are returned as part of the response class, for example, currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of feed items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Values are:  CreatedDateAsc—Sorts by oldest creation date. This sort order is available only for DirectMessageModeration, Draft, Moderation, and PendingReview feeds.    CreatedDateDesc—Sorts by most recent creation date.   LastModifiedDateDesc—Sorts by most recent activity.   MostViewed—Sorts by most viewed content. This sort order is available only for Home feeds when the ConnectApi.FeedFilter is UnansweredQuestions.   Relevance—Sorts by most relevant content. This sort order is available only for Company, Home, and Topics feeds.   Sorts the returned feed by the most recently created feed item, or by the most recently modified feed item. If you pass in null, the default value CreatedDateDesc is used."
         }
       ],
       "datatype": "ConnectApi.FeedItemPage"
@@ -293,22 +162,11 @@
       "name": "updateFavorite",
       "signature": "public static ConnectApi.FeedFavorite updateFavorite(String communityId, String subjectId, String favoriteId, Boolean updateLastViewDate)",
       "description": "Update the last view date of the saved search or list view feed to the current system time.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "favoriteId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "updateLastViewDate",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite. Specify whether to update the last view date of the specified favorite to the current system time (true) or not (false)."
         }
       ],
       "datatype": "ConnectApi.FeedFavorite"
@@ -317,22 +175,11 @@
       "name": "setTestGetFeedElements",
       "signature": "public static Void setTestGetFeedElements(String communityId, String subjectId, String favoriteId, ConnectApi.FeedElementPage result)",
       "description": "Register a ConnectApi.FeedElementPage object to be returned when getFeedElements​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "favoriteId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FeedElementPage"
+          "datatype": "ConnectApi.FeedElementPage",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -341,34 +188,11 @@
       "name": "setTestGetFeedElements",
       "signature": "public static Void setTestGetFeedElements(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedElementPage result)",
       "description": "Register a ConnectApi.FeedElementPage object to be returned when getFeedElements​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "favoriteId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
-        {
-          "name": "sortParam",
-          "datatype": "ConnectApi.FeedSortOrder"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FeedElementPage"
+          "datatype": "ConnectApi.FeedElementPage",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite. The page token to use to view the page. Page tokens are returned as part of the response class, for example, currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of feed elements per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Values are:  CreatedDateAsc—Sorts by oldest creation date. This sort order is available only for DirectMessageModeration, Draft, Moderation, and PendingReview feeds.    CreatedDateDesc—Sorts by most recent creation date.   LastModifiedDateDesc—Sorts by most recent activity.   MostViewed—Sorts by most viewed content. This sort order is available only for Home feeds when the ConnectApi.FeedFilter is UnansweredQuestions.   Relevance—Sorts by most relevant content. This sort order is available only for Company, Home, and Topics feeds.   If you pass in null, the default value CreatedDateDesc is used. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -377,42 +201,11 @@
       "name": "setTestGetFeedElements",
       "signature": "public static Void setTestGetFeedElements(String communityId, String subjectId, String favoriteId, Integer recentCommentCount, Integer elementsPerBundle, String pageParam, Integer pageSize, ConnectApi.FeedSortOrder sortParam, ConnectApi.FeedElementPage result)",
       "description": "Register a ConnectApi.FeedElementPage object to be returned when getFeedElements​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "favoriteId",
-          "datatype": "String"
-        },
-        {
-          "name": "recentCommentCount",
-          "datatype": "Integer"
-        },
-        {
-          "name": "elementsPerBundle",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
-        {
-          "name": "sortParam",
-          "datatype": "ConnectApi.FeedSortOrder"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FeedElementPage"
+          "datatype": "ConnectApi.FeedElementPage",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite. Maximum number of comments to return with each feed element. The default value is 3. Maximum number of feed elements per bundle. The default and maximum value is 10. The page token to use to view the page. Page tokens are returned as part of the response class, for example, currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of feed elements per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Values are:  CreatedDateAsc—Sorts by oldest creation date. This sort order is available only for DirectMessageModeration, Draft, Moderation, and PendingReview feeds.    CreatedDateDesc—Sorts by most recent creation date.   LastModifiedDateDesc—Sorts by most recent activity.   MostViewed—Sorts by most viewed content. This sort order is available only for Home feeds when the ConnectApi.FeedFilter is UnansweredQuestions.   Relevance—Sorts by most relevant content. This sort order is available only for Company, Home, and Topics feeds.   If you pass in null, the default value CreatedDateDesc is used. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -421,22 +214,11 @@
       "name": "setTestGetFeedItems",
       "signature": "public static Void setTestGetFeedItems(String communityId, String subjectId, String favoriteId, ConnectApi.FeedItemPage result)",
       "description": "Register a ConnectApi.FeedItemPage object to be returned when getFeedItems​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "favoriteId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FeedItemPage"
+          "datatype": "ConnectApi.FeedItemPage",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -445,34 +227,11 @@
       "name": "setTestGetFeedItems",
       "signature": "public static Void setTestGetFeedItems(String communityId, String subjectId, String favoriteId, String pageParam, Integer pageSize, FeedSortOrder sortParam, ConnectApi.FeedItemPage result)",
       "description": "Register a ConnectApi.FeedItemPage object to be returned when getFeedItems​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "favoriteId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
-        {
-          "name": "sortParam",
-          "datatype": "ConnectApi.FeedSortOrder"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FeedItemPage"
+          "datatype": "ConnectApi.FeedItemPage",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite. The page token to use to view the page. Page tokens are returned as part of the response class, for example, currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of feed items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Values are:  CreatedDateAsc—Sorts by oldest creation date. This sort order is available only for DirectMessageModeration, Draft, Moderation, and PendingReview feeds.    CreatedDateDesc—Sorts by most recent creation date.   LastModifiedDateDesc—Sorts by most recent activity.   MostViewed—Sorts by most viewed content. This sort order is available only for Home feeds when the ConnectApi.FeedFilter is UnansweredQuestions.   Relevance—Sorts by most relevant content. This sort order is available only for Company, Home, and Topics feeds.   Sorts the returned feed by the most recently created feed item, or by the most recently modified feed item. If you pass in null, the default value CreatedDateDesc is used. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -481,43 +240,16 @@
       "name": "setTestGetFeedItems",
       "signature": "public static Void setTestGetFeedItems(String communityId, String subjectId, String favoriteId, Integer recentCommentCount, String pageParam, Integer pageSize, FeedSortOrder sortParam, ConnectApi.FeedItemPage result)",
       "description": "Register a ConnectApi.FeedItemPage object to be returned when getFeedItems​ is called with matching parameters in a test context. Use the method with the same parameters or the code throws an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "subjectId",
-          "datatype": "String"
-        },
-        {
-          "name": "favoriteId",
-          "datatype": "String"
-        },
-        {
-          "name": "recentCommentCount",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
-        {
-          "name": "sortParam",
-          "datatype": "ConnectApi.FeedSortOrder"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FeedItemPage"
+          "datatype": "ConnectApi.FeedItemPage",
+          "description": "Use either the ID for a community, internal, or null. The ID of the context user or the alias me. The ID of a favorite. The maximum number of comments to return with each feed item. The default value is 3. The page token to use to view the page. Page tokens are returned as part of the response class, for example, currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of feed items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Values are:  CreatedDateAsc—Sorts by oldest creation date. This sort order is available only for DirectMessageModeration, Draft, Moderation, and PendingReview feeds.    CreatedDateDesc—Sorts by most recent creation date.   LastModifiedDateDesc—Sorts by most recent activity.   MostViewed—Sorts by most viewed content. This sort order is available only for Home feeds when the ConnectApi.FeedFilter is UnansweredQuestions.   Relevance—Sorts by most relevant content. This sort order is available only for Company, Home, and Topics feeds.   Sorts the returned feed by the most recently created feed item, or by the most recently modified feed item. If you pass in null, the default value CreatedDateDesc is used. The object containing test data."
         }
       ],
       "datatype": "Void"
     }
   ],
-  "description": "Chatter favorites give you easy access to topics, list views, and feed",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ChatterFavorites_static_methods.htm#apex_ConnectAPI_ChatterFavorites_static_methods"
+  "description": "Chatter favorites give you easy access to topics, list views, and feed searches.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ChatterFavorites_static_methods.htm"
 }

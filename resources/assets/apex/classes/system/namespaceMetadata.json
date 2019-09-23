@@ -1,0 +1,869 @@
+{
+  "AccessType": {
+    "name": "AccessType",
+    "namespace": "System",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "CREATABLE",
+      "READABLE",
+      "UPDATABLE",
+      "UPSERTABLE"
+    ],
+    "description": "Specifies the access check type for the fields of an sObject.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_System_AccessType.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Address": {
+    "name": "Address",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for accessing the component fields of address",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Address.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Answers": {
+    "name": "Answers",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents zone answers.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_answers.htm",
+    "classes": [],
+    "enums": []
+  },
+  "ApexPages": {
+    "name": "ApexPages",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use ApexPages to",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_apexpages.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Approval": {
+    "name": "Approval",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for processing approval requests and setting approval-process locks and",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_approval.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Blob": {
+    "name": "Blob",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the Blob primitive data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_blob.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Boolean": {
+    "name": "Boolean",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the Boolean primitive data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_boolean.htm",
+    "classes": [],
+    "enums": []
+  },
+  "BusinessHours": {
+    "name": "BusinessHours",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use the BusinessHours methods to set the business hours at which your customer support",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_businesshours.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Callable": {
+    "name": "Callable",
+    "namespace": "System",
+    "isInterface": true,
+    "description": "Use the BusinessHours methods to set the business hours at which your customer support",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_callable.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Comparable": {
+    "name": "Comparable",
+    "namespace": "System",
+    "isInterface": true,
+    "description": "Adds sorting support for Lists that contain non-primitive",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_comparable.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Continuation": {
+    "name": "Continuation",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Continuation.htm#apex_class_System_Continuation",
+    "classes": [],
+    "enums": []
+  },
+  "Cookie": {
+    "name": "Cookie",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "The Cookie",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_sites_cookie.htm#apex_classes_sites_cookie",
+    "classes": [],
+    "enums": []
+  },
+  "Crypto": {
+    "name": "Crypto",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Provides methods for creating digests, message authentication codes, and signatures, as",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_crypto.htm#apex_classes_restful_crypto",
+    "classes": [],
+    "enums": []
+  },
+  "Database": {
+    "name": "Database",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for creating and manipulating data.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database.htm#apex_methods_system_database",
+    "classes": [],
+    "enums": []
+  },
+  "Date": {
+    "name": "Date",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the Date primitive data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_date.htm#apex_methods_system_date",
+    "classes": [],
+    "enums": []
+  },
+  "Datetime": {
+    "name": "Datetime",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the Datetime primitive data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_datetime.htm#apex_methods_system_datetime",
+    "classes": [],
+    "enums": []
+  },
+  "Decimal": {
+    "name": "Decimal",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the Decimal primitive data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_decimal.htm#apex_methods_system_decimal",
+    "classes": [],
+    "enums": []
+  },
+  "Double": {
+    "name": "Double",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the Double primitive data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_double.htm#apex_methods_system_double",
+    "classes": [],
+    "enums": []
+  },
+  "EncodingUtil": {
+    "name": "EncodingUtil",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use the methods in the EncodingUtil class to encode and decode URL strings, and convert strings to hexadecimal",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_encodingUtil.htm#apex_classes_restful_encodingutil",
+    "classes": [],
+    "enums": []
+  },
+  "Enum": {
+    "name": "Enum",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "An enum is an abstract data type with values that each take on exactly one of a finite set of identifiers that you specify. Apex provides built-in enums, such as LoggingLevel, and you can define your own enum.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_enum.htm",
+    "classes": [],
+    "enums": []
+  },
+  "EventBus": {
+    "name": "EventBus",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for publishing platform events.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_eventbus.htm#apex_class_System_eventbus",
+    "classes": [],
+    "enums": []
+  },
+  "FeatureManagement": {
+    "name": "FeatureManagement",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use the methods in the System.FeatureManagement class to check and modify the values of feature",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FeatureManagement.htm#apex_class_System_FeatureManagement",
+    "classes": [],
+    "enums": []
+  },
+  "FlexQueue": {
+    "name": "FlexQueue",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods that reorder batch jobs in the Apex flex",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FlexQueue.htm#apex_class_System_FlexQueue",
+    "classes": [],
+    "enums": []
+  },
+  "Formula": {
+    "name": "Formula",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains the recalculateFormulas method that updates (recalculates) all formula fields on the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Formula.htm#apex_class_System_Formula",
+    "classes": [],
+    "enums": []
+  },
+  "FormulaRecalcFieldError": {
+    "name": "FormulaRecalcFieldError",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "The return type of the FormulaRecalcResult.getErrors method.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FormulaRecalcFieldError.htm#apex_class_System_FormulaRecalcFieldError",
+    "classes": [],
+    "enums": []
+  },
+  "FormulaRecalcResult": {
+    "name": "FormulaRecalcResult",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "The return type of the Formula.recalculateFormulas method.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FormulaRecalcResult.htm#apex_class_System_FormulaRecalcResult",
+    "classes": [],
+    "enums": []
+  },
+  "Http": {
+    "name": "Http",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use the Http class",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_http.htm#apex_classes_restful_http_http",
+    "classes": [],
+    "enums": []
+  },
+  "HttpCalloutMock": {
+    "name": "HttpCalloutMock",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Enables sending fake responses when testing",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_httpcalloutmock.htm#apex_interface_httpcalloutmock",
+    "classes": [],
+    "enums": []
+  },
+  "HttpRequest": {
+    "name": "HttpRequest",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use the HttpRequest class to programmatically create HTTP requests like GET, POST, PUT,",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_httprequest.htm#apex_classes_restful_http_httprequest",
+    "classes": [],
+    "enums": []
+  },
+  "HttpResponse": {
+    "name": "HttpResponse",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use the HttpResponse class to handle the HTTP response returned by the Http class.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_httpresponse.htm#apex_classes_restful_http_httpresponse",
+    "classes": [],
+    "enums": []
+  },
+  "Id": {
+    "name": "Id",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the ID primitive data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_id.htm#apex_methods_system_id",
+    "classes": [],
+    "enums": []
+  },
+  "Idea": {
+    "name": "Idea",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents zone",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_ideas.htm#apex_classes_ideas",
+    "classes": [],
+    "enums": []
+  },
+  "Ideas": {
+    "name": "Ideas",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents zone",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_ideas.htm#apex_classes_ideas",
+    "classes": [],
+    "enums": []
+  },
+  "InstallHandler": {
+    "name": "InstallHandler",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Enables custom code to run after a managed package installation or upgrade.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_install_handler.htm#apex_install_handler",
+    "classes": [],
+    "enums": []
+  },
+  "Integer": {
+    "name": "Integer",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the Integer primitive data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_integer.htm#apex_methods_system_integer",
+    "classes": [],
+    "enums": []
+  },
+  "JSON": {
+    "name": "JSON",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for serializing Apex objects into JSON format",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Json.htm#apex_class_System_Json",
+    "classes": [],
+    "enums": []
+  },
+  "JSONGenerator": {
+    "name": "JSONGenerator",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods used to",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_JsonGenerator.htm#apex_class_System_JsonGenerator",
+    "classes": [],
+    "enums": []
+  },
+  "JSONParser": {
+    "name": "JSONParser",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents a parser for JSON-encoded",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_JsonParser.htm#apex_class_System_JsonParser",
+    "classes": [],
+    "enums": []
+  },
+  "JSONToken": {
+    "name": "JSONToken",
+    "namespace": "System",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "END_ARRAY",
+      "END_OBJECT",
+      "FIELD_NAME",
+      "NOT_AVAILABLE",
+      "START_ARRAY",
+      "START_OBJECT",
+      "VALUE_EMBEDDED_OBJECT",
+      "VALUE_FALSE",
+      "VALUE_NULL",
+      "VALUE_NUMBER_FLOAT",
+      "VALUE_NUMBER_INT",
+      "VALUE_STRING",
+      "VALUE_TRUE"
+    ],
+    "description": "Contains all token values used for parsing JSON content.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_System_JsonToken.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Limits": {
+    "name": "Limits",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods that return limit information for specific resources.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_limits.htm",
+    "classes": [],
+    "enums": []
+  },
+  "List": {
+    "name": "List",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the List collection type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_list.htm#apex_methods_system_list",
+    "classes": [],
+    "enums": []
+  },
+  "Location": {
+    "name": "Location",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for accessing the component fields of geolocation",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Location.htm#apex_class_system_Location",
+    "classes": [],
+    "enums": []
+  },
+  "Long": {
+    "name": "Long",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the Long primitive data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_long.htm#apex_methods_system_long",
+    "classes": [],
+    "enums": []
+  },
+  "Map": {
+    "name": "Map",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the Map collection type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_map.htm#apex_methods_system_map",
+    "classes": [],
+    "enums": []
+  },
+  "Matcher": {
+    "name": "Matcher",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Matchers use Patterns to perform match operations on a",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_pattern_and_matcher_matcher_methods.htm#apex_classes_pattern_and_matcher_matcher_methods",
+    "classes": [],
+    "enums": []
+  },
+  "Math": {
+    "name": "Math",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for mathematical operations.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_math.htm#apex_system_methods_math",
+    "classes": [],
+    "enums": []
+  },
+  "Messaging": {
+    "name": "Messaging",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains messaging methods used when sending a single or",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_messaging.htm#apex_classes_email_outbound_messaging",
+    "classes": [],
+    "enums": []
+  },
+  "MultiStaticResourceCalloutMock": {
+    "name": "MultiStaticResourceCalloutMock",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Utility class used to specify a fake response using multiple",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_multistaticresourcecalloutmock.htm#apex_methods_system_multistaticresourcecalloutmock",
+    "classes": [],
+    "enums": []
+  },
+  "Network": {
+    "name": "Network",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents a community.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_network.htm#apex_classes_network",
+    "classes": [],
+    "enums": []
+  },
+  "OrgLimit": {
+    "name": "OrgLimit",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods that provide the name, maximum value, and current",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_OrgLimit.htm#apex_class_System_OrgLimit",
+    "classes": [],
+    "enums": []
+  },
+  "OrgLimits": {
+    "name": "OrgLimits",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods that provide a list or map of all OrgLimit",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_OrgLimits.htm#apex_class_System_OrgLimits",
+    "classes": [],
+    "enums": []
+  },
+  "Packaging": {
+    "name": "Packaging",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Contains a method for obtaining information about managed and unlocked packages..",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Packaging.htm",
+    "classes": [],
+    "enums": []
+  },
+  "PageReference": {
+    "name": "PageReference",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "A PageReference is a reference to",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_system_pagereference.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Pattern": {
+    "name": "Pattern",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents a compiled representation of a regular expression.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_pattern_and_matcher_pattern_methods.htm#apex_classes_pattern_and_matcher_pattern_methods",
+    "classes": [],
+    "enums": []
+  },
+  "Queueable": {
+    "name": "Queueable",
+    "namespace": "System",
+    "isInterface": true,
+    "description": "Enables the asynchronous execution of Apex jobs that can be",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Queueable.htm#apex_class_System_Queueable",
+    "classes": [],
+    "enums": []
+  },
+  "QueueableContext": {
+    "name": "QueueableContext",
+    "namespace": "System",
+    "isInterface": true,
+    "description": "Represents the parameter type of the execute()",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_queueablecontext.htm#apex_interface_system_queueablecontext",
+    "classes": [],
+    "enums": []
+  },
+  "QuickAction": {
+    "name": "QuickAction",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use Apex to request and process actions on objects",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_quickaction.htm#apex_class_system_quickaction",
+    "classes": [],
+    "enums": []
+  },
+  "RemoteObjectController": {
+    "name": "RemoteObjectController",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use RemoteObjectController to access the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_remoteobjectcontroller.htm#apex_methods_system_remoteobjectcontroller",
+    "classes": [],
+    "enums": []
+  },
+  "ResetPasswordResult": {
+    "name": "ResetPasswordResult",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents the result of a password reset.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_ResetPasswordResult.htm#apex_class_System_ResetPasswordResult",
+    "classes": [],
+    "enums": []
+  },
+  "RestContext": {
+    "name": "RestContext",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains the RestRequest and RestResponse",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_restcontext.htm#apex_methods_system_restcontext",
+    "classes": [],
+    "enums": []
+  },
+  "RestRequest": {
+    "name": "RestRequest",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents an object used to pass data from an HTTP",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_restrequest.htm",
+    "classes": [],
+    "enums": []
+  },
+  "RestResponse": {
+    "name": "RestResponse",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents an object used to pass data from an Apex",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_restresponse.htm#apex_methods_system_restresponse",
+    "classes": [],
+    "enums": []
+  },
+  "SandboxPostCopy": {
+    "name": "SandboxPostCopy",
+    "namespace": "System",
+    "isInterface": true,
+    "description": "To make your sandbox environment business ready, automate data",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_System_SandboxPostCopy.htm#apex_interface_System_SandboxPostCopy",
+    "classes": [],
+    "enums": []
+  },
+  "Schedulable": {
+    "name": "Schedulable",
+    "namespace": "System",
+    "isInterface": true,
+    "description": "The class that implements this interface can be scheduled",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_schedulable.htm#apex_interface_system_schedulable",
+    "classes": [],
+    "enums": []
+  },
+  "SchedulableContext": {
+    "name": "SchedulableContext",
+    "namespace": "System",
+    "isInterface": true,
+    "description": "Represents the parameter type of a method in a class that implements the Schedulable interface and contains the scheduled job ID. This",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_schedulablecontext.htm#apex_interface_system_schedulablecontext",
+    "classes": [],
+    "enums": []
+  },
+  "Schema": {
+    "name": "Schema",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for obtaining schema describe information.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_schema.htm#apex_methods_system_schema",
+    "classes": [],
+    "enums": []
+  },
+  "Search": {
+    "name": "Search",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use the methods of the Search class to perform dynamic SOSL queries.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_search.htm#apex_methods_system_search",
+    "classes": [],
+    "enums": []
+  },
+  "Security": {
+    "name": "Security",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods to securely implement Apex",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Security.htm#apex_class_System_Security",
+    "classes": [],
+    "enums": []
+  },
+  "SelectOption": {
+    "name": "SelectOption",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "A SelectOption object specifies one of the possible values for a Visualforce selectCheckboxes, selectList, or selectRadio component.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_selectoption.htm#apex_pages_selectoption",
+    "classes": [],
+    "enums": []
+  },
+  "Set": {
+    "name": "Set",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents a collection of unique elements with no duplicate values.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_set.htm#apex_methods_system_set",
+    "classes": [],
+    "enums": []
+  },
+  "Site": {
+    "name": "Site",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use the Site Class to manage your Lightning",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_sites.htm#apex_classes_sites",
+    "classes": [],
+    "enums": []
+  },
+  "SObject": {
+    "name": "SObject",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the sObject data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_sobject.htm#apex_methods_system_sobject",
+    "classes": [],
+    "enums": []
+  },
+  "SObjectAccessDecision": {
+    "name": "SObjectAccessDecision",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains the results of a call to the Security.stripInaccessible method and methods to retrieve those",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_SObjectAccessDecision.htm#apex_class_System_SObjectAccessDecision",
+    "classes": [],
+    "enums": []
+  },
+  "StaticResourceCalloutMock": {
+    "name": "StaticResourceCalloutMock",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Utility class used to specify a fake response for testing",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_staticresourcecalloutmock.htm#apex_methods_system_staticresourcecalloutmock",
+    "classes": [],
+    "enums": []
+  },
+  "String": {
+    "name": "String",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Contains methods for the String primitive data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_string.htm",
+    "classes": [],
+    "enums": []
+  },
+  "StubProvider": {
+    "name": "StubProvider",
+    "namespace": "System",
+    "isInterface": true,
+    "description": "StubProvider is a callback",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_System_StubProvider.htm#apex_interface_System_StubProvider",
+    "classes": [],
+    "enums": []
+  },
+  "System": {
+    "name": "System",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for system operations, such as writing",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_system.htm#apex_methods_system_system",
+    "classes": [],
+    "enums": []
+  },
+  "Test": {
+    "name": "Test",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods related to Apex tests.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_test.htm#apex_methods_system_test",
+    "classes": [],
+    "enums": []
+  },
+  "Time": {
+    "name": "Time",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for the Time primitive data type.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_time.htm#apex_methods_system_time",
+    "classes": [],
+    "enums": []
+  },
+  "TimeZone": {
+    "name": "TimeZone",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents a time zone. Contains methods for creating a",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_timezone.htm#apex_methods_system_timezone",
+    "classes": [],
+    "enums": []
+  },
+  "Trigger": {
+    "name": "Trigger",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use the Trigger class to access run-time context information in a trigger, such as the type of trigger or the list of sObject records that the trigger operates on.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Trigger.htm",
+    "classes": [],
+    "enums": []
+  },
+  "TriggerOperation": {
+    "name": "TriggerOperation",
+    "namespace": "System",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "AFTER_DELETE",
+      "AFTER_INSERT",
+      "AFTER_UNDELETE",
+      "AFTER_UPDATE",
+      "BEFORE_DELETE",
+      "BEFORE_INSERT",
+      "BEFORE_UPDATE"
+    ],
+    "description": "System.TriggerOperation enum values are associated with trigger events.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_System_TriggerOperation.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Type": {
+    "name": "Type",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for getting the Apex type that corresponds to an Apex class and for",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_type.htm#apex_methods_system_type",
+    "classes": [],
+    "enums": []
+  },
+  "UninstallHandler": {
+    "name": "UninstallHandler",
+    "namespace": "System",
+    "isInterface": true,
+    "description": "Enables custom code to run after a managed package is uninstalled.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_uninstall_handler.htm#apex_uninstall_handler",
+    "classes": [],
+    "enums": []
+  },
+  "URL": {
+    "name": "URL",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Represents a uniform resource locator (URL) and provides",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_url.htm#apex_methods_system_url",
+    "classes": [],
+    "enums": []
+  },
+  "UserInfo": {
+    "name": "UserInfo",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods for obtaining information about the context",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_userinfo.htm#apex_methods_system_userinfo",
+    "classes": [],
+    "enums": []
+  },
+  "UserManagement": {
+    "name": "UserManagement",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Contains methods to manage end users, for example, to register",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_UserManagement.htm#apex_class_System_UserManagement",
+    "classes": [],
+    "enums": []
+  },
+  "Version": {
+    "name": "Version",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Use the Version methods to get the version of a managed",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_version.htm#apex_methods_system_version",
+    "classes": [],
+    "enums": []
+  },
+  "WebServiceCallout": {
+    "name": "WebServiceCallout",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "Enables making callouts to SOAP operations on an external Web service. This class is",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_WebServiceCallout.htm#apex_class_System_WebServiceCallout",
+    "classes": [],
+    "enums": []
+  },
+  "WebServiceMock": {
+    "name": "WebServiceMock",
+    "namespace": "System",
+    "isInterface": true,
+    "description": "Enables sending fake responses when testing",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_webservicemock.htm#apex_interface_webservicemock",
+    "classes": [],
+    "enums": []
+  },
+  "XmlStreamReader": {
+    "name": "XmlStreamReader",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "The XmlStreamReader class provides methods for",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_XmlStream_reader.htm#apex_classes_xml_XmlStream_reader",
+    "classes": [],
+    "enums": []
+  },
+  "XmlStreamWriter": {
+    "name": "XmlStreamWriter",
+    "namespace": "System",
+    "isInterface": false,
+    "description": "The XmlStreamWriter class provides methods",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_XmlStream_writer.htm#apex_classes_XmlStream_writer",
+    "classes": [],
+    "enums": []
+  }
+}

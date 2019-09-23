@@ -13,16 +13,17 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "setFilter",
       "signature": "public void setFilter(Search.KnowledegeSuggestionFilter knowledgeSuggestionFilter)",
       "description": "Set filters that narrow Salesforce Knowledge article results in a call to System.Search.suggest(String, String, Search.SuggestionOption).",
-      "methodParams": [
+      "params": [
         {
           "name": "knowledgeSuggestionFilter",
-          "datatype": "KnowledgeSuggestionFilter"
+          "datatype": "KnowledgeSuggestionFilter",
+          "description": "An object containing filters that narrow the search results."
         }
       ],
       "datatype": "void"
@@ -31,15 +32,16 @@
       "name": "setLimit",
       "signature": "public void setLimit(Integer limit)",
       "description": "The maximum number of record or article suggestions to retrieve.",
-      "methodParams": [
+      "params": [
         {
           "name": "limit",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The maximum number of record or article suggestions to retrieve."
         }
       ],
       "datatype": "void"
     }
   ],
-  "description": "Options that narrow record and article suggestion results returned",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SuggestionOption.htm#apex_class_Search_SuggestionOption"
+  "description": "Options that narrow record and article suggestion results returned from a call to System.Search.suggest(String, String, Search.SuggestionOption).",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SuggestionOption.htm"
 }

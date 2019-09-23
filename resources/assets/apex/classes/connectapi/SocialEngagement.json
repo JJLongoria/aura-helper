@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "deleteSocialPost",
       "signature": "public static ConnectApi.DeleteSocialPostIntent deleteSocialPost(String socialPostId, String socialAccountId)",
       "description": "Delete a social post from its social network.",
-      "methodParams": [
-        {
-          "name": "socialPostId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "socialAccountId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the social post to delete. ID of the social account that deletes the post."
         }
       ],
       "datatype": "ConnectApi.DeleteSocialPostIntent"
@@ -33,14 +32,11 @@
       "name": "followSocialPersona",
       "signature": "public static ConnectApi.FollowSocialPersonaIntent followSocialPersona(String socialPersonaId, String socialAccountId)",
       "description": "Follow a social persona in its social network.",
-      "methodParams": [
-        {
-          "name": "socialPersonaId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "socialAccountId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the social persona to follow. ID of the social account that follows the social persona."
         }
       ],
       "datatype": "ConnectApi.FollowSocialPersonaIntent"
@@ -49,14 +45,11 @@
       "name": "followSocialPostPersona",
       "signature": "public static ConnectApi.FollowSocialPersonaIntent followSocialPostPersona(String socialPostId, String socialAccountId)",
       "description": "Follow a social persona on a social post in its social network.",
-      "methodParams": [
-        {
-          "name": "socialPostId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "socialAccountId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the social post authored by the social persona to follow. ID of the social account that follows the social persona."
         }
       ],
       "datatype": "ConnectApi.FollowSocialPersonaIntent"
@@ -65,10 +58,11 @@
       "name": "getIntents",
       "signature": "public static ConnectApi.SocialPostIntents getIntents(String socialPostId)",
       "description": "Get available intents for a social post.",
-      "methodParams": [
+      "params": [
         {
           "name": "socialPostId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of a social post."
         }
       ],
       "datatype": "ConnectApi.SocialPostIntents"
@@ -77,10 +71,11 @@
       "name": "getManagedSocialAccount",
       "signature": "public static ConnectApi.ManagedSocialAccount getManagedSocialAccount(String id)",
       "description": "Get a managed social account that is in the org and assigned to the user.",
-      "methodParams": [
+      "params": [
         {
           "name": "id",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Description: Internal SFDC ID for this managed social account."
         }
       ],
       "datatype": "ConnectApi.​ManagedSocialAccount"
@@ -89,17 +84,18 @@
       "name": "getManagedSocialAccounts",
       "signature": "public static ConnectApi.ManagedSocialAccounts getManagedSocialAccounts()",
       "description": "Gets a list of managed social accounts that are in the org and assigned to the user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ConnectApi.ManagedSocialAccounts"
     },
     {
       "name": "getManagedSocialAccounts",
       "signature": "public static ConnectApi.ManagedSocialAccounts getManagedSocialAccounts(ConnectApi.SocialNetworkProvider socialNetwork)",
       "description": "Get a list of managed social accounts that are in the org and assigned to the user.",
-      "methodParams": [
+      "params": [
         {
           "name": "socialNetwork",
-          "datatype": "ConnectApi.SocialNetworkProvider"
+          "datatype": "ConnectApi.SocialNetworkProvider",
+          "description": "Description: Filters results based on the social network. Values are: Facebook  GooglePlus  Instagram  InstagramBusiness  KakaoTalk  Kik  Line  LinkedIn  Messenger  Other  Pinterest  QQ  Rypple  SinaWeibo  SMS  Snapchat  Telegram  Twitter  VKontakte  WeChat  WhatsApp  YouTube"
         }
       ],
       "datatype": "ConnectApi.ManagedSocialAccounts"
@@ -108,14 +104,11 @@
       "name": "getRelationship",
       "signature": "public static ConnectApi.SocialAccountRelationship getRelationship(String id, String socialPersonaId)",
       "description": "Get the follow relationship between a managed social account and a social persona.",
-      "methodParams": [
-        {
-          "name": "id",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "socialPersonaId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the managed social account. ID of the social persona."
         }
       ],
       "datatype": "ConnectApi.SocialAccountRelationship"
@@ -124,14 +117,11 @@
       "name": "hideSocialPost",
       "signature": "public static ConnectApi.HideSocialPostIntent hideSocialPost(String socialPostId, String socialAccountId)",
       "description": "Hide a social post in its social network.",
-      "methodParams": [
-        {
-          "name": "socialPostId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "socialAccountId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the social post to hide. ID of the social account that hides the post."
         }
       ],
       "datatype": "ConnectApi.HideSocialPostIntent"
@@ -140,14 +130,11 @@
       "name": "likeSocialPost",
       "signature": "public static ConnectApi.LikeSocialPostIntent likeSocialPost(String socialPostId, String socialAccountId)",
       "description": "Like a social post in its social network.",
-      "methodParams": [
-        {
-          "name": "socialPostId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "socialAccountId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the social post to like. ID of the social account that likes the post."
         }
       ],
       "datatype": "ConnectApi.LikeSocialPostIntent"
@@ -156,10 +143,11 @@
       "name": "massApprove",
       "signature": "public static ConnectApi.SocialPostMassApprovalOutput massApprove(ConnectApi.SocialPostMassApprovalInput massApproval)",
       "description": "Approve or reject the publishing of a large number of social posts.",
-      "methodParams": [
+      "params": [
         {
           "name": "massApproval",
-          "datatype": "ConnectApi.SocialPostMassApprovalInput"
+          "datatype": "ConnectApi.SocialPostMassApprovalInput",
+          "description": "A ConnectApi.SocialPostMassApprovalInput body that includes a list of social post IDs and the action to approve or reject publishing them."
         }
       ],
       "datatype": "ConnectApi.SocialPostMassApprovalOutput"
@@ -168,10 +156,11 @@
       "name": "recallApproval",
       "signature": "public static Void recallApproval(String socialPostId)",
       "description": "Recall an approval request to publish a social post.",
-      "methodParams": [
+      "params": [
         {
           "name": "socialPostId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the social post."
         }
       ],
       "datatype": "Void"
@@ -180,14 +169,11 @@
       "name": "unfollowSocialPersona",
       "signature": "public static Void unfollowSocialPersona(String socialPersonaId, String socialAccountId)",
       "description": "Stop following a social persona in its social network.",
-      "methodParams": [
-        {
-          "name": "socialPersonaId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "socialAccountId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the social persona to stop following. ID of the social account that stops following the social persona."
         }
       ],
       "datatype": "Void"
@@ -196,14 +182,11 @@
       "name": "unfollowSocialPostPersona",
       "signature": "public static Void unfollowSocialPostPersona(String socialPostId, String socialAccountId)",
       "description": "Stop following a social persona of a social post in its social network.",
-      "methodParams": [
-        {
-          "name": "socialPostId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "socialAccountId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the social post authored by the social persona to stop following. ID of the social account that stops following the social persona."
         }
       ],
       "datatype": "Void"
@@ -212,14 +195,11 @@
       "name": "unhideSocialPost",
       "signature": "public static Void unhideSocialPost(String socialPostId, String socialAccountId)",
       "description": "Unhide a social post in its social network.",
-      "methodParams": [
-        {
-          "name": "socialPostId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "socialAccountId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the social post to unhide. ID of the social account that unhides the post."
         }
       ],
       "datatype": "Void"
@@ -228,19 +208,16 @@
       "name": "unlikeSocialPost",
       "signature": "public static Void unlikeSocialPost(String socialPostId, String socialAccountId)",
       "description": "Unlike a social post in its social network.",
-      "methodParams": [
-        {
-          "name": "socialPostId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "socialAccountId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the social post to unlike. ID of the social account that unlikes the post."
         }
       ],
       "datatype": "Void"
     }
   ],
   "description": "Manage information about social accounts or fan pages for social networks.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_SocialEngagement_static_methods.htm#apex_ConnectAPI_SocialEngagement_static_methods"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_SocialEngagement_static_methods.htm"
 }

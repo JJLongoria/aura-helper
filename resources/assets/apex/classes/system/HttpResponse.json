@@ -5,43 +5,46 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getBody",
       "signature": "public String getBody()",
       "description": "Retrieves the body returned in the response.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getBodyAsBlob",
       "signature": "public Blob getBodyAsBlob()",
       "description": "Retrieves the body returned in the response as a Blob.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Blob"
     },
     {
       "name": "getBodyDocument",
       "signature": "public Dom.Document getBodyDocument()",
       "description": "Retrieves the body returned in the response as a DOM document.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Dom.Document"
     },
     {
       "name": "getHeader",
       "signature": "public String getHeader(String key)",
       "description": "Retrieves the contents of the response header.",
-      "methodParams": [
+      "params": [
         {
           "name": "key",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -50,38 +53,39 @@
       "name": "getHeaderKeys",
       "signature": "public String[] getHeaderKeys()",
       "description": "Retrieves an array of header keys returned in the response.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String[]"
     },
     {
       "name": "getStatus",
       "signature": "public String getStatus()",
       "description": "Retrieves the status message returned for the response.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getStatusCode",
       "signature": "public Integer getStatusCode()",
       "description": "Retrieves the value of the status code returned in the response.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getXmlStreamReader",
       "signature": "public XmlStreamReader getXmlStreamReader()",
       "description": "Returns an XmlStreamReader that parses the body of the callout response.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.XmlStreamReader"
     },
     {
       "name": "setBody",
       "signature": "public Void setBody(String body)",
       "description": "Specifies the body returned in the response.",
-      "methodParams": [
+      "params": [
         {
           "name": "body",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -90,10 +94,11 @@
       "name": "setBodyAsBlob",
       "signature": "public Void setBodyAsBlob(Blob body)",
       "description": "Specifies the body returned in the response using a Blob.",
-      "methodParams": [
+      "params": [
         {
           "name": "body",
-          "datatype": "Blob"
+          "datatype": "Blob",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -102,14 +107,11 @@
       "name": "setHeader",
       "signature": "public Void setHeader(String key, String value)",
       "description": "Specifies the contents of the response header.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "value",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -118,10 +120,11 @@
       "name": "setStatus",
       "signature": "public Void setStatus(String status)",
       "description": "Specifies the status message returned in the response.",
-      "methodParams": [
+      "params": [
         {
           "name": "status",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -130,10 +133,11 @@
       "name": "setStatusCode",
       "signature": "public Void setStatusCode(Integer statusCode)",
       "description": "Specifies the value of the status code returned in the response.",
-      "methodParams": [
+      "params": [
         {
           "name": "statusCode",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -142,10 +146,10 @@
       "name": "toString",
       "signature": "public String toString()",
       "description": "Returns the status message and status code returned in the response, for example:",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
   "description": "Use the HttpResponse class to handle the HTTP response returned by the Http class.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_httpresponse.htm#apex_classes_restful_http_httpresponse"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_httpresponse.htm"
 }

@@ -1,23 +1,23 @@
 {
-    "name": "LoginDiscoveryMethod",
-    "namespace": "Auth",
-    "accessModifier": "global",
-    "definitionModifier": "",
-    "withSharing": false,
-    "inheritedSharing": false,
-    "extendsType": "",
-    "isInterface": false,
-    "isEnum": true,
-    "implements": [],
-    "classes": {},
-    "enums": {},
-    "enumValues": [
-        "LIGHTNING_LOGIN",
-        "PASSWORD"
-    ],
-    "fields": [],
-    "constuctors": [],
-    "methods": [],
-    "description": "Contains methods used to verify the user’s identity when the My Domain login process uses Login Discovery.",
-    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Auth_LoginDiscoveryMethod.htm"
-  }
+  "name": "LoginDiscoveryMethod",
+  "namespace": "Auth",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "LIGHTNING_LOGIN",
+    "PASSWORD"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Contains methods used to verify the user’s identity when the My Domain login process uses Login Discovery.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Auth_LoginDiscoveryMethod.htm"
+}

@@ -5,29 +5,31 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDifference",
       "signature": "public String getDifference()",
       "description": "Returns how the field values compare for the duplicate and its matching record.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getName",
       "signature": "public String getName()",
       "description": "Returns the name of a field on a matching rule that detected duplicates.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Represents the name of a matching rule field and how the values of the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FieldDiff.htm#apex_class_Datacloud_FieldDiff"
+  "description": "Represents the name of a matching rule field and how the values of the field compare for the duplicate and its matching record.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FieldDiff.htm"
 }

@@ -1,0 +1,24 @@
+{
+  "EmailTemplateSelector": {
+    "name": "EmailTemplateSelector",
+    "namespace": "Support",
+    "isEnum": false,
+    "isInterface": true,
+    "enumValues": [],
+    "description": "The Support.EmailTemplateSelector interface",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_email_template_selector.htm#apex_email_template_selector",
+    "classes": [],
+    "enums": []
+  },
+  "MilestoneTriggerTimeCalculator": {
+    "name": "MilestoneTriggerTimeCalculator",
+    "namespace": "Support",
+    "isEnum": false,
+    "isInterface": true,
+    "enumValues": [],
+    "description": "The Support.MilestoneTriggerTimeCalculator interface calculates the time trigger for a milestone.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_support_milestonetriggertimecalculator.htm#apex_interface_support_milestonetriggertimecalculator",
+    "classes": [],
+    "enums": []
+  }
+}

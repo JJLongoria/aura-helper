@@ -5,29 +5,32 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "size",
       "signature": "public Integer size()",
       "description": "Returns the number of characters in the Blob.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "toPdf",
       "signature": "public static Blob toPdf(String stringToConvert)",
       "description": "Creates a binary object out of the given string, encoding it as a PDF file.",
-      "methodParams": [
+      "params": [
         {
           "name": "stringToConvert",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Blob"
@@ -36,17 +39,18 @@
       "name": "toString",
       "signature": "public String toString()",
       "description": "Casts the Blob into a String.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "valueOf",
       "signature": "public static Blob valueOf(String stringToBlob)",
       "description": "Casts the specified String to a Blob.",
-      "methodParams": [
+      "params": [
         {
           "name": "stringToBlob",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Blob"

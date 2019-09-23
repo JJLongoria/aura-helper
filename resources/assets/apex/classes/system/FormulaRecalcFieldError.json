@@ -5,29 +5,31 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getFieldError",
       "signature": "public String getFieldError()",
       "description": "Returns a message describing the errors encountered during formula recalculation.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getFieldName",
       "signature": "public String getFieldName()",
       "description": "Returns the name of the formula recalculation error field.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
   "description": "The return type of the FormulaRecalcResult.getErrors method.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FormulaRecalcFieldError.htm#apex_class_System_FormulaRecalcFieldError"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FormulaRecalcFieldError.htm"
 }

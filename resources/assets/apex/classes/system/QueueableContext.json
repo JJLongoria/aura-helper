@@ -5,22 +5,24 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": true,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getJobId",
       "signature": "public ID getJobId()",
       "description": "Returns the ID of the submitted job that uses the Queueable interface.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ID"
     }
   ],
-  "description": "Represents the parameter type of the execute()",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_queueablecontext.htm#apex_interface_system_queueablecontext"
+  "description": "Represents the parameter type of the execute() method in a class that implements the Queueable interface and contains the job ID. This interface is implemented internally by Apex.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_queueablecontext.htm"
 }

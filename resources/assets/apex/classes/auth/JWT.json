@@ -5,71 +5,74 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the JWT object.",
-      "methodParams": [],
+      "params": [],
       "datatype": "JWT"
     },
     {
       "name": "getAdditionalClaims",
       "signature": "public Map<String,ANY> getAdditionalClaims()",
       "description": "Returns a map of additional claims in the JWT, where the key string contains the name of the claim, and the value contains the value of the claim.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Map<String,ANY>"
     },
     {
       "name": "getAud",
       "signature": "public String getAud()",
       "description": "Returns the audience claim that identifies the intended recipients of the JWT.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getIss",
       "signature": "public String getIss()",
       "description": "Returns the issuer claim that identifies the issuer of the JWT.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getNbfClockSkew",
       "signature": "public Integer getNbfClockSkew()",
       "description": "Returns the not before claim that identifies the time before which the JWT must not be accepted for processing, while allowing some leeway for clock skew.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getSub",
       "signature": "public String getSub()",
       "description": "Returns the subject claim that identifies the current user of the JWT.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getValidityLength",
       "signature": "public Integer getValidityLength()",
       "description": "Returns the length of time that the JWT is valid, which affects the expiration claim.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "setAdditionalClaims",
       "signature": "public void setAdditionalClaims(Map<String,ANY> additionalClaims)",
       "description": "Sets the additional claims in the JWT. Returned by the getAdditionalClaims() method.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalClaims",
-          "datatype": "Map<String,ANY>"
+          "datatype": "Map<String,ANY>",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -78,10 +81,11 @@
       "name": "setAud",
       "signature": "public void setAud(String aud)",
       "description": "Sets the audience claim in the JWT. Returned by the getAud() method.",
-      "methodParams": [
+      "params": [
         {
           "name": "aud",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -90,10 +94,11 @@
       "name": "setIss",
       "signature": "public void setIss(String iss)",
       "description": "Sets the issuer claim in the JWT. Returned by the getIss() method.",
-      "methodParams": [
+      "params": [
         {
           "name": "iss",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -102,10 +107,11 @@
       "name": "setNbfClockSkew",
       "signature": "public void setNbfClockSkew(Integer nbfClockSkew)",
       "description": "Sets the not before claim in the JWT. Returned by the getNbfClockSkew() method.",
-      "methodParams": [
+      "params": [
         {
           "name": "nbfClockSkew",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -114,10 +120,11 @@
       "name": "setSub",
       "signature": "public void setSub(String sub)",
       "description": "Sets the subject claim in the JWT. Returned by the getSub() method.",
-      "methodParams": [
+      "params": [
         {
           "name": "sub",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -126,10 +133,11 @@
       "name": "setValidityLength",
       "signature": "public void setValidityLength(Integer validityLength)",
       "description": "Sets the length of time that the JWT is valid, which affects the expiration claim. Returned by the getValidityLength() method.",
-      "methodParams": [
+      "params": [
         {
           "name": "validityLength",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -138,10 +146,10 @@
       "name": "toJSONString",
       "signature": "public String toJSONString()",
       "description": "Generates the JSON object representation of the Claims Set as an encoded JWT payload.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Generates the JSON Claims Set in a JSON Web Token (JWT). The resulting",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_JWT.htm#apex_class_Auth_JWT"
+  "description": "Generates the JSON Claims Set in a JSON Web Token (JWT). The resulting Base64-encoded payload can be passed as an argument to create an instance of the Auth.JWS class.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_JWT.htm"
 }

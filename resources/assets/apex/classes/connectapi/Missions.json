@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "exportUserMissionsActivities",
       "signature": "public static ConnectApi.UserMissionActivitiesJob exportUserMissionsActivities(String communityId, String userId)",
       "description": "Export mission activity for a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the user."
         }
       ],
       "datatype": "ConnectApi.UserMissionActivitiesJob"
@@ -33,14 +32,11 @@
       "name": "getUserMissionsProgress",
       "signature": "public static ConnectApi.UserMissionActivityCollection getUserMissionsProgress(String communityId, String userId)",
       "description": "Get mission activity progress for a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the user."
         }
       ],
       "datatype": "ConnectApi.UserMissionActivityCollection"
@@ -49,14 +45,11 @@
       "name": "purgeUserMissionsActivities",
       "signature": "public static ConnectApi.UserMissionActivitiesJob purgeUserMissionsActivities(String communityId, String userId)",
       "description": "Start a job to purge mission activity for a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the user."
         }
       ],
       "datatype": "ConnectApi.UserMissionActivitiesJob"
@@ -65,27 +58,16 @@
       "name": "updateUserMissionActivityCount",
       "signature": "public static ConnectApi.UserMissionActivityStatus updateUserMissionActivityCount(ConnectApi.UserMissionActivityType activityType, Integer activityCount, String communityId, String userId)",
       "description": "Update the mission activity count for a user.",
-      "methodParams": [
-        {
-          "name": "activityType",
-          "datatype": "ConnectApi.UserMissionActivityType"
-        },
-        {
-          "name": "activityCount",
-          "datatype": "Integer"
-        },
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Type of mission activity for a user. Values are:  FeedItemAnswerAQuestion—User answered a question.   FeedItemLikeSomething—User liked a post or comment.   FeedItemMarkAnswerAsBest—User marked an answer as the best answer.   FeedItemPostQuestion—User posted a question.   FeedItemReceiveAComment—User received a comment on a post.   FeedItemReceiveALike—User received a like on a post or comment.   FeedItemReceiveAnAnswer—User received an answer to a question.   FeedItemWriteAComment—User commented on a post.   FeedItemWriteAPost—User made a post.   FeedItemYourAnswerMarkedBest—​User’s answer was marked as the best answer.    Number of mission activities of the specified type for the user. Use either the ID for a community, internal, or null. ID of the user."
         }
       ],
       "datatype": "ConnectApi.UserMissionActivityStatus"
     }
   ],
-  "description": "Export and purge mission activity for users. Get a user’s mission progress. Update",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Missions_static_methods.htm#apex_ConnectAPI_Missions_static_methods"
+  "description": "Export and purge mission activity for users. Get a user’s mission progress. Update mission activity counts for users.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Missions_static_methods.htm"
 }

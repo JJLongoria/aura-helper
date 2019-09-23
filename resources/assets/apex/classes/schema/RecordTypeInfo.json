@@ -13,58 +13,58 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDeveloperName",
       "signature": "public String getDeveloperName()",
       "description": "Returns the developer name for this record type.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getName",
       "signature": "public String getName()",
       "description": "Returns the UI label of this record type. The label can be translated into any language that Salesforce supports.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getRecordTypeId",
       "signature": "public ID getRecordTypeId()",
       "description": "Returns the ID of this record type.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ID"
     },
     {
       "name": "isActive",
       "signature": "public Boolean isActive()",
       "description": "Returns true if this record type is active, false otherwise.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isAvailable",
       "signature": "public Boolean isAvailable()",
       "description": "Returns true if this record type is available to the current user, false otherwise. Use this method to display a list of available record types to the user when he or she is creating a new record.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isDefaultRecordTypeMapping",
       "signature": "public Boolean isDefaultRecordTypeMapping()",
       "description": "Returns true if this is the default record type for the user, false otherwise.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isMaster",
       "signature": "public Boolean isMaster()",
       "description": "Returns true if this is the master record type and false otherwise. The master record type is the default record type that’s used when a record has no custom record type associated with it.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     }
   ],
-  "description": "Contains methods for accessing record type information",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_RecordTypeInfo.htm#apex_class_Schema_RecordTypeInfo"
+  "description": "Contains methods for accessing record type information for an sObject with associated record types.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_RecordTypeInfo.htm"
 }

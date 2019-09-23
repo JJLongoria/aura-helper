@@ -1,23 +1,23 @@
 {
-    "name": "OrderDirection",
-    "namespace": "Datasource",
-    "accessModifier": "global",
-    "definitionModifier": "",
-    "withSharing": false,
-    "inheritedSharing": false,
-    "extendsType": "",
-    "isInterface": false,
-    "isEnum": true,
-    "implements": [],
-    "classes": {},
-    "enums": {},
-    "enumValues": [
-        "ASCENDING",
-        "DESCENDING"
-    ],
-    "fields": [],
-    "constuctors": [],
-    "methods": [],
-    "description": "Specifies the direction for sorting rows based on column values.",
-    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_OrderDirection.htm"
-  }
+  "name": "OrderDirection",
+  "namespace": "Datasource",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "ASCENDING",
+    "DESCENDING"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Specifies the direction for sorting rows based on column values.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_OrderDirection.htm"
+}

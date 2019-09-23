@@ -5,285 +5,287 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getAggregateQueries",
       "signature": "public static Integer getAggregateQueries()",
       "description": "Returns the number of aggregate queries that have been processed with any SOQL query statement.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitAggregateQueries",
       "signature": "public static Integer getLimitAggregateQueries()",
       "description": "Returns the total number of aggregate queries that can be processed with SOQL query statements.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getAsyncCalls",
       "signature": "public static Integer getAsyncCalls()",
       "description": "Reserved for future use.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitAsyncCalls",
       "signature": "public static Integer getLimitAsyncCalls()",
       "description": "Reserved for future use.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getCallouts",
       "signature": "public static Integer getCallouts()",
       "description": "Returns the number of Web service statements that have been processed.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getChildRelationshipsDescribes",
       "signature": "public static Integer getChildRelationshipsDescribes()",
       "description": "Deprecated. Returns the number of child relationship objects that have been returned.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitCallouts",
       "signature": "public static Integer getLimitCallouts()",
       "description": "Returns the total number of Web service statements that can be processed.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getCpuTime",
       "signature": "public static Integer getCpuTime()",
       "description": "Returns the CPU time (in milliseconds) that has been used in the current transaction.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitCpuTime",
       "signature": "public static Integer getLimitCpuTime()",
       "description": "Returns the maximum CPU time  (in milliseconds) that can be used in a transaction.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getDMLRows",
       "signature": "public static Integer getDMLRows()",
       "description": "Returns the number of records that have been processed with any statement that counts against DML limits, such as DML statements, the Database.emptyRecycleBin method, and other methods.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitDMLRows",
       "signature": "public static Integer getLimitDMLRows()",
       "description": "Returns the total number of records that can be processed with any statement that counts against DML limits, such as DML statements, the database.EmptyRecycleBin method, and other methods.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getDMLStatements",
       "signature": "public static Integer getDMLStatements()",
       "description": "Returns the number of DML statements (such as insert, update or the database.EmptyRecycleBin method) that have been called.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitDMLStatements",
       "signature": "public static Integer getLimitDMLStatements()",
       "description": "Returns the total number of DML statements or the database.EmptyRecycleBin methods that can be called.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getEmailInvocations",
       "signature": "public static Integer getEmailInvocations()",
       "description": "Returns the number of email invocations (such as sendEmail) that have been called.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitEmailInvocations",
       "signature": "public static Integer getLimitEmailInvocations()",
       "description": "Returns the total number of email invocation (such as sendEmail) that can be called.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getFindSimilarCalls",
       "signature": "public static Integer getFindSimilarCalls()",
       "description": "Deprecated. Returns the same value as getSoslQueries. The number of findSimilar methods is no longer a separate limit, but is tracked as the number of SOSL queries issued.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitFindSimilarCalls",
       "signature": "public static Integer getLimitFindSimilarCalls()",
       "description": "Deprecated. Returns the same value as getLimitSoslQueries. The number of findSimilar methods is no longer a separate limit, but is tracked as the number of SOSL queries issued.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getFutureCalls",
       "signature": "public static Integer getFutureCalls()",
       "description": "Returns the number of methods with the future annotation that have been executed (not necessarily completed).",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitFutureCalls",
       "signature": "public static Integer getLimitFutureCalls()",
       "description": "Returns the total number of methods with the future annotation that can be executed (not necessarily completed).",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getHeapSize",
       "signature": "public static Integer getHeapSize()",
       "description": "Returns the approximate amount of memory (in bytes) that has been used for the heap.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitHeapSize",
       "signature": "public static Integer getLimitHeapSize()",
       "description": "Returns the total amount of memory (in bytes) that can be used for the heap.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getMobilePushApexCalls",
       "signature": "public static Integer getMobilePushApexCalls()",
       "description": "Returns the number of Apex calls that have been used by mobile push notifications during the current metering interval.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "getLimitMobilePushApexCalls",
       "signature": "public static Integer getLimitMobilePushApexCalls()",
       "description": "Returns the total number of Apex calls that are allowed per transaction for mobile push notifications.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "getQueries",
       "signature": "public static Integer getQueries()",
       "description": "Returns the number of SOQL queries that have been issued.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitQueries",
       "signature": "public static Integer getLimitQueries()",
       "description": "Returns the total number of SOQL queries that can be issued.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getQueryLocatorRows",
       "signature": "public static Integer getQueryLocatorRows()",
       "description": "Returns the number of records that have been returned by the Database.getQueryLocator method.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitQueryLocatorRows",
       "signature": "public static Integer getLimitQueryLocatorRows()",
       "description": "Returns the total number of records that can be returned by the Database.getQueryLocator method.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getQueryRows",
       "signature": "public static Integer getQueryRows()",
       "description": "Returns the number of records that have been returned by issuing SOQL queries.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitQueryRows",
       "signature": "public static Integer getLimitQueryRows()",
       "description": "Returns the total number of records that can be returned by issuing SOQL queries.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getQueueableJobs",
       "signature": "public static Integer getQueueableJobs()",
       "description": "Returns the number of queueable jobs that have been added to the queue per transaction. A queueable job corresponds to a class that implements the Queueable interface.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitQueueableJobs",
       "signature": "public static Integer getLimitQueueableJobs()",
       "description": "Returns the maximum number of queueable jobs that can be added to the queue per transaction. A queueable job corresponds to a class that implements the Queueable interface.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getRunAs",
       "signature": "public static Integer getRunAs()",
       "description": "Deprecated. Returns the same value as getDMLStatements.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitRunAs",
       "signature": "public static Integer getLimitRunAs()",
       "description": "Deprecated. Returns the same value as getLimitDMLStatements.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getSavepointRollbacks",
       "signature": "public static Integer getSavepointRollbacks()",
       "description": "Deprecated. Returns the same value as getDMLStatements.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitSavepointRollbacks",
       "signature": "public static Integer getLimitSavepointRollbacks()",
       "description": "Deprecated. Returns the same value as getLimitDMLStatements.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getSavepoints",
       "signature": "public static Integer getSavepoints()",
       "description": "Deprecated. Returns the same value as getDMLStatements.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitSavepoints",
       "signature": "public static Integer getLimitSavepoints()",
       "description": "Deprecated. Returns the same value as getLimitDMLStatements.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getSoslQueries",
       "signature": "public static Integer getSoslQueries()",
       "description": "Returns the number of SOSL queries that have been issued.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLimitSoslQueries",
       "signature": "public static Integer getLimitSoslQueries()",
       "description": "Returns the total number of SOSL queries that can be issued.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     }
   ],

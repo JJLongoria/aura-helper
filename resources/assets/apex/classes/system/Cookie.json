@@ -5,37 +5,24 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "Cookie",
       "signature": "public Cookie(String name, String value, String path, Integer maxAge, Boolean isSecure)",
       "description": "Creates a new instance of the Cookie class using the specified name, value, path, age, and the secure setting.",
-      "methodParams": [
-        {
-          "name": "name",
-          "datatype": "String"
-        },
-        {
-          "name": "value",
-          "datatype": "String"
-        },
-        {
-          "name": "path",
-          "datatype": "String"
-        },
-        {
-          "name": "maxAge",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "isSecure",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The cookie name. It can’t be null. The cookie data, such as session ID. The path from where you can retrieve the cookie. A number representing how long a cookie is valid for in seconds. If set to less than zero, a session cookie is issued. If set to zero, the cookie is deleted. A value indicating whether the cookie can only be accessed through HTTPS (true) or not (false)."
         }
       ],
       "datatype": "void"
@@ -46,45 +33,45 @@
       "name": "getDomain",
       "signature": "public String getDomain()",
       "description": "Returns the name of the server making the request.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getMaxAge",
       "signature": "public Integer getMaxAge()",
       "description": "Returns a number representing how long the cookie is valid for, in seconds. If set to < 0, a session cookie is issued. If set to 0, the cookie is deleted.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getName",
       "signature": "public String getName()",
       "description": "Returns the name of the cookie. Can't be null.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getPath",
       "signature": "public String getPath()",
       "description": "Returns the path from which you can retrieve the cookie. If null or blank, the location is set to root, or “/”.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getValue",
       "signature": "public String getValue()",
       "description": "Returns the data captured in the cookie, such as Session ID.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "isSecure",
       "signature": "public Boolean isSecure()",
       "description": "Returns true if the cookie can only be accessed through HTTPS, otherwise returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     }
   ],
-  "description": "The Cookie",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_sites_cookie.htm#apex_classes_sites_cookie"
+  "description": "The Cookie class lets you access cookies for your Salesforce site using Apex.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_sites_cookie.htm"
 }

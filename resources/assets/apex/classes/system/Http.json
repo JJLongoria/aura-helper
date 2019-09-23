@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "send",
       "signature": "public HttpResponse send(HttpRequest request)",
       "description": "Sends an HttpRequest and returns the response.",
-      "methodParams": [
+      "params": [
         {
           "name": "request",
-          "datatype": "System.HttpRequest"
+          "datatype": "System.HttpRequest",
+          "description": ""
         }
       ],
       "datatype": "System.HttpResponse"
@@ -29,10 +32,10 @@
       "name": "toString",
       "signature": "public String toString()",
       "description": "Returns a string that displays and identifies the object's properties.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Use the Http class",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_http.htm#apex_classes_restful_http_http"
+  "description": "Use the Http class to initiate an HTTP request and response.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_http.htm"
 }

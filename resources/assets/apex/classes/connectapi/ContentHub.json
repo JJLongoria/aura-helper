@@ -5,30 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "addRepositoryItem",
       "signature": "public static ConnectApi.RepositoryFolderItem addRepositoryItem(String repositoryId, String repositoryFolderId, ConnectApi.ContentHubItemInput file)",
       "description": "Add a repository item.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
+          "datatype": "ConnectApi.ContentHubItemInput",
+          "description": "The ID of the repository. The ID of the repository folder. The item type ID and fields of the item type."
         }
       ],
       "datatype": "ConnectApi.RepositoryFolderItem"
@@ -37,22 +32,11 @@
       "name": "addRepositoryItem",
       "signature": "public static ConnectApi.RepositoryFolderItem addRepositoryItem(String communityId, String repositoryId, String repositoryFolderId, ConnectApi.ContentHubItemInput file)",
       "description": "Add a repository item in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
+          "datatype": "ConnectApi.ContentHubItemInput",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder. The item type ID and fields of the item type."
         }
       ],
       "datatype": "ConnectApi.RepositoryFolderItem"
@@ -61,22 +45,11 @@
       "name": "addRepositoryItem",
       "signature": "public static ConnectApi.RepositoryFolderItem addRepositoryItem(String repositoryId, String repositoryFolderId, ConnectApi.ContentHubItemInput file, ConnectApi.BinaryInput fileData)",
       "description": "Add a repository item, including the binary file.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
+      "params": [
         {
           "name": "fileData",
-          "datatype": "ConnectApi.BinaryInput"
+          "datatype": "ConnectApi.BinaryInput",
+          "description": "The ID of the repository. The ID of the repository folder. The item type ID and fields of the item type. The binary file."
         }
       ],
       "datatype": "ConnectApi.RepositoryFolderItem"
@@ -85,26 +58,11 @@
       "name": "addRepositoryItem",
       "signature": "public static ConnectApi.RepositoryFolderItem addRepositoryItem(String communityId, String repositoryId, String repositoryFolderId, ConnectApi.ContentHubItemInput file, ConnectApi.BinaryInput fileData)",
       "description": "Add a repository item, including the binary file, in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
+      "params": [
         {
           "name": "fileData",
-          "datatype": "ConnectApi.BinaryInput"
+          "datatype": "ConnectApi.BinaryInput",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder. The item type ID and fields of the item type. The binary file."
         }
       ],
       "datatype": "ConnectApi.RepositoryFolderItem"
@@ -113,14 +71,11 @@
       "name": "getAllowedItemTypes",
       "signature": "public static ConnectApi.ContentHubAllowedItemTypeCollection getAllowedItemTypes(String repositoryId, String repositoryFolderId)",
       "description": "Get the item types that the context user is allowed to create in the repository folder.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryFolderId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The ID of the repository. The ID of the repository folder."
         }
       ],
       "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection"
@@ -129,18 +84,11 @@
       "name": "getAllowedItemTypes",
       "signature": "public static ConnectApi.ContentHubAllowedItemTypeCollection getAllowedItemTypes(String repositoryId, String repositoryFolderId, ConnectApi.ConnectContentHubItemType filter)",
       "description": "Get the item types, filtered by type, that the context user is allowed to create in the repository folder.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "filter",
-          "datatype": "ConnectApi.ContentHubItemType"
+          "datatype": "ConnectApi.ContentHubItemType",
+          "description": "The ID of the repository. The ID of the repository folder. Item types. Values are:  Any—Includes files and folders.   FilesOnly—Includes files only.   FoldersOnly—Includes folders only."
         }
       ],
       "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection"
@@ -149,18 +97,11 @@
       "name": "getAllowedItemTypes",
       "signature": "public static ConnectApi.ContentHubAllowedItemTypeCollection getAllowedItemTypes(String communityId, String repositoryId, String repositoryFolderId)",
       "description": "Get the item types that the context user is allowed to create in the repository folder in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryFolderId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder."
         }
       ],
       "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection"
@@ -169,22 +110,11 @@
       "name": "getAllowedItemTypes",
       "signature": "public static ConnectApi.ContentHubAllowedItemTypeCollection getAllowedItemTypes(String communityId, String repositoryId, String repositoryFolderId, ConnectApi.ConnectContentHubItemType filter)",
       "description": "Get the item types, filtered by type, that the context user is allowed to create in the repository folder in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "filter",
-          "datatype": "ConnectApi.ContentHubItemType"
+          "datatype": "ConnectApi.ContentHubItemType",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder. Item types. Values are:  Any—Includes files and folders.   FilesOnly—Includes files only.   FoldersOnly—Includes folders only."
         }
       ],
       "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection"
@@ -193,18 +123,11 @@
       "name": "getFilePreview",
       "signature": "public static ConnectApi.FilePreview getFilePreview(String repositoryId, String repositoryFileId, ConnectApi.FilePreviewFormat formatType)",
       "description": "Get a repository file preview.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "formatType",
-          "datatype": "ConnectApi.FilePreviewFormat"
+          "datatype": "ConnectApi.FilePreviewFormat",
+          "description": "The ID of the repository. The ID of the repository file."
         }
       ],
       "datatype": "ConnectApi.FilePreview"
@@ -213,26 +136,11 @@
       "name": "getFilePreview",
       "signature": "public static ConnectApi.FilePreview getFilePreview(String repositoryId, String repositoryFileId, ConnectApi.FilePreviewFormat formatType, Integer startPageNumber, Integer endPageNumber)",
       "description": "Get a page or page range of a repository file preview.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "formatType",
-          "datatype": "ConnectApi.FilePreviewFormat"
-        },
-        {
-          "name": "startPageNumber",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "endPageNumber",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The ID of the repository. The ID of the repository file. Specifies the format of the file preview. Values are:  Jpg—Preview format is JPG.   Pdf—Preview format is PDF.   Svg—Preview format is compressed SVG.   Thumbnail—Preview format is 240 x 180 PNG.   ThumbnailBig—Preview format is 720 x 480 PNG.   ThumbnailTiny—Preview format is 120 x 90 PNG.   PDF previews are available for files of type DOC, DOCX, PPT, PPTX, TEXT, XLS, and XLSX. SVG files are generated on demand.If you’re concerned that feature-rich SVG previews don’t work in your org, choose alternative file previews. To use JPG file previews, enter general in the Quick Find box in Setup. Select General Settings, and then select Display alternative file previews.  The starting page number in the range of file preview URLs. The ending page number in the range of file preview URLs."
         }
       ],
       "datatype": "ConnectApi.FilePreview"
@@ -241,22 +149,11 @@
       "name": "getFilePreview",
       "signature": "public static ConnectApi.FilePreview getFilePreview(String communityId, String repositoryId, String repositoryFileId, ConnectApi.FilePreviewFormat formatType)",
       "description": "Get a repository file preview in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "formatType",
-          "datatype": "ConnectApi.FilePreviewFormat"
+          "datatype": "ConnectApi.FilePreviewFormat",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. Specifies the format of the file preview. Values are:  Jpg—Preview format is JPG.   Pdf—Preview format is PDF.   Svg—Preview format is compressed SVG.   Thumbnail—Preview format is 240 x 180 PNG.   ThumbnailBig—Preview format is 720 x 480 PNG.   ThumbnailTiny—Preview format is 120 x 90 PNG.   PDF previews are available for files of type DOC, DOCX, PPT, PPTX, TEXT, XLS, and XLSX. SVG files are generated on demand.If you’re concerned that feature-rich SVG previews don’t work in your org, choose alternative file previews. To use JPG file previews, enter general in the Quick Find box in Setup. Select General Settings, and then select Display alternative file previews."
         }
       ],
       "datatype": "ConnectApi.FilePreview"
@@ -265,30 +162,11 @@
       "name": "getFilePreview",
       "signature": "public static ConnectApi.FilePreview getFilePreview(String communityId, String repositoryId, String repositoryFileId, ConnectApi.FilePreviewFormat formatType, Integer startPageNumber, Integer endPageNumber)",
       "description": "Get a page or page range of a repository file preview in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "formatType",
-          "datatype": "ConnectApi.FilePreviewFormat"
-        },
-        {
-          "name": "startPageNumber",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "endPageNumber",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. Specifies the format of the file preview. Values are:  Jpg—Preview format is JPG.   Pdf—Preview format is PDF.   Svg—Preview format is compressed SVG.   Thumbnail—Preview format is 240 x 180 PNG.   ThumbnailBig—Preview format is 720 x 480 PNG.   ThumbnailTiny—Preview format is 120 x 90 PNG.   PDF previews are available for files of type DOC, DOCX, PPT, PPTX, TEXT, XLS, and XLSX. SVG files are generated on demand.If you’re concerned that feature-rich SVG previews don’t work in your org, choose alternative file previews. To use JPG file previews, enter general in the Quick Find box in Setup. Select General Settings, and then select Display alternative file previews.  The starting page number in the range of file preview URLs. The ending page number in the range of file preview URLs."
         }
       ],
       "datatype": "ConnectApi.FilePreview"
@@ -297,14 +175,11 @@
       "name": "getItemType",
       "signature": "public static ConnectApi.ContentHubItemTypeDetail getItemType(String repositoryId, String repositoryItemTypeId)",
       "description": "Get information about an item type associated with a repository.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryItemTypeId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The ID of the repository. The ID of the repository item type."
         }
       ],
       "datatype": "ConnectApi.ContentHubItemTypeDetail"
@@ -313,18 +188,11 @@
       "name": "getItemType",
       "signature": "public static ConnectApi.ContentHubItemTypeDetail getItemType(String communityId, String repositoryId, String repositoryItemTypeId)",
       "description": "Get information about an item type associated with a repository in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryItemTypeId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository item type."
         }
       ],
       "datatype": "ConnectApi.ContentHubItemTypeDetail"
@@ -333,14 +201,11 @@
       "name": "getPreviews",
       "signature": "public static ConnectApi.FilePreviewCollection getPreviews(String repositoryId, String repositoryFileId)",
       "description": "Get information about a repository file’s supported previews.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryFileId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The ID of the repository. The ID of the repository file."
         }
       ],
       "datatype": "ConnectApi.FilePreviewCollection"
@@ -349,18 +214,11 @@
       "name": "getPreviews",
       "signature": "public static ConnectApi.FilePreviewCollection getPreviews(String communityId, String repositoryId, String repositoryFileId)",
       "description": "Get information about a repository file’s supported previews in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryFileId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file."
         }
       ],
       "datatype": "ConnectApi.FilePreviewCollection"
@@ -369,17 +227,18 @@
       "name": "getRepositories",
       "signature": "public static ConnectApi.ContentHubRepositoryCollection getRepositories()",
       "description": "Get a list of repositories.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ConnectApi.ContentHubRepositoryCollection"
     },
     {
       "name": "getRepositories",
       "signature": "public static ConnectApi.ContentHubRepositoryCollection getRepositories(String communityId)",
       "description": "Get a list of repositories in a community.",
-      "methodParams": [
+      "params": [
         {
           "name": "communityId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null."
         }
       ],
       "datatype": "ConnectApi.ContentHubRepositoryCollection"
@@ -388,14 +247,11 @@
       "name": "getRepositories",
       "signature": "public static ConnectApi.ContentHubRepositoryCollection getRepositories(Integer pageParam, Integer pageSize)",
       "description": "Get a page of repositories.",
-      "methodParams": [
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default page size is 25."
         }
       ],
       "datatype": "ConnectApi.ContentHubRepositoryCollection"
@@ -404,18 +260,11 @@
       "name": "getRepositories",
       "signature": "public static ConnectApi.ContentHubRepositoryCollection getRepositories(String communityId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of repositories in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default page size is 25."
         }
       ],
       "datatype": "ConnectApi.ContentHubRepositoryCollection"
@@ -424,10 +273,11 @@
       "name": "getRepository",
       "signature": "public static ConnectApi.ContentHubRepository getRepository(String repositoryId)",
       "description": "Get a repository.",
-      "methodParams": [
+      "params": [
         {
           "name": "repositoryId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The ID of the repository."
         }
       ],
       "datatype": "ConnectApi.ContentHubRepository"
@@ -436,14 +286,11 @@
       "name": "getRepository",
       "signature": "public static ConnectApi.ContentHubRepository getRepository(String communityId, String repositoryId)",
       "description": "Get a repository in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository."
         }
       ],
       "datatype": "ConnectApi.ContentHubRepository"
@@ -452,14 +299,11 @@
       "name": "getRepositoryFile",
       "signature": "public static ConnectApi.RepositoryFileDetail getRepositoryFile(String repositoryId, String repositoryFileId)",
       "description": "Get a repository file.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryFileId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The ID of the repository. The ID of the repository file."
         }
       ],
       "datatype": "ConnectApi.RepositoryFileDetail"
@@ -468,18 +312,11 @@
       "name": "getRepositoryFile",
       "signature": "public static ConnectApi.RepositoryFileDetail getRepositoryFile(String repositoryId, String repositoryFileId, Boolean includeExternalFilePermissionsInfo)",
       "description": "Get a repository file with or without permissions information.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "includeExternalFilePermissionsInfo",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The ID of the repository. The ID of the repository file. Specifies whether to include permission information, such as whether the file is shared and what are the available permission types.Managing external file permissions is supported for Google Drive, SharePoint Online, and OneDrive for Business."
         }
       ],
       "datatype": "ConnectApi.RepositoryFileDetail"
@@ -488,18 +325,11 @@
       "name": "getRepositoryFile",
       "signature": "public static ConnectApi.RepositoryFileDetail getRepositoryFile(String communityId, String repositoryId, String repositoryFileId)",
       "description": "Get a repository file in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryFileId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file."
         }
       ],
       "datatype": "ConnectApi.RepositoryFileDetail"
@@ -508,22 +338,11 @@
       "name": "getRepositoryFile",
       "signature": "public static ConnectApi.RepositoryFileDetail getRepositoryFile(String communityId, String repositoryId, String repositoryFileId, Boolean includeExternalFilePermissionsInfo)",
       "description": "Get a repository file with or without permissions information in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "includeExternalFilePermissionsInfo",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. Specifies whether to include permission information, such as whether the file is shared and what are the available permission types.Managing external file permissions is supported for Google Drive, SharePoint Online, and OneDrive for Business."
         }
       ],
       "datatype": "ConnectApi.RepositoryFileDetail"
@@ -532,14 +351,11 @@
       "name": "getRepositoryFolder",
       "signature": "public static ConnectApi.RepositoryFolderDetail getRepositoryFolder(String repositoryId, String repositoryFolderId)",
       "description": "Get a repository folder.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryFolderId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The ID of the repository. The ID of the repository folder."
         }
       ],
       "datatype": "ConnectApi.RepositoryFolderDetail"
@@ -548,18 +364,11 @@
       "name": "getRepositoryFolder",
       "signature": "public static ConnectApi.RepositoryFolderDetail getRepositoryFolder(String communityId, String repositoryId, String repositoryFolderId)",
       "description": "Get a repository folder in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryFolderId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder."
         }
       ],
       "datatype": "ConnectApi.RepositoryFolderDetail"
@@ -568,14 +377,11 @@
       "name": "getRepositoryFolderItems",
       "signature": "public static ConnectApi.RepositoryFolderItemsCollection getRepositoryFolderItems(String repositoryId, String repositoryFolderId)",
       "description": "Get repository folder items.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryFolderId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The ID of the repository. The ID of the repository folder."
         }
       ],
       "datatype": "ConnectApi.RepositoryFolderItemsCollection"
@@ -584,18 +390,11 @@
       "name": "getRepositoryFolderItems",
       "signature": "public static ConnectApi.RepositoryFolderItemsCollection getRepositoryFolderItems(String communityId, String repositoryId, String repositoryFolderId)",
       "description": "Get repository folder items in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "repositoryFolderId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder."
         }
       ],
       "datatype": "ConnectApi.RepositoryFolderItemsCollection"
@@ -604,22 +403,11 @@
       "name": "getRepositoryFolderItems",
       "signature": "public static ConnectApi.RepositoryFolderItemsCollection getRepositoryFolderItems(String repositoryId, String repositoryFolderId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of repository folder items.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The ID of the repository. The ID of the repository folder. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default page size is 25."
         }
       ],
       "datatype": "ConnectApi.RepositoryFolderItemsCollection"
@@ -628,26 +416,11 @@
       "name": "getRepositoryFolderItems",
       "signature": "public static ConnectApi.RepositoryFolderItemsCollection getRepositoryFolderItems(String communityId, String repositoryId, String repositoryFolderId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of repository folder items in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default page size is 25."
         }
       ],
       "datatype": "ConnectApi.RepositoryFolderItemsCollection"
@@ -656,18 +429,11 @@
       "name": "updateRepositoryFile",
       "signature": "public static ConnectApi.RepositoryFileDetail updateRepositoryFile(String repositoryId, String repositoryFileId, ConnectApi.ContentHubItemInput file)",
       "description": "Update the metadata of a repository file.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
+          "datatype": "ConnectApi.ContentHubItemInput",
+          "description": "The ID of the repository. The ID of the repository file. The item type ID and fields of the item type."
         }
       ],
       "datatype": "ConnectApi.RepositoryFileDetail"
@@ -676,22 +442,11 @@
       "name": "updateRepositoryFile",
       "signature": "public static ConnectApi.RepositoryFileDetail updateRepositoryFile(String repositoryId, String repositoryFileId, ConnectApi.ContentHubItemInput file, ConnectApi.BinaryInput fileData)",
       "description": "Update the content of a repository file.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
+      "params": [
         {
           "name": "fileData",
-          "datatype": "ConnectApi.BinaryInput"
+          "datatype": "ConnectApi.BinaryInput",
+          "description": "The ID of the repository. The ID of the repository file. The item type ID and fields of the item type. The binary file."
         }
       ],
       "datatype": "ConnectApi.RepositoryFileDetail"
@@ -700,22 +455,11 @@
       "name": "updateRepositoryFile",
       "signature": "public static ConnectApi.RepositoryFileDetail updateRepositoryFile(String communityId, String repositoryId, String repositoryFileId, ConnectApi.ContentHubItemInput file)",
       "description": "Update the metadata of a repository file in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
+          "datatype": "ConnectApi.ContentHubItemInput",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. The item type ID and fields of the item type."
         }
       ],
       "datatype": "ConnectApi.RepositoryFileDetail"
@@ -724,26 +468,11 @@
       "name": "updateRepositoryFile",
       "signature": "public static ConnectApi.RepositoryFileDetail updateRepositoryFile(String communityId, String repositoryId, String repositoryFileId, ConnectApi.ContentHubItemInput file, ConnectApi.BinaryInput fileData)",
       "description": "Update the content of a repository file in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
+      "params": [
         {
           "name": "fileData",
-          "datatype": "ConnectApi.BinaryInput"
+          "datatype": "ConnectApi.BinaryInput",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. The item type ID and fields of the item type. The binary file."
         }
       ],
       "datatype": "ConnectApi.RepositoryFileDetail"
@@ -752,22 +481,11 @@
       "name": "setTestAddRepositoryItem",
       "signature": "public static Void setTestAddRepositoryItem(String repositoryId, String repositoryFolderId, ConnectApi.ContentHubItemInput file, ConnectApi.RepositoryFolderItem result)",
       "description": "Register a ConnectApi.RepositoryFolderItem object to be returned when the matching addRepositoryItem(repositoryId, repositoryFolderId, file) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFolderItem"
+          "datatype": "ConnectApi.RepositoryFolderItem",
+          "description": "The ID of the repository. The ID of the repository folder. The item type ID and fields of the item type. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -776,26 +494,11 @@
       "name": "setTestAddRepositoryItem",
       "signature": "public static Void setTestAddRepositoryItem(String communityId, String repositoryId, String repositoryFolderId, ConnectApi.ContentHubItemInput file, ConnectApi.RepositoryFolderItem result)",
       "description": "Register a ConnectApi.RepositoryFolderItem object to be returned when the matching addRepositoryItem(communityId, repositoryId, repositoryFolderId, file) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFolderItem"
+          "datatype": "ConnectApi.RepositoryFolderItem",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder. The item type ID and fields of the item type. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -804,26 +507,11 @@
       "name": "setTestAddRepositoryItem",
       "signature": "public static Void setTestAddRepositoryItem(String repositoryId, String repositoryFolderId, ConnectApi.ContentHubItemInput file, ConnectApi.BinaryInput fileData, ConnectApi.RepositoryFolderItem result)",
       "description": "Register a ConnectApi.RepositoryFolderItem object to be returned when the matching addRepositoryItem(repositoryId, repositoryFolderId, file, fileData) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
-        {
-          "name": "fileData",
-          "datatype": "ConnectApi.BinaryInput"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFolderItem"
+          "datatype": "ConnectApi.RepositoryFolderItem",
+          "description": "The ID of the repository. The ID of the repository folder. The item type ID and fields of the item type. The binary file. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -832,30 +520,11 @@
       "name": "setTestAddRepositoryItem",
       "signature": "public static Void setTestAddRepositoryItem(String communityId, String repositoryId, String repositoryFolderId, ConnectApi.ContentHubItemInput file, ConnectApi.BinaryInput fileData, ConnectApi.RepositoryFolderItem result)",
       "description": "Register a ConnectApi.RepositoryFolderItem object to be returned when the matching addRepositoryItem(communityId, repositoryId, repositoryFolderId, file, fileData) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
-        {
-          "name": "fileData",
-          "datatype": "ConnectApi.BinaryInput"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFolderItem"
+          "datatype": "ConnectApi.RepositoryFolderItem",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder. The item type ID and fields of the item type. The binary file. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -864,18 +533,11 @@
       "name": "setTestGetAllowedItemTypes",
       "signature": "public static Void setTestGetAllowedItemTypes(String repositoryId, String repositoryFolderId, ConnectApi.ContentHubAllowedItemTypeCollection result)",
       "description": "Register a ConnectApi.ContentHubAllowedItemTypeCollection object to be returned when the matching getAllowedItemTypes(repositoryId, repositoryFolderId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection"
+          "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection",
+          "description": "The ID of the repository. The ID of the repository folder. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -884,22 +546,11 @@
       "name": "setTestGetAllowedItemTypes",
       "signature": "public static Void setTestGetAllowedItemTypes(String repositoryId, String repositoryFolderId, ConnectApi.ContentHubItemType filter, ConnectApi.ContentHubAllowedItemTypeCollection result)",
       "description": "Register a ConnectApi.ContentHubAllowedItemTypeCollection object to be returned when the matching getAllowedItemTypes(repositoryId, repositoryFolderId, filter) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "filter",
-          "datatype": "ConnectApi.ContentHubItemType"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection"
+          "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection",
+          "description": "The ID of the repository. The ID of the repository folder. Item types. Values are:  Any—Includes files and folders.   FilesOnly—Includes files only.   FoldersOnly—Includes folders only.    The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -908,22 +559,11 @@
       "name": "setTestGetAllowedItemTypes",
       "signature": "public static Void setTestGetAllowedItemTypes(String communityId, String repositoryId, String repositoryFolderId, ConnectApi.ContentHubAllowedItemTypeCollection result)",
       "description": "Register a ConnectApi.ContentHubAllowedItemTypeCollection object to be returned when the matching getAllowedItemTypes(communityId, repositoryId, repositoryFolderId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection"
+          "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -932,26 +572,11 @@
       "name": "setTestGetAllowedItemTypes",
       "signature": "public static Void setTestGetAllowedItemTypes(String communityId, String repositoryId, String repositoryFolderId, ConnectApi.ContentHubItemType filter, ConnectApi.ContentHubAllowedItemTypeCollection result)",
       "description": "Register a ConnectApi.ContentHubAllowedItemTypeCollection object to be returned when the matching getAllowedItemTypes(communityId, repositoryId, repositoryFolderId, filter) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "filter",
-          "datatype": "ConnectApi.ContentHubItemType"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection"
+          "datatype": "ConnectApi.ContentHubAllowedItemTypeCollection",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder. Item types. Values are:  Any—Includes files and folders.   FilesOnly—Includes files only.   FoldersOnly—Includes folders only.    The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -960,22 +585,11 @@
       "name": "setTestGetFilePreview",
       "signature": "public static Void setTestGetFilePreview(String repositoryId, String repositoryFileId, ConnectApi.FilePreviewFormat formatType, ConnectApi.FilePreview result)",
       "description": "Register a ConnectApi.FilePreview object to be returned when the matching getFilePreview(repositoryId, repositoryFileId, formatType) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "formatType",
-          "datatype": "ConnectApi.FilePreviewFormat"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FilePreview"
+          "datatype": "ConnectApi.FilePreview",
+          "description": "The ID of the repository. The ID of the repository file. Specifies the format of the file preview. Values are:  Jpg—Preview format is JPG.   Pdf—Preview format is PDF.   Svg—Preview format is compressed SVG.   Thumbnail—Preview format is 240 x 180 PNG.   ThumbnailBig—Preview format is 720 x 480 PNG.   ThumbnailTiny—Preview format is 120 x 90 PNG.   PDF previews are available for files of type DOC, DOCX, PPT, PPTX, TEXT, XLS, and XLSX. SVG files are generated on demand.If you’re concerned that feature-rich SVG previews don’t work in your org, choose alternative file previews. To use JPG file previews, enter general in the Quick Find box in Setup. Select General Settings, and then select Display alternative file previews.  The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -984,30 +598,11 @@
       "name": "setTestGetFilePreview",
       "signature": "public static Void setTestGetFilePreview(String repositoryId, String repositoryFileId, ConnectApi.FilePreviewFormat formatType, Integer startPageNumber, Integer endPageNumber, ConnectApi.FilePreview result)",
       "description": "Register a ConnectApi.FilePreview object to be returned when the matching getFilePreview(repositoryId, repositoryFileId, formatType, startPageNumber, endPageNumber) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "formatType",
-          "datatype": "ConnectApi.FilePreviewFormat"
-        },
-        {
-          "name": "startPageNumber",
-          "datatype": "Integer"
-        },
-        {
-          "name": "endPageNumber",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FilePreview"
+          "datatype": "ConnectApi.FilePreview",
+          "description": "The ID of the repository. The ID of the repository file. Specifies the format of the file preview. Values are:  Jpg—Preview format is JPG.   Pdf—Preview format is PDF.   Svg—Preview format is compressed SVG.   Thumbnail—Preview format is 240 x 180 PNG.   ThumbnailBig—Preview format is 720 x 480 PNG.   ThumbnailTiny—Preview format is 120 x 90 PNG.   PDF previews are available for files of type DOC, DOCX, PPT, PPTX, TEXT, XLS, and XLSX. SVG files are generated on demand.If you’re concerned that feature-rich SVG previews don’t work in your org, choose alternative file previews. To use JPG file previews, enter general in the Quick Find box in Setup. Select General Settings, and then select Display alternative file previews.  The starting page number in the range of file preview URLs. The ending page number in the range of file preview URLs. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1016,26 +611,11 @@
       "name": "setTestGetFilePreview",
       "signature": "public static Void setTestGetFilePreview(String communityId, String repositoryId, String repositoryFileId, ConnectApi.FilePreviewFormat formatType, ConnectApi.FilePreview result)",
       "description": "Register a ConnectApi.FilePreview object to be returned when the matching getFilePreview(communityId, repositoryId, repositoryFileId, formatType) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "formatType",
-          "datatype": "ConnectApi.FilePreviewFormat"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FilePreview"
+          "datatype": "ConnectApi.FilePreview",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. Specifies the format of the file preview. Values are:  Jpg—Preview format is JPG.   Pdf—Preview format is PDF.   Svg—Preview format is compressed SVG.   Thumbnail—Preview format is 240 x 180 PNG.   ThumbnailBig—Preview format is 720 x 480 PNG.   ThumbnailTiny—Preview format is 120 x 90 PNG.   PDF previews are available for files of type DOC, DOCX, PPT, PPTX, TEXT, XLS, and XLSX. SVG files are generated on demand.If you’re concerned that feature-rich SVG previews don’t work in your org, choose alternative file previews. To use JPG file previews, enter general in the Quick Find box in Setup. Select General Settings, and then select Display alternative file previews.  The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1044,34 +624,11 @@
       "name": "setTestGetFilePreview",
       "signature": "public static Void setTestGetFilePreview(String communityId, String repositoryId, String repositoryFileId, ConnectApi.FilePreviewFormat formatType, Integer startPageNumber, Integer endPageNumber, ConnectApi.FilePreview result)",
       "description": "Register a ConnectApi.FilePreview object to be returned when the matching getFilePreview(communityId, repositoryId, repositoryFileId, formatType, startPageNumber, endPageNumber) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "formatType",
-          "datatype": "ConnectApi.FilePreviewFormat"
-        },
-        {
-          "name": "startPageNumber",
-          "datatype": "Integer"
-        },
-        {
-          "name": "endPageNumber",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FilePreview"
+          "datatype": "ConnectApi.FilePreview",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. Specifies the format of the file preview. Values are:  Jpg—Preview format is JPG.   Pdf—Preview format is PDF.   Svg—Preview format is compressed SVG.   Thumbnail—Preview format is 240 x 180 PNG.   ThumbnailBig—Preview format is 720 x 480 PNG.   ThumbnailTiny—Preview format is 120 x 90 PNG.   PDF previews are available for files of type DOC, DOCX, PPT, PPTX, TEXT, XLS, and XLSX. SVG files are generated on demand.If you���re concerned that feature-rich SVG previews don’t work in your org, choose alternative file previews. To use JPG file previews, enter general in the Quick Find box in Setup. Select General Settings, and then select Display alternative file previews.  The starting page number in the range of file preview URLs. The ending page number in the range of file preview URLs. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1080,18 +637,11 @@
       "name": "setTestGetItemType",
       "signature": "public static Void setTestGetItemType(String repositoryId, String repositoryItemTypeId, ConnectApi.ContentHubItemTypeDetail result)",
       "description": "Register a ConnectApi.ContentHubItemTypeDetail object to be returned when the matching getItemType(repositoryId, repositoryItemTypeId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryItemTypeId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubItemTypeDetail"
+          "datatype": "ConnectApi.ContentHubItemTypeDetail",
+          "description": "The ID of the repository. The ID of the repository item type. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1100,22 +650,11 @@
       "name": "setTestGetItemType",
       "signature": "public static Void setTestGetItemType(String communityId, String repositoryId, String repositoryItemTypeId, ConnectApi.ContentHubItemTypeDetail result)",
       "description": "Register a ConnectApi.ContentHubItemTypeDetail object to be returned when the matching getItemType(communityId, repositoryId, repositoryItemTypeId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryItemTypeId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubItemTypeDetail"
+          "datatype": "ConnectApi.ContentHubItemTypeDetail",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository item type. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1124,18 +663,11 @@
       "name": "setTestGetPreviews",
       "signature": "public static Void setTestGetPreviews(String repositoryId, String repositoryFileId, ConnectApi.FilePreviewCollection result)",
       "description": "Register a ConnectApi.FilePreviewCollection object to be returned when the matching getPreviews(repositoryId, repositoryFileId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FilePreviewCollection"
+          "datatype": "ConnectApi.FilePreviewCollection",
+          "description": "The ID of the repository. The ID of the repository file. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1144,22 +676,11 @@
       "name": "setTestGetPreviews",
       "signature": "public static Void setTestGetPreviews(String communityId, String repositoryId, String repositoryFileId, ConnectApi.FilePreviewCollection result)",
       "description": "Register a ConnectApi.FilePreviewCollection object to be returned when the matching getPreviews(communityId, repositoryId, repositoryFileId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.FilePreviewCollection"
+          "datatype": "ConnectApi.FilePreviewCollection",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1168,10 +689,11 @@
       "name": "setTestGetRepositories",
       "signature": "public static Void setTestGetRepositories(ConnectApi.ContentHubRepositoryCollection result)",
       "description": "Register a ConnectApi.ContentHubRepositoryCollection object to be returned when the matching getRepositories() method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubRepositoryCollection"
+          "datatype": "ConnectApi.ContentHubRepositoryCollection",
+          "description": "The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1180,14 +702,11 @@
       "name": "setTestGetRepositories",
       "signature": "public static Void setTestGetRepositories(String communityId, ConnectApi.ContentHubRepositoryCollection result)",
       "description": "Register a getRepositories(communityId) object to be returned when the matching ConnectApi.ContentHubRepositoryCollection method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubRepositoryCollection"
+          "datatype": "ConnectApi.ContentHubRepositoryCollection",
+          "description": "Use either the ID for a community, internal, or null. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1196,18 +715,11 @@
       "name": "setTestGetRepositories",
       "signature": "public static Void setTestGetRepositories(Integer pageParam, Integer pageSize, ConnectApi.ContentHubRepositoryCollection result)",
       "description": "Register a ConnectApi.ContentHubRepositoryCollection object to be returned when the matching getRepositories(pageParam, pageSize) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubRepositoryCollection"
+          "datatype": "ConnectApi.ContentHubRepositoryCollection",
+          "description": "Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default page size is 25. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1216,22 +728,11 @@
       "name": "setTestGetRepositories",
       "signature": "public static Void setTestGetRepositories(String communityId, Integer pageParam, Integer pageSize, ConnectApi.ContentHubRepositoryCollection result)",
       "description": "Register a ConnectApi.ContentHubRepositoryCollection object to be returned when the matching getRepositories(communityId, pageParam, pageSize) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubRepositoryCollection"
+          "datatype": "ConnectApi.ContentHubRepositoryCollection",
+          "description": "Use either the ID for a community, internal, or null. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default page size is 25. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1240,14 +741,11 @@
       "name": "setTestGetRepository",
       "signature": "public static Void setTestGetRepository(String repositoryId, ConnectApi.ContentHubRepository result)",
       "description": "Register a ConnectApi.ContentHubRepository object to be returned when the matching getRepository(repositoryId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubRepository"
+          "datatype": "ConnectApi.ContentHubRepository",
+          "description": "The ID of the repository. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1256,18 +754,11 @@
       "name": "setTestGetRepository",
       "signature": "public static Void setTestGetRepository(String communityId, String repositoryId, ConnectApi.ContentHubRepository result)",
       "description": "Register a ConnectApi.ContentHubRepository object to be returned when the matching getRepository(communityId, repositoryId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.ContentHubRepository"
+          "datatype": "ConnectApi.ContentHubRepository",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1276,18 +767,11 @@
       "name": "setTestGetRepositoryFile",
       "signature": "public static Void setTestGetRepositoryFile(String repositoryId, String repositoryFileId, ConnectApi.RepositoryFileDetail result)",
       "description": "Register a ConnectApi.RepositoryFileDetail object to be returned when the matching getRepositoryFile(repositoryId, repositoryFileId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFileDetail"
+          "datatype": "ConnectApi.RepositoryFileDetail",
+          "description": "The ID of the repository. The ID of the repository file. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1296,22 +780,11 @@
       "name": "setTestGetRepositoryFile",
       "signature": "public static Void setTestGetRepositoryFile(String repositoryId, String repositoryFileId, Boolean includeExternalFilePermissionsInfo, ConnectApi.RepositoryFileDetail result)",
       "description": "Register a ConnectApi.RepositoryFileDetail object to be returned when the matching getRepositoryFile(repositoryId, repositoryFileId, includeExternalFilePermissionsInfo) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "includeExternalFilePermissionsInfo",
-          "datatype": "Boolean"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFileDetail"
+          "datatype": "ConnectApi.RepositoryFileDetail",
+          "description": "The ID of the repository. The ID of the repository file. Specifies whether to include permission information, such as whether the file is shared and what are the available permission types.Managing external file permissions is supported for Google Drive, SharePoint Online, and OneDrive for Business.  The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1320,22 +793,11 @@
       "name": "setTestGetRepositoryFile",
       "signature": "public static Void setTestGetRepositoryFile(String communityId, String repositoryId, String repositoryFileId, ConnectApi.RepositoryFileDetail result)",
       "description": "Register a ConnectApi.RepositoryFileDetail object to be returned when the matching getRepositoryFile(communityId, repositoryId, repositoryFileId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFileDetail"
+          "datatype": "ConnectApi.RepositoryFileDetail",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1344,26 +806,11 @@
       "name": "setTestGetRepositoryFile",
       "signature": "public static Void setTestGetRepositoryFile(String communityId, String repositoryId, String repositoryFileId, Boolean includeExternalFilePermissionsInfo, ConnectApi.RepositoryFileDetail result)",
       "description": "Register a ConnectApi.RepositoryFileDetail object to be returned when the matching getRepositoryFile(communityId, repositoryId, repositoryFileId, includeExternalFilePermissionsInfo) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "includeExternalFilePermissionsInfo",
-          "datatype": "Boolean"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFileDetail"
+          "datatype": "ConnectApi.RepositoryFileDetail",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. Specifies whether to include permission information, such as whether the file is shared and what are the available permission types.Managing external file permissions is supported for Google Drive, SharePoint Online, and OneDrive for Business.  The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1372,18 +819,11 @@
       "name": "setTestGetRepositoryFolder",
       "signature": "public static Void setTestGetRepositoryFolder(String repositoryId, String repositoryFolderId, ConnectApi.RepositoryFolderDetail result)",
       "description": "Register a ConnectApi.RepositoryFolderDetail object to be returned when the matching getRepositoryFolder(repositoryId, repositoryFolderId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFolderDetail"
+          "datatype": "ConnectApi.RepositoryFolderDetail",
+          "description": "The ID of the repository. The ID of the repository folder. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1392,22 +832,11 @@
       "name": "setTestGetRepositoryFolder",
       "signature": "public static Void setTestGetRepositoryFolder(String communityId, String repositoryId, String repositoryFolderId, ConnectApi.RepositoryFolderDetail result)",
       "description": "Register a ConnectApi.RepositoryFolderDetail object to be returned when the matching getRepositoryFolder(communityId, repositoryId, repositoryFolderId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFolderDetail"
+          "datatype": "ConnectApi.RepositoryFolderDetail",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1416,18 +845,11 @@
       "name": "setTestGetRepositoryFolderItems",
       "signature": "public static Void setTestGetRepositoryFolderItems(String repositoryId, String repositoryFolderId, ConnectApi.RepositoryFolderItemsCollection result)",
       "description": "Register a ConnectApi.RepositoryFolderItemsCollection object to be returned when the matching getRepositoryFolderItems(repositoryId, repositoryFolderId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFolderItemsCollection"
+          "datatype": "ConnectApi.RepositoryFolderItemsCollection",
+          "description": "The ID of the repository. The ID of the repository folder. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1436,22 +858,11 @@
       "name": "setTestGetRepositoryFolderItems",
       "signature": "public static Void setTestGetRepositoryFolderItems(String communityId, String repositoryId, String repositoryFolderId, ConnectApi.RepositoryFolderItemsCollection result)",
       "description": "Register a ConnectApi.RepositoryFolderItemsCollection object to be returned when the matching getRepositoryFolderItems(communityId, repositoryId, repositoryFolderId) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFolderItemsCollection"
+          "datatype": "ConnectApi.RepositoryFolderItemsCollection",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1460,26 +871,11 @@
       "name": "setTestGetRepositoryFolderItems",
       "signature": "public static Void setTestGetRepositoryFolderItems(String repositoryId, String repositoryFolderId, Integer pageParam, Integer pageSize, ConnectApi.RepositoryFolderItemsCollection result)",
       "description": "Register a ConnectApi.RepositoryFolderItemsCollection object to be returned when the matching getRepositoryFolderItems(repositoryId, repositoryFolderId, pageParam, pageSize) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFolderItemsCollection"
+          "datatype": "ConnectApi.RepositoryFolderItemsCollection",
+          "description": "The ID of the repository. The ID of the repository folder. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default page size is 25. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1488,30 +884,11 @@
       "name": "setTestGetRepositoryFolderItems",
       "signature": "public static Void setTestGetRepositoryFolderItems(String communityId, String repositoryId, String repositoryFolderId, Integer pageParam, Integer pageSize, ConnectApi.RepositoryFolderItemsCollection result)",
       "description": "Register a ConnectApi.RepositoryFolderItemsCollection object to be returned when the matching getRepositoryFolderItems(communityId, repositoryId, repositoryFolderId, pageParam, pageSize) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFolderId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFolderItemsCollection"
+          "datatype": "ConnectApi.RepositoryFolderItemsCollection",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository folder. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default page size is 25. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1520,30 +897,11 @@
       "name": "setTestUpdateRepositoryFile",
       "signature": "public static Void setTestUpdateRepositoryFile(String communityId, String repositoryId, String repositoryFileId, ConnectApi.ContentHubItemInput file, ConnectApi.BinaryInput fileData, ConnectApi.RepositoryFileDetail result)",
       "description": "Register a ConnectApi.RepositoryFileDetail object to be returned when the matching updateRepositoryFile(communityId, repositoryId, repositoryFileId, file, fileData) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
-        {
-          "name": "fileData",
-          "datatype": "ConnectApi.BinaryInput"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFileDetail"
+          "datatype": "ConnectApi.RepositoryFileDetail",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. The item type ID and fields of the item type. The binary file. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1552,22 +910,11 @@
       "name": "setTestUpdateRepositoryFile",
       "signature": "public static Void setTestUpdateRepositoryFile(String repositoryId, String repositoryFileId, ConnectApi.ContentHubItemInput file, ConnectApi.RepositoryFileDetail result)",
       "description": "Register a ConnectApi.RepositoryFileDetail object to be returned when the matching updateRepositoryFile(repositoryId, repositoryFileId, file) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFileDetail"
+          "datatype": "ConnectApi.RepositoryFileDetail",
+          "description": "The ID of the repository. The ID of the repository file. The item type ID and fields of the item type. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1576,26 +923,11 @@
       "name": "setTestUpdateRepositoryFile",
       "signature": "public static Void setTestUpdateRepositoryFile(String repositoryId, String repositoryFileId, ConnectApi.ContentHubItemInput file, ConnectApi.BinaryInput fileData, ConnectApi.RepositoryFileDetail result)",
       "description": "Register a ConnectApi.RepositoryFileDetail object to be returned when the matching updateRepositoryFile(repositoryId, repositoryFileId, file, fileData) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
-        {
-          "name": "fileData",
-          "datatype": "ConnectApi.BinaryInput"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFileDetail"
+          "datatype": "ConnectApi.RepositoryFileDetail",
+          "description": "The ID of the repository. The ID of the repository file. The item type ID and fields of the item type. The binary file. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -1604,31 +936,16 @@
       "name": "setTestUpdateRepositoryFile",
       "signature": "public static Void setTestUpdateRepositoryFile(String communityId, String repositoryId, String repositoryFileId, ConnectApi.ContentHubItemInput file, ConnectApi.RepositoryFileDetail result)",
       "description": "Register a ConnectApi.RepositoryFileDetail object to be returned when the matching updateRepositoryFile(communityId, repositoryId, repositoryFileId, file) method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryId",
-          "datatype": "String"
-        },
-        {
-          "name": "repositoryFileId",
-          "datatype": "String"
-        },
-        {
-          "name": "file",
-          "datatype": "ConnectApi.ContentHubItemInput"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.RepositoryFileDetail"
+          "datatype": "ConnectApi.RepositoryFileDetail",
+          "description": "Use either the ID for a community, internal, or null. The ID of the repository. The ID of the repository file. The item type ID and fields of the item type. The object containing test data."
         }
       ],
       "datatype": "Void"
     }
   ],
   "description": "Access Files Connect repositories and their files and folders.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ContentHub_static_methods.htm#apex_ConnectAPI_ContentHub_static_methods"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ContentHub_static_methods.htm"
 }

@@ -1,263 +1,112 @@
-<div df-bind-html-directive="" class="topic-content ng-binding ng-scope" df-bind-html="body" ui-view=""><a name="apex_class_wave_ProjectionNode"><!-- --></a><div class="nested0">
-      <h1 class="helpHead1"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a>ProjectionNode Class</span></h1>
-    
-      
-      
-      <div class="body refbody">
-    <div class="shortdesc"><span class="ph" id="shortdesc"><a name="shortdesc"><!-- --></a>Add aggregate functions to the query, or define an
-        alias.</span></div>
-    
-        <div class="section">
-    <h2 class="helpHead2">Namespace</h2>
-    <p class="p"><a class="xref" href="atlas.en-us.apexcode.meta/apexcode/apex_namespace_wave.htm#apex_namespace_wave" title="The classes in the wave namespace are part of the Wave Analytics SDK, designed to facilitate querying Wave data from Apex code.">wave</a></p>
-    </div>
-    
-        <div class="section">
-    <h2 class="helpHead2">Usage</h2>
-    <div class="p">Refer to the QueryBuilder example.</div>
-    </div>
-    
-    
-      </div>
-    
-    <div id="sfdc:seealso" class="related-links">
-    <ul class="ullinks">
-    <li class="link ulchildlink">
-    <strong><a href="atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm#apex_wave_ProjectionNode_methods">ProjectionNode Methods</a></strong><br>
-    </li>
-    </ul>
-    </div>
-    <div class="topic reference nested1" id="apex_wave_ProjectionNode_methods" lang="en-us">
-    <a name="apex_wave_ProjectionNode_methods"><!-- --></a>
-      <h2 class="helpHead2"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a>ProjectionNode Methods</span></h2>
-    
-      
-      <div class="body refbody">
-        <div class="section">
-    <p class="p">The following are methods for <samp class="codeph apex_code">ProjectionNode</samp>.</p>
-    </div>
-    
-        
-      </div>
-    
-    <div id="sfdc:seealso" class="related-links">
-    <ul class="ullinks">
-    <li class="link ulchildlink">
-    <strong><a href="atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm#apex_wave_ProjectionNode_sum">sum()</a></strong><br>
-    Returns the sum of a numeric field.</li>
-    <li class="link ulchildlink">
-    <strong><a href="atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm#apex_wave_ProjectionNode_avg">avg()</a></strong><br>
-    Returns the average value of a numeric field.</li>
-    <li class="link ulchildlink">
-    <strong><a href="atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm#apex_wave_ProjectionNode_min">min()</a></strong><br>
-    Returns the minimum value of a field.</li>
-    <li class="link ulchildlink">
-    <strong><a href="atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm#apex_wave_ProjectionNode_max">max()</a></strong><br>
-    Returns the maximum value of a field.</li>
-    <li class="link ulchildlink">
-    <strong><a href="atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm#apex_wave_ProjectionNode_count">count()</a></strong><br>
-    Returns the number of rows that match the query     criteria.</li>
-    <li class="link ulchildlink">
-    <strong><a href="atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm#apex_wave_ProjectionNode_unique">unique()</a></strong><br>
-    Returns the count of unique values.</li>
-    <li class="link ulchildlink">
-    <strong><a href="atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm#apex_wave_ProjectionNode_alias">alias(name)</a></strong><br>
-    Define output column names.</li>
-    </ul>
-    </div>
-    <div class="topic reference nested2" id="apex_wave_ProjectionNode_sum" lang="en-us">
-    <a name="apex_wave_ProjectionNode_sum"><!-- --></a>
-      <h3 class="helpHead3"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a><span class="titlecodeph">sum()</span></span></h3>
-    
-      
-      
-      <div class="body refbody">
-    <div class="shortdesc"><span class="ph" id="shortdesc"><a name="shortdesc"><!-- --></a>Returns the sum of a numeric field.</span></div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Signature</h4>
-    <p class="p"><samp class="codeph apex_code"><span class="keyword">public</span>
-              wave.ProjectionNode
-          sum()</samp></p>
-    </div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Return Value</h4>
-    <p class="p">Type:
-          <a class="xref" href="#apex_class_wave_ProjectionNode" title="Add aggregate functions to the query, or define an alias.">wave.ProjectionNode</a></p>
-    </div>
-    
-      </div>
-    
-    </div>
-    <div class="topic reference nested2" id="apex_wave_ProjectionNode_avg" lang="en-us">
-    <a name="apex_wave_ProjectionNode_avg"><!-- --></a>
-      <h3 class="helpHead3"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a><span class="titlecodeph">avg()</span></span></h3>
-    
-      
-      
-      <div class="body refbody">
-    <div class="shortdesc"><span class="ph" id="shortdesc"><a name="shortdesc"><!-- --></a>Returns the average value of a numeric field.</span></div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Signature</h4>
-    <p class="p"><samp class="codeph apex_code"><span class="keyword">public</span>
-              wave.ProjectionNode
-          avg()</samp></p>
-    </div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Return Value</h4>
-    <p class="p">Type:
-          <a class="xref" href="#apex_class_wave_ProjectionNode" title="Add aggregate functions to the query, or define an alias.">wave.ProjectionNode</a></p>
-    </div>
-    
-      </div>
-    
-    </div>
-    <div class="topic reference nested2" id="apex_wave_ProjectionNode_min" lang="en-us">
-    <a name="apex_wave_ProjectionNode_min"><!-- --></a>
-      <h3 class="helpHead3"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a><span class="titlecodeph">min()</span></span></h3>
-    
-      
-      
-      <div class="body refbody">
-    <div class="shortdesc"><span class="ph" id="shortdesc"><a name="shortdesc"><!-- --></a>Returns the minimum value of a field.</span></div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Signature</h4>
-    <p class="p"><samp class="codeph apex_code"><span class="keyword">public</span>
-              wave.ProjectionNode
-          min()</samp></p>
-    </div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Return Value</h4>
-    <p class="p">Type:
-          <a class="xref" href="#apex_class_wave_ProjectionNode" title="Add aggregate functions to the query, or define an alias.">wave.ProjectionNode</a></p>
-    </div>
-    
-      </div>
-    
-    </div>
-    <div class="topic reference nested2" id="apex_wave_ProjectionNode_max" lang="en-us">
-    <a name="apex_wave_ProjectionNode_max"><!-- --></a>
-      <h3 class="helpHead3"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a><span class="titlecodeph">max()</span></span></h3>
-    
-      
-      
-      <div class="body refbody">
-    <div class="shortdesc"><span class="ph" id="shortdesc"><a name="shortdesc"><!-- --></a>Returns the maximum value of a field.</span></div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Signature</h4>
-    <p class="p"><samp class="codeph apex_code"><span class="keyword">public</span>
-              wave.ProjectionNode
-          max()</samp></p>
-    </div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Return Value</h4>
-    <p class="p">Type:
-          <a class="xref" href="#apex_class_wave_ProjectionNode" title="Add aggregate functions to the query, or define an alias.">wave.ProjectionNode</a></p>
-    </div>
-    
-      </div>
-    
-    </div>
-    <div class="topic reference nested2" id="apex_wave_ProjectionNode_count" lang="en-us">
-    <a name="apex_wave_ProjectionNode_count"><!-- --></a>
-      <h3 class="helpHead3"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a><span class="titlecodeph">count()</span></span></h3>
-    
-      
-      
-      <div class="body refbody">
-    <div class="shortdesc"><span class="ph" id="shortdesc"><a name="shortdesc"><!-- --></a>Returns the number of rows that match the query
-        criteria.</span></div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Signature</h4>
-    <p class="p"><samp class="codeph apex_code"><span class="keyword">public</span>
-              wave.ProjectionNode
-          count()</samp></p>
-    </div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Return Value</h4>
-    <p class="p">Type:
-          <a class="xref" href="#apex_class_wave_ProjectionNode" title="Add aggregate functions to the query, or define an alias.">wave.ProjectionNode</a></p>
-    </div>
-    
-      </div>
-    
-    </div>
-    <div class="topic reference nested2" id="apex_wave_ProjectionNode_unique" lang="en-us">
-    <a name="apex_wave_ProjectionNode_unique"><!-- --></a>
-      <h3 class="helpHead3"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a><span class="titlecodeph">unique()</span></span></h3>
-    
-      
-      
-      <div class="body refbody">
-    <div class="shortdesc"><span class="ph" id="shortdesc"><a name="shortdesc"><!-- --></a>Returns the count of unique values.</span></div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Signature</h4>
-    <p class="p"><samp class="codeph apex_code"><span class="keyword">public</span>
-              wave.ProjectionNode
-          unique()</samp></p>
-    </div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Return Value</h4>
-    <p class="p">Type:
-          <a class="xref" href="#apex_class_wave_ProjectionNode" title="Add aggregate functions to the query, or define an alias.">wave.ProjectionNode</a></p>
-    </div>
-    
-      </div>
-    
-    </div>
-    <div class="topic reference nested2" id="apex_wave_ProjectionNode_alias" lang="en-us">
-    <a name="apex_wave_ProjectionNode_alias"><!-- --></a>
-      <h3 class="helpHead3"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a><span class="titlecodeph">alias(name)</span></span></h3>
-    
-      
-      
-      <div class="body refbody">
-    <div class="shortdesc"><span class="ph" id="shortdesc"><a name="shortdesc"><!-- --></a>Define output column names.</span></div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Signature</h4>
-    <p class="p"><samp class="codeph apex_code"><span class="keyword">public</span>
-              wave.ProjectionNode alias(<span class="keyword">String</span>
-          name)</samp></p>
-    </div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Parameters</h4>
-    <dl class="dl detailList">
-            
-              <dt class="dt dlterm"><var class="keyword varname">name</var></dt>
-    
-              <dd class="dd">Type: <a class="xref" href="atlas.en-us.apexcode.meta/apexcode/apex_methods_system_string.htm#apex_methods_system_string" title="Contains methods for the String primitive data type.">String</a>
-    </dd>
-    
-              <dd class="dd">The name to use for this column. For example, this code defines the alias
-                  <span class="keyword parmname">c</span>:
-                <div class="codeSection nolang"><div id="highlighter_880773" class="syntaxhighlighter  "><div class="bar"><div class="toolbar"><a href="#viewSource" title="view source" style="width: 16px; height: 16px;" class="item viewSource">view source</a><div class="item copyToClipboard"><embed id="highlighter_880773_clipboard" type="application/x-shockwave-flash" title="copy to clipboard" allowscriptaccess="always" wmode="transparent" flashvars="highlighterId=highlighter_880773" menu="false" src="/resource/flash/clipboard.swf" width="16" height="16"></div><a href="#printSource" title="print" style="width: 16px; height: 16px;" class="item printSource">print</a><a href="#about" title="?" style="width: 16px; height: 16px;" class="item about">?</a></div></div><div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">Wave.ProjectionNode[] projs = new Wave.ProjectionNode[]{Wave.QueryBuilder.count().alias('c')};</code></td></tr></tbody></table></div></div></div></div>
-    
-              </dd>
-    
-            
-          </dl>
-    </div>
-    
-        <div class="section">
-    <h4 class="helpHead4">Return Value</h4>
-    <p class="p">Type: <a class="xref" href="#apex_class_wave_ProjectionNode" title="Add aggregate functions to the query, or define an alias.">wave.ProjectionNode</a></p>
-    </div>
-    
-      </div>
-    
-    </div>
-    </div>
-    </div></div>
+<div df-bind-html-directive="" class="topic-content ng-binding ng-scope" df-bind-html="body" ui-view=""><a name="apex_class_reports_detailcolumn"><!-- --></a><div class="nested0">
+<h1 class="helpHead1"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a>DetailColumn Class</span></h1>
+
+
+
+<div class="body refbody">
+<div class="shortdesc">Contains methods for describing fields that contain detailed
+data. Detailed data fields are also listed in the report metadata.</div>
+
+<div class="section">
+<h2 class="helpHead2">Namespace</h2>
+<p class="p"><a class="xref" href="atlas.en-us.apexcode.meta/apexcode/apex_namespace_Reports.htm" title="The Reports namespace provides classes for accessing the same data as is available in the Salesforce Reports and Dashboards REST API.">Reports</a></p>
+</div>
+
+</div>
+
+<div class="topic reference nested1" id="apex_Reports_DetailColumn_instance_methods" lang="en-us">
+<a name="apex_Reports_DetailColumn_instance_methods"><!-- --></a>
+<h2 class="helpHead2"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a>DetailColumn Instance Methods</span></h2>
+
+
+<div class="body refbody">
+<div class="section">
+<p class="p">The following are instance methods for <samp class="codeph apex_code">DetailColumn</samp>. All are instance methods.</p>
+</div>
+
+</div>
+
+<div id="sfdc:seealso" class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink">
+<strong><a href="atlas.en-us.apexcode.meta/apexcode/apex_class_reports_detailcolumn.htm#apex_Reports_DetailColumn_getName">getName()</a></strong><br>
+Returns the unique API name of the detail column field.</li>
+<li class="link ulchildlink">
+<strong><a href="atlas.en-us.apexcode.meta/apexcode/apex_class_reports_detailcolumn.htm#apex_Reports_DetailColumn_getLabel">getLabel()</a></strong><br>
+Returns the localized display name of a standard field, the ID of a custom field, or the API name of a bucket field that has detailed data.</li>
+<li class="link ulchildlink">
+<strong><a href="atlas.en-us.apexcode.meta/apexcode/apex_class_reports_detailcolumn.htm#apex_Reports_DetailColumn_getDataType">getDataType()</a></strong><br>
+Returns the data type of a detail column field.</li>
+</ul>
+</div>
+<div class="topic reference nested2" id="apex_Reports_DetailColumn_getName" lang="en-us">
+<a name="apex_Reports_DetailColumn_getName"><!-- --></a>
+<h3 class="helpHead3"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a><span class="titlecodeph">getName()</span></span></h3>
+
+
+
+<div class="body refbody">
+<div class="shortdesc">Returns the unique API name of the detail column field.</div>
+
+<div class="section">
+<h4 class="helpHead4">Syntax</h4>
+<p class="p"><samp class="codeph apex_code"><span class="keyword">public</span> <span class="keyword">String</span> getName()</samp></p>
+</div>
+
+
+<div class="section">
+<h4 class="helpHead4">Return Value</h4>
+<p class="p">Type: <a class="xref" href="atlas.en-us.apexcode.meta/apexcode/apex_methods_system_string.htm#apex_methods_system_string" title="Contains methods for the String primitive data type.">String</a></p>
+</div>
+
+</div>
+
+</div>
+<div class="topic reference nested2" id="apex_Reports_DetailColumn_getLabel" lang="en-us">
+<a name="apex_Reports_DetailColumn_getLabel"><!-- --></a>
+<h3 class="helpHead3"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a><span class="titlecodeph">getLabel()</span></span></h3>
+
+
+
+<div class="body refbody">
+<div class="shortdesc">Returns the localized display name of a standard field,
+the ID of a custom field, or the API name of a bucket field that has
+detailed data.</div>
+
+<div class="section">
+<h4 class="helpHead4">Syntax</h4>
+<p class="p"><samp class="codeph apex_code"><span class="keyword">public</span> <span class="keyword">String</span> getLabel()</samp></p>
+</div>
+
+<div class="section">
+<h4 class="helpHead4">Return Value</h4>
+<p class="p">Type: <a class="xref" href="atlas.en-us.apexcode.meta/apexcode/apex_methods_system_string.htm#apex_methods_system_string" title="Contains methods for the String primitive data type.">String</a></p>
+</div>
+
+</div>
+
+</div>
+<div class="topic reference nested2" id="apex_Reports_DetailColumn_getDataType" lang="en-us">
+<a name="apex_Reports_DetailColumn_getDataType"><!-- --></a>
+<h3 class="helpHead3"><span class="ph" id="topic-title"><a name="topic-title"><!-- --></a><span class="titlecodeph">getDataType()</span></span></h3>
+
+
+
+<div class="body refbody">
+<div class="shortdesc">Returns the data type of a detail column field.</div>
+
+<div class="section">
+<h4 class="helpHead4">Syntax</h4>
+<p class="p"><samp class="codeph apex_code"><span class="keyword">public</span> Reports.ColumnDataType getDataType()</samp></p>
+</div>
+
+<div class="section">
+<h4 class="helpHead4">Return Value</h4>
+<p class="p">Type: <a class="xref" href="atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_columndatatype.htm" title="The Reports.ColumnDataType enum describes the type of data in a column. It is returned by the getDataType method.">Reports.ColumnDataType</a></p>
+</div>
+
+</div>
+
+</div>
+</div>
+</div></div>

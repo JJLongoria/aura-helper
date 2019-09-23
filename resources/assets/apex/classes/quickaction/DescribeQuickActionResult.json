@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,363 +17,363 @@
       "name": "canvasapplicationname",
       "signature": "public String canvasapplicationname {get; set;}",
       "description": "The name of the Canvas application invoked by the custom action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "colors",
       "signature": "public List<Schema.DescribeColorResult> colors {get; set;}",
       "description": "Array of color information. Each color is associated with a theme.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "contextsobjecttype",
       "signature": "public String contextsobjecttype {get; set;}",
       "description": "The object used for the action. Was getsourceSobjectType() in API version 29.0 and earlier.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "defaultvalues",
       "signature": "public List<QuickAction.DescribeQuickActionDefaultValue> defaultvalues {get; set;}",
       "description": "The action’s default values.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "flowdevname",
       "signature": "public String flowdevname {get; set;}",
       "description": "If the custom action invokes a flow, the fully qualified name of the flow.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "flowrecordidvar",
       "signature": "public String flowrecordidvar {get; set;}",
       "description": "If the custom action invokes a flow, the input variable that the custom action passes the record’s ID to.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "height",
       "signature": "public Integer height {get; set;}",
       "description": "The height in pixels of the action pane.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "iconname",
       "signature": "public String iconname {get; set;}",
       "description": "The name of the icon used for the action. If a custom icon is not used, this value isn’t set.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "icons",
       "signature": "public List<Schema.DescribeIconResult> icons {get; set;}",
       "description": "Array of icons. Each icon is associated with a theme.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "iconurl",
       "signature": "public String iconurl {get; set;}",
       "description": "The URL of the icon used for the action. This icon URL corresponds to the 32x32 icon used for the current Salesforce theme, introduced in Spring ’10, or the custom icon, if there is one.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "layout",
       "signature": "public QuickAction.DescribeLayoutSection layout {get; set;}",
       "description": "The section of the layout where the action resides.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "lightningcomponentbundleid",
       "signature": "public String lightningcomponentbundleid {get; set;}",
       "description": "If the custom action invokes a Lightning component, the ID of the Lightning component bundle to which the component belongs.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "lightningcomponentbundlename",
       "signature": "public String lightningcomponentbundlename {get; set;}",
       "description": "If the custom action invokes a Lightning component, the name of the Lightning component bundle to which the component belongs.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "lightningcomponentqualifiedname",
       "signature": "public String lightningcomponentqualifiedname {get; set;}",
       "description": "The fully qualified name of the Lightning component invoked by the custom action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "miniiconurl",
       "signature": "public String miniiconurl {get; set;}",
       "description": "The icon’s URL. This icon URL corresponds to the 16x16 icon used for the current Salesforce theme, introduced in Spring ’10, or the custom icon, if there is one.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showquickactionlcheader",
       "signature": "public Boolean showquickactionlcheader {get; set;}",
       "description": "Indicates whether  the Lightning component quick action header and footer are shown. If false, then both the header containing the quick action title and the footer containing the Save and Cancel buttons aren’t displayed.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showquickactionvfheader",
       "signature": "public Boolean showquickactionvfheader {get; set;}",
       "description": "Indicates whether  the Visualforce quick action header and footer should be shown. If false, then both the header containing the quick action title and the footer containing the Save and Cancel buttons aren’t displayed.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "targetparentfield",
       "signature": "public String targetparentfield {get; set;}",
       "description": "The parent object type of the action. Links the target object to the parent object. For example, the value is Account if the target object is Contact and the parent object is Account.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "targetrecordtypeid",
       "signature": "public String targetrecordtypeid {get; set;}",
       "description": "The record type of the target record.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "targetsobjecttype",
       "signature": "public String targetsobjecttype {get; set;}",
       "description": "The action’s target object type.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "visualforcepagename",
       "signature": "public String visualforcepagename {get; set;}",
       "description": "The name of the Visualforce page associated with the custom action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "visualforcepageurl",
       "signature": "public String visualforcepageurl {get; set;}",
       "description": "The URL of the Visualforce page associated with the action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "width",
       "signature": "public Integer width {get; set;}",
       "description": "The width in pixels of the action pane, for custom actions that call Visualforce pages, Canvas apps, or Lightning components.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getActionEnumOrId",
       "signature": "public String getActionEnumOrId()",
       "description": "Returns the unique ID for the action. If the action doesn’t have an ID, its API name is used.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getCanvasApplicationName",
       "signature": "",
       "description": "Returns the name of the Canvas application, if used.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getColors",
       "signature": "public List<Schema.DescribeColorResult> getColors()",
       "description": "Returns an array of color information. Each color is associated with a theme.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List <Schema.DescribeColorResult>"
     },
     {
       "name": "getContextSobjectType",
       "signature": "public String getContextSobjectType()",
       "description": "Returns the object used for the action. Replaces getsourceSobjectType() in API version 30.0 and later.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getDefaultValues",
       "signature": "public List<QuickAction.DescribeQuickActionDefaultValue> getDefaultValues()",
       "description": "Returns the default values for a action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<QuickAction.DescribeQuickActionDefaultValue>"
     },
     {
       "name": "getFlowDevName",
       "signature": "public String getFlowDevName()",
       "description": "If the custom action invokes a flow, returns the fully qualified name of the flow invoked by the custom action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getFlowRecordIdVar",
       "signature": "public String getFlowRecordIdVar()",
       "description": "If the custom action invokes a flow, returns the input variable that the custom action passes the record’s ID to.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getHeight",
       "signature": "public Integer getHeight()",
       "description": "Returns the height in pixels of the action pane.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getIconName",
       "signature": "public String getIconName()",
       "description": "Returns the actions’ icon name.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getIconUrl",
       "signature": "public String getIconUrl()",
       "description": "Returns the URL of the 32x32 icon used for the action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getIcons",
       "signature": "public List<Schema.DescribeIconResult> getIcons()",
       "description": "Returns a list of Schema.DescribeIconResult objects that describe colors used in a tab.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Schema.DescribeIconResult>"
     },
     {
       "name": "getLabel",
       "signature": "public String getLabel()",
       "description": "Returns the action label.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLayout",
       "signature": "public QuickAction.DescribeLayoutSection getLayout()",
       "description": "Returns the layout sections that comprise an action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "QuickAction.DescribeLayoutSection"
     },
     {
       "name": "getLightningComponentBundleId",
       "signature": "public String getLightningComponentBundleId()",
       "description": "If the custom action invokes a Lightning component, returns the ID of the Lightning component bundle to which the component belongs.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLightningComponentBundleName",
       "signature": "public String getLightningComponentBundleName()",
       "description": "If the custom action invokes a Lightning component, returns the name of the Lightning component bundle to which the component belongs.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLightningComponentQualifiedName",
       "signature": "public String getLightningComponentQualifiedName()",
       "description": "If the custom action invokes a Lightning component, returns the fully qualified name of the Lightning component invoked by the custom action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getMiniIconUrl",
       "signature": "public String getMiniIconUrl()",
       "description": "Returns the 16x16 icon URL.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getName",
       "signature": "public String getName()",
       "description": "Returns the action name.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getShowQuickActionLcHeader",
       "signature": "public Boolean getShowQuickActionLcHeader()",
       "description": "Returns an indication of whether  the Lightning component quick action header and footer are shown.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "getShowQuickActionVfHeader",
       "signature": "public Boolean getShowQuickActionVfHeader()",
       "description": "Returns an indication of whether  the Visualforce quick action header and footer should be shown.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "getSourceSobjectType",
       "signature": "public String getSourceSobjectType()",
       "description": "Returns the object type used for the action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getTargetParentField",
       "signature": "public String getTargetParentField()",
       "description": "Returns the parent object’s type for the action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getTargetRecordTypeId",
       "signature": "public String getTargetRecordTypeId()",
       "description": "Returns the record type of the targeted record.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getTargetSobjectType",
       "signature": "public String getTargetSobjectType()",
       "description": "Returns the action’s target object type.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getType",
       "signature": "public String getType()",
       "description": "Returns a create or custom Visualforce action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getVisualforcePageName",
       "signature": "public String getVisualforcePageName()",
       "description": "If Visualforce is used, returns the name of the associated page for the action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getVisualforcePageUrl",
       "signature": "public String getVisualforcePageUrl()",
       "description": "Returns the URL of the Visualforce page associated with the action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getWidth",
       "signature": "public Integer getWidth()",
       "description": "If a custom action is created, returns the width in pixels of the action pane.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     }
   ],
   "description": "Contains describe metadata information for a quick action.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describequickactionresult.htm#apex_class_quickaction_describequickactionresult"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describequickactionresult.htm"
 }

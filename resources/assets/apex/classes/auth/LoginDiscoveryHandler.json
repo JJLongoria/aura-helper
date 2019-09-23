@@ -5,35 +5,30 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": true,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "login",
       "signature": "public System.PageReference login(String identifier, String startUrl, Map<String,String>requestAttributes)",
       "description": "Log in the external user given the specified identifier, such as email or phone number. If successful, redirect the user to the community page specified by the start URL.",
-      "methodParams": [
-        {
-          "name": "identifier",
-          "datatype": "String"
-        },
-        {
-          "name": "startUrl",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "requestAttributes",
-          "datatype": "Map<String,String>"
+          "datatype": "Map<String,String>",
+          "description": "Identifier the external user entered at the login prompt, for example, an email address or phone number. Path to the community page requested by the external user. The user is redirected to this location after successful login. Information about the login request based on the user’s browser state when accessing the login page. requestAttributes passes in the CommunityUrl, IpAddress, UserAgent, Platform, Application, City, Country, and Subdivision values. The City, Country, and Subdivision values come from IP geolocation."
         }
       ],
       "datatype": "System.PageReference"
     }
   ],
-  "description": "Salesforce gives you the ability to log in users based on other",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Auth_LoginDiscoveryHandler.htm#apex_interface_Auth_LoginDiscoveryHandler"
+  "description": "Salesforce gives you the ability to log in users based on other verification methods than username and password. For example, it can prompt users to log in with their email, phone number, or another identifier like a Federation ID or device identifier. Login Discovery is available to all external user licenses, including Customer Community, Customer Community Plus, External Identity, Partner Community, and Partner Community Plus.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Auth_LoginDiscoveryHandler.htm"
 }

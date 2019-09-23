@@ -5,18 +5,20 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "SingleEmailMessage",
       "signature": "public SingleEmailMessage()",
       "description": "Creates a new instance of the Messaging.SingleEmailMessage class.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
@@ -25,17 +27,18 @@
       "name": "getTemplateName",
       "signature": "public STRING getTemplateName()",
       "description": "The name of the template used to create the email.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "setBccAddresses",
       "signature": "public Void setBccAddresses(String[] bccAddresses)",
       "description": "Optional. A list of blind carbon copy (BCC) addresses or object IDs of the contacts, leads, and users you’re sending the email to. The maximum size for this field is 4,000 bytes. The maximum total of toAddresses, ccAddresses, and bccAddresses per email is 150.",
-      "methodParams": [
+      "params": [
         {
           "name": "bccAddresses",
-          "datatype": "String[]"
+          "datatype": "String[]",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -44,10 +47,11 @@
       "name": "setCcAddresses",
       "signature": "public Void setCcAddresses(String[] ccAddresses)",
       "description": "Optional. A list of carbon copy (CC) addresses or object IDs of the contacts, leads, and users you’re sending the email to. The maximum size for this field is 4,000 bytes. The maximum total of toAddresses, ccAddresses, and bccAddresses per email is 150.",
-      "methodParams": [
+      "params": [
         {
           "name": "ccAddresses",
-          "datatype": "String[]"
+          "datatype": "String[]",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -56,10 +60,11 @@
       "name": "setCharset",
       "signature": "public Void setCharset(String characterSet)",
       "description": "Optional. The character set for the email. If this value is null, the user's default value is used.",
-      "methodParams": [
+      "params": [
         {
           "name": "characterSet",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -68,10 +73,11 @@
       "name": "setDocumentAttachments",
       "signature": "public Void setDocumentAttachments(ID[] documentIds)",
       "description": "(Deprecated. Use setEntityAttachments() instead.) Optional. A list containing the ID of each document object you want to attach to the email.",
-      "methodParams": [
+      "params": [
         {
           "name": "documentIds",
-          "datatype": "ID[]"
+          "datatype": "ID[]",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -80,10 +86,11 @@
       "name": "setEntityAttachments",
       "signature": "public void setEntityAttachments(List<String> ids)",
       "description": "Optional. Array of IDs of Document, ContentVersion, or Attachment items to attach to the email.",
-      "methodParams": [
+      "params": [
         {
           "name": "ids",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -92,10 +99,11 @@
       "name": "setFileAttachments",
       "signature": "public Void setFileAttachments(EmailFileAttachment[] fileNames)",
       "description": "Optional. A list containing the file names of the binary and text files you want to attach to the email.",
-      "methodParams": [
+      "params": [
         {
           "name": "fileNames",
-          "datatype": "Messaging.EmailFileAttachment[]"
+          "datatype": "Messaging.EmailFileAttachment[]",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -104,10 +112,11 @@
       "name": "setHtmlBody",
       "signature": "public Void setHtmlBody(String htmlBody)",
       "description": "Optional. The HTML version of the email, specified by the sender. The value is encoded according to the specification associated with the organization. Specify a value for setTemplateId, setHtmlBody, or setPlainTextBody. Or, you can define both setHtmlBody and setPlainTextBody.",
-      "methodParams": [
+      "params": [
         {
           "name": "htmlBody",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -116,10 +125,11 @@
       "name": "setInReplyTo",
       "signature": "public Void setInReplyTo(String parentMessageIds)",
       "description": "Sets the optional In-Reply-To field of the outgoing email. This field identifies the email or emails to which this email is a reply (parent emails).",
-      "methodParams": [
+      "params": [
         {
           "name": "parentMessageIds",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Contains one or more parent email message IDs."
         }
       ],
       "datatype": "Void"
@@ -128,10 +138,11 @@
       "name": "setOptOutPolicy",
       "signature": "public void setOptOutPolicy(String emailOptOutPolicy)",
       "description": "Optional. If you added recipients by ID instead of email address and the Email Opt Out option is set, this method determines the behavior of the sendEmail() call. If you add recipients by their email addresses, the opt-out settings for those recipients aren’t checked and those recipients always receive the email.",
-      "methodParams": [
+      "params": [
         {
           "name": "emailOptOutPolicy",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Possible values of the emailOptOutPolicy parameter are:  SEND (default)—The email is sent to all recipients. The recipients’ Email Opt Out setting is ignored. The setting Enforce email privacy settings is ignored.   FILTER—No email is sent to recipients that have the Email Opt Out option set. Emails are sent to the other recipients. The setting Enforce email privacy settings is ignored.   REJECT—If any of the recipients have the Email Opt Out option set, sendEmail() throws an error and no email is sent. The setting Enforce email privacy settings is respected, as are the selections in the data privacy record based on the Individual object. If any of the recipients have Don’t Market, Don’t Process, or Forget this Individual selected, sendEmail() throws an error and no email is sent."
         }
       ],
       "datatype": "void"
@@ -140,10 +151,11 @@
       "name": "setPlainTextBody",
       "signature": "public Void setPlainTextBody(String plainTextBody)",
       "description": "Optional. The text version of the email, specified by the sender. Specify a value for setTemplateId, setHtmlBody, or setPlainTextBody. Or, you can define both setHtmlBody and setPlainTextBody.",
-      "methodParams": [
+      "params": [
         {
           "name": "plainTextBody",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -152,10 +164,11 @@
       "name": "setOrgWideEmailAddressId",
       "signature": "public Void setOrgWideEmailAddressId(ID emailAddressId)",
       "description": "Optional. The ID of the organization-wide email address associated with the outgoing email. The object's DisplayName field cannot be set if the setSenderDisplayName field is already set.",
-      "methodParams": [
+      "params": [
         {
           "name": "emailAddressId",
-          "datatype": "ID"
+          "datatype": "ID",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -164,10 +177,11 @@
       "name": "setReferences",
       "signature": "public Void setReferences(String references)",
       "description": "Optional. The References field of the outgoing email. Identifies an email thread. Contains the parent emails' References and message IDs, and possibly the In-Reply-To fields.",
-      "methodParams": [
+      "params": [
         {
           "name": "references",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -176,10 +190,11 @@
       "name": "setSubject",
       "signature": "public Void setSubject(String subject)",
       "description": "Optional. The email subject line. If you are using an email template, the subject line of the template overrides this value.",
-      "methodParams": [
+      "params": [
         {
           "name": "subject",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -188,10 +203,11 @@
       "name": "setTargetObjectId",
       "signature": "public Void setTargetObjectId(ID targetObjectId)",
       "description": "Required if using a template, optional otherwise. The ID of the contact, lead, or user to which the email will be sent. The ID you specify sets the context and ensures that merge fields in the template contain the correct data.",
-      "methodParams": [
+      "params": [
         {
           "name": "targetObjectId",
-          "datatype": "ID"
+          "datatype": "ID",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -200,10 +216,11 @@
       "name": "setTemplateId",
       "signature": "public Void setTemplateId(ID templateId)",
       "description": "Required if using a template, optional otherwise. The ID of the template used to create the email.",
-      "methodParams": [
+      "params": [
         {
           "name": "templateId",
-          "datatype": "ID"
+          "datatype": "ID",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -212,10 +229,11 @@
       "name": "setToAddresses",
       "signature": "public Void setToAddresses(String[] toAddresses)",
       "description": "Optional. A list of email addresses or object IDs of the contacts, leads, and users you’re sending the email to. The maximum size for this field is 4,000 bytes. The maximum total of toAddresses, ccAddresses, and bccAddresses per email is 150.",
-      "methodParams": [
+      "params": [
         {
           "name": "toAddresses",
-          "datatype": "String[]"
+          "datatype": "String[]",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -224,10 +242,11 @@
       "name": "setTreatBodiesAsTemplate",
       "signature": "public void setTreatBodiesAsTemplate(Boolean treatAsTemplate)",
       "description": "Optional. If set to true, the subject, plain text, and HTML text bodies of the email are treated as template data. The merge fields are resolved using the renderEmailTemplate method. Default is false.",
-      "methodParams": [
+      "params": [
         {
           "name": "treatAsTemplate",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -236,10 +255,11 @@
       "name": "setTreatTargetObjectAsRecipient",
       "signature": "public void setTreatTargetObjectAsRecipient(Boolean treatAsRecipient)",
       "description": "Optional. If set to true, the targetObjectId (a contact, lead, or user) is the recipient of the email. If set to false, the targetObjectId is supplied as the WhoId field for template rendering but isn’t a recipient of the email. The default is true.",
-      "methodParams": [
+      "params": [
         {
           "name": "treatAsRecipient",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -248,15 +268,16 @@
       "name": "setWhatId",
       "signature": "public Void setWhatId(ID whatId)",
       "description": "If you specify a contact for the targetObjectId field, you can specify an optional whatId as well. This helps to further ensure that merge fields in the template contain the correct data.",
-      "methodParams": [
+      "params": [
         {
           "name": "whatId",
-          "datatype": "ID"
+          "datatype": "ID",
+          "description": ""
         }
       ],
       "datatype": "Void"
     }
   ],
   "description": "Contains methods for sending single email messages.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_single.htm#apex_classes_outbound_single"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_single.htm"
 }

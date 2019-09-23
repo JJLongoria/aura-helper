@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "contains",
       "signature": "public static Boolean contains(String key)",
       "description": "Returns true if the org cache contains a cached value corresponding to the specified key.",
-      "methodParams": [
+      "params": [
         {
           "name": "key",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "A case-sensitive string value that uniquely identifies a cached value. For information about the format of the key name, see Usage."
         }
       ],
       "datatype": "Boolean"
@@ -29,10 +32,11 @@
       "name": "contains",
       "signature": "public static List<Boolean> contains(Set<String> keys)",
       "description": "Returns true if the org cache contains the specified key entries.",
-      "methodParams": [
+      "params": [
         {
           "name": "keys",
-          "datatype": "Set<String>"
+          "datatype": "Set<String>",
+          "description": "A set of keys that uniquely identifies cached values. For information about the format of the key name, see Usage."
         }
       ],
       "datatype": "List<Boolean>"
@@ -41,10 +45,11 @@
       "name": "get",
       "signature": "public static Object get(String key)",
       "description": "Returns the cached value corresponding to the specified key from the org cache.",
-      "methodParams": [
+      "params": [
         {
           "name": "key",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "A case-sensitive string value that uniquely identifies a cached value. For information about the format of the key name, see Usage."
         }
       ],
       "datatype": "Object"
@@ -53,14 +58,11 @@
       "name": "get",
       "signature": "public static Object get(System.Type cacheBuilder, String key)",
       "description": "Returns the cached value corresponding to the specified key from the org cache. Use this method if your cached value is a class that implements the CacheBuilder interface.",
-      "methodParams": [
-        {
-          "name": "cacheBuilder",
-          "datatype": "System.Type"
-        },
+      "params": [
         {
           "name": "key",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The Apex class that implements the CacheBuilder interface. A case-sensitive string value that, combined with the class name corresponding to the cacheBuilder parameter, uniquely identifies a cached value."
         }
       ],
       "datatype": "Object"
@@ -69,73 +71,74 @@
       "name": "getAvgGetTime",
       "signature": "public static Long getAvgGetTime()",
       "description": "Returns the average time taken to get a key from the org cache, in nanoseconds.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Long"
     },
     {
       "name": "getAvgValueSize",
       "signature": "public static Long getAvgValueSize()",
       "description": "Returns the average item size for keys in the org cache, in bytes.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Long"
     },
     {
       "name": "getCapacity",
       "signature": "public static Double getCapacity()",
       "description": "Returns the percentage of org cache capacity that has been used.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Double"
     },
     {
       "name": "getKeys",
       "signature": "public static Set<String> getKeys()",
       "description": "Returns a set of all keys that are stored in the org cache and visible to the invoking namespace.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Set<String>"
     },
     {
       "name": "getMaxGetTime",
       "signature": "public static Long getMaxGetTime()",
       "description": "Returns the maximum time taken to get a key from the org cache, in nanoseconds.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Long"
     },
     {
       "name": "getMaxValueSize",
       "signature": "public static Long getMaxValueSize()",
       "description": "Returns the maximum item size for keys in the org cache, in bytes.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Long"
     },
     {
       "name": "getMissRate",
       "signature": "public static Double getMissRate()",
       "description": "Returns the miss rate in the org cache.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Double"
     },
     {
       "name": "getName",
       "signature": "public String getName()",
       "description": "Returns the name of the default cache partition.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getNumKeys",
       "signature": "public static Long getNumKeys()",
       "description": "Returns the total number of keys in the org cache.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Long"
     },
     {
       "name": "getPartition",
       "signature": "public static cache.OrgPartition getPartition(String partitionName)",
       "description": "Returns a partition from the org cache that corresponds to the specified partition name.",
-      "methodParams": [
+      "params": [
         {
           "name": "partitionName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "A partition name that is qualified by the namespace, for example, namespace.partition."
         }
       ],
       "datatype": "Cache.OrgPartition"
@@ -144,14 +147,11 @@
       "name": "put",
       "signature": "public static void put(String key, Object value)",
       "description": "Stores the specified key/value pair as a cached entry in the org cache. The put method can write only to the cache in your org’s namespace.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "value",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": "A case-sensitive string value that uniquely identifies a cached value. For information about the format of the key name, see Usage. The value to store in the cache. The cached value must be serializable."
         }
       ],
       "datatype": "void"
@@ -160,18 +160,11 @@
       "name": "put",
       "signature": "public static void put(String key, Object value, Cache.Visibility visibility)",
       "description": "Stores the specified key/value pair as a cached entry in the org cache and sets the cached value’s visibility.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
-        {
-          "name": "value",
-          "datatype": "Object"
-        },
+      "params": [
         {
           "name": "visibility",
-          "datatype": "Cache.Visibility"
+          "datatype": "Cache.Visibility",
+          "description": "A case-sensitive string value that uniquely identifies a cached value. For information about the format of the key name, see Usage. The value to store in the cache. The cached value must be serializable. Indicates whether the cached value is available only to Apex code that is executing in the same namespace or to Apex code executing from any namespace."
         }
       ],
       "datatype": "void"
@@ -180,18 +173,11 @@
       "name": "put",
       "signature": "public static void put(String key, Object value, Integer ttlSecs)",
       "description": "Stores the specified key/value pair as a cached entry in the org cache and sets the cached value’s lifetime.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
-        {
-          "name": "value",
-          "datatype": "Object"
-        },
+      "params": [
         {
           "name": "ttlSecs",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "A case-sensitive string value that uniquely identifies a cached value. For information about the format of the key name, see Usage. The value to store in the cache. The cached value must be serializable. The amount of time, in seconds, to keep the cached value in the org cache. The maximum is 172,800 seconds (48 hours). The minimum value is 300 seconds or 5 minutes. The default value is 86,400 seconds (24 hours)."
         }
       ],
       "datatype": "void"
@@ -200,26 +186,11 @@
       "name": "put",
       "signature": "public static void put(String key, Object value, Integer ttlSecs, cache.Visibility visibility, Boolean immutable)",
       "description": "Stores the specified key/value pair as a cached entry in the org cache. This method also sets the cached value’s lifetime, visibility, and whether it can be overwritten by another namespace.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
-        {
-          "name": "value",
-          "datatype": "Object"
-        },
-        {
-          "name": "ttlSecs",
-          "datatype": "Integer"
-        },
-        {
-          "name": "visibility",
-          "datatype": "Cache.Visibility"
-        },
+      "params": [
         {
           "name": "immutable",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "A case-sensitive string value that uniquely identifies a cached value. For information about the format of the key name, see Usage. The value to store in the cache. The cached value must be serializable. The amount of time, in seconds, to keep the cached value in the org cache. The maximum is 172,800 seconds (48 hours). The minimum value is 300 seconds or 5 minutes. The default value is 86,400 seconds (24 hours). Indicates whether the cached value is available only to Apex code that is executing in the same namespace or to Apex code executing from any namespace. Indicates whether the cached value can be overwritten by another namespace (false) or not (true)."
         }
       ],
       "datatype": "void"
@@ -228,10 +199,11 @@
       "name": "remove",
       "signature": "public static Boolean remove(String key)",
       "description": "Deletes the cached value corresponding to the specified key from the org cache.",
-      "methodParams": [
+      "params": [
         {
           "name": "key",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "A case-sensitive string value that uniquely identifies a cached value. For information about the format of the key name, see Usage."
         }
       ],
       "datatype": "Boolean"
@@ -240,19 +212,16 @@
       "name": "remove",
       "signature": "public static Boolean remove(System.Type cacheBuilder, String key)",
       "description": "Deletes the cached value corresponding to the specified key from the org cache. Use this method if your cached value is a class that implements the CacheBuilder interface.",
-      "methodParams": [
-        {
-          "name": "cacheBuilder",
-          "datatype": "System.Type"
-        },
+      "params": [
         {
           "name": "key",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The Apex class that implements the CacheBuilder interface. A case-sensitive string value that, combined with the class name corresponding to the cacheBuilder parameter, uniquely identifies a cached value."
         }
       ],
       "datatype": "Boolean"
     }
   ],
-  "description": "Use the Cache.Org class to",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_cache_Org.htm#apex_class_cache_Org"
+  "description": "Use the Cache.Org class to add, retrieve, and manage values in the org cache. Unlike the session cache, the org cache is not tied to any session and is available to the organization across requests and to all users.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_cache_Org.htm"
 }

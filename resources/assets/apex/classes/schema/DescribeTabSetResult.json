@@ -13,51 +13,51 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDescription",
       "signature": "public String getDescription()",
       "description": "Returns the display description for the standard or custom app.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLabel",
       "signature": "public String getLabel()",
       "description": "Returns the display label for the standard or custom app.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLogoUrl",
       "signature": "public String getLogoUrl()",
       "description": "Returns a fully qualified URL to the logo image associated with the standard or custom app.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getNamespace",
       "signature": "public String getNamespace()",
       "description": "Returns the developer namespace prefix of a Salesforce AppExchange managed package.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getTabs",
       "signature": "public List<Schema.DescribeTabResult> getTabs()",
       "description": "Returns metadata information about the standard or custom app’s displayed tabs.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Schema.DescribeTabResult>"
     },
     {
       "name": "isSelected",
       "signature": "public Boolean isSelected()",
       "description": "Returns true if this standard or custom app is the user’s currently selected app. Otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     }
   ],
-  "description": "Contains metadata information about a",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describetabsetresult.htm#apex_class_schema_describetabsetresult"
+  "description": "Contains metadata information about a standard or custom app available in the Salesforce user interface.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describetabsetresult.htm"
 }

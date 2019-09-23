@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "addMessage",
       "signature": "public Void addMessage(ApexPages.Message message)",
       "description": "Add a message to the current page context.",
-      "methodParams": [
+      "params": [
         {
           "name": "message",
-          "datatype": "ApexPages.Message"
+          "datatype": "ApexPages.Message",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -29,10 +32,11 @@
       "name": "addMessages",
       "signature": "public Void addMessages(Exception exceptionThrown)",
       "description": "Adds a list of messages to the current page context based on a thrown exception.",
-      "methodParams": [
+      "params": [
         {
           "name": "exceptionThrown",
-          "datatype": "Exception"
+          "datatype": "Exception",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -41,36 +45,37 @@
       "name": "currentPage",
       "signature": "public System.PageReference currentPage()",
       "description": "Returns the current page's PageReference.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.PageReference"
     },
     {
       "name": "getMessages",
       "signature": "public ApexPages.Message[] getMessages()",
       "description": "Returns a list of the messages associated with the current context.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ApexPages.Message[]"
     },
     {
       "name": "hasMessages",
       "signature": "public Boolean hasMessages()",
       "description": "Returns true if there are messages associated with the current context, false otherwise.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "hasMessages",
       "signature": "public Boolean hasMessages(ApexPages.Severity severity)",
       "description": "Returns true if messages of the specified severity exist, false otherwise.",
-      "methodParams": [
+      "params": [
         {
           "name": "sev",
-          "datatype": "ApexPages.Severity"
+          "datatype": "ApexPages.Severity",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
     }
   ],
-  "description": "Use ApexPages to",
+  "description": "Use ApexPages to add and check for messages associated with the current page, as well as to reference the current page.",
   "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_apexpages.htm"
 }

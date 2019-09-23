@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,55 +17,55 @@
       "name": "customButtons",
       "signature": "public List<String> customButtons {get; set;}",
       "description": "A list of custom buttons used in the related list.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "excludeButtons",
       "signature": "public List<String> excludeButtons {get; set;}",
       "description": "A list of excluded related-list buttons.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "fields",
       "signature": "public List<String> fields {get; set;}",
       "description": "A list of fields displayed in the related list. Uses aliases instead of field or API names.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "relatedList",
       "signature": "public String relatedList {get; set;}",
       "description": "The name of the related list.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "sortField",
       "signature": "public String sortField {get; set;}",
       "description": "The name of the field used for sorting.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "sortOrder",
       "signature": "public Metadata.SortOrder sortOrder {get; set;}",
       "description": "When sortField is set, the sortOrder property determines the sort order.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.RelatedListItem.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Represents an item in the related list in a page",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_RelatedListItem.htm#apex_class_Metadata_RelatedListItem"
+  "description": "Represents an item in the related list in a page layout.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_RelatedListItem.htm"
 }

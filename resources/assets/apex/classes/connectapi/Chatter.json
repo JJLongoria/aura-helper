@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "deleteSubscription",
       "signature": "public static void deleteSubscription(String communityId, String subscriptionId)",
       "description": "Delete a subscription. Use this method to stop following a record, a user, or a file.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "subscriptionId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a subscription."
         }
       ],
       "datatype": "Void"
@@ -33,14 +32,11 @@
       "name": "getFollowers",
       "signature": "public static ConnectApi.FollowerPage getFollowers(String communityId, String recordId)",
       "description": "Get the first page of followers for a record.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "recordId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a record or the keyword me."
         }
       ],
       "datatype": "ConnectApi.​FollowerPage"
@@ -49,22 +45,11 @@
       "name": "getFollowers",
       "signature": "public static ConnectApi.FollowerPage getFollowers(String communityId, String recordId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of followers for a record.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "recordId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a record or the keyword me. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​FollowerPage"
@@ -73,14 +58,11 @@
       "name": "getSubscription",
       "signature": "public static ConnectApi.Subscription getSubscription(String communityId, String subscriptionId)",
       "description": "Get information about a subscription.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "subscriptionId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a subscription."
         }
       ],
       "datatype": "ConnectApi.​Subscription"
@@ -89,15 +71,16 @@
       "name": "submitDigestJob",
       "signature": "public static ConnectApi.DigestJobRepresentation submitDigestJob(ConnectApi.DigestPeriod period)",
       "description": "Submit a daily or weekly Chatter email digest job.",
-      "methodParams": [
+      "params": [
         {
           "name": "period",
-          "datatype": "ConnectApi.DigestPeriod"
+          "datatype": "ConnectApi.DigestPeriod",
+          "description": "Period of time that is included in a Chatter email digest. Values are:  DailyDigest—The email includes up to the 50 latest posts from the previous day.   WeeklyDigest—The email includes up to the 50 latest posts from the previous week."
         }
       ],
       "datatype": "ConnectApi.DigestJob"
     }
   ],
-  "description": "Access information about followers and subscriptions for",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Chatter_static_methods.htm#apex_ConnectAPI_Chatter_static_methods"
+  "description": "Access information about followers and subscriptions for records.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Chatter_static_methods.htm"
 }

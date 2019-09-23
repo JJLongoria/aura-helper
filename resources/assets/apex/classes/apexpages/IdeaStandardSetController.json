@@ -5,22 +5,24 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getIdeaList",
       "signature": "public Idea[] getIdeaList()",
       "description": "Returns the list of read-only ideas in the current page set.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Idea[]"
     }
   ],
-  "description": "Returns the list of read-only ideas in the current page",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardsetcontroller.htm#apex_pages_ideastandardsetcontroller"
+  "description": "IdeaStandardSetController objects offer Ideas-specific functionality in addition to what is provided by the StandardSetController.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardsetcontroller.htm"
 }

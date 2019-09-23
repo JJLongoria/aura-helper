@@ -5,27 +5,30 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": true,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "execute",
       "signature": "public Void execute(SchedulableContext context)",
       "description": "Executes the scheduled Apex job.",
-      "methodParams": [
+      "params": [
         {
           "name": "context",
-          "datatype": "System.SchedulableContext"
+          "datatype": "System.SchedulableContext",
+          "description": "Contains the job ID."
         }
       ],
       "datatype": "Void"
     }
   ],
-  "description": "The class that implements this interface can be scheduled",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_schedulable.htm#apex_interface_system_schedulable"
+  "description": "The class that implements this interface can be scheduled to run at different intervals.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_schedulable.htm"
 }

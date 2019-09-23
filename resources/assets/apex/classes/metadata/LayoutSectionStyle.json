@@ -1,25 +1,25 @@
 {
-    "name": "LayoutSectionStyle",
-    "namespace": "Metadata",
-    "accessModifier": "global",
-    "definitionModifier": "",
-    "withSharing": false,
-    "inheritedSharing": false,
-    "extendsType": "",
-    "isInterface": false,
-    "isEnum": true,
-    "implements": [],
-    "classes": {},
-    "enums": {},
-    "enumValues": [
-        "CustomLinks",
-        "OneColumn",
-        "TwoColumnsLeftToRight",
-        "TwoColumnsTopToBottom"
-    ],
-    "fields": [],
-    "constuctors": [],
-    "methods": [],
-    "description": "Describes the possible styles for a layout section.",
-    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_LayoutSectionStyle.htm"
-  }
+  "name": "LayoutSectionStyle",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "CustomLinks",
+    "OneColumn",
+    "TwoColumnsLeftToRight",
+    "TwoColumnsTopToBottom"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Describes the possible styles for a layout section.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_LayoutSectionStyle.htm"
+}

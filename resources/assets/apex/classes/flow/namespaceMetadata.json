@@ -1,0 +1,11 @@
+{
+  "Interview": {
+    "name": "Interview",
+    "namespace": "Flow",
+    "isInterface": false,
+    "description": "The Flow.Interview class provides",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/flow_interview_class.htm#flow_interview_class",
+    "classes": [],
+    "enums": []
+  }
+}

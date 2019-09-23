@@ -5,22 +5,24 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getCommentList",
       "signature": "public IdeaComment[] getCommentList()",
       "description": "Returns the list of read-only comments from the current page.",
-      "methodParams": [],
+      "params": [],
       "datatype": "IdeaComment[]"
     }
   ],
-  "description": "Returns the list of read-only comments from the current",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardcontroller.htm#apex_pages_ideastandardcontroller"
+  "description": "IdeaStandardController objects offer Ideas-specific functionality in addition to what is provided by the StandardController.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardcontroller.htm"
 }

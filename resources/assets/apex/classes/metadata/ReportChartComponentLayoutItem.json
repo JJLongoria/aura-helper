@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,69 +17,69 @@
       "name": "cacheData",
       "signature": "public Boolean cacheData {get; set;}",
       "description": "Indicates whether to use cached data when displaying the chart. When the attribute is set to true, data is cached for 24 hours. When the attribute is set to false, the report is run every time the page is refreshed.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "contextFilterableField",
       "signature": "public String contextFilterableField {get; set;}",
       "description": "Unique development name of the field by which a report chart is filtered to return data relevant to the page. If set, the ID field for the parent object of the page or report type is the chart data filter. The parent object for the report type and the page must match for a chart to return relevant data.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "error",
       "signature": "public String error {get; set;}",
       "description": "Error string that is  populated only when an error occurs in the underlying report.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "hideOnError",
       "signature": "public Boolean hideOnError {get; set;}",
       "description": "Controls whether users see a chart that has an error. When an error occurs and this attribute is not set, the chart doesn’t show any data except the error. Set the attribute to true to hide the chart from a page on error.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "includeContext",
       "signature": "public Boolean includeContext {get; set;}",
       "description": "If true, filters the report chart to return data that’s relevant to the page.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "reportName",
       "signature": "public String reportName {get; set;}",
       "description": "Unique development name of a report that includes a chart.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showTitle",
       "signature": "public Boolean showTitle {get; set;}",
       "description": "If true, applies the title from the report to the chart.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "size",
       "signature": "public Metadata.ReportChartComponentSize size {get; set;}",
       "description": "Size of the displayed chart. The default is medium.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.ReportChartComponentLayoutItem.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Represents the settings for a report chart on a standard or custom",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_ReportChartComponentLayoutItem.htm#apex_class_Metadata_ReportChartComponentLayoutItem"
+  "description": "Represents the settings for a report chart on a standard or custom page.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_ReportChartComponentLayoutItem.htm"
 }

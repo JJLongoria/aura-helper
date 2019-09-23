@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,174 +17,174 @@
       "name": "canceledBy",
       "signature": "public String canceledBy {get; set;}",
       "description": "ID of the user who canceled the queued deployment.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "canceledByName",
       "signature": "public String canceledByName {get; set;}",
       "description": "Full name of the user who canceled the queued deployment.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "checkOnly",
       "signature": "public Boolean checkOnly {get; set;}",
       "description": "Indicates whether the deployment checked only the validity of the deployed files without making changes in the org. A check-only deployment does not deploy components or change the org in any way.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "completedDate",
       "signature": "public Datetime completedDate {get; set;}",
       "description": "Date and time for when the deployment process ended.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "createdBy",
       "signature": "public String createdBy {get; set;}",
       "description": "ID of the user who created the deployment job.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "createdByName",
       "signature": "public String createdByName {get; set;}",
       "description": "Full name of the user who created the deployment job.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "createdDate",
       "signature": "public Datetime createdDate {get; set;}",
       "description": "Date and time the deployment job was first queued.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "details",
       "signature": "public Metadata.DeployDetails details {get; set;}",
       "description": "Provides the details for components in a completed deployment.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "done",
       "signature": "public Boolean done {get; set;}",
       "description": "Indicates whether Salesforce finished processing the deployment.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "errorMessage",
       "signature": "public String errorMessage {get; set;}",
       "description": "Message corresponding to the values in the errorStatusCode property, if any.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "errorStatusCode",
       "signature": "public String errorStatusCode {get; set;}",
       "description": "If an error occurs during deployment, a status code is returned. The message corresponding to the status code is returned in the errorMessagefield property.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "id",
       "signature": "public Id id {get; set;}",
       "description": "ID of the deployment job.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "ignoreWarnings",
       "signature": "public Boolean ignoreWarnings {get; set;}",
       "description": "Specifies whether a deployment continues, even if the deployment generates warnings.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "lastModifiedDate",
       "signature": "public Datetime lastModifiedDate {get; set;}",
       "description": "Date and time of the last update for the deployment process.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "messages",
       "signature": "public List<Metadata.DeployMessage> messages {get; set;}",
       "description": "A list of all the detail messages for a deployment.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "numberComponentErrors",
       "signature": "public Integer numberComponentErrors {get; set;}",
       "description": "The number of components that generated errors during the deployment.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "numberComponentsDeployed",
       "signature": "public Integer numberComponentsDeployed {get; set;}",
       "description": "The number of components deployed in the deployment process. Use this value with the numberComponentsTotal property to get an estimate of the deployment’s progress.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "numberComponentsTotal",
       "signature": "public Integer numberComponentsTotal {get; set;}",
       "description": "The total number of components in the deployment. Use this value with the numberComponentsDeployed property to get an estimate of the deployment’s progress.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "rollbackOnError",
       "signature": "public Boolean rollbackOnError {get; set;}",
       "description": "Indicates whether any failure causes a complete rollback (true) or not (false) of the deployment.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "startDate",
       "signature": "public Datetime startDate {get; set;}",
       "description": "Date and time the deployment process began.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "stateDetail",
       "signature": "public String stateDetail {get; set;}",
       "description": "Indicates which component is being deployed.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "status",
       "signature": "public Metadata.DeployStatus status {get; set;}",
       "description": "Indicates the current state of the deployment.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "success",
       "signature": "public Boolean success {get; set;}",
       "description": "Indicates whether the deployment was successful (true) or not (false).",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.DeployResult.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
   "description": "Represents the results of a metadata deployment.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployResult.htm#apex_class_Metadata_DeployResult"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployResult.htm"
 }

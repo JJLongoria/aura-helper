@@ -5,25 +5,24 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "Message",
       "signature": "public Message(ApexPages.Severity severity, String summary)",
       "description": "Creates a new instance of the ApexPages.Message class using the specified message severity and summary.",
-      "methodParams": [
-        {
-          "name": "severity",
-          "datatype": "ApexPages.Severity"
-        },
+      "params": [
         {
           "name": "summary",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The severity of a Visualforce message. The summary Visualforce message."
         }
       ],
       "datatype": "void"
@@ -32,18 +31,11 @@
       "name": "Message",
       "signature": "public Message(ApexPages.Severity severity, String summary, String detail)",
       "description": "Creates a new instance of the ApexPages.Message class using the specified message severity, summary, and message detail.",
-      "methodParams": [
-        {
-          "name": "severity",
-          "datatype": "ApexPages.Severity"
-        },
-        {
-          "name": "summary",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "detail",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The severity of a Visualforce message. The summary Visualforce message. The detailed Visualforce message."
         }
       ],
       "datatype": "void"
@@ -52,22 +44,11 @@
       "name": "Message",
       "signature": "public Message(ApexPages.Severity severity, String summary, String detail, String id)",
       "description": "Creates a new instance of the ApexPages.Message class using the specified severity, summary, detail, and component ID.",
-      "methodParams": [
-        {
-          "name": "severity",
-          "datatype": "ApexPages.Severity"
-        },
-        {
-          "name": "summary",
-          "datatype": "String"
-        },
-        {
-          "name": "detail",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "id",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The severity of a Visualforce message. The summary Visualforce message. The detailed Visualforce message. The ID of the Visualforce component to associate with the message, for example, a form field with an error."
         }
       ],
       "datatype": "void"
@@ -78,31 +59,31 @@
       "name": "getComponentLabel",
       "signature": "public String getComponentLabel()",
       "description": "Returns the label of the associated inputField component. If no label is defined, this method returns null.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getDetail",
       "signature": "public String getDetail()",
       "description": "Returns the value of the detail parameter used to create the message. If no detail String was specified, this method returns null.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getSeverity",
       "signature": "public ApexPages.Severity getSeverity()",
       "description": "Returns the severity enum used to create the message.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ApexPages.Severity"
     },
     {
       "name": "getSummary",
       "signature": "public String getSummary()",
       "description": "Returns the summary String used to create the message.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Contains validation errors that occur when the end user",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_message.htm#apex_pages_message"
+  "description": "Contains validation errors that occur when the end user saves the page when using a standard controller.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_message.htm"
 }

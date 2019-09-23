@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "deletePhoto",
       "signature": "public static Void deletePhoto(String communityId, String userId)",
       "description": "Delete a user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me."
         }
       ],
       "datatype": "Void"
@@ -33,14 +32,11 @@
       "name": "exportUserActivities",
       "signature": "public static ConnectApi.UserActivitiesJob exportUserActivities(String communityId, String userId)",
       "description": "Export Chatter-related user activity, such as bookmarks, topic endorsements, and votes.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the user."
         }
       ],
       "datatype": "ConnectApi.UserActivitiesJob"
@@ -49,18 +45,11 @@
       "name": "follow",
       "signature": "public static ConnectApi.Subscription follow(String communityId, String userId, String subjectId)",
       "description": "Follow a user or record.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "subjectId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me. ID of the user or record to follow."
         }
       ],
       "datatype": "ConnectApi.​Subscription"
@@ -69,14 +58,11 @@
       "name": "getChatterSettings",
       "signature": "public static ConnectApi.UserChatterSettings getChatterSettings(String communityId, String userId)",
       "description": "Get the default Chatter settings for a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me."
         }
       ],
       "datatype": "ConnectApi.​User​​ChatterSettings"
@@ -85,14 +71,11 @@
       "name": "getFollowers",
       "signature": "public static ConnectApi.FollowerPage getFollowers(String communityId, String userId)",
       "description": "Get the first page of followers for a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user."
         }
       ],
       "datatype": "ConnectApi.​FollowerPage"
@@ -101,22 +84,11 @@
       "name": "getFollowers",
       "signature": "public static ConnectApi.FollowerPage getFollowers(String communityId, String userId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of followers for a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​FollowerPage"
@@ -125,14 +97,11 @@
       "name": "getFollowings",
       "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId)",
       "description": "Get the first page of users and records that a user follows.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user."
         }
       ],
       "datatype": "ConnectApi.​FollowingPage"
@@ -141,18 +110,11 @@
       "name": "getFollowings",
       "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId, Integer pageParam)",
       "description": "Get a page of users and records that a user follows.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "pageParam",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned."
         }
       ],
       "datatype": "ConnectApi.​FollowingPage"
@@ -161,22 +123,11 @@
       "name": "getFollowings",
       "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId, Integer pageParam, Integer pageSize)",
       "description": "Get a page with the specified number of users and records that a user follows.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​FollowingPage"
@@ -185,18 +136,11 @@
       "name": "getFollowings",
       "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId, String filterType)",
       "description": "Get the first page of records, filtered by key prefix, that a user follows.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "filterType",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Specifies the key prefix to filter the type of objects returned. A key prefix is the first three characters of the object ID, which specifies the object type. For example, User objects have a prefix of 005 and Group objects have a prefix of 0F9."
         }
       ],
       "datatype": "ConnectApi.​FollowingPage"
@@ -205,22 +149,11 @@
       "name": "getFollowings",
       "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId, String filterType, Integer pageParam)",
       "description": "Get a page of records, filtered by key prefix, that a user follows.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "filterType",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "pageParam",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Specifies the key prefix to filter the type of objects returned. A key prefix is the first three characters of the object ID, which specifies the object type. For example, User objects have a prefix of 005 and Group objects have a prefix of 0F9. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned."
         }
       ],
       "datatype": "ConnectApi.​FollowingPage"
@@ -229,26 +162,11 @@
       "name": "getFollowings",
       "signature": "public static ConnectApi.FollowingPage getFollowings(String communityId, String userId, String filterType, Integer pageParam, Integer pageSize)",
       "description": "Get a page with the specified number of records, filtered by key prefix, that a user follows.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "filterType",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Specifies the key prefix to filter the type of objects returned. A key prefix is the first three characters of the object ID, which specifies the object type. For example, User objects have a prefix of 005 and Group objects have a prefix of 0F9. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​FollowingPage"
@@ -257,14 +175,11 @@
       "name": "getGroups",
       "signature": "public static ConnectApi.UserGroupPage getGroups(String communityId, String userId)",
       "description": "Get the groups that a user is a member of.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user."
         }
       ],
       "datatype": "ConnectApi.User​​GroupPage"
@@ -273,22 +188,11 @@
       "name": "getGroups",
       "signature": "public static ConnectApi.UserGroupPage getGroups(String communityId, String userId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of groups that a user is a member of.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.User​​GroupPage"
@@ -297,14 +201,11 @@
       "name": "getPhoto",
       "signature": "public static ConnectApi.Photo getPhoto(String communityId, String userId)",
       "description": "Get a user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -313,14 +214,11 @@
       "name": "getReputation",
       "signature": "public static ConnectApi.Reputation getReputation(String communityId, String userId)",
       "description": "Get a user’s reputation.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the user."
         }
       ],
       "datatype": "ConnectApi.Reputation"
@@ -329,14 +227,11 @@
       "name": "getUser",
       "signature": "public static ConnectApi.UserSummary getUser(String communityId, String userId)",
       "description": "Get information about a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user."
         }
       ],
       "datatype": "ConnectApi.UserDetail"
@@ -345,14 +240,11 @@
       "name": "",
       "signature": "public static ConnectApi.BatchResult[] getUserBatch(String communityId, List<String> userIds)",
       "description": "Get information about a list of users.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userIds",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": "Use either the ID for a community, internal, or null. A list of up to 500 user IDs."
         }
       ],
       "datatype": "ConnectApi.BatchResult[]"
@@ -361,14 +253,11 @@
       "name": "getUserGroups",
       "signature": "public static ConnectApi.UserGroupDetailPage getUserGroups(String communityId, String userId)",
       "description": "Get a user’s groups.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user."
         }
       ],
       "datatype": "ConnectApi.UserGroupDetailPage"
@@ -377,22 +266,11 @@
       "name": "getUserGroups",
       "signature": "public static ConnectApi.UserGroupDetailPage getUserGroups(String communityId, String userId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of a user’s groups.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.UserGroupDetailPage"
@@ -401,10 +279,11 @@
       "name": "getUsers",
       "signature": "public static ConnectApi.UserPage getUsers(String communityId)",
       "description": "Get the first page of users.",
-      "methodParams": [
+      "params": [
         {
           "name": "communityId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null."
         }
       ],
       "datatype": "ConnectApi.UserPage"
@@ -413,18 +292,11 @@
       "name": "getUsers",
       "signature": "public static ConnectApi.UserPage getUsers(String communityId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of users.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.UserPage"
@@ -433,14 +305,11 @@
       "name": "purgeUserActivities",
       "signature": "public static ConnectApi.UserActivitiesJob purgeUserActivities(String communityId, String userId)",
       "description": "Start a job to purge Chatter-related user activity, such as bookmarks, topic endorsements, and votes.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the user."
         }
       ],
       "datatype": "ConnectApi.UserActivitiesJob"
@@ -449,18 +318,11 @@
       "name": "searchUserGroupDetails",
       "signature": "public static ConnectApi.UserGroupDetailPage searchUserGroupDetails(String communityId, String userId, String q)",
       "description": "Get the user’s groups that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.UserGroupDetailPage"
@@ -469,26 +331,11 @@
       "name": "searchUserGroupDetails",
       "signature": "public static ConnectApi.UserGroupDetailPage searchUserGroupDetails(String communityId, String userId, String q, Integer pageParam, Integer pageSize)",
       "description": "Get a page of a user’s groups that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards.  Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.UserGroupDetailPage"
@@ -497,18 +344,11 @@
       "name": "",
       "signature": "public static ConnectApi.UserGroupPage searchUserGroups(String communityId, String userId, String q)",
       "description": "Get the user’s groups that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.User​​GroupPage"
@@ -517,26 +357,11 @@
       "name": "",
       "signature": "public static ConnectApi.UserGroupPage searchUserGroups(String communityId, String userId, String q, Integer pageParam, Integer pageSize)",
       "description": "Get a page of a user’s groups that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards.  Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.User​​GroupPage"
@@ -545,14 +370,11 @@
       "name": "searchUsers",
       "signature": "public static ConnectApi.UserPage searchUsers(String communityId, String q)",
       "description": "Get the first page of users that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.UserPage"
@@ -561,22 +383,11 @@
       "name": "searchUsers",
       "signature": "public static ConnectApi.UserPage searchUsers(String communityId, String q, Integer pageParam, Integer pageSize)",
       "description": "Get a page of users that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards.  Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.UserPage"
@@ -585,26 +396,11 @@
       "name": "searchUsers",
       "signature": "public static ConnectApi.UserPage searchUsers(String communityId, String q, String searchContextId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of users that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "searchContextId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards.  A feed item ID that filters search results for feed @mentions. More useful results are listed first. When you specify this argument, you cannot query more than 500 results and you cannot use wildcards in the search term. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.UserPage"
@@ -613,22 +409,11 @@
       "name": "setPhoto",
       "signature": "public static ConnectApi.Photo setPhoto(String communityId, String userId, String fileId, Integer versionNumber)",
       "description": "Set an uploaded file as a user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "fileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "versionNumber",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me. ID of a file already uploaded. The file must be an image, and be smaller than 2 GB. Version number of the existing file. Specify either an existing version number, or null to get the latest version."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -637,18 +422,11 @@
       "name": "setPhoto",
       "signature": "public static ConnectApi.Photo setPhoto(String communityId, String userId, ConnectApi.BinaryInput fileUpload)",
       "description": "Set a file that hasn’t been uploaded as the user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "fileUpload",
-          "datatype": "ConnectApi.Binary​​Input"
+          "datatype": "ConnectApi.Binary​​Input",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me. A file to use as the photo. The content type must be usable as an image."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -657,18 +435,11 @@
       "name": "setPhotoWithAttributes",
       "signature": "public static ConnectApi.Photo setPhotoWithAttributes(String communityId, String userId, ConnectApi.PhotoInput photo)",
       "description": "Set and crop an uploaded file as a user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "photo",
-          "datatype": "ConnectApi.PhotoInput"
+          "datatype": "ConnectApi.PhotoInput",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me. A ConnectApi.PhotoInput object specifying the file ID, version number, and cropping parameters."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -677,22 +448,11 @@
       "name": "setPhotoWithAttributes",
       "signature": "public static ConnectApi.Photo setPhotoWithAttributes(String communityId, String userId, ConnectApi.PhotoInput photo, ConnectApi.BinaryInput fileUpload)",
       "description": "Set and crop a file that hasn’t been uploaded as a user’s photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
-        {
-          "name": "photo",
-          "datatype": "ConnectApi.PhotoInput"
-        },
+      "params": [
         {
           "name": "fileUpload",
-          "datatype": "ConnectApi.Binary​​Input"
+          "datatype": "ConnectApi.Binary​​Input",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me. A ConnectApi.PhotoInput object specifying the cropping parameters. A file to use as the photo. The content type must be usable as an image."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -701,18 +461,11 @@
       "name": "updateChatterSettings",
       "signature": "public static ConnectApi.UserChatterSettings updateChatterSettings(String communityId, String userId, ConnectApi.GroupEmailFrequency defaultGroupEmailFrequency)",
       "description": "Update the default Chatter settings for a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "defaultGroupEmailFrequency",
-          "datatype": "ConnectApi.​GroupEmail​Frequency"
+          "datatype": "ConnectApi.​GroupEmail​Frequency",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me. Frequency with which a user receives email. Values are: EachPost  DailyDigest  WeeklyDigest  Never  UseDefault   Don’t pass the value UseDefault for the defaultGroupEmailFrequency parameter because calling updateChatterSettings sets the default value."
         }
       ],
       "datatype": "ConnectApi.​User​​ChatterSettings"
@@ -721,18 +474,11 @@
       "name": "updateUser",
       "signature": "public static ConnectApi.UserDetail updateUser(String communityId, String userId, ConnectApi.UserInput userInput)",
       "description": "Update the About Me section for a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userInput",
-          "datatype": "ConnectApi.UserInput"
+          "datatype": "ConnectApi.UserInput",
+          "description": "Use either the ID for a community, internal, or null. The ID for the context user or the keyword me. Specifies the updated information."
         }
       ],
       "datatype": "ConnectApi.​User​Detail"
@@ -741,18 +487,11 @@
       "name": "setTestSearchUsers",
       "signature": "public static Void setTestSearchUsers(String communityId, String q, ConnectApi.UserPage result)",
       "description": "Register a ConnectApi.UserPage object to be returned when the matching ConnectApi.searchUsers method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.UserPage"
+          "datatype": "ConnectApi.UserPage",
+          "description": "Use either the ID for a community, internal, or null. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards.  The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -761,26 +500,11 @@
       "name": "setTestSearchUsers",
       "signature": "public static Void setTestSearchUsers(String communityId, String q, Integer pageParam, Integer pageSize, ConnectApi.UserPage result)",
       "description": "Register a ConnectApi.UserPage object to be returned when the matching ConnectApi.searchUsers method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.UserPage"
+          "datatype": "ConnectApi.UserPage",
+          "description": "Use either the ID for a community, internal, or null. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards.  Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -789,35 +513,16 @@
       "name": "setTestSearchUsers",
       "signature": "public static Void setTestSearchUsers(String communityId, String q, String searchContextId, Integer pageParam, Integer pageSize, ConnectApi.UserPage result)",
       "description": "Register a ConnectApi.UserPage object to be returned when the matching ConnectApi.searchUsers method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "searchContextId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.UserPage"
+          "datatype": "ConnectApi.UserPage",
+          "description": "Use either the ID for a community, internal, or null. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards.  A feed item ID that filters search results for feed @mentions. More useful results are listed first. When you specify this argument, you cannot query more than 500 results and you cannot use wildcards in the search term. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. The object containing test data."
         }
       ],
       "datatype": "Void"
     }
   ],
-  "description": "Access information about users, such as activity, followers, subscriptions, files, and",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ChatterUsers_static_methods.htm#apex_ConnectAPI_ChatterUsers_static_methods"
+  "description": "Access information about users, such as activity, followers, subscriptions, files, and groups.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ChatterUsers_static_methods.htm"
 }

@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,20 +17,20 @@
       "name": "quickActionName",
       "signature": "public String quickActionName {get; set;}",
       "description": "The API name of the action.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.QuickActionListItem.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
   "description": "Represents an action in the QuickActionList.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_QuickActionListItem.htm#apex_class_Metadata_QuickActionListItem"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_QuickActionListItem.htm"
 }

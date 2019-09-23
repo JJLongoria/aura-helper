@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,83 +17,83 @@
       "name": "collapsed",
       "signature": "public Boolean collapsed {get; set;}",
       "description": "The current view of the record details section: collapsed (true) or expanded (false).",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "layoutsectionid",
       "signature": "public Id layoutsectionid {get; set;}",
       "description": "The unique ID of the record details section in the layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getColumns",
       "signature": "public Integer getColumns()",
       "description": "Returns the number of columns in the QuickAction.DescribeLayoutSection.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getHeading",
       "signature": "public String getHeading()",
       "description": "The heading text (label) for the QuickAction.DescribeLayoutSection.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLayoutRows",
       "signature": "public List<QuickAction.DescribeLayoutRow> getLayoutRows()",
       "description": "Returns an array of one or more QuickAction.DescribeLayoutRow objects.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<QuickAction.DescribeLayoutRow>"
     },
     {
       "name": "getLayoutSectionId",
       "signature": "public Id getLayoutSectionId()",
       "description": "Returns the ID of the record details section in the layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Id"
     },
     {
       "name": "getParentLayoutId",
       "signature": "public Id getParentLayoutId()",
       "description": "Returns the ID of the layout upon which this DescribeLayoutSection resides.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Id"
     },
     {
       "name": "getRows",
       "signature": "public Integer getRows()",
       "description": "Returns the number of rows in the QuickAction.DescribeLayoutSection.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "isCollapsed",
       "signature": "public Boolean isCollapsed()",
       "description": "Indicates whether the record details section is collapsed (true) or expanded (false). If you build your own app, you can use this method to see whether the current user collapsed a section, and respect that preference in your own UI.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isUseCollapsibleSection",
       "signature": "public Boolean isUseCollapsibleSection()",
       "description": "Indicates whether the QuickAction.DescribeLayoutSection is a collapsible section (true) or not (false).",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isUseHeading",
       "signature": "public Boolean isUseHeading()",
       "description": "Indicates whether to use the heading (true) or not (false).",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     }
   ],
-  "description": "Represents a section of a layout and consists of one or",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutsection.htm#apex_class_quickaction_describelayoutsection"
+  "description": "Represents a section of a layout and consists of one or more columns and one or more rows (an array of QuickAction.DescribeLayoutRow).",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutsection.htm"
 }

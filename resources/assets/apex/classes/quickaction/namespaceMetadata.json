@@ -1,0 +1,110 @@
+{
+  "DescribeAvailableQuickActionResult": {
+    "name": "DescribeAvailableQuickActionResult",
+    "namespace": "QuickAction",
+    "isInterface": false,
+    "description": "Contains describe metadata information for a quick action",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describeavailablequickactionresult.htm#apex_class_quickaction_describeavailablequickactionresult",
+    "classes": [],
+    "enums": []
+  },
+  "DescribeLayoutComponent": {
+    "name": "DescribeLayoutComponent",
+    "namespace": "QuickAction",
+    "isInterface": false,
+    "description": "Represents the smallest unit in a layout—a field",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutcomponent.htm#apex_class_quickaction_describelayoutcomponent",
+    "classes": [],
+    "enums": []
+  },
+  "DescribeLayoutItem": {
+    "name": "DescribeLayoutItem",
+    "namespace": "QuickAction",
+    "isInterface": false,
+    "description": "Represents an individual item in a QuickAction.DescribeLayoutRow.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutitem.htm#apex_class_quickaction_describelayoutitem",
+    "classes": [],
+    "enums": []
+  },
+  "DescribeLayoutRow": {
+    "name": "DescribeLayoutRow",
+    "namespace": "QuickAction",
+    "isInterface": false,
+    "description": "Represents a row in a QuickAction.DescribeLayoutSection.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutrow.htm#apex_class_quickaction_describelayoutrow",
+    "classes": [],
+    "enums": []
+  },
+  "DescribeLayoutSection": {
+    "name": "DescribeLayoutSection",
+    "namespace": "QuickAction",
+    "isInterface": false,
+    "description": "Represents a section of a layout and consists of one or",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutsection.htm#apex_class_quickaction_describelayoutsection",
+    "classes": [],
+    "enums": []
+  },
+  "DescribeQuickActionDefaultValue": {
+    "name": "DescribeQuickActionDefaultValue",
+    "namespace": "QuickAction",
+    "isInterface": false,
+    "description": "Returns a default value for a quick action.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describequickactiondefaultvalue.htm#apex_class_quickaction_describequickactiondefaultvalue",
+    "classes": [],
+    "enums": []
+  },
+  "DescribeQuickActionResult": {
+    "name": "DescribeQuickActionResult",
+    "namespace": "QuickAction",
+    "isInterface": false,
+    "description": "Contains describe metadata information for a quick action.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describequickactionresult.htm#apex_class_quickaction_describequickactionresult",
+    "classes": [],
+    "enums": []
+  },
+  "QuickActionDefaults": {
+    "name": "QuickActionDefaults",
+    "namespace": "QuickAction",
+    "isInterface": false,
+    "description": "Represents an abstract Apex class that provides the context for",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_QuickAction_QuickActionDefaults.htm#apex_class_QuickAction_QuickActionDefaults",
+    "classes": [],
+    "enums": []
+  },
+  "QuickActionDefaultsHandler": {
+    "name": "QuickActionDefaultsHandler",
+    "namespace": "QuickAction",
+    "isInterface": true,
+    "description": "The QuickAction.QuickActionDefaultsHandler interface lets you specify the default",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_QuickAction_QuickActionDefaultsHandler.htm#apex_interface_QuickAction_QuickActionDefaultsHandler",
+    "classes": [],
+    "enums": []
+  },
+  "QuickActionRequest": {
+    "name": "QuickActionRequest",
+    "namespace": "QuickAction",
+    "isInterface": false,
+    "description": "Use the QuickAction.QuickActionRequest class for providing action information for quick",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_quickactionrequest.htm#apex_class_quickaction_quickactionrequest",
+    "classes": [],
+    "enums": []
+  },
+  "QuickActionResult": {
+    "name": "QuickActionResult",
+    "namespace": "QuickAction",
+    "isInterface": false,
+    "description": "After you initiate a quick action with the QuickAction class, use the QuickActionResult class for processing action results.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_quickactionresult.htm#apex_class_quickaction_quickactionresult",
+    "classes": [],
+    "enums": []
+  },
+  "SendEmailQuickActionDefaults": {
+    "name": "SendEmailQuickActionDefaults",
+    "namespace": "QuickAction",
+    "isInterface": false,
+    "description": "Represents an Apex class that provides: the From address list; the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_QuickAction_SendEmailQuickActionDefaults.htm#apex_class_QuickAction_SendEmailQuickActionDefaults",
+    "classes": [],
+    "enums": []
+  }
+}

@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "addDays",
       "signature": "public Datetime addDays(Integer additionalDays)",
       "description": "Adds the specified number of days to a Datetime.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalDays",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -29,10 +32,11 @@
       "name": "addHours",
       "signature": "public Datetime addHours(Integer additionalHours)",
       "description": "Adds the specified number of hours to a Datetime.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalHours",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -41,10 +45,11 @@
       "name": "addMinutes",
       "signature": "public Datetime addMinutes(Integer additionalMinutes)",
       "description": "Adds the specified number of minutes to a Datetime.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalMinutes",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -53,10 +58,11 @@
       "name": "addMonths",
       "signature": "public Datetime addMonths(Integer additionalMonths)",
       "description": "Adds the specified number of months to a Datetime.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalMonths",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -65,10 +71,11 @@
       "name": "addSeconds",
       "signature": "public Datetime addSeconds(Integer additionalSeconds)",
       "description": "Adds the specified number of seconds to a Datetime.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalSeconds",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -77,10 +84,11 @@
       "name": "addYears",
       "signature": "public Datetime addYears(Integer additionalYears)",
       "description": "Adds the specified number of years to a Datetime.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalYears",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -89,59 +97,60 @@
       "name": "date",
       "signature": "public Date date()",
       "description": "Returns the Date component of a Datetime in the local time zone of the context user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Date"
     },
     {
       "name": "dateGMT",
       "signature": "public Date dateGMT()",
       "description": "Return the Date component of a Datetime in the GMT time zone.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Date"
     },
     {
       "name": "day",
       "signature": "public Integer day()",
       "description": "Returns the day-of-month component of a Datetime in the local time zone of the context user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "dayGmt",
       "signature": "public Integer dayGmt()",
       "description": "Returns the day-of-month component of a Datetime in the GMT time zone.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "dayOfYear",
       "signature": "public Integer dayOfYear()",
       "description": "Returns the day-of-year component of a Datetime in the local time zone of the context user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "dayOfYearGmt",
       "signature": "public Integer dayOfYearGmt()",
       "description": "Returns the day-of-year component of a Datetime in the GMT time zone.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "format",
       "signature": "public String format()",
       "description": "Converts the date to the local time zone and returns the converted date as a formatted string using the locale of the context user. If the time zone cannot be determined, GMT is used.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "format",
       "signature": "public String format(String dateFormatString)",
       "description": "Converts the date to the local time zone and returns the converted date as a string using the supplied Java simple date format. If the time zone cannot be determined, GMT is used.",
-      "methodParams": [
+      "params": [
         {
           "name": "dateFormatString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -150,14 +159,11 @@
       "name": "format",
       "signature": "public String format(String dateFormatString, String timezone)",
       "description": "Converts the date to the specified time zone and returns the converted date as a string using the supplied Java simple date format. If the supplied time zone is not in the correct format, GMT is used.",
-      "methodParams": [
-        {
-          "name": "dateFormatString",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "timezone",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Valid time zone values for the timezone argument are the time zones of the Java TimeZone class that correspond to the time zones returned by the TimeZone.getAvailableIDs method in Java. We recommend you use full time zone names, not the three-letter abbreviations."
         }
       ],
       "datatype": "String"
@@ -166,10 +172,11 @@
       "name": "formatGmt",
       "signature": "public String formatGmt(String dateFormatString)",
       "description": "Returns a Datetime as a string using the supplied Java simple date format and the GMT time zone.",
-      "methodParams": [
+      "params": [
         {
           "name": "dateFormatString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -178,38 +185,39 @@
       "name": "formatLong",
       "signature": "public String formatLong()",
       "description": "Converts the date to the local time zone and returns the converted date in long date format.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getTime",
       "signature": "public Long getTime()",
       "description": "Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT represented by this DateTime object.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Long"
     },
     {
       "name": "hour",
       "signature": "public Integer hour()",
       "description": "Returns the hour component of a Datetime in the local time zone of the context user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "hourGmt",
       "signature": "public Integer hourGmt()",
       "description": "Returns the hour component of a Datetime in the GMT time zone.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "isSameDay",
       "signature": "public Boolean isSameDay(Datetime dateToCompare)",
       "description": "Returns true if the Datetime that called the method is the same as the specified Datetime in the local time zone of the context user.",
-      "methodParams": [
+      "params": [
         {
           "name": "dateToCompare",
-          "datatype": "Datetime"
+          "datatype": "Datetime",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -218,52 +226,53 @@
       "name": "millisecond",
       "signature": "public Integer millisecond()",
       "description": "Return the millisecond component of a Datetime in the local time zone of the context user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "millisecondGmt",
       "signature": "public Integer millisecondGmt()",
       "description": "Return the millisecond component of a Datetime in the GMT time zone.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "minute",
       "signature": "public Integer minute()",
       "description": "Returns the minute component of a Datetime in the local time zone of the context user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "minuteGmt",
       "signature": "public Integer minuteGmt()",
       "description": "Returns the minute component of a Datetime in the GMT time zone.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "month",
       "signature": "public Integer month()",
       "description": "Returns the month component of a Datetime in the local time zone of the context user (1=Jan).",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "monthGmt",
       "signature": "public Integer monthGmt()",
       "description": "Returns the month component of a Datetime in the GMT time zone (1=Jan).",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "newInstance",
       "signature": "public static Datetime newInstance(Long milliseconds)",
       "description": "Constructs a Datetime and initializes it to represent the specified number of milliseconds since January 1, 1970, 00:00:00 GMT.",
-      "methodParams": [
+      "params": [
         {
           "name": "milliseconds",
-          "datatype": "Long"
+          "datatype": "Long",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -272,14 +281,11 @@
       "name": "newInstance",
       "signature": "public static Datetime newInstance(Date date, Time time)",
       "description": "Constructs a DateTime from the specified date and time in the local time zone.",
-      "methodParams": [
-        {
-          "name": "date",
-          "datatype": "Date"
-        },
+      "params": [
         {
           "name": "time",
-          "datatype": "Time"
+          "datatype": "Time",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -288,18 +294,11 @@
       "name": "newInstance",
       "signature": "public static Datetime newInstance(Integer year, Integer month, Integer day)",
       "description": "Constructs a Datetime from Integer representations of the specified year, month (1=Jan), and day at midnight in the local time zone.",
-      "methodParams": [
-        {
-          "name": "year",
-          "datatype": "Integer"
-        },
-        {
-          "name": "month",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "day",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -308,30 +307,11 @@
       "name": "newInstance",
       "signature": "public static Datetime newInstance(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second)",
       "description": "Constructs a Datetime from Integer representations of the specified year, month (1=Jan), day, hour, minute, and second in the local time zone.",
-      "methodParams": [
-        {
-          "name": "year",
-          "datatype": "Integer"
-        },
-        {
-          "name": "month",
-          "datatype": "Integer"
-        },
-        {
-          "name": "day",
-          "datatype": "Integer"
-        },
-        {
-          "name": "hour",
-          "datatype": "Integer"
-        },
-        {
-          "name": "minute",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "second",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -340,14 +320,11 @@
       "name": "newInstanceGmt",
       "signature": "public static Datetime newInstanceGmt(Date date, Time time)",
       "description": "Constructs a DateTime from the specified date and time in the GMT time zone.",
-      "methodParams": [
-        {
-          "name": "date",
-          "datatype": "Date"
-        },
+      "params": [
         {
           "name": "time",
-          "datatype": "Time"
+          "datatype": "Time",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -356,18 +333,11 @@
       "name": "newInstanceGmt",
       "signature": "public static Datetime newInstanceGmt(Integer year, Integer month, Integer date)",
       "description": "Constructs a Datetime from Integer representations of the specified year, month (1=Jan), and day at midnight in the GMT time zone",
-      "methodParams": [
-        {
-          "name": "year",
-          "datatype": "Integer"
-        },
-        {
-          "name": "month",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "date",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -376,30 +346,11 @@
       "name": "newInstanceGmt",
       "signature": "public static Datetime newInstanceGmt(Integer year, Integer month, Integer date, Integer hour, Integer minute, Integer second)",
       "description": "Constructs a Datetime from Integer representations of the specified year, month (1=Jan), day, hour, minute, and second in the GMT time zone",
-      "methodParams": [
-        {
-          "name": "year",
-          "datatype": "Integer"
-        },
-        {
-          "name": "month",
-          "datatype": "Integer"
-        },
-        {
-          "name": "date",
-          "datatype": "Integer"
-        },
-        {
-          "name": "hour",
-          "datatype": "Integer"
-        },
-        {
-          "name": "minute",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "second",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -408,17 +359,18 @@
       "name": "now",
       "signature": "public static Datetime now()",
       "description": "Returns the current Datetime based on a GMT calendar.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Datetime"
     },
     {
       "name": "parse",
       "signature": "public static Datetime parse(String datetimeString)",
       "description": "Constructs a Datetime from the given String in the local time zone and in the format of the user locale.",
-      "methodParams": [
+      "params": [
         {
           "name": "datetimeString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -427,38 +379,39 @@
       "name": "second",
       "signature": "public Integer second()",
       "description": "Returns the second component of a Datetime in the local time zone of the context user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "secondGmt",
       "signature": "public Integer secondGmt()",
       "description": "Returns the second component of a Datetime in the GMT time zone.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "time",
       "signature": "public Time time()",
       "description": "Returns the time component of a Datetime in the local time zone of the context user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Time"
     },
     {
       "name": "timeGmt",
       "signature": "public Time timeGmt()",
       "description": "Returns the time component of a Datetime in the GMT time zone.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Time"
     },
     {
       "name": "valueOf",
       "signature": "public static Datetime valueOf(String dateTimeString)",
       "description": "Returns a Datetime that contains the value of the specified string.",
-      "methodParams": [
+      "params": [
         {
           "name": "dateTimeString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -467,10 +420,11 @@
       "name": "valueOf",
       "signature": "public static Datetime valueOf(Object fieldValue)",
       "description": "Converts the specified object to a Datetime. Use this method to convert a history tracking field value or an object that represents a Datetime value.",
-      "methodParams": [
+      "params": [
         {
           "name": "fieldValue",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -479,10 +433,11 @@
       "name": "valueOfGmt",
       "signature": "public static Datetime valueOfGmt(String dateTimeString)",
       "description": "Returns a Datetime that contains the value of the specified String.",
-      "methodParams": [
+      "params": [
         {
           "name": "dateTimeString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Datetime"
@@ -491,17 +446,17 @@
       "name": "year",
       "signature": "public Integer year()",
       "description": "Returns the year component of a Datetime in the local time zone of the context user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "yearGmt",
       "signature": "public Integer yearGmt()",
       "description": "Returns the year component of a Datetime in the GMT time zone.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     }
   ],
   "description": "Contains methods for the Datetime primitive data type.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_datetime.htm#apex_methods_system_datetime"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_datetime.htm"
 }

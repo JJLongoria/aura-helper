@@ -13,13 +13,13 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDataCells",
       "signature": "",
       "description": "Returns a list of data cells for a detail row.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Reports.ReportDataCell>"
     }
   ],

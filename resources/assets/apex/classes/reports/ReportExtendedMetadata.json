@@ -13,30 +13,30 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getAggregateColumnInfo",
       "signature": "",
       "description": "Returns all report summaries such as Record Count, Sum, Average, Max, Min, and custom summary formulas. Contains values for each summary that is listed in the report metadata.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Map<String,Reports.AggregateColumn>"
     },
     {
       "name": "getDetailColumnInfo",
       "signature": "",
       "description": "Returns a map of two properties for each field that has detailed data identified by its unique API name. The detailed data fields are also listed in the report metadata.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Map<String,Reports.DetailColumn>"
     },
     {
       "name": "getGroupingColumnInfo",
       "signature": "",
       "description": "Returns a map of each row or column grouping to its metadata. Contains values for each grouping that is identified in the groupingsDown and groupingsAcross lists.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Map<String,Reports.GroupingColumn>"
     }
   ],
-  "description": "Contains report extended metadata for a tabular, summary,",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportextendedmetadata.htm#apex_class_reports_reportextendedmetadata"
+  "description": "Contains report extended metadata for a tabular, summary, or matrix report.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportextendedmetadata.htm"
 }

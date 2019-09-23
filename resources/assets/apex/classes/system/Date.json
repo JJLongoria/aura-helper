@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "addDays",
       "signature": "public Date addDays(Integer additionalDays)",
       "description": "Adds the specified number of additional days to a Date.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalDays",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Date"
@@ -29,10 +32,11 @@
       "name": "addMonths",
       "signature": "public Date addMonths(Integer additionalMonths)",
       "description": "Adds the specified number of additional months to a Date",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalMonths",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Date"
@@ -41,10 +45,11 @@
       "name": "addYears",
       "signature": "public Date addYears(Integer additionalYears)",
       "description": "Adds the specified number of additional years to a Date",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalYears",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Date"
@@ -53,24 +58,25 @@
       "name": "day",
       "signature": "public Integer day()",
       "description": "Returns the day-of-month component of a Date.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "dayOfYear",
       "signature": "public Integer dayOfYear()",
       "description": "Returns the day-of-year component of a Date.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "daysBetween",
       "signature": "public Integer daysBetween(Date secondDate)",
       "description": "Returns the number of days between the Date that called the method and the specified date.",
-      "methodParams": [
+      "params": [
         {
           "name": "secondDate",
-          "datatype": "Date"
+          "datatype": "Date",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -79,14 +85,11 @@
       "name": "daysInMonth",
       "signature": "public static Integer daysInMonth(Integer year, Integer month)",
       "description": "Returns the number of days in the month for the specified year and month (1=Jan).",
-      "methodParams": [
-        {
-          "name": "year",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "month",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -95,17 +98,18 @@
       "name": "format",
       "signature": "public String format()",
       "description": "Returns the Date as a string using the locale of the context user",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "isLeapYear",
       "signature": "public static Boolean isLeapYear(Integer year)",
       "description": "Returns true if the specified year is a leap year.",
-      "methodParams": [
+      "params": [
         {
           "name": "year",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -114,10 +118,11 @@
       "name": "isSameDay",
       "signature": "public Boolean isSameDay(Date dateToCompare)",
       "description": "Returns true if the Date that called the method is the same as the specified date.",
-      "methodParams": [
+      "params": [
         {
           "name": "dateToCompare",
-          "datatype": "Date"
+          "datatype": "Date",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -126,17 +131,18 @@
       "name": "month",
       "signature": "public Integer month()",
       "description": "Returns the month component of a Date (1=Jan).",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "monthsBetween",
       "signature": "public Integer monthsBetween(Date secondDate)",
       "description": "Returns the number of months between the Date that called the method and the specified date, ignoring the difference in days.",
-      "methodParams": [
+      "params": [
         {
           "name": "secondDate",
-          "datatype": "Date"
+          "datatype": "Date",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -145,18 +151,11 @@
       "name": "newInstance",
       "signature": "public static Date newInstance(Integer year, Integer month, Integer day)",
       "description": "Constructs a Date from Integer representations of the year, month (1=Jan), and day.",
-      "methodParams": [
-        {
-          "name": "year",
-          "datatype": "Integer"
-        },
-        {
-          "name": "month",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "day",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Date"
@@ -165,10 +164,11 @@
       "name": "parse",
       "signature": "public static Date parse(String stringDate)",
       "description": "Constructs a Date from a String. The format of the String depends on the local date format.",
-      "methodParams": [
+      "params": [
         {
           "name": "stringDate",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Date"
@@ -177,31 +177,32 @@
       "name": "today",
       "signature": "public static Date today()",
       "description": "Returns the current date in the current user's time zone.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Date"
     },
     {
       "name": "toStartOfMonth",
       "signature": "public Date toStartOfMonth()",
       "description": "Returns the first of the month for the Date that called the method.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Date"
     },
     {
       "name": "toStartOfWeek",
       "signature": "public Date toStartOfWeek()",
       "description": "Returns the start of the week for the Date that called the method, depending on the context user's locale.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Date"
     },
     {
       "name": "valueOf",
       "signature": "public static Date valueOf(String stringDate)",
       "description": "Returns a Date that contains the value of the specified String.",
-      "methodParams": [
+      "params": [
         {
           "name": "stringDate",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Date"
@@ -210,10 +211,11 @@
       "name": "valueOf",
       "signature": "public static Date valueOf(Object fieldValue)",
       "description": "Converts the specified object to a Date. Use this method to convert a history tracking field value or an object that represents a Date value.",
-      "methodParams": [
+      "params": [
         {
           "name": "fieldValue",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": ""
         }
       ],
       "datatype": "Date"
@@ -222,10 +224,10 @@
       "name": "year",
       "signature": "public Integer year()",
       "description": "Returns the year component of a Date",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     }
   ],
   "description": "Contains methods for the Date primitive data type.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_date.htm#apex_methods_system_date"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_date.htm"
 }

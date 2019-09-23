@@ -7,14 +7,14 @@
   "inheritedSharing": false,
   "isEnum": true,
   "enumValues": [
-    "String",
+    "base64binary",
     "Boolean",
-    "Integer",
-    "Double",
-    "ID",
     "Date",
     "DateTime",
-    "base64binary",
+    "Double",
+    "ID",
+    "Integer",
+    "String",
     "Time"
   ],
   "extendsType": "",
@@ -23,7 +23,7 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [],
   "description": "A Schema.SOAPType enum value is returned by the field describe result getSoapType method.",
   "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Schema_SOAPType.htm"

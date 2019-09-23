@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,12 +17,12 @@
       "name": "message",
       "signature": "public String message {get; set;}",
       "description": "A message that Salesforce returns in the body of a reply email. This field can be populated with text irrespective of the value returned by the Success field.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [],
-  "description": "The InboundEmailResult object is used to return the result",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_result.htm#apex_classes_email_inbound_result"
+  "description": "The InboundEmailResult object is used to return the result of the email service. If this object is null, the result is assumed to be successful.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_result.htm"
 }

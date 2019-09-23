@@ -5,29 +5,32 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getCommunities",
       "signature": "public static ConnectApi.CommunityPage getCommunities()",
       "description": "Get a list of communities that the context user has access to.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ConnectApi.CommunityPage"
     },
     {
       "name": "getCommunities",
       "signature": "public static ConnectApi.CommunityPage getCommunities(ConnectApi.CommunityStatus communityStatus)",
       "description": "Get a list of communities with the specified status that the context user has access to.",
-      "methodParams": [
+      "params": [
         {
           "name": "communityStatus",
-          "datatype": "ConnectApi.​CommunityStatus"
+          "datatype": "ConnectApi.​CommunityStatus",
+          "description": "communityStatus—Status of the community. Values are: Live  Inactive  UnderConstruction"
         }
       ],
       "datatype": "ConnectApi.CommunityPage"
@@ -36,15 +39,16 @@
       "name": "getCommunity",
       "signature": "public static ConnectApi.Community getCommunity(String communityId)",
       "description": "Get information about a community.",
-      "methodParams": [
+      "params": [
         {
           "name": "communityId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of a community. You can’t specify null or internal."
         }
       ],
       "datatype": "ConnectApi.​Community"
     }
   ],
   "description": "Access general information about communities in your organization.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Communities_static_methods.htm#apex_ConnectAPI_Communities_static_methods"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Communities_static_methods.htm"
 }

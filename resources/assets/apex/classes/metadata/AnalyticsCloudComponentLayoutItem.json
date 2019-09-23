@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,83 +17,83 @@
       "name": "assetType",
       "signature": "public String assetType {get; set;}",
       "description": "Specifies the type of Wave Analytics asset.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "devName",
       "signature": "public String devName {get; set;}",
       "description": "Unique development name of the dashboard to add.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "error",
       "signature": "public String error {get; set;}",
       "description": "An error string that is populated only when an error occurred in the underlying dashboard.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "filter",
       "signature": "public String filter {get; set;}",
       "description": "Dashboard filters for mapping data fields in the dashboard to the object’s fields.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "height",
       "signature": "public Integer height {get; set;}",
       "description": "Specifies the height of the dashboard, in pixels.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "hideOnError",
       "signature": "public Boolean hideOnError {get; set;}",
       "description": "Controls whether users see a dashboard that has an error.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showHeader",
       "signature": "public Boolean showHeader {get; set;}",
       "description": "If true, includes the dashboard’s header bar. If false, the dashboard appears without a header bar.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showSharing",
       "signature": "public Boolean showSharing {get; set;}",
       "description": "If set to true, and the dashboard is shareable the dashboard shows the Share icon. If set to false, the dashboard doesn’t show the Share icon.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showTitle",
       "signature": "public Boolean showTitle {get; set;}",
       "description": "If true, includes the dashboard’s title above the dashboard. If false, the dashboard appears without a title.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "width",
       "signature": "public String width {get; set;}",
       "description": "Specifies the width of the dashboard, in pixels or percentage.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.AnalyticsCloudComponentLayoutItem.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Represents the settings for a Wave Analytics dashboard on a standard",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_AnalyticsCloudComponentLayoutItem.htm#apex_class_Metadata_AnalyticsCloudComponentLayoutItem"
+  "description": "Represents the settings for a Wave Analytics dashboard on a standard or custom page.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_AnalyticsCloudComponentLayoutItem.htm"
 }

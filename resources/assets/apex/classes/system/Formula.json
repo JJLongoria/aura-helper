@@ -5,27 +5,30 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "recalculateFormulas",
       "signature": "public static List<System.FormulaRecalcResult> recalculateFormulas(List<SObject> sobjects)",
       "description": "Updates (recalculates) all formula fields on the input sObjects",
-      "methodParams": [
+      "params": [
         {
           "name": "sobjects",
-          "datatype": "List<SObject>"
+          "datatype": "List<SObject>",
+          "description": "List of sObjects whose Formula fields are to be recalculated."
         }
       ],
       "datatype": "List<FormulaRecalcResult Class>"
     }
   ],
-  "description": "Contains the recalculateFormulas method that updates (recalculates) all formula fields on the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Formula.htm#apex_class_System_Formula"
+  "description": "Contains the recalculateFormulas method that updates (recalculates) all formula fields on the input SObjects",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Formula.htm"
 }

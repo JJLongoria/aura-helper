@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getSamlSsoUrl",
       "signature": "public static String getSamlSsoUrl(String startUrl, String samlId)",
       "description": "Returns the URL to the SAML provider for the community.",
-      "methodParams": [
-        {
-          "name": "startUrl",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "samlId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Path to the page that users see when they access the community. Unique identifier of the SAML provider."
         }
       ],
       "datatype": "String"
@@ -33,19 +32,16 @@
       "name": "getSsoUrl",
       "signature": "public static String getSsoUrl(String startUrl, String developerName)",
       "description": "Returns the single sign-on URL for the community.",
-      "methodParams": [
-        {
-          "name": "startUrl",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "developerName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Path to the page that users see when they access the community. Unique name of the authentication provider."
         }
       ],
       "datatype": "String"
     }
   ],
-  "description": "Represents the social authentication providers configured for the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_SocialLoginController.htm#apex_class_applauncher_SocialLoginController"
+  "description": "Represents the social authentication providers configured for the community. For internal use only.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_SocialLoginController.htm"
 }

@@ -1,0 +1,598 @@
+{
+  "AnalyticsCloudComponentLayoutItem": {
+    "name": "AnalyticsCloudComponentLayoutItem",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents the settings for a Wave Analytics dashboard on a standard",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_AnalyticsCloudComponentLayoutItem.htm#apex_class_Metadata_AnalyticsCloudComponentLayoutItem",
+    "classes": [],
+    "enums": []
+  },
+  "ConsoleComponent": {
+    "name": "ConsoleComponent",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents a custom console component on a section of a page",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_ConsoleComponent.htm#apex_class_Metadata_ConsoleComponent",
+    "classes": [],
+    "enums": []
+  },
+  "Container": {
+    "name": "Container",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents a location and style in which to display more than one",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_Container.htm#apex_class_Metadata_Container",
+    "classes": [],
+    "enums": []
+  },
+  "CustomConsoleComponents": {
+    "name": "CustomConsoleComponents",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents custom console components (Visualforce pages, lookup",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_CustomConsoleComponents.htm#apex_class_Metadata_CustomConsoleComponents",
+    "classes": [],
+    "enums": []
+  },
+  "CustomMetadata": {
+    "name": "CustomMetadata",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents records of custom metadata types.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_CustomMetadata.htm#apex_class_Metadata_CustomMetadata",
+    "classes": [],
+    "enums": []
+  },
+  "CustomMetadataValue": {
+    "name": "CustomMetadataValue",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents custom metadata values for a custom metadata",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_CustomMetadataValue.htm#apex_class_Metadata_CustomMetadataValue",
+    "classes": [],
+    "enums": []
+  },
+  "DeployCallback": {
+    "name": "DeployCallback",
+    "namespace": "Metadata",
+    "isInterface": true,
+    "description": "An interface for metadata deployment callback",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Metadata_DeployCallback.htm#apex_interface_Metadata_DeployCallback",
+    "classes": [],
+    "enums": []
+  },
+  "DeployCallbackContext": {
+    "name": "DeployCallbackContext",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents context information for a deployment job.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployCallbackContext.htm#apex_class_Metadata_DeployCallbackContext",
+    "classes": [],
+    "enums": []
+  },
+  "DeployContainer": {
+    "name": "DeployContainer",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents a container for custom metadata components to be",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployContainer.htm#apex_class_Metadata_DeployContainer",
+    "classes": [],
+    "enums": []
+  },
+  "DeployDetails": {
+    "name": "DeployDetails",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Contains detailed information on deployed components.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployDetails.htm#apex_class_Metadata_DeployDetails",
+    "classes": [],
+    "enums": []
+  },
+  "DeployMessage": {
+    "name": "DeployMessage",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents result information for the deployment of a metadata",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployMessage.htm#apex_class_Metadata_DeployMessage",
+    "classes": [],
+    "enums": []
+  },
+  "DeployProblemType": {
+    "name": "DeployProblemType",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "Error",
+      "Info",
+      "Warning"
+    ],
+    "description": "Describes the problem type for an unsuccessful component deploy.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_DeployProblemType.htm",
+    "classes": [],
+    "enums": []
+  },
+  "DeployResult": {
+    "name": "DeployResult",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents the results of a metadata deployment.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployResult.htm#apex_class_Metadata_DeployResult",
+    "classes": [],
+    "enums": []
+  },
+  "DeployStatus": {
+    "name": "DeployStatus",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "Canceled",
+      "Canceling",
+      "Failed",
+      "InProgress",
+      "Pending",
+      "Succeeded",
+      "SucceededPartial"
+    ],
+    "description": "The result status of a deployment.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_DeployStatus.htm",
+    "classes": [],
+    "enums": []
+  },
+  "FeedItemTypeEnum": {
+    "name": "FeedItemTypeEnum",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "CaseExperts",
+      "CaseUnifiedFiles",
+      "CustomButtons",
+      "CustomLinks",
+      "Followers",
+      "Following",
+      "HelpAndToolLinks",
+      "Milestones",
+      "SimilarCases",
+      "Topics",
+      "Visualforce"
+    ],
+    "description": "Indicates the type of feed layout component.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_FeedLayoutComponentType.htm",
+    "classes": [],
+    "enums": []
+  },
+  "FeedLayout": {
+    "name": "FeedLayout",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents the values that define the feed view of a feed-based page",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_FeedLayout.htm#apex_class_Metadata_FeedLayout",
+    "classes": [],
+    "enums": []
+  },
+  "FeedLayoutComponent": {
+    "name": "FeedLayoutComponent",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents a component in the feed view of a feed-based page",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_FeedLayoutComponent.htm#apex_class_Metadata_FeedLayoutComponent",
+    "classes": [],
+    "enums": []
+  },
+  "FeedLayoutFilter": {
+    "name": "FeedLayoutFilter",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents a feed filter option in the feed view of a feed-based page",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_FeedLayoutFilter.htm#apex_class_Metadata_FeedLayoutFilter",
+    "classes": [],
+    "enums": []
+  },
+  "FeedLayoutFilterPosition": {
+    "name": "FeedLayoutFilterPosition",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "CenterDropDown",
+      "LeftFixed",
+      "LeftFloat"
+    ],
+    "description": "Indicates the type of feed layout component.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_FeedLayoutFilterPosition.htm",
+    "classes": [],
+    "enums": []
+  },
+  "FeedLayoutFilterType": {
+    "name": "FeedLayoutFilterType",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "AllUpdates",
+      "Custom",
+      "FeedItemType"
+    ],
+    "description": "The type of feed layout filter.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_FeedLayoutFilterType.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Layout": {
+    "name": "Layout",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents the metadata associated with a page",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_Layout.htm#apex_class_Metadata_Layout",
+    "classes": [],
+    "enums": []
+  },
+  "LayoutColumn": {
+    "name": "LayoutColumn",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents the items in a column within a layout",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_LayoutColumn.htm#apex_class_Metadata_LayoutColumn",
+    "classes": [],
+    "enums": []
+  },
+  "LayoutHeader": {
+    "name": "LayoutHeader",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "PersonalTagging",
+      "PublicTagging"
+    ],
+    "description": "Represents tagging types used for Metadata.Layout.headers",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_LayoutHeader.htm",
+    "classes": [],
+    "enums": []
+  },
+  "LayoutItem": {
+    "name": "LayoutItem",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents the valid values that define a layout",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_LayoutItem.htm#apex_class_Metadata_LayoutItem",
+    "classes": [],
+    "enums": []
+  },
+  "LayoutSection": {
+    "name": "LayoutSection",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents a section of a page layout, such as the Custom Links",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_LayoutSection.htm#apex_class_Metadata_LayoutSection",
+    "classes": [],
+    "enums": []
+  },
+  "LayoutSectionStyle": {
+    "name": "LayoutSectionStyle",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "CustomLinks",
+      "OneColumn",
+      "TwoColumnsLeftToRight",
+      "TwoColumnsTopToBottom"
+    ],
+    "description": "Describes the possible styles for a layout section.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_LayoutSectionStyle.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Metadata": {
+    "name": "Metadata",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "An abstract base class that represents a custom metadata",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_Metadata.htm#apex_class_Metadata_Metadata",
+    "classes": [],
+    "enums": []
+  },
+  "MetadataType": {
+    "name": "MetadataType",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "CustomMetadata",
+      "Layout"
+    ],
+    "description": "Represents the custom metadata components available in Apex.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_MetadataType.htm",
+    "classes": [],
+    "enums": []
+  },
+  "MetadataValue": {
+    "name": "MetadataValue",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "An abstract base class that represents a custom metadata component",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_MetadataValue.htm#apex_class_Metadata_MetadataValue",
+    "classes": [],
+    "enums": []
+  },
+  "MiniLayout": {
+    "name": "MiniLayout",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents a mini view of a record in the Console tab, hover details,",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_MiniLayout.htm#apex_class_Metadata_MiniLayout",
+    "classes": [],
+    "enums": []
+  },
+  "Operations": {
+    "name": "Operations",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents a class to execute metadata operations, such as",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_Operations.htm#apex_class_Metadata_Operations",
+    "classes": [],
+    "enums": []
+  },
+  "PlatformActionList": {
+    "name": "PlatformActionList",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents the list of actions, and their order, that display in the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_PlatformActionList.htm#apex_class_Metadata_PlatformActionList",
+    "classes": [],
+    "enums": []
+  },
+  "PlatformActionListContextEnum": {
+    "name": "PlatformActionListContextEnum",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "ActionDefinition",
+      "Assistant",
+      "BannerPhoto",
+      "Chatter",
+      "Dockable",
+      "FeedElement",
+      "Flexipage",
+      "Global_x",
+      "ListView",
+      "ListViewDefinition",
+      "ListViewRecord",
+      "Lookup",
+      "MruList",
+      "MruRow",
+      "ObjectHomeChart",
+      "Photo",
+      "Record",
+      "RecordEdit",
+      "RelatedList",
+      "RelatedListRecord"
+    ],
+    "description": "Describes the different contexts of action lists.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_PlatformActionListContextEnum.htm",
+    "classes": [],
+    "enums": []
+  },
+  "PlatformActionListItem": {
+    "name": "PlatformActionListItem",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents an action in the platform action list for a",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_PlatformActionListItem.htm#apex_class_Metadata_PlatformActionListItem",
+    "classes": [],
+    "enums": []
+  },
+  "PlatformActionTypeEnum": {
+    "name": "PlatformActionTypeEnum",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "ActionLink",
+      "CustomButton",
+      "InvocableAction",
+      "ProductivityAction",
+      "QuickAction",
+      "StandardButton"
+    ],
+    "description": "The type of action for a PlatformActionListItem.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_PlatformActionTypeEnum.htm",
+    "classes": [],
+    "enums": []
+  },
+  "PrimaryTabComponents": {
+    "name": "PrimaryTabComponents",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents custom console components on primary tabs in the Salesforce",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_PrimaryTabComponents.htm#apex_class_Metadata_PrimaryTabComponents",
+    "classes": [],
+    "enums": []
+  },
+  "QuickActionLis": {
+    "name": "QuickActionLis",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents the list of actions associated with the page",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_QuickActionList.htm#apex_class_Metadata_QuickActionList",
+    "classes": [],
+    "enums": []
+  },
+  "QuickActionListItem": {
+    "name": "QuickActionListItem",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents an action in the QuickActionList.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_QuickActionListItem.htm#apex_class_Metadata_QuickActionListItem",
+    "classes": [],
+    "enums": []
+  },
+  "RelatedContent": {
+    "name": "RelatedContent",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents the Mobile Cards section of the page",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_RelatedContent.htm#apex_class_Metadata_RelatedContent",
+    "classes": [],
+    "enums": []
+  },
+  "RelatedContentItem": {
+    "name": "RelatedContentItem",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents an individual item in the RelatedContent list.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_RelatedContentItem.htm#apex_class_Metadata_RelatedContentItem",
+    "classes": [],
+    "enums": []
+  },
+  "RelatedList": {
+    "name": "RelatedList",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents related list custom components on the sidebars of the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_RelatedList.htm#apex_class_Metadata_RelatedList",
+    "classes": [],
+    "enums": []
+  },
+  "RelatedListItem": {
+    "name": "RelatedListItem",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents an item in the related list in a page",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_RelatedListItem.htm#apex_class_Metadata_RelatedListItem",
+    "classes": [],
+    "enums": []
+  },
+  "ReportChartComponentLayoutItem": {
+    "name": "ReportChartComponentLayoutItem",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents the settings for a report chart on a standard or custom",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_ReportChartComponentLayoutItem.htm#apex_class_Metadata_ReportChartComponentLayoutItem",
+    "classes": [],
+    "enums": []
+  },
+  "ReportChartComponentSize": {
+    "name": "ReportChartComponentSize",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "LARGE",
+      "MEDIUM",
+      "SMALL"
+    ],
+    "description": "Describes the size of the displayed report chart component.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_ReportChartComponentSize.htm",
+    "classes": [],
+    "enums": []
+  },
+  "SidebarComponent": {
+    "name": "SidebarComponent",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents a specific custom console component to display in a",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_SidebarComponent.htm#apex_class_Metadata_SidebarComponent",
+    "classes": [],
+    "enums": []
+  },
+  "SortOrder": {
+    "name": "SortOrder",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "Asc_x",
+      "Desc_x"
+    ],
+    "description": "Describes the sort order of a related list.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_SortOrder.htm",
+    "classes": [],
+    "enums": []
+  },
+  "StatusCode": {
+    "name": "StatusCode",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "INVALID_SCS_INBOUND_USER",
+      "REQUIRE_CONNECTED_APP_SCS",
+      "REQUIRE_CONNECTED_APP_SESSION_SCS",
+      "REQUIRE_RUNAS_USER"
+    ],
+    "description": "Describes the status code for an unsuccessful component deploy.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_StatusCode.htm",
+    "classes": [],
+    "enums": []
+  },
+  "SubtabComponents": {
+    "name": "SubtabComponents",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Represents custom console components on subtabs in the Salesforce",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_SubtabComponents.htm#apex_class_Metadata_SubtabComponents",
+    "classes": [],
+    "enums": []
+  },
+  "SummaryLayout": {
+    "name": "SummaryLayout",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Controls the appearance of the highlights panel, which summarizes key",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_SummaryLayout.htm#apex_class_Metadata_SummaryLayout",
+    "classes": [],
+    "enums": []
+  },
+  "SummaryLayoutItem": {
+    "name": "SummaryLayoutItem",
+    "namespace": "Metadata",
+    "isInterface": false,
+    "description": "Controls the appearance of an individual field and its column and row",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_SummaryLayoutItem.htm#apex_class_Metadata_SummaryLayoutItem",
+    "classes": [],
+    "enums": []
+  },
+  "SummaryLayoutStyleEnum": {
+    "name": "SummaryLayoutStyleEnum",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "CaseInteraction",
+      "ChildServiceReportTemplateStyle",
+      "DefaultQuoteTemplate",
+      "DefaultServiceReportTemplate",
+      "Default_x",
+      "PathAssistant",
+      "QuickActionLayoutLeftRight",
+      "QuickActionLayoutTopDown",
+      "QuoteTemplate",
+      "ServiceReportTemplate"
+    ],
+    "description": "Describes the highlights panel style for a SummaryLayout.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_SummaryLayoutStyleEnum.htm",
+    "classes": [],
+    "enums": []
+  },
+  "UiBehavior": {
+    "name": "UiBehavior",
+    "namespace": "Metadata",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "Edit",
+      "Readonly",
+      "Required"
+    ],
+    "description": "Describes the behavior for a layout item on a layout page.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_UiBehavior.htm",
+    "classes": [],
+    "enums": []
+  }
+}

@@ -5,33 +5,32 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.Operations.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     },
     {
       "name": "enqueueDeployment",
       "signature": "public static Id enqueueDeployment(Metadata.DeployContainer container, Metadata.DeployCallback callback)",
       "description": "Deploys custom metadata components asynchronously.",
-      "methodParams": [
-        {
-          "name": "container",
-          "datatype": "Metadata.DeployContainer"
-        },
+      "params": [
         {
           "name": "callback",
-          "datatype": "Metadata.DeployCallback"
+          "datatype": "Metadata.DeployCallback",
+          "description": "Container that contains the set of metadata components to deploy. A class that implements the Metadata.DeployCallback interface. Used by Salesforce to return information about the deployment results."
         }
       ],
       "datatype": "Id"
@@ -40,19 +39,16 @@
       "name": "retrieve",
       "signature": "public static List<Metadata.Metadata> retrieve(Metadata.MetadataType type, List<String> fullNames)",
       "description": "Retrieves a list of custom metadata components.",
-      "methodParams": [
-        {
-          "name": "type",
-          "datatype": "Metadata.MetadataType"
-        },
+      "params": [
         {
           "name": "fullNames",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": "The metadata component type. A list of component names to retrieve. For information on component name formats, see Metadata.fullName()."
         }
       ],
       "datatype": "List<Metadata.Metadata>"
     }
   ],
-  "description": "Represents a class to execute metadata operations, such as",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_Operations.htm#apex_class_Metadata_Operations"
+  "description": "Represents a class to execute metadata operations, such as retrieving or deploying custom metadata.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_Operations.htm"
 }

@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "equals",
       "signature": "public Boolean equals(Object typeToCompare)",
       "description": "Returns true if the specified type is equal to the current type; otherwise, returns false.",
-      "methodParams": [
+      "params": [
         {
           "name": "typeToCompare",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": "The type to compare with the current type."
         }
       ],
       "datatype": "Boolean"
@@ -29,10 +32,11 @@
       "name": "forName",
       "signature": "public static System.Type forName(String fullyQualifiedName)",
       "description": "Returns the type that corresponds to the specified fully qualified class name.",
-      "methodParams": [
+      "params": [
         {
           "name": "fullyQualifiedName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The fully qualified name of the class to get the type of. The fully qualified class name contains the namespace name, for example, MyNamespace.ClassName."
         }
       ],
       "datatype": "System.Type"
@@ -41,14 +45,11 @@
       "name": "forName",
       "signature": "public static System.Type forName(String namespace, String name)",
       "description": "Returns the type that corresponds to the specified namespace and class name.",
-      "methodParams": [
-        {
-          "name": "namespace",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "name",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The namespace of the class. If the class doesn't have a namespace, set the namespace argument to null or an empty string. The name of the class."
         }
       ],
       "datatype": "System.Type"
@@ -57,38 +58,44 @@
       "name": "getName",
       "signature": "public String getName()",
       "description": "Returns the name of the current type.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "hashCode",
       "signature": "public Integer hashCode()",
       "description": "Returns a hash code value for the current type.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "isAssignableFrom",
       "signature": "public Boolean isAssignableFrom(Type sourceType)",
       "description": "Returns true if an object reference of the specified type can be assigned from the child type; otherwise, returns false.",
-      "methodParams": [],
+      "params": [
+        {
+          "name": "sourceType",
+          "datatype": "",
+          "description": "The type of the object with which you are checking compatibility."
+        }
+      ],
       "datatype": "Boolean"
     },
     {
       "name": "newInstance",
       "signature": "public Object newInstance()",
       "description": "Creates an instance of the current type and returns this new instance.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     },
     {
       "name": "toString",
       "signature": "public String toString()",
       "description": "Returns a string representation of the current type, which is the type name.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Contains methods for getting the Apex type that corresponds to an Apex class and for",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_type.htm#apex_methods_system_type"
+  "description": "Contains methods for getting the Apex type that corresponds to an Apex class and for instantiating new types.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_type.htm"
 }

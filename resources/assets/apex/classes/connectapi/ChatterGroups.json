@@ -5,30 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "addMember",
       "signature": "public static ConnectApi.GroupMember addMember(String communityId, String groupId, String userId)",
       "description": "Add a user to a group as a standard member.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. The ID for a user."
         }
       ],
       "datatype": "ConnectApi.​GroupMember"
@@ -37,22 +32,11 @@
       "name": "addMemberWithRole",
       "signature": "public static ConnectApi.GroupMember addMemberWithRole(String communityId, String groupId, String userId, ConnectApi.GroupMembershipType role)",
       "description": "Add a user with a role to a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "role",
-          "datatype": "ConnectApi.GroupMembershipType"
+          "datatype": "ConnectApi.GroupMembershipType",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. The ID for a user. The group membership type. One of these values: GroupManager  StandardMember"
         }
       ],
       "datatype": "ConnectApi.​GroupMember"
@@ -61,18 +45,11 @@
       "name": "addRecord",
       "signature": "public static ConnectApi.GroupRecord addRecord(String communityId, String groupId, String recordId)",
       "description": "Associate a record with a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "recordId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the group with which to associate the record. ID of the record to associate with the group."
         }
       ],
       "datatype": "ConnectApi.GroupRecord"
@@ -81,14 +58,11 @@
       "name": "createGroup",
       "signature": "public static ConnectApi.ChatterGroupDetail createGroup(String, communityId, ConnectApi.ChatterGroupInput groupInput)",
       "description": "Create a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String,"
-        },
+      "params": [
         {
           "name": "groupInput",
-          "datatype": "ConnectApi.Chatter​​GroupInput"
+          "datatype": "ConnectApi.Chatter​​GroupInput",
+          "description": "Use either the ID for a community, internal, or null. The properties of the group."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Group​Detail"
@@ -97,14 +71,11 @@
       "name": "deleteBannerPhoto",
       "signature": "public static Void deleteBannerPhoto(String communityId, String groupId)",
       "description": "Delete the group banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the group."
         }
       ],
       "datatype": "Void"
@@ -113,14 +84,11 @@
       "name": "deleteGroup",
       "signature": "public static Void deleteGroup(String communityId, String groupId)",
       "description": "Delete a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group."
         }
       ],
       "datatype": "Void"
@@ -129,14 +97,11 @@
       "name": "deleteMember",
       "signature": "public static Void deleteMember(String communityId, String membershipId)",
       "description": "Remove a member from a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "membershipId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a membership."
         }
       ],
       "datatype": "Void"
@@ -145,14 +110,11 @@
       "name": "deletePhoto",
       "signature": "public static Void deletePhoto(String communityId, String groupId)",
       "description": "Delete the group photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group."
         }
       ],
       "datatype": "Void"
@@ -161,14 +123,11 @@
       "name": "getAnnouncements",
       "signature": "public static ConnectApi.AnnouncementPage getAnnouncements(String communityId, String groupId)",
       "description": "Get the first page of announcements in a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group."
         }
       ],
       "datatype": "ConnectApi.AnnouncementPage"
@@ -177,22 +136,11 @@
       "name": "getAnnouncements",
       "signature": "public static ConnectApi.AnnouncementPage getAnnouncements(String communityId, String groupId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of announcements in a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.AnnouncementPage"
@@ -201,14 +149,11 @@
       "name": "getBannerPhoto",
       "signature": "public static ConnectApi.BannerPhoto getBannerPhoto(String communityId, String groupId)",
       "description": "Get the group banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the group."
         }
       ],
       "datatype": "ConnectApi.​BannerPhoto"
@@ -217,14 +162,11 @@
       "name": "getGroup",
       "signature": "public static ConnectApi.ChatterGroupDetail getGroup(String communityId, String groupId)",
       "description": "Get information about a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Group​Detail"
@@ -233,14 +175,11 @@
       "name": "getGroupBatch",
       "signature": "public static ConnectApi.BatchResult[] getGroupBatch(String communityId, List<String> groupIds)",
       "description": "Get information about a list of groups.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupIds",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": "Use either the ID for a community, internal, or null. A list of up to 500 group IDs."
         }
       ],
       "datatype": "ConnectApi.BatchResult[]"
@@ -249,14 +188,11 @@
       "name": "getGroupMembershipRequest",
       "signature": "public static ConnectApi.GroupMembershipRequest getGroupMembershipRequest(String communityId, String requestId)",
       "description": "Get information about a request to join a private group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "requestId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of a request to join a private group."
         }
       ],
       "datatype": "ConnectApi.​Group​Membership​Request"
@@ -265,14 +201,11 @@
       "name": "getGroupMembershipRequests",
       "signature": "public static ConnectApi.GroupMembershipRequests getGroupMembershipRequests(String communityId, String groupId)",
       "description": "Get information about every request to join a private group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group."
         }
       ],
       "datatype": "ConnectApi.Group​​MembershipRequests"
@@ -281,18 +214,11 @@
       "name": "getGroupMembershipRequests",
       "signature": "public static ConnectApi.GroupMembershipRequests getGroupMembershipRequests(String communityId, String groupId, ConnectApi.GroupMembershipRequestStatus status)",
       "description": "Get information about every request to join a private group that has a specified status.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "status",
-          "datatype": "ConnectApi.​GroupMembership​RequestStatus"
+          "datatype": "ConnectApi.​GroupMembership​RequestStatus",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group.  status—Status of a request to join a private group. Accepted  Declined  Pending"
         }
       ],
       "datatype": "ConnectApi.Group​​MembershipRequests"
@@ -301,10 +227,11 @@
       "name": "getGroups",
       "signature": "public static ConnectApi.ChatterGroupPage getGroups(String communityId)",
       "description": "Get the first page of groups.",
-      "methodParams": [
+      "params": [
         {
           "name": "communityId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null."
         }
       ],
       "datatype": "ConnectApi.Chatter​​​GroupPage"
@@ -313,18 +240,11 @@
       "name": "getGroups",
       "signature": "public static ConnectApi.ChatterGroupPage getGroups(String communityId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of groups.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.Chatter​​​GroupPage"
@@ -333,22 +253,11 @@
       "name": "getGroups",
       "signature": "public static ConnectApi.ChatterGroupPage getGroups(String communityId, Integer pageParam, Integer pageSize, ConnectApi.GroupArchiveStatus archiveStatus)",
       "description": "Get a page of groups with an archive status.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "archiveStatus",
-          "datatype": "ConnectApi.GroupArchiveStatus"
+          "datatype": "ConnectApi.GroupArchiveStatus",
+          "description": "Use either the ID for a community, internal, or null. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Archive status of groups.  All—All groups, including groups that are archived and groups that aren’t archived.   Archived—Groups that are archived.   NotArchived—Groups that aren’t archived.    If you pass in null, the default value is All."
         }
       ],
       "datatype": "ConnectApi.Chatter​​​GroupPage"
@@ -357,14 +266,11 @@
       "name": "getMember",
       "signature": "public static ConnectApi.GroupMember getMember(String communityId, String membershipId)",
       "description": "Get information about a group member.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "membershipId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a membership."
         }
       ],
       "datatype": "ConnectApi.​GroupMember"
@@ -373,14 +279,11 @@
       "name": "getMembers",
       "signature": "public static ConnectApi.GroupMemberPage getMembers(String communityId, String groupId)",
       "description": "Get the first page of information about the members of a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group."
         }
       ],
       "datatype": "ConnectApi.Group​​MemberPage"
@@ -389,22 +292,11 @@
       "name": "getMembers",
       "signature": "public static ConnectApi.GroupMemberPage getMembers(String communityId, String groupId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of information about the members of a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.Group​​MemberPage"
@@ -413,14 +305,11 @@
       "name": "",
       "signature": "public static ConnectApi.BatchResult[] getMembershipBatch(String communityId, List<String> membershipIds)",
       "description": "Get information about a list of group memberships.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "membershipIds",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": "Use either the ID for a community, internal, or null. A list of up to 500 group membership IDs."
         }
       ],
       "datatype": "ConnectApi.BatchResult[]"
@@ -429,14 +318,11 @@
       "name": "getMyChatterSettings",
       "signature": "public static ConnectApi.GroupChatterSettings getMyChatterSettings(String communityId, String groupId)",
       "description": "Get the context user’s Chatter settings for a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group."
         }
       ],
       "datatype": "ConnectApi.Group​​ChatterSettings"
@@ -445,14 +331,11 @@
       "name": "getPhoto",
       "signature": "public static ConnectApi.Photo getPhoto(String communityId, String groupId)",
       "description": "Get the photo for a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -461,14 +344,11 @@
       "name": "getRecord",
       "signature": "public static ConnectApi.GroupRecord getRecord(String communityId, String groupRecordId)",
       "description": "Get a record associated with a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupRecordId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the group record."
         }
       ],
       "datatype": "ConnectApi.GroupRecord"
@@ -477,14 +357,11 @@
       "name": "getRecords",
       "signature": "public static ConnectApi.GroupRecordPage getRecords(String communityId, String groupId)",
       "description": "Get the first page of records associated with a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group."
         }
       ],
       "datatype": "ConnectApi.​GroupRecordPage"
@@ -493,22 +370,11 @@
       "name": "getRecords",
       "signature": "public static ConnectApi.GroupRecordPage getRecords(String communityId, String groupId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of records associated with a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​GroupRecordPage"
@@ -517,14 +383,11 @@
       "name": "inviteUsers",
       "signature": "public static ConnectApi.Invitations inviteUsers(String groupId, ConnectApi.InviteInput invite)",
       "description": "Invite internal and external users to join a group.",
-      "methodParams": [
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "invite",
-          "datatype": "ConnectApi.InviteInput"
+          "datatype": "ConnectApi.InviteInput",
+          "description": "ID of the group. A ConnectApi.InviteInput body."
         }
       ],
       "datatype": "ConnectApi.Invitations"
@@ -533,18 +396,11 @@
       "name": "postAnnouncement",
       "signature": "public static ConnectApi.Announcement postAnnouncement(String communityId, String groupId, ConnectApi.AnnouncementInput announcement)",
       "description": "Post an announcement to a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "announcement",
-          "datatype": "ConnectApi.AnnouncementInput"
+          "datatype": "ConnectApi.AnnouncementInput",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. A ConnectApi.AnnouncementInput object."
         }
       ],
       "datatype": "ConnectApi.Announcement"
@@ -553,14 +409,11 @@
       "name": "removeRecord",
       "signature": "public static Void removeRecord(String communityId, String groupRecordId)",
       "description": "Remove the association of a record with a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupRecordId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID of the group record."
         }
       ],
       "datatype": "Void"
@@ -569,14 +422,11 @@
       "name": "requestGroupMembership",
       "signature": "public static ConnectApi.GroupMembershipRequest requestGroupMembership(String communityId, String groupId)",
       "description": "Request membership in a private group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group."
         }
       ],
       "datatype": "ConnectApi.​Group​Membership​Request"
@@ -585,14 +435,11 @@
       "name": "searchGroups",
       "signature": "public static ConnectApi.ChatterGroupPage searchGroups(String communityId, String q)",
       "description": "Get the first page of groups that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards. Can be specified as null."
         }
       ],
       "datatype": "ConnectApi.Chatter​​​GroupPage"
@@ -601,22 +448,11 @@
       "name": "searchGroups",
       "signature": "public static ConnectApi.ChatterGroupPage searchGroups(String communityId, String q, Integer pageParam, Integer pageSize)",
       "description": "Get a page of groups that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards. Can be specified as null. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.Chatter​​​GroupPage"
@@ -625,26 +461,11 @@
       "name": "searchGroups",
       "signature": "public static ConnectApi.ChatterGroupPage searchGroups(String communityId, String q, ConnectApi.GroupArchiveStatus archiveStatus, Integer pageParam, Integer pageSize)",
       "description": "Get a page of groups with the archive status that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "archiveStatus",
-          "datatype": "ConnectApi.GroupArchiveStatus"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards. Can be specified as null.  Archive status of groups.  All—All groups, including groups that are archived and groups that aren’t archived.   Archived—Groups that are archived.   NotArchived—Groups that aren’t archived.    Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.Chatter​​​GroupPage"
@@ -653,22 +474,11 @@
       "name": "setBannerPhoto",
       "signature": "public static ConnectApi.BannerPhoto setBannerPhoto(String communityId, String groupId, String fileId, Integer versionNumber)",
       "description": "Set an uploaded file as the group banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
-        {
-          "name": "fileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "versionNumber",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID of the group. The ID of the already uploaded file. The key prefix must be 069, and the image must be smaller than 8 MB. Version number of the existing file. Specify either an existing version number or, to get the latest version, specify null."
         }
       ],
       "datatype": "ConnectApi.​BannerPhoto"
@@ -677,18 +487,11 @@
       "name": "setBannerPhoto",
       "signature": "public static ConnectApi.BannerPhoto setBannerPhoto(String communityId, String groupId, ConnectApi.BinaryInput fileUpload)",
       "description": "Set a file that hasn’t been uploaded as the group banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "fileUpload",
-          "datatype": "ConnectApi.Binary​​Input"
+          "datatype": "ConnectApi.Binary​​Input",
+          "description": "Use either the ID for a community, internal, or null. The ID of the group. A file to use as the photo. The content type must be usable as an image."
         }
       ],
       "datatype": "ConnectApi.​BannerPhoto"
@@ -697,18 +500,11 @@
       "name": "setBannerPhotoWithAttributes",
       "signature": "public static ConnectApi.BannerPhoto setBannerPhotoWithAttributes(String communityId, String groupId, ConnectApi.BannerPhotoInput bannerPhoto)",
       "description": "Set and crop an uploaded file as the group banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "bannerPhoto",
-          "datatype": "ConnectApi.BannerPhotoInput"
+          "datatype": "ConnectApi.BannerPhotoInput",
+          "description": "Use either the ID for a community, internal, or null. The ID of the group. A ConnectApi.BannerPhotoInput object that specifies the ID and version of the file, and how to crop the file."
         }
       ],
       "datatype": "ConnectApi.​BannerPhoto"
@@ -717,22 +513,11 @@
       "name": "setBannerPhotoWithAttributes",
       "signature": "public static ConnectApi.BannerPhoto setBannerPhotoWithAttributes(String communityId, String groupId, ConnectApi.BannerPhotoInput bannerPhoto, ConnectApi.BinaryInput fileUpload)",
       "description": "Set and crop a file that hasn’t been uploaded as the group banner photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
-        {
-          "name": "bannerPhoto",
-          "datatype": "ConnectApi.BannerPhotoInput"
-        },
+      "params": [
         {
           "name": "fileUpload",
-          "datatype": "ConnectApi.Binary​​Input"
+          "datatype": "ConnectApi.Binary​​Input",
+          "description": "Use either the ID for a community, internal, or null. The ID of the group. A ConnectApi.BannerPhotoInput object specifying the cropping parameters. A file to use as the photo. The content type must be usable as an image."
         }
       ],
       "datatype": "ConnectApi.​BannerPhoto"
@@ -741,22 +526,11 @@
       "name": "setPhoto",
       "signature": "public static ConnectApi.Photo setPhoto(String communityId, String groupId, String fileId, Integer versionNumber)",
       "description": "Set an uploaded file as the group photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
-        {
-          "name": "fileId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "versionNumber",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. ID of a file already uploaded. The key prefix must be 069, and the file must be an image that is smaller than 2 GB. Version number of the existing file. Specify either an existing version number or, to get the latest version, specify null."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -765,18 +539,11 @@
       "name": "setPhoto",
       "signature": "public static ConnectApi.Photo setPhoto(String communityId, String groupId, ConnectApi.BinaryInput fileUpload)",
       "description": "Set a file that hasn’t been uploaded as the group photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "fileUpload",
-          "datatype": "ConnectApi.Binary​​Input"
+          "datatype": "ConnectApi.Binary​​Input",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. A file to use as the photo. The content type must be usable as an image."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -785,18 +552,11 @@
       "name": "setPhotoWithAttributes",
       "signature": "public static ConnectApi.Photo setPhotoWithAttributes(String communityId, String groupId, ConnectApi.PhotoInput photo)",
       "description": "Set and crop an uploaded file as the group photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "photo",
-          "datatype": "ConnectApi.PhotoInput"
+          "datatype": "ConnectApi.PhotoInput",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. A ConnectApi.PhotoInput object that specifies the ID and version of the file, and how to crop the file."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -805,22 +565,11 @@
       "name": "setPhotoWithAttributes",
       "signature": "public static ConnectApi.Photo setPhotoWithAttributes(String communityId, String groupId, ConnectApi.PhotoInput photo, ConnectApi.BinaryInput fileUpload)",
       "description": "Set and crop a file that hasn’t been uploaded as the group photo.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
-        {
-          "name": "photo",
-          "datatype": "ConnectApi.PhotoInput"
-        },
+      "params": [
         {
           "name": "fileUpload",
-          "datatype": "ConnectApi.Binary​​Input"
+          "datatype": "ConnectApi.Binary​​Input",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. A ConnectApi.PhotoInput object that specifies how to crop the file specified in fileUpload. A file to use as the photo. The content type must be usable as an image."
         }
       ],
       "datatype": "ConnectApi.Photo"
@@ -829,18 +578,11 @@
       "name": "updateGroup",
       "signature": "public static ConnectApi.ChatterGroup updateGroup(String communityId, String groupId, ConnectApi.ChatterGroupInput groupInput)",
       "description": "Update the settings of a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupInput",
-          "datatype": "ConnectApi.Chatter​​GroupInput"
+          "datatype": "ConnectApi.Chatter​​GroupInput",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. A ConnectApi.ChatterGroupInput object."
         }
       ],
       "datatype": "ConnectApi.ChatterGroup"
@@ -849,18 +591,11 @@
       "name": "updateGroupMember",
       "signature": "public static ConnectApi.ChatterGroup updateGroupMember(String communityId, String membershipId, ConnectApi.GroupMembershipType role)",
       "description": "Update the role of a group member.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "membershipId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "role",
-          "datatype": "ConnectApi.GroupMembershipType"
+          "datatype": "ConnectApi.GroupMembershipType",
+          "description": "Use either the ID for a community, internal, or null. The ID for a membership. The group membership type. One of these values: GroupManager  StandardMember"
         }
       ],
       "datatype": "ConnectApi.ChatterGroup"
@@ -869,18 +604,11 @@
       "name": "updateMyChatterSettings",
       "signature": "public static ConnectApi.GroupChatterSettings updateMyChatterSettings(String communityId, String groupId, ConnectApi.GroupEmailFrequency emailFrequency)",
       "description": "Update the context user’s email frequency for a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "emailFrequency",
-          "datatype": "ConnectApi.​GroupEmail​Frequency"
+          "datatype": "ConnectApi.​GroupEmail​Frequency",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. Frequency with which a user receives email. EachPost  DailyDigest  WeeklyDigest  Never  UseDefault   The value UseDefault uses the value set in a call to updateChatterSettings(communityId, userId, defaultGroupEmailFrequency)."
         }
       ],
       "datatype": "ConnectApi.Group​​ChatterSettings"
@@ -889,18 +617,11 @@
       "name": "updateRequestStatus",
       "signature": "public static ConnectApi.GroupMembershipRequest updateRequestStatus(String communityId, String requestId, ConnectApi.GroupMembershipRequestStatus status)",
       "description": "Update a request to join a private group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "requestId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "status",
-          "datatype": "ConnectApi.​GroupMembership​RequestStatus"
+          "datatype": "ConnectApi.​GroupMembership​RequestStatus",
+          "description": "Use either the ID for a community, internal, or null. ID for a request to join a private group. Status of the request: Accepted  Declined   The Pending value of the enum is not valid in this method."
         }
       ],
       "datatype": "ConnectApi.​Group​Membership​Request"
@@ -909,22 +630,11 @@
       "name": "updateRequestStatus",
       "signature": "public static ConnectApi.GroupMembershipRequest updateRequestStatus(String communityId, String requestId, ConnectApi.GroupMembershipRequestStatus status, String responseMessage)",
       "description": "Update a request to join a private group and optionally provide a message when the request is denied.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "requestId",
-          "datatype": "String"
-        },
-        {
-          "name": "status",
-          "datatype": "ConnectApi.GroupMembershipRequestStatus"
-        },
+      "params": [
         {
           "name": "responseMessage",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID for a request to join a private group. Status of the request: Accepted  Declined   The Pending value of the enum is not valid in this method.  Provide a message to the user if their membership request is declined. The value of this property is used only when the value of the status property is Declined.The maximum length is 756 characters."
         }
       ],
       "datatype": "ConnectApi.​Group​Membership​Request"
@@ -933,18 +643,11 @@
       "name": "setTestSearchGroups",
       "signature": "public static Void setTestSearchGroups(String communityId, String q, ConnectApi.ChatterGroupPage result)",
       "description": "Register a ConnectApi.ChatterGroupPage object to be returned when the matching ConnectApi.searchGroups method is called in a test context. Use the test method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.Chatter​​​GroupPage"
+          "datatype": "ConnectApi.Chatter​​​GroupPage",
+          "description": "Use either the ID for a community, internal, or null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards. Can be specified as null. The test ConnectApi.ChatterGroupPage object."
         }
       ],
       "datatype": "Void"
@@ -953,26 +656,11 @@
       "name": "setTestSearchGroups",
       "signature": "public static Void setTestSearchGroups(String communityId, String q, Integer pageParam, Integer pageSize, ConnectApi.ChatterGroupPage result)",
       "description": "Register a ConnectApi.ChatterGroupPage object to be returned when the matching ConnectApi.searchGroups method is called in a test context. Use the test method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.Chatter​​​GroupPage"
+          "datatype": "ConnectApi.Chatter​​​GroupPage",
+          "description": "Use either the ID for a community, internal, or null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards. Can be specified as null. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. The test ConnectApi.ChatterGroupPage object."
         }
       ],
       "datatype": "Void"
@@ -981,35 +669,16 @@
       "name": "setTestSearchGroups",
       "signature": "public static Void setTestSearchGroups(String communityId, String q, ConnectApi.GroupArchiveStatus, archiveStatus, Integer pageParam, Integer pageSize, ConnectApi.ChatterGroupPage result)",
       "description": "Register a ConnectApi.ChatterGroupPage object to be returned when the matching ConnectApi.searchGroups method is called in a test context. Use the test method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "archiveStatus",
-          "datatype": "ConnectApi.GroupArchiveStatus"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.Chatter​​​GroupPage"
+          "datatype": "ConnectApi.Chatter​​​GroupPage",
+          "description": "Use either the ID for a community, internal, or null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards. Can be specified as null. Archive status of groups.  All—All groups, including groups that are archived and groups that aren’t archived.   Archived—Groups that are archived.   NotArchived—Groups that aren’t archived.    Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. The test ConnectApi.ChatterGroupPage object."
         }
       ],
       "datatype": "Void"
     }
   ],
-  "description": "Information about groups, such as the group’s members,",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ChatterGroups_static_methods.htm#apex_ConnectAPI_ChatterGroups_static_methods"
+  "description": "Information about groups, such as the group’s members, photo, and the groups the specified user is a member of. Add members to a group, remove members, and change the group photo.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ChatterGroups_static_methods.htm"
 }
