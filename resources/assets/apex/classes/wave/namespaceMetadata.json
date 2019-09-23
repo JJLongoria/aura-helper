@@ -1,34 +1,34 @@
 {
   "ProjectionNode": {
     "name": "ProjectionNode",
-    "namespace": "wave",
+    "namespace": "Wave",
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Add aggregate functions to the query, or define an",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm#apex_class_wave_ProjectionNode",
+    "description": "Add aggregate functions to the query, or define an alias.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm",
     "classes": [],
     "enums": []
   },
   "QueryBuilder": {
     "name": "QueryBuilder",
-    "namespace": "wave",
+    "namespace": "Wave",
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "The QueryBuilder class provides methods for constructing well-formed",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_QueryBuilder.htm#apex_class_wave_QueryBuilder",
+    "description": "The QueryBuilder class provides methods for constructing well-formed SAQL queries to pass to Wave Analytics.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_QueryBuilder.htm",
     "classes": [],
     "enums": []
   },
   "QueryNode": {
     "name": "QueryNode",
-    "namespace": "wave",
+    "namespace": "Wave",
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Define each node of the query - such as projection, groups, order,",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_QueryNode.htm#apex_class_wave_QueryNode",
+    "description": "Define each node of the query - such as projection, groups, order, filters. Execute the query.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_QueryNode.htm",
     "classes": [],
     "enums": []
   }

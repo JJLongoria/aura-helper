@@ -2,36 +2,44 @@
   "AppMenu": {
     "name": "AppMenu",
     "namespace": "AppLauncher",
+    "isEnum": false,
     "isInterface": false,
+    "enumValues": [],
     "description": "Contains methods to set the appearance of apps in the App Launcher.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_AppMenu.htm#apex_class_applauncher_AppMenu",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_AppMenu.htm",
     "classes": [],
     "enums": []
   },
   "CommunityLogoController": {
     "name": "CommunityLogoController",
     "namespace": "AppLauncher",
+    "isEnum": false,
     "isInterface": false,
-    "description": "Represents the logo of the community. For internal use",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_CommunityLogoController.htm#apex_class_applauncher_CommunityLogoController",
+    "enumValues": [],
+    "description": "Represents the logo of the community. For internal use only.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_CommunityLogoController.htm",
     "classes": [],
     "enums": []
   },
   "EmployeeLoginLinkController": {
     "name": "EmployeeLoginLinkController",
     "namespace": "AppLauncher",
+    "isEnum": false,
     "isInterface": false,
-    "description": "Represents the link on the login form that employees can click to",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_EmployeeLoginLinkController.htm#apex_class_applauncher_EmployeeLoginLinkController",
+    "enumValues": [],
+    "description": "Represents the link on the login form that employees can click to log in. For internal use only.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_EmployeeLoginLinkController.htm",
     "classes": [],
     "enums": []
   },
   "SocialLoginController": {
     "name": "SocialLoginController",
     "namespace": "AppLauncher",
+    "isEnum": false,
     "isInterface": false,
-    "description": "Represents the social authentication providers configured for the",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_SocialLoginController.htm#apex_class_applauncher_SocialLoginController",
+    "enumValues": [],
+    "description": "Represents the social authentication providers configured for the community. For internal use only.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_SocialLoginController.htm",
     "classes": [],
     "enums": []
   }

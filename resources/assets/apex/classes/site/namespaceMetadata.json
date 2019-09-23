@@ -6,7 +6,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Enables rewriting Sites URLs.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_site_urlRewriter_reference.htm#apex_site_urlRewriter_reference",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_site_urlRewriter_reference.htm",
     "classes": [],
     "enums": []
   }
