@@ -13,21 +13,22 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getOpportunityTerritory2Assignments",
       "signature": "public Map<Id,Id> getOpportunityTerritory2Assignments(List<Id> opportunityIds)",
       "description": "Returns the mapping of opportunities to territory IDs. When Salesforce invokes this method, it supplies the list of opportunity IDs, except for opportunities that have been excluded from territory assignment (IsExcludedFromTerritory2Filter=false).",
-      "methodParams": [
+      "params": [
         {
           "name": "opportunityIds",
-          "datatype": "List<Id>"
+          "datatype": "List<Id>",
+          "description": "Opportunity IDs."
         }
       ],
       "datatype": "Map<Id,Id>"
     }
   ],
-  "description": "Apex interface that allows an implementing class to assign a single",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_support_milestonetriggertimecalculator.htm#apex_interface_support_milestonetriggertimecalculator"
+  "description": "Apex interface that allows an implementing class to assign a single territory to an opportunity.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TerritoryMgmt_OpportunityTerritory2AssignmentFilter.htm"
 }

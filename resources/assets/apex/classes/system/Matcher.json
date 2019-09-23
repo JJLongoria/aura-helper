@@ -5,29 +5,32 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "end",
       "signature": "public Integer end()",
       "description": "Returns the position after the last matched character.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "end",
       "signature": "public Integer end(Integer groupIndex)",
       "description": "Returns the position after the last character of the subsequence captured by the group index during the previous match operation. If the match was successful but the group itself did not match anything, this method returns -1.",
-      "methodParams": [
+      "params": [
         {
           "name": "groupIndex",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -36,17 +39,18 @@
       "name": "find",
       "signature": "public Boolean find()",
       "description": "Attempts to find the next subsequence of the input sequence that matches the pattern. This method returns true if a subsequence of the input sequence matches this Matcher object's pattern.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "find",
       "signature": "public Boolean find(Integer group)",
       "description": "Resets the Matcher object and then tries to find the next subsequence of the input sequence that matches the pattern. This method returns true if a subsequence of the input sequence matches this Matcher object's pattern.",
-      "methodParams": [
+      "params": [
         {
           "name": "group",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -55,17 +59,18 @@
       "name": "group",
       "signature": "public String group()",
       "description": "Returns the input subsequence returned by the previous match.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "group",
       "signature": "public String group(Integer groupIndex)",
       "description": "Returns the input subsequence captured by the specified group index during the previous match operation. If the match was successful but the specified group failed to match any part of the input sequence, null is returned.",
-      "methodParams": [
+      "params": [
         {
           "name": "groupIndex",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -74,59 +79,60 @@
       "name": "groupCount",
       "signature": "public Integer groupCount()",
       "description": "Returns the number of capturing groups in this Matching object's pattern. Group zero denotes the entire pattern and is not included in this count.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "hasAnchoringBounds",
       "signature": "public Boolean hasAnchoringBounds()",
       "description": "Returns true if the Matcher object has anchoring bounds, false otherwise. By default, a Matcher object uses anchoring bounds regions.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "hasTransparentBounds",
       "signature": "public Boolean hasTransparentBounds()",
       "description": "Returns true if the Matcher object has transparent bounds, false if it uses opaque bounds. By default, a Matcher object uses opaque region boundaries.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "hitEnd",
       "signature": "public Boolean hitEnd()",
       "description": "Returns true if the end of input was found by the search engine in the last match operation performed by this Matcher object. When this method returns true, it is possible that more input would have changed the result of the last search.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "lookingAt",
       "signature": "public Boolean lookingAt()",
       "description": "Attempts to match the input sequence, starting at the beginning of the region, against the pattern.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "matches",
       "signature": "public Boolean matches()",
       "description": "Attempts to match the entire region against the pattern.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "pattern",
       "signature": "public Pattern object pattern()",
       "description": "Returns the Pattern object from which this Matcher object was created.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.Pattern"
     },
     {
       "name": "quoteReplacement",
       "signature": "public static String quoteReplacement(String inputString)",
       "description": "Returns a literal replacement string for the specified string inputString. The characters in the returned string match the sequence of characters in inputString.",
-      "methodParams": [
+      "params": [
         {
           "name": "inputString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -135,14 +141,11 @@
       "name": "region",
       "signature": "public Matcher object region(Integer start, Integer end)",
       "description": "Sets the limits of this Matcher object's region. The region is the part of the input sequence that is searched to find a match.",
-      "methodParams": [
-        {
-          "name": "start",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "end",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Matcher"
@@ -151,24 +154,25 @@
       "name": "regionEnd",
       "signature": "public Integer regionEnd()",
       "description": "Returns the end index (exclusive) of this Matcher object's region.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "regionStart",
       "signature": "public Integer regionStart()",
       "description": "Returns the start index (inclusive) of this Matcher object's region.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "replaceAll",
       "signature": "public String replaceAll(String replacementString)",
       "description": "Replaces every subsequence of the input sequence that matches the pattern with the replacement string.",
-      "methodParams": [
+      "params": [
         {
           "name": "replacementString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -177,10 +181,11 @@
       "name": "replaceFirst",
       "signature": "public String replaceFirst(String replacementString)",
       "description": "Replaces the first subsequence of the input sequence that matches the pattern with the replacement string.",
-      "methodParams": [
+      "params": [
         {
           "name": "replacementString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -189,24 +194,25 @@
       "name": "requireEnd",
       "signature": "public Boolean requireEnd()",
       "description": "Returns true if more input could change a positive match into a negative one.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "reset",
       "signature": "public Matcher object reset()",
       "description": "Resets this Matcher object. Resetting a Matcher object discards all of its explicit state information.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Matcher"
     },
     {
       "name": "reset",
       "signature": "public Matcher reset(String inputSequence)",
       "description": "Resets this Matcher object with the new input sequence. Resetting a Matcher object discards all of its explicit state information.",
-      "methodParams": [
+      "params": [
         {
           "name": "inputSequence",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Matcher"
@@ -215,17 +221,18 @@
       "name": "start",
       "signature": "public Integer start()",
       "description": "Returns the start index of the first character of the previous match.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "start",
       "signature": "public Integer start(Integer groupIndex)",
       "description": "Returns the start index of the subsequence captured by the group specified by the group index during the previous match operation. Captured groups are indexed from left to right, starting at one. Group zero denotes the entire pattern, so the expression m.start(0) is equivalent to m.start().",
-      "methodParams": [
+      "params": [
         {
           "name": "groupIndex",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -234,10 +241,11 @@
       "name": "useAnchoringBounds",
       "signature": "public Matcher object useAnchoringBounds(Boolean anchoringBounds)",
       "description": "Sets the anchoring bounds of the region for the Matcher object. By default, a Matcher object uses anchoring bounds regions.",
-      "methodParams": [
+      "params": [
         {
           "name": "anchoringBounds",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "If you specify true, the Matcher object uses anchoring bounds. If you specify false, non-anchoring bounds are used."
         }
       ],
       "datatype": "Matcher"
@@ -246,10 +254,11 @@
       "name": "usePattern",
       "signature": "public Matcher object usePattern(Pattern pattern)",
       "description": "Changes the Pattern object that the Matcher object uses to find matches. This method causes the Matcher object to lose information about the groups of the last match that occurred. The Matcher object's position in the input is maintained.",
-      "methodParams": [
+      "params": [
         {
           "name": "pattern",
-          "datatype": "System.Pattern"
+          "datatype": "System.Pattern",
+          "description": ""
         }
       ],
       "datatype": "Matcher"
@@ -258,15 +267,16 @@
       "name": "useTransparentBounds",
       "signature": "public Matcher object useTransparentBounds(Boolean transparentBounds)",
       "description": "Sets the transparency bounds for this Matcher object. By default, a Matcher object uses anchoring bounds regions.",
-      "methodParams": [
+      "params": [
         {
           "name": "transparentBounds",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "If you specify true, the Matcher object uses transparent bounds. If you specify false, opaque bounds are used."
         }
       ],
       "datatype": "Matcher"
     }
   ],
-  "description": "Matchers use Patterns to perform match operations on a",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_pattern_and_matcher_matcher_methods.htm#apex_classes_pattern_and_matcher_matcher_methods"
+  "description": "Matchers use Patterns to perform match operations on a character string.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_pattern_and_matcher_matcher_methods.htm"
 }

@@ -5,35 +5,30 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": true,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "createAccount",
       "signature": "public String createAccount(String firstName, String lastName, Id siteAdminId)",
       "description": "Accepts basic user information and creates an Account record. The implementation of this method returns the account ID.",
-      "methodParams": [
-        {
-          "name": "firstName",
-          "datatype": "String"
-        },
-        {
-          "name": "lastName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "siteAdminId",
-          "datatype": "ID"
+          "datatype": "ID",
+          "description": "The first name of the user who is registering. The last name of the user who is registering. The user ID of the Site administrator, used for notification if any exceptions occur."
         }
       ],
       "datatype": "String"
     }
   ],
-  "description": "Creates Account records that will be associated with Chatter Answers",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_chatteranswers_accountcreator.htm#apex_interface_chatteranswers_accountcreator"
+  "description": "Creates Account records that will be associated with Chatter Answers users.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_chatteranswers_accountcreator.htm"
 }

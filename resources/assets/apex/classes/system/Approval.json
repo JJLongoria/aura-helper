@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "isLocked",
       "signature": "public static Boolean isLocked(Id id)",
       "description": "Returns true if the record with the ID id is locked, or false if it’s not.",
-      "methodParams": [
+      "params": [
         {
           "name": "id",
-          "datatype": "Id"
+          "datatype": "Id",
+          "description": "The ID of the record whose lock or unlock status is in question."
         }
       ],
       "datatype": "Boolean"
@@ -29,10 +32,11 @@
       "name": "isLocked",
       "signature": "public static Map<Id,Boolean> isLocked(List<Id> ids)",
       "description": "Returns a map of record IDs and their lock statuses. If the record is locked the status is true. If the record is not locked the status is false.",
-      "methodParams": [
+      "params": [
         {
           "name": "ids",
-          "datatype": "List<Id>"
+          "datatype": "List<Id>",
+          "description": "The IDs of the records whose lock or unlock statuses are in question."
         }
       ],
       "datatype": "Map<Id,Boolean>"
@@ -41,10 +45,11 @@
       "name": "isLocked",
       "signature": "public static Boolean isLocked(SObject sobject)",
       "description": "Returns true if the sobject record is locked, or false if it’s not.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobject",
-          "datatype": "SObject"
+          "datatype": "SObject",
+          "description": "The record whose lock or unlock status is in question."
         }
       ],
       "datatype": "Boolean"
@@ -53,10 +58,11 @@
       "name": "isLocked",
       "signature": "public static Map<Id,Boolean> isLocked(List<SObject> sobjects)",
       "description": "Returns a map of record IDs to lock statuses. If the record is locked the status is true. If the record is not locked the status is false.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobjects",
-          "datatype": "List<SObject>"
+          "datatype": "List<SObject>",
+          "description": "The records whose lock or unlock statuses are in question."
         }
       ],
       "datatype": "Map<Id,Boolean>"
@@ -65,10 +71,11 @@
       "name": "lock",
       "signature": "public static Approval.LockResult lock(Id recordId)",
       "description": "Locks an object, and returns the lock results.",
-      "methodParams": [
+      "params": [
         {
           "name": "recordId",
-          "datatype": "Id"
+          "datatype": "Id",
+          "description": "ID of the object to lock."
         }
       ],
       "datatype": "Approval.LockResult"
@@ -77,10 +84,11 @@
       "name": "lock",
       "signature": "public static List<Approval.LockResult> lock(List<Id> ids)",
       "description": "Locks a set of objects, and returns the lock results, including failures.",
-      "methodParams": [
+      "params": [
         {
           "name": "ids",
-          "datatype": "List<Id>"
+          "datatype": "List<Id>",
+          "description": "IDs of the objects to lock."
         }
       ],
       "datatype": "List<Approval.LockResult>"
@@ -89,10 +97,11 @@
       "name": "lock",
       "signature": "public static Approval.LockResult lock(SObject recordToLock)",
       "description": "Locks an object, and returns the lock results.",
-      "methodParams": [
+      "params": [
         {
           "name": "recordToLock",
-          "datatype": "SObject"
+          "datatype": "SObject",
+          "description": ""
         }
       ],
       "datatype": "Approval.LockResult"
@@ -101,10 +110,11 @@
       "name": "lock",
       "signature": "public static List<Approval.LockResult> lock(List<SObject> recordsToLock)",
       "description": "Locks a set of objects, and returns the lock results, including failures.",
-      "methodParams": [
+      "params": [
         {
           "name": "recordsToLock",
-          "datatype": "List<SObject>"
+          "datatype": "List<SObject>",
+          "description": ""
         }
       ],
       "datatype": "List<Approval.LockResult>"
@@ -113,14 +123,11 @@
       "name": "lock",
       "signature": "public static Approval.LockResult lock(Id recordId, Boolean allOrNothing)",
       "description": "Locks an object, with the option for partial success, and returns the lock result.",
-      "methodParams": [
-        {
-          "name": "recordId",
-          "datatype": "Id"
-        },
+      "params": [
         {
           "name": "allOrNothing",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "ID of the object to lock. Specifies whether this operation allows partial success. If you specify false and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that you can use to verify which records succeeded, which failed, and why."
         }
       ],
       "datatype": "Approval.LockResult"
@@ -129,14 +136,11 @@
       "name": "lock",
       "signature": "public static List<Approval.LockResult> lock(List<Id> recordIds, Boolean allOrNothing)",
       "description": "Locks a set of objects, with the option for partial success. It returns the lock results, including failures.",
-      "methodParams": [
-        {
-          "name": "recordIds",
-          "datatype": "List<Id>"
-        },
+      "params": [
         {
           "name": "allOrNothing",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "IDs of the objects to lock. Specifies whether this operation allows partial success. If you specify false and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that you can use to verify which records succeeded, which failed, and why."
         }
       ],
       "datatype": "List<Approval.LockResult>"
@@ -145,14 +149,11 @@
       "name": "lock",
       "signature": "public static Approval.LockResult lock(SObject recordToLock, Boolean allOrNothing)",
       "description": "Locks an object, with the option for partial success, and returns the lock result.",
-      "methodParams": [
-        {
-          "name": "recordToLock",
-          "datatype": "SObject"
-        },
+      "params": [
         {
           "name": "allOrNothing",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Specifies whether this operation allows partial success. If you specify false and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that you can use to verify which records succeeded, which failed, and why."
         }
       ],
       "datatype": "Approval.LockResult"
@@ -161,14 +162,11 @@
       "name": "lock",
       "signature": "public static List<Approval.LockResult> lock(List<SObject> recordsToLock, Boolean allOrNothing)",
       "description": "Locks a set of objects, with the option for partial success. It returns the lock results, including failures.",
-      "methodParams": [
-        {
-          "name": "recordsToLock",
-          "datatype": "List<SObject>"
-        },
+      "params": [
         {
           "name": "allOrNothing",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Specifies whether this operation allows partial success. If you specify false and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that you can use to verify which records succeeded, which failed, and why."
         }
       ],
       "datatype": "List<Approval.LockResult>"
@@ -177,30 +175,63 @@
       "name": "process",
       "signature": "public static Approval.ProcessResult process(Approval.ProcessRequest approvalRequest)",
       "description": "Submits a new approval request and approves or rejects existing approval requests.",
-      "methodParams": [
+      "params": [
         {
           "name": "approvalRequest",
-          "datatype": "Approval.ProcessRequest"
+          "datatype": "Approval.ProcessRequest",
+          "description": ""
         }
       ],
       "datatype": "Approval.ProcessResult"
     },
     {
+      "name": "process",
+      "signature": "public static Approval.ProcessResult process(Approval.ProcessRequest approvalRequest, Boolean allOrNone)",
+      "description": "Submits a new approval request and approves or rejects existing approval requests.",
+      "params": [
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean",
+          "description": "Approval.ProcessRequest The optional allOrNone parameter specifies whether the operation allows for partial success. If you specify false for this parameter and an approval fails, the remainder of the approval processes can still succeed."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "process",
+      "signature": "public static Approval.ProcessResult [] process(Approval.ProcessRequest[] approvalRequests)",
+      "description": "Submits a list of new approval requests, and approves or rejects existing approval requests.",
+      "params": [
+        {
+          "name": "approvalRequests",
+          "datatype": "",
+          "description": "Approval.ProcessRequest []"
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "process",
+      "signature": "public static Approval.ProcessResult [] process(Approval.ProcessRequest[] approvalRequests, Boolean allOrNone)",
+      "description": "Submits a list of new approval requests, and approves or rejects existing approval requests.",
+      "params": [
+        {
+          "name": "allOrNone",
+          "datatype": "Boolean",
+          "description": "Approval.ProcessRequest [] The optional allOrNone parameter specifies whether the operation allows for partial success. If you specify false for this parameter and an approval fails, the remainder of the approval processes can still succeed."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
       "name": "unlock",
-      "signature": "public static Approval.ProcessResult process(Approval.ProcessRequest approvalRequest, Boolean allOrNone) public static Approval.ProcessResult [] process(Approval.ProcessRequest[] approvalRequests) public static Approval.ProcessResult [] process(Approval.ProcessRequest[] approvalRequests, Boolean allOrNone)   public static Approval.UnlockResult unlock(Id recordId)",
+      "signature": "public static Approval.UnlockResult unlock(Id recordId)",
       "description": "Unlocks an object, and returns the unlock results.",
-      "methodParams": [
-        {
-          "name": "allOrNone",
-          "datatype": "Boolean"
-        },
-        {
-          "name": "allOrNone",
-          "datatype": "Boolean"
-        },
+      "params": [
         {
           "name": "recordId",
-          "datatype": "Id"
+          "datatype": "Id",
+          "description": "ID of the object to unlock."
         }
       ],
       "datatype": "Approval.UnlockResult"
@@ -209,10 +240,11 @@
       "name": "unlock",
       "signature": "public static List<Approval.UnlockResult> unlock(List<Id> recordIds)",
       "description": "Unlocks a set of objects, and returns the unlock results, including failures.",
-      "methodParams": [
+      "params": [
         {
           "name": "recordIds",
-          "datatype": "List<Id>"
+          "datatype": "List<Id>",
+          "description": "IDs of the objects to unlock."
         }
       ],
       "datatype": "List<Approval.UnlockResult>"
@@ -221,10 +253,11 @@
       "name": "unlock",
       "signature": "public static Approval.UnlockResult unlock(SObject recordToUnlock)",
       "description": "Unlocks an object, and returns the unlock results.",
-      "methodParams": [
+      "params": [
         {
           "name": "recordToUnlock",
-          "datatype": "SObject"
+          "datatype": "SObject",
+          "description": ""
         }
       ],
       "datatype": "Approval.UnlockResult"
@@ -233,10 +266,11 @@
       "name": "unlock",
       "signature": "public static List<Approval.UnlockResult> unlock(List<SObject> recordsToUnlock)",
       "description": "Unlocks a set of objects, and returns the unlock results, including failures.",
-      "methodParams": [
+      "params": [
         {
           "name": "recordsToUnlock",
-          "datatype": "List<SObject>"
+          "datatype": "List<SObject>",
+          "description": ""
         }
       ],
       "datatype": "List<Approval.UnlockResult>"
@@ -245,14 +279,11 @@
       "name": "unlock",
       "signature": "public static Approval.UnlockResult unlock(Id recordId, Boolean allOrNothing)",
       "description": "Unlocks an object, with the option for partial success, and returns the unlock result.",
-      "methodParams": [
-        {
-          "name": "recordId",
-          "datatype": "Id"
-        },
+      "params": [
         {
           "name": "allOrNothing",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "ID of the object to lock. Specifies whether this operation allows partial success. If you specify false and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that you can use to verify which records succeeded, which failed, and why."
         }
       ],
       "datatype": "Approval.UnlockResult"
@@ -261,14 +292,11 @@
       "name": "unlock",
       "signature": "public static List<Approval.UnlockResult> unlock(List<Id> recordIds, Boolean allOrNothing)",
       "description": "Unlocks a set of objects, with the option for partial success. It returns the unlock results, including failures.",
-      "methodParams": [
-        {
-          "name": "recordIds",
-          "datatype": "List<Id>"
-        },
+      "params": [
         {
           "name": "allOrNothing",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "IDs of the objects to unlock. Specifies whether this operation allows partial success. If you specify false and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that you can use to verify which records succeeded, which failed, and why."
         }
       ],
       "datatype": "List<Approval.UnlockResult>"
@@ -277,14 +305,11 @@
       "name": "unlock",
       "signature": "public static Approval.UnlockResult unlock(SObject recordToUnlock, Boolean allOrNothing)",
       "description": "Unlocks an object, with the option for partial success, and returns the unlock result.",
-      "methodParams": [
-        {
-          "name": "recordToUnlock",
-          "datatype": "SObject"
-        },
+      "params": [
         {
           "name": "allOrNothing",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Specifies whether this operation allows partial success. If you specify false and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that you can use to verify which records succeeded, which failed, and why."
         }
       ],
       "datatype": "Approval.UnlockResult"
@@ -293,19 +318,16 @@
       "name": "unlock",
       "signature": "public static List<Approval.UnlockResult> unlock(List<SObject> recordsToUnlock, Boolean allOrNothing)",
       "description": "Unlocks a set of objects, with the option for partial success. It returns the unlock results, including failures.",
-      "methodParams": [
-        {
-          "name": "recordsToUnlock",
-          "datatype": "List<SObject>"
-        },
+      "params": [
         {
           "name": "allOrNothing",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Specifies whether this operation allows partial success. If you specify false and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that you can use to verify which records succeeded, which failed, and why."
         }
       ],
       "datatype": "List<Approval.UnlockResult>"
     }
   ],
-  "description": "Contains methods for processing approval requests and setting approval-process locks and",
+  "description": "Contains methods for processing approval requests and setting approval-process locks and unlocks on records.",
   "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_approval.htm"
 }

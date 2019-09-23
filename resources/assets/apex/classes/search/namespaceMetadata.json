@@ -1,0 +1,79 @@
+{
+  "KnowledgeSuggestionFilter": {
+    "name": "KnowledgeSuggestionFilter",
+    "namespace": "Search",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Filter settings that narrow the results from a call to System.Search.suggest(searchQuery, sObjectType, options)",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_KnowledgeSuggestionFilter.htm#apex_class_Search_KnowledgeSuggestionFilter",
+    "classes": [],
+    "enums": []
+  },
+  "QuestionSuggestionFilter": {
+    "name": "QuestionSuggestionFilter",
+    "namespace": "Search",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "The Search.QuestionSuggestionFilter class filters results from a call to System.Search.suggest(searchQuery, sObjectType, options)",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_QuestionSuggestionFilter.htm#apex_class_Search_QuestionSuggestionFilter",
+    "classes": [],
+    "enums": []
+  },
+  "SearchResult": {
+    "name": "SearchResult",
+    "namespace": "Search",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "A wrapper object that contains an sObject and search",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SearchResult.htm#apex_class_Search_SearchResult",
+    "classes": [],
+    "enums": []
+  },
+  "SearchResults": {
+    "name": "SearchResults",
+    "namespace": "Search",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Wraps the results returned by the Search.find(String​) method.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SearchResults.htm#apex_class_Search_SearchResults",
+    "classes": [],
+    "enums": []
+  },
+  "SuggestionOption": {
+    "name": "SuggestionOption",
+    "namespace": "Search",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Options that narrow record and article suggestion results returned",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SuggestionOption.htm#apex_class_Search_SuggestionOption",
+    "classes": [],
+    "enums": []
+  },
+  "SuggestionResult": {
+    "name": "SuggestionResult",
+    "namespace": "Search",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Options that narrow record and article suggestion results returned",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SuggestionResult.htm#apex_class_Search_SuggestionResult",
+    "classes": [],
+    "enums": []
+  },
+  "SuggestionResults": {
+    "name": "SuggestionResults",
+    "namespace": "Search",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Wraps the results returned by the Search.suggest(​String, String, Search.SuggestionOption) method.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SuggestionResults.htm#apex_class_Search_SuggestionResults",
+    "classes": [],
+    "enums": []
+  }
+}

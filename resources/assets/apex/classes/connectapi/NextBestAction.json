@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "deleteRecommendationReaction",
       "signature": "public static Void deleteRecommendationReaction(String reactionId)",
       "description": "Delete a recommendation reaction.",
-      "methodParams": [
+      "params": [
         {
           "name": "reactionId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the recommendation reaction."
         }
       ],
       "datatype": "Void"
@@ -29,18 +32,11 @@
       "name": "executeStrategy",
       "signature": "public static ConnectApi.NBARecommendations executeStrategy(String strategyName, Integer maxResults, String contextRecordId)",
       "description": "Execute a strategy.",
-      "methodParams": [
-        {
-          "name": "strategyName",
-          "datatype": "String"
-        },
-        {
-          "name": "maxResults",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "contextRecordId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Name of the strategy. Maximum number of results. Valid values are from 1 to 25. The default is 3. ID of the context record. For example, if the next best action is on a case detail page, the ID of the case."
         }
       ],
       "datatype": "ConnectApi.NBARecommendations"
@@ -49,22 +45,11 @@
       "name": "executeStrategy",
       "signature": "public static ConnectApi.NBARecommendations executeStrategy(String strategyName, Integer maxResults, String contextRecordId, Boolean debugTrace)",
       "description": "Execute a strategy and request a trace.",
-      "methodParams": [
-        {
-          "name": "strategyName",
-          "datatype": "String"
-        },
-        {
-          "name": "maxResults",
-          "datatype": "Integer"
-        },
-        {
-          "name": "contextRecordId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "debugTrace",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Name of the strategy. Maximum number of results. Valid values are from 1 to 25. The default is 3. ID of the context record. For example, if the next best action is on a case detail page, the ID of the case. Specifies whether to return trace and debug information in the response (true) or not (false)."
         }
       ],
       "datatype": "ConnectApi.NBARecommendations"
@@ -73,14 +58,11 @@
       "name": "executeStrategy",
       "signature": "public static ConnectApi.NBARecommendations executeStrategy(String strategyName, ConnectApi.NBAStrategyExecutionInput strategyInput)",
       "description": "Execute a strategy using an input class.",
-      "methodParams": [
-        {
-          "name": "strategyName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "strategyInput",
-          "datatype": "ConnectApi.NBAStrategyExecutionInput"
+          "datatype": "ConnectApi.NBAStrategyExecutionInput",
+          "description": "Name of the strategy. A ConnectApi.NBAStrategyExecutionInput body."
         }
       ],
       "datatype": "ConnectApi.NBARecommendations"
@@ -89,10 +71,11 @@
       "name": "getRecommendation",
       "signature": "public static ConnectApi.Recommendation getRecommendation(String recommendationId)",
       "description": "Get a recommendation.",
-      "methodParams": [
+      "params": [
         {
           "name": "recommendationId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the recommendation."
         }
       ],
       "datatype": "ConnectApi.Recommendation"
@@ -101,10 +84,11 @@
       "name": "getRecommendationReaction",
       "signature": "public static ConnectApi.RecommendationReaction getRecommendationReaction(String reactionId)",
       "description": "Get a recommendation reaction.",
-      "methodParams": [
+      "params": [
         {
           "name": "reactionId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of the recommendation reaction."
         }
       ],
       "datatype": "ConnectApi.RecommendationReaction"
@@ -113,30 +97,11 @@
       "name": "getRecommendationReactions",
       "signature": "public static ConnectApi.RecommendationReactions getRecommendationReactions(String onBehalfOfId, String createdById, String targetId, String contextRecordId, Integer pageParam, Integer pageSize)",
       "description": "Get recommendation reactions.",
-      "methodParams": [
-        {
-          "name": "onBehalfOfId",
-          "datatype": "String"
-        },
-        {
-          "name": "createdById",
-          "datatype": "String"
-        },
-        {
-          "name": "targetId",
-          "datatype": "String"
-        },
-        {
-          "name": "contextRecordId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use the ID of the user who is indirectly reacting to the recommendation to filter the results. Use the ID of the user or record that created the recommendation reaction to filter the results. Use the ID of the target to filter the results. Use the ID of a context record to filter the results. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.RecommendationReactions"
@@ -145,15 +110,16 @@
       "name": "setRecommendationReaction",
       "signature": "public static ConnectApi.RecommendationReaction setRecommendationReaction(ConnectApi.RecommendationReactionInput reaction)",
       "description": "Record user reactions to recommendations.",
-      "methodParams": [
+      "params": [
         {
           "name": "reaction",
-          "datatype": "ConnectApi.RecommendationReactionInput"
+          "datatype": "ConnectApi.RecommendationReactionInput",
+          "description": "A ConnectApi.RecommendationReactionInput object representing a reaction to a recommendation produced by a recommendation strategy."
         }
       ],
       "datatype": "ConnectApi.RecommendationReaction"
     }
   ],
-  "description": "Execute recommendation strategies, get recommendations, manage recommendation",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_NextBestAction_static_methods.htm#apex_ConnectAPI_NextBestAction_static_methods"
+  "description": "Execute recommendation strategies, get recommendations, manage recommendation reactions.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_NextBestAction_static_methods.htm"
 }

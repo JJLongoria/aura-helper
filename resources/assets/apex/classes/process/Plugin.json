@@ -5,34 +5,37 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": true,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "describe",
       "signature": "public Process.PluginDescribeResult describe()",
       "description": "Returns a Process.PluginDescribeResult object that describes this method call.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Process.PluginDescribeResult"
     },
     {
       "name": "invoke",
       "signature": "public Process.PluginResult invoke(Process.PluginRequest request)",
       "description": "Primary method that the system invokes when the class that implements the interface is instantiated.",
-      "methodParams": [
+      "params": [
         {
           "name": "request",
-          "datatype": "Process.PluginRequest"
+          "datatype": "Process.PluginRequest",
+          "description": ""
         }
       ],
       "datatype": "Process.PluginResult"
     }
   ],
-  "description": "Allows you to pass data between your organization and a",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Process_Plugin.htm#apex_interface_Process_Plugin"
+  "description": "Allows you to pass data between your organization and a specified flow.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Process_Plugin.htm"
 }

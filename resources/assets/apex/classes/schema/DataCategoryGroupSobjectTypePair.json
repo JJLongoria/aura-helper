@@ -13,12 +13,12 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "DataCategoryGroupSobjectTypePair",
       "signature": "public DataCategoryGroupSobjectTypePair()",
       "description": "Creates a new instance of the Schema.DataCategoryGroupSobjectTypePair class.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
@@ -27,24 +27,25 @@
       "name": "getDataCategoryGroupName",
       "signature": "public String getDataCategoryGroupName()",
       "description": "Returns the unique name used by the API to access the data category group.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getSobject",
       "signature": "public String getSobject()",
       "description": "Returns the object name associated with the data category group.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "setDataCategoryGroupName",
       "signature": "public String setDataCategoryGroupName(String name)",
       "description": "Specifies the unique name used by the API to access the data category group.",
-      "methodParams": [
+      "params": [
         {
           "name": "name",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -53,15 +54,16 @@
       "name": "setSobject",
       "signature": "public Void setSobject(String sObjectName)",
       "description": "Sets the sObject associated with the data category group.",
-      "methodParams": [
+      "params": [
         {
           "name": "sObjectName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The sObjectName is the object name associated with the data category group. Valid values are:  KnowledgeArticleVersion—for article types.   Question—for questions from Answers."
         }
       ],
       "datatype": "Void"
     }
   ],
   "description": "Specifies a category group and an associated object.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DataCategoryGroupSobjectTypePair.htm#apex_class_Schema_DataCategoryGroupSobjectTypePair"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DataCategoryGroupSobjectTypePair.htm"
 }

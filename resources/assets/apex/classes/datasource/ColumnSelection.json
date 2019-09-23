@@ -1,10 +1,12 @@
 {
   "name": "ColumnSelection",
-  "namespace": "DataSource",
+  "namespace": "Datasource",
   "accessModifier": "global",
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,19 +17,19 @@
       "name": "aggregation",
       "signature": "public DataSource.QueryAggregation aggregation {get; set;}",
       "description": "How to aggregate the column’s data.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "columnName",
       "signature": "public String columnName {get; set;}",
       "description": "Name of the selected column.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [],
-  "description": "Identifies the list of columns to return during a query or",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ColumnSelection.htm#apex_class_DataSource_ColumnSelection"
+  "description": "Identifies the list of columns to return during a query or search.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ColumnSelection.htm"
 }

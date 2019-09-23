@@ -1,0 +1,339 @@
+{
+  "AsyncDeleteCallback": {
+    "name": "AsyncDeleteCallback",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "A callback class that the Database.deleteAsync method references. Salesforce calls this class after",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_AsyncDeleteCallback.htm#apex_class_DataSource_AsyncDeleteCallback",
+    "classes": [],
+    "enums": []
+  },
+  "AsyncSaveCallback": {
+    "name": "AsyncSaveCallback",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "A callback class that the Database.insertAsync or Database.updateAsync method references. Salesforce calls this class after",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_AsyncSaveCallback.htm#apex_class_DataSource_AsyncSaveCallback",
+    "classes": [],
+    "enums": []
+  },
+  "AuthenticationCapability": {
+    "name": "AuthenticationCapability",
+    "namespace": "Datasource",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "ANONYMOUS",
+      "BASIC",
+      "CERTIFICATE",
+      "OAUTH"
+    ],
+    "description": "Specifies the types of authentication that can be used to access the external system.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_AuthenticationCapability.htm",
+    "classes": [],
+    "enums": []
+  },
+  "AuthenticationProtocol": {
+    "name": "AuthenticationProtocol",
+    "namespace": "Datasource",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "NONE",
+      "OAUTH",
+      "PASSWORD"
+    ],
+    "description": "Determines what type of credentials are used to authenticate to the external system.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_AuthenticationProtocol.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Capability": {
+    "name": "Capability",
+    "namespace": "Datasource",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "NONE",
+      "OAUTH",
+      "PASSWORD"
+    ],
+    "description": "Declares which functional operations the external system supports. Also specifies required endpoint settings for the external data source definition.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_Capability.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Column": {
+    "name": "Column",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Describes a column on a DataSource.Table. This class extends the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Column.htm#apex_class_DataSource_Column",
+    "classes": [],
+    "enums": []
+  },
+  "ColumnSelection": {
+    "name": "ColumnSelection",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Identifies the list of columns to return during a query or",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ColumnSelection.htm#apex_class_DataSource_ColumnSelection",
+    "classes": [],
+    "enums": []
+  },
+  "Connection": {
+    "name": "Connection",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Extend this class to enable your Salesforce org to sync the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Connection.htm#apex_class_DataSource_Connection",
+    "classes": [],
+    "enums": []
+  },
+  "ConnectionParams": {
+    "name": "ConnectionParams",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Contains the credentials for authenticating to the external",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ConnectionParams.htm#apex_class_DataSource_ConnectionParams",
+    "classes": [],
+    "enums": []
+  },
+  "DataSourceUtil": {
+    "name": "DataSourceUtil",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Parent class for the DataSource.Provider, DataSource.Connection, DataSource.Table, and",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_DataSourceUtil.htm#apex_class_DataSource_DataSourceUtil",
+    "classes": [],
+    "enums": []
+  },
+  "DataType": {
+    "name": "DataType",
+    "namespace": "Datasource",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "BOOLEAN_TYPE",
+      "DATETIME_TYPE",
+      "EXTERNAL_LOOKUP_TYPE",
+      "INDIRECT_LOOKUP_TYPE",
+      "LOOKUP_TYPE",
+      "NUMBER_TYPE",
+      "STRING_LONG_TYPE",
+      "STRING_SHORT_TYPE",
+      "URL_TYPE"
+    ],
+    "description": "Specifies the data types that are supported by the Apex Connector Framework.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_DataType.htm",
+    "classes": [],
+    "enums": []
+  },
+  "DeleteContext": {
+    "name": "DeleteContext",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "An instance of DeleteContext",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_DeleteContext.htm#apex_class_DataSource_DeleteContext",
+    "classes": [],
+    "enums": []
+  },
+  "DeleteResult": {
+    "name": "DeleteResult",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Represents the result of a delete operation on an sObject record. The",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_DeleteResult.htm#apex_class_DataSource_DeleteResult",
+    "classes": [],
+    "enums": []
+  },
+  "Filter": {
+    "name": "Filter",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Name of the column that’s being evaluated in a simple comparative type",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Filter.htm#apex_class_DataSource_Filter",
+    "classes": [],
+    "enums": []
+  },
+  "FilterType": {
+    "name": "FilterType",
+    "namespace": "Datasource",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "AND_",
+      "CONTAINS",
+      "ENDS_WITH",
+      "EQUALS",
+      "GREATER_THAN",
+      "GREATER_THAN_OR_EQUAL_TO",
+      "LESS_THAN",
+      "LESS_THAN_OR_EQUAL_TO",
+      "LIKE_",
+      "NOT_",
+      "NOT_EQUALS",
+      "OR_",
+      "STARTS_WITH"
+    ],
+    "description": "Referenced by the type property on a DataSource.Filter.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_FilterType.htm",
+    "classes": [],
+    "enums": []
+  },
+  "IdentityType": {
+    "name": "IdentityType",
+    "namespace": "Datasource",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "ANONYMOUS",
+      "NAMED_USER",
+      "PER_USER"
+    ],
+    "description": "Determines which set of credentials is used to authenticate to the external system.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_IdentityType.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Order": {
+    "name": "Order",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Contains details about how to sort the rows in the result set.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Order.htm#apex_class_DataSource_Order",
+    "classes": [],
+    "enums": []
+  },
+  "OrderDirection": {
+    "name": "OrderDirection",
+    "namespace": "Datasource",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "ASCENDING",
+      "DESCENDING"
+    ],
+    "description": "Specifies the direction for sorting rows based on column values.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_OrderDirection.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Provider": {
+    "name": "Provider",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Extend this base class to create a custom adapter for Salesforce",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Provider.htm#apex_class_DataSource_Provider",
+    "classes": [],
+    "enums": []
+  },
+  "QueryAggregation": {
+    "name": "QueryAggregation",
+    "namespace": "Datasource",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "AVG",
+      "COUNT",
+      "MAX",
+      "MIN",
+      "NONE",
+      "SUM"
+    ],
+    "description": "Specifies how to aggregate a column in a query.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_QueryAggregation.htm",
+    "classes": [],
+    "enums": []
+  },
+  "QueryContext": {
+    "name": "QueryContext",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "An instance of QueryContext is",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_QueryContext.htm#apex_class_DataSource_QueryContext",
+    "classes": [],
+    "enums": []
+  },
+  "QueryUtils": {
+    "name": "QueryUtils",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Contains helper methods to locally filter, sort, and apply limit and",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_QueryUtils.htm#apex_class_DataSource_QueryUtils",
+    "classes": [],
+    "enums": []
+  },
+  "ReadContext": {
+    "name": "ReadContext",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Abstract base class for the QueryContext and SearchContext",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ReadContext.htm#apex_class_DataSource_ReadContext",
+    "classes": [],
+    "enums": []
+  },
+  "SearchContext": {
+    "name": "SearchContext",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "An instance of SearchContext",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_SearchContext.htm#apex_class_DataSource_SearchContext",
+    "classes": [],
+    "enums": []
+  },
+  "SearchUtils": {
+    "name": "SearchUtils",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Helper class for implementing search on a custom adapter for",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_SearchUtils.htm#apex_class_DataSource_SearchUtils",
+    "classes": [],
+    "enums": []
+  },
+  "Table": {
+    "name": "Table",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Describes a table on an external system that the Salesforce Connect",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Table.htm#apex_class_DataSource_Table",
+    "classes": [],
+    "enums": []
+  },
+  "TableResult": {
+    "name": "TableResult",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Contains the results of a search or query.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_TableResult.htm#apex_class_DataSource_TableResult",
+    "classes": [],
+    "enums": []
+  },
+  "TableSelection": {
+    "name": "TableSelection",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Contains a breakdown of the SOQL or SOSL query. Its properties",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_TableSelection.htm#apex_class_DataSource_TableSelection",
+    "classes": [],
+    "enums": []
+  },
+  "UpsertContext": {
+    "name": "UpsertContext",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "An instance of UpsertContext",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_UpsertContext.htm#apex_class_DataSource_UpsertContext",
+    "classes": [],
+    "enums": []
+  },
+  "UpsertResult": {
+    "name": "UpsertResult",
+    "namespace": "DataSource",
+    "isInterface": false,
+    "description": "Represents the result of an upsert operation on an external object",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_UpsertResult.htm#apex_class_DataSource_UpsertResult",
+    "classes": [],
+    "enums": []
+  }
+}

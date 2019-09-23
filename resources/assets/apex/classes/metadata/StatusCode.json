@@ -1,25 +1,25 @@
 {
-    "name": "StatusCode",
-    "namespace": "Metadata",
-    "accessModifier": "global",
-    "definitionModifier": "",
-    "withSharing": false,
-    "inheritedSharing": false,
-    "extendsType": "",
-    "isInterface": false,
-    "isEnum": true,
-    "implements": [],
-    "classes": {},
-    "enums": {},
-    "enumValues": [
-        "INVALID_SCS_INBOUND_USER",
-        "REQUIRE_CONNECTED_APP_SCS",
-        "REQUIRE_CONNECTED_APP_SESSION_SCS",
-        "REQUIRE_RUNAS_USER"
-    ],
-    "fields": [],
-    "constuctors": [],
-    "methods": [],
-    "description": "Describes the status code for an unsuccessful component deploy.",
-    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_StatusCode.htm"
-  }
+  "name": "StatusCode",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "INVALID_SCS_INBOUND_USER",
+    "REQUIRE_CONNECTED_APP_SCS",
+    "REQUIRE_CONNECTED_APP_SESSION_SCS",
+    "REQUIRE_RUNAS_USER"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Describes the status code for an unsuccessful component deploy.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_StatusCode.htm"
+}

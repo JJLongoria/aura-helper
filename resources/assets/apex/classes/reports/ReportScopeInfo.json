@@ -13,23 +13,23 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDefaultValue",
       "signature": "public String getDefaultValue()",
       "description": "Returns the default scope of the data to display in the report.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getValues",
       "signature": "public List<Reports.ReportScopeValue> getValues()",
       "description": "Returns a list of scope values specified for the report.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Reports.ReportScopeValue>"
     }
   ],
-  "description": "Contains information about possible scope values that you can choose.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportScopeInfo.htm#apex_class_reports_ReportScopeInfo"
+  "description": "Contains information about possible scope values that you can choose. Scope values depend on the report type. For example, you can set the scope for opportunity reports to All opportunities, My team’s opportunities, or My opportunities.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportScopeInfo.htm"
 }

@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getConversation",
       "signature": "public static ConnectApi.ChatterConversation getConversation(String conversationId)",
       "description": "Get a conversation.",
-      "methodParams": [
+      "params": [
         {
           "name": "conversationId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Specify the ID for the conversation."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Conversation"
@@ -29,18 +32,11 @@
       "name": "getConversation",
       "signature": "public static ConnectApi.ChatterConversation getConversation(String conversationId, String pageParam, Integer pageSize)",
       "description": "Get a page of a conversation.",
-      "methodParams": [
-        {
-          "name": "conversationId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Specify the ID for the conversation. Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Conversation"
@@ -49,14 +45,11 @@
       "name": "getConversation",
       "signature": "public static ConnectApi.ChatterConversation getConversation(String communityId, String conversationId)",
       "description": "Get a conversation from a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "conversationId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. Specify the ID for the conversation."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Conversation"
@@ -65,22 +58,11 @@
       "name": "getConversation",
       "signature": "public static ConnectApi.ChatterConversation getConversation(String communityId, String conversationId, String pageParam, String pageSize)",
       "description": "Get a page of a conversation from a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "conversationId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Specify the ID for the conversation. Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Conversation"
@@ -89,21 +71,18 @@
       "name": "getConversations",
       "signature": "public static ConnectApi.ChatterConversationPage getConversations()",
       "description": "Get the most recent conversations.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ConnectApi.​Chatter​ConversationPage"
     },
     {
       "name": "getConversations",
       "signature": "public static ConnectApi.ChatterConversationPage getConversations(String pageParam, Integer pageSize)",
       "description": "Get a page of conversations.",
-      "methodParams": [
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​Chatter​ConversationPage"
@@ -112,10 +91,11 @@
       "name": "getConversations",
       "signature": "public static ConnectApi.ChatterConversationPage getConversations(String communityId)",
       "description": "Get the most recent conversations from a community.",
-      "methodParams": [
+      "params": [
         {
           "name": "communityId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null."
         }
       ],
       "datatype": "ConnectApi.​Chatter​ConversationPage"
@@ -124,18 +104,11 @@
       "name": "getConversations",
       "signature": "public static ConnectApi.ChatterConversationPage getConversations(String communityId, String pageParam, Integer pageSize)",
       "description": "Get a page of conversations from a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​Chatter​ConversationPage"
@@ -144,10 +117,11 @@
       "name": "getMessage",
       "signature": "public static ConnectApi.ChatterMessage getMessage(String messageId)",
       "description": "Get a message.",
-      "methodParams": [
+      "params": [
         {
           "name": "messageId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID for the message."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Message"
@@ -156,14 +130,11 @@
       "name": "getMessage",
       "signature": "public static ConnectApi.ChatterMessage getMessage(String communityId, String messageId)",
       "description": "Get a message from a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "messageId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. ID for the message."
         }
       ],
       "datatype": "void"
@@ -172,21 +143,18 @@
       "name": "getMessages",
       "signature": "public static ConnectApi.ChatterMessagePage getMessages()",
       "description": "Get the most recent messages.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ConnectApi.​Chatter​MessagePage"
     },
     {
       "name": "getMessages",
       "signature": "public static ConnectApi.ChatterMessagePage getMessages(String pageParam, Integer pageSize)",
       "description": "Get a page of messages.",
-      "methodParams": [
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​Chatter​MessagePage"
@@ -195,10 +163,11 @@
       "name": "getMessages",
       "signature": "public static ConnectApi.ChatterMessagePage getMessages(String communityId)",
       "description": "Get the most recent messages from a community.",
-      "methodParams": [
+      "params": [
         {
           "name": "communityId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null."
         }
       ],
       "datatype": "ConnectApi.​Chatter​MessagePage"
@@ -207,18 +176,11 @@
       "name": "getMessages",
       "signature": "public static ConnectApi.ChatterMessagePage getMessages(String communityId, String pageParam, Integer pageSize)",
       "description": "Get a page of messages from a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​Chatter​MessagePage"
@@ -227,17 +189,18 @@
       "name": "getUnreadCount",
       "signature": "public static ConnectApi.UnreadConversationCount getUnreadCount()",
       "description": "Get the number of conversations that are marked unread.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ConnectApi.​​UnreadConversationCount"
     },
     {
       "name": "getUnreadCount",
       "signature": "public static ConnectApi.UnreadConversationCount getUnreadCount(String communityId)",
       "description": "Get the number of conversations that are marked unread in a community.",
-      "methodParams": [
+      "params": [
         {
           "name": "communityId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null."
         }
       ],
       "datatype": "ConnectApi.​​UnreadConversationCount"
@@ -246,14 +209,11 @@
       "name": "markConversationRead",
       "signature": "public static ConnectApi.ChatterConversationSummary markConversationRead(String conversationId, Boolean read)",
       "description": "Mark a conversation as read or unread.",
-      "methodParams": [
-        {
-          "name": "conversationId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "read",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Specify the ID for the conversation. Specify whether the conversation is read (true) or not (false)."
         }
       ],
       "datatype": "ConnectApi.​Chatter​ConversationSummary"
@@ -262,18 +222,11 @@
       "name": "markConversationRead",
       "signature": "public static ConnectApi.ChatterConversationSummary markConversationRead(String communityId, String conversationID, Boolean read)",
       "description": "Mark a conversation as read or unread in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "conversationId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "read",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Use either the ID for a community, internal, or null. Specify the ID for the conversation. Specify whether the conversation is read (true) or not (false)."
         }
       ],
       "datatype": "ConnectApi.​Chatter​ConversationSummary"
@@ -282,14 +235,11 @@
       "name": "replyToMessage",
       "signature": "public static ConnectApi.ChatterMessage replyToMessage(String text, String inReplyTo)",
       "description": "Reply to a message.",
-      "methodParams": [
-        {
-          "name": "text",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "inReplyTo",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The text of the message. Cannot be empty or over 10,000 characters. ID of the message that is being responded to."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Message"
@@ -298,18 +248,11 @@
       "name": "replyToMessage",
       "signature": "public static ConnectApi.ChatterMessage replyToMessage(String communityId, String text, String inReplyTo)",
       "description": "Reply to a message in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "text",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "inReplyTo",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The text of the message. Cannot be empty or over 10,000 characters. ID of the message that is being responded to."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Message"
@@ -318,14 +261,11 @@
       "name": "searchConversation",
       "signature": "public static ConnectApi.ChatterConversation searchConversation(String conversationId, String q)",
       "description": "Get a conversation that matches the search criteria.",
-      "methodParams": [
-        {
-          "name": "conversationId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Specify the ID for the conversation. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Conversation"
@@ -334,22 +274,11 @@
       "name": "searchConversation",
       "signature": "public static ConnectApi.ChatterConversation searchConversation(String conversationId, String pageParam, Integer pageSize, String q)",
       "description": "Get a conversation with a page of messages that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "conversationId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Specify the ID for the conversation. Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Conversation"
@@ -358,18 +287,11 @@
       "name": "searchConversation",
       "signature": "public static ConnectApi.ChatterConversation searchConversation(String communityId, String conversationId, String q)",
       "description": "Get a conversation with messages that match the search criteria in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "conversationId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. Specify the ID for the conversation. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Conversation"
@@ -378,26 +300,11 @@
       "name": "searchConversation",
       "signature": "public static ConnectApi.ChatterConversation searchConversation(String communityId, String conversationId, String pageParam, Integer pageSize, String q)",
       "description": "Get a conversation with a page of messages that match the search criteria in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "conversationId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. Specify the ID for the conversation. Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Conversation"
@@ -406,10 +313,11 @@
       "name": "searchConversations",
       "signature": "public static ConnectApi.ChatterConversationPage searchConversations(String q)",
       "description": "Get conversations in which member names and messages match the search criteria.",
-      "methodParams": [
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​ConversationPage"
@@ -418,18 +326,11 @@
       "name": "searchConversations",
       "signature": "public static ConnectApi.ChatterConversationPage searchConversations(String pageParam, Integer pageSize, String q)",
       "description": "Get a page of conversations in which member names and messages match the search criteria.",
-      "methodParams": [
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​ConversationPage"
@@ -438,14 +339,11 @@
       "name": "searchConversations",
       "signature": "public static ConnectApi.ChatterConversationPage searchConversations(String communityId, String q)",
       "description": "Get conversations in which member names and messages match the search criteria in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​ConversationPage"
@@ -454,22 +352,11 @@
       "name": "searchConversations",
       "signature": "public static ConnectApi.ChatterConversationPage searchConversations(String communityId, String pageParam, Integer pageSize, String q)",
       "description": "Get a page of conversations in which member names and messages match the search criteria in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​ConversationPage"
@@ -478,10 +365,11 @@
       "name": "searchMessages",
       "signature": "public static ConnectApi.ChatterMessagePage searchMessages(String q)",
       "description": "Get messages that match the search criteria.",
-      "methodParams": [
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​MessagePage"
@@ -490,18 +378,11 @@
       "name": "searchMessages",
       "signature": "public static ConnectApi.ChatterMessagePage searchMessages(String pageParam, Integer pageSize, String q)",
       "description": "Get a page of messages that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​MessagePage"
@@ -510,14 +391,11 @@
       "name": "searchMessages",
       "signature": "public static ConnectApi.ChatterMessagePage searchMessages(String communityId, String q)",
       "description": "Get messages that match the search criteria in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​MessagePage"
@@ -526,22 +404,11 @@
       "name": "searchMessages",
       "signature": "public static ConnectApi.ChatterMessagePage searchMessages(String communityId, String pageParam, Integer pageSize, String q)",
       "description": "Get a page of messages that match the search criteria in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "String"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "q",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. Specifies the page token to be used to view a page of information. Page tokens are returned as part of the response class, such as currentPageToken or nextPageToken. If you pass in null, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Required and cannot be null. Specifies the string to search. The search string must contain at least two characters, not including wildcards. See Wildcards."
         }
       ],
       "datatype": "ConnectApi.​Chatter​MessagePage"
@@ -550,14 +417,11 @@
       "name": "sendMessage",
       "signature": "public static ConnectApi.ChatterMessage sendMessage(String text, String recipients)",
       "description": "Send a message to a list of recipients.",
-      "methodParams": [
-        {
-          "name": "text",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "recipients",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The text of the message. Cannot be empty or over 10,000 characters. Up to nine comma-separated IDs of the users receiving the message."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Message"
@@ -566,23 +430,16 @@
       "name": "sendMessage",
       "signature": "public static ConnectApi.ChatterMessage sendMessage(String communityId, String text, String recipients)",
       "description": "Send a message to a list of recipients in a community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "text",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "recipients",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The text of the message. Cannot be empty or over 10,000 characters. Up to nine comma-separated IDs of users to receive the message."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Message"
     }
   ],
   "description": "Access and modify message and conversation data.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ChatterMessages_static_methods.htm#apex_ConnectAPI_ChatterMessages_static_methods"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ChatterMessages_static_methods.htm"
 }

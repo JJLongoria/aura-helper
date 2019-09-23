@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,34 +17,34 @@
       "name": "feedFilterName",
       "signature": "public String feedFilterName {get; set;}",
       "description": "The name of a CustomFeedFilter component. Names are prefixed with the name of the parent object. For example, Case.MyCustomFeedFilter.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "feedFilterType",
       "signature": "public Metadata.FeedLayoutFilterType feedFilterType {get; set;}",
       "description": "The type of filter.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "feedItemType",
       "signature": "public Metadata.FeedItemTypeEnum feedItemType {get; set;}",
       "description": "The type of feed item to display.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.FeedLayoutFilter.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Represents a feed filter option in the feed view of a feed-based page",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_FeedLayoutFilter.htm#apex_class_Metadata_FeedLayoutFilter"
+  "description": "Represents a feed filter option in the feed view of a feed-based page layout. A filter can have only standardFilter or feedItemType set.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_FeedLayoutFilter.htm"
 }

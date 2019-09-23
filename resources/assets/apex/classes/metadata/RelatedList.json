@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,27 +17,27 @@
       "name": "hideOnDetail",
       "signature": "public Boolean hideOnDetail {get; set;}",
       "description": "When set to true, the related list is hidden from detail pages where it appears as a component to prevent duplicate information from showing.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "name",
       "signature": "public String name {get; set;}",
       "description": "The name of the component as it appears to console users.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.RelatedList.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Represents related list custom components on the sidebars of the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_RelatedList.htm#apex_class_Metadata_RelatedList"
+  "description": "Represents related list custom components on the sidebars of the Salesforce console.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_RelatedList.htm"
 }

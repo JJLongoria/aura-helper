@@ -13,23 +13,23 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getLabel",
       "signature": "",
       "description": "Returns the localized display name of the value of a specified cell in the report.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getValue",
       "signature": "",
       "description": "Returns the value of a specified cell of a detail row of a report.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Contains the data for a cell in the report, including the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportdatacell.htm#apex_class_reports_reportdatacell"
+  "description": "Contains the data for a cell in the report, including the display label and value.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportdatacell.htm"
 }

@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": true,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "createUser",
       "signature": "public User createUser(ID portalId, Auth.UserData userData)",
       "description": "Returns a User object using the specified portal ID and user information from the third party, such as the username and email address. The User object corresponds to the third party’s user information and may be a new user that hasn’t been inserted in the database or may represent an existing user record in the database.",
-      "methodParams": [
-        {
-          "name": "portalId",
-          "datatype": "ID"
-        },
+      "params": [
         {
           "name": "userData",
-          "datatype": "Auth.UserData"
+          "datatype": "Auth.UserData",
+          "description": ""
         }
       ],
       "datatype": "User"
@@ -33,23 +32,16 @@
       "name": "updateUser",
       "signature": "public Void updateUser(ID userId, ID portalId, Auth.UserData userData)",
       "description": "Updates the specified user’s information. This method is called if the user has logged in before with the authorization provider and then logs in again.",
-      "methodParams": [
-        {
-          "name": "userId",
-          "datatype": "ID"
-        },
-        {
-          "name": "portalId",
-          "datatype": "ID"
-        },
+      "params": [
         {
           "name": "userData",
-          "datatype": "Auth.UserData"
+          "datatype": "Auth.UserData",
+          "description": ""
         }
       ],
       "datatype": "Void"
     }
   ],
-  "description": "Salesforce provides the ability to use an authentication provider, such",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_auth_plugin.htm#apex_auth_plugin"
+  "description": "Salesforce provides the ability to use an authentication provider, such as Facebook© or Janrain©, for single sign-on into Salesforce.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_auth_plugin.htm"
 }

@@ -5,27 +5,30 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "onInstall",
       "signature": "public Void onInstall(InstallContext context)",
       "description": "Specifies the actions to be performed on install/upgrade.",
-      "methodParams": [
+      "params": [
         {
           "name": "context",
-          "datatype": "System.InstallContext"
+          "datatype": "System.InstallContext",
+          "description": ""
         }
       ],
       "datatype": "Void"
     }
   ],
   "description": "Enables custom code to run after a managed package installation or upgrade.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_install_handler.htm#apex_install_handler"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_install_handler.htm"
 }

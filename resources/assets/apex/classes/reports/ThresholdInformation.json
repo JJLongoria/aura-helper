@@ -13,15 +13,16 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "ThresholdInformation",
       "signature": "public ThresholdInformation(List<Reports.EvaluatedCondition> evaluatedConditions)",
       "description": "Creates a new instance of the Reports.EvaluatedCondition class.",
-      "methodParams": [
+      "params": [
         {
           "name": "evaluatedConditions",
-          "datatype": "List<Reports.EvaluatedCondition>"
+          "datatype": "List<Reports.EvaluatedCondition>",
+          "description": "A list of Reports.EvaluatedCondition objects."
         }
       ],
       "datatype": "void"
@@ -32,10 +33,10 @@
       "name": "getEvaluatedConditions",
       "signature": "public List<Reports.EvaluatedCondition> getEvaluatedConditions()",
       "description": "Returns a list of evaluated conditions for a report notification.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Reports.EvaluatedCondition>"
     }
   ],
-  "description": "Contains a list of evaluated conditions for a report",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_summaryvalue.htm#apex_class_reports_summaryvalue"
+  "description": "Contains a list of evaluated conditions for a report notification.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ThresholdInformation.htm"
 }

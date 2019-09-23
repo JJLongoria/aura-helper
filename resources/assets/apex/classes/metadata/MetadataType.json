@@ -1,23 +1,23 @@
 {
-    "name": "MetadataType",
-    "namespace": "Metadata",
-    "accessModifier": "global",
-    "definitionModifier": "",
-    "withSharing": false,
-    "inheritedSharing": false,
-    "extendsType": "",
-    "isInterface": false,
-    "isEnum": true,
-    "implements": [],
-    "classes": {},
-    "enums": {},
-    "enumValues": [
-        "CustomMetadata",
-        "Layout"
-    ],
-    "fields": [],
-    "constuctors": [],
-    "methods": [],
-    "description": "Represents the custom metadata components available in Apex.",
-    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_MetadataType.htm"
-  }
+  "name": "MetadataType",
+  "namespace": "Metadata",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "CustomMetadata",
+    "Layout"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Represents the custom metadata components available in Apex.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Metadata_MetadataType.htm"
+}

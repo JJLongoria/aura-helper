@@ -5,43 +5,45 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDuplicateResult",
       "signature": "public Datacloud.DuplicateResult getDuplicateResult()",
       "description": "Returns the details of a duplicate rule and duplicate records found by the duplicate rule.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Datacloud.DuplicateResult"
     },
     {
       "name": "getFields",
       "signature": "public List<String> getFields()",
       "description": "Returns an array of one or more field names. Identifies which fields in the object, if any, affected the error condition.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<String>"
     },
     {
       "name": "getMessage",
       "signature": "public String getMessage()",
       "description": "Returns the error message text.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getStatusCode",
       "signature": "public StatusCode getStatusCode()",
       "description": "Returns a code that characterizes the error.",
-      "methodParams": [],
+      "params": [],
       "datatype": "StatusCode"
     }
   ],
-  "description": "Contains information about an error that occurred when an attempt was",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_DuplicateError.htm#apex_class_Database_DuplicateError"
+  "description": "Contains information about an error that occurred when an attempt was made to save a duplicate record. Use if your organization has set up duplicate rules, which are part of the Duplicate Management feature.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_DuplicateError.htm"
 }

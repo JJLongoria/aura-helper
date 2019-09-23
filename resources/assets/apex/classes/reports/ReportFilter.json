@@ -13,30 +13,23 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "ReportFilter",
       "signature": "public ReportFilter()",
       "description": "Creates a new instance of the Reports.ReportFilter class. You can then set values by using the “set” methods.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "ReportFilter",
       "signature": "public ReportFilter(String column, String operator, String value)",
       "description": "Creates a new instance of the Reports.ReportFilter class by using the specified parameters.",
-      "methodParams": [
-        {
-          "name": "column",
-          "datatype": "String"
-        },
-        {
-          "name": "operator",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "value",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -47,31 +40,32 @@
       "name": "getColumn",
       "signature": "",
       "description": "Returns the unique API name for the field that’s being filtered.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getOperator",
       "signature": "",
       "description": "Returns the unique API name for the condition that is used to filter a field, such as “greater than” or “not equal to.” Filter conditions depend on the data type of the field.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getValue",
       "signature": "",
       "description": "Returns the value by which a field can be filtered. For example, the field Age can be filtered by a numeric value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "setColumn",
       "signature": "",
       "description": "Sets the unique API name for the field that’s being filtered.",
-      "methodParams": [
+      "params": [
         {
           "name": "column",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -80,10 +74,11 @@
       "name": "setOperator",
       "signature": "",
       "description": "Sets the unique API name for the condition that is used to filter a field, such as “greater than” or “not equal to.” Filter conditions depend on the data type of the field.",
-      "methodParams": [
+      "params": [
         {
           "name": "operator",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -92,15 +87,16 @@
       "name": "setValue",
       "signature": "",
       "description": "Sets the value by which a field can be filtered. For example, the field Age can be filtered by a numeric value.",
-      "methodParams": [
+      "params": [
         {
           "name": "value",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
     }
   ],
-  "description": "Contains information about a report filter, including column,",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportfilter.htm#apex_class_reports_reportfilter"
+  "description": "Contains information about a report filter, including column, operator, and value.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportfilter.htm"
 }

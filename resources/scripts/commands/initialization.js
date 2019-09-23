@@ -41,17 +41,90 @@ async function init(context, callback) {
             FileWriter.copyFileSync(Paths.getOldAuraDocumentUserTemplatePath(), Paths.getAuraDocumentUserTemplatePath());
         if (callback)
             callback.call(this);
+        repairSystemClasses(context, 'TerritoryMgmt', 'OpportunityTerritory2AssignmentFilter');
+        //saveSystemClass('DetailColumn', 'Reports', false, 'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_detailcolumn.htm', context);
     }, 50);
 }
 
-function saveSystemClass(name, ns, isInterface, link, context) {
-    let content = FileReader.readFileSync(context.asAbsolutePath('./resources/tmp.txt'));
-    let lines = content.split('\n');
+function repairSystemClasses(context, ns, className) {
+    let classPath;
+    let nsPath;
+    if (className)
+        classPath = context.asAbsolutePath("./resources/assets/apex/classes/" + ns + "/" + className + '.json');
+    else
+        nsPath = context.asAbsolutePath("./resources/assets/apex/classes/" + ns);
+    if (classPath && FileChecker.isExists(classPath)) {
+        let classStructure = JSON.parse(FileReader.readFileSync(classPath));
+        let docLink = classStructure.docLink;
+        if (docLink.indexOf('#') !== -1) {
+            docLink = docLink.split('#')[0];
+        }
+        let newLink = docLink
+        docLink = docLink.replace('atlas.en-us.apexcode.meta', 'get_document_content') + '/en-us/222.0';
+        makeHTTPRequest(docLink, classStructure.isInterface, function (data, isInterface) {
+            if (data) {
+                let dataJSON = JSON.parse(data);
+                let content = dataJSON.content;
+                let fileStructure = getClassStructure(content, className, ns, isInterface, newLink);
+                if (!FileChecker.isExists(context.asAbsolutePath("./resources/assets/apex/classes/" + ns)))
+                    FileWriter.createFolderSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns));
+                FileWriter.createFileSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns) + '/' + className + '.json', JSON.stringify(fileStructure, null, 2));
+            }
+        });
+    } else if (nsPath && FileChecker.isExists(nsPath)) {
+        let classes = FileReader.readDirSync(nsPath);
+        for (const fileName of classes) {
+            if (fileName !== 'namespaceMetadata.json') {
+                let clsPath = context.asAbsolutePath("./resources/assets/apex/classes/" + ns + "/" + fileName);
+                let classStructure = JSON.parse(FileReader.readFileSync(clsPath));
+                let docLink = classStructure.docLink;
+                if (docLink.indexOf('#') !== -1) {
+                    docLink = docLink.split('#')[0];
+                }
+                let newLink = docLink
+                docLink = docLink.replace('atlas.en-us.apexcode.meta', 'get_document_content') + '/en-us/222.0';
+                makeHTTPRequest(docLink, classStructure.isInterface, function (data, isInterface) {
+                    if (data) {
+                        let dataJSON = JSON.parse(data);
+                        let content = dataJSON.content;
+                        let fileStructure = getClassStructure(content, fileName.replace('.json', ''), ns, isInterface, newLink);
+                        if (!FileChecker.isExists(context.asAbsolutePath("./resources/assets/apex/classes/" + ns)))
+                            FileWriter.createFolderSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns));
+                        FileWriter.createFileSync(clsPath, JSON.stringify(fileStructure, null, 2));
+                    }
+                });
+            }
+        }
+    }
+}
+
+async function makeHTTPRequest(endpoint, isInterface, callback) {
+    https.get(endpoint, (resp) => {
+        let data = '';
+
+        // A chunk of data has been recieved.
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        // The whole response has been received. Print out the result.
+        resp.on('end', () => {
+            callback.call(this, data, isInterface);
+        });
+
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+    });
+}
+
+function getClassStructure(content, name, ns, isInterface, link) {
     let isOnMethod;
     let isOnDesc;
     let isOnParams;
     let isOnReturn;
     let isOnSignature;
+    let isOnClassDesc;
+    let isOnParamDesc;
     let methods = [];
     let constructors = [];
     let properties = [];
@@ -64,51 +137,52 @@ function saveSystemClass(name, ns, isInterface, link, context) {
     let returnType = 'void';
     let paramName;
     let paramType;
-    let paramDesc;
+    let paramDesc = "";
     let onConstructors;
     let onProperties;
     let onMethods;
     let isEnum = false;
     let onEnum;
+    let lines = content.split('\n');
+    let index = 0;
     for (const line of lines) {
-        if(line.indexOf('<h2 class="helpHead2">Enum Values</h2>') !== -1 || line.indexOf('Type Field Value</th>') !== -1){
+        if (line.indexOf('<h2 class="helpHead2">Enum Values</h2>') !== -1 || line.indexOf('Type Field Value</th>') !== -1) {
             onEnum = true;
             isEnum = true;
-        } else if(onEnum && line.indexOf('<samp class="codeph apex_code">') !== -1){
+        } else if (onEnum && line.indexOf('<samp class="codeph apex_code">') !== -1) {
             enumValues.push(line.replace(new RegExp('<[^>]+>', 'g'), "").trim());
-        } else if(onEnum && line.indexOf('</tbody>') !== -1){
+        } else if (onEnum && line.indexOf('</tbody>') !== -1) {
             onEnum = false;
-        } else if (line.indexOf('</a>' + name + ' Constructors</span></h2>') !== -1) {
+        } else if (line.indexOf('</a>' + name + ' Constructors</span></h2>') !== -1 || (index + 1 < lines.length - 1 && (line.trim() + " " + lines[index + 1].trim()).indexOf('</a>' + name + ' Constructors</span></h2>') !== -1) || line.indexOf('</a>' + name + ' Constructor</span></h2>') !== -1 || (index + 1 < lines.length - 1 && (line.trim() + " " + lines[index + 1].trim()).indexOf('</a>' + name + ' Constructor</span></h2>') !== -1)) {
             onConstructors = true;
             onProperties = false;
             onMethods = false;
-        }
-        if (line.indexOf('</a>' + name + ' Properties</span></h2>') !== -1 || line.indexOf('</a>Dynamic ' + name + ' Properties</span></h2>') !== -1) {
+        } else if (line.indexOf('</a>' + name + ' Properties</span></h2>') !== -1 || line.indexOf('</a>Dynamic ' + name + ' Properties</span></h2>') !== -1 || (index + 1 < lines.length - 1 && (line.trim() + " " + lines[index + 1].trim()).indexOf('</a>' + name + ' Properties</span></h2>') !== -1)) {
             if (methodName) {
                 isOnParams = false;
-                if(onProperties){
+                if (onProperties) {
                     properties.push({
                         name: methodName.trim(),
                         signature: methodSignature.trim(),
                         description: description.trim(),
-                        methodParams: methodParams,
+                        params: methodParams,
                         datatype: returnType.trim(),
                     });
                 }
-                else if(onMethods){
+                else if (onMethods) {
                     methods.push({
                         name: methodName.trim(),
                         signature: methodSignature.trim(),
                         description: description.trim(),
-                        methodParams: methodParams,
+                        params: methodParams,
                         datatype: returnType.trim(),
                     });
-                } else if(onConstructors){
+                } else if (onConstructors) {
                     constructors.push({
                         name: methodName.trim(),
                         signature: methodSignature.trim(),
                         description: description.trim(),
-                        methodParams: methodParams,
+                        params: methodParams,
                         datatype: returnType.trim(),
                     });
                 }
@@ -120,33 +194,32 @@ function saveSystemClass(name, ns, isInterface, link, context) {
             onConstructors = false;
             onProperties = true;
             onMethods = false;
-        }
-        if (line.indexOf('</a>' + name + ' Methods</span></h2>') !== -1) {
+        } else if (line.indexOf('</a>' + name + ' Methods</span></h2>') !== -1 || (index + 1 < lines.length - 1 && (line.trim() + " " + lines[index + 1].trim()).indexOf('</a>' + name + ' Methods</span></h2>') !== -1) || line.indexOf('</a>' + name + ' Method</span></h2>') !== -1 || (index + 1 < lines.length - 1 && (line.trim() + " " + lines[index + 1].trim()).indexOf('</a>' + name + ' Method</span></h2>') !== -1) || line.indexOf('</a>' + name + ' Instance Methods</span></h2>') !== -1 || (index + 1 < lines.length - 1 && (line.trim() + " " + lines[index + 1].trim()).indexOf('</a>' + name + ' Instance Methods</span></h2>') !== -1) || line.indexOf('</a>' + name + ' Instance Method</span></h2>') !== -1 || (index + 1 < lines.length - 1 && (line.trim() + " " + lines[index + 1].trim()).indexOf('</a>' + name + ' Instance Method</span></h2>') !== -1)) {
             if (methodName) {
                 isOnParams = false;
-                if(onProperties){
+                if (onProperties) {
                     properties.push({
                         name: methodName.trim(),
                         signature: methodSignature.trim(),
                         description: description.trim(),
-                        methodParams: methodParams,
+                        params: methodParams,
                         datatype: returnType.trim(),
                     });
                 }
-                else if(onMethods){
+                else if (onMethods) {
                     methods.push({
                         name: methodName.trim(),
                         signature: methodSignature.trim(),
                         description: description.trim(),
-                        methodParams: methodParams,
+                        params: methodParams,
                         datatype: returnType.trim(),
                     });
-                } else if(onConstructors){
+                } else if (onConstructors) {
                     constructors.push({
                         name: methodName.trim(),
                         signature: methodSignature.trim(),
                         description: description.trim(),
-                        methodParams: methodParams,
+                        params: methodParams,
                         datatype: returnType.trim(),
                     });
                 }
@@ -159,8 +232,18 @@ function saveSystemClass(name, ns, isInterface, link, context) {
             onProperties = false;
             onMethods = true;
         }
-        if (line.indexOf('<div class="shortdesc">') !== -1 && !classDesc) {
+        if (line.indexOf('<div class="shortdesc">') !== -1 && !classDesc && !isOnClassDesc) {
+            isOnClassDesc = true;
             classDesc = line.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+            if (line.indexOf('</div>') !== -1)
+                isOnClassDesc = false;
+        } else if (isOnClassDesc && line.indexOf('</div>') !== -1) {
+            classDesc += " " + line.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+            isOnClassDesc = false;
+        } else if (isOnClassDesc) {
+            classDesc += " " + line.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+            if (line.indexOf('</div>') !== -1)
+                isOnClassDesc = false;
         }
         if (onConstructors || onMethods || onProperties) {
             if (line.indexOf('<div class="topic reference nested2"') !== -1) {
@@ -168,29 +251,29 @@ function saveSystemClass(name, ns, isInterface, link, context) {
                 isOnReturn = false;
                 if (methodName) {
                     isOnParams = false;
-                    if(onProperties){
+                    if (onProperties) {
                         properties.push({
                             name: methodName.trim(),
                             signature: methodSignature.trim(),
                             description: description.trim(),
-                            methodParams: methodParams,
+                            params: methodParams,
                             datatype: returnType.trim(),
                         });
                     }
-                    else if(onMethods){
+                    else if (onMethods) {
                         methods.push({
                             name: methodName.trim(),
                             signature: methodSignature.trim(),
                             description: description.trim(),
-                            methodParams: methodParams,
+                            params: methodParams,
                             datatype: returnType.trim(),
                         });
-                    } else if(onConstructors){
+                    } else if (onConstructors) {
                         constructors.push({
                             name: methodName.trim(),
                             signature: methodSignature.trim(),
                             description: description.trim(),
-                            methodParams: methodParams,
+                            params: methodParams,
                             datatype: returnType.trim(),
                         });
                     }
@@ -233,35 +316,45 @@ function saveSystemClass(name, ns, isInterface, link, context) {
                     isOnReturn = false;
                 } else if (isOnParams && line.indexOf('</dl>') !== -1) {
                     isOnParams = false;
+                    if (paramName && paramName.length) {
+                        methodParams.push({
+                            name: paramName.trim(),
+                            datatype: paramType.trim(),
+                            description: paramDesc.trim()
+                        });
+                    }
+                    paramName = "";
+                    paramType = "";
+                    paramDesc = "";
                 } else if (line.indexOf('Return Value') !== -1 && !isOnReturn) {
                     isOnReturn = true;
                 } else if (line.indexOf('<p class="p">Type: ') !== -1 && isOnReturn) {
                     returnType = line.replace(new RegExp('<[^>]+>', 'g'), "").replace(new RegExp('Type:', 'g'), "").trim();
                     returnType = returnType.replace(new RegExp('&lt;', 'g'), '<').replace(new RegExp('&gt;', 'g'), '>').trim();
                     isOnMethod = false;
-                    if(onProperties){
+                    if (onProperties) {
                         properties.push({
                             name: methodName.trim(),
                             signature: methodSignature.trim(),
                             description: description.trim(),
-                            methodParams: methodParams,
+                            params: methodParams,
                             datatype: returnType.trim(),
                         });
                     }
-                    else if(onMethods){
+                    else if (onMethods) {
                         methods.push({
                             name: methodName.trim(),
                             signature: methodSignature.trim(),
                             description: description.trim(),
-                            methodParams: methodParams,
+                            params: methodParams,
                             datatype: returnType.trim(),
                         });
-                    } else if(onConstructors){
+                    } else if (onConstructors) {
                         constructors.push({
                             name: methodName.trim(),
                             signature: methodSignature.trim(),
                             description: description.trim(),
-                            methodParams: methodParams,
+                            params: methodParams,
                             datatype: returnType.trim(),
                         });
                     }
@@ -276,17 +369,35 @@ function saveSystemClass(name, ns, isInterface, link, context) {
                     } else if (line.indexOf('<dd class="dd">Type:') !== -1) {
                         paramType = line.replace(new RegExp('<[^>]+>', 'g'), "").replace(new RegExp('Type:', 'g'), "").trim();
                         paramType = paramType.replace(new RegExp('&lt;', 'g'), '<').replace(new RegExp('&gt;', 'g'), '>').trim();
-                        methodParams.push({
-                            name: paramName.trim(),
-                            datatype: paramType.trim()
-                        });
                         isOnReturn = false;
+                    } else if (line.indexOf('<dd class="dd">') !== -1 && !isOnParamDesc) {
+                        isOnParamDesc = true;
+                        paramDesc += " " + line.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+                        if (line.indexOf('</dd>') !== -1)
+                            isOnParamDesc = false;
+                    } else if (isOnParamDesc) {
+                        paramDesc += " " + line.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+                        if (line.indexOf('</dd>') !== -1)
+                            isOnParamDesc = false;
+                    } else if (line.indexOf('</dd>') !== -1 && isOnParamDesc) {
+                        isOnParamDesc = false;
+                        if (paramName && paramName.length) {
+                            methodParams.push({
+                                name: paramName.trim(),
+                                datatype: paramType.trim(),
+                                description: paramDesc.trim()
+                            });
+                        }
+                        paramName = "";
+                        paramType = "";
+                        paramDesc = "";
                     }
                 }
             }
         }
+        index++;
     }
-    let fileStructure = {
+    return {
         name: name,
         namespace: ns,
         accessModifier: "global",
@@ -301,14 +412,44 @@ function saveSystemClass(name, ns, isInterface, link, context) {
         classes: {},
         enums: {},
         fields: properties,
-        constuctors: constructors,
+        constructors: constructors,
         methods: methods,
         description: classDesc.trim(),
         docLink: link
     }
-    if(!FileChecker.isExists(context.asAbsolutePath("./resources/assets/apex/classes/" + ns.toLowerCase())))
-        FileWriter.createFolderSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns.toLowerCase()));
-    FileWriter.createFileSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns.toLowerCase()) + '/' + name + '.json', JSON.stringify(fileStructure, null, 2));
+}
+
+function saveSystemClass(name, ns, isInterface, link, context) {
+    let content = FileReader.readFileSync(context.asAbsolutePath('./resources/tmp.txt'));
+    let fileStructure = getClassStructure(content, name, ns, isInterface, link);
+    if (!FileChecker.isExists(context.asAbsolutePath("./resources/assets/apex/classes/" + ns)))
+        FileWriter.createFolderSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns));
+    FileWriter.createFileSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns) + '/' + name + '.json', JSON.stringify(fileStructure, null, 2));
+}
+
+function createMetadataFileForNamespaces(context, ns) {
+    let classesFromNS = FileReader.readDirSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns));
+    let metadata = {};
+    for (const className of classesFromNS) {
+        if (className !== 'namespaceMetadata.json') {
+            let classData = JSON.parse(FileReader.readFileSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns) + '/' + className));
+            let name = classData.name.replace('.json', '');
+            let classes = Object.keys(classData.classes);
+            let enums = Object.keys(classData.enums);
+            metadata[name] = {
+                name: name,
+                namespace: classData.namespace,
+                isEnum: classData.isEnum,
+                isInterface: classData.isInterface,
+                enumValues: classData.enumValues,
+                description: classData.description,
+                link: classData.docLink,
+                classes: classes,
+                enums: enums
+            };
+        }
+    }
+    FileWriter.createFileSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns) + '/namespaceMetadata.json', JSON.stringify(metadata, null, 2));
 }
 
 function loadSnippets() {

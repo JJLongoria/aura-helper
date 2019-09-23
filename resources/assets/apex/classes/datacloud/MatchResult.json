@@ -5,64 +5,66 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getEntityType",
       "signature": "public String getEntityType()",
       "description": "Returns the entity type of the matching rule.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getErrors",
       "signature": "public List<Database.Error> getErrors()",
       "description": "Returns errors that occurred during matching for the matching rule.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Database.Error>"
     },
     {
       "name": "getMatchEngine",
       "signature": "public String getMatchEngine()",
       "description": "Returns the match engine for the matching rule.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getMatchRecords",
       "signature": "public List<Datacloud.MatchRecord> getMatchRecords()",
       "description": "Returns information about the duplicates for the matching rule.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Datacloud.MatchRecord>"
     },
     {
       "name": "getRule",
       "signature": "public String getRule()",
       "description": "Returns the developer name of the matching rule.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getSize",
       "signature": "public Integer getSize()",
       "description": "Returns the number of duplicates detected by the matching rule.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "isSuccess",
       "signature": "public Boolean isSuccess()",
       "description": "Returns false if there’s an error with the matching rule, and true if the matching rule successfully ran.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     }
   ],
   "description": "Represents the duplicate results for a matching rule.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_MatchResult.htm#apex_class_Datacloud_MatchResult"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_MatchResult.htm"
 }

@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getAccessToken",
       "signature": "public static String getAccessToken(String authProviderId, String providerName)",
       "description": "Returns an access token for the current user using the specified 18-character identifier of an AuthProvider definition in your org and the proper name of the third party, such as Salesforce or Facebook. Note that querying the ProviderType field on the AuthProvider object sometimes returns a value that differs from the expected provider name value. For example, for Open ID Connect providers, OpenIdConnect is the ProviderType value for the AuthProvider object, but the expected providerName is Open ID Connect.",
-      "methodParams": [
-        {
-          "name": "authProviderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "providerName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -33,14 +32,11 @@
       "name": "getAccessTokenMap",
       "signature": "public static Map<String, String> getAccessTokenMap(String authProviderId, String providerName)",
       "description": "Returns a map from the third-party identifier to the access token for the currently logged-in Salesforce user. The identifier value depends on the third party. For example, for Salesforce it would be the user ID, while for Facebook it would be the user number. Note that querying the ProviderType field on the AuthProvider object sometimes returns a value that differs from the expected provider name value. For example, for Open ID Connect providers, OpenIdConnect is the ProviderType value for the AuthProvider object, but the expected providerName is Open ID Connect.",
-      "methodParams": [
-        {
-          "name": "authProviderId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "providerName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The proper name of the third party. For all providers except Janrain, the expected values are Facebook  Salesforce  Open ID Connect  Microsoft Access Control Service  LinkedIn  Twitter  Google   For Janrain providers, the parameter value is the proper name of the third party used. Yahoo! is an example of a Janrain provider value."
         }
       ],
       "datatype": "Map<String, String>"
@@ -49,18 +45,11 @@
       "name": "refreshAccessToken",
       "signature": "public static Map<String, String> refreshAccessToken(String authProviderId, String providerName, String oldAccessToken)",
       "description": "Returns a map from the third-party identifier containing a refreshed access token for the currently logged-in Salesforce user. Note that querying the ProviderType field on the AuthProvider object sometimes returns a value that differs from the expected provider name value. For example, for Open ID Connect providers, OpenIdConnect is the ProviderType value for the AuthProvider object, but the expected providerName is Open ID Connect.",
-      "methodParams": [
-        {
-          "name": "authProviderId",
-          "datatype": "String"
-        },
-        {
-          "name": "providerName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "oldAccessToken",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The proper name of the third party. For all providers except Janrain, the expected values are Facebook  Salesforce  Open ID Connect  Microsoft Access Control Service  LinkedIn  Twitter  Google   For Janrain providers, the parameter value is the proper name of the third party used. Yahoo! is an example of a Janrain provider value."
         }
       ],
       "datatype": "Map<String, String>"
@@ -69,27 +58,16 @@
       "name": "revokeAccess",
       "signature": "public static Boolean revokeAccess(String authProviderId, String providerName, String userId, String remoteIdentifier)",
       "description": "Revokes the access token for a specified social sign-on user from a third-party service such as Facebook©. Note that querying the ProviderType field on the AuthProvider object sometimes returns a value that differs from the expected provider name value. For example, for Open ID Connect providers, OpenIdConnect is the ProviderType value for the AuthProvider object, but the expected providerName is Open ID Connect.",
-      "methodParams": [
-        {
-          "name": "authProviderId",
-          "datatype": "String"
-        },
-        {
-          "name": "providerName",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "remoteIdentifier",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The ID of the Auth. Provider in the Salesforce organization. The proper name of the third party. For all providers except Janrain, the expected values are Facebook  Salesforce  Open ID Connect  Microsoft Access Control Service  LinkedIn  Twitter  Google   For Janrain providers, the parameter value is the proper name of the third party used. Yahoo! is an example of a Janrain provider value. The 15-character ID for the user whose access is being revoked. The unique ID for the user in the third-party system (this value is in the associated ThirdPartyAccountLink standard object)."
         }
       ],
       "datatype": "Boolean"
     }
   ],
-  "description": "Contains methods for providing the access token associated",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthToken.htm#apex_class_Auth_AuthToken"
+  "description": "Contains methods for providing the access token associated with an authentication provider for an authenticated user, except for the Janrain provider.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthToken.htm"
 }

@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,51 +17,40 @@
       "name": "oauthSecretOrRefreshToken",
       "signature": "public String oauthSecretOrRefreshToken {get; set;}",
       "description": "The OAuth secret or refresh token for the currently logged-in user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "oauthToken",
       "signature": "public String oauthToken {get; set;}",
       "description": "The OAuth access token.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "provider",
       "signature": "public String provider {get; set;}",
       "description": "The authentication provider.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [
+  "constructors": [
     {
       "name": "AuthProviderTokenResponse",
       "signature": "public AuthProviderTokenResponse(String provider, String oauthToken, String oauthSecretOrRefreshToken, String state)",
       "description": "Creates an instance of the AuthProviderTokenResponse class using the specified authentication provider, OAuth access token, OAuth secret or refresh token, and state for a custom authentication provider plug-in.",
-      "methodParams": [
-        {
-          "name": "provider",
-          "datatype": "String"
-        },
-        {
-          "name": "oauthToken",
-          "datatype": "String"
-        },
-        {
-          "name": "oauthSecretOrRefreshToken",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "state",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The custom authentication provider. The OAuth access token. The OAuth secret or refresh token for the currently logged-in user. The state passed in to initiate the authentication request for the user."
         }
       ],
       "datatype": "void"
     }
   ],
   "methods": [],
-  "description": "Stores the response from the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthProviderTokenResponse.htm#apex_class_Auth_AuthProviderTokenResponse"
+  "description": "Stores the response from the AuthProviderPlugin.handleCallback method.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_AuthProviderTokenResponse.htm"
 }

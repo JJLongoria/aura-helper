@@ -1,0 +1,11 @@
+{
+  "PublishingService": {
+    "name": "PublishingService",
+    "namespace": "KbManagement",
+    "isInterface": false,
+    "description": "Use the methods in the KbManagement.PublishingService class to manage the lifecycle of an article and its translations.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_KbManagement.htm",
+    "classes": [],
+    "enums": []
+  }
+}

@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,33 +17,34 @@
       "name": "continuationMethod",
       "signature": "public String continuationMethod {get; set;}",
       "description": "The name of the callback method that is called after the callout response returns.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "timeout",
       "signature": "public Integer timeout {get; set;}",
       "description": "The timeout of the continuation in seconds. Maximum: 120 seconds seconds.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "state",
       "signature": "public Object state {get; set;}",
       "description": "Data that is stored in this continuation and that can be retrieved after the callout is finished and the callback method is invoked.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [
+  "constructors": [
     {
       "name": "Continuation",
       "signature": "public Continuation(Integer timeout)",
       "description": "Creates an instance of the Continuation class by using the specified timeout in seconds. The timeout maximum is 120 seconds.",
-      "methodParams": [
+      "params": [
         {
           "name": "timeout",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The timeout for this continuation in seconds."
         }
       ],
       "datatype": "void"
@@ -52,10 +55,11 @@
       "name": "addHttpRequest",
       "signature": "public String addHttpRequest(System.HttpRequest request)",
       "description": "Adds the HTTP request for the callout that is associated with this continuation.",
-      "methodParams": [
+      "params": [
         {
           "name": "request",
-          "datatype": "HttpRequest"
+          "datatype": "HttpRequest",
+          "description": "The HTTP request to be sent to the external service by this continuation."
         }
       ],
       "datatype": "String"
@@ -64,22 +68,23 @@
       "name": "getRequests",
       "signature": "public Map<String,System.HttpRequest> getRequests()",
       "description": "Returns all labels and requests that are associated with this continuation as key-value pairs.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Map<String,HttpRequest>"
     },
     {
       "name": "getResponse",
       "signature": "public static HttpResponse getResponse(String requestLabel)",
       "description": "Returns the response for the request that corresponds to the specified label.",
-      "methodParams": [
+      "params": [
         {
           "name": "requestLabel",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The request label to get the response for."
         }
       ],
       "datatype": "HttpResponse"
     }
   ],
-  "description": "",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Continuation.htm#apex_class_System_Continuation"
+  "description": "Use the Continuation class to make callouts asynchronously to a SOAP or REST Web service.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Continuation.htm"
 }

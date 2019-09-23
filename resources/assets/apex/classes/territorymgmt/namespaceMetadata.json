@@ -1,0 +1,13 @@
+{
+  "OpportunityTerritory2AssignmentFilter": {
+    "name": "OpportunityTerritory2AssignmentFilter",
+    "namespace": "TerritoryMgmt",
+    "isEnum": false,
+    "isInterface": true,
+    "enumValues": [],
+    "description": "Apex interface that allows an implementing class to assign a single",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_support_milestonetriggertimecalculator.htm#apex_interface_support_milestonetriggertimecalculator",
+    "classes": [],
+    "enums": []
+  }
+}

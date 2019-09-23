@@ -1,10 +1,12 @@
 {
   "name": "TableResult",
-  "namespace": "DataSource",
+  "namespace": "Datasource",
   "accessModifier": "global",
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,55 +17,56 @@
       "name": "errorMessage",
       "signature": "public String errorMessage {get; set;}",
       "description": "Error message to display to the user.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "queryMoreToken",
       "signature": "public String queryMoreToken {get; set;}",
       "description": "Query token that’s used for server-driven paging to determine and fetch the subsequent batch of results. This token is passed back to the Apex data source on subsequent queries in the queryMoreToken property on the QueryContext.​",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "rows",
       "signature": "public List<Map<String,Object>> rows {get; set;}",
       "description": "Rows of data.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "success",
       "signature": "public Boolean success {get; set;}",
       "description": "Whether the search or query was successful.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "tableName",
       "signature": "public String tableName {get; set;}",
       "description": "Name of the table that was queried.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "totalSize",
       "signature": "public Integer totalSize {get; set;}",
       "description": "The total number of rows that meet the query criteria, even when the external system is requested to return a smaller batch size.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "error",
       "signature": "public static DataSource.TableResult error(String errorMessage)",
       "description": "Returns failed search or query results with the provided error message.",
-      "methodParams": [
+      "params": [
         {
           "name": "errorMessage",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Error message to display to the user."
         }
       ],
       "datatype": "DataSource.TableResult"
@@ -72,26 +75,11 @@
       "name": "get",
       "signature": "public static DataSource.TableResult get(Boolean success, String errorMessage, String tableName, List<Map<String,Object>> rows, Integer totalSize)",
       "description": "Returns a subset of data rows in a TableResult with the provided property values and the number of rows in the table.",
-      "methodParams": [
-        {
-          "name": "success",
-          "datatype": "Boolean"
-        },
-        {
-          "name": "errorMessage",
-          "datatype": "String"
-        },
-        {
-          "name": "tableName",
-          "datatype": "String"
-        },
-        {
-          "name": "rows",
-          "datatype": "List<Map<String, Object>>"
-        },
+      "params": [
         {
           "name": "totalSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Whether the search or query was successful. Error message to display to the user. Name of the table that was queried. Rows of data. The total number of rows that meet the query criteria, even when the external system is requested to return a smaller batch size."
         }
       ],
       "datatype": "DataSource.TableResult"
@@ -100,22 +88,11 @@
       "name": "get",
       "signature": "public static DataSource.TableResult get(Boolean success, String errorMessage, String tableName, List<Map<String,Object>> rows)",
       "description": "Returns a subset of data rows in a TableResult with the provided property values.",
-      "methodParams": [
-        {
-          "name": "success",
-          "datatype": "Boolean"
-        },
-        {
-          "name": "errorMessage",
-          "datatype": "String"
-        },
-        {
-          "name": "tableName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "rows",
-          "datatype": "List<Map<String, Object>>"
+          "datatype": "List<Map<String, Object>>",
+          "description": "Whether the search or query was successful. Error message to display to the user. Name of the table that was queried. Rows of data."
         }
       ],
       "datatype": "DataSource.TableResult"
@@ -124,14 +101,11 @@
       "name": "get",
       "signature": "public static DataSource.TableResult get(DataSource.QueryContext queryContext, List<Map<String,Object>> rows)",
       "description": "Returns the subset of data rows that meet the query criteria, and the number of rows in the table, in a TableResult.",
-      "methodParams": [
-        {
-          "name": "queryContext",
-          "datatype": "DataSource.QueryContext"
-        },
+      "params": [
         {
           "name": "rows",
-          "datatype": "List<Map<String, Object>>"
+          "datatype": "List<Map<String, Object>>",
+          "description": "Represents the query to run against a data table. Rows of data."
         }
       ],
       "datatype": "DataSource.TableResult"
@@ -140,19 +114,16 @@
       "name": "get",
       "signature": "public static DataSource.TableResult get(DataSource.TableSelection tableSelection, List<Map<String,Object>> rows)",
       "description": "Returns the subset of data rows that meet the query criteria, and the number of rows in the table, in a TableResult.",
-      "methodParams": [
-        {
-          "name": "tableSelection",
-          "datatype": "DataSource.TableSelection"
-        },
+      "params": [
         {
           "name": "rows",
-          "datatype": "List<Map<String, Object>>"
+          "datatype": "List<Map<String, Object>>",
+          "description": "Query details that represent the FROM, ORDER BY, SELECT, and WHERE clauses in a SOQL or SOSL query. Rows of data."
         }
       ],
       "datatype": "DataSource.TableResult"
     }
   ],
   "description": "Contains the results of a search or query.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_TableResult.htm#apex_class_DataSource_TableResult"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_TableResult.htm"
 }

@@ -13,30 +13,30 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getChildCategories",
       "signature": "public Schema.DataCategory getChildCategories()",
       "description": "Returns a recursive object that contains the visible sub categories in the data category.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Schema.DataCategory>"
     },
     {
       "name": "getLabel",
       "signature": "public String getLabel()",
       "description": "Returns the label for the data category used in the Salesforce user interface.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getName",
       "signature": "public String getName()",
       "description": "Returns the unique name used by the API to access to the data category.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
   "description": "Represents the categories within a category group.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DataCategory.htm#apex_class_Schema_DataCategory"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DataCategory.htm"
 }

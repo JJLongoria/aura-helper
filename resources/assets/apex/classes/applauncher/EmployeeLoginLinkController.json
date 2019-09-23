@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getEmployeeLoginUrl",
       "signature": "public static String getEmployeeLoginUrl(String startUrl)",
       "description": "Returns the path to the page that employees see after they log in.",
-      "methodParams": [
+      "params": [
         {
           "name": "startUrl",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Path to the page that employees see after they log in."
         }
       ],
       "datatype": "String"
@@ -29,10 +32,10 @@
       "name": "getIsAllowInternalUserLoginEnabled",
       "signature": "public static Boolean getIsAllowInternalUserLoginEnabled()",
       "description": "Indicates whether an internal user is allowed to log in to the community.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     }
   ],
-  "description": "Represents the link on the login form that employees can click to",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_EmployeeLoginLinkController.htm#apex_class_applauncher_EmployeeLoginLinkController"
+  "description": "Represents the link on the login form that employees can click to log in. For internal use only.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_EmployeeLoginLinkController.htm"
 }

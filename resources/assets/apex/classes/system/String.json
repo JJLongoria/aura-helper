@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "abbreviate",
       "signature": "public String abbreviate(Integer maxWidth)",
       "description": "Returns an abbreviated version of the String, of the specified length and with ellipses appended if the current String is longer than the specified length; otherwise, returns the original String without ellipses.",
-      "methodParams": [
+      "params": [
         {
           "name": "maxWidth",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "If maxWidth is less than four, this method throws a run-time exception."
         }
       ],
       "datatype": "String"
@@ -29,14 +32,11 @@
       "name": "abbreviate",
       "signature": "public String abbreviate(Integer maxWidth, Integer offset)",
       "description": "Returns an abbreviated version of the String, starting at the specified character offset and of the specified length. The returned String has ellipses appended at the start and the end if characters have been removed at these locations.",
-      "methodParams": [
-        {
-          "name": "maxWidth",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "offset",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Note that the offset is not necessarily the leftmost character in the returned String or the first character following the ellipses, but it appears somewhere in the result.  Regardless, abbreviate won’t return a String of length greater than maxWidth.If maxWidth is too small, this method throws a run-time exception."
         }
       ],
       "datatype": "String"
@@ -45,17 +45,18 @@
       "name": "capitalize",
       "signature": "public String capitalize()",
       "description": "Returns the current String with the first letter changed to title case.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "center",
       "signature": "public String center(Integer size)",
       "description": "Returns a version of the current String of the specified size padded with spaces on the left and right, so that it appears in the center. If the specified size is smaller than the current String size, the entire String is returned without added spaces.",
-      "methodParams": [
+      "params": [
         {
           "name": "size",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -64,14 +65,11 @@
       "name": "center",
       "signature": "public String center(Integer size, String paddingString)",
       "description": "Returns a version of the current String of the specified size padded with the specified String on the left and right, so that it appears in the center. If the specified size is smaller than the current String size, the entire String is returned without padding.",
-      "methodParams": [
-        {
-          "name": "size",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "paddingString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -80,10 +78,11 @@
       "name": "charAt",
       "signature": "public Integer charAt(Integer index)",
       "description": "Returns the value of the character at the specified index.",
-      "methodParams": [
+      "params": [
         {
           "name": "index",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The index of the character to get the value of."
         }
       ],
       "datatype": "Integer"
@@ -92,10 +91,11 @@
       "name": "codePointAt",
       "signature": "public Integer codePointAt(Integer index)",
       "description": "Returns the Unicode code point value at the specified index.",
-      "methodParams": [
+      "params": [
         {
           "name": "index",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The index of the characters (Unicode code units) in the string. The index range is from zero to the string length minus one."
         }
       ],
       "datatype": "Integer"
@@ -104,10 +104,11 @@
       "name": "codePointBefore",
       "signature": "public Integer codePointBefore(Integer index)",
       "description": "Returns the Unicode code point value that occurs before the specified index.",
-      "methodParams": [
+      "params": [
         {
           "name": "index",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The index before the Unicode code point that is to be returned. The index range is from one to the string length."
         }
       ],
       "datatype": "Integer"
@@ -116,14 +117,11 @@
       "name": "codePointCount",
       "signature": "public Integer codePointCount(Integer beginIndex, Integer endIndex)",
       "description": "Returns the number of Unicode code points within the specified text range.",
-      "methodParams": [
-        {
-          "name": "beginIndex",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "endIndex",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The index of the first character in the range. The index after the last character in the range."
         }
       ],
       "datatype": "Integer"
@@ -132,10 +130,11 @@
       "name": "compareTo",
       "signature": "public Integer compareTo(String secondString)",
       "description": "Compares two strings lexicographically, based on the Unicode value of each character in the Strings.",
-      "methodParams": [
+      "params": [
         {
           "name": "secondString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -144,10 +143,11 @@
       "name": "contains",
       "signature": "public Boolean contains(String substring)",
       "description": "Returns true if and only if the String that called the method contains the specified sequence of characters in substring.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -156,10 +156,11 @@
       "name": "containsAny",
       "signature": "public Boolean containsAny(String inputString)",
       "description": "Returns true if the current String contains any of the characters in the specified String; otherwise, returns false.",
-      "methodParams": [
+      "params": [
         {
           "name": "inputString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -168,10 +169,11 @@
       "name": "containsIgnoreCase",
       "signature": "public Boolean containsIgnoreCase(String substring)",
       "description": "Returns true if the current String contains the specified sequence of characters without regard to case; otherwise, returns false.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -180,10 +182,11 @@
       "name": "containsNone",
       "signature": "public Boolean containsNone(String inputString)",
       "description": "Returns true if the current String doesn’t contain any of the characters in the specified String; otherwise, returns false.",
-      "methodParams": [
+      "params": [
         {
           "name": "inputString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "If inputString is an empty string or the current String is empty, this method returns true. If inputString is null, this method returns a run-time exception."
         }
       ],
       "datatype": "Boolean"
@@ -192,10 +195,11 @@
       "name": "containsOnly",
       "signature": "public Boolean containsOnly(String inputString)",
       "description": "Returns true if the current String contains characters only from the specified sequence of characters and not any other characters; otherwise, returns false.",
-      "methodParams": [
+      "params": [
         {
           "name": "inputString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -204,17 +208,18 @@
       "name": "containsWhitespace",
       "signature": "public Boolean containsWhitespace()",
       "description": "Returns true if the current String contains any white space characters; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "countMatches",
       "signature": "public Integer countMatches(String substring)",
       "description": "Returns the number of times the specified substring occurs in the current String.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -223,17 +228,18 @@
       "name": "deleteWhitespace",
       "signature": "public String deleteWhitespace()",
       "description": "Returns a version of the current String with all white space characters removed.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "difference",
       "signature": "public String difference(String secondString)",
       "description": "Returns the difference between the current String and the specified String.",
-      "methodParams": [
+      "params": [
         {
           "name": "secondString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "If secondString is an empty string, this method returns an empty string.If secondString is null, this method throws a run-time exception."
         }
       ],
       "datatype": "String"
@@ -242,10 +248,11 @@
       "name": "endsWith",
       "signature": "public Boolean endsWith(String suffix)",
       "description": "Returns true if the String that called the method ends with the specified suffix.",
-      "methodParams": [
+      "params": [
         {
           "name": "suffix",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -254,10 +261,11 @@
       "name": "endsWithIgnoreCase",
       "signature": "public Boolean endsWithIgnoreCase(String suffix)",
       "description": "Returns true if the current String ends with the specified suffix; otherwise, returns false.",
-      "methodParams": [
+      "params": [
         {
           "name": "suffix",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -266,10 +274,11 @@
       "name": "equals",
       "signature": "public Boolean equals(String secondString)",
       "description": "Deprecated. This method is replaced by equals(stringOrId). Returns true if the passed-in string is not null and represents the same binary sequence of characters as the current string. Use this method to perform case-sensitive comparisons.",
-      "methodParams": [
+      "params": [
         {
           "name": "secondString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -278,10 +287,11 @@
       "name": "equals",
       "signature": "public Boolean equals(Object stringOrId)",
       "description": "Returns true if the passed-in object is not null and represents the same binary sequence of characters as the current string. Use this method to compare a string to an object that represents a string or an ID.",
-      "methodParams": [
+      "params": [
         {
           "name": "stringOrId",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -290,10 +300,11 @@
       "name": "equalsIgnoreCase",
       "signature": "public Boolean equalsIgnoreCase(String secondString)",
       "description": "Returns true if the secondString is not null and represents the same sequence of characters as the String that called the method, ignoring case.",
-      "methodParams": [
+      "params": [
         {
           "name": "secondString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -302,45 +313,46 @@
       "name": "escapeCsv",
       "signature": "public String escapeCsv()",
       "description": "Returns a String for a CSV column enclosed in double quotes, if required.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "escapeEcmaScript",
-      "signature": "",
-      "description": "Escapes the characters in the String using EcmaScript String rules.   Signature   public String escapeEcmaScript()",
-      "methodParams": [],
+      "signature": "public String escapeEcmaScript()",
+      "description": "Escapes the characters in the String using EcmaScript String rules.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "escapeHtml3",
-      "signature": "",
-      "description": "Escapes the characters in a String using HTML 3.0 entities.   Signature   public String escapeHtml3()",
-      "methodParams": [],
+      "signature": "public String escapeHtml3()",
+      "description": "Escapes the characters in a String using HTML 3.0 entities.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "escapeHtml4",
-      "signature": "",
-      "description": "Escapes the characters in a String using HTML 4.0 entities.   Signature   public String escapeHtml4()",
-      "methodParams": [],
+      "signature": "public String escapeHtml4()",
+      "description": "Escapes the characters in a String using HTML 4.0 entities.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "escapeJava",
       "signature": "public String escapeJava()",
       "description": "Returns a String whose characters are escaped using Java String rules. Characters escaped include quotes and control characters, such as tab, backslash, and carriage return characters.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "escapeSingleQuotes",
       "signature": "public static String escapeSingleQuotes(String stringToEscape)",
       "description": "Returns a String with the escape character (\\) added before any single quotation marks in the String s.",
-      "methodParams": [
+      "params": [
         {
           "name": "stringToEscape",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -349,40 +361,38 @@
       "name": "escapeUnicode",
       "signature": "public String escapeUnicode()",
       "description": "Returns a String whose Unicode characters are escaped to a Unicode escape sequence.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "escapeXml",
-      "signature": "",
-      "description": "Escapes the characters in a String using XML entities.   Signature public String escapeXml()",
-      "methodParams": [],
+      "signature": "public String escapeXml()",
+      "description": "Escapes the characters in a String using XML entities.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "format",
       "signature": "public static String format(String stringToFormat, List<Object> formattingArguments)",
       "description": "Treat the first argument as a pattern and return a string using the second argument for substitution and formatting. The substitution and formatting are the same as apex:outputText and the Java MessageFormat class. Non-string types in the second argument’s List are implicitly converted to strings, respecting the toString() method overrides that exist on the type.",
-      "methodParams": [
-        {
-          "name": "stringToFormat",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "formattingArguments",
-          "datatype": "List<Object>"
+          "datatype": "List<Object>",
+          "description": ""
         }
       ],
       "datatype": "String"
     },
     {
       "name": "fromCharArray",
-      "signature": "",
-      "description": "Returns a String from the values of the list of integers.   Signature public static String fromCharArray(List<Integer> charArray)",
-      "methodParams": [
+      "signature": "public static String fromCharArray(List<Integer> charArray)",
+      "description": "Returns a String from the values of the list of integers.",
+      "params": [
         {
           "name": "charArray",
-          "datatype": "List<Integer>"
+          "datatype": "List<Integer>",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -391,17 +401,18 @@
       "name": "getChars",
       "signature": "public List<Integer> getChars()",
       "description": "Returns an array of character values that represent the characters in this string.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Integer>"
     },
     {
       "name": "getCommonPrefix",
       "signature": "public static String getCommonPrefix(List<String> strings)",
       "description": "Returns the initial sequence of characters as a String that is common to all the specified Strings.",
-      "methodParams": [
+      "params": [
         {
           "name": "strings",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -410,10 +421,11 @@
       "name": "getLevenshteinDistance",
       "signature": "public Integer getLevenshteinDistance(String stringToCompare)",
       "description": "Returns the Levenshtein distance between the current String and the specified String.",
-      "methodParams": [
+      "params": [
         {
           "name": "stringToCompare",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -422,33 +434,31 @@
       "name": "getLevenshteinDistance",
       "signature": "public Integer getLevenshteinDistance(String stringToCompare, Integer threshold)",
       "description": "Returns the Levenshtein distance between the current String and the specified String if it is less than or equal than the given threshold; otherwise, returns -1.",
-      "methodParams": [
-        {
-          "name": "stringToCompare",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "threshold",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Integer"
     },
     {
       "name": "hashCode",
-      "signature": "",
-      "description": "Returns a hash code value for this string.   Signature public Integer hashCode()",
-      "methodParams": [],
+      "signature": "public Integer hashCode()",
+      "description": "Returns a hash code value for this string.",
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "indexOf",
       "signature": "public Integer indexOf(String substring)",
       "description": "Returns the index of the first occurrence of the specified substring. If the substring does not occur, this method returns -1.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -457,14 +467,11 @@
       "name": "indexOf",
       "signature": "public Integer indexOf(String substring, Integer index)",
       "description": "Returns the zero-based index of the first occurrence of the specified substring from the point of the given index. If the substring does not occur, this method returns -1.",
-      "methodParams": [
-        {
-          "name": "substring",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "index",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -473,10 +480,11 @@
       "name": "indexOfAny",
       "signature": "public Integer indexOfAny(String substring)",
       "description": "Returns the zero-based index of the first occurrence of any character specified in the substring. If none of the characters occur, returns -1.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -485,10 +493,11 @@
       "name": "indexOfAnyBut",
       "signature": "public Integer indexOfAnyBut(String substring)",
       "description": "Returns the zero-based index of the first occurrence of a character that is not in the specified substring. Otherwise, returns -1.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -497,10 +506,11 @@
       "name": "indexOfChar",
       "signature": "public Integer indexOfChar(Integer character)",
       "description": "Returns the index of the first occurrence of the character that corresponds to the specified character value.",
-      "methodParams": [
+      "params": [
         {
           "name": "character",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The integer value of the character in the string."
         }
       ],
       "datatype": "Integer"
@@ -509,14 +519,11 @@
       "name": "indexOfChar",
       "signature": "public Integer indexOfChar(Integer character, Integer startIndex)",
       "description": "Returns the index of the first occurrence of the character that corresponds to the specified character value, starting from the specified index.",
-      "methodParams": [
-        {
-          "name": "character",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "startIndex",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The integer value of the character to look for. The index to start the search from."
         }
       ],
       "datatype": "Integer"
@@ -525,10 +532,11 @@
       "name": "indexOfDifference",
       "signature": "public Integer indexOfDifference(String stringToCompare)",
       "description": "Returns the zero-based index of the character where the current String begins to differ from the specified String.",
-      "methodParams": [
+      "params": [
         {
           "name": "stringToCompare",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -537,10 +545,11 @@
       "name": "indexOfIgnoreCase",
       "signature": "public Integer indexOfIgnoreCase(String substring)",
       "description": "Returns the zero-based index of the first occurrence of the specified substring without regard to case. If the substring does not occur, this method returns -1.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -549,14 +558,11 @@
       "name": "indexOfIgnoreCase",
       "signature": "public Integer indexOfIgnoreCase(String substring, Integer startPosition)",
       "description": "Returns the zero-based index of the first occurrence of the specified substring from the point of index i, without regard to case. If the substring does not occur, this method returns -1.",
-      "methodParams": [
-        {
-          "name": "substring",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "startPosition",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -565,59 +571,60 @@
       "name": "isAllLowerCase",
       "signature": "public Boolean isAllLowerCase()",
       "description": "Returns true if all characters in the current String are lowercase; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isAllUpperCase",
       "signature": "public Boolean isAllUpperCase()",
       "description": "Returns true if all characters in the current String are uppercase; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isAlpha",
       "signature": "public Boolean isAlpha()",
       "description": "Returns true if all characters in the current String are Unicode letters only; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isAlphaSpace",
       "signature": "public Boolean isAlphaSpace()",
       "description": "Returns true if all characters in the current String are Unicode letters or spaces only; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isAlphanumeric",
       "signature": "public Boolean isAlphanumeric()",
       "description": "Returns true if all characters in the current String are Unicode letters or numbers only; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isAlphanumericSpace",
       "signature": "public Boolean isAlphanumericSpace()",
       "description": "Returns true if all characters in the current String are Unicode letters, numbers, or spaces only; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isAsciiPrintable",
       "signature": "public Boolean isAsciiPrintable()",
       "description": "Returns true if the current String contains only ASCII printable characters; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isBlank",
       "signature": "public static Boolean isBlank(String inputString)",
       "description": "Returns true if the specified String is white space, empty (''), or null; otherwise, returns false.",
-      "methodParams": [
+      "params": [
         {
           "name": "inputString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -626,10 +633,11 @@
       "name": "isEmpty",
       "signature": "public static Boolean isEmpty(String inputString)",
       "description": "Returns true if the specified String is empty ('') or null; otherwise, returns false.",
-      "methodParams": [
+      "params": [
         {
           "name": "inputString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -638,10 +646,11 @@
       "name": "isNotBlank",
       "signature": "public static Boolean isNotBlank(String inputString)",
       "description": "Returns true if the specified String is not whitespace, not empty (''), and not null; otherwise, returns false.",
-      "methodParams": [
+      "params": [
         {
           "name": "inputString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -650,10 +659,11 @@
       "name": "isNotEmpty",
       "signature": "public static Boolean isNotEmpty(String inputString)",
       "description": "Returns true if the specified String is not empty ('') and not null; otherwise, returns false.",
-      "methodParams": [
+      "params": [
         {
           "name": "inputString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -662,35 +672,32 @@
       "name": "isNumeric",
       "signature": "public Boolean isNumeric()",
       "description": "Returns true if the current String contains only Unicode digits; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isNumericSpace",
       "signature": "public Boolean isNumericSpace()",
       "description": "Returns true if the current String contains only Unicode digits or spaces; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isWhitespace",
       "signature": "public Boolean isWhitespace()",
       "description": "Returns true if the current String contains only white space characters or is empty; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "join",
       "signature": "public static String join(Object iterableObj, String separator)",
       "description": "Joins the elements of the specified iterable object, such as a List, into a single String separated by the specified separator.",
-      "methodParams": [
-        {
-          "name": "iterableObj",
-          "datatype": "Object"
-        },
+      "params": [
         {
           "name": "separator",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -699,10 +706,11 @@
       "name": "lastIndexOf",
       "signature": "public Integer lastIndexOf(String substring)",
       "description": "Returns the index of the last occurrence of the specified substring. If the substring does not occur, this method returns -1.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -711,14 +719,11 @@
       "name": "lastIndexOf",
       "signature": "public Integer lastIndexOf(String substring, Integer endPosition)",
       "description": "Returns the index of the last occurrence of the specified substring, starting from the character at index 0 and ending at the specified index.",
-      "methodParams": [
-        {
-          "name": "substring",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "endPosition",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -727,10 +732,11 @@
       "name": "lastIndexOfChar",
       "signature": "public Integer lastIndexOfChar(Integer character)",
       "description": "Returns the index of the last occurrence of the character that corresponds to the specified character value.",
-      "methodParams": [
+      "params": [
         {
           "name": "character",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The integer value of the character in the string."
         }
       ],
       "datatype": "Integer"
@@ -739,14 +745,11 @@
       "name": "lastIndexOfChar",
       "signature": "public Integer lastIndexOfChar(Integer character, Integer endIndex)",
       "description": "Returns the index of the last occurrence of the character that corresponds to the specified character value, starting from the specified index.",
-      "methodParams": [
-        {
-          "name": "character",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "endIndex",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The integer value of the character to look for. The index to end the search at."
         }
       ],
       "datatype": "Integer"
@@ -755,10 +758,11 @@
       "name": "lastIndexOfIgnoreCase",
       "signature": "public Integer lastIndexOfIgnoreCase(String substring)",
       "description": "Returns the index of the last occurrence of the specified substring regardless of case.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -767,14 +771,11 @@
       "name": "lastIndexOfIgnoreCase",
       "signature": "public Integer lastIndexOfIgnoreCase(String substring, Integer endPosition)",
       "description": "Returns the index of the last occurrence of the specified substring regardless of case, starting from the character at index 0 and ending at the specified index.",
-      "methodParams": [
-        {
-          "name": "substring",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "endPosition",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -783,10 +784,11 @@
       "name": "left",
       "signature": "public String left(Integer length)",
       "description": "Returns the leftmost characters of the current String of the specified length.",
-      "methodParams": [
+      "params": [
         {
           "name": "length",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -795,26 +797,24 @@
       "name": "leftPad",
       "signature": "public String leftPad(Integer length)",
       "description": "Returns the current String padded with spaces on the left and of the specified length.",
-      "methodParams": [
+      "params": [
         {
           "name": "length",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
     },
     {
       "name": "leftPad",
-      "signature": "",
-      "description": "Returns the current String padded with String padStr on the left and of the specified length.   Signature public String leftPad(Integer length, String padStr)",
-      "methodParams": [
-        {
-          "name": "length",
-          "datatype": "Integer"
-        },
+      "signature": "public String leftPad(Integer length, String padStr)",
+      "description": "Returns the current String padded with String padStr on the left and of the specified length.",
+      "params": [
         {
           "name": "padStr",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "String to pad with; if null or empty treated as single blank."
         }
       ],
       "datatype": "String"
@@ -823,21 +823,18 @@
       "name": "length",
       "signature": "public Integer length()",
       "description": "Returns the number of 16-bit Unicode characters contained in the String.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "mid",
       "signature": "public String mid(Integer startIndex, Integer length)",
       "description": "Returns a new String that begins with the character at the specified zero-based startIndex with the number of characters specified by length.",
-      "methodParams": [
-        {
-          "name": "startIndex",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "length",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "If startIndex is negative, it is considered to be zero. If length is negative or zero, an empty String is returned. If length is greater than the remaining characters, the remainder of the String is returned."
         }
       ],
       "datatype": "String"
@@ -846,21 +843,18 @@
       "name": "normalizeSpace",
       "signature": "public String normalizeSpace()",
       "description": "Returns the current String with leading, trailing, and repeating white space characters removed.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "offsetByCodePoints",
       "signature": "public Integer offsetByCodePoints(Integer index, Integer codePointOffset)",
       "description": "Returns the index of the Unicode code point that is offset by the specified number of code points, starting from the given index.",
-      "methodParams": [
-        {
-          "name": "index",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "codePointOffset",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The start index in the string. The number of code points to be offset."
         }
       ],
       "datatype": "Integer"
@@ -869,10 +863,11 @@
       "name": "remove",
       "signature": "public String remove(String substring)",
       "description": "Removes all occurrences of the specified substring and returns the String result.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -881,10 +876,11 @@
       "name": "removeEnd",
       "signature": "public String removeEnd(String substring)",
       "description": "Removes the specified substring only if it occurs at the end of the String.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -893,10 +889,11 @@
       "name": "removeEndIgnoreCase",
       "signature": "public String removeEndIgnoreCase(String substring)",
       "description": "Removes the specified substring only if it occurs at the end of the String using a case-insensitive match.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -905,10 +902,11 @@
       "name": "removeStart",
       "signature": "public String removeStart(String substring)",
       "description": "Removes the specified substring only if it occurs at the beginning of the String.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -917,10 +915,11 @@
       "name": "removeStartIgnoreCase",
       "signature": "public String removeStartIgnoreCase(String substring)",
       "description": "Removes the specified substring only if it occurs at the beginning of the String using a case-insensitive match.",
-      "methodParams": [
+      "params": [
         {
           "name": "substring",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -929,10 +928,11 @@
       "name": "repeat",
       "signature": "public String repeat(Integer numberOfTimes)",
       "description": "Returns the current String repeated the specified number of times.",
-      "methodParams": [
+      "params": [
         {
           "name": "numberOfTimes",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -941,14 +941,11 @@
       "name": "repeat",
       "signature": "public String repeat(String separator, Integer numberOfTimes)",
       "description": "Returns the current String repeated the specified number of times using the specified separator to separate the repeated Strings.",
-      "methodParams": [
-        {
-          "name": "separator",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "numberOfTimes",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -957,14 +954,11 @@
       "name": "replace",
       "signature": "public String replace(String target, String replacement)",
       "description": "Replaces each substring of a string that matches the literal target sequence target with the specified literal replacement sequence replacement.",
-      "methodParams": [
-        {
-          "name": "target",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "replacement",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -973,14 +967,11 @@
       "name": "replaceAll",
       "signature": "public String replaceAll(String regExp, String replacement)",
       "description": "Replaces each substring of a string that matches the regular expression regExp with the replacement sequence replacement.",
-      "methodParams": [
-        {
-          "name": "regExp",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "replacement",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -989,33 +980,31 @@
       "name": "replaceFirst",
       "signature": "public String replaceFirst(String regExp, String replacement)",
       "description": "Replaces the first substring of a string that matches the regular expression regExp with the replacement sequence replacement.",
-      "methodParams": [
-        {
-          "name": "regExp",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "replacement",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
     },
     {
       "name": "reverse",
-      "signature": "",
-      "description": "Returns a String with all the characters reversed.   Signature public String reverse()",
-      "methodParams": [],
+      "signature": "public String reverse()",
+      "description": "Returns a String with all the characters reversed.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "right",
       "signature": "public String right(Integer length)",
       "description": "Returns the rightmost characters of the current String of the specified length.",
-      "methodParams": [
+      "params": [
         {
           "name": "length",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "If length is greater than the String size, the entire String is returned."
         }
       ],
       "datatype": "String"
@@ -1024,26 +1013,24 @@
       "name": "rightPad",
       "signature": "public String rightPad(Integer length)",
       "description": "Returns the current String padded with spaces on the right and of the specified length.",
-      "methodParams": [
+      "params": [
         {
           "name": "length",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "If length is less than or equal to the current String size, the entire String is returned without space padding."
         }
       ],
       "datatype": "String"
     },
     {
       "name": "rightPad",
-      "signature": "",
-      "description": "Returns the current String padded with String padStr on the right and of the specified length.   Signature public String rightPad(Integer length, String padStr)",
-      "methodParams": [
-        {
-          "name": "length",
-          "datatype": "Integer"
-        },
+      "signature": "public String rightPad(Integer length, String padStr)",
+      "description": "Returns the current String padded with String padStr on the right and of the specified length.",
+      "params": [
         {
           "name": "padStr",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "String to pad with; if null or empty treated as single blank."
         }
       ],
       "datatype": "String"
@@ -1052,10 +1039,11 @@
       "name": "split",
       "signature": "public String[] split(String regExp)",
       "description": "Returns a list that contains each substring of the String that is terminated by either the regular expression regExp or the end of the String.",
-      "methodParams": [
+      "params": [
         {
           "name": "regExp",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String[]"
@@ -1064,14 +1052,11 @@
       "name": "split",
       "signature": "public String[] split(String regExp, Integer limit)",
       "description": "Returns a list that contains each substring of the String that is terminated by either the regular expression regExp or the end of the String.",
-      "methodParams": [
-        {
-          "name": "regExp",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "limit",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "A regular expression."
         }
       ],
       "datatype": "String[]"
@@ -1080,24 +1065,25 @@
       "name": "splitByCharacterType",
       "signature": "public List<String> splitByCharacterType()",
       "description": "Splits the current String by character type and returns a list of contiguous character groups of the same type as complete tokens.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<String>"
     },
     {
       "name": "splitByCharacterTypeCamelCase",
       "signature": "public List<String> splitByCharacterTypeCamelCase()",
       "description": "Splits the current String by character type and returns a list of contiguous character groups of the same type as complete tokens, with the following exception: the uppercase character, if any, immediately preceding a lowercase character token belongs to the following character token rather than to the preceding.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<String>"
     },
     {
       "name": "startsWith",
       "signature": "public Boolean startsWith(String prefix)",
       "description": "Returns true if the String that called the method begins with the specified prefix.",
-      "methodParams": [
+      "params": [
         {
           "name": "prefix",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -1106,29 +1092,31 @@
       "name": "startsWithIgnoreCase",
       "signature": "public Boolean startsWithIgnoreCase(String prefix)",
       "description": "Returns true if the current String begins with the specified prefix regardless of the prefix case.",
-      "methodParams": [
+      "params": [
         {
           "name": "prefix",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
     },
     {
       "name": "stripHtmlTags",
-      "signature": "",
-      "description": "Removes HTML markup and returns plain text.   Signature   public String stripHtmlTags(String htmlInput)",
-      "methodParams": [],
+      "signature": "public String stripHtmlTags(String htmlInput)",
+      "description": "Removes HTML markup and returns plain text.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "substring",
       "signature": "public String substring(Integer startIndex)",
       "description": "Returns a new String that begins with the character at the specified zero-based startIndex and extends to the end of the String.",
-      "methodParams": [
+      "params": [
         {
           "name": "startIndex",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1137,14 +1125,11 @@
       "name": "substring",
       "signature": "public String substring(Integer startIndex, Integer endIndex)",
       "description": "Returns a new String that begins with the character at the specified zero-based startIndex and extends to the character at endIndex - 1.",
-      "methodParams": [
-        {
-          "name": "startIndex",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "endIndex",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1153,10 +1138,11 @@
       "name": "substringAfter",
       "signature": "public String substringAfter(String separator)",
       "description": "Returns the substring that occurs after the first occurrence of the specified separator.",
-      "methodParams": [
+      "params": [
         {
           "name": "separator",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1165,10 +1151,11 @@
       "name": "substringAfterLast",
       "signature": "public String substringAfterLast(String separator)",
       "description": "Returns the substring that occurs after the last occurrence of the specified separator.",
-      "methodParams": [
+      "params": [
         {
           "name": "separator",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1177,10 +1164,11 @@
       "name": "substringBefore",
       "signature": "public String substringBefore(String separator)",
       "description": "Returns the substring that occurs before the first occurrence of the specified separator.",
-      "methodParams": [
+      "params": [
         {
           "name": "separator",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1189,10 +1177,11 @@
       "name": "substringBeforeLast",
       "signature": "public String substringBeforeLast(String separator)",
       "description": "Returns the substring that occurs before the last occurrence of the specified separator.",
-      "methodParams": [
+      "params": [
         {
           "name": "separator",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1201,10 +1190,11 @@
       "name": "substringBetween",
       "signature": "public String substringBetween(String tag)",
       "description": "Returns the substring that occurs between two instances of the specified tag String.",
-      "methodParams": [
+      "params": [
         {
           "name": "tag",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1213,14 +1203,11 @@
       "name": "substringBetween",
       "signature": "public String substringBetween(String open, String close)",
       "description": "Returns the substring that occurs between the two specified Strings.",
-      "methodParams": [
-        {
-          "name": "open",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "close",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1229,24 +1216,25 @@
       "name": "swapCase",
       "signature": "public String swapCase()",
       "description": "Swaps the case of all characters and returns the resulting String by using the default (English US) locale.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "toLowerCase",
       "signature": "public String toLowerCase()",
       "description": "Converts all of the characters in the String to lowercase using the rules of the default (English US) locale.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "toLowerCase",
       "signature": "public String toLowerCase(String locale)",
       "description": "Converts all of the characters in the String to lowercase using the rules of the specified locale.",
-      "methodParams": [
+      "params": [
         {
           "name": "locale",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1255,17 +1243,18 @@
       "name": "toUpperCase",
       "signature": "public String toUpperCase()",
       "description": "Converts all of the characters in the String to uppercase using the rules of the default (English US) locale.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "toUpperCase",
       "signature": "public String toUpperCase(String locale)",
       "description": "Converts all of the characters in the String to the uppercase using the rules of the specified locale.",
-      "methodParams": [
+      "params": [
         {
           "name": "locale",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1274,73 +1263,74 @@
       "name": "trim",
       "signature": "public String trim()",
       "description": "Returns a copy of the string that no longer contains any leading or trailing white space characters.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "uncapitalize",
-      "signature": "",
-      "description": "Returns the current String with the first letter in lowercase.   Signature public String uncapitalize()",
-      "methodParams": [],
+      "signature": "public String uncapitalize()",
+      "description": "Returns the current String with the first letter in lowercase.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "unescapeCsv",
-      "signature": "",
-      "description": "Returns a String representing an unescaped CSV column.   Signature public String unescapeCsv()",
-      "methodParams": [],
+      "signature": "public String unescapeCsv()",
+      "description": "Returns a String representing an unescaped CSV column.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "unescapeEcmaScript",
-      "signature": "",
-      "description": "Unescapes any EcmaScript literals found in the String.   Signature public String unescapeEcmaScript()",
-      "methodParams": [],
+      "signature": "public String unescapeEcmaScript()",
+      "description": "Unescapes any EcmaScript literals found in the String.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "unescapeHtml3",
-      "signature": "",
-      "description": "Unescapes the characters in a String using HTML 3.0 entities.   Signature public String unescapeHtml3()",
-      "methodParams": [],
+      "signature": "public String unescapeHtml3()",
+      "description": "Unescapes the characters in a String using HTML 3.0 entities.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "unescapeHtml4",
-      "signature": "",
-      "description": "Unescapes the characters in a String using HTML 4.0 entities.   Signature public String unescapeHtml4()",
-      "methodParams": [],
+      "signature": "public String unescapeHtml4()",
+      "description": "Unescapes the characters in a String using HTML 4.0 entities.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "unescapeJava",
       "signature": "public String unescapeJava()",
       "description": "Returns a String whose Java literals are unescaped. Literals unescaped include escape sequences for quotes (\\\\\") and control characters, such as tab (\\\\t), and carriage return (\\\\n).",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "unescapeUnicode",
-      "signature": "",
-      "description": "Returns a String whose escaped Unicode characters are unescaped.   Signature public String unescapeUnicode()",
-      "methodParams": [],
+      "signature": "public String unescapeUnicode()",
+      "description": "Returns a String whose escaped Unicode characters are unescaped.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "unescapeXml",
-      "signature": "",
-      "description": "Unescapes the characters in a String using XML entities.   Signature public String unescapeXml()",
-      "methodParams": [],
+      "signature": "public String unescapeXml()",
+      "description": "Unescapes the characters in a String using XML entities.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "valueOf",
       "signature": "public static String valueOf(Date dateToConvert)",
       "description": "Returns a String that represents the specified Date in the standard “yyyy-MM-dd” format.",
-      "methodParams": [
+      "params": [
         {
           "name": "dateToConvert",
-          "datatype": "Date"
+          "datatype": "Date",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1349,58 +1339,63 @@
       "name": "valueOf",
       "signature": "public static String valueOf(Datetime datetimeToConvert)",
       "description": "Returns a String that represents the specified Datetime in the standard “yyyy-MM-dd HH:mm:ss” format for the local time zone.",
-      "methodParams": [
+      "params": [
         {
           "name": "datetimeToConvert",
-          "datatype": "Datetime"
+          "datatype": "Datetime",
+          "description": ""
         }
       ],
       "datatype": "String"
     },
     {
       "name": "valueOf",
-      "signature": "",
-      "description": "Returns a String that represents the specified Decimal.   Signature public static String valueOf(Decimal decimalToConvert)",
-      "methodParams": [
+      "signature": "public static String valueOf(Decimal decimalToConvert)",
+      "description": "Returns a String that represents the specified Decimal.",
+      "params": [
         {
           "name": "decimalToConvert",
-          "datatype": "Decimal"
+          "datatype": "Decimal",
+          "description": ""
         }
       ],
       "datatype": "String"
     },
     {
       "name": "valueOf",
-      "signature": "",
-      "description": "Returns a String that represents the specified Double.   Signature public static String valueOf(Double doubleToConvert)",
-      "methodParams": [
+      "signature": "public static String valueOf(Double doubleToConvert)",
+      "description": "Returns a String that represents the specified Double.",
+      "params": [
         {
           "name": "doubleToConvert",
-          "datatype": "Double"
+          "datatype": "Double",
+          "description": ""
         }
       ],
       "datatype": "String"
     },
     {
       "name": "valueOf",
-      "signature": "",
-      "description": "Returns a String that represents the specified Integer.   Signature public static String valueOf(Integer integerToConvert)",
-      "methodParams": [
+      "signature": "public static String valueOf(Integer integerToConvert)",
+      "description": "Returns a String that represents the specified Integer.",
+      "params": [
         {
           "name": "integerToConvert",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
     },
     {
       "name": "valueOf",
-      "signature": "",
-      "description": "Returns a String that represents the specified Long.   Signature public static String valueOf(Long longToConvert)",
-      "methodParams": [
+      "signature": "public static String valueOf(Long longToConvert)",
+      "description": "Returns a String that represents the specified Long.",
+      "params": [
         {
           "name": "longToConvert",
-          "datatype": "Long"
+          "datatype": "Long",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1409,10 +1404,11 @@
       "name": "valueOf",
       "signature": "public static String valueOf(Object toConvert)",
       "description": "Returns a string representation of the specified object argument.",
-      "methodParams": [
+      "params": [
         {
           "name": "toConvert",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -1421,10 +1417,11 @@
       "name": "valueOfGmt",
       "signature": "public static String valueOfGmt(Datetime datetimeToConvert)",
       "description": "Returns a String that represents the specified Datetime in the standard “yyyy-MM-dd HH:mm:ss” format for the GMT time zone.",
-      "methodParams": [
+      "params": [
         {
           "name": "datetimeToConvert",
-          "datatype": "Datetime"
+          "datatype": "Datetime",
+          "description": ""
         }
       ],
       "datatype": "String"

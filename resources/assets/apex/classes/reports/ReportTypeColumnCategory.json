@@ -13,23 +13,23 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getColumns",
       "signature": "",
       "description": "Returns information for all fields in the report type. The information is organized by each section’s unique API name.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Map<String,Reports.ReportTypeColumn>"
     },
     {
       "name": "getLabel",
       "signature": "",
       "description": "Returns the localized display name of a section in the report type under which fields are organized. For example, in an Accounts with Contacts custom report type, Account General is the display name of the section that contains fields on general account information.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
   "description": "Information about categories of fields in a report type.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reporttypecolumncategory.htm#apex_class_reports_reporttypecolumncategory"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reporttypecolumncategory.htm"
 }

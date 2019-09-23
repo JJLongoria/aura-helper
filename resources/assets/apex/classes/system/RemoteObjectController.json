@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "create",
       "signature": "public static Map<String,Object> create(String type, Map<String,Object> fields)",
       "description": "Create a record in the database.",
-      "methodParams": [
-        {
-          "name": "type",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "fields",
-          "datatype": "Map<String,Object>"
+          "datatype": "Map<String,Object>",
+          "description": "The sObject type on which create is being called. The fields and values to set on the new record."
         }
       ],
       "datatype": "Map<String,Object>"
@@ -33,14 +32,11 @@
       "name": "del",
       "signature": "public static Map<String,Object> del(String type, List<String> recordIds)",
       "description": "Delete records from the database.",
-      "methodParams": [
-        {
-          "name": "type",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "recordIds",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": "The sObject type on which delete is being called. The IDs of the records to be deleted."
         }
       ],
       "datatype": "Map<String,Object>"
@@ -49,18 +45,11 @@
       "name": "retrieve",
       "signature": "public static Map<String,Object> retrieve(String type, List<String> fields, Map<String,Object> criteria)",
       "description": "Retrieve records from the database.",
-      "methodParams": [
-        {
-          "name": "type",
-          "datatype": "String"
-        },
-        {
-          "name": "fields",
-          "datatype": "List<String>"
-        },
+      "params": [
         {
           "name": "criteria",
-          "datatype": "Map<String,Object>"
+          "datatype": "Map<String,Object>",
+          "description": "The sObject type on which retrieve is being called. The fields to retrieve for each record. The criteria to use when performing the query."
         }
       ],
       "datatype": "Map<String,Object>"
@@ -69,23 +58,16 @@
       "name": "updat",
       "signature": "public static Map<String,Object> updat(String type, List<String> recordIds, Map<String,Object> fields)",
       "description": "Update records in the database.",
-      "methodParams": [
-        {
-          "name": "type",
-          "datatype": "String"
-        },
-        {
-          "name": "recordIds",
-          "datatype": "List<String>"
-        },
+      "params": [
         {
           "name": "fields",
-          "datatype": "Map<String,Object>"
+          "datatype": "Map<String,Object>",
+          "description": "The sObject type on which update is being called. The IDs of the records to be updated. The fields to update, and the value to update each field with."
         }
       ],
       "datatype": "Map<String,Object>"
     }
   ],
-  "description": "Use RemoteObjectController to access the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_remoteobjectcontroller.htm#apex_methods_system_remoteobjectcontroller"
+  "description": "Use RemoteObjectController to access the standard Visualforce Remote Objects operations in your Remote Objects override methods.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_remoteobjectcontroller.htm"
 }

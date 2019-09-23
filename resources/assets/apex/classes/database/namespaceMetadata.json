@@ -1,0 +1,168 @@
+{
+  "Batchable": {
+    "name": "Batchable",
+    "namespace": "Database",
+    "isInterface": true,
+    "description": "The class that implements this interface can be executed as a batch Apex",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_database_batchable.htm#apex_interface_database_batchable",
+    "classes": [],
+    "enums": []
+  },
+  "BatchableContext": {
+    "name": "BatchableContext",
+    "namespace": "Database",
+    "isInterface": true,
+    "description": "Represents the parameter type of a batch job method and contains the batch job ID. This",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_database_batchablecontext.htm#apex_interface_database_batchablecontext",
+    "classes": [],
+    "enums": []
+  },
+  "DeletedRecord": {
+    "name": "DeletedRecord",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "Contains information about a deleted record.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_deletedrecord.htm#apex_class_database_deletedrecord",
+    "classes": [],
+    "enums": []
+  },
+  "DeleteResult": {
+    "name": "DeleteResult",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "Represents the result of a delete DML",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_deleteresult.htm#apex_methods_system_database_deleteresult",
+    "classes": [],
+    "enums": []
+  },
+  "DMLOptions": {
+    "name": "DMLOptions",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "Enables you to set options related to DML operations.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_dmloptions.htm#apex_methods_system_database_dmloptions",
+    "classes": [
+      "AssignmentRuleHeader",
+      "DuplicateRuleHeader",
+      "EmailHeader"
+    ],
+    "enums": []
+  },
+  "DuplicateError": {
+    "name": "DuplicateError",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "Contains information about an error that occurred when an attempt was",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_DuplicateError.htm#apex_class_Database_DuplicateError",
+    "classes": [],
+    "enums": []
+  },
+  "EmptyRecycleBinResult": {
+    "name": "EmptyRecycleBinResult",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "The result of the emptyRecycleBin DML operation returned",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_EmptyRecycleBinResult.htm#apex_methods_system_database_EmptyRecycleBinResult",
+    "classes": [],
+    "enums": []
+  },
+  "Error": {
+    "name": "Error",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "Represents information about an error that occurred during a DML operation when using a",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_error.htm#apex_methods_system_database_error",
+    "classes": [],
+    "enums": []
+  },
+  "GetDeletedResult": {
+    "name": "GetDeletedResult",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "Contains the deleted records retrieved",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_getdeletedresult.htm#apex_class_database_getdeletedresult",
+    "classes": [],
+    "enums": []
+  },
+  "GetUpdatedResult": {
+    "name": "GetUpdatedResult",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "Contains the result for the Database.getUpdated method call.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_getupdatedresult.htm#apex_class_database_getupdatedresult",
+    "classes": [],
+    "enums": []
+  },
+  "LeadConvert": {
+    "name": "LeadConvert",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "Contains information used for lead conversion.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_dml_convertLead.htm#apex_dml_convertLead",
+    "classes": [],
+    "enums": []
+  },
+  "LeadConvertResult": {
+    "name": "LeadConvertResult",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "The result of a lead conversion.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_leadconvertresult.htm#apex_class_database_leadconvertresult",
+    "classes": [],
+    "enums": []
+  },
+  "MergeResult": {
+    "name": "MergeResult",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "Contains the result of a merge Database",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_mergeresult.htm#apex_class_database_mergeresult",
+    "classes": [],
+    "enums": []
+  },
+  "QueryLocator": {
+    "name": "QueryLocator",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "Represents the record set returned by Database.getQueryLocator and used with Batch Apex.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_batch.htm#apex_methods_system_database_batch",
+    "classes": [],
+    "enums": []
+  },
+  "QueryLocatorIterator": {
+    "name": "QueryLocatorIterator",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "Represents an iterator over a query locator record set.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_database_querylocatoriterator.htm#apex_class_database_querylocatoriterator",
+    "classes": [],
+    "enums": []
+  },
+  "SaveResult": {
+    "name": "SaveResult",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "The result of an insert or update DML operation returned",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_saveresult.htm#apex_methods_system_database_saveresult",
+    "classes": [],
+    "enums": []
+  },
+  "UndeleteResult": {
+    "name": "UndeleteResult",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "The result of an undelete DML operation returned by the Database.undelete method.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_undeleteresult.htm#apex_methods_system_database_undeleteresult",
+    "classes": [],
+    "enums": []
+  },
+  "UpsertResult": {
+    "name": "UpsertResult",
+    "namespace": "Database",
+    "isInterface": false,
+    "description": "The result of an upsert DML operation returned by the Database.upsert method.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_upsertresult.htm#apex_methods_system_database_upsertresult",
+    "classes": [],
+    "enums": []
+  }
+}

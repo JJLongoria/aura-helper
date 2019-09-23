@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -16,6 +18,8 @@
       "definitionModifier": "",
       "withSharing": false,
       "inheritedSharing": false,
+      "isEnum": false,
+      "enumValues": [],
       "extendsType": "",
       "isInterface": false,
       "implements": [],
@@ -26,22 +30,24 @@
           "name": "assignmentRuleID",
           "signature": "public Id assignmentRuleID {get; set;}",
           "description": "Specifies the ID of a specific assignment rule to run for the case or lead. The assignment rule can be active or inactive.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         }
       ],
-      "constuctors": [],
+      "constructors": [],
       "methods": [],
-      "description": "Enables setting assignment rule",
-      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_AssignmentRuleHeader.htm#apex_class_Database_AssignmentRuleHeader"
+      "description": "Enables setting assignment rule options.",
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_AssignmentRuleHeader.htm"
     },
-    "DuplicateRuleHeader": {
+    "DuplicateRuleHeader":{
       "name": "DuplicateRuleHeader",
       "namespace": "Database",
       "accessModifier": "global",
       "definitionModifier": "",
       "withSharing": false,
       "inheritedSharing": false,
+      "isEnum": false,
+      "enumValues": [],
       "extendsType": "",
       "isInterface": false,
       "implements": [],
@@ -52,22 +58,24 @@
           "name": "allowSave",
           "signature": "public Boolean allowSave {get; set;}",
           "description": "For a duplicate rule, when the Alert option is enabled, bypass alerts and save duplicate records by setting this property to true. Prevent duplicate records from being saved by setting this property to false.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         }
       ],
-      "constuctors": [],
+      "constructors": [],
       "methods": [],
-      "description": "Determines options for using duplicate rules to detect duplicate",
-      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_DMLOptions_DuplicateRuleHeader.htm#apex_class_Database_DMLOptions_DuplicateRuleHeader"
+      "description": "Determines options for using duplicate rules to detect duplicate records. Duplicate rules are part of the Duplicate Management feature.",
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_DMLOptions_DuplicateRuleHeader.htm"
     },
-    "EmailHeader": {
+    "EmailHeader" : {
       "name": "EmailHeader",
       "namespace": "Database",
       "accessModifier": "global",
       "definitionModifier": "",
       "withSharing": false,
       "inheritedSharing": false,
+      "isEnum": false,
+      "enumValues": [],
       "extendsType": "",
       "isInterface": false,
       "implements": [],
@@ -78,27 +86,63 @@
           "name": "triggerAutoResponseEmail",
           "signature": "public Boolean triggerAutoResponseEmail {get; set;}",
           "description": "Indicates whether to trigger auto-response rules (true) or not (false), for leads and cases.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         },
         {
           "name": "triggerOtherEmail",
           "signature": "public Boolean triggerOtherEmail {get; set;}",
           "description": "Indicates whether to trigger email outside the organization (true) or not (false).",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         }
       ],
-      "constuctors": [],
+      "constructors": [],
       "methods": [],
       "description": "Enables setting email options.",
-      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_EmailHeader.htm#apex_class_Database_EmailHeader"
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Database_EmailHeader.htm"
     }
   },
   "enums": {},
-  "fields": [],
-  "constuctors": [],
+  "fields": [
+    {
+      "name": "allowFieldTruncation",
+      "signature": "public Boolean allowFieldTruncation {get; set;}",
+      "description": "Specifies the truncation behavior of large strings.",
+      "params": [],
+      "datatype": "Boolean"
+    },
+    {
+      "name": "assignmentRuleHeader",
+      "signature": "public Database.DmlOptions.Assignmentruleheader assignmentRuleHeader {get; set;}",
+      "description": "Specifies the assignment rule to be used when creating a case or lead.",
+      "params": [],
+      "datatype": "Database.DmlOptions.Assignmentruleheader"
+    },
+    {
+      "name": "emailHeader",
+      "signature": "public Database.DmlOptions.EmailHeader emailHeader {get; set;}",
+      "description": "Specifies additional information regarding the automatic email that gets sent when an events occurs.",
+      "params": [],
+      "datatype": "Database.DmlOptions.EmailHeader"
+    },
+    {
+      "name": "localeOptions",
+      "signature": "public Database.DmlOptions.LocaleOptions localeOptions {get; set;}",
+      "description": "Specifies the language of any labels that are returned by Apex.",
+      "params": [],
+      "datatype": "Database.DmlOptions.LocaleOptions"
+    },
+    {
+      "name": "optAllOrNone",
+      "signature": "public Boolean optAllOrNone {get; set;}",
+      "description": "Specifies whether the operation allows for partial success.",
+      "params": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "constructors": [],
   "methods": [],
   "description": "Enables you to set options related to DML operations.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_dmloptions.htm#apex_methods_system_database_dmloptions"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_dmloptions.htm"
 }

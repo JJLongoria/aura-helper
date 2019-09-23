@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "createActionLinkGroupDefinition​",
       "signature": "public static ConnectApi.ActionLinkGroupDefinition createActionLinkGroupDefinition(String communityId, ConnectApi.ActionLinkGroupDefinitionInput actionLinkGroup)",
       "description": "Create an action link group definition. To associate an action link group with a feed element, first create an action link group definition. Then post a feed element with an associated actions capability.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "actionLinkGroup",
-          "datatype": "ConnectApi.ActionLinkGroupDefinitionInput"
+          "datatype": "ConnectApi.ActionLinkGroupDefinitionInput",
+          "description": "Use either the ID for a community, internal, or null. A ConnectApi.ActionLinkGroupDefinitionInput object that defines the action link group."
         }
       ],
       "datatype": "ConnectApi.ActionLinkGroupDefinition"
@@ -33,14 +32,11 @@
       "name": "deleteActionLinkGroupDefinition",
       "signature": "public static void deleteActionLinkGroupDefinition(String communityId, String actionLinkGroupId)",
       "description": "Delete an action link group definition. Deleting an action link group definition removes all references to it from feed elements.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "actionLinkGroupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the action link group."
         }
       ],
       "datatype": "Void"
@@ -49,14 +45,11 @@
       "name": "getActionLink",
       "signature": "public static ConnectApi.PlatformAction getActionLink(String communityId, String actionLinkId)",
       "description": "Get information about an action link, including state for the context user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "actionLinkId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the action link."
         }
       ],
       "datatype": "ConnectApi.PlatformAction"
@@ -65,14 +58,11 @@
       "name": "getActionLinkDiagnosticInfo",
       "signature": "public static ConnectApi.ActionLinkDiagnosticInfo getActionLinkDiagnosticInfo(String communityId, String actionLinkId)",
       "description": "Get diagnostic information returned when an action link executes. Diagnostic information is given only for users who can access the action link.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "actionLinkId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the action link."
         }
       ],
       "datatype": "ConnectApi.ActionLinkDiagnosticInfo"
@@ -81,14 +71,11 @@
       "name": "getActionLinkGroup",
       "signature": "public static ConnectApi.PlatformActionGroup getActionLinkGroup(String communityId, String actionLinkGroupId)",
       "description": "Get information about an action link group including state for the context user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "actionLinkGroupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the action link group."
         }
       ],
       "datatype": "ConnectApi.PlatformActionGroup"
@@ -97,19 +84,16 @@
       "name": "getActionLinkGroupDefinition",
       "signature": "public static ConnectApi.ActionLinkGroupDefinition getActionLinkGroupDefinition(String communityId, String actionLinkGroupId)",
       "description": "Get information about an action link group definition.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "actionLinkGroupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the action link group."
         }
       ],
       "datatype": "ConnectApi.ActionLinkGroupDefinition"
     }
   ],
-  "description": "Create, delete, and get information about an action link group definition; get",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ActionLinks_static_methods.htm#apex_ConnectAPI_ActionLinks_static_methods"
+  "description": "Create, delete, and get information about an action link group definition; get information about an action link group; get action link diagnostic information.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ActionLinks_static_methods.htm"
 }

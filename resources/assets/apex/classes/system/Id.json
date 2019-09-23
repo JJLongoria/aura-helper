@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "addError",
       "signature": "public Void addError(String errorMsg)",
       "description": "Marks a trigger record with a custom error message and prevents any DML operation from occurring.",
-      "methodParams": [
+      "params": [
         {
           "name": "errorMsg",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The error message to mark the record with."
         }
       ],
       "datatype": "Void"
@@ -29,14 +32,11 @@
       "name": "addError",
       "signature": "public Void addError(String errorMsg, Boolean escape)",
       "description": "Marks a trigger record with a custom error message, specifies if the error message should be escaped, and prevents any DML operation from occurring.",
-      "methodParams": [
-        {
-          "name": "errorMsg",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "escape",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The error message to mark the record with.   Indicates whether any HTML markup in the custom error message should be escaped (true) or not (false). This parameter is ignored in Lightning Experience and the Salesforce app and the HTML is always escaped. The escape parameter only applies in Salesforce Classic."
         }
       ],
       "datatype": "Void"
@@ -45,10 +45,11 @@
       "name": "addError",
       "signature": "public Void addError(Exception exceptionError)",
       "description": "Marks a trigger record with a custom error message and prevents any DML operation from occurring.",
-      "methodParams": [
+      "params": [
         {
           "name": "exceptionError",
-          "datatype": "System.Exception"
+          "datatype": "System.Exception",
+          "description": "An Exception object or a custom exception object that contains the error message to mark the record with."
         }
       ],
       "datatype": "Void"
@@ -57,14 +58,11 @@
       "name": "addError",
       "signature": "public Void addError(Exception exceptionError, Boolean escape)",
       "description": "Marks a trigger record with a custom error message and prevents any DML operation from occurring.",
-      "methodParams": [
-        {
-          "name": "exceptionError",
-          "datatype": "System.Exception"
-        },
+      "params": [
         {
           "name": "escape",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "An Exception object or a custom exception object that contains the error message to mark the record with.   Indicates whether any HTML markup in the custom error message should be escaped (true) or not (false). This parameter is ignored in Lightning Experience and the Salesforce app and the HTML is always escaped. The escape parameter only applies in Salesforce Classic."
         }
       ],
       "datatype": "Void"
@@ -73,22 +71,23 @@
       "name": "getSObjectType",
       "signature": "public Schema.SObjectType getSObjectType()",
       "description": "Returns the token for the sObject corresponding to this ID. This method is primarily used with describe information.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Schema.SObjectType"
     },
     {
       "name": "valueOf",
       "signature": "public static ID valueOf(String toID)",
       "description": "Converts the specified String into an ID and returns the ID.",
-      "methodParams": [
+      "params": [
         {
           "name": "toID",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "ID"
     }
   ],
   "description": "Contains methods for the ID primitive data type.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_id.htm#apex_methods_system_id"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_id.htm"
 }

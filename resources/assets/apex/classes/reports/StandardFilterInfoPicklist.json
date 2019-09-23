@@ -13,37 +13,37 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDefaultValue",
       "signature": "public String getDefaultValue()",
       "description": "Returns the default value for the standard filter picklist.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getFilterValues",
       "signature": "public List<Reports.FilterValue> getFilterValues()",
       "description": "Returns a list of standard filter picklist values.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Reports.FilterValue>"
     },
     {
       "name": "getLabel",
       "signature": "public String getLabel()",
       "description": "Returns the display name of the standard filter picklist.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getType",
       "signature": "public Reports.StandardFilterType getType()",
       "description": "Returns the type of the standard filter picklist.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Reports.StandardFilterType"
     }
   ],
-  "description": "Contains information about the standard filter picklist, such as the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardFilterInfoPicklist.htm#apex_class_reports_StandardFilterInfoPicklist"
+  "description": "Contains information about the standard filter picklist, such as the display name and type of the filter field, the default picklist value, and a list of all possible picklist values.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardFilterInfoPicklist.htm"
 }

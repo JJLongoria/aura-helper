@@ -1,0 +1,138 @@
+{
+  "AttachmentRetrievalOption": {
+    "name": "AttachmentRetrievalOption",
+    "namespace": "Messaging",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "METADATA_ONLY",
+      "METADATA_WITH_BODY",
+      "NONE"
+    ],
+    "description": "Provides options for including attachment metadata only, attachment metadata and content, or excluding attachments.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Messaging_AttachmentRetrievalOptionEnum.htm",
+    "classes": [],
+    "enums": []
+  },
+  "Email": {
+    "name": "Email",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "Contains base email methods common to both single and mass",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_base.htm#apex_classes_email_outbound_base",
+    "classes": [],
+    "enums": []
+  },
+  "EmailFileAttachment": {
+    "name": "EmailFileAttachment",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "EmailFileAttachment is used in SingleEmailMessage to specify",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_attachment.htm#apex_classes_email_outbound_attachment",
+    "classes": [],
+    "enums": []
+  },
+  "InboundEmail": {
+    "name": "InboundEmail",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "Represents an inbound email object.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_inbound.htm#apex_classes_email_inbound_inbound",
+    "classes": [
+      "BinaryAttachment",
+      "TextAttachment",
+      "Header"
+    ],
+    "enums": []
+  },
+  "InboundEmailResult": {
+    "name": "InboundEmailResult",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "The InboundEmailResult object is used to return the result",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_result.htm#apex_classes_email_inbound_result",
+    "classes": [],
+    "enums": []
+  },
+  "InboundEnvelope": {
+    "name": "InboundEnvelope",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "The InboundEnvelope object stores the envelope information",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_inbound_envelope.htm#apex_classes_email_inbound_envelope",
+    "classes": [],
+    "enums": []
+  },
+  "MassEmailMessage": {
+    "name": "MassEmailMessage",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "Contains methods for sending mass email.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_mass.htm#apex_classes_email_outbound_mass",
+    "classes": [],
+    "enums": []
+  },
+  "PushNotification": {
+    "name": "PushNotification",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "PushNotification is used to configure push notifications and send them from an Apex trigger.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_push_notification.htm",
+    "classes": [],
+    "enums": []
+  },
+  "PushNotificationPayload ": {
+    "name": "PushNotificationPayload ",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "PushNotification is used to configure push notifications and send them from an Apex trigger.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_push_notification.htm",
+    "classes": [],
+    "enums": []
+  },
+  "RenderEmailTemplateBodyResult": {
+    "name": "RenderEmailTemplateBodyResult",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "Contains the results for rendering email templates.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Messaging_RenderEmailTemplateBodyResult.htm#apex_class_Messaging_RenderEmailTemplateBodyResult",
+    "classes": [],
+    "enums": []
+  },
+  "RenderEmailTemplateError": {
+    "name": "RenderEmailTemplateError",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "Represents an error that the RenderEmailTemplateBodyResult object can contain.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Messaging_RenderEmailTemplateError.htm#apex_class_Messaging_RenderEmailTemplateError",
+    "classes": [],
+    "enums": []
+  },
+  "SendEmailError": {
+    "name": "SendEmailError",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "Represents an error that the SendEmailResult object may",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_sendemailerror.htm#apex_classes_email_outbound_sendemailerror",
+    "classes": [],
+    "enums": []
+  },
+  "SendEmailResult": {
+    "name": "SendEmailResult",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "Contains the result of sending an email message.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_sendemailresult.htm#apex_classes_email_outbound_sendemailresult",
+    "classes": [],
+    "enums": []
+  },
+  "SingleEmailMessage": {
+    "name": "SingleEmailMessage",
+    "namespace": "Messaging",
+    "isInterface": false,
+    "description": "Contains methods for sending single email messages.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_single.htm#apex_classes_outbound_single",
+    "classes": [],
+    "enums": []
+  }
+}

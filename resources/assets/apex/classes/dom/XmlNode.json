@@ -5,30 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "addChildElement",
       "signature": "public Dom.XmlNode addChildElement(String name, String namespace, String prefix)",
       "description": "Creates a child element node for this node.",
-      "methodParams": [
-        {
-          "name": "name",
-          "datatype": "String"
-        },
-        {
-          "name": "namespace",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "prefix",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The name argument can't have a null value."
         }
       ],
       "datatype": "Dom.XmlNode"
@@ -37,10 +32,11 @@
       "name": "addCommentNode",
       "signature": "public Dom.XmlNode addCommentNode(String text)",
       "description": "Creates a child comment node for this node.",
-      "methodParams": [
+      "params": [
         {
           "name": "text",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The text argument can't have a null value."
         }
       ],
       "datatype": "Dom.XmlNode"
@@ -49,10 +45,11 @@
       "name": "addTextNode",
       "signature": "public Dom.XmlNode addTextNode(String text)",
       "description": "Creates a child text node for this node.",
-      "methodParams": [
+      "params": [
         {
           "name": "text",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The text argument can't have a null value."
         }
       ],
       "datatype": "Dom.XmlNode"
@@ -61,14 +58,11 @@
       "name": "getAttribute",
       "signature": "public String getAttribute(String key, String keyNamespace)",
       "description": "Returns namespacePrefix:attributeValue for the given key and key namespace.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "keyNamespace",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -77,17 +71,18 @@
       "name": "getAttributeCount",
       "signature": "public Integer getAttributeCount()",
       "description": "Returns the number of attributes for this node.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getAttributeKeyAt",
       "signature": "public String getAttributeKeyAt(Integer index)",
       "description": "Returns the attribute key for the given index. Index values start at 0.",
-      "methodParams": [
+      "params": [
         {
           "name": "index",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -96,10 +91,11 @@
       "name": "getAttributeKeyNsAt",
       "signature": "public String getAttributeKeyNsAt(Integer index)",
       "description": "Returns the attribute key namespace for the given index.",
-      "methodParams": [
+      "params": [
         {
           "name": "index",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -108,14 +104,11 @@
       "name": "getAttributeValue",
       "signature": "public String getAttributeValue(String key, String keyNamespace)",
       "description": "Returns the attribute value for the given key and key namespace.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "keyNamespace",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -124,14 +117,11 @@
       "name": "getAttributeValueNs",
       "signature": "public String getAttributeValueNs(String key, String keyNamespace)",
       "description": "Returns the attribute value namespace for the given key and key namespace.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "keyNamespace",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -140,14 +130,11 @@
       "name": "getChildElement",
       "signature": "public Dom.XmlNode getChildElement(String name, String namespace)",
       "description": "Returns the child element node for the node with the given name and namespace.",
-      "methodParams": [
-        {
-          "name": "name",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "namespace",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Dom.XmlNode"
@@ -156,38 +143,39 @@
       "name": "getChildElements",
       "signature": "public Dom.XmlNode[] getChildElements()",
       "description": "Returns the child element nodes for this node. This doesn't include child text or comment nodes.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Dom.XmlNode[]"
     },
     {
       "name": "getChildren",
       "signature": "public Dom.XmlNode[] getChildren()",
       "description": "Returns the child nodes for this node. This includes all node types.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Dom.XmlNode[]"
     },
     {
       "name": "getName",
       "signature": "public String getName()",
       "description": "Returns the element name.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getNamespace",
       "signature": "public String getNamespace()",
       "description": "Returns the namespace of the element.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getNamespaceFor",
       "signature": "public String getNamespaceFor(String prefix)",
       "description": "Returns the namespace of the element for the given prefix.",
-      "methodParams": [
+      "params": [
         {
           "name": "prefix",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -196,24 +184,25 @@
       "name": "getNodeType",
       "signature": "public Dom.XmlNodeType getNodeType()",
       "description": "Returns the node type.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Dom.XmlNodeType"
     },
     {
       "name": "getParent",
       "signature": "public Dom.XmlNode getParent()",
       "description": "Returns the parent of this element.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Dom.XmlNode"
     },
     {
       "name": "getPrefixFor",
       "signature": "public String getPrefixFor(String namespace)",
       "description": "Returns the prefix of the given namespace.",
-      "methodParams": [
+      "params": [
         {
           "name": "namespace",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The namespace argument can't have a null value."
         }
       ],
       "datatype": "String"
@@ -222,21 +211,18 @@
       "name": "getText",
       "signature": "public String getText()",
       "description": "Returns the text for this node.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "insertBefore",
       "signature": "public Dom.XmlNode insertBefore(Dom.XmlNode newChild, Dom.XmlNode refChild)",
       "description": "Inserts a new child node before the specified node.",
-      "methodParams": [
-        {
-          "name": "newChild",
-          "datatype": "Dom.XmlNode"
-        },
+      "params": [
         {
           "name": "refChild",
-          "datatype": "Dom.XmlNode"
+          "datatype": "Dom.XmlNode",
+          "description": "The node to insert. The node before the new node."
         }
       ],
       "datatype": "Dom.XmlNode"
@@ -245,14 +231,11 @@
       "name": "removeAttribute",
       "signature": "public Boolean removeAttribute(String key, String keyNamespace)",
       "description": "Removes the attribute with the given key and key namespace. Returns true if successful, false otherwise.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "keyNamespace",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -261,10 +244,11 @@
       "name": "removeChild",
       "signature": "public Boolean removeChild(Dom.XmlNode childNode)",
       "description": "Removes the given child node.",
-      "methodParams": [
+      "params": [
         {
           "name": "childNode",
-          "datatype": "Dom.XmlNode"
+          "datatype": "Dom.XmlNode",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -273,14 +257,11 @@
       "name": "setAttribute",
       "signature": "public Void setAttribute(String key, String value)",
       "description": "Sets the key attribute value.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "value",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -289,22 +270,11 @@
       "name": "setAttributeNs",
       "signature": "public Void setAttributeNs(String key, String value, String keyNamespace, String valueNamespace)",
       "description": "Sets the key attribute value.",
-      "methodParams": [
-        {
-          "name": "key",
-          "datatype": "String"
-        },
-        {
-          "name": "value",
-          "datatype": "String"
-        },
-        {
-          "name": "keyNamespace",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "valueNamespace",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -313,19 +283,16 @@
       "name": "setNamespace",
       "signature": "public Void setNamespace(String prefix, String namespace)",
       "description": "Sets the namespace for the given prefix.",
-      "methodParams": [
-        {
-          "name": "prefix",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "namespace",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
     }
   ],
   "description": "Use the XmlNode class to work with a node in an XML document.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_dom_xmlnode.htm#apex_classes_xml_dom_xmlnode"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_dom_xmlnode.htm"
 }

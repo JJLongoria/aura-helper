@@ -1,0 +1,70 @@
+{
+  "CacheBuilder": {
+    "name": "CacheBuilder",
+    "namespace": "Cache",
+    "isInterface": true,
+    "description": "An interface for safely retrieving and removing values from a",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_cache_CacheBuilder.htm#apex_interface_cache_CacheBuilder",
+    "classes": [],
+    "enums": []
+  },
+  "Org": {
+    "name": "Org",
+    "namespace": "Cache",
+    "isInterface": false,
+    "description": "Use the Cache.Org class to",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_cache_Org.htm#apex_class_cache_Org",
+    "classes": [],
+    "enums": []
+  },
+  "OrgPartition": {
+    "name": "OrgPartition",
+    "namespace": "Cache",
+    "isInterface": false,
+    "description": "Contains methods to manage cache values in the org cache of a specific",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_cache_OrgPartition.htm#apex_class_cache_OrgPartition",
+    "classes": [],
+    "enums": []
+  },
+  "Partition": {
+    "name": "Partition",
+    "namespace": "Cache",
+    "isInterface": false,
+    "description": "Base class of Cache.OrgPartition and Cache.SessionPartition. Use the subclasses to manage the cache partition for org",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_cache_Partition.htm#apex_class_cache_Partition",
+    "classes": [],
+    "enums": []
+  },
+  "Session": {
+    "name": "Session",
+    "namespace": "Cache",
+    "isInterface": false,
+    "description": "Use the Cache.Session",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_cache_Session.htm#apex_class_cache_Session",
+    "classes": [],
+    "enums": []
+  },
+  "SessionPartition": {
+    "name": "SessionPartition",
+    "namespace": "Cache",
+    "isInterface": false,
+    "description": "Contains methods to manage cache values in the session cache of a",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_cache_SessionPartition.htm#apex_class_cache_SessionPartition",
+    "classes": [],
+    "enums": []
+  },
+  "Visibility": {
+    "name": "Visibility",
+    "namespace": "Cache",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "ALL",
+      "NAMESPACE"
+    ],
+    "description": "Use the Cache.Visibility enumeration in the Cache.Session or Cache.Org methods to indicate whether a cached value is visible only in the value’s namespace or in all namespaces.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_cache_Visibility.htm",
+    "classes": [],
+    "enums": []
+  }
+}

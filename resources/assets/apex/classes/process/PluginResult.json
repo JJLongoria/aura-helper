@@ -5,14 +5,24 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
-  "fields": [],
-  "constuctors": [],
+  "fields": [
+    {
+      "name": "outputParameters",
+      "signature": "public Map<String, Object> outputParameters {get; set;}",
+      "description": "Output parameters returned from the class that implements the interface to the flow.",
+      "params": [],
+      "datatype": "Map<String, Object>"
+    }
+  ],
+  "constructors": [],
   "methods": [],
-  "description": "Returns output parameters from the class that implements",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Process_PluginResult.htm#apex_class_Process_PluginResult"
+  "description": "Returns output parameters from the class that implements the Process.Plugin interface to the flow.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Process_PluginResult.htm"
 }

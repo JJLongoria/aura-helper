@@ -1,0 +1,46 @@
+{
+  "DataRow": {
+    "name": "DataRow",
+    "namespace": "VisualEditor",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Contains information about one item in a picklist used in a Lightning component on a Lightning page.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_VisualEditor_DataRow.htm#apex_class_VisualEditor_DataRow",
+    "classes": [],
+    "enums": []
+  },
+  "DesignTimePageContext": {
+    "name": "DesignTimePageContext",
+    "namespace": "VisualEditor",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "An abstract class that provides context information about a",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_VisualEditor_DesignTimePageContext.htm#apex_class_VisualEditor_DesignTimePageContext",
+    "classes": [],
+    "enums": []
+  },
+  "DynamicPickList": {
+    "name": "DynamicPickList",
+    "namespace": "VisualEditor",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "An abstract class, used to display the values of a picklist in a Lightning component on a Lightning page.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_VisualEditor_DesignTimePageContext.htm#apex_class_VisualEditor_DesignTimePageContext",
+    "classes": [],
+    "enums": []
+  },
+  "DynamicPickListRows": {
+    "name": "DynamicPickListRows",
+    "namespace": "VisualEditor",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Contains a list of picklist items in a Lightning component on a Lightning page.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_VisualEditor_DynamicPickListRows.htm#apex_class_VisualEditor_DynamicPickListRows",
+    "classes": [],
+    "enums": []
+  }
+}

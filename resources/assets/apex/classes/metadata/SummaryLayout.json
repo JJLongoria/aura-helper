@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,55 +17,55 @@
       "name": "masterLabel",
       "signature": "public String masterLabel {get; set;}",
       "description": "The name of the layout label.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "sizeX",
       "signature": "public Integer sizeX {get; set;}",
       "description": "Number of columns in the highlights pane, between 1 and 4 (inclusive).",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "sizeY",
       "signature": "public Integer sizeY {get; set;}",
       "description": "Number of rows in each column, either 1 or 2.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "sizeZ",
       "signature": "public Integer sizeZ {get; set;}",
       "description": "If provided, the setting is not visible to users.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "summaryLayoutItems",
       "signature": "public List<Metadata.SummaryLayoutItem> summaryLayoutItems {get; set;}",
       "description": "Controls the appearance of an individual field and its column and row position within the highlights panel grid, when Case Feed is enabled. At least one is required.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "summaryLayoutStyle",
       "signature": "public Metadata.SummaryLayoutStyleEnum summaryLayoutStyle {get; set;}",
       "description": "Specifies the panel style.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.SummaryLayout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Controls the appearance of the highlights panel, which summarizes key",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_SummaryLayout.htm#apex_class_Metadata_SummaryLayout"
+  "description": "Controls the appearance of the highlights panel, which summarizes key fields in a grid at the top of a page layout, when Case Feed is enabled.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_SummaryLayout.htm"
 }

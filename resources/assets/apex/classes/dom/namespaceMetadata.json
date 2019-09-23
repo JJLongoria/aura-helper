@@ -1,0 +1,20 @@
+{
+  "Document": {
+    "name": "Document",
+    "namespace": "Dom",
+    "isInterface": false,
+    "description": "Use the Document class",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_dom_document.htm#apex_classes_xml_dom_document",
+    "classes": [],
+    "enums": []
+  },
+  "XmlNode": {
+    "name": "XmlNode",
+    "namespace": "Dom",
+    "isInterface": false,
+    "description": "Use the XmlNode class to work with a node in an XML document.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_dom_xmlnode.htm#apex_classes_xml_dom_xmlnode",
+    "classes": [],
+    "enums": []
+  }
+}

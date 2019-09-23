@@ -1,35 +1,34 @@
 {
   "name": "SearchUtils",
-  "namespace": "DataSource",
+  "namespace": "Datasource",
   "accessModifier": "global",
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "searchByName",
       "signature": "public static List<DataSource.TableResult> searchByName(DataSource.SearchContext searchDetails, DataSource.Connection connection)",
       "description": "Queries all the tables and returns each row whose designated name field contains the search phrase.",
-      "methodParams": [
-        {
-          "name": "searchDetails",
-          "datatype": "DataSource.SearchContext"
-        },
+      "params": [
         {
           "name": "connection",
-          "datatype": "DataSource.Connection"
+          "datatype": "DataSource.Connection",
+          "description": "The SearchContext class that specifies which data to search and what to search for. The DataSource.Connection class that connects to the external system."
         }
       ],
       "datatype": "List<DataSource.TableResult>"
     }
   ],
-  "description": "Helper class for implementing search on a custom adapter for",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_SearchUtils.htm#apex_class_DataSource_SearchUtils"
+  "description": "Helper class for implementing search on a custom adapter for Salesforce Connect.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_SearchUtils.htm"
 }

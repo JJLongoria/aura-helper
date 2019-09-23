@@ -5,36 +5,38 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getFields",
       "signature": "public String[] getFields()",
       "description": "Returns an array of one or more field names. Identifies which fields in the object, if any, affected the error condition.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String[]"
     },
     {
       "name": "getMessage",
       "signature": "public String getMessage()",
       "description": "Returns the error message text.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getStatusCode",
       "signature": "public StatusCode getStatusCode()",
       "description": "Returns a code that characterizes the error.",
-      "methodParams": [],
+      "params": [],
       "datatype": "StatusCode"
     }
   ],
-  "description": "Represents information about an error that occurred during a DML operation when using a",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_error.htm#apex_methods_system_database_error"
+  "description": "Represents information about an error that occurred during a DML operation when using a Database method.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_error.htm"
 }

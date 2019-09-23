@@ -13,16 +13,17 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "addArticleType",
       "signature": "public void addArticleType(String articleType)",
       "description": "Adds a filter that narrows suggestion results to display the specified article type. This filter is optional.",
-      "methodParams": [
+      "params": [
         {
           "name": "articleType",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "A three-character ID prefix indicating the desired article type."
         }
       ],
       "datatype": "void"
@@ -31,14 +32,11 @@
       "name": "addDataCategory",
       "signature": "public void addDataCategory(String dataCategoryGroupName, String dataCategoryName)",
       "description": "Adds a filter that narrows suggestion results to display articles in the specified data category. This filter is optional.",
-      "methodParams": [
-        {
-          "name": "dataCategoryGroupName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "dataCategoryName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The name of the data category group The name of the data category."
         }
       ],
       "datatype": "void"
@@ -47,10 +45,11 @@
       "name": "addTopic",
       "signature": "public void addTopic(String topic)",
       "description": "Specifies the article topic to return. This filter is optional.",
-      "methodParams": [
+      "params": [
         {
           "name": "addTopic",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The name of the article topic."
         }
       ],
       "datatype": "void"
@@ -59,10 +58,11 @@
       "name": "setChannel",
       "signature": "public void setChannel(String channelName)",
       "description": "Sets a channel to narrow the suggestion results to articles in the specified channel. This filter is optional.",
-      "methodParams": [
+      "params": [
         {
           "name": "channelName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The name of a channel. Valid values are:  AllChannels–Visible in all channels the user has access to   App–Visible in the internal Salesforce Knowledge application   Pkb–Visible in the public knowledge base   Csp–Visible in the Customer Portal   Prm–Visible in the Partner Portal    If channel isn’t specified, the default value is determined by the type of user.  Pkb for a guest user   Csp for a Customer Portal user   Prm for a Partner Portal user   App for any other type of user    If channel is specified, the specified value may not be the actual value requested, because of certain requirements. For guest, Customer Portal, and Partner Portal users, the specified value must match the default value for each user type. If the values don’t match or AllChannels is specified, then App replaces the specified value.  For all users other than guest, Customer Portal, and Partner Portal users: If Pkb, Csp, Prm, or App are specified, then the specified value is used.  If AllChannels is specified, then App replaces the specified value."
         }
       ],
       "datatype": "void"
@@ -71,10 +71,11 @@
       "name": "setDataCategories",
       "signature": "public void setDataCategories(Map dataCategoryFilters)",
       "description": "Adds filters that narrow suggestion results to display articles in the specified data categories. Use this method to set multiple data category group and name pairs in one call. This filter is optional.",
-      "methodParams": [
+      "params": [
         {
           "name": "dataCategoryFilters",
-          "datatype": "Map"
+          "datatype": "Map",
+          "description": "A map of data category group and data category name pairs."
         }
       ],
       "datatype": "void"
@@ -83,10 +84,11 @@
       "name": "setLanguage",
       "signature": "public void setLanguage(String localeCode)",
       "description": "Sets a language to narrow the suggestion results to display articles in that language. This filter value is required in calls to System.Search.suggest(String, String, Search.SuggestionOption).",
-      "methodParams": [
+      "params": [
         {
           "name": "localeCode",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "A locale code. For example, 'en_US' (English–United States), or 'es' (Spanish)."
         }
       ],
       "datatype": "void"
@@ -95,10 +97,11 @@
       "name": "setPublishStatus",
       "signature": "public void setPublishStatus(String publishStatus)",
       "description": "Sets a publish status to narrow the suggestion results to display articles with that status. This filter value is required in calls to System.Search.suggest(String, String, Search.SuggestionOption).",
-      "methodParams": [
+      "params": [
         {
           "name": "publishStatus",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "A publish status. Valid values are:"
         }
       ],
       "datatype": "void"
@@ -107,15 +110,16 @@
       "name": "setValidationStatus",
       "signature": "public void setValidationStatus(String validationStatus)",
       "description": "Sets a validation status to narrow the suggestion results to display articles with that status. This filter is optional.",
-      "methodParams": [
+      "params": [
         {
           "name": "validationStatus",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "An article validation status. These values are available in the ValidationStatus field on the KnowledgeArticleVersion object."
         }
       ],
       "datatype": "void"
     }
   ],
-  "description": "Filter settings that narrow the results from a call to System.Search.suggest(searchQuery, sObjectType, options)",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_KnowledgeSuggestionFilter.htm#apex_class_Search_KnowledgeSuggestionFilter"
+  "description": "Filter settings that narrow the results from a call to System.Search.suggest(searchQuery, sObjectType, options) when the SOSL search query contains a KnowledgeArticleVersion object.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_KnowledgeSuggestionFilter.htm"
 }

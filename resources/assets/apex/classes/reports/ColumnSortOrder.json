@@ -16,7 +16,7 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [],
   "description": "The Reports.ColumnSortOrder enum describes the order that the grouping column uses to sort data.",
   "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_columnsortorder.htm"

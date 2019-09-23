@@ -1,0 +1,38 @@
+{
+  "AppMenu": {
+    "name": "AppMenu",
+    "namespace": "AppLauncher",
+    "isInterface": false,
+    "description": "Contains methods to set the appearance of apps in the App Launcher.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_AppMenu.htm#apex_class_applauncher_AppMenu",
+    "classes": [],
+    "enums": []
+  },
+  "CommunityLogoController": {
+    "name": "CommunityLogoController",
+    "namespace": "AppLauncher",
+    "isInterface": false,
+    "description": "Represents the logo of the community. For internal use",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_CommunityLogoController.htm#apex_class_applauncher_CommunityLogoController",
+    "classes": [],
+    "enums": []
+  },
+  "EmployeeLoginLinkController": {
+    "name": "EmployeeLoginLinkController",
+    "namespace": "AppLauncher",
+    "isInterface": false,
+    "description": "Represents the link on the login form that employees can click to",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_EmployeeLoginLinkController.htm#apex_class_applauncher_EmployeeLoginLinkController",
+    "classes": [],
+    "enums": []
+  },
+  "SocialLoginController": {
+    "name": "SocialLoginController",
+    "namespace": "AppLauncher",
+    "isInterface": false,
+    "description": "Represents the social authentication providers configured for the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_SocialLoginController.htm#apex_class_applauncher_SocialLoginController",
+    "classes": [],
+    "enums": []
+  }
+}

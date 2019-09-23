@@ -5,17 +5,21 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {
-    "InputParameter": {
+    "InputParameter" : {
       "name": "InputParameter",
       "namespace": "Process",
       "accessModifier": "global",
       "definitionModifier": "",
       "withSharing": false,
       "inheritedSharing": false,
+      "isEnum": false,
+      "enumValues": [],
       "extendsType": "",
       "isInterface": false,
       "implements": [],
@@ -26,45 +30,34 @@
           "name": "Description",
           "signature": "public String Description {get; set;}",
           "description": "This optional field describes the purpose of the plug-in.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         },
         {
           "name": "Name",
           "signature": "public String Name {get; set;}",
           "description": "Unique name of the plug-in.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         },
         {
           "name": "ParameterType",
           "signature": "public Process.PluginDescribeResult.ParameterType ParameterType {get; set;}",
           "description": "The data type of the input parameter.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         }
       ],
-      "constuctors": [
+      "constructors": [
         {
           "name": "PluginDescribeResult.InputParameter",
           "signature": "public PluginDescribeResult.InputParameter(String name, String description, Process.PluginDescribeResult.ParameterType parameterType, Boolean required)",
           "description": "Creates a new instance of the Process.PluginDescribeResult.InputParameter class using the specified name, description, parameter type, and required option.",
-          "methodParams": [
-            {
-              "name": "name",
-              "datatype": "String"
-            },
-            {
-              "name": "description",
-              "datatype": "String"
-            },
-            {
-              "name": "parameterType",
-              "datatype": "Process.PluginDescribeResult.ParameterType"
-            },
+          "params": [
             {
               "name": "required",
-              "datatype": "Boolean"
+              "datatype": "Boolean",
+              "description": "Unique name of the plug-in. Describes the purpose of the plug-in. The data type of the input parameter. Set to true for required and false otherwise."
             }
           ],
           "datatype": "void"
@@ -73,18 +66,11 @@
           "name": "PluginDescribeResult.InputParameter",
           "signature": "public PluginDescribeResult.InputParameter(String name, Process.PluginDescribeResult.ParameterType parameterType, Boolean required)",
           "description": "Creates a new instance of the Process.PluginDescribeResult.InputParameter class using the specified name, parameter type, and required option.",
-          "methodParams": [
-            {
-              "name": "name",
-              "datatype": "String"
-            },
-            {
-              "name": "parameterType",
-              "datatype": "Process.PluginDescribeResult.ParameterType"
-            },
+          "params": [
             {
               "name": "required",
-              "datatype": "Boolean"
+              "datatype": "Boolean",
+              "description": "Unique name of the plug-in. The data type of the input parameter. Set to true for required and false otherwise."
             }
           ],
           "datatype": "void"
@@ -92,15 +78,17 @@
       ],
       "methods": [],
       "description": "Describes the input parameter for Process.PluginResult.",
-      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Process_PluginDescribeResult_InputParameter.htm#apex_class_Process_PluginDescribeResult_InputParameter"
-    },
-    "OutputParameter": {
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Process_PluginDescribeResult_InputParameter.htm"
+    }, 
+    "OutputParameter" : {
       "name": "OutputParameter",
       "namespace": "Process",
       "accessModifier": "global",
       "definitionModifier": "",
       "withSharing": false,
       "inheritedSharing": false,
+      "isEnum": false,
+      "enumValues": [],
       "extendsType": "",
       "isInterface": false,
       "implements": [],
@@ -111,34 +99,27 @@
           "name": "Description",
           "signature": "public String Description {get; set;}",
           "description": "This optional field describes the purpose of the plug-in.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         },
         {
           "name": "Name",
           "signature": "public String Name {get; set;}",
           "description": "Unique name of the plug-in.",
-          "methodParams": [],
+          "params": [],
           "datatype": "void"
         }
       ],
-      "constuctors": [
+      "constructors": [
         {
           "name": "PluginDescribeResult.OutputParameter",
           "signature": "public PluginDescribeResult.OutputParameter(String name, String description, Process.PluginDescribeResult.ParameterType parameterType)",
           "description": "Creates a new instance of the Process.PluginDescribeResult.OutputParameter class using the specified name, description, and parameter type.",
-          "methodParams": [
-            {
-              "name": "name",
-              "datatype": "String"
-            },
-            {
-              "name": "description",
-              "datatype": "String"
-            },
+          "params": [
             {
               "name": "parameterType",
-              "datatype": "Process.PluginDescribeResult.ParameterType"
+              "datatype": "Process.PluginDescribeResult.ParameterType",
+              "description": "Unique name of the plug-in. Describes the purpose of the plug-in. The data type of the input parameter."
             }
           ],
           "datatype": "void"
@@ -147,14 +128,11 @@
           "name": "PluginDescribeResult.OutputParameter",
           "signature": "public PluginDescribeResult.OutputParameter(String name, Process.PluginDescribeResult.ParameterType parameterType)",
           "description": "Creates a new instance of the Process.PluginDescribeResult.OutputParameter class using the specified name, description, and parameter type.",
-          "methodParams": [
-            {
-              "name": "name",
-              "datatype": "String"
-            },
+          "params": [
             {
               "name": "parameterType",
-              "datatype": "Process.PluginDescribeResult.ParameterType"
+              "datatype": "Process.PluginDescribeResult.ParameterType",
+              "description": "Unique name of the plug-in. The data type of the input parameter."
             }
           ],
           "datatype": "void"
@@ -162,7 +140,7 @@
       ],
       "methods": [],
       "description": "Describes the output parameter for Process.PluginResult.",
-      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Process_PluginDescribeResult_OutputParameter.htm#apex_class_Process_PluginDescribeResult_OutputParameter"
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Process_PluginDescribeResult_OutputParameter.htm"
     }
   },
   "enums": {},
@@ -171,34 +149,34 @@
       "name": "description",
       "signature": "public String description {get; set;}",
       "description": "This optional field describes the purpose of the plug-in.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "inputParameters",
       "signature": "public List<Process.PluginDescribeResult.InputParameter> inputParameters {get; set;}",
       "description": "The input parameters passed by the Process.PluginRequest class from a flow to the class that implements the Process.Plugin interface.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "name",
       "signature": "public String name {get; set;}",
       "description": "Unique name of the plug-in.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [
+  "constructors": [
     {
       "name": "PluginDescribeResult",
       "signature": "public PluginDescribeResult()",
       "description": "Creates a new instance of the Process.PluginDescribeResult class.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
   "methods": [],
   "description": "Describes the input and output parameters for Process.PluginResult.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Process_PluginDescribeResult.htm#apex_class_Process_PluginDescribeResult"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Process_PluginDescribeResult.htm"
 }

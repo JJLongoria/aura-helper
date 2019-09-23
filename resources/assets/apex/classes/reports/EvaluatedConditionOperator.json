@@ -20,8 +20,8 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [],
-  "description": "The Reports.EvaluatedConditionOperator enum",
+  "description": "The Reports.EvaluatedConditionOperator enum describes the type of operator used to compare an aggregate to a value. It is returned by the getOperator method.",
   "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_evaluatedconditionoperator.htm"
 }

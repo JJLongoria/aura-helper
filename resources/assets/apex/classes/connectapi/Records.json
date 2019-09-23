@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getMotif",
       "signature": "public static ConnectApi.Motif getMotif(String communityId, String idOrPrefix)",
       "description": "Get a motif that contains the URLs for a set of small, medium, and large motif icons for a record. It can also contain a base color for the record.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "idOrPrefix",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. An ID or key prefix."
         }
       ],
       "datatype": "ConnectApi.​Motif"
@@ -33,19 +32,16 @@
       "name": "",
       "signature": "public static ConnectApi.BatchResult[] getMotifBatch(String communityId, List<String> idOrPrefixList)",
       "description": "Get a motif for a list of objects.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "idOrPrefixList",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": "Use either the ID for a community, internal, or null. A list of object IDs or prefixes."
         }
       ],
       "datatype": "ConnectApi.BatchResult[]"
     }
   ],
-  "description": "Access information about record motifs, which are small",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Records_static_methods.htm#apex_ConnectAPI_Records_static_methods"
+  "description": "Access information about record motifs, which are small icons used to distinguish record types in the Salesforce UI.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Records_static_methods.htm"
 }

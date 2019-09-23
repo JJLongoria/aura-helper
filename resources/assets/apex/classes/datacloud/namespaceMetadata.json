@@ -1,0 +1,74 @@
+{
+  "AdditionalInformationMap": {
+    "name": "AdditionalInformationMap",
+    "namespace": "Datacloud",
+    "isInterface": false,
+    "description": "Represents other information, if any, about matched records.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_AdditionalInformationMap.htm#apex_class_Datacloud_AdditionalInformationMap",
+    "classes": [],
+    "enums": []
+  },
+  "DuplicateResult": {
+    "name": "DuplicateResult",
+    "namespace": "Datacloud",
+    "isInterface": false,
+    "description": "Returns the developer name of the executed duplicate rule that",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_DuplicateResult.htm#apex_class_Datacloud_DuplicateResult",
+    "classes": [],
+    "enums": []
+  },
+  "FieldDiff": {
+    "name": "FieldDiff",
+    "namespace": "Datacloud",
+    "isInterface": false,
+    "description": "Represents the name of a matching rule field and how the values of the",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FieldDiff.htm#apex_class_Datacloud_FieldDiff",
+    "classes": [],
+    "enums": []
+  },
+  "FindDuplicates": {
+    "name": "FindDuplicates",
+    "namespace": "Datacloud",
+    "isInterface": false,
+    "description": "Performs rule-based searches for duplicate records. The input is an",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FindDuplicates.htm#apex_class_Datacloud_FindDuplicates",
+    "classes": [],
+    "enums": []
+  },
+  "FindDuplicatesByIds": {
+    "name": "FindDuplicatesByIds",
+    "namespace": "Datacloud",
+    "isInterface": false,
+    "description": "Performs rule-based searches for duplicate records. The input is an",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FindDuplicatesByIds.htm#apex_class_Datacloud_FindDuplicatesByIds",
+    "classes": [],
+    "enums": []
+  },
+  "FindDuplicatesResult": {
+    "name": "FindDuplicatesResult",
+    "namespace": "Datacloud",
+    "isInterface": false,
+    "description": "Output for rule-based searches for duplicate records. FindDuplicatesResult contains results of detecting duplicates",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FindDuplicatesResult.htm#apex_class_Datacloud_FindDuplicatesResult",
+    "classes": [],
+    "enums": []
+  },
+  "MatchRecord": {
+    "name": "MatchRecord",
+    "namespace": "Datacloud",
+    "isInterface": false,
+    "description": "Represents a duplicate record detected by a matching",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_MatchRecord.htm#apex_class_Datacloud_MatchRecord",
+    "classes": [],
+    "enums": []
+  },
+  "MatchResult": {
+    "name": "MatchResult",
+    "namespace": "Datacloud",
+    "isInterface": false,
+    "description": "Represents the duplicate results for a matching rule.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_MatchResult.htm#apex_class_Datacloud_MatchResult",
+    "classes": [],
+    "enums": []
+  }
+}

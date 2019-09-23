@@ -5,14 +5,51 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
-  "methods": [],
-  "description": "Creates a new instance of the ApexPages.KnowledgeArticleVersionStandardController class",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_knowledgearticleversionstandardcontroller.htm#apex_pages_knowledgearticleversionstandardcontroller"
+  "constructors": [
+    {
+      "name": "KnowledgeArticleVersionStandardController",
+      "signature": "public KnowledgeArticleVersionStandardController(SObject article)",
+      "description": "Creates a new instance of the ApexPages.KnowledgeArticleVersionStandardController class using the specified knowledge article.",
+      "params": [
+        {
+          "name": "article",
+          "datatype": "SObject",
+          "description": "The knowledge article, such as FAQ_kav."
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [
+    {
+      "name": "getSourceId",
+      "signature": "public String getSourceId()",
+      "description": "Returns the ID for the source object record when creating a new article from another object.",
+      "params": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setDataCategory",
+      "signature": "public Void setDataCategory(String categoryGroup, String category)",
+      "description": "Specifies a default data category for the specified data category group when creating a new article.",
+      "params": [
+        {
+          "name": "category",
+          "datatype": "String",
+          "description": ""
+        }
+      ],
+      "datatype": "Void"
+    }
+  ],
+  "description": "KnowledgeArticleVersionStandardController objects offer article-specific functionality in addition to what is provided by the StandardController.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_knowledgearticleversionstandardcontroller.htm"
 }

@@ -13,44 +13,44 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getCategoryCount",
       "signature": "public Integer getCategoryCount()",
       "description": "Returns the number of visible data categories in the data category group.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getDescription",
       "signature": "public String getDescription()",
       "description": "Returns the description of the data category group.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLabel",
       "signature": "public String getLabel()",
       "description": "Returns the label for the data category group used in the Salesforce user interface.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getName",
       "signature": "public String getName()",
       "description": "Returns the unique name used by the API to access to the data category group.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getSobject",
       "signature": "public String getSobject()",
       "description": "Returns the object name associated with the data category group.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Contains the list of the category groups associated with",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DescribeDataCategoryGroupResult.htm#apex_class_Schema_DescribeDataCategoryGroupResult"
+  "description": "Contains the list of the category groups associated with KnowledgeArticleVersion and Question.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DescribeDataCategoryGroupResult.htm"
 }

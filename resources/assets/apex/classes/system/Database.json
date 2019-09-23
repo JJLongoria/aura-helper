@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "convertLead",
       "signature": "public static Database.LeadConvertResult convertLead(Database.LeadConvert leadToConvert, Boolean allOrNone)",
       "description": "Converts a lead into an account and contact, as well as (optionally) an opportunity.",
-      "methodParams": [
-        {
-          "name": "leadToConvert",
-          "datatype": "Database.LeadConvert"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.LeadConvertResult"
@@ -33,14 +32,11 @@
       "name": "convertLead",
       "signature": "public static Database.LeadConvertResult[] convertLead(Database.LeadConvert[] leadsToConvert, Boolean allOrNone)",
       "description": "Converts a list of LeadConvert objects into accounts and contacts, as well as (optionally) opportunities.",
-      "methodParams": [
-        {
-          "name": "leadsToConvert",
-          "datatype": "Database.LeadConvert[]"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.LeadConvertResult[]"
@@ -49,10 +45,11 @@
       "name": "countQuery",
       "signature": "public static Integer countQuery(String query)",
       "description": "Returns the number of records that a dynamic SOQL query would return when executed.",
-      "methodParams": [
+      "params": [
         {
           "name": "query",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Integer"
@@ -61,14 +58,11 @@
       "name": "delete",
       "signature": "public static Database.DeleteResult delete(SObject recordToDelete, Boolean allOrNone)",
       "description": "Deletes an existing sObject record, such as an individual account or contact, from your organization's data.",
-      "methodParams": [
-        {
-          "name": "recordToDelete",
-          "datatype": "sObject"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.DeleteResult"
@@ -77,14 +71,11 @@
       "name": "delete",
       "signature": "public static Database.DeleteResult[] delete(SObject[] recordsToDelete, Boolean allOrNone)",
       "description": "Deletes a list of existing sObject records, such as individual accounts or contacts, from your organization’s data.",
-      "methodParams": [
-        {
-          "name": "recordsToDelete",
-          "datatype": "sObject[]"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.DeleteResult[]"
@@ -93,14 +84,11 @@
       "name": "delete",
       "signature": "public static Database.DeleteResult delete(ID recordID, Boolean allOrNone)",
       "description": "Deletes existing sObject records, such as individual accounts or contacts, from your organization’s data.",
-      "methodParams": [
-        {
-          "name": "recordID",
-          "datatype": "ID"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.DeleteResult"
@@ -109,14 +97,11 @@
       "name": "delete",
       "signature": "public static Database.DeleteResult[] delete(ID[] recordIDs, Boolean allOrNone)",
       "description": "Deletes a list of existing sObject records, such as individual accounts or contacts, from your organization’s data.",
-      "methodParams": [
-        {
-          "name": "recordIDs",
-          "datatype": "ID[]"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.DeleteResult[]"
@@ -125,14 +110,11 @@
       "name": "deleteAsync",
       "signature": "public static List<Database.DeleteResult> deleteAsync(List<SObject> sobjects, DataSource.AsyncDeleteCallback callback)",
       "description": "Initiates requests to delete the external data that corresponds to the specified external object records. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source. Allows referencing a callback class whose processDelete method is called for each record after deletion.",
-      "methodParams": [
-        {
-          "name": "sobjects",
-          "datatype": "List<SObject>"
-        },
+      "params": [
         {
           "name": "callback",
-          "datatype": "DataSource.AsyncDeleteCallback"
+          "datatype": "DataSource.AsyncDeleteCallback",
+          "description": "List of external object records to delete. The callback that contains the state in the originating context and an action (the processDelete method) that is executed after the insert operation is completed. Use the action callback to update org data according to the operation’s results. The callback object must extend DataSource.AsyncDeleteCallback."
         }
       ],
       "datatype": "List<Database.DeleteResult>"
@@ -141,14 +123,11 @@
       "name": "deleteAsync",
       "signature": "public static Database.DeleteResult deleteAsync(SObject sobject, DataSource.AsyncDeleteCallback callback)",
       "description": "Initiates a request to delete the external data that corresponds to the specified external object record. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source. Allows referencing a callback class whose processDelete method is called after deletion.",
-      "methodParams": [
-        {
-          "name": "sobject",
-          "datatype": "SObject"
-        },
+      "params": [
         {
           "name": "callback",
-          "datatype": "DataSource.AsyncDeleteCallback"
+          "datatype": "DataSource.AsyncDeleteCallback",
+          "description": "The external object record to delete. The callback that contains the state in the originating context and an action (the processDelete method) that is executed after the insert operation is completed. Use the action callback to update org data according to the operation’s results. The callback object must extend DataSource.AsyncDeleteCallback."
         }
       ],
       "datatype": "Database.DeleteResult"
@@ -157,10 +136,11 @@
       "name": "deleteAsync",
       "signature": "public static List<Database.DeleteResult> deleteAsync(List<SObject> sobjects)",
       "description": "Initiates requests to delete the external data that corresponds to the specified external object records. The requests are executed asynchronously, as background operations, and are sent to the external systems that are defined by the external objects' associated external data sources.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobjects",
-          "datatype": "List<SObject>"
+          "datatype": "List<SObject>",
+          "description": "List of external object records to delete."
         }
       ],
       "datatype": "List<Database.DeleteResult>"
@@ -169,10 +149,11 @@
       "name": "deleteAsync",
       "signature": "public static Database.DeleteResult deleteAsync(SObject sobject)",
       "description": "Initiates a request to delete the external data that corresponds to the specified external object record. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobject",
-          "datatype": "SObject"
+          "datatype": "SObject",
+          "description": "The external object record to delete."
         }
       ],
       "datatype": "Database.DeleteResult"
@@ -181,10 +162,11 @@
       "name": "deleteImmediate",
       "signature": "public static List<Database.DeleteResult> deleteImmediate(List<SObject> sobjects)",
       "description": "Initiates requests to delete the external data that corresponds to the specified external object records. The requests are executed synchronously and are sent to the external systems that are defined by the external objects' associated external data sources. If the Apex transaction contains pending changes, the synchronous operations can't be completed and throw exceptions.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobjects",
-          "datatype": "List<SObject>"
+          "datatype": "List<SObject>",
+          "description": "List of external object records to delete."
         }
       ],
       "datatype": "List<Database.DeleteResult>"
@@ -193,10 +175,11 @@
       "name": "deleteImmediate",
       "signature": "public static Database.DeleteResult deleteImmediate(SObject sobject)",
       "description": "Initiates a request to delete the external data that corresponds to the specified external object record. The request is executed synchronously and is sent to the external system that's defined by the external object's associated external data source. If the Apex transaction contains pending changes, the synchronous operation can't be completed and throws an exception.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobject",
-          "datatype": "SObject"
+          "datatype": "SObject",
+          "description": "The external object record to delete."
         }
       ],
       "datatype": "Database.DeleteResult"
@@ -205,10 +188,11 @@
       "name": "emptyRecycleBin",
       "signature": "public static Database.EmptyRecycleBinResult[] emptyRecycleBin(ID [] recordIds)",
       "description": "Permanently deletes the specified records from the Recycle Bin.",
-      "methodParams": [
+      "params": [
         {
           "name": "recordIds",
-          "datatype": "ID[]"
+          "datatype": "ID[]",
+          "description": ""
         }
       ],
       "datatype": "Database.EmptyRecycleBinResult[]"
@@ -217,10 +201,11 @@
       "name": "emptyRecycleBin",
       "signature": "public static Database.EmptyRecycleBinResult emptyRecycleBin(sObject obj)",
       "description": "Permanently deletes the specified sObject from the Recycle Bin.",
-      "methodParams": [
+      "params": [
         {
           "name": "obj",
-          "datatype": "sObject"
+          "datatype": "sObject",
+          "description": ""
         }
       ],
       "datatype": "Database.EmptyRecycleBinResult"
@@ -229,10 +214,11 @@
       "name": "emptyRecycleBin",
       "signature": "public static Database.EmptyRecycleBinResult[] emptyRecycleBin(sObject[] listOfSObjects)",
       "description": "Permanently deletes the specified sObjects from the Recycle Bin.",
-      "methodParams": [
+      "params": [
         {
           "name": "listOfSObjects",
-          "datatype": "sObject[]"
+          "datatype": "sObject[]",
+          "description": ""
         }
       ],
       "datatype": "Database.EmptyRecycleBinResult[]"
@@ -241,10 +227,11 @@
       "name": "executeBatch",
       "signature": "public static ID executeBatch(Object batchClassObject)",
       "description": "Submits a batch Apex job for execution corresponding to the specified class.",
-      "methodParams": [
+      "params": [
         {
           "name": "batchClassObject",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": "An instance of a class that implements the Database.Batchable interface."
         }
       ],
       "datatype": "ID"
@@ -253,14 +240,11 @@
       "name": "executeBatch",
       "signature": "public static ID executeBatch(Object batchClassObject, Integer scope)",
       "description": "Submits a batch Apex job for execution using the specified class and scope.",
-      "methodParams": [
-        {
-          "name": "batchClassObject",
-          "datatype": "Object"
-        },
+      "params": [
         {
           "name": "scope",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "An instance of a class that implements the Database.Batchable interface. Number of records to be passed into the execute method for batch processing."
         }
       ],
       "datatype": "ID"
@@ -269,10 +253,11 @@
       "name": "getAsyncDeleteResult",
       "signature": "public static Database.DeleteResult getAsyncDeleteResult(Database.DeleteResult deleteResult)",
       "description": "Retrieves the status of an asynchronous delete operation that’s identified by a Database.DeleteResult object.",
-      "methodParams": [
+      "params": [
         {
           "name": "deleteResult",
-          "datatype": "Database.DeleteResult"
+          "datatype": "Database.DeleteResult",
+          "description": "The result record for the delete operation being retrieved."
         }
       ],
       "datatype": "Database.DeleteResult"
@@ -281,10 +266,11 @@
       "name": "getAsyncDeleteResult",
       "signature": "public static Database.DeleteResult getAsyncDeleteResult(String asyncLocator)",
       "description": "Retrieves the result of an asynchronous delete operation based on the result’s unique identifier.",
-      "methodParams": [
+      "params": [
         {
           "name": "asyncLocator",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The unique identifier associated with the result of an asynchronous operation."
         }
       ],
       "datatype": "Database.DeleteResult"
@@ -293,10 +279,11 @@
       "name": "getAsyncLocator",
       "signature": "public static String getAsyncLocator(Object result)",
       "description": "Returns the asyncLocator associated with the result of a specified asynchronous insert, update, or delete operation.",
-      "methodParams": [
+      "params": [
         {
           "name": "result",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": "The saved result of an asynchronous insert, update, or delete operation. The result object can be of type Database.SaveResult or Database.DeleteResult."
         }
       ],
       "datatype": "String"
@@ -305,10 +292,11 @@
       "name": "getAsyncSaveResult",
       "signature": "public static Database.SaveResult getAsyncSaveResult(Database.SaveResult saveResult)",
       "description": "Returns the status of an asynchronous insert or update operation that’s identified by a Database.SaveResult object.",
-      "methodParams": [
+      "params": [
         {
           "name": "saveResult",
-          "datatype": "Database.SaveResult"
+          "datatype": "Database.SaveResult",
+          "description": "The result record for the insert or update operation being retrieved."
         }
       ],
       "datatype": "void"
@@ -317,10 +305,11 @@
       "name": "getAsyncSaveResult",
       "signature": "public static Database.SaveResult getAsyncSaveResult(String asyncLocator)",
       "description": "Returns the status of an asynchronous insert or update operation based on the unique identifier associated with each modification.",
-      "methodParams": [
+      "params": [
         {
           "name": "asyncLocator",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The unique identifier associated with the result of an asynchronous operation."
         }
       ],
       "datatype": "void"
@@ -329,18 +318,11 @@
       "name": "getDeleted",
       "signature": "public static Database.GetDeletedResult getDeleted(String sObjectType, Datetime startDate, Datetime endDate)",
       "description": "Returns the list of individual records that have been deleted for an sObject type within the specified start and end dates and times and that are still in the Recycle Bin.",
-      "methodParams": [
-        {
-          "name": "sObjectType",
-          "datatype": "String"
-        },
-        {
-          "name": "startDate",
-          "datatype": "Datetime"
-        },
+      "params": [
         {
           "name": "endDate",
-          "datatype": "Datetime"
+          "datatype": "Datetime",
+          "description": "The sObjectType argument is the sObject type name for which to get the deleted records, such as account or merchandise__c. Start date and time of the deleted records time window. End date and time of the deleted records time window."
         }
       ],
       "datatype": "Database.GetDeletedResult"
@@ -349,10 +331,11 @@
       "name": "getQueryLocator",
       "signature": "public static Database. QueryLocator getQueryLocator(sObject [] listOfQueries)",
       "description": "Creates a QueryLocator object used in batch Apex or Visualforce.",
-      "methodParams": [
+      "params": [
         {
           "name": "listOfQueries",
-          "datatype": "sObject []"
+          "datatype": "sObject []",
+          "description": ""
         }
       ],
       "datatype": "Database.QueryLocator"
@@ -361,10 +344,11 @@
       "name": "getQueryLocator",
       "signature": "public static Database.QueryLocator getQueryLocator(String query)",
       "description": "Creates a QueryLocator object used in batch Apex or Visualforce.",
-      "methodParams": [
+      "params": [
         {
           "name": "query",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Database.QueryLocator"
@@ -373,18 +357,11 @@
       "name": "getUpdated",
       "signature": "public static Database.GetUpdatedResult getUpdated(String sobjectType, Datetime startDate, Datetime endDate)",
       "description": "Returns the list of individual records that have been updated for an sObject type within the specified start and end dates and times.",
-      "methodParams": [
-        {
-          "name": "sobjectType",
-          "datatype": "String"
-        },
-        {
-          "name": "startDate",
-          "datatype": "Datetime"
-        },
+      "params": [
         {
           "name": "endDate",
-          "datatype": "Datetime"
+          "datatype": "Datetime",
+          "description": "The sObjectType argument is the sObject type name for which to get the updated records, such as account or merchandise__c.  The startDate argument is the start date and time of the updated records time window. The endDate argument is the end date and time of the updated records time window."
         }
       ],
       "datatype": "Database.GetUpdatedResult"
@@ -393,14 +370,11 @@
       "name": "insert",
       "signature": "public static Database.SaveResult insert(sObject recordToInsert, Boolean allOrNone)",
       "description": "Adds an sObject, such as an individual account or contact, to your organization's data.",
-      "methodParams": [
-        {
-          "name": "recordToInsert",
-          "datatype": "sObject"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.SaveResult"
@@ -409,14 +383,11 @@
       "name": "insert",
       "signature": "public static Database.SaveResult[] insert(sObject[] recordsToInsert, Boolean allOrNone)",
       "description": "Adds one or more sObjects, such as individual accounts or contacts, to your organization’s data.",
-      "methodParams": [
-        {
-          "name": "recordsToInsert",
-          "datatype": "sObject []"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.SaveResult[]"
@@ -425,14 +396,11 @@
       "name": "insert",
       "signature": "public static Database.SaveResult insert(sObject recordToInsert, Database.DMLOptions dmlOptions)",
       "description": "Adds an sObject, such as an individual account or contact, to your organization's data.",
-      "methodParams": [
-        {
-          "name": "recordToInsert",
-          "datatype": "sObject"
-        },
+      "params": [
         {
           "name": "dmlOptions",
-          "datatype": "Database.DMLOptions"
+          "datatype": "Database.DMLOptions",
+          "description": "The optional dmlOptions parameter specifies additional data for the transaction, such as assignment rule information or rollback behavior when errors occur during record insertions."
         }
       ],
       "datatype": "Database.SaveResult"
@@ -441,14 +409,11 @@
       "name": "insert",
       "signature": "public static Database.SaveResult insert(sObject[] recordsToInsert, Database.DMLOptions dmlOptions)",
       "description": "Adds one or more sObjects, such as individual accounts or contacts, to your organization's data.",
-      "methodParams": [
-        {
-          "name": "recordsToInsert",
-          "datatype": "sObject[]"
-        },
+      "params": [
         {
           "name": "dmlOptions",
-          "datatype": "Database.DMLOptions"
+          "datatype": "Database.DMLOptions",
+          "description": "The optional dmlOptions parameter specifies additional data for the transaction, such as assignment rule information or rollback behavior when errors occur during record insertions."
         }
       ],
       "datatype": "Database.SaveResult[]"
@@ -457,14 +422,11 @@
       "name": "insertAsync",
       "signature": "public static List<Database.SaveResult> insertAsync(List<SObject> sobjects, DataSource.AsyncSaveCallback callback)",
       "description": "Initiates requests to add external object data to the relevant external systems. The requests are executed asynchronously, as background operations, and are sent to the external systems that are defined by the external objects' associated external data sources. Allows referencing a callback class whose processSave method is called for each record after the remote operations are completed.",
-      "methodParams": [
-        {
-          "name": "sobjects",
-          "datatype": "List<SObject>"
-        },
+      "params": [
         {
           "name": "callback",
-          "datatype": "DataSource.AsyncSaveCallback"
+          "datatype": "DataSource.AsyncSaveCallback",
+          "description": "List of external object records to insert. The callback object that contains the state in the originating context and an action (the processSave method) that executes after the insert operation is completed. Use the action callback to update org data according to the operation’s results. The callback object must extend DataSource.AsyncSaveCallback."
         }
       ],
       "datatype": "List<Database.SaveResult>"
@@ -473,14 +435,11 @@
       "name": "insertAsync",
       "signature": "public static Database.SaveResult insertAsync(SObject sobject, DataSource.AsyncSaveCallback callback)",
       "description": "Initiates a request to add external object data to the relevant external system. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source. Allows referencing a callback class whose processSave method is called after the remote operation is completed.",
-      "methodParams": [
-        {
-          "name": "sobject",
-          "datatype": "SObject"
-        },
+      "params": [
         {
           "name": "callback",
-          "datatype": "DataSource.AsyncSaveCallback"
+          "datatype": "DataSource.AsyncSaveCallback",
+          "description": "The external object record to insert. The callback object that contains the state in the originating context and an action (the processSave method) that executes after the insert operation is completed. Use the action callback to update org data according to the operation’s results. The callback object must extend DataSource.AsyncSaveCallback."
         }
       ],
       "datatype": "Database.SaveResult"
@@ -489,10 +448,11 @@
       "name": "insertAsync",
       "signature": "public static List<Database.SaveResult> insertAsync(List<SObject> sobjects)",
       "description": "Initiates requests to add external object data to the relevant external systems. The requests are executed asynchronously, as background operations, and are sent to the external systems that are defined by the external objects' associated external data sources.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobjects",
-          "datatype": "List<SObject>"
+          "datatype": "List<SObject>",
+          "description": "List of external object records to insert."
         }
       ],
       "datatype": "List<Database.SaveResult>"
@@ -501,10 +461,11 @@
       "name": "insertAsync",
       "signature": "public static Database.SaveResult insertAsync(SObject sobject)",
       "description": "Initiates a request to add external object data to the relevant external system. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobject",
-          "datatype": "SObject"
+          "datatype": "SObject",
+          "description": "The external object record to insert."
         }
       ],
       "datatype": "Database.SaveResult"
@@ -513,10 +474,11 @@
       "name": "insertImmediate",
       "signature": "public static List<Database.SaveResult> insertImmediate(List<SObject> sobjects)",
       "description": "Initiates requests to add external object data to the relevant external systems. The requests are executed synchronously and are sent to the external systems that are defined by the external objects' associated external data sources. If the Apex transaction contains pending changes, the synchronous operations can't be completed and throw exceptions.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobjects",
-          "datatype": "List<SObject>"
+          "datatype": "List<SObject>",
+          "description": "List of external object records to insert."
         }
       ],
       "datatype": "List<Database.SaveResult>"
@@ -525,10 +487,11 @@
       "name": "insertImmediate",
       "signature": "public static Database.SaveResult insertImmediate(SObject sobject)",
       "description": "Initiates a request to add external object data to the relevant external system. The request is executed synchronously and is sent to the external system that's defined by the external object's associated external data source. If the Apex transaction contains pending changes, the synchronous operation can't be completed and throws an exception.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobject",
-          "datatype": "SObject"
+          "datatype": "SObject",
+          "description": "The external object record to insert."
         }
       ],
       "datatype": "Database.SaveResult"
@@ -537,14 +500,11 @@
       "name": "merge",
       "signature": "public static Database.MergeResult merge(sObject masterRecord, Id duplicateId)",
       "description": "Merges the specified duplicate record into the master sObject record of the same type, deleting the duplicate, and reparenting any related records. Merges only accounts, contacts, or leads.",
-      "methodParams": [
-        {
-          "name": "masterRecord",
-          "datatype": "sObject"
-        },
+      "params": [
         {
           "name": "duplicateId",
-          "datatype": "ID"
+          "datatype": "ID",
+          "description": "The master sObject record the duplicate record is merged into. The ID of the record to merge with the master. This record must be of the same sObject type as the master."
         }
       ],
       "datatype": "Database.MergeResult"
@@ -553,14 +513,11 @@
       "name": "merge",
       "signature": "public static Database.MergeResult merge(sObject masterRecord, sObject duplicateRecord)",
       "description": "Merges the specified duplicate sObject record into the master sObject of the same type, deleting the duplicate, and reparenting any related records.",
-      "methodParams": [
-        {
-          "name": "masterRecord",
-          "datatype": "sObject"
-        },
+      "params": [
         {
           "name": "duplicateRecord",
-          "datatype": "sObject"
+          "datatype": "sObject",
+          "description": "The master sObject record the duplicate record is merged into. The sObject record to merge with the master. This sObject must be of the same type as the master."
         }
       ],
       "datatype": "Database.MergeResult"
@@ -569,14 +526,11 @@
       "name": "merge",
       "signature": "public static List<Database.MergeResult> merge(sObject masterRecord, List<Id> duplicateIds)",
       "description": "Merges up to two records of the same sObject type into the master sObject record, deleting the others, and reparenting any related records.",
-      "methodParams": [
-        {
-          "name": "masterRecord",
-          "datatype": "SObject"
-        },
+      "params": [
         {
           "name": "duplicateIds",
-          "datatype": "List<Id>"
+          "datatype": "List<Id>",
+          "description": "The master sObject record the other records are merged into. A list of IDs of up to two  records to merge with the master. These records must be of the same sObject type as the master."
         }
       ],
       "datatype": "List<Database.MergeResult>"
@@ -585,14 +539,11 @@
       "name": "merge",
       "signature": "public static List<Database.MergeResult> merge(sObject masterRecord, List<SObject> duplicateRecords)",
       "description": "Merges up to two records of the same object type into the master sObject record, deleting the others, and reparenting any related records.",
-      "methodParams": [
-        {
-          "name": "masterRecord",
-          "datatype": "SObject"
-        },
+      "params": [
         {
           "name": "duplicateRecords",
-          "datatype": "List<SObject>"
+          "datatype": "List<SObject>",
+          "description": "The master sObject record the other sObjects are merged into. A list of up to two sObject records to merge with the master. These sObjects must be of the same type as the master."
         }
       ],
       "datatype": "List<Database.MergeResult>"
@@ -601,18 +552,11 @@
       "name": "merge",
       "signature": "public static Database.MergeResult merge(sObject masterRecord, Id duplicateId, Boolean allOrNone)",
       "description": "Merges the specified duplicate record into the master sObject record of the same type, optionally returning errors, if any, deleting the duplicate, and reparenting any related records. Merges only accounts, contacts, or leads.",
-      "methodParams": [
-        {
-          "name": "masterRecord",
-          "datatype": "sObject"
-        },
-        {
-          "name": "duplicate",
-          "datatype": "ID"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The master sObject record the duplicate record is merged into. The ID of the record to merge with the master. This record must be of the same sObject type as the master. Set to false to return any errors encountered in this operation as part of the returned result. If set to true, this method throws an exception if the operation fails. The default is true."
         }
       ],
       "datatype": "Database.MergeResult"
@@ -621,18 +565,11 @@
       "name": "merge",
       "signature": "public static Database.MergeResult merge(sObject masterRecord, sObject duplicateRecord, Boolean allOrNone)",
       "description": "Merges the specified duplicate sObject record into the master sObject of the same type, optionally returning errors, if any, deleting the duplicate, and reparenting any related records.",
-      "methodParams": [
-        {
-          "name": "masterRecord",
-          "datatype": "sObject"
-        },
-        {
-          "name": "duplicateRecord",
-          "datatype": "sObject"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The master sObject record the duplicate record is merged into. The sObject record to merge with the master. This sObject must be of the same type as the master. Set to false to return any errors encountered in this operation as part of the returned result. If set to true, this method throws an exception if the operation fails. The default is true."
         }
       ],
       "datatype": "Database.MergeResult"
@@ -641,18 +578,11 @@
       "name": "merge",
       "signature": "public static List<Database.MergeResult> merge(sObject masterRecord, List<Id> duplicateIds, Boolean allOrNone)",
       "description": "Merges up to two records of the same sObject type into the master sObject record, optionally returning errors, if any, deleting the duplicates, and reparenting any related records.",
-      "methodParams": [
-        {
-          "name": "masterRecord",
-          "datatype": "SObject"
-        },
-        {
-          "name": "duplicateIds",
-          "datatype": "List<Id>"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The master sObject record the other records are merged into. A list of IDs of up to two  records to merge with the master. These records must be of the same sObject type as the master. Set to false to return any errors encountered in this operation as part of the returned result. If set to true, this method throws an exception if the operation fails. The default is true."
         }
       ],
       "datatype": "List<Database.MergeResult>"
@@ -661,18 +591,11 @@
       "name": "merge",
       "signature": "public static List<Database.MergeResult> merge(sObject masterRecord, List<SObject> duplicateRecords, Boolean allOrNone)",
       "description": "Merges up to two records of the same object type into the master sObject record, optionally returning errors, if any, deleting the duplicates, and reparenting any related records.",
-      "methodParams": [
-        {
-          "name": "masterRecord",
-          "datatype": "sObject"
-        },
-        {
-          "name": "duplicateRecords",
-          "datatype": "List<SObject>"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The master sObject record the other sObjects are merged into. A list of up to two sObject records to merge with the master. These sObjects must be of the same type as the master. Set to false to return any errors encountered in this operation as part of the returned result. If set to true, this method throws an exception if the operation fails. The default is true."
         }
       ],
       "datatype": "List<Database.MergeResult>"
@@ -681,10 +604,11 @@
       "name": "query",
       "signature": "public static sObject[] query(String queryString)",
       "description": "Creates a dynamic SOQL query at runtime.",
-      "methodParams": [
+      "params": [
         {
           "name": "queryString",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "sObject[]"
@@ -693,10 +617,11 @@
       "name": "rollback",
       "signature": "public static Void rollback(System.Savepoint databaseSavepoint)",
       "description": "Restores the database to the state specified by the savepoint variable. Any emails submitted since the last savepoint are also rolled back and not sent.",
-      "methodParams": [
+      "params": [
         {
           "name": "databaseSavepoint",
-          "datatype": "System.Savepoint"
+          "datatype": "System.Savepoint",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -705,21 +630,18 @@
       "name": "setSavepoint",
       "signature": "public static System.Savepoint setSavepoint()",
       "description": "Returns a savepoint variable that can be stored as a local variable, then used with the rollback method to restore the database to that point.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.Savepoint"
     },
     {
       "name": "undelete",
       "signature": "public static Database.UndeleteResult undelete(sObject recordToUndelete, Boolean allOrNone)",
       "description": "Restores an existing sObject record, such as an individual account or contact, from your organization's Recycle Bin.",
-      "methodParams": [
-        {
-          "name": "recordToUndelete",
-          "datatype": "sObject"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.UndeleteResult"
@@ -728,14 +650,11 @@
       "name": "undelete",
       "signature": "public static Database.UndeleteResult[] undelete(sObject[] recordsToUndelete, Boolean allOrNone)",
       "description": "Restores one or more existing sObject records, such as individual accounts or contacts, from your organization’s Recycle Bin.",
-      "methodParams": [
-        {
-          "name": "recordsToUndelete",
-          "datatype": "sObject []"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.UndeleteResult[]"
@@ -744,14 +663,11 @@
       "name": "undelete",
       "signature": "public static Database.UndeleteResult undelete(ID recordID, Boolean allOrNone)",
       "description": "Restores an existing sObject record, such as an individual account or contact, from your organization's Recycle Bin.",
-      "methodParams": [
-        {
-          "name": "recordID",
-          "datatype": "ID"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.UndeleteResult"
@@ -760,14 +676,11 @@
       "name": "undelete",
       "signature": "public static Database.UndeleteResult[] undelete(ID[] recordIDs, Boolean allOrNone)",
       "description": "Restores one or more existing sObject records, such as individual accounts or contacts, from your organization’s Recycle Bin.",
-      "methodParams": [
-        {
-          "name": "RecordIDs",
-          "datatype": "ID[]"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.UndeleteResult[]"
@@ -776,14 +689,11 @@
       "name": "update",
       "signature": "public static Database.SaveResult update(sObject recordToUpdate, Boolean allOrNone)",
       "description": "Modifies an existing sObject record, such as an individual account or contact, in your organization's data.",
-      "methodParams": [
-        {
-          "name": "recordToUpdate",
-          "datatype": "sObject"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.SaveResult"
@@ -792,14 +702,11 @@
       "name": "update",
       "signature": "public static Database.SaveResult[] update(sObject[] recordsToUpdate, Boolean allOrNone)",
       "description": "Modifies one or more existing sObject records, such as individual accounts or contactsinvoice statements, in your organization’s data.",
-      "methodParams": [
-        {
-          "name": "recordsToUpdate",
-          "datatype": "sObject []"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.SaveResult[]"
@@ -808,14 +715,11 @@
       "name": "update",
       "signature": "public static Database.SaveResult update(sObject recordToUpdate, Database.DmlOptions dmlOptions)",
       "description": "Modifies an existing sObject record, such as an individual account or contact, in your organization's data.",
-      "methodParams": [
-        {
-          "name": "recordToUpdate",
-          "datatype": "sObject"
-        },
+      "params": [
         {
           "name": "dmlOptions",
-          "datatype": "Database.DMLOptions"
+          "datatype": "Database.DMLOptions",
+          "description": "The optional dmlOptions parameter specifies additional data for the transaction, such as assignment rule information or rollback behavior when errors occur during record insertions."
         }
       ],
       "datatype": "Database.SaveResult"
@@ -824,14 +728,11 @@
       "name": "update",
       "signature": "public static Database.SaveResult[] update(sObject[] recordsToUpdate, Database.DMLOptions dmlOptions)",
       "description": "Modifies one or more existing sObject records, such as individual accounts or contactsinvoice statements, in your organization’s data.",
-      "methodParams": [
-        {
-          "name": "recordsToUpdate",
-          "datatype": "sObject []"
-        },
+      "params": [
         {
           "name": "dmlOptions",
-          "datatype": "Database.DMLOptions"
+          "datatype": "Database.DMLOptions",
+          "description": "The optional dmlOptions parameter specifies additional data for the transaction, such as assignment rule information or rollback behavior when errors occur during record insertions."
         }
       ],
       "datatype": "Database.SaveResult[]"
@@ -840,18 +741,11 @@
       "name": "upsert",
       "signature": "public static Database.UpsertResult upsert(sObject recordToUpsert, Schema.SObjectField externalIDField, Boolean allOrNone)",
       "description": "Creates a new sObject record or updates an existing sObject record within a single statement, using a specified field to determine the presence of existing objects, or the ID field if no field is specified.",
-      "methodParams": [
-        {
-          "name": "recordToUpsert",
-          "datatype": "sObject"
-        },
-        {
-          "name": "externalIdField",
-          "datatype": "Schema.SObjectField"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The externalIdField is of type Schema.SObjectField, that is, a field token. Find the token for the field by using the fields special method. For example, Schema.SObjectField f = Account.Fields.MyExternalId. The externalIdField parameter is the field that upsert() uses to match sObjects with existing records. This field can be a custom field marked as external ID, or a standard field with the idLookup attribute. The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.UpsertResult"
@@ -860,18 +754,11 @@
       "name": "upsert",
       "signature": "public static Database.UpsertResult[] upsert(sObject[] recordsToUpsert, Schema.SObjectField externalIdField, Boolean allOrNone)",
       "description": "Creates new sObject records or updates existing sObject records within a single statement, using a specified field to determine the presence of existing objects, or the ID field if no field is specified.",
-      "methodParams": [
-        {
-          "name": "recordsToUpsert",
-          "datatype": "sObject []"
-        },
-        {
-          "name": "externalIdField",
-          "datatype": "Schema.SObjectField"
-        },
+      "params": [
         {
           "name": "allOrNone",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The externalIdField is of type Schema.SObjectField, that is, a field token. Find the token for the field by using the fields special method. For example, Schema.SObjectField f = Account.Fields.MyExternalId. The externalIdField parameter is the field that upsert() uses to match sObjects with existing records. This field can be a custom field marked as external ID, or a standard field with the idLookup attribute. The optional allOrNone parameter specifies whether the operation allows partial success. If you specify false for this parameter and a record fails, the remainder of the DML operation can still succeed. This method returns a result object that can be used to verify which records succeeded, which failed, and why. If the parameter is not set or is set true, an exception is thrown if the method is not successful."
         }
       ],
       "datatype": "Database.UpsertResult[]"
@@ -880,14 +767,11 @@
       "name": "updateAsync",
       "signature": "public static List<Database.SaveResult> updateAsync(List<SObject> sobjects, DataSource.AsyncSaveCallback callback)",
       "description": "Initiates requests to update external object data on the relevant external systems. The requests are executed asynchronously, as background operations, and are sent to the external systems that are defined by the external objects' associated external data sources. Allows referencing a callback class whose processSave method is called for each record after the remote operations are completed.",
-      "methodParams": [
-        {
-          "name": "sobjects",
-          "datatype": "List<SObject>"
-        },
+      "params": [
         {
           "name": "callback",
-          "datatype": "DataSource.AsyncSaveCallback"
+          "datatype": "DataSource.AsyncSaveCallback",
+          "description": "List of external object records to modify. The callback object that contains the state in the originating context and an action (the processSave method) that executes after the insert operation is completed. Use the action callback to update org data according to the operation’s results. The callback object must extend DataSource.AsyncSaveCallback."
         }
       ],
       "datatype": "List<Database.SaveResult>"
@@ -896,14 +780,11 @@
       "name": "updateAsync",
       "signature": "public static Database.SaveResult updateAsync(SObject sobject, DataSource.AsyncSaveCallback callback)",
       "description": "Initiates a request to update external object data on the relevant external system. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source. Allows referencing a callback class whose processSave method is called after the remote operation is completed.",
-      "methodParams": [
-        {
-          "name": "sobject",
-          "datatype": "SObject"
-        },
+      "params": [
         {
           "name": "callback",
-          "datatype": "DataSource.AsyncSaveCallback"
+          "datatype": "DataSource.AsyncSaveCallback",
+          "description": "External object record to modify. The callback object that contains the state in the originating context and an action (the processSave method) that executes after the insert operation is completed. Use the action callback to update org data according to the operation’s results. The callback object must extend DataSource.AsyncSaveCallback."
         }
       ],
       "datatype": "Database.SaveResult"
@@ -912,10 +793,11 @@
       "name": "updateAsync",
       "signature": "public static List<Database.SaveResult> updateAsync(List<SObject> sobjects)",
       "description": "Initiates requests to update external object data on the relevant external systems. The requests are executed asynchronously, as background operations, and are sent to the external systems that are defined by the external objects' associated external data sources.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobjects",
-          "datatype": "List<SObject>"
+          "datatype": "List<SObject>",
+          "description": "List of external object records to modify."
         }
       ],
       "datatype": "List<Database.SaveResult>"
@@ -924,10 +806,11 @@
       "name": "updateAsync",
       "signature": "public static Database.SaveResult updateAsync(SObject sobject)",
       "description": "Initiates a request to update external object data on the relevant external system. The request is executed asynchronously, as a background operation, and is sent to the external system that's defined by the external object's associated external data source.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobject",
-          "datatype": "SObject"
+          "datatype": "SObject",
+          "description": "External object record to modify."
         }
       ],
       "datatype": "Database.SaveResult"
@@ -936,10 +819,11 @@
       "name": "updateImmediate",
       "signature": "public static List<Database.SaveResult> updateImmediate(List<SObject> sobjects)",
       "description": "Initiates requests to update external object data on the relevant external systems. The requests are executed synchronously and are sent to the external systems that are defined by the external objects' associated external data sources. If the Apex transaction contains pending changes, the synchronous operations can't be completed and throw exceptions.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobjects",
-          "datatype": "List<SObject>"
+          "datatype": "List<SObject>",
+          "description": "List of external object records to modify."
         }
       ],
       "datatype": "List<Database.SaveResult>"
@@ -948,15 +832,16 @@
       "name": "updateImmediate",
       "signature": "public static Database.SaveResult updateImmediate(SObject sobject)",
       "description": "Initiates a request to update external object data on the relevant external system. The request is executed synchronously and is sent to the external system that's defined by the external object's associated external data source. If the Apex transaction contains pending changes, the synchronous operation can't be completed and throws an exception.",
-      "methodParams": [
+      "params": [
         {
           "name": "sobject",
-          "datatype": "SObject"
+          "datatype": "SObject",
+          "description": "External object record to modify."
         }
       ],
       "datatype": "Database.SaveResult"
     }
   ],
   "description": "Contains methods for creating and manipulating data.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database.htm#apex_methods_system_database"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database.htm"
 }

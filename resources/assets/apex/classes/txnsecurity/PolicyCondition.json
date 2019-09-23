@@ -13,21 +13,22 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "evaluate",
       "signature": "public Boolean evaluate(TxnSecurity.Event event)",
       "description": "Evaluates an event against a transaction security policy. If the event triggers the policy, true is returned.",
-      "methodParams": [
+      "params": [
         {
           "name": "event",
-          "datatype": "TxnSecurity.Event"
+          "datatype": "TxnSecurity.Event",
+          "description": "The event to check against the transaction security policy."
         }
       ],
       "datatype": "Boolean"
     }
   ],
-  "description": "Apex interface that allows an implementing class to specify actions",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_PolicyCondition.htm#apex_interface_TxnSecurity_PolicyCondition"
+  "description": "Apex interface that allows an implementing class to specify actions to take when certain events occur based on a transaction security policy.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_PolicyCondition.htm"
 }

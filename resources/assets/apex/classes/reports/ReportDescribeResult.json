@@ -13,30 +13,30 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getReportExtendedMetadata",
       "signature": "",
       "description": "Returns additional information about grouping and summaries.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Reports.ReportExtendedMetadata"
     },
     {
       "name": "getReportMetadata",
       "signature": "",
       "description": "Returns unique identifiers for groupings and summaries.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Reports.ReportMetadata"
     },
     {
       "name": "getReportTypeMetadata",
       "signature": "",
       "description": "Returns the fields in each section of a report type, plus filtering information for those fields.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Reports.ReportTypeMetadata"
     }
   ],
-  "description": "Contains report, report type, and extended metadata for",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportdescriberesult.htm#apex_class_reports_reportdescriberesult"
+  "description": "Contains report, report type, and extended metadata for a tabular, summary, or matrix report.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportdescriberesult.htm"
 }

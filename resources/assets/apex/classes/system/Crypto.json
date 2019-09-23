@@ -5,34 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "decrypt",
       "signature": "public static Blob decrypt(String algorithmName, Blob privateKey, Blob initializationVector, Blob cipherText)",
       "description": "Decrypts the Blob cipherText using the specified algorithm, private key, and initialization vector. Use this method to decrypt blobs encrypted using a third party application or the encrypt method.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "privateKey",
-          "datatype": "Blob"
-        },
-        {
-          "name": "initializationVector",
-          "datatype": "Blob"
-        },
+      "params": [
         {
           "name": "cipherText",
-          "datatype": "Blob"
+          "datatype": "Blob",
+          "description": ""
         }
       ],
       "datatype": "Blob"
@@ -41,18 +32,11 @@
       "name": "decryptWithManagedIV",
       "signature": "public static Blob decryptWithManagedIV(String algorithmName, Blob privateKey, Blob IVAndCipherText)",
       "description": "Decrypts the Blob IVAndCipherText using the specified algorithm and private key. Use this method to decrypt blobs encrypted using a third party application or the encryptWithManagedIV method.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "privateKey",
-          "datatype": "Blob"
-        },
+      "params": [
         {
           "name": "IVAndCipherText",
-          "datatype": "Blob"
+          "datatype": "Blob",
+          "description": "The first 128 bits (16 bytes) of IVAndCipherText must contain the initialization vector."
         }
       ],
       "datatype": "Blob"
@@ -61,22 +45,11 @@
       "name": "encrypt",
       "signature": "public static Blob encrypt(String algorithmName, Blob privateKey, Blob initializationVector, Blob clearText)",
       "description": "Encrypts the Blob clearText using the specified algorithm, private key and initialization vector. Use this method when you want to specify your own initialization vector.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "privateKey",
-          "datatype": "Blob"
-        },
-        {
-          "name": "initializationVector",
-          "datatype": "Blob"
-        },
+      "params": [
         {
           "name": "clearText",
-          "datatype": "Blob"
+          "datatype": "Blob",
+          "description": ""
         }
       ],
       "datatype": "Blob"
@@ -85,18 +58,11 @@
       "name": "encryptWithManagedIV",
       "signature": "public static Blob encryptWithManagedIV(String algorithmName, Blob privateKey, Blob clearText)",
       "description": "Encrypts the Blob clearText using the specified algorithm and private key. Use this method when you want Salesforce to generate the initialization vector for you.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "privateKey",
-          "datatype": "Blob"
-        },
+      "params": [
         {
           "name": "clearText",
-          "datatype": "Blob"
+          "datatype": "Blob",
+          "description": ""
         }
       ],
       "datatype": "Blob"
@@ -105,21 +71,18 @@
       "name": "generateAesKey",
       "signature": "",
       "description": "Generates an Advanced Encryption Standard (AES) key.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Blob"
     },
     {
       "name": "generateDigest",
       "signature": "public static Blob generateDigest(String algorithmName, Blob input)",
       "description": "Computes a secure, one-way hash digest based on the supplied input string and algorithm name.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "input",
-          "datatype": "Blob"
+          "datatype": "Blob",
+          "description": "Valid values for algorithmName are: MD5  SHA1  SHA-256  SHA-512"
         }
       ],
       "datatype": "Blob"
@@ -128,18 +91,11 @@
       "name": "generateMac",
       "signature": "public static Blob generateMac(String algorithmName, Blob input, Blob privateKey)",
       "description": "Computes a message authentication code (MAC) for the input string, using the private key and the specified algorithm.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "input",
-          "datatype": "Blob"
-        },
+      "params": [
         {
           "name": "privateKey",
-          "datatype": "Blob"
+          "datatype": "Blob",
+          "description": "The valid values for algorithmName are: hmacMD5  hmacSHA1  hmacSHA256  hmacSHA512    The value of privateKey does not need to be in decoded form.  The value cannot exceed 4 KB."
         }
       ],
       "datatype": "Blob"
@@ -148,32 +104,25 @@
       "name": "getRandomInteger",
       "signature": "public static Integer getRandomInteger()",
       "description": "Returns a random Integer.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getRandomLong",
       "signature": "public static Long getRandomLong()",
       "description": "Returns a random Long.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Long"
     },
     {
       "name": "sign",
       "signature": "public static Blob sign(String algorithmName, Blob input, Blob privateKey)",
       "description": "Computes a unique digital signature for the input string, using the specified algorithm and the supplied private key.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "input",
-          "datatype": "Blob"
-        },
+      "params": [
         {
           "name": "privateKey",
-          "datatype": "Blob"
+          "datatype": "Blob",
+          "description": "The algorithm name. The valid values for algorithmName are RSA-SHA1, RSA-SHA256, or RSA.RSA-SHA1 is an RSA signature (with an asymmetric key pair) of a SHA1 hash. RSA-SHA256 is an RSA signature of a SHA256 hash. RSA is the same as RSA-SHA1.  The data to sign. The value of privateKey must be decoded using the EncodingUtilbase64Decode method, and should be in RSA's PKCS #8 (1.2) Private-Key Information Syntax Standard form. The value cannot exceed 4 KB."
         }
       ],
       "datatype": "Blob"
@@ -182,18 +131,11 @@
       "name": "signWithCertificate",
       "signature": "public static Blob signWithCertificate(String algorithmName, Blob input, String certDevName)",
       "description": "Computes a unique digital signature for the input string, using the specified algorithm and the supplied certificate and key pair.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "input",
-          "datatype": "Blob"
-        },
+      "params": [
         {
           "name": "certDevName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The algorithm name. The valid values for algorithmName are RSA-SHA1, RSA-SHA256, or RSA.RSA-SHA1 is an RSA signature (with an asymmetric key pair) of a SHA1 hash. RSA-SHA256 is an RSA signature of a SHA256 hash. RSA is the same as RSA-SHA1.  The data to sign. The Unique Name for a certificate stored in the Salesforce organization’s Certificate and Key Management page to use for signing.To access the Certificate and Key Management page from Setup, enter Certificate and Key Management in the Quick Find box, then select Certificate and Key Management."
         }
       ],
       "datatype": "Blob"
@@ -202,22 +144,11 @@
       "name": "signXML",
       "signature": "public Void signXML(String algorithmName, Dom.XmlNode node, String idAttributeName, String certDevName)",
       "description": "Envelops the signature into an XML document.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "node",
-          "datatype": "Dom.XmlNode"
-        },
-        {
-          "name": "idAttributeName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "certDevName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The algorithm name. Valid names are RSA-SHA1, RSA-SHA256, or RSA. RSA-SHA1 is an RSA signature (with an asymmetric key pair) of an SHA1 hash. RSA-SHA256 is an RSA signature of an SHA256 hash. RSA is the same as RSA-SHA1.  The XML node to sign and insert the signature into. The full name (including the namespace) of the attribute on the node (XmlNode) to use as the reference ID. If null, this method uses the ID attribute on the node. If there is no ID attribute, Salesforce generates a new ID and adds it to the node. The unique name for a certificate stored in the Salesforce org’s Certificate and Key Management page to use for signing.To access the Certificate and Key Management page from Setup, enter Certificate and Key Management in the Quick Find box, then select Certificate and Key Management."
         }
       ],
       "datatype": "void"
@@ -226,22 +157,11 @@
       "name": "signXML",
       "signature": "public static void signXml(String algorithmName, Dom.XmlNode node, String idAttributeName, String certDevName, Dom.XmlNode refChild)",
       "description": "Inserts the signature envelope before the specified child node.",
-      "methodParams": [
+      "params": [
         {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "node",
-          "datatype": "Dom.XmlNode"
-        },
-        {
-          "name": "idAttributeName",
-          "datatype": "String"
-        },
-        {
-          "name": "certDevName",
-          "datatype": "String"
+          "name": "refChild",
+          "datatype": "String",
+          "description": "The RSA encryption algorithm name. Valid names are RSA-SHA1, RSA-SHA256, or RSA. RSA-SHA1 is an RSA signature (with an asymmetric key pair) of an SHA1 hash. RSA-SHA256 is an RSA signature of an SHA256 hash. RSA is the same as RSA-SHA1.  The XML node to sign and insert the signature into. The full name (including the namespace) of the attribute on the node (XmlNode) to use as the reference ID. If null, this method uses the ID attribute on the node. If there is no ID attribute, Salesforce generates a new ID and adds it to the node. The unique name for a certificate stored in the Salesforce org’s Certificate and Key Management page to use for signing.To access the Certificate and Key Management page from Setup, enter Certificate and Key Management in the Quick Find box, then select Certificate and Key Management.  Dom.XmlNode The XML node before which to insert the signature. If refChild is null, the signature is added at the end."
         }
       ],
       "datatype": "Void"
@@ -250,22 +170,11 @@
       "name": "",
       "signature": "public static Blob verify(String algorithmName, Blob data, Blob signature, Blob publicKey)",
       "description": "Verifies the digital signature for the Blob data using the specified algorithm and the supplied public key. Use this method to verify a Blob signed by a digital signature created using a third-party application or the sign method.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "data",
-          "datatype": "Blob"
-        },
-        {
-          "name": "signature",
-          "datatype": ""
-        },
+      "params": [
         {
           "name": "publicKey",
-          "datatype": "Blob"
+          "datatype": "Blob",
+          "description": "The algorithm name. The valid values for algorithmName are RSA-SHA1, RSA-SHA256, or RSA.RSA-SHA1 is an RSA signature (with an asymmetric key pair) of an SHA1 hash. RSA-SHA256 is an RSA signature of an SHA256 hash. RSA is the same as RSA-SHA1.  The data to sign. Blob The RSA signature. The value of publicKey must be decoded using the EncodingUtilbase64Decode method, and be in X.509 standard."
         }
       ],
       "datatype": "Blob"
@@ -274,22 +183,11 @@
       "name": "",
       "signature": "public static Blob verify(String algorithmName, Blob data, Blob signature, String certDevName)",
       "description": "Verifies the digital signature for the Blob data using the specified algorithm and the public key associated with the certDevName. Use this method to verify a Blob signed by a digital signature created using a third-party application or the sign method.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "data",
-          "datatype": "Blob"
-        },
-        {
-          "name": "signature",
-          "datatype": ""
-        },
+      "params": [
         {
           "name": "certDevName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The algorithm name. The valid values for algorithmName are RSA-SHA1, RSA-SHA256, or RSA.RSA-SHA1 is an RSA signature (with an asymmetric key pair) of an SHA1 hash. RSA-SHA256 is an RSA signature of an SHA256 hash. RSA is the same as RSA-SHA1.  The data to sign. Blob The RSA signature. The Unique Name for a certificate stored in the Salesforce organization’s Certificate and Key Management page to use for signing.To access the Certificate and Key Management page from Setup, enter Certificate and Key Management in the Quick Find box, then select Certificate and Key Management."
         }
       ],
       "datatype": "Blob"
@@ -298,27 +196,16 @@
       "name": "",
       "signature": "public static Blob verifyHMac(String algorithmName, Blob input, Blob privateKey, Blob macToVerify)",
       "description": "Verifies the HMAC signature for Blob data using the specified algorithm, input data, privateKey, and the mac. Use this method to verify a Blob signed by a digital signature created using a third-party application or the sign method.",
-      "methodParams": [
-        {
-          "name": "algorithmName",
-          "datatype": "String"
-        },
-        {
-          "name": "data",
-          "datatype": "Blob"
-        },
-        {
-          "name": "privateKey",
-          "datatype": "Blob"
-        },
+      "params": [
         {
           "name": "hmacToVerify",
-          "datatype": "Blob"
+          "datatype": "Blob",
+          "description": "The valid values for algorithmName are: hmacMD5  hmacSHA1  hmacSHA256  hmacSHA512    The data to sign. The value of privateKey does not need to be in decoded form. The value cannot exceed 4 KB.  The value of the mac must be verified against the provided privateKey, data, and algorithm."
         }
       ],
       "datatype": "Boolean"
     }
   ],
-  "description": "Provides methods for creating digests, message authentication codes, and signatures, as",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_crypto.htm#apex_classes_restful_crypto"
+  "description": "Provides methods for creating digests, message authentication codes, and signatures, as well as encrypting and decrypting information.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_crypto.htm"
 }

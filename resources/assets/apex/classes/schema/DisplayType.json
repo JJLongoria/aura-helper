@@ -8,7 +8,6 @@
   "isEnum": true,
   "enumValues": [
     "address",
-    "Email",
     "base64",
     "Boolean",
     "Combobox",
@@ -38,7 +37,7 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [],
   "description": "A Schema.DisplayType enum value is returned by the field describe result's getType method.",
   "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_Schema_DisplayType.htm"

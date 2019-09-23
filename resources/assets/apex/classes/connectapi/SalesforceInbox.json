@@ -5,31 +5,30 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "shareActivity",
       "signature": "public static ConnectApi.ActivitySharingResult shareActivity(String activityId, ConnectApi.ActivitySharingInput sharingInfo)",
       "description": "Share emails or events with certain groups of users.",
-      "methodParams": [
-        {
-          "name": "activityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "sharingInfo",
-          "datatype": "ConnectApi.ActivitySharingInput"
+          "datatype": "ConnectApi.ActivitySharingInput",
+          "description": "The ID of the activity. A ConnectApi.ActivitySharingInput object."
         }
       ],
       "datatype": "ConnectApi.ActivitySharingResult"
     }
   ],
-  "description": "Access",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_SalesforceInbox_static_methods.htm#apex_ConnectAPI_SalesforceInbox_static_methods"
+  "description": "Access information about Automated Activity Capture, which is available in Einstein and Salesforce Inbox.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_SalesforceInbox_static_methods.htm"
 }

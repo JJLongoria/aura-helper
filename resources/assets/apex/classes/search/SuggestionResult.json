@@ -13,8 +13,16 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
-  "methods": [],
-  "description": "Options that narrow record and article suggestion results returned",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SuggestionResult.htm#apex_class_Search_SuggestionResult"
+  "constructors": [],
+  "methods": [
+    {
+      "name": "getSObject",
+      "signature": "public SObject getSObject()",
+      "description": "Returns the sObject from a SuggestionResult object.",
+      "params": [],
+      "datatype": "SObject"
+    }
+  ],
+  "description": "A wrapper object that contains an sObject.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SuggestionResult.htm"
 }

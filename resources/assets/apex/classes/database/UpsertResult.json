@@ -5,43 +5,45 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getErrors",
       "signature": "public Database.Error[] getErrors()",
       "description": "If an error occurred, returns an array of one or more database error objects providing the error code and description. If no error occurred, returns an empty set.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Database.Error []"
     },
     {
       "name": "getId",
       "signature": "public ID getId()",
       "description": "Returns the ID of the sObject you were trying to update or insert.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ID"
     },
     {
       "name": "isCreated",
       "signature": "public Boolean isCreated()",
       "description": "A Boolean value that is set to true if the record was created, false if the record was updated.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "isSuccess",
       "signature": "public Boolean isSuccess()",
       "description": "Returns a Boolean value that is set to true if the DML operation was successful for this object, false otherwise.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     }
   ],
   "description": "The result of an upsert DML operation returned by the Database.upsert method.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_upsertresult.htm#apex_methods_system_database_upsertresult"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database_upsertresult.htm"
 }

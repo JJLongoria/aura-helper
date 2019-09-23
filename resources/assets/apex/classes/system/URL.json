@@ -5,21 +5,24 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "Url",
       "signature": "public Url(String spec)",
       "description": "Creates a new instance of the URL class using the specified string representation of the URL.",
-      "methodParams": [
+      "params": [
         {
           "name": "spec",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The string to parse as a URL."
         }
       ],
       "datatype": "void"
@@ -28,14 +31,11 @@
       "name": "Url",
       "signature": "public Url(Url context, String spec)",
       "description": "Creates a new instance of the URL class by parsing the specified spec within the specified context.",
-      "methodParams": [
-        {
-          "name": "context",
-          "datatype": "URL"
-        },
+      "params": [
         {
           "name": "spec",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The context in which to parse the specification. The string to parse as a URL."
         }
       ],
       "datatype": "void"
@@ -44,18 +44,11 @@
       "name": "Url",
       "signature": "public Url(String protocol, String host, String file)",
       "description": "Creates a new instance of the URL class using the specified protocol, host, and  file on the host. The default port for the specified protocol is used.",
-      "methodParams": [
-        {
-          "name": "protocol",
-          "datatype": "String"
-        },
-        {
-          "name": "host",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "file",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The protocol name for this URL. The host name for this URL. The file name for this URL."
         }
       ],
       "datatype": "void"
@@ -64,22 +57,11 @@
       "name": "Url",
       "signature": "public Url(String protocol, String host, Integer port, String file)",
       "description": "Creates a new instance of the URL class using the specified protocol, host, port, and file on the host.",
-      "methodParams": [
-        {
-          "name": "protocol",
-          "datatype": "String"
-        },
-        {
-          "name": "host",
-          "datatype": "String"
-        },
-        {
-          "name": "port",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "file",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The protocol name for this URL. The host name for this URL. The port number for this URL. The file name for this URL."
         }
       ],
       "datatype": "void"
@@ -90,42 +72,39 @@
       "name": "getAuthority",
       "signature": "public String getAuthority()",
       "description": "Returns the authority portion of the current URL.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getCurrentRequestUrl",
       "signature": "public static System.URL getCurrentRequestUrl()",
       "description": "Returns the URL of an entire request on a Salesforce instance.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.URL"
     },
     {
       "name": "getDefaultPort",
       "signature": "public Integer getDefaultPort()",
       "description": "Returns the default port number of the protocol associated with the current URL.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getFile",
       "signature": "public String getFile()",
       "description": "Returns the file name of the current URL.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getFileFieldURL",
       "signature": "public static String getFileFieldURL(String entityId, String fieldName)",
       "description": "Returns the download URL for a file attachment.",
-      "methodParams": [
-        {
-          "name": "entityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "fieldName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Specifies the ID of the entity that holds the file data. Specifies the API name of a file field component, such as AttachmentBody."
         }
       ],
       "datatype": "String"
@@ -134,73 +113,74 @@
       "name": "getHost",
       "signature": "public String getHost()",
       "description": "Returns the host name of the current URL.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getOrgDomainUrl",
       "signature": "public static System.Url getOrgDomainUrl()",
       "description": "Returns the canonical URL for your org. For example, https://yourDomain.my.salesforce.com or, for orgs without My Domain enabled, https://yourInstance.salesforce.com.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.URL"
     },
     {
       "name": "getPath",
       "signature": "public String getPath()",
       "description": "Returns the path portion of the current URL.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getPort",
       "signature": "public Integer getPort()",
       "description": "Returns the port of the current URL.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getProtocol",
       "signature": "public String getProtocol()",
       "description": "Returns the protocol name of the current URL, such as, https.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getQuery",
       "signature": "public String getQuery()",
       "description": "Returns the query portion of the current URL.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getRef",
       "signature": "public String getRef()",
       "description": "Returns the anchor of the current URL.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getSalesforceBaseUrl",
       "signature": "public static System.URL getSalesforceBaseUrl()",
       "description": "Returns the URL of the Salesforce instance.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.URL"
     },
     {
       "name": "getUserInfo",
       "signature": "public String getUserInfo()",
       "description": "Gets the UserInfo portion of the current URL.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "sameFile",
       "signature": "public Boolean sameFile(System.URL URLToCompare)",
       "description": "Compares the current URL with the specified URL object, excluding the fragment component.",
-      "methodParams": [
+      "params": [
         {
           "name": "URLToCompare",
-          "datatype": "System.URL"
+          "datatype": "System.URL",
+          "description": ""
         }
       ],
       "datatype": "Boolean"
@@ -209,10 +189,10 @@
       "name": "toExternalForm",
       "signature": "public String toExternalForm()",
       "description": "Returns a string representation of the current URL.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Represents a uniform resource locator (URL) and provides",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_url.htm#apex_methods_system_url"
+  "description": "Represents a uniform resource locator (URL) and provides access to parts of the URL. Enables access to the Salesforce instance URL.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_url.htm"
 }

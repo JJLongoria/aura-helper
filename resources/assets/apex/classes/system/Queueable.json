@@ -5,27 +5,30 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": true,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "execute",
       "signature": "public void execute(QueueableContext context)",
       "description": "Executes the queueable job.",
-      "methodParams": [
+      "params": [
         {
           "name": "context",
-          "datatype": "QueueableContext"
+          "datatype": "QueueableContext",
+          "description": "Contains the job ID."
         }
       ],
       "datatype": "Void"
     }
   ],
-  "description": "Enables the asynchronous execution of Apex jobs that can be",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Queueable.htm#apex_class_System_Queueable"
+  "description": "Enables the asynchronous execution of Apex jobs that can be monitored.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Queueable.htm"
 }

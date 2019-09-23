@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "archiveOnlineArticle",
       "signature": "public static Void archiveOnlineArticle(String articleId, Datetime scheduledDate)",
       "description": "Archives an online version of an article. If the specified scheduledDate is null, the article is archived immediately. Otherwise, it archives the article on the scheduled date.",
-      "methodParams": [
-        {
-          "name": "articleId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "scheduledDate",
-          "datatype": "Datetime"
+          "datatype": "Datetime",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -33,26 +32,11 @@
       "name": "assignDraftArticleTask",
       "signature": "public static Void assignDraftArticleTask(String articleId, String assigneeId, String instructions, Datetime dueDate, Boolean sendEmailNotification)",
       "description": "Assigns a review task related to a draft article.",
-      "methodParams": [
-        {
-          "name": "articleId",
-          "datatype": "String"
-        },
-        {
-          "name": "assigneeId",
-          "datatype": "String"
-        },
-        {
-          "name": "instructions",
-          "datatype": "String"
-        },
-        {
-          "name": "dueDate",
-          "datatype": "Datetime"
-        },
+      "params": [
         {
           "name": "sendEmailNotification",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -61,26 +45,11 @@
       "name": "assignDraftTranslationTask",
       "signature": "public static Void assignDraftTranslationTask(String articleVersionId, String assigneeId, String instructions, Datetime dueDate, Boolean sendEmailNotification)",
       "description": "Assigns a review task related to a draft translation.",
-      "methodParams": [
-        {
-          "name": "articleVersionId",
-          "datatype": "String"
-        },
-        {
-          "name": "assigneeId",
-          "datatype": "String"
-        },
-        {
-          "name": "instructions",
-          "datatype": "String"
-        },
-        {
-          "name": "dueDate",
-          "datatype": "Datetime"
-        },
+      "params": [
         {
           "name": "sendEmailNotification",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -89,10 +58,11 @@
       "name": "cancelScheduledArchivingOfArticle",
       "signature": "public static Void cancelScheduledArchivingOfArticle(String articleId)",
       "description": "Cancels the scheduled archiving of an online article.",
-      "methodParams": [
+      "params": [
         {
           "name": "articleId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -101,10 +71,11 @@
       "name": "cancelScheduledPublicationOfArticle",
       "signature": "public static Void cancelScheduledPublicationOfArticle(String articleId)",
       "description": "Cancels the scheduled publication of a draft article.",
-      "methodParams": [
+      "params": [
         {
           "name": "articleId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -113,10 +84,11 @@
       "name": "completeTranslation",
       "signature": "public static Void completeTranslation(String articleVersionId)",
       "description": "Puts a translation in a completed state that is ready to publish.",
-      "methodParams": [
+      "params": [
         {
           "name": "articleVersionId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -125,10 +97,11 @@
       "name": "deleteArchivedArticle",
       "signature": "public static Void deleteArchivedArticle(String articleId)",
       "description": "Deletes an archived article.",
-      "methodParams": [
+      "params": [
         {
           "name": "articleId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -137,14 +110,11 @@
       "name": "deleteArchivedArticleVersion",
       "signature": "public static Void deleteArchivedArticleVersion(String articleId, Integer versionNumber)",
       "description": "Deletes a specific version of an archived article.",
-      "methodParams": [
-        {
-          "name": "articleId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "versionNumber",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -153,10 +123,11 @@
       "name": "deleteDraftArticle",
       "signature": "public static Void deleteDraftArticle(String articleId)",
       "description": "Deletes a draft article.",
-      "methodParams": [
+      "params": [
         {
           "name": "articleId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -165,10 +136,11 @@
       "name": "deleteDraftTranslation",
       "signature": "public static Void deleteDraftTranslation(String articleVersionId)",
       "description": "Deletes a draft translation.",
-      "methodParams": [
+      "params": [
         {
           "name": "articleVersionId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -177,10 +149,11 @@
       "name": "editArchivedArticle",
       "signature": "public static String editArchivedArticle(String articleId)",
       "description": "Creates a draft article from the archived master version and returns the new draft master version ID of the article.",
-      "methodParams": [
+      "params": [
         {
           "name": "articleId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -189,14 +162,11 @@
       "name": "editOnlineArticle",
       "signature": "public static String editOnlineArticle(String articleId, Boolean unpublish)",
       "description": "Creates a draft article from the online version and  returns the new draft master version ID of the article. Also, unpublishes the online article, if unpublish is set to true.",
-      "methodParams": [
-        {
-          "name": "articleId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "unpublish",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -205,18 +175,11 @@
       "name": "editPublishedTranslation",
       "signature": "public static String editPublishedTranslation(String articleId, String language, Boolean unpublish)",
       "description": "Creates a draft version of the online translation for a specific language and returns the new draft master version ID of the article. Also, unpublishes the article, if set to true.",
-      "methodParams": [
-        {
-          "name": "articleId",
-          "datatype": "String"
-        },
-        {
-          "name": "language",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "unpublish",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -225,14 +188,11 @@
       "name": "publishArticle",
       "signature": "public static Void publishArticle(String articleId, Boolean flagAsNew)",
       "description": "Publishes an article. If flagAsNew is set to true, the article is published as a major version.",
-      "methodParams": [
-        {
-          "name": "articleId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "flagAsNew",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -241,14 +201,11 @@
       "name": "restoreOldVersion",
       "signature": "public static String restoreOldVersion(String articleId, Integer versionNumber)",
       "description": "Creates a draft article from an existing online article based on the specified archived version of the article and returns the article version ID.",
-      "methodParams": [
-        {
-          "name": "articleId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "versionNumber",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "String"
@@ -257,14 +214,11 @@
       "name": "scheduleForPublication",
       "signature": "public static Void scheduleForPublication(String articleId, Datetime scheduledDate)",
       "description": "Schedules the article for publication as a major version. If the specified date is null, the article is published immediately.",
-      "methodParams": [
-        {
-          "name": "articleId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "scheduledDate",
-          "datatype": "Datetime"
+          "datatype": "Datetime",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -273,10 +227,11 @@
       "name": "setTranslationToIncomplete",
       "signature": "public static Void setTranslationToIncomplete(String articleVersionId)",
       "description": "Sets a draft translation that is ready for publication back to “in progress” status.",
-      "methodParams": [
+      "params": [
         {
           "name": "articleVersionId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -285,27 +240,16 @@
       "name": "submitForTranslation",
       "signature": "public static String submitForTranslation(String articleId, String language, String assigneeId, Datetime dueDate)",
       "description": "Submits an article for translation to the specified language. Also assigns the specified user and due date to the submittal and returns new ID of the draft translation.",
-      "methodParams": [
-        {
-          "name": "articleId",
-          "datatype": "String"
-        },
-        {
-          "name": "language",
-          "datatype": "String"
-        },
-        {
-          "name": "assigneeId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "dueDate",
-          "datatype": "Datetime"
+          "datatype": "Datetime",
+          "description": ""
         }
       ],
       "datatype": "String"
     }
   ],
   "description": "Use the methods in the KbManagement.PublishingService class to manage the lifecycle of an article and its translations.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_KbManagement.htm"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_knowledge_kbManagement.htm"
 }

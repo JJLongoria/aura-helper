@@ -5,30 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getCompaniesFromOrder",
       "signature": "public static ConnectApi.DatacloudCompanies getCompaniesFromOrder(String orderId, String pageSize, String page)",
       "description": "Get a list of purchased company records for an order.",
-      "methodParams": [
-        {
-          "name": "orderId",
-          "datatype": "String"
-        },
-        {
-          "name": "page",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "ID of an order. Number of the page that you want returned. Number of companies to show on a page. The default pageSize is 25."
         }
       ],
       "datatype": "ConnectApi.DatacloudCompanies"
@@ -37,10 +32,11 @@
       "name": "getCompany",
       "signature": "public static ConnectApi.DatacloudCompany getCompany(String companyId)",
       "description": "Get a company record.",
-      "methodParams": [
+      "params": [
         {
           "name": "companyId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of a company in the Data.com database."
         }
       ],
       "datatype": "ConnectApi.DatacloudCompany"
@@ -49,10 +45,11 @@
       "name": "getContact",
       "signature": "public static ConnectApi.DatacloudContact getContact(String contactId)",
       "description": "Get a contact.",
-      "methodParams": [
+      "params": [
         {
           "name": "contactId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of a contact in the Data.com database."
         }
       ],
       "datatype": "ConnectApi.DatacloudContact"
@@ -61,18 +58,11 @@
       "name": "getContactsFromOrder",
       "signature": "public static ConnectApi.DatacloudContacts getContactsFromOrder(String orderId, String page, String pageSize)",
       "description": "Get a list of purchased contacts for an order.",
-      "methodParams": [
-        {
-          "name": "orderId",
-          "datatype": "String"
-        },
-        {
-          "name": "page",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "ID of an order. Number of the page that you want returned. Number of contacts to show on a page. The default pageSize is 25."
         }
       ],
       "datatype": "ConnectApi.DatacloudContacts"
@@ -81,10 +71,11 @@
       "name": "getOrder",
       "signature": "public static ConnectApi.DatacloudOrder getOrder(String orderId)",
       "description": "Get an order.",
-      "methodParams": [
+      "params": [
         {
           "name": "orderId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of an order."
         }
       ],
       "datatype": "ConnectApi.DatacloudOrder"
@@ -93,10 +84,11 @@
       "name": "getUsage",
       "signature": "public static ConnectApi.DatacloudPurchaseUsage getUsage(String userId)",
       "description": "Get purchase usage information for a user.",
-      "methodParams": [
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "ID of a user."
         }
       ],
       "datatype": "ConnectApi.DatacloudPurchaseUsage"
@@ -105,15 +97,16 @@
       "name": "postOrder",
       "signature": "public static ConnectApi.DatacloudOrder postOrder(ConnectApi.DatacloudOrderInput orderInput)",
       "description": "Purchase records that are listed in an input file.",
-      "methodParams": [
+      "params": [
         {
           "name": "orderInput",
-          "datatype": "ConnectApi.DatacloudOrderInput"
+          "datatype": "ConnectApi.DatacloudOrderInput",
+          "description": "A list that contains IDs for the contacts or companies that you want to see."
         }
       ],
       "datatype": "ConnectApi.DatacloudOrder"
     }
   ],
-  "description": "Get a list of purchased company records for an order.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Datacloud_static_methods.htm#apex_ConnectAPI_Datacloud_static_methods"
+  "description": "Purchase Data.com contact or company records, and retrieve purchase information.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Datacloud_static_methods.htm"
 }

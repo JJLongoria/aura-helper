@@ -5,18 +5,20 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "Document",
       "signature": "public Document()",
       "description": "Creates a new instance of the Dom.Document class.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
@@ -25,18 +27,11 @@
       "name": "createRootElement",
       "signature": "public Dom.XmlNode createRootElement(String name, String namespace, String prefix)",
       "description": "Creates the top-level root element for a document.",
-      "methodParams": [
-        {
-          "name": "name",
-          "datatype": "String"
-        },
-        {
-          "name": "namespace",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "prefix",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Dom.XmlNode"
@@ -45,17 +40,18 @@
       "name": "getRootElement",
       "signature": "public Dom.XmlNode getRootElement()",
       "description": "Returns the top-level root element node in the document. If this method returns null, the root element has not been created yet.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Dom.XmlNode"
     },
     {
       "name": "load",
       "signature": "public Void load(String xml)",
       "description": "Parse the XML representation of the document specified in the xml argument and load it into a document.",
-      "methodParams": [
+      "params": [
         {
           "name": "xml",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Void"
@@ -64,10 +60,10 @@
       "name": "toXmlString",
       "signature": "public String toXmlString()",
       "description": "Returns the XML representation of the document as a String.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Use the Document class",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_dom_document.htm#apex_classes_xml_dom_document"
+  "description": "Use the Document class to process XML content. You can parse nested XML content that’s up to 50 nodes deep.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_dom_document.htm"
 }

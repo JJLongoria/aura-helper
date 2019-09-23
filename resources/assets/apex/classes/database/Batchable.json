@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": true,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "execute",
       "signature": "public Void execute(Database.BatchableContext jobId, List<sObject> recordList)",
       "description": "Gets invoked when the batch job executes and operates on one batch of records. Contains or calls the main execution logic for the batch job.",
-      "methodParams": [
-        {
-          "name": "jobId",
-          "datatype": "Database.BatchableContext"
-        },
+      "params": [
         {
           "name": "recordList",
-          "datatype": "List<sObject>"
+          "datatype": "List<sObject>",
+          "description": "Contains the job ID. Contains the batch of records to process."
         }
       ],
       "datatype": "Void"
@@ -33,10 +32,11 @@
       "name": "finish",
       "signature": "public Void finish(Database.BatchableContext jobId)",
       "description": "Gets invoked when the batch job finishes. Place any clean up code in this method.",
-      "methodParams": [
+      "params": [
         {
           "name": "jobId",
-          "datatype": "Database.BatchableContext"
+          "datatype": "Database.BatchableContext",
+          "description": "Contains the job ID."
         }
       ],
       "datatype": "Void"
@@ -45,10 +45,11 @@
       "name": "start",
       "signature": "public System.Iterable start(Database.BatchableContext jobId)",
       "description": "Gets invoked when the batch job starts. Returns the record set as an iterable that will be batched for execution.",
-      "methodParams": [
+      "params": [
         {
           "name": "jobId",
-          "datatype": "Database.BatchableContext"
+          "datatype": "Database.BatchableContext",
+          "description": "Contains the job ID."
         }
       ],
       "datatype": "System.Iterable"
@@ -57,15 +58,16 @@
       "name": "start",
       "signature": "public Database.QueryLocator start(Database.BatchableContext jobId)",
       "description": "Gets invoked when the batch job starts. Returns the record set as a QueryLocator object that will be batched for execution.",
-      "methodParams": [
+      "params": [
         {
           "name": "jobId",
-          "datatype": "Database.BatchableContext"
+          "datatype": "Database.BatchableContext",
+          "description": "Contains the job ID."
         }
       ],
       "datatype": "Database.QueryLocator"
     }
   ],
-  "description": "The class that implements this interface can be executed as a batch Apex",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_database_batchable.htm#apex_interface_database_batchable"
+  "description": "The class that implements this interface can be executed as a batch Apex job.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_database_batchable.htm"
 }

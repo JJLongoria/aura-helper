@@ -5,30 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "changeProtection",
       "signature": "public static void changeProtection(String apiName, String typeApiName, String protection)",
       "description": "Hides or reveals custom permissions, or reveals custom objects, in your subscriber’s org.",
-      "methodParams": [
-        {
-          "name": "apiName",
-          "datatype": "String"
-        },
-        {
-          "name": "typeApiName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "protection",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The API name of the custom object or custom permission to show or hide—for example, 'MyCustomObject__c' or 'MyCustomPermission'. The API name of the type that you want to show or hide: 'CustomObject' or 'CustomPermission'.  To show a custom object or custom permission, 'Unprotected'.  To hide a custom permission, 'Protected'."
         }
       ],
       "datatype": "void"
@@ -37,10 +32,11 @@
       "name": "checkPackageBooleanValue",
       "signature": "public static Boolean checkPackageBooleanValue(String apiName)",
       "description": "Checks the value__c value of the FeatureParameterBoolean__c record for a feature parameter in your subscriber’s org. You set the record’s value using setPackageBooleanValue(apiName, value).",
-      "methodParams": [
+      "params": [
         {
           "name": "apiName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The fullName__c value of the feature parameter whose value you want to check—for example, 'SpecialAccessAvailable'."
         }
       ],
       "datatype": "Boolean"
@@ -49,10 +45,11 @@
       "name": "checkPackageDateValue",
       "signature": "public static Date checkPackageDateValue(String apiName)",
       "description": "Checks the value__c value of the FeatureParameterDate__c record for a feature parameter in your subscriber’s org. You can set the record’s value using setPackageDateValue(apiName, value).",
-      "methodParams": [
+      "params": [
         {
           "name": "apiName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The fullName__c value of the feature parameter whose value you want to check—for example, 'TrialExpirationDate'."
         }
       ],
       "datatype": "Date"
@@ -61,10 +58,11 @@
       "name": "checkPackageIntegerValue",
       "signature": "public static Integer checkPackageIntegerValue(String apiName)",
       "description": "Checks the value__c value of the FeatureParameterInteger__c record for a feature parameter in your subscriber’s org. You can set the record’s value using setPackageIntegerValue(apiName, value).",
-      "methodParams": [
+      "params": [
         {
           "name": "apiName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The fullName__c value of the feature parameter whose value you want to check—for example, 'NumberOfLicenses'."
         }
       ],
       "datatype": "Integer"
@@ -73,10 +71,11 @@
       "name": "checkPermission",
       "signature": "public static Boolean checkPermission(String apiName)",
       "description": "Checks whether a custom permission is enabled.",
-      "methodParams": [
+      "params": [
         {
           "name": "apiName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The API name of the custom permission to check the value of—for example, 'MyCustomPermission'."
         }
       ],
       "datatype": "Boolean"
@@ -85,14 +84,11 @@
       "name": "setPackageBooleanValue",
       "signature": "public static void setPackageBooleanValue(String apiName, Boolean value)",
       "description": "Sets the value__c value of the FeatureParameterBoolean__c record for a subscriber-to-LMO feature parameter in your subscriber’s org. You can check the record’s value using checkPackageBooleanValue(apiName).",
-      "methodParams": [
-        {
-          "name": "apiName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "value",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The fullName__c value of the feature parameter whose value you want to set—for example, 'SpecialAccessAvailable'. The value to assign to the value__c field on the FeatureParameterBoolean__c record that associates the feature parameter with its related license."
         }
       ],
       "datatype": "void"
@@ -101,14 +97,11 @@
       "name": "setPackageDateValue",
       "signature": "public static void setPackageDateValue(String apiName, Date value)",
       "description": "Sets the value__c value of the FeatureParameterDate__c record for a subscriber-to-LMO feature parameter in your subscriber’s org. You can check the record’s value using checkPackageDateValue(apiName).",
-      "methodParams": [
-        {
-          "name": "apiName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "value",
-          "datatype": "Date"
+          "datatype": "Date",
+          "description": "The fullName__c value of the feature parameter whose value you want to set—for example, 'TrialExpirationDate'. The value to assign to the value__c field on the FeatureParameterDate__c record that associates the feature parameter with its related license."
         }
       ],
       "datatype": "void"
@@ -117,19 +110,16 @@
       "name": "setPackageIntegerValue",
       "signature": "public static void setPackageIntegerValue(String apiName, Integer value)",
       "description": "Sets the value__c value of the FeatureParameterInteger__c record for a subscriber-to-LMO feature parameter in your subscriber’s org. You can check the record’s value using checkPackageIntegerValue(apiName).",
-      "methodParams": [
-        {
-          "name": "apiName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "value",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The fullName__c value of the feature parameter whose value you want to set—for example, 'NumberOfLicenses'. The value to assign to the value__c field on the FeatureParameterInteger__c record that associates the feature parameter with its related license."
         }
       ],
       "datatype": "void"
     }
   ],
-  "description": "Use the methods in the System.FeatureManagement class to check and modify the values of feature",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FeatureManagement.htm#apex_class_System_FeatureManagement"
+  "description": "Use the methods in the System.FeatureManagement class to check and modify the values of feature parameters, and to show or hide custom objects and custom permissions in your subscribers’ orgs.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FeatureManagement.htm"
 }

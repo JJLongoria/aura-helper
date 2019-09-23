@@ -5,25 +5,24 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "JWTBearerTokenExchange",
       "signature": "public JWTBearerTokenExchange(String tokenEndpoint, Auth.JWS jws)",
       "description": "Creates an instance of the JWTBearerTokenExchange class using the specified token endpoint and the signed JWT bearer token.",
-      "methodParams": [
-        {
-          "name": "tokenEndpoint",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "jws",
-          "datatype": "Auth.JWS"
+          "datatype": "Auth.JWS",
+          "description": "The token endpoint that the signed JWT bearer token is POSTed to. The signed JWT bearer token."
         }
       ],
       "datatype": "void"
@@ -32,7 +31,7 @@
       "name": "JWTBearerTokenExchange",
       "signature": "public JWTBearerTokenExchange()",
       "description": "Creates an instance of the Auth.JWTBearerTokenExchange class.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
@@ -41,52 +40,53 @@
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the JWTBearerTokenExchange object.",
-      "methodParams": [],
+      "params": [],
       "datatype": "JWTBearerTokenExchange"
     },
     {
       "name": "getAccessToken",
       "signature": "public String getAccessToken()",
       "description": "Returns the access_token in the token response to the JWT bearer token request.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getGrantType",
       "signature": "public String getGrantType()",
       "description": "Returns the grant type specified in the JWT bearer token request. The grant type value defaults to urn:ietf:params:oauth:grant-type:jwt-bearer.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getHttpResponse",
       "signature": "public System.HttpResponse getHttpResponse()",
       "description": "Returns the full System.HttpResponse token response to the JWT bearer token request.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.HttpResponse"
     },
     {
       "name": "getJWS",
       "signature": "public Auth.JWS getJWS()",
       "description": "Returns the JWS specified in the JWT bearer token request.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Auth.JWS"
     },
     {
       "name": "getTokenEndpoint",
       "signature": "public String getTokenEndpoint()",
       "description": "Returns the token endpoint that the JWT bearer token request is POSTed to.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "setGrantType",
       "signature": "public void setGrantType(String grantType)",
       "description": "Sets the grant type in the JWT bearer token request. Returned by the getGrantType() method.",
-      "methodParams": [
+      "params": [
         {
           "name": "grantType",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -95,10 +95,11 @@
       "name": "setJWS",
       "signature": "public void setJWS(Auth.JWS jws)",
       "description": "Sets the JWS in the JWT bearer token request. Returned by the getJWS() method.",
-      "methodParams": [
+      "params": [
         {
           "name": "jws",
-          "datatype": "Auth.JWS"
+          "datatype": "Auth.JWS",
+          "description": ""
         }
       ],
       "datatype": "void"
@@ -107,15 +108,16 @@
       "name": "setTokenEndpoint",
       "signature": "public void setTokenEndpoint(String tokenEndpoint)",
       "description": "Sets the token endpoint that the JWT bearer token request is POSTed to. Returned by the getTokenEndpoint() method.",
-      "methodParams": [
+      "params": [
         {
           "name": "tokenEndpoint",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "void"
     }
   ],
-  "description": "Contains methods that POST the signed JWT bearer token to a token",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_JWTBearerTokenExchange.htm#apex_class_Auth_JWTBearerTokenExchange"
+  "description": "Contains methods that POST the signed JWT bearer token to a token endpoint to request an access token, in the OAuth 2.0 JWT bearer token flow.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Auth_JWTBearerTokenExchange.htm"
 }

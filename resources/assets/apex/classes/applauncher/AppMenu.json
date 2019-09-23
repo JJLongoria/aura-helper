@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "setAppVisibility",
       "signature": "public static void setAppVisibility(Id appMenuItemId, Boolean isVisible)",
       "description": "Shows or hides specific apps in the App Launcher.",
-      "methodParams": [
-        {
-          "name": "appMenuItemId",
-          "datatype": "Id"
-        },
+      "params": [
         {
           "name": "isVisible",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "The 15-character application ID value for an app. For more information, see the ApplicationId field for AppMenuItem or the AppMenuItemId field for UserAppMenuItem in the SOAP API Developer Guide  If true, the app is visible."
         }
       ],
       "datatype": "void"
@@ -33,10 +32,11 @@
       "name": "setOrgSortOrder",
       "signature": "public static void setOrgSortOrder(List<Id> appIds)",
       "description": "Sets the organization-wide default sort order for the App Launcher based on a List of app menu item IDs in the desired order.",
-      "methodParams": [
+      "params": [
         {
           "name": "appIds",
-          "datatype": "List<Id>"
+          "datatype": "List<Id>",
+          "description": "A list of application ID values. For more information, see the ApplicationId field for AppMenuItem in the SOAP API Developer Guide."
         }
       ],
       "datatype": "void"
@@ -45,15 +45,16 @@
       "name": "setUserSortOrder",
       "signature": "public static void setUserSortOrder(List<Id> appIds)",
       "description": "Sets an individual user’s default sort order for the App Launcher based on a List of app menu item IDs in the desired order.",
-      "methodParams": [
+      "params": [
         {
           "name": "appIds",
-          "datatype": "List<Id>"
+          "datatype": "List<Id>",
+          "description": "A list of application ID values. For more information, see the AppMenuItemId field for UserAppMenuItem in the SOAP API Developer Guide."
         }
       ],
       "datatype": "void"
     }
   ],
   "description": "Contains methods to set the appearance of apps in the App Launcher.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_AppMenu.htm#apex_class_applauncher_AppMenu"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_AppMenu.htm"
 }

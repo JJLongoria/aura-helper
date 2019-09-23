@@ -13,23 +13,23 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getLabel",
       "signature": "",
-      "description": "Returns the localized display name of the filter value. Possible values for this name are restricted based on the data type of the column being filtered.&nbsp;",
-      "methodParams": [],
+      "description": "Returns the localized display name of the filter value. Possible values for this name are restricted based on the data type of the column being filtered.",
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getName",
       "signature": "",
-      "description": "Returns the unique API name of the filter value. Possible values for this name are restricted based on the data type of the column being filtered.&nbsp;",
-      "methodParams": [],
+      "description": "Returns the unique API name of the filter value. Possible values for this name are restricted based on the data type of the column being filtered.",
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Contains information about a filter value, such as the",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_filtervalue.htm#apex_class_reports_filtervalue"
+  "description": "Contains information about a filter value, such as the display name and API name.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_filtervalue.htm"
 }

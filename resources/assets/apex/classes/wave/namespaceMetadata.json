@@ -1,0 +1,35 @@
+{
+  "ProjectionNode": {
+    "name": "ProjectionNode",
+    "namespace": "wave",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Add aggregate functions to the query, or define an",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm#apex_class_wave_ProjectionNode",
+    "classes": [],
+    "enums": []
+  },
+  "QueryBuilder": {
+    "name": "QueryBuilder",
+    "namespace": "wave",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "The QueryBuilder class provides methods for constructing well-formed",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_QueryBuilder.htm#apex_class_wave_QueryBuilder",
+    "classes": [],
+    "enums": []
+  },
+  "QueryNode": {
+    "name": "QueryNode",
+    "namespace": "wave",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Define each node of the query - such as projection, groups, order,",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_QueryNode.htm#apex_class_wave_QueryNode",
+    "classes": [],
+    "enums": []
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "QueryNode",
-  "namespace": "wave",
+  "namespace": "Wave",
   "accessModifier": "global",
   "definitionModifier": "",
   "withSharing": false,
@@ -13,16 +13,17 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "build",
       "signature": "public String build(String streamName)",
       "description": "Build the query string represented by this QueryNode and assign it to a stream name.",
-      "methodParams": [
+      "params": [
         {
           "name": "streamName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The identifier for the stream - for example, “q”."
         }
       ],
       "datatype": "String"
@@ -31,10 +32,11 @@
       "name": "foreach",
       "signature": "public wave.QueryNode foreach(List<wave.ProjectionNode> projections)",
       "description": "Applies a set of expressions to every row in a dataset. This action is often referred to as projection.",
-      "methodParams": [
+      "params": [
         {
           "name": "projections",
-          "datatype": "List<wave.ProjectionNode>"
+          "datatype": "List<wave.ProjectionNode>",
+          "description": "A list of ProjectionNodes to be added to this QueryNode."
         }
       ],
       "datatype": "wave.QueryNode"
@@ -43,10 +45,11 @@
       "name": "group",
       "signature": "public wave.QueryNode group(List<String> groups)",
       "description": "Groups matched records (group by specific dataset attributes).",
-      "methodParams": [
+      "params": [
         {
           "name": "groups",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": "A list of expressions."
         }
       ],
       "datatype": "wave.QueryNode"
@@ -55,17 +58,18 @@
       "name": "group",
       "signature": "public wave.QueryNode group()",
       "description": "Groups matched records (group by all).",
-      "methodParams": [],
+      "params": [],
       "datatype": "wave.QueryNode"
     },
     {
       "name": "order",
       "signature": "public wave.QueryNode group(List<String> groups)",
       "description": "Sorts in ascending or descending order on one or more fields.",
-      "methodParams": [
+      "params": [
         {
           "name": "groups",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": "A list of column names and associated ascending or descending keywords, for example List&lt;List&lt;String&gt;&gt;{new List&lt;String&gt;{'Name', 'asc'}, new List&lt;String&gt;{'Revenue', 'desc'}}"
         }
       ],
       "datatype": "wave.QueryNode"
@@ -74,10 +78,11 @@
       "name": "cap",
       "signature": "global Wave.QueryNode cap(Integer cap)",
       "description": "Limits the number of results that are returned.",
-      "methodParams": [
+      "params": [
         {
           "name": "cap",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "The maximum number of rows to return."
         }
       ],
       "datatype": "wave.QueryNode"
@@ -86,10 +91,11 @@
       "name": "filter",
       "signature": "public wave.QueryNode filter(String filterCondition)",
       "description": "Selects rows from a dataset based on a filter condition (a predicate).",
-      "methodParams": [
+      "params": [
         {
           "name": "filterCondition",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "For example: filter('Name != \\'My Name\\'')"
         }
       ],
       "datatype": "wave.QueryNode"
@@ -98,10 +104,11 @@
       "name": "filter",
       "signature": "public wave.QueryNode filter(List<String> filterCondition)",
       "description": "Selects rows from a dataset based on multiple filter conditions (predicates).",
-      "methodParams": [
+      "params": [
         {
           "name": "filterCondition",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": "A list of filter conditions."
         }
       ],
       "datatype": "wave.QueryNode"
@@ -110,15 +117,16 @@
       "name": "execute",
       "signature": "global ConnectApi.LiteralJson execute(String streamName)",
       "description": "Execute the query and return rows as JSON.",
-      "methodParams": [
+      "params": [
         {
           "name": "streamName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The query stream to execute. For example:ConnectApi.LiteralJson result = Wave.QueryBuilder.load('datasetId', 'datasetVersionId').group().foreach(projs).execute('q');"
         }
       ],
       "datatype": "ConnectApi.LiteralJson"
     }
   ],
-  "description": "Define each node of the query - such as projection, groups, order,",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_QueryNode.htm#apex_class_wave_QueryNode"
+  "description": "Define each node of the query - such as projection, groups, order, filters. Execute the query.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_QueryNode.htm"
 }

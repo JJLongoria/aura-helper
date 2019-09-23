@@ -5,148 +5,151 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clearCurrentToken",
       "signature": "public Void clearCurrentToken()",
       "description": "Removes the current token.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Void"
     },
     {
       "name": "getBlobValue",
       "signature": "public Blob getBlobValue()",
       "description": "Returns the current token as a BLOB value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Blob"
     },
     {
       "name": "getBooleanValue",
       "signature": "public Boolean getBooleanValue()",
       "description": "Returns the current token as a Boolean value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "getCurrentName",
       "signature": "public String getCurrentName()",
       "description": "Returns the name associated with the current token.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getCurrentToken",
       "signature": "public System.JSONToken getCurrentToken()",
       "description": "Returns the token that the parser currently points to or null if there's no current token.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.JSONToken"
     },
     {
       "name": "getDatetimeValue",
       "signature": "public Datetime getDatetimeValue()",
       "description": "Returns the current token as a date and time value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Datetime"
     },
     {
       "name": "getDateValue",
       "signature": "public Date getDateValue()",
       "description": "Returns the current token as a date value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Date"
     },
     {
       "name": "getDecimalValue",
       "signature": "public Decimal getDecimalValue()",
       "description": "Returns the current token as a decimal value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Decimal"
     },
     {
       "name": "getDoubleValue",
       "signature": "public Double getDoubleValue()",
       "description": "Returns the current token as a double value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Double"
     },
     {
       "name": "getIdValue",
       "signature": "public ID getIdValue()",
       "description": "Returns the current token as an ID value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "ID"
     },
     {
       "name": "getIntegerValue",
       "signature": "public Integer getIntegerValue()",
       "description": "Returns the current token as an integer value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "getLastClearedToken",
       "signature": "public System.JSONToken getLastClearedToken()",
       "description": "Returns the last token that was cleared by the clearCurrentToken method.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.JSONToken"
     },
     {
       "name": "getLongValue",
       "signature": "public Long getLongValue()",
       "description": "Returns the current token as a long value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Long"
     },
     {
       "name": "getText",
       "signature": "public String getText()",
       "description": "Returns the textual representation of the current token or null if there's no current token.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getTimeValue",
       "signature": "public Time getTimeValue()",
       "description": "Returns the current token as a time value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Time"
     },
     {
       "name": "hasCurrentToken",
       "signature": "public Boolean hasCurrentToken()",
       "description": "Returns true if the parser currently points to a token; otherwise, returns false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "nextToken",
       "signature": "public System.JSONToken nextToken()",
       "description": "Returns the next token or null if the parser has reached the end of the input stream.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.JSONToken"
     },
     {
       "name": "nextValue",
       "signature": "public System.JSONToken nextValue()",
       "description": "Returns the next token that is a value type or null if the parser has reached the end of the input stream.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.JSONToken"
     },
     {
       "name": "readValueAs",
       "signature": "public Object readValueAs(System.Type apexType)",
       "description": "Deserializes JSON content into an object of the specified Apex type and returns the deserialized object.",
-      "methodParams": [
+      "params": [
         {
           "name": "apexType",
-          "datatype": "System.Type"
+          "datatype": "System.Type",
+          "description": "The apexType argument specifies the type of the object that this method returns after deserializing the current value."
         }
       ],
       "datatype": "Object"
@@ -155,10 +158,11 @@
       "name": "readValueAsStrict",
       "signature": "public Object readValueAsStrict(System.Type apexType)",
       "description": "Deserializes JSON content into an object of the specified Apex type and returns the deserialized object. All attributes in the JSON content must be present in the specified type.",
-      "methodParams": [
+      "params": [
         {
           "name": "apexType",
-          "datatype": "System.Type"
+          "datatype": "System.Type",
+          "description": "The apexType argument specifies the type of the object that this method returns after deserializing the current value."
         }
       ],
       "datatype": "Object"
@@ -167,10 +171,10 @@
       "name": "skipChildren",
       "signature": "public Void skipChildren()",
       "description": "Skips all child tokens of type JSONToken.START_ARRAY and JSONToken.START_OBJECT that the parser currently points to.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Void"
     }
   ],
-  "description": "Represents a parser for JSON-encoded",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_JsonParser.htm#apex_class_System_JsonParser"
+  "description": "Represents a parser for JSON-encoded content.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_JsonParser.htm"
 }

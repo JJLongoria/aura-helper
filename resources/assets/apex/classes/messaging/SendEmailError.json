@@ -5,43 +5,45 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getFields",
       "signature": "public String[] getFields()",
       "description": "A list of one or more field names. Identifies which fields in the object, if any, affected the error condition.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String[]"
     },
     {
       "name": "getMessage",
       "signature": "public String getMessage()",
       "description": "The text of the error message.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getStatusCode",
       "signature": "public System.StatusCode getStatusCode()",
       "description": "Returns a code that characterizes the error.",
-      "methodParams": [],
+      "params": [],
       "datatype": "System.StatusCode"
     },
     {
       "name": "getTargetObjectId",
       "signature": "public String getTargetObjectId()",
       "description": "The ID of the target record for which the error occurred.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "Represents an error that the SendEmailResult object may",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_sendemailerror.htm#apex_classes_email_outbound_sendemailerror"
+  "description": "Represents an error that the SendEmailResult object may contain.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_sendemailerror.htm"
 }

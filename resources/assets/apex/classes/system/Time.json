@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "addHours",
       "signature": "public Time addHours(Integer additionalHours)",
       "description": "Adds the specified number of hours to a Time.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalHours",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Time"
@@ -29,10 +32,11 @@
       "name": "addMilliseconds",
       "signature": "public Time addMilliseconds(Integer additionalMilliseconds)",
       "description": "Adds the specified number of milliseconds to a Time.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalMilliseconds",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Time"
@@ -41,10 +45,11 @@
       "name": "addMinutes",
       "signature": "public Time addMinutes(Integer additionalMinutes)",
       "description": "Adds the specified number of minutes to a Time.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalMinutes",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Time"
@@ -53,10 +58,11 @@
       "name": "addSeconds",
       "signature": "public Time addSeconds(Integer additionalSeconds)",
       "description": "Adds the specified number of seconds to a Time.",
-      "methodParams": [
+      "params": [
         {
           "name": "additionalSeconds",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Time"
@@ -65,43 +71,32 @@
       "name": "hour",
       "signature": "public Integer hour()",
       "description": "Returns the hour component of a Time.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "millisecond",
       "signature": "public Integer millisecond()",
       "description": "Returns the millisecond component of a Time.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "minute",
       "signature": "public Integer minute()",
       "description": "Returns the minute component of a Time.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "newInstance",
       "signature": "public static Time newInstance(Integer hour, Integer minutes, Integer seconds, Integer milliseconds)",
       "description": "Constructs a Time from Integer representations of the specified hour, minutes, seconds, and milliseconds. (UTC is assumed.)",
-      "methodParams": [
-        {
-          "name": "hour",
-          "datatype": "Integer"
-        },
-        {
-          "name": "minutes",
-          "datatype": "Integer"
-        },
-        {
-          "name": "seconds",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "milliseconds",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": ""
         }
       ],
       "datatype": "Time"
@@ -110,10 +105,10 @@
       "name": "second",
       "signature": "public Integer second()",
       "description": "Returns the second component of a Time.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     }
   ],
   "description": "Contains methods for the Time primitive data type.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_time.htm#apex_methods_system_time"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_time.htm"
 }

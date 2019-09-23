@@ -13,51 +13,51 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDBRequired",
       "signature": "public Boolean getDBRequired()",
       "description": "Returns true if the field is required by the field’s definition in its sObject, otherwise, false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "getFieldPath",
       "signature": "public String getFieldPath()",
       "description": "Returns a field path string in a format ready to be used in a dynamic SOQL query.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLabel",
       "signature": "public String getLabel()",
       "description": "Returns the text label that’s displayed next to the field in the Salesforce user interface.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getRequired",
       "signature": "public Boolean getRequired()",
       "description": "Returns true if the field is required by the field set, otherwise, false.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Boolean"
     },
     {
       "name": "getType",
       "signature": "public Schema.DisplayType getType()",
       "description": "Returns the field’s Apex data type.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Schema.DisplayType"
     },
     {
       "name": "getSObjectField",
       "signature": "public Schema.sObjectField getSObjectField()",
       "description": "Returns the token for this field.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Schema.SObjectField"
     }
   ],
-  "description": "Contains methods for accessing the metadata",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_FieldSetMember.htm#apex_class_Schema_FieldSetMember"
+  "description": "Contains methods for accessing the metadata for field set member fields.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_FieldSetMember.htm"
 }

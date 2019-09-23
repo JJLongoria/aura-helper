@@ -5,22 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getOperationId",
       "signature": "public static String getOperationId(Object result)",
       "description": "Returns the ID of the asynchronous event publishing operation based on the passed-in SaveResult. Use this ID to correlate the asynchronous publishing result sent on the /event/AsyncOperationEvent channel.",
-      "methodParams": [
+      "params": [
         {
           "name": "result",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": "The SaveResult that is returned by the EventBus.publish call."
         }
       ],
       "datatype": "String"
@@ -29,10 +32,11 @@
       "name": "publish",
       "signature": "public static Database.SaveResult publish(SObject event)",
       "description": "Publishes the given platform event.",
-      "methodParams": [
+      "params": [
         {
           "name": "event",
-          "datatype": "SObject"
+          "datatype": "SObject",
+          "description": "An instance of a platform event. For example, an instance of MyEvent__e. You must first define your platform event object in your org."
         }
       ],
       "datatype": "Database.SaveResult"
@@ -41,15 +45,16 @@
       "name": "publish",
       "signature": "public static List<Database.SaveResult> publish(List<SObject> events)",
       "description": "Publishes the given list of platform events.",
-      "methodParams": [
+      "params": [
         {
           "name": "events",
-          "datatype": "List<sObject>"
+          "datatype": "List<sObject>",
+          "description": "A list of platform event instances. For example, a list of MyEvent__e objects. You must first define your platform event object in your org."
         }
       ],
       "datatype": "List<Database.SaveResult>"
     }
   ],
   "description": "Contains methods for publishing platform events.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_eventbus.htm#apex_class_System_eventbus"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_eventbus.htm"
 }

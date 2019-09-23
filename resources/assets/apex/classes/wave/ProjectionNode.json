@@ -1,6 +1,6 @@
 {
   "name": "ProjectionNode",
-  "namespace": "wave",
+  "namespace": "Wave",
   "accessModifier": "global",
   "definitionModifier": "",
   "withSharing": false,
@@ -13,63 +13,64 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "sum",
       "signature": "public wave.ProjectionNode sum()",
       "description": "Returns the sum of a numeric field.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "avg",
       "signature": "public wave.ProjectionNode avg()",
       "description": "Returns the average value of a numeric field.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "min",
       "signature": "public wave.ProjectionNode min()",
       "description": "Returns the minimum value of a field.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "max",
       "signature": "public wave.ProjectionNode max()",
       "description": "Returns the maximum value of a field.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "count",
       "signature": "public wave.ProjectionNode count()",
       "description": "Returns the number of rows that match the query criteria.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "unique",
       "signature": "public wave.ProjectionNode unique()",
       "description": "Returns the count of unique values.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "alias",
       "signature": "public wave.ProjectionNode alias(String name)",
       "description": "Define output column names.",
-      "methodParams": [
+      "params": [
         {
           "name": "name",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The name to use for this column. For example, this code defines the alias c: Wave.ProjectionNode[] projs = new Wave.ProjectionNode[]{Wave.QueryBuilder.count().alias('c')};"
         }
       ],
       "datatype": "wave.ProjectionNode"
     }
   ],
-  "description": "Add aggregate functions to the query, or define an",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm#apex_class_wave_ProjectionNode"
+  "description": "Add aggregate functions to the query, or define an alias.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_ProjectionNode.htm"
 }

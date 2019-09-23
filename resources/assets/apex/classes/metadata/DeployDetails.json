@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,27 +17,27 @@
       "name": "componentFailures",
       "signature": "public List<Metadata.DeployMessage> componentFailures {get; set;}",
       "description": "Contains a list of information about components that failed to deploy.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "componentSuccesses",
       "signature": "public List<Metadata.DeployMessage> componentSuccesses {get; set;}",
       "description": "Contains a list of information about components that deployed successfully.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.DeployDetails.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
   "description": "Contains detailed information on deployed components.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployDetails.htm#apex_class_Metadata_DeployDetails"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_DeployDetails.htm"
 }

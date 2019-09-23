@@ -13,23 +13,23 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getLabel",
       "signature": "public String getLabel()",
       "description": "Returns the display label for the standard date filter grouping.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getStandardDateFilterDurations",
       "signature": "public List<Reports.StandardDateFilterDuration> getStandardDateFilterDurations()",
       "description": "Returns the standard date filter groupings.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Reports.StandardDateFilterDuration>"
     }
   ],
-  "description": "Contains information about the standard date filter groupings, such as",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardDateFilterDurationGroup.htm#apex_class_reports_StandardDateFilterDurationGroup"
+  "description": "Contains information about the standard date filter groupings, such as the grouping display label and all standard date filters that fall under the grouping. Groupings include Calendar Year, Calendar Quarter, Calendar Month, Calendar Week, Fiscal Year, Fiscal Quarter, Day, and custom values based on user-defined date ranges.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardDateFilterDurationGroup.htm"
 }

@@ -26,7 +26,7 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [],
   "description": "The Reports.DateGranularity enum describes the date interval that is used for grouping.",
   "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_dategranularity.htm"

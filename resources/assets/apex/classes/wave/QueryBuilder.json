@@ -1,6 +1,6 @@
 {
   "name": "QueryBuilder",
-  "namespace": "wave",
+  "namespace": "Wave",
   "accessModifier": "global",
   "definitionModifier": "",
   "withSharing": false,
@@ -13,20 +13,17 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "load",
       "signature": "public static wave.QueryNode load(String datasetID, String datasetVersionID)",
       "description": "Load a stream from a dataset.",
-      "methodParams": [
-        {
-          "name": "datasetID",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "datasetVersionID",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The ID of the dataset. The ID identifying the version of the dataset."
         }
       ],
       "datatype": "wave.QueryNode"
@@ -35,17 +32,18 @@
       "name": "count",
       "signature": "public static wave.ProjectionNode count()",
       "description": "Calculate the number of rows that match the query criteria.",
-      "methodParams": [],
+      "params": [],
       "datatype": "wave.ProjectionNode"
     },
     {
       "name": "get",
       "signature": "public static wave.ProjectionNode get(String proj)",
       "description": "Query by selecting specific attributes.",
-      "methodParams": [
+      "params": [
         {
           "name": "proj",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The name of the column to query."
         }
       ],
       "datatype": "wave.ProjectionNode"
@@ -54,10 +52,11 @@
       "name": "union",
       "signature": "global static Wave.QueryNode union(List<Wave.QueryNode> unionNodes)",
       "description": "Combine multiple result sets into one result set.",
-      "methodParams": [
+      "params": [
         {
           "name": "unionNodes",
-          "datatype": "List<wave.QueryNode>"
+          "datatype": "List<wave.QueryNode>",
+          "description": "List of nodes to combine."
         }
       ],
       "datatype": "wave.QueryNode"
@@ -66,19 +65,16 @@
       "name": "cogroup",
       "signature": "global static Wave.QueryNode cogroup(List<Wave.QueryNode> cogroupNodes, List<List<String>> groups)",
       "description": "Cogrouping means that two input streams are grouped independently and arranged side by side. Only data that exists in both groups appears in the results.",
-      "methodParams": [
-        {
-          "name": "cogroupNodes",
-          "datatype": "wave.QueryNode"
-        },
+      "params": [
         {
           "name": "groups",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "List of nodes to group. The type of grouping."
         }
       ],
       "datatype": "wave.QueryNode"
     }
   ],
-  "description": "The QueryBuilder class provides methods for constructing well-formed",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_QueryBuilder.htm#apex_class_wave_QueryBuilder"
+  "description": "The QueryBuilder class provides methods for constructing well-formed SAQL queries to pass to Wave Analytics.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_wave_QueryBuilder.htm"
 }

@@ -13,23 +13,24 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getSObject",
       "signature": "public SObject getSObject()",
       "description": "Returns an sObject from a SearchResult object.",
-      "methodParams": [],
+      "params": [],
       "datatype": "SObject"
     },
     {
       "name": "getSnippet",
       "signature": "public String getSnippet(String fieldName)",
       "description": "Returns a snippet from a Case, Feed, or Knowledge Article SearchResult object based on the specified field name.",
-      "methodParams": [
+      "params": [
         {
           "name": "fieldName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The field name to use for creating the snippet. Valid values: Case.Casenumber, FeedPost.Title, KnowledgeArticleVersion.Title"
         }
       ],
       "datatype": "String"
@@ -38,10 +39,10 @@
       "name": "getSnippet",
       "signature": "public String getSnippet()",
       "description": "Returns a snippet from a SearchResult object based on the default field.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     }
   ],
-  "description": "A wrapper object that contains an sObject and search",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SearchResult.htm#apex_class_Search_SearchResult"
+  "description": "A wrapper object that contains an sObject and search metadata.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Search_SearchResult.htm"
 }

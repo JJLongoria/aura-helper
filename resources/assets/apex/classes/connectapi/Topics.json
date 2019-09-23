@@ -5,30 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "assignTopic",
       "signature": "public static ConnectApi.Topic assignTopic(String communityId, String recordId, String topicId)",
       "description": "Assign a topic to a record or feed item.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "recordId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "topicId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a record or feed item. The ID for a topic."
         }
       ],
       "datatype": "ConnectApi.​Topic"
@@ -37,18 +32,11 @@
       "name": "assignTopicByName",
       "signature": "public static ConnectApi.Topic assignTopicByName(String communityId, String recordId, String topicName)",
       "description": "Assign a topic to a record or feed item.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "recordId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "topicName",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID of the record or feed item to which to assign the topic. The name of a new or existing topic."
         }
       ],
       "datatype": "ConnectApi.​Topic"
@@ -57,18 +45,11 @@
       "name": "createTopic",
       "signature": "public static ConnectApi.Topic createTopic(String communityId, String name, String description)",
       "description": "Create a topic.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "name",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "description",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The name of the topic. The description of the topic."
         }
       ],
       "datatype": "ConnectApi.​Topic"
@@ -77,22 +58,11 @@
       "name": "createTopicDataCategoryRules",
       "signature": "public static ConnectApi.TopicPage createTopicDataCategoryRules(String communityId, String dataCategoryGroup, String dataCategory, ConnectApi.TopicNamesInput topicNames)",
       "description": "Create topic and article assignment rules by data category.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "dataCategoryGroup",
-          "datatype": "String"
-        },
-        {
-          "name": "dataCategory",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "topicNames",
-          "datatype": "ConnectApi.​TopicNamesInput"
+          "datatype": "ConnectApi.​TopicNamesInput",
+          "description": "Use either the ID for a community, internal, or null. The data category group used by articles. The data category used by articles. A ConnectApi.TopicNamesInput object with the names of topics to assign to articles in a data category."
         }
       ],
       "datatype": "ConnectApi.TopicPage"
@@ -101,14 +71,11 @@
       "name": "deleteTopic",
       "signature": "public static Void deleteTopic(String communityId, String topicId)",
       "description": "Delete a topic.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String,"
-        },
+      "params": [
         {
           "name": "topicId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a topic."
         }
       ],
       "datatype": "Void"
@@ -117,14 +84,11 @@
       "name": "getGroupsRecentlyTalkingAboutTopic",
       "signature": "public static ConnectApi.ChatterGroupSummaryPage getGroupsRecentlyTalkingAboutTopic(String communityId, String topicId)",
       "description": "Get information about the five groups that most recently contributed to a topic.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "topicId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a topic."
         }
       ],
       "datatype": "ConnectApi.​Chatter​Group​SummaryPage"
@@ -133,14 +97,11 @@
       "name": "getRecentlyTalkingAboutTopicsForGroup",
       "signature": "public static ConnectApi.TopicPage getRecentlyTalkingAboutTopicsForGroup(String communityId, String groupId)",
       "description": "Get up to five topics most recently used in a group.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "groupId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -149,14 +110,11 @@
       "name": "getRecentlyTalkingAboutTopicsForUser",
       "signature": "public static ConnectApi.TopicPage getRecentlyTalkingAboutTopicsForUser(String communityId, String userId)",
       "description": "Get up to five topics most recently used by a user.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "userId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -165,14 +123,11 @@
       "name": "getRelatedTopics",
       "signature": "public static ConnectApi.TopicPage getRelatedTopics(String communityId, String topicId)",
       "description": "Get up to five topics most closely related to a topic.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "topicId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a topic."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -181,14 +136,11 @@
       "name": "getTopic",
       "signature": "public static ConnectApi.Topic getTopic(String communityId, String topicId)",
       "description": "Get a topic.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "topicId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a topic."
         }
       ],
       "datatype": "ConnectApi.​Topic"
@@ -197,18 +149,11 @@
       "name": "getTopicDataCategoryRules",
       "signature": "public static ConnectApi.TopicPage getTopicDataCategoryRules(String communityId, String dataCategoryGroup, String dataCategory)",
       "description": "Get topic and article assignment rules by data category.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "dataCategoryGroup",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "dataCategory",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The data category group used by articles. The data category used by articles."
         }
       ],
       "datatype": "ConnectApi.TopicPage"
@@ -217,14 +162,11 @@
       "name": "getTopics",
       "signature": "public static ConnectApi.TopicPage getTopics(String communityId, String recordId)",
       "description": "Get the first page of topics assigned to a record or feed item.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "recordId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a record or feed item."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -233,10 +175,11 @@
       "name": "getTopics",
       "signature": "public static ConnectApi.TopicPage getTopics(String communityId)",
       "description": "Get the first page of topics for the org or community.",
-      "methodParams": [
+      "params": [
         {
           "name": "communityId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -245,14 +188,11 @@
       "name": "getTopics",
       "signature": "public static ConnectApi.TopicPage getTopics(String communityId, ConnectApi.TopicSort sortParam)",
       "description": "Get the first page of sorted topics for the org or community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "sortParam",
-          "datatype": "ConnectApi.​TopicSort"
+          "datatype": "ConnectApi.​TopicSort",
+          "description": "Use either the ID for a community, internal, or null. Values are:  popularDesc—Sorts topics by popularity with the most popular first. This value is the default.   alphaAsc—Sorts topics alphabetically."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -261,18 +201,11 @@
       "name": "getTopics",
       "signature": "public static ConnectApi.TopicPage getTopics(String communityId, Integer pageParam, Integer pageSize)",
       "description": "Get a page of topics.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -281,22 +214,11 @@
       "name": "getTopics",
       "signature": "public static ConnectApi.TopicPage getTopics(String communityId, Integer pageParam, Integer pageSize, ConnectApi.TopicSort sortParam)",
       "description": "Get a page of sorted topics.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "sortParam",
-          "datatype": "ConnectApi.​TopicSort"
+          "datatype": "ConnectApi.​TopicSort",
+          "description": "Use either the ID for a community, internal, or null. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Values are:  popularDesc—Sorts topics by popularity with the most popular first. This value is the default.   alphaAsc—Sorts topics alphabetically."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -305,18 +227,11 @@
       "name": "getTopics",
       "signature": "public static ConnectApi.TopicPage getTopics(String communityId, String q, ConnectApi.TopicSort sortParam)",
       "description": "Get the sorted topics that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "sortParam",
-          "datatype": "ConnectApi.​TopicSort"
+          "datatype": "ConnectApi.​TopicSort",
+          "description": "Use either the ID for a community, internal, or null. Specifies the string to search. The string must contain at least two characters, not including wildcards. Values are:  popularDesc—Sorts topics by popularity with the most popular first. This value is the default.   alphaAsc—Sorts topics alphabetically."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -325,22 +240,11 @@
       "name": "getTopics",
       "signature": "public static ConnectApi.TopicPage getTopics(String communityId, String q, Integer pageParam, Integer pageSize)",
       "description": "Get a page of topics that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "pageSize",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Specifies the string to search. The string must contain at least two characters, not including wildcards. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -349,26 +253,11 @@
       "name": "getTopics",
       "signature": "public static ConnectApi.TopicPage getTopics(String communityId, String q, Integer pageParam, Integer pageSize, ConnectApi.TopicSort sortParam)",
       "description": "Get a page of sorted topics that match the search criteria.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "pageParam",
-          "datatype": "Integer"
-        },
-        {
-          "name": "pageSize",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "sortParam",
-          "datatype": "ConnectApi.​TopicSort"
+          "datatype": "ConnectApi.​TopicSort",
+          "description": "Use either the ID for a community, internal, or null. Specifies the string to search. The string must contain at least two characters, not including wildcards. Specifies the number of the page you want returned. Starts at 0. If you pass in null or 0, the first page is returned. Specifies the number of items per page. Valid values are from 1 through 100. If you pass in null, the default size is 25. Values are:  popularDesc—Sorts topics by popularity with the most popular first. This value is the default.   alphaAsc—Sorts topics alphabetically."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -377,18 +266,11 @@
       "name": "getTopics",
       "signature": "public static ConnectApi.TopicPage getTopics(String communityId, String q, Boolean exactMatch)",
       "description": "Get the topic that matches the exact, case-insensitive name.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "exactMatch",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Use either the ID for a community, internal, or null. Specifies the string to search. The string must contain at least two characters, not including wildcards. Specify true to find a topic by its exact, case-insensitive name."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -397,22 +279,11 @@
       "name": "getTopicsOrFallBackToRenamedTopics",
       "signature": "public static ConnectApi.TopicPage getTopicsOrFallBackToRenamedTopics(String communityId, String q, Boolean exactMatch, Boolean fallBackToRenamedTopics)",
       "description": "Get the most recent renamed topic match, if there isn’t an exact match.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "q",
-          "datatype": "String"
-        },
-        {
-          "name": "exactMatch",
-          "datatype": "Boolean"
-        },
+      "params": [
         {
           "name": "fallBackToRenamedTopics",
-          "datatype": "Boolean"
+          "datatype": "Boolean",
+          "description": "Use either the ID for a community, internal, or null. Specifies the string to search. The string must contain at least two characters, not including wildcards. Specify true to find a topic by its exact, case-insensitive name or to find the most recent renamed topic match if there isn’t an exact match. Specify true and if there isn’t an exact match, the most recent renamed topic match is returned. If there are multiple renamed topic matches, only the most recent is returned. If there are no renamed topic matches, an empty collection is returned."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -421,18 +292,11 @@
       "name": "getTopicSuggestions",
       "signature": "public static ConnectApi.TopicSuggestionPage getTopicSuggestions(String communityId, String recordId, Integer maxResults)",
       "description": "Get up to a specified number of suggested topics for a record or feed item.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "recordId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "maxResults",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. The ID for a record or feed item. Maximum number of topic suggestions that get returned. The default is 5. Value must be greater than 0 and less than or equal to 25."
         }
       ],
       "datatype": "ConnectApi.​TopicSuggestionPage"
@@ -441,14 +305,11 @@
       "name": "getTopicSuggestions",
       "signature": "public static ConnectApi.TopicSuggestionPage getTopicSuggestions(String communityId, String recordId)",
       "description": "Get suggested topics for a record or feed item.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "recordId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a record or feed item."
         }
       ],
       "datatype": "ConnectApi.​TopicSuggestionPage"
@@ -457,18 +318,11 @@
       "name": "getTopicSuggestionsForText",
       "signature": "public static ConnectApi.TopicSuggestionPage getTopicSuggestionsForText(String communityId, String text, Integer maxResults)",
       "description": "Get up to a specified number of suggested topics for a string of text.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "text",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "maxResults",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. String of text. Maximum number of topic suggestions that get returned. The default is 5. Value must be greater than 0 and less than or equal to 25."
         }
       ],
       "datatype": "ConnectApi.​TopicSuggestionPage"
@@ -477,14 +331,11 @@
       "name": "getTopicSuggestionsForText",
       "signature": "public static ConnectApi.TopicSuggestionPage getTopicSuggestionsForText(String communityId, String text)",
       "description": "Get suggested topics for a string of text.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "text",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. String of text."
         }
       ],
       "datatype": "ConnectApi.​TopicSuggestionPage"
@@ -493,10 +344,11 @@
       "name": "getTrendingTopics",
       "signature": "public static ConnectApi.TopicPage getTrendingTopics(String communityId)",
       "description": "Get trending topics for the org or community.",
-      "methodParams": [
+      "params": [
         {
           "name": "communityId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -505,14 +357,11 @@
       "name": "getTrendingTopics",
       "signature": "public static ConnectApi.TopicPage getTrendingTopics(String communityId, Integer maxResults)",
       "description": "Get up to a specified number of trending topics for the org or community.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "maxResults",
-          "datatype": "Integer"
+          "datatype": "Integer",
+          "description": "Use either the ID for a community, internal, or null. Maximum number of topic suggestions that get returned. The default is 5. Value must be greater than 0 and less than or equal to 25."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -521,18 +370,11 @@
       "name": "mergeTopics",
       "signature": "public static ConnectApi.Topic mergeTopics(String communityId, String topicId, List<String> idsToMerge)",
       "description": "Merge up to five secondary topics with a primary topic.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "topicId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "idsToMerge",
-          "datatype": "List<String>"
+          "datatype": "List<String>",
+          "description": "Use either the ID for a community, internal, or null. The ID for the primary topic for the merge. If this topic is a managed topic, it retains its topic type, topic images, and children topics. A list of up to five comma-separated secondary topic IDs to merge with the primary topic. If any of these secondary topics are managed topics, they lose their topic type, topic images, and children topics. Their feed items are reassigned to the primary topic."
         }
       ],
       "datatype": "ConnectApi.​Topic"
@@ -541,22 +383,11 @@
       "name": "reassignTopicDataCategoryRules",
       "signature": "public static ConnectApi.TopicPage reassignTopicDataCategoryRules(String communityId, String dataCategoryGroup, String dataCategory, ConnectApi.TopicNamesInput topicNames)",
       "description": "Reassign topic and article assignment rules by data category by deleting the existing rules and creating new rules.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "dataCategoryGroup",
-          "datatype": "String"
-        },
-        {
-          "name": "dataCategory",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "topicNames",
-          "datatype": "ConnectApi.​TopicNamesInput"
+          "datatype": "ConnectApi.​TopicNamesInput",
+          "description": "Use either the ID for a community, internal, or null. The data category group used by articles. The data category used by articles. A ConnectApi.TopicNamesInput object with the names of topics to reassign to articles in a data category."
         }
       ],
       "datatype": "ConnectApi.TopicPage"
@@ -565,18 +396,11 @@
       "name": "reassignTopicsByName",
       "signature": "public static ConnectApi.TopicPage reassignTopicsByName(String communityId, String recordId, ConnectApi.TopicNamesInput topicNames)",
       "description": "Reassign all the topics on a record or feed item, that is, remove all the assigned topics on a record or feed item and add topics. Optionally, provide a list of suggested topics to assign to a record or feed item to improve future topic suggestions.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "recordId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "topicNames",
-          "datatype": "ConnectApi.​TopicNamesInput"
+          "datatype": "ConnectApi.​TopicNamesInput",
+          "description": "Use either the ID for a community, internal, or null. The ID of the record or feed item to which to assign the topic. A list of topics to replace the currently assigned topics. Optionally, a list of suggested topics to assign to improve future topic suggestions."
         }
       ],
       "datatype": "ConnectApi.​TopicPage"
@@ -585,18 +409,11 @@
       "name": "unassignTopic",
       "signature": "public static Void unassignTopic(String communityId, String recordId, String topicId)",
       "description": "Remove a topic from a record or feed item.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "recordId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "topicId",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "Use either the ID for a community, internal, or null. The ID for a record or feed item. The ID for a topic."
         }
       ],
       "datatype": "Void"
@@ -605,18 +422,11 @@
       "name": "updateTopic",
       "signature": "public static ConnectApi.Topic updateTopic(String communityId, String topicId, ConnectApi.TopicInput topic)",
       "description": "Update the description or name of a topic or merge up to five secondary topics with a primary topic.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "topicId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "topic",
-          "datatype": "ConnectApi.TopicInput"
+          "datatype": "ConnectApi.TopicInput",
+          "description": "Use either the ID for a community, internal, or null. The ID for a topic. A ConnectApi.TopicInput object containing the name and description of the topic or up to five comma-separated secondary topic IDs to merge with the primary topic."
         }
       ],
       "datatype": "ConnectApi.​Topic"
@@ -625,22 +435,11 @@
       "name": "updateTopicsForArticlesInDataCategory",
       "signature": "public static ConnectApi.TopicPage updateTopicsForArticlesInDataCategory(String communityId, String dataCategoryGroup, String dataCategory, ConnectApi.ArticleTopicAssignmentJobInput articleTopicAssignmentJob)",
       "description": "Assign topics to articles and unassign topics from articles in a data category.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "dataCategoryGroup",
-          "datatype": "String"
-        },
-        {
-          "name": "dataCategory",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "articleTopicAssignmentJob",
-          "datatype": "ConnectApi.ArticleTopicAssignmentJobInput"
+          "datatype": "ConnectApi.ArticleTopicAssignmentJobInput",
+          "description": "Use either the ID for a community, internal, or null. The data category group used by articles. The data category used by articles. A ConnectApi.ArticleTopicAssignmentJobInput object that indicates the operation to take on which topics."
         }
       ],
       "datatype": "ConnectApi.TopicPage"
@@ -649,18 +448,11 @@
       "name": "setTestGetGroupsRecentlyTalkingAboutTopic",
       "signature": "public static Void setTestGetGroupsRecentlyTalkingAboutTopic(String communityId, String topicId, ConnectApi.ChatterGroupSummaryPage result)",
       "description": "Register a ConnectApi.ChatterGroupSummaryPage object to be returned when the matching ConnectApi.getGroupsRecentlyTalkingAboutTopic method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "topicId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.​Chatter​Group​SummaryPage"
+          "datatype": "ConnectApi.​Chatter​Group​SummaryPage",
+          "description": "Use either the ID for a community, internal, or null. The ID for a topic. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -669,18 +461,11 @@
       "name": "setTestGetRecentlyTalkingAboutTopicsForGroup",
       "signature": "public static Void setTestGetRecentlyTalkingAboutTopicsForGroup(String communityId, String groupId, ConnectApi.​TopicPage result)",
       "description": "Register a ConnectApi.​TopicPage object to be returned when the matching ConnectApi.getRecentlyTalkingAboutTopicsForGroup method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "groupId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.​TopicPage"
+          "datatype": "ConnectApi.​TopicPage",
+          "description": "Use either the ID for a community, internal, or null. The ID for a group. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -689,18 +474,11 @@
       "name": "setTestGetRecentlyTalkingAboutTopicsForUser",
       "signature": "public static Void setTestGetRecentlyTalkingAboutTopicsForUser(String communityId, String userId, ConnectApi.TopicPage result)",
       "description": "Register a ConnectApi.​TopicPage object to be returned when the matching ConnectApi.getRecentlyTalkingAboutTopicsForUser method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "userId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.​TopicPage"
+          "datatype": "ConnectApi.​TopicPage",
+          "description": "Use either the ID for a community, internal, or null. The ID for a user. Specify the test topics page."
         }
       ],
       "datatype": "Void"
@@ -709,18 +487,11 @@
       "name": "setTestGetRelatedTopics",
       "signature": "public static Void setTestGetRelatedTopics(String communityId, String topicId, ConnectApi.TopicPage result)",
       "description": "Register a ConnectApi.TopicPage object to be returned when the matching ConnectApi.getRelatedTopics method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "topicId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.​TopicPage"
+          "datatype": "ConnectApi.​TopicPage",
+          "description": "Use either the ID for a community, internal, or null. The ID for a topic. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -729,22 +500,11 @@
       "name": "setTestGetTopicSuggestions",
       "signature": "public static Void setTestGetTopicSuggestions(String communityId, String recordId, Integer maxResults, ConnectApi.TopicSuggestionPage result)",
       "description": "Register a ConnectApi.TopicSuggestionPage object to be returned when the matching ConnectApi.getTopicSuggestions method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "recordId",
-          "datatype": "String"
-        },
-        {
-          "name": "maxResults",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.​TopicSuggestionPage"
+          "datatype": "ConnectApi.​TopicSuggestionPage",
+          "description": "Use either the ID for a community, internal, or null. The ID for a record or feed item. Maximum number of topic suggestions that get returned. The default is 5. Value must be greater than 0 and less than or equal to 25. Specify the test topic suggestions page."
         }
       ],
       "datatype": "Void"
@@ -753,18 +513,11 @@
       "name": "setTestGetTopicSuggestions",
       "signature": "public static Void setTestGetTopicSuggestions(String communityId, String recordId, ConnectApi.​TopicSuggestionPage result)",
       "description": "Register a ConnectApi.TopicSuggestionPage object to be returned when the matching ConnectApi.getTopicSuggestions method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "recordId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.​TopicSuggestionPage"
+          "datatype": "ConnectApi.​TopicSuggestionPage",
+          "description": "Use either the ID for a community, internal, or null. The ID for a record or feed item. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -773,22 +526,11 @@
       "name": "setTestGetTopicSuggestionsForText",
       "signature": "public static Void setTestGetTopicSuggestionsForText(String communityId, String text, Integer maxResults, ConnectApi.TopicSuggestionPage result)",
       "description": "Register a ConnectApi.TopicSuggestionPage object to be returned when the matching ConnectApi.getTopicSuggestionsForText method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "text",
-          "datatype": "String"
-        },
-        {
-          "name": "maxResults",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.​TopicSuggestionPage"
+          "datatype": "ConnectApi.​TopicSuggestionPage",
+          "description": "Use either the ID for a community, internal, or null. String of text. Maximum number of topic suggestions that get returned. The default is 5. Value must be greater than 0 and less than or equal to 25. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -797,18 +539,11 @@
       "name": "setTestGetTopicSuggestionsForText",
       "signature": "public static Void setTestGetTopicSuggestionsForText(String communityId, String text, ConnectApi.TopicSuggestionPage result)",
       "description": "Register a ConnectApi.TopicSuggestionPage object to be returned when the matching ConnectApi.getTopicSuggestionsForText method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "text",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.​TopicSuggestionPage"
+          "datatype": "ConnectApi.​TopicSuggestionPage",
+          "description": "Use either the ID for a community, internal, or null. String of text. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -817,14 +552,11 @@
       "name": "setTestGetTrendingTopics",
       "signature": "public static Void setTestGetTrendingTopics(String communityId, ConnectApi.TopicPage result)",
       "description": "Register a ConnectApi.TopicPage object to be returned when the matching ConnectApi.getTrendingTopics method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.​TopicPage"
+          "datatype": "ConnectApi.​TopicPage",
+          "description": "Use either the ID for a community, internal, or null. The object containing test data."
         }
       ],
       "datatype": "Void"
@@ -833,23 +565,16 @@
       "name": "setTestGetTrendingTopics",
       "signature": "public static Void setTestGetTrendingTopics(String communityId, Integer maxResults, ConnectApi.TopicPage result)",
       "description": "Register a ConnectApi.TopicPage object to be returned when the matching ConnectApi.getTrendingTopics method is called in a test context. Use the method with the same parameters or you receive an exception.",
-      "methodParams": [
-        {
-          "name": "communityId",
-          "datatype": "String"
-        },
-        {
-          "name": "maxResults",
-          "datatype": "Integer"
-        },
+      "params": [
         {
           "name": "result",
-          "datatype": "ConnectApi.​TopicPage"
+          "datatype": "ConnectApi.​TopicPage",
+          "description": "Use either the ID for a community, internal, or null. Maximum number of topic suggestions that get returned. The default is 5. Value must be greater than 0 and less than or equal to 25. The object containing test data."
         }
       ],
       "datatype": "Void"
     }
   ],
-  "description": "Access information about topics, such as their descriptions, the number of people",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Topics_static_methods.htm#apex_ConnectAPI_Topics_static_methods"
+  "description": "Access information about topics, such as their descriptions, the number of people talking about them, related topics, and information about groups contributing to the topic. Update a topic’s name or description, merge topics, and add and remove topics from records and feed items.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_Topics_static_methods.htm"
 }

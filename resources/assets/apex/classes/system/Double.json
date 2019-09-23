@@ -5,50 +5,53 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "format",
       "signature": "public String format()",
       "description": "Returns the String value for this Double using the locale of the context user",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "intValue",
       "signature": "public Integer intValue()",
       "description": "Returns the Integer value of this Double by casting it to an Integer.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Integer"
     },
     {
       "name": "longValue",
       "signature": "public Long longValue()",
       "description": "Returns the Long value of this Double.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Long"
     },
     {
       "name": "round",
       "signature": "public Long round()",
       "description": "Returns the closest Long to this Double value.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Long"
     },
     {
       "name": "valueOf",
       "signature": "public static Double valueOf(String stringToDouble)",
       "description": "Returns a Double that contains the value of the specified String. As in Java, the String is interpreted as representing a signed decimal.",
-      "methodParams": [
+      "params": [
         {
           "name": "stringToDouble",
-          "datatype": "String"
+          "datatype": "String",
+          "description": ""
         }
       ],
       "datatype": "Double"
@@ -57,15 +60,16 @@
       "name": "valueOf",
       "signature": "public static Double valueOf(Object fieldValue)",
       "description": "Converts the specified object to a Double value. Use this method to convert a history tracking field value or an object that represents a Double value.",
-      "methodParams": [
+      "params": [
         {
           "name": "fieldValue",
-          "datatype": "Object"
+          "datatype": "Object",
+          "description": ""
         }
       ],
       "datatype": "Double"
     }
   ],
   "description": "Contains methods for the Double primitive data type.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_double.htm#apex_methods_system_double"
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_double.htm"
 }

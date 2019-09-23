@@ -1,10 +1,12 @@
 {
   "name": "UpsertContext",
-  "namespace": "DataSource",
+  "namespace": "Datasource",
   "accessModifier": "global",
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,12 +17,12 @@
       "name": "rows",
       "signature": "public List<Map<String,ANY>> rows {get; set;}",
       "description": "List of rows corresponding to the external object records to upsert.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [],
-  "description": "An instance of UpsertContext",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_UpsertContext.htm#apex_class_DataSource_UpsertContext"
+  "description": "An instance of UpsertContext is passed to the upsertRows() method on your Datasource.Connection class. This class provides context information about the upsert request to the implementor of upsertRows().",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_UpsertContext.htm"
 }

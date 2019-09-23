@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,174 +17,174 @@
       "name": "customButtons",
       "signature": "public List<String> customButtons {get; set;}",
       "description": "The custom buttons for this layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "customConsoleComponents",
       "signature": "public Metadata.CustomConsoleComponents customConsoleComponents {get; set;}",
       "description": "Represents custom console components (Visualforce pages, lookup fields, or related lists) on a page layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "emailDefault",
       "signature": "public Boolean emailDefault {get; set;}",
       "description": "Default value for the email checkbox. Only relevant if the showEmailCheckbox property is set.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "excludeButtons",
       "signature": "public List<String> excludeButtons {get; set;}",
       "description": "List of standard buttons to exclude from this layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "feedLayout",
       "signature": "public Metadata.FeedLayout feedLayout {get; set;}",
       "description": "Represents the values that define the feed view of a feed-based page layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "headers",
       "signature": "public List<Metadata.LayoutHeader> headers {get; set;}",
       "description": "Represents the layout headers used for tagging.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "layoutSections",
       "signature": "public List<Metadata.LayoutSection> layoutSections {get; set;}",
       "description": "The main sections of the layout containing fields, s-controls, and custom links. The order here determines the layout order.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "miniLayout",
       "signature": "public Metadata.MiniLayout miniLayout {get; set;}",
       "description": "Represents a minilayout, which is used in the mini view of a record in the Console tab, hover details, and event overlays.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "multilineLayoutFields",
       "signature": "public List<String> multilineLayoutFields {get; set;}",
       "description": "Fields for special multiline layout fields which appear in OpportunityProduct layouts.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "platformActionList",
       "signature": "public Metadata.PlatformActionList platformActionList {get; set;}",
       "description": "The list of actions, and their order, that display in the Salesforce mobile action bar for the layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "quickActionList",
       "signature": "public Metadata.QuickActionList quickActionList {get; set;}",
       "description": "The list of quick actions that display in the full Salesforce site for the page layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "relatedContent",
       "signature": "public Metadata.RelatedContent relatedContent {get; set;}",
       "description": "The Related Content section of the page layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "relatedLists",
       "signature": "public List<Metadata.RelatedListItem> relatedLists {get; set;}",
       "description": "The related lists for the layout, listed in the order they appear in the user interface.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "relatedObjects",
       "signature": "public List<String> relatedObjects {get; set;}",
       "description": "The list of related objects that appears in the mini view of the console.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "runAssignmentRulesDefault",
       "signature": "public Boolean runAssignmentRulesDefault {get; set;}",
       "description": "Default value for the “run assignment rules” checkbox. Only relevant if the showRunAssignmentRulesCheckbox property is set.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showEmailCheckbox",
       "signature": "public Boolean showEmailCheckbox {get; set;}",
       "description": "Controls whether to show the email checkbox. Only allowed on Case, CaseClose, and Task layouts. The default state of checkbox is controlled by the emailDefault property.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showHighlightsPanel",
       "signature": "public Boolean showHighlightsPanel {get; set;}",
       "description": "If set, the highlights panel displays on pages in the Salesforce console.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showInteractionLogPanel",
       "signature": "public Boolean showInteractionLogPanel {get; set;}",
       "description": "If set, the interaction log displays on pages in the Salesforce console.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showKnowledgeComponent",
       "signature": "public Boolean showKnowledgeComponent {get; set;}",
       "description": "Only allowed on Case layouts. If set, the Knowledge sidebar displays on cases in the Salesforce console.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showRunAssignmentRulesCheckbox",
       "signature": "public Boolean showRunAssignmentRulesCheckbox {get; set;}",
       "description": "Controls whether to show the Run Assignment Rules checkbox. Only allowed on Lead and Case layouts. The default state of checkbox is controlled by the runAssignmentRulesDefault property.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showSolutionSection",
       "signature": "public Boolean showSolutionSection {get; set;}",
       "description": "Only allowed on CaseClose layout. If set, the built-in solution information section shows up on the page.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "showSubmitAndAttachButton",
       "signature": "public Boolean showSubmitAndAttachButton {get; set;}",
       "description": "For Cast layouts only. If set, the Submit &amp; Add Attachment button displays on case edit pages to portal users in the Customer Portal.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "summaryLayout",
       "signature": "public Metadata.SummaryLayout summaryLayout {get; set;}",
       "description": "The summary layout for this layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.Layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Represents the metadata associated with a page",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_Layout.htm#apex_class_Metadata_Layout"
+  "description": "Represents the metadata associated with a page layout.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_Layout.htm"
 }

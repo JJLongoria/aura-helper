@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,34 +17,34 @@
       "name": "componentType",
       "signature": "public Metadata.FeedLayoutComponentType componentType {get; set;}",
       "description": "Represents a component in the feed view of a feed-based page layout. The type of component is required.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "height",
       "signature": "public Integer height {get; set;}",
       "description": "The height, in pixels, of the component. Doesn’t apply to standardComponents",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "page_x",
       "signature": "public String page_x {get; set;}",
       "description": "The name of the Visualforce page used as a custom component.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.FeedLayoutComponent.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Represents a component in the feed view of a feed-based page",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_FeedLayoutComponent.htm#apex_class_Metadata_FeedLayoutComponent"
+  "description": "Represents a component in the feed view of a feed-based page layout.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_FeedLayoutComponent.htm"
 }

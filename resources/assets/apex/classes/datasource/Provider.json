@@ -1,45 +1,48 @@
 {
   "name": "Provider",
-  "namespace": "DataSource",
+  "namespace": "Datasource",
   "accessModifier": "global",
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getAuthenticationCapabilities",
       "signature": "public List<DataSource.AuthenticationCapability> getAuthenticationCapabilities()",
       "description": "Returns the types of authentication that can be used to access the external system.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<DataSource.AuthenticationCapability>"
     },
     {
       "name": "getCapabilities",
       "signature": "public List<DataSource.Capability> getCapabilities()",
       "description": "Returns the functional operations that the external system supports and the required endpoint settings for the external data source definition in Salesforce.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<DataSource.Capability>"
     },
     {
       "name": "getConnection",
       "signature": "public DataSource.Connection getConnection(DataSource.ConnectionParams connectionParams)",
       "description": "Returns a connection that points to an instance of the external data source.",
-      "methodParams": [
+      "params": [
         {
           "name": "connectionParams",
-          "datatype": "DataSource.ConnectionParams"
+          "datatype": "DataSource.ConnectionParams",
+          "description": "Credentials for authenticating to the external system."
         }
       ],
       "datatype": "DataSource.Connection"
     }
   ],
-  "description": "Extend this base class to create a custom adapter for Salesforce",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Provider.htm#apex_class_DataSource_Provider"
+  "description": "Extend this base class to create a custom adapter for Salesforce Connect. The class informs Salesforce of the functional and authentication capabilities that are supported by or required to connect to the external system. This class extends the DataSourceUtil class and inherits its methods.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Provider.htm"
 }

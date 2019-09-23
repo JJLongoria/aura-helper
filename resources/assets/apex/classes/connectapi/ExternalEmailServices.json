@@ -5,14 +5,30 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
-  "methods": [],
-  "description": "Access information about integration with external email services, such as sending email",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ExternalEmailService_static_methods.htm#apex_ConnectAPI_ExternalEmailService_static_methods"
+  "constructors": [],
+  "methods": [
+    {
+      "name": "getUserOauthInfo",
+      "signature": "public static ConnectApi.UserOauthInfo getUserOauthInfo(String landingPage)",
+      "description": "Extract the merge fields for a specific object.",
+      "params": [
+        {
+          "name": "landingPage",
+          "datatype": "String",
+          "description": "The landing page that the user starts on when they are finished with the OAuth authorization process."
+        }
+      ],
+      "datatype": "ConnectApi.UserOauthInfo"
+    }
+  ],
+  "description": "Access information about integration with external email services, such as sending email within Salesforce through an external email account.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_ExternalEmailService_static_methods.htm"
 }

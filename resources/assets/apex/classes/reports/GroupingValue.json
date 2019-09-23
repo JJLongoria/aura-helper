@@ -13,37 +13,37 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getGroupings",
       "signature": "",
       "description": "Returns a list of second- or third-level row or column groupings. If there are none, the value is an empty array.",
-      "methodParams": [],
+      "params": [],
       "datatype": "List<Reports.GroupingValue>"
     },
     {
       "name": "getKey",
       "signature": "",
       "description": "Returns the unique identifier for a row or column grouping. The identifier is used by the fact map to specify data values within each grouping.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getLabel",
       "signature": "",
       "description": "Returns the localized display name of a row or column grouping. For date and time fields, the label is the localized date or time.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getValue",
       "signature": "",
       "description": "Returns the value of the field that is used as a row or column grouping.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Contains grouping values for a row or column, including",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_groupingvalue.htm#apex_class_reports_groupingvalue"
+  "description": "Contains grouping values for a row or column, including the key, label, and value.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_groupingvalue.htm"
 }

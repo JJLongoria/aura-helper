@@ -1,23 +1,23 @@
 {
-    "name": "Visibility",
-    "namespace": "Cache",
-    "accessModifier": "global",
-    "definitionModifier": "",
-    "withSharing": false,
-    "inheritedSharing": false,
-    "extendsType": "",
-    "isInterface": false,
-    "isEnum": true,
-    "implements": [],
-    "classes": {},
-    "enums": {},
-    "enumValues": [
-        "ALL",
-        "NAMESPACE"
-    ],
-    "fields": [],
-    "constuctors": [],
-    "methods": [],
-    "description": "Use the Cache.Visibility enumeration in the Cache.Session or Cache.Org methods to indicate whether a cached value is visible only in the value’s namespace or in all namespaces.",
-    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_cache_Visibility.htm"
-  }
+  "name": "Visibility",
+  "namespace": "Cache",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "ALL",
+    "NAMESPACE"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Use the Cache.Visibility enumeration in the Cache.Session or Cache.Org methods to indicate whether a cached value is visible only in the value’s namespace or in all namespaces.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_cache_Visibility.htm"
+}

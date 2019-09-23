@@ -13,8 +13,8 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [],
-  "description": "Enables developers to write Apex test classes for connectors used by",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_UserProvisioning_ConnectorTestUtil.htm#apex_class_UserProvisioning_ConnectorTestUtil"
+  "description": "Enables developers to write Apex test classes for connectors used by the connected app provisioning solution. This class simulates provisioning for the associated app.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_UserProvisioning_ConnectorTestUtil.htm"
 }

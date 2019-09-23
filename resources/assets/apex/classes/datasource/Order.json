@@ -1,10 +1,12 @@
 {
   "name": "Order",
-  "namespace": "DataSource",
+  "namespace": "Datasource",
   "accessModifier": "global",
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,47 +17,40 @@
       "name": "columnName",
       "signature": "public String columnName {get; set;}",
       "description": "Name of the column whose values are used to sort the rows in the result set.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "direction",
       "signature": "public DataSource.OrderDirection direction {get; set;}",
       "description": "Direction for sorting rows based on column values.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "tableName",
       "signature": "public String tableName {get; set;}",
       "description": "Name of the table whose column values are used to sort the rows in the result set.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "get",
       "signature": "public static DataSource.Order get(String tableName, String columnName, DataSource.OrderDirection direction)",
       "description": "Creates an instance of the DataSource.Order class.",
-      "methodParams": [
-        {
-          "name": "tableName",
-          "datatype": "String"
-        },
-        {
-          "name": "columnName",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "direction",
-          "datatype": "DataSource.OrderDirection"
+          "datatype": "DataSource.OrderDirection",
+          "description": "Name of the table whose column values are used to sort the rows in the result set. Name of the column whose values are used to sort the rows in the result set. Direction for sorting rows based on column values."
         }
       ],
       "datatype": "DataSource.Order"
     }
   ],
-  "description": "Contains details about how to sort the rows in the result set.",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Order.htm#apex_class_DataSource_Order"
+  "description": "Contains details about how to sort the rows in the result set. Equivalent to an ORDER BY statement in a SOQL query.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Order.htm"
 }

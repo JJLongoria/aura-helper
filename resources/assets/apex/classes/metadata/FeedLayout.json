@@ -5,6 +5,8 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
@@ -15,83 +17,83 @@
       "name": "autocollapsePublisher",
       "signature": "public Boolean autocollapsePublisher {get; set;}",
       "description": "Specifies whether the publisher is collapsed when the page loads (true) or not (false).",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "compactFeed",
       "signature": "public Boolean compactFeed {get; set;}",
       "description": "Specifies whether the feed-based page layout uses a compact feed (true) or not (false). If set to true, feed items on the page are collapsed by default, and the feed view has an updated design.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "feedFilterPosition",
       "signature": "public Metadata.FeedLayoutFilterPosition feedFilterPosition {get; set;}",
       "description": "Indicates where the feed filters list is included in the layout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "feedFilters",
       "signature": "public List<Metadata.FeedLayoutFilter> feedFilters {get; set;}",
       "description": "The individual filters displayed in the feed filters list.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "fullWidthFeed",
       "signature": "public Boolean fullWidthFeed {get; set;}",
       "description": "Specifies whether the feed expands horizontally to take up all available space on the page (true) or not (false).",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "hideSidebar",
       "signature": "public Boolean hideSidebar {get; set;}",
       "description": "Specifies whether the sidebar is hidden (true) or not (false).",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "highlightExternalFeedItems",
       "signature": "public Boolean highlightExternalFeedItems {get; set;}",
       "description": "Controls whether to highlight external feed items (true) or not (false).",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "leftComponents",
       "signature": "public List<Metadata.FeedLayoutComponent> leftComponents {get; set;}",
       "description": "The individual components displayed in the left column of the feed view.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "rightComponents",
       "signature": "public List<Metadata.FeedLayoutComponent> rightComponents {get; set;}",
       "description": "Lists the individual components displayed in the right column of the feed view.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     },
     {
       "name": "useInlineFiltersInConsole",
       "signature": "public Boolean useInlineFiltersInConsole {get; set;}",
       "description": "Indicates whether to use inline filters in the Salesforce console.",
-      "methodParams": [],
+      "params": [],
       "datatype": "void"
     }
   ],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "clone",
       "signature": "public Object clone()",
       "description": "Makes a duplicate copy of the Metadata.FeedLayout.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Object"
     }
   ],
-  "description": "Represents the values that define the feed view of a feed-based page",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_FeedLayout.htm#apex_class_Metadata_FeedLayout"
+  "description": "Represents the values that define the feed view of a feed-based page layout. Feed-based layouts are available on Account, Case, Contact, Lead, Opportunity, custom, and external objects. They include a feed view and a detail view.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Metadata_FeedLayout.htm"
 }

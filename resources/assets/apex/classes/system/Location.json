@@ -5,26 +5,25 @@
   "definitionModifier": "",
   "withSharing": false,
   "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
   "extendsType": "",
   "isInterface": false,
   "implements": [],
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [],
+  "constructors": [],
   "methods": [
     {
       "name": "getDistance",
       "signature": "public Double getDistance(Location toLocation, String unit)",
       "description": "Calculates the distance between this location and the specified location, using an approximation of the haversine formula and the specified unit.",
-      "methodParams": [
-        {
-          "name": "toLocation",
-          "datatype": "Location"
-        },
+      "params": [
         {
           "name": "unit",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The Location to which you want to calculate the distance from the current Location. The distance unit you want to use: mi or km."
         }
       ],
       "datatype": "Double"
@@ -33,18 +32,11 @@
       "name": "getDistance",
       "signature": "public static Double getDistance(Location firstLocation, Location secondLocation, String unit)",
       "description": "Calculates the distance between the two specified locations, using an approximation of the haversine formula and the specified unit.",
-      "methodParams": [
-        {
-          "name": "firstLocation",
-          "datatype": "Location"
-        },
-        {
-          "name": "secondLocation",
-          "datatype": "Location"
-        },
+      "params": [
         {
           "name": "unit",
-          "datatype": "String"
+          "datatype": "String",
+          "description": "The first of two locations used to calculate distance. The second of two locations used to calculate distance. The distance unit you want to use: mi or km."
         }
       ],
       "datatype": "Double"
@@ -53,33 +45,30 @@
       "name": "getLatitude",
       "signature": "public Double getLatitude()",
       "description": "Returns the latitude field of this location.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Double"
     },
     {
       "name": "getLongitude",
       "signature": "public Double getLongitude()",
       "description": "Returns the longitude field of this location.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Double"
     },
     {
       "name": "newInstance",
       "signature": "public static Location newInstance(Decimal latitude, Decimal longitude)",
       "description": "Creates an instance of the Location class, with the specified latitude and longitude.",
-      "methodParams": [
-        {
-          "name": "latitude",
-          "datatype": "Decimal"
-        },
+      "params": [
         {
           "name": "longitude",
-          "datatype": "Decimal"
+          "datatype": "Decimal",
+          "description": ""
         }
       ],
       "datatype": "Location"
     }
   ],
-  "description": "Contains methods for accessing the component fields of geolocation",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Location.htm#apex_class_system_Location"
+  "description": "Contains methods for accessing the component fields of geolocation compound fields.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Location.htm"
 }

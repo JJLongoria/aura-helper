@@ -13,39 +13,16 @@
   "classes": {},
   "enums": {},
   "fields": [],
-  "constuctors": [
+  "constructors": [
     {
       "name": "EvaluatedCondition",
       "signature": "public EvaluatedCondition(String aggregateName, String aggregateLabel, Double compareToValue, Double aggregateValue, String displayCompareTo, String displayValue, Reports.EvaluatedConditionOperator operator)",
       "description": "Creates a new instance of the Reports.EvaluatedConditions class using the specified parameters.",
-      "methodParams": [
-        {
-          "name": "aggregateName",
-          "datatype": "String"
-        },
-        {
-          "name": "aggregateLabel",
-          "datatype": "String"
-        },
-        {
-          "name": "compareToValue",
-          "datatype": "Double"
-        },
-        {
-          "name": "aggregateValue",
-          "datatype": "Double"
-        },
-        {
-          "name": "displayCompareTo",
-          "datatype": "String"
-        },
-        {
-          "name": "displayValue",
-          "datatype": "String"
-        },
+      "params": [
         {
           "name": "operator",
-          "datatype": "Reports.EvaluatedConditionOperator"
+          "datatype": "Reports.EvaluatedConditionOperator",
+          "description": "The unique API name of the aggregate. The localized display name of the aggregate. The value that the aggregate is compared to in the condition. The actual value of the aggregate when the report is run. The value that the aggregate is compared to in the condition, formatted for display. For example, a display value for a currency is $20.00 or USD20.00 instead of 20.00. The value of the aggregate when the report is run, formatted for display. For example, a display value for a currency is $20.00 or USD20.00 instead of 20.00. The operator used in the condition."
         }
       ],
       "datatype": "void"
@@ -56,52 +33,52 @@
       "name": "getAggregateLabel",
       "signature": "public String getAggregateLabel()",
       "description": "Returns the localized display name of the aggregate.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getAggregateName",
       "signature": "public String getAggregateName()",
       "description": "Returns the unique API name of the aggregate.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getCompareTo",
       "signature": "public Double getCompareTo()",
       "description": "Returns the value that the aggregate is compared to in the condition.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Double"
     },
     {
       "name": "getDisplayCompareTo",
       "signature": "public String getDisplayCompareTo()",
       "description": "Returns the value that the aggregate is compared to in the condition, formatted for display. For example, a display value for a currency is $20.00 or USD20.00 instead of 20.00.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getDisplayValue",
       "signature": "public String getDisplayValue()",
       "description": "Returns the value of the aggregate when the report is run, formatted for display. For example, a display value for a currency is $20.00 or USD20.00 instead of 20.00.",
-      "methodParams": [],
+      "params": [],
       "datatype": "String"
     },
     {
       "name": "getOperator",
       "signature": "public Reports.EvaluatedConditionOperator getOperator()",
       "description": "Returns the operator used in the condition.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Reports.EvaluatedConditionOperator"
     },
     {
       "name": "getValue",
       "signature": "public Double getValue()",
       "description": "Returns the actual value of the aggregate when the report is run.",
-      "methodParams": [],
+      "params": [],
       "datatype": "Double"
     }
   ],
-  "description": "Contains the individual components of an evaluated condition for a",
-  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_EvaluatedCondition.htm#apex_class_reports_EvaluatedCondition"
+  "description": "Contains the individual components of an evaluated condition for a report notification, such as the aggregate name and label, the operator, and the value that the aggregate is compared to.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_EvaluatedCondition.htm"
 }
