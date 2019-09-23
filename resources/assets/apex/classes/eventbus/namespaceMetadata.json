@@ -2,27 +2,33 @@
   "ChangeEventHeader": {
     "name": "ChangeEventHeader",
     "namespace": "EventBus",
+    "isEnum": false,
     "isInterface": false,
+    "enumValues": [],
     "description": "Contains header fields of Change Data Capture events.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_eventbus_ChangeEventHeader.htm#apex_class_eventbus_ChangeEventHeader",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_eventbus_ChangeEventHeader.htm",
     "classes": [],
     "enums": []
   },
   "TestBroker": {
     "name": "TestBroker",
     "namespace": "EventBus",
+    "isEnum": false,
     "isInterface": false,
-    "description": "Contains a method that delivers platform event or change event",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_eventbus_TestBroker.htm#apex_class_eventbus_TestBroker",
+    "enumValues": [],
+    "description": "Contains a method that delivers platform event or change event messages in an Apex test.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_eventbus_TestBroker.htm",
     "classes": [],
     "enums": []
   },
   "TriggerContext": {
     "name": "TriggerContext",
     "namespace": "EventBus",
+    "isEnum": false,
     "isInterface": false,
-    "description": "Provides information about the platform event or change event trigger",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_eventbus_TriggerContext.htm#apex_class_eventbus_TriggerContext",
+    "enumValues": [],
+    "description": "Provides information about the platform event or change event trigger that’s currently executing, such as how many times the trigger was retried due to the EventBus.RetryableException. Also, provides a method to resume trigger executions.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_eventbus_TriggerContext.htm",
     "classes": [],
     "enums": []
   }

@@ -25,8 +25,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Use ContentDownloadHandler to define a custom download handler that",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Sfc_ContentDownloadHandler.htm#apex_class_Sfc_ContentDownloadHandler",
+    "description": "Use ContentDownloadHandler to define a custom download handler that controls how content is downloaded.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Sfc_ContentDownloadHandler.htm",
     "classes": [],
     "enums": []
   },
@@ -36,8 +36,8 @@
     "isEnum": false,
     "isInterface": true,
     "enumValues": [],
-    "description": "Use this interface to provide a class factory that Salesforce can call",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Sfc_ContentDownloadHandlerFactory.htm#apex_interface_Sfc_ContentDownloadHandlerFactory",
+    "description": "Use this interface to provide a class factory that Salesforce can call to create instances of your custom ContentDownloadHandler.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_Sfc_ContentDownloadHandlerFactory.htm",
     "classes": [],
     "enums": []
   }

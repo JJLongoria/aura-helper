@@ -2,9 +2,11 @@
   "AccountCreator": {
     "name": "AccountCreator",
     "namespace": "ChatterAnswers",
+    "isEnum": false,
     "isInterface": true,
-    "description": "Creates Account records that will be associated with Chatter Answers",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_chatteranswers_accountcreator.htm#apex_interface_chatteranswers_accountcreator",
+    "enumValues": [],
+    "description": "Creates Account records that will be associated with Chatter Answers users.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_chatteranswers_accountcreator.htm",
     "classes": [],
     "enums": []
   }

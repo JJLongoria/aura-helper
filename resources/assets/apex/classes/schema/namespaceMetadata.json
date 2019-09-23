@@ -5,7 +5,7 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Contains methods for accessing the child relationship as",
+    "description": "Contains methods for accessing the child relationship as well as the child sObject for a parent sObject.",
     "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_ChildRelationship.htm",
     "classes": [],
     "enums": []
@@ -17,7 +17,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents the categories within a category group.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DataCategory.htm#apex_class_Schema_DataCategory",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DataCategory.htm",
     "classes": [],
     "enums": []
   },
@@ -28,7 +28,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Specifies a category group and an associated object.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DataCategoryGroupSobjectTypePair.htm#apex_class_Schema_DataCategoryGroupSobjectTypePair",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DataCategoryGroupSobjectTypePair.htm",
     "classes": [],
     "enums": []
   },
@@ -38,8 +38,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Contains color metadata information for",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describecolorresult.htm#apex_class_schema_describecolorresult",
+    "description": "Contains color metadata information for a tab.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describecolorresult.htm",
     "classes": [],
     "enums": []
   },
@@ -49,8 +49,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Contains the list of the category groups associated with",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DescribeDataCategoryGroupResult.htm#apex_class_Schema_DescribeDataCategoryGroupResult",
+    "description": "Contains the list of the category groups associated with KnowledgeArticleVersion and Question.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DescribeDataCategoryGroupResult.htm",
     "classes": [],
     "enums": []
   },
@@ -60,8 +60,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Contains the category groups and categories associated",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DescribeDataCategoryGroupStructureResult.htm#apex_class_Schema_DescribeDataCategoryGroupStructureResult",
+    "description": "Contains the category groups and categories associated with KnowledgeArticleVersion and Question.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_DescribeDataCategoryGroupStructureResult.htm",
     "classes": [],
     "enums": []
   },
@@ -72,7 +72,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for describing sObject fields.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_fields_describe.htm#apex_methods_system_fields_describe",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_fields_describe.htm",
     "classes": [],
     "enums": []
   },
@@ -82,8 +82,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Contains icon metadata information for",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describeiconresult.htm#apex_class_schema_describeiconresult",
+    "description": "Contains icon metadata information for a tab.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describeiconresult.htm",
     "classes": [],
     "enums": []
   },
@@ -94,7 +94,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for describing sObjects.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_sobject_describe.htm#apex_methods_system_sobject_describe",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_sobject_describe.htm",
     "classes": [],
     "enums": []
   },
@@ -104,8 +104,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Contains tab metadata information for",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describetabresult.htm#apex_class_schema_describetabresult",
+    "description": "Contains tab metadata information for a tab in a standard or custom app available in the Salesforce user interface.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describetabresult.htm",
     "classes": [],
     "enums": []
   },
@@ -115,8 +115,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Contains metadata information about a",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describetabsetresult.htm#apex_class_schema_describetabsetresult",
+    "description": "Contains metadata information about a standard or custom app available in the Salesforce user interface.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_schema_describetabsetresult.htm",
     "classes": [],
     "enums": []
   },
@@ -127,7 +127,6 @@
     "isInterface": false,
     "enumValues": [
       "address",
-      "Email",
       "base64",
       "Boolean",
       "Combobox",
@@ -162,8 +161,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Contains methods for discovering and retrieving the",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_fieldsets_describe.htm#apex_methods_system_fieldsets_describe",
+    "description": "Contains methods for discovering and retrieving the details of field sets created on sObjects.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_fieldsets_describe.htm",
     "classes": [],
     "enums": []
   },
@@ -173,8 +172,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Contains methods for accessing the metadata",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_FieldSetMember.htm#apex_class_Schema_FieldSetMember",
+    "description": "Contains methods for accessing the metadata for field set member fields.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_FieldSetMember.htm",
     "classes": [],
     "enums": []
   },
@@ -185,7 +184,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a picklist entry.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_PicklistEntry.htm#apex_class_Schema_PicklistEntry",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_PicklistEntry.htm",
     "classes": [],
     "enums": []
   },
@@ -195,8 +194,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Contains methods for accessing record type information",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_RecordTypeInfo.htm#apex_class_Schema_RecordTypeInfo",
+    "description": "Contains methods for accessing record type information for an sObject with associated record types.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_RecordTypeInfo.htm",
     "classes": [],
     "enums": []
   },
@@ -206,14 +205,14 @@
     "isEnum": true,
     "isInterface": false,
     "enumValues": [
-      "String",
+      "base64binary",
       "Boolean",
-      "Integer",
-      "Double",
-      "ID",
       "Date",
       "DateTime",
-      "base64binary",
+      "Double",
+      "ID",
+      "Integer",
+      "String",
       "Time"
     ],
     "description": "A Schema.SOAPType enum value is returned by the field describe result getSoapType method.",
@@ -221,14 +220,14 @@
     "classes": [],
     "enums": []
   },
-  "SObjectField": {
-    "name": "SObjectField",
+  "sObjectField": {
+    "name": "sObjectField",
     "namespace": "Schema",
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
     "description": "A Schema.sObjectField object is returned from the field describe result using the getControler and getSObjectField methods.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_SObjectField.htm#apex_class_Schema_SObjectField",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_SObjectField.htm",
     "classes": [],
     "enums": []
   },
@@ -238,8 +237,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "A Schema.sObjectType object is returned from the field describe result using the getReferenceTo method, or from the",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_SObjectType.htm#apex_class_Schema_SObjectType",
+    "description": "A Schema.sObjectType object is returned from the field describe result using the getReferenceTo method, or from the sObject describe result using the getSObjectType method.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Schema_SObjectType.htm",
     "classes": [],
     "enums": []
   }

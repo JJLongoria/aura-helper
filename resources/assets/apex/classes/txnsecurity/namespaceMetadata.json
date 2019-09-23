@@ -5,8 +5,8 @@
     "isEnum": false,
     "isInterface": true,
     "enumValues": [],
-    "description": "Allows an implementing class to make asynchronous Apex calls. This",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_AsyncCondition_interface.htm#apex_interface_TxnSecurity_AsyncCondition",
+    "description": "Allows an implementing class to make asynchronous Apex calls. This interface is used only for transaction security Apex policies created in Real-Time Event Monitoring.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_AsyncCondition_interface.htm",
     "classes": [],
     "enums": []
   },
@@ -16,8 +16,8 @@
     "isEnum": false,
     "isInterface": false,
     "enumValues": [],
-    "description": "Contains event information that the evaluate method uses to evaluate a transaction security",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_TxnSecurity_Event.htm#apex_class_TxnSecurity_Event",
+    "description": "Contains event information that the evaluate method uses to evaluate a transaction security policy.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_TxnSecurity_Event.htm",
     "classes": [],
     "enums": []
   },
@@ -27,8 +27,8 @@
     "isEnum": false,
     "isInterface": true,
     "enumValues": [],
-    "description": "Allows an implementing class to specify whether to take action when",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_EventCondition.htm#apex_interface_TxnSecurity_EventCondition",
+    "description": "Allows an implementing class to specify whether to take action when certain events occur based on a transaction security policy. This interface is only used for Apex policies created in Real-Time Event Monitoring.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_EventCondition.htm",
     "classes": [],
     "enums": []
   },
@@ -38,8 +38,8 @@
     "isEnum": false,
     "isInterface": true,
     "enumValues": [],
-    "description": "Apex interface that allows an implementing class to specify actions",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_PolicyCondition.htm#apex_interface_TxnSecurity_PolicyCondition",
+    "description": "Apex interface that allows an implementing class to specify actions to take when certain events occur based on a transaction security policy.",
+    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_PolicyCondition.htm",
     "classes": [],
     "enums": []
   }

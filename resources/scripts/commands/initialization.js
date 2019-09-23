@@ -41,8 +41,6 @@ async function init(context, callback) {
             FileWriter.copyFileSync(Paths.getOldAuraDocumentUserTemplatePath(), Paths.getAuraDocumentUserTemplatePath());
         if (callback)
             callback.call(this);
-        repairSystemClasses(context, 'TerritoryMgmt', 'OpportunityTerritory2AssignmentFilter');
-        //saveSystemClass('DetailColumn', 'Reports', false, 'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_detailcolumn.htm', context);
     }, 50);
 }
 
