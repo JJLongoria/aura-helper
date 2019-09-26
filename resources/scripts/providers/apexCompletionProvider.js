@@ -15,7 +15,7 @@ exports.provider = {
     provideCompletionItems(document, position) {
         let items;
         if (FileChecker.isApexClass(document.uri.fsPath) || FileChecker.isApexTrigger(document.uri.fsPath)) {
-            //items = provideApexCompletion(document, position);
+            items = provideApexCompletion(document, position);
         }
         return Promise.resolve(items);
     }
@@ -37,7 +37,8 @@ function provideApexCompletion(document, position) {
         if (queryData) {
             // Code for support completion on queries
             items = Utils.getQueryCompletionItems(activationTokens, queryData, position, 'aurahelper.completion.apex');
-        } else if (activationTokens.length > 1) {
+        } 
+        /*else if (activationTokens.length > 1) {
             if (fileStructure.posData && fileStructure.posData.isOnMethod) {
                 let lastClass = fileStructure;
                 for (const actToken of activationTokens) {
@@ -117,7 +118,7 @@ function provideApexCompletion(document, position) {
                 let command = getCommand('Namespace', 'aurahelper.completion.apex', [position, 'Namespace', nsMetadata]);
                 items.push(createItemForCompletion(nsMetadata.name, options, command));
             });
-        }
+        }*/
     }
     return items;
 }

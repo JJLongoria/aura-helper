@@ -37,12 +37,6 @@ Some commands with tools for help in your work. All commands start with "AuraHel
 #### Query Support:
 both in apex and lightning code (.cmp, .js ...) Aura Helper has support for autocomplete queries with fields and subfields of objects
 
-#### Apex:
-You can get all Queriable metadata objects and his fields easy. Write the name of an sObject (or part of it and press ctrl+enter) and get all field from it. If the field are a reference, you can get all fields from it too. For Example. "Account." List all account fields. Or "Opportunity.Account." list all fields from Account, and so on. (sObject.field.field.field...) 
-For use this tools, you need to refresh metadata index of the objects ("Refresh Metadata Index" or "Refresh Metadata Index for Object" commands)
-
-Also you have Autocompletion Support for Apex Code (variables, methods, fields, classes...). More than 400 classes supported for autocompletion.
-
 #### Aura (Lightning):
 
 ##### - Get Aura Attributes:
