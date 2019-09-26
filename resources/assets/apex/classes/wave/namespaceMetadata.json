@@ -1,5 +1,5 @@
 {
-  "ProjectionNode": {
+  "projectionnode": {
     "name": "ProjectionNode",
     "namespace": "Wave",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "QueryBuilder": {
+  "querybuilder": {
     "name": "QueryBuilder",
     "namespace": "Wave",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "QueryNode": {
+  "querynode": {
     "name": "QueryNode",
     "namespace": "Wave",
     "isEnum": false,

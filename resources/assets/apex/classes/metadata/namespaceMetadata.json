@@ -1,5 +1,5 @@
 {
-  "AnalyticsCloudComponentLayoutItem": {
+  "analyticscloudcomponentlayoutitem": {
     "name": "AnalyticsCloudComponentLayoutItem",
     "namespace": "Metadata",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "ConsoleComponent": {
+  "consolecomponent": {
     "name": "ConsoleComponent",
     "namespace": "Metadata",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "Container": {
+  "container": {
     "name": "Container",
     "namespace": "Metadata",
     "isEnum": false,
@@ -32,7 +32,7 @@
     "classes": [],
     "enums": []
   },
-  "CustomConsoleComponents": {
+  "customconsolecomponents": {
     "name": "CustomConsoleComponents",
     "namespace": "Metadata",
     "isEnum": false,
@@ -43,7 +43,7 @@
     "classes": [],
     "enums": []
   },
-  "CustomMetadata": {
+  "custommetadata": {
     "name": "CustomMetadata",
     "namespace": "Metadata",
     "isEnum": false,
@@ -54,7 +54,7 @@
     "classes": [],
     "enums": []
   },
-  "CustomMetadataValue": {
+  "custommetadatavalue": {
     "name": "CustomMetadataValue",
     "namespace": "Metadata",
     "isEnum": false,
@@ -65,7 +65,7 @@
     "classes": [],
     "enums": []
   },
-  "DeployCallback": {
+  "deploycallback": {
     "name": "DeployCallback",
     "namespace": "Metadata",
     "isEnum": false,
@@ -76,7 +76,7 @@
     "classes": [],
     "enums": []
   },
-  "DeployCallbackContext": {
+  "deploycallbackcontext": {
     "name": "DeployCallbackContext",
     "namespace": "Metadata",
     "isEnum": false,
@@ -87,7 +87,7 @@
     "classes": [],
     "enums": []
   },
-  "DeployContainer": {
+  "deploycontainer": {
     "name": "DeployContainer",
     "namespace": "Metadata",
     "isEnum": false,
@@ -98,7 +98,7 @@
     "classes": [],
     "enums": []
   },
-  "DeployDetails": {
+  "deploydetails": {
     "name": "DeployDetails",
     "namespace": "Metadata",
     "isEnum": false,
@@ -109,7 +109,7 @@
     "classes": [],
     "enums": []
   },
-  "DeployMessage": {
+  "deploymessage": {
     "name": "DeployMessage",
     "namespace": "Metadata",
     "isEnum": false,
@@ -120,7 +120,7 @@
     "classes": [],
     "enums": []
   },
-  "DeployProblemType": {
+  "deployproblemtype": {
     "name": "DeployProblemType",
     "namespace": "Metadata",
     "isEnum": true,
@@ -135,7 +135,7 @@
     "classes": [],
     "enums": []
   },
-  "DeployResult": {
+  "deployresult": {
     "name": "DeployResult",
     "namespace": "Metadata",
     "isEnum": false,
@@ -146,7 +146,7 @@
     "classes": [],
     "enums": []
   },
-  "DeployStatus": {
+  "deploystatus": {
     "name": "DeployStatus",
     "namespace": "Metadata",
     "isEnum": true,
@@ -165,7 +165,7 @@
     "classes": [],
     "enums": []
   },
-  "FeedItemTypeEnum": {
+  "feeditemtypeenum": {
     "name": "FeedItemTypeEnum",
     "namespace": "Metadata",
     "isEnum": true,
@@ -209,7 +209,7 @@
     "classes": [],
     "enums": []
   },
-  "FeedLayout": {
+  "feedlayout": {
     "name": "FeedLayout",
     "namespace": "Metadata",
     "isEnum": false,
@@ -220,7 +220,7 @@
     "classes": [],
     "enums": []
   },
-  "FeedLayoutComponent": {
+  "feedlayoutcomponent": {
     "name": "FeedLayoutComponent",
     "namespace": "Metadata",
     "isEnum": false,
@@ -231,7 +231,7 @@
     "classes": [],
     "enums": []
   },
-  "FeedLayoutComponentType": {
+  "feedlayoutcomponenttype": {
     "name": "FeedLayoutComponentType",
     "namespace": "Metadata",
     "isEnum": true,
@@ -254,7 +254,7 @@
     "classes": [],
     "enums": []
   },
-  "FeedLayoutFilter": {
+  "feedlayoutfilter": {
     "name": "FeedLayoutFilter",
     "namespace": "Metadata",
     "isEnum": false,
@@ -265,7 +265,7 @@
     "classes": [],
     "enums": []
   },
-  "FeedLayoutFilterPosition": {
+  "feedlayoutfilterposition": {
     "name": "FeedLayoutFilterPosition",
     "namespace": "Metadata",
     "isEnum": true,
@@ -280,7 +280,7 @@
     "classes": [],
     "enums": []
   },
-  "FeedLayoutFilterType": {
+  "feedlayoutfiltertype": {
     "name": "FeedLayoutFilterType",
     "namespace": "Metadata",
     "isEnum": true,
@@ -295,7 +295,7 @@
     "classes": [],
     "enums": []
   },
-  "Layout": {
+  "layout": {
     "name": "Layout",
     "namespace": "Metadata",
     "isEnum": false,
@@ -306,7 +306,7 @@
     "classes": [],
     "enums": []
   },
-  "LayoutColumn": {
+  "layoutcolumn": {
     "name": "LayoutColumn",
     "namespace": "Metadata",
     "isEnum": false,
@@ -317,7 +317,7 @@
     "classes": [],
     "enums": []
   },
-  "LayoutHeader": {
+  "layoutheader": {
     "name": "LayoutHeader",
     "namespace": "Metadata",
     "isEnum": true,
@@ -331,7 +331,7 @@
     "classes": [],
     "enums": []
   },
-  "LayoutItem": {
+  "layoutitem": {
     "name": "LayoutItem",
     "namespace": "Metadata",
     "isEnum": false,
@@ -342,7 +342,7 @@
     "classes": [],
     "enums": []
   },
-  "LayoutSection": {
+  "layoutsection": {
     "name": "LayoutSection",
     "namespace": "Metadata",
     "isEnum": false,
@@ -353,7 +353,7 @@
     "classes": [],
     "enums": []
   },
-  "LayoutSectionStyle": {
+  "layoutsectionstyle": {
     "name": "LayoutSectionStyle",
     "namespace": "Metadata",
     "isEnum": true,
@@ -369,7 +369,7 @@
     "classes": [],
     "enums": []
   },
-  "Metadata": {
+  "metadata": {
     "name": "Metadata",
     "namespace": "Metadata",
     "isEnum": false,
@@ -380,7 +380,7 @@
     "classes": [],
     "enums": []
   },
-  "MetadataType": {
+  "metadatatype": {
     "name": "MetadataType",
     "namespace": "Metadata",
     "isEnum": true,
@@ -394,7 +394,7 @@
     "classes": [],
     "enums": []
   },
-  "MetadataValue": {
+  "metadatavalue": {
     "name": "MetadataValue",
     "namespace": "Metadata",
     "isEnum": false,
@@ -405,7 +405,7 @@
     "classes": [],
     "enums": []
   },
-  "MiniLayout": {
+  "minilayout": {
     "name": "MiniLayout",
     "namespace": "Metadata",
     "isEnum": false,
@@ -416,7 +416,7 @@
     "classes": [],
     "enums": []
   },
-  "Operations": {
+  "operations": {
     "name": "Operations",
     "namespace": "Metadata",
     "isEnum": false,
@@ -427,7 +427,7 @@
     "classes": [],
     "enums": []
   },
-  "PlatformActionList": {
+  "platformactionlist": {
     "name": "PlatformActionList",
     "namespace": "Metadata",
     "isEnum": false,
@@ -438,7 +438,7 @@
     "classes": [],
     "enums": []
   },
-  "PlatformActionListContextEnum": {
+  "platformactionlistcontextenum": {
     "name": "PlatformActionListContextEnum",
     "namespace": "Metadata",
     "isEnum": true,
@@ -470,7 +470,7 @@
     "classes": [],
     "enums": []
   },
-  "PlatformActionListItem": {
+  "platformactionlistitem": {
     "name": "PlatformActionListItem",
     "namespace": "Metadata",
     "isEnum": false,
@@ -481,7 +481,7 @@
     "classes": [],
     "enums": []
   },
-  "PlatformActionTypeEnum": {
+  "platformactiontypeenum": {
     "name": "PlatformActionTypeEnum",
     "namespace": "Metadata",
     "isEnum": true,
@@ -499,7 +499,7 @@
     "classes": [],
     "enums": []
   },
-  "PrimaryTabComponents": {
+  "primarytabcomponents": {
     "name": "PrimaryTabComponents",
     "namespace": "Metadata",
     "isEnum": false,
@@ -510,7 +510,7 @@
     "classes": [],
     "enums": []
   },
-  "QuickActionLis": {
+  "quickactionlis": {
     "name": "QuickActionLis",
     "namespace": "Metadata",
     "isEnum": false,
@@ -521,7 +521,7 @@
     "classes": [],
     "enums": []
   },
-  "QuickActionListItem": {
+  "quickactionlistitem": {
     "name": "QuickActionListItem",
     "namespace": "Metadata",
     "isEnum": false,
@@ -532,7 +532,7 @@
     "classes": [],
     "enums": []
   },
-  "RelatedContent": {
+  "relatedcontent": {
     "name": "RelatedContent",
     "namespace": "Metadata",
     "isEnum": false,
@@ -543,7 +543,7 @@
     "classes": [],
     "enums": []
   },
-  "RelatedContentItem": {
+  "relatedcontentitem": {
     "name": "RelatedContentItem",
     "namespace": "Metadata",
     "isEnum": false,
@@ -554,7 +554,7 @@
     "classes": [],
     "enums": []
   },
-  "RelatedList": {
+  "relatedlist": {
     "name": "RelatedList",
     "namespace": "Metadata",
     "isEnum": false,
@@ -565,7 +565,7 @@
     "classes": [],
     "enums": []
   },
-  "RelatedListItem": {
+  "relatedlistitem": {
     "name": "RelatedListItem",
     "namespace": "Metadata",
     "isEnum": false,
@@ -576,7 +576,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportChartComponentLayoutItem": {
+  "reportchartcomponentlayoutitem": {
     "name": "ReportChartComponentLayoutItem",
     "namespace": "Metadata",
     "isEnum": false,
@@ -587,7 +587,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportChartComponentSize": {
+  "reportchartcomponentsize": {
     "name": "ReportChartComponentSize",
     "namespace": "Metadata",
     "isEnum": true,
@@ -602,7 +602,7 @@
     "classes": [],
     "enums": []
   },
-  "SidebarComponent": {
+  "sidebarcomponent": {
     "name": "SidebarComponent",
     "namespace": "Metadata",
     "isEnum": false,
@@ -613,7 +613,7 @@
     "classes": [],
     "enums": []
   },
-  "SortOrder": {
+  "sortorder": {
     "name": "SortOrder",
     "namespace": "Metadata",
     "isEnum": true,
@@ -627,7 +627,7 @@
     "classes": [],
     "enums": []
   },
-  "StatusCode": {
+  "statuscode": {
     "name": "StatusCode",
     "namespace": "Metadata",
     "isEnum": true,
@@ -643,7 +643,7 @@
     "classes": [],
     "enums": []
   },
-  "SubtabComponents": {
+  "subtabcomponents": {
     "name": "SubtabComponents",
     "namespace": "Metadata",
     "isEnum": false,
@@ -654,7 +654,7 @@
     "classes": [],
     "enums": []
   },
-  "SummaryLayout": {
+  "summarylayout": {
     "name": "SummaryLayout",
     "namespace": "Metadata",
     "isEnum": false,
@@ -665,7 +665,7 @@
     "classes": [],
     "enums": []
   },
-  "SummaryLayoutItem": {
+  "summarylayoutitem": {
     "name": "SummaryLayoutItem",
     "namespace": "Metadata",
     "isEnum": false,
@@ -676,7 +676,7 @@
     "classes": [],
     "enums": []
   },
-  "SummaryLayoutStyleEnum": {
+  "summarylayoutstyleenum": {
     "name": "SummaryLayoutStyleEnum",
     "namespace": "Metadata",
     "isEnum": true,
@@ -698,7 +698,7 @@
     "classes": [],
     "enums": []
   },
-  "UiBehavior": {
+  "uibehavior": {
     "name": "UiBehavior",
     "namespace": "Metadata",
     "isEnum": true,

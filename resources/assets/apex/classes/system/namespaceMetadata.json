@@ -1,5 +1,5 @@
 {
-  "AccessType": {
+  "accesstype": {
     "name": "AccessType",
     "namespace": "System",
     "isEnum": true,
@@ -15,7 +15,7 @@
     "classes": [],
     "enums": []
   },
-  "Address": {
+  "address": {
     "name": "Address",
     "namespace": "System",
     "isEnum": false,
@@ -26,7 +26,7 @@
     "classes": [],
     "enums": []
   },
-  "Answers": {
+  "answers": {
     "name": "Answers",
     "namespace": "System",
     "isEnum": false,
@@ -37,7 +37,7 @@
     "classes": [],
     "enums": []
   },
-  "ApexPages": {
+  "apexpages": {
     "name": "ApexPages",
     "namespace": "System",
     "isEnum": false,
@@ -48,7 +48,7 @@
     "classes": [],
     "enums": []
   },
-  "Approval": {
+  "approval": {
     "name": "Approval",
     "namespace": "System",
     "isEnum": false,
@@ -59,7 +59,7 @@
     "classes": [],
     "enums": []
   },
-  "Blob": {
+  "blob": {
     "name": "Blob",
     "namespace": "System",
     "isEnum": false,
@@ -70,7 +70,7 @@
     "classes": [],
     "enums": []
   },
-  "Boolean": {
+  "boolean": {
     "name": "Boolean",
     "namespace": "System",
     "isEnum": false,
@@ -81,7 +81,7 @@
     "classes": [],
     "enums": []
   },
-  "BusinessHours": {
+  "businesshours": {
     "name": "BusinessHours",
     "namespace": "System",
     "isInterface": false,
@@ -90,7 +90,7 @@
     "classes": [],
     "enums": []
   },
-  "Callable": {
+  "callable": {
     "name": "Callable",
     "namespace": "System",
     "isInterface": true,
@@ -99,7 +99,7 @@
     "classes": [],
     "enums": []
   },
-  "Comparable": {
+  "comparable": {
     "name": "Comparable",
     "namespace": "System",
     "isInterface": true,
@@ -108,7 +108,7 @@
     "classes": [],
     "enums": []
   },
-  "Continuation": {
+  "continuation": {
     "name": "Continuation",
     "namespace": "System",
     "isEnum": false,
@@ -119,7 +119,7 @@
     "classes": [],
     "enums": []
   },
-  "Cookie": {
+  "cookie": {
     "name": "Cookie",
     "namespace": "System",
     "isEnum": false,
@@ -130,7 +130,7 @@
     "classes": [],
     "enums": []
   },
-  "Crypto": {
+  "crypto": {
     "name": "Crypto",
     "namespace": "System",
     "isEnum": false,
@@ -141,7 +141,7 @@
     "classes": [],
     "enums": []
   },
-  "Database": {
+  "database": {
     "name": "Database",
     "namespace": "System",
     "isEnum": false,
@@ -152,7 +152,7 @@
     "classes": [],
     "enums": []
   },
-  "Date": {
+  "date": {
     "name": "Date",
     "namespace": "System",
     "isEnum": false,
@@ -163,7 +163,7 @@
     "classes": [],
     "enums": []
   },
-  "Datetime": {
+  "datetime": {
     "name": "Datetime",
     "namespace": "System",
     "isEnum": false,
@@ -174,7 +174,7 @@
     "classes": [],
     "enums": []
   },
-  "Decimal": {
+  "decimal": {
     "name": "Decimal",
     "namespace": "System",
     "isEnum": false,
@@ -185,7 +185,7 @@
     "classes": [],
     "enums": []
   },
-  "Double": {
+  "double": {
     "name": "Double",
     "namespace": "System",
     "isEnum": false,
@@ -196,7 +196,7 @@
     "classes": [],
     "enums": []
   },
-  "EncodingUtil": {
+  "encodingutil": {
     "name": "EncodingUtil",
     "namespace": "System",
     "isEnum": false,
@@ -207,7 +207,7 @@
     "classes": [],
     "enums": []
   },
-  "EventBus": {
+  "eventbus": {
     "name": "EventBus",
     "namespace": "System",
     "isEnum": false,
@@ -218,7 +218,7 @@
     "classes": [],
     "enums": []
   },
-  "FeatureManagement": {
+  "featuremanagement": {
     "name": "FeatureManagement",
     "namespace": "System",
     "isEnum": false,
@@ -229,7 +229,7 @@
     "classes": [],
     "enums": []
   },
-  "FlexQueue": {
+  "flexqueue": {
     "name": "FlexQueue",
     "namespace": "System",
     "isEnum": false,
@@ -240,7 +240,7 @@
     "classes": [],
     "enums": []
   },
-  "Formula": {
+  "formula": {
     "name": "Formula",
     "namespace": "System",
     "isEnum": false,
@@ -251,7 +251,7 @@
     "classes": [],
     "enums": []
   },
-  "FormulaRecalcFieldError": {
+  "formularecalcfielderror": {
     "name": "FormulaRecalcFieldError",
     "namespace": "System",
     "isEnum": false,
@@ -262,7 +262,7 @@
     "classes": [],
     "enums": []
   },
-  "FormulaRecalcResult": {
+  "formularecalcresult": {
     "name": "FormulaRecalcResult",
     "namespace": "System",
     "isEnum": false,
@@ -273,7 +273,7 @@
     "classes": [],
     "enums": []
   },
-  "Http": {
+  "http": {
     "name": "Http",
     "namespace": "System",
     "isEnum": false,
@@ -284,7 +284,7 @@
     "classes": [],
     "enums": []
   },
-  "HttpCalloutMock": {
+  "httpcalloutmock": {
     "name": "HttpCalloutMock",
     "namespace": "System",
     "isEnum": false,
@@ -295,7 +295,7 @@
     "classes": [],
     "enums": []
   },
-  "HttpRequest": {
+  "httprequest": {
     "name": "HttpRequest",
     "namespace": "System",
     "isEnum": false,
@@ -306,7 +306,7 @@
     "classes": [],
     "enums": []
   },
-  "HttpResponse": {
+  "httpresponse": {
     "name": "HttpResponse",
     "namespace": "System",
     "isEnum": false,
@@ -317,7 +317,7 @@
     "classes": [],
     "enums": []
   },
-  "Id": {
+  "id": {
     "name": "Id",
     "namespace": "System",
     "isEnum": false,
@@ -328,7 +328,7 @@
     "classes": [],
     "enums": []
   },
-  "Idea": {
+  "idea": {
     "name": "Idea",
     "namespace": "System",
     "isEnum": false,
@@ -339,7 +339,7 @@
     "classes": [],
     "enums": []
   },
-  "Ideas": {
+  "ideas": {
     "name": "Ideas",
     "namespace": "System",
     "isEnum": false,
@@ -350,7 +350,7 @@
     "classes": [],
     "enums": []
   },
-  "InstallHandler": {
+  "installhandler": {
     "name": "InstallHandler",
     "namespace": "System",
     "isEnum": false,
@@ -361,7 +361,7 @@
     "classes": [],
     "enums": []
   },
-  "Integer": {
+  "integer": {
     "name": "Integer",
     "namespace": "System",
     "isEnum": false,
@@ -372,7 +372,7 @@
     "classes": [],
     "enums": []
   },
-  "JSON": {
+  "json": {
     "name": "JSON",
     "namespace": "System",
     "isEnum": false,
@@ -383,7 +383,7 @@
     "classes": [],
     "enums": []
   },
-  "JSONGenerator": {
+  "jsongenerator": {
     "name": "JSONGenerator",
     "namespace": "System",
     "isEnum": false,
@@ -394,7 +394,7 @@
     "classes": [],
     "enums": []
   },
-  "JSONParser": {
+  "jsonparser": {
     "name": "JSONParser",
     "namespace": "System",
     "isEnum": false,
@@ -405,7 +405,7 @@
     "classes": [],
     "enums": []
   },
-  "JSONToken": {
+  "jsontoken": {
     "name": "JSONToken",
     "namespace": "System",
     "isEnum": true,
@@ -430,7 +430,7 @@
     "classes": [],
     "enums": []
   },
-  "Limits": {
+  "limits": {
     "name": "Limits",
     "namespace": "System",
     "isEnum": false,
@@ -441,7 +441,7 @@
     "classes": [],
     "enums": []
   },
-  "List": {
+  "list": {
     "name": "List",
     "namespace": "System",
     "isEnum": false,
@@ -452,7 +452,7 @@
     "classes": [],
     "enums": []
   },
-  "Location": {
+  "location": {
     "name": "Location",
     "namespace": "System",
     "isEnum": false,
@@ -463,7 +463,7 @@
     "classes": [],
     "enums": []
   },
-  "Long": {
+  "long": {
     "name": "Long",
     "namespace": "System",
     "isEnum": false,
@@ -474,7 +474,7 @@
     "classes": [],
     "enums": []
   },
-  "Map": {
+  "map": {
     "name": "Map",
     "namespace": "System",
     "isEnum": false,
@@ -485,7 +485,7 @@
     "classes": [],
     "enums": []
   },
-  "Matcher": {
+  "matcher": {
     "name": "Matcher",
     "namespace": "System",
     "isEnum": false,
@@ -496,7 +496,7 @@
     "classes": [],
     "enums": []
   },
-  "Math": {
+  "math": {
     "name": "Math",
     "namespace": "System",
     "isEnum": false,
@@ -507,7 +507,7 @@
     "classes": [],
     "enums": []
   },
-  "Messaging": {
+  "messaging": {
     "name": "Messaging",
     "namespace": "System",
     "isEnum": false,
@@ -518,7 +518,7 @@
     "classes": [],
     "enums": []
   },
-  "MultiStaticResourceCalloutMock": {
+  "multistaticresourcecalloutmock": {
     "name": "MultiStaticResourceCalloutMock",
     "namespace": "System",
     "isEnum": false,
@@ -529,7 +529,7 @@
     "classes": [],
     "enums": []
   },
-  "Network": {
+  "network": {
     "name": "Network",
     "namespace": "System",
     "isEnum": false,
@@ -540,7 +540,7 @@
     "classes": [],
     "enums": []
   },
-  "OrgLimit": {
+  "orglimit": {
     "name": "OrgLimit",
     "namespace": "System",
     "isEnum": false,
@@ -551,7 +551,7 @@
     "classes": [],
     "enums": []
   },
-  "OrgLimits": {
+  "orglimits": {
     "name": "OrgLimits",
     "namespace": "System",
     "isEnum": false,
@@ -562,7 +562,7 @@
     "classes": [],
     "enums": []
   },
-  "PageReference": {
+  "pagereference": {
     "name": "PageReference",
     "namespace": "System",
     "isEnum": false,
@@ -573,7 +573,7 @@
     "classes": [],
     "enums": []
   },
-  "Pattern": {
+  "pattern": {
     "name": "Pattern",
     "namespace": "System",
     "isEnum": false,
@@ -584,7 +584,7 @@
     "classes": [],
     "enums": []
   },
-  "Queueable": {
+  "queueable": {
     "name": "Queueable",
     "namespace": "System",
     "isEnum": false,
@@ -595,7 +595,7 @@
     "classes": [],
     "enums": []
   },
-  "QueueableContext": {
+  "queueablecontext": {
     "name": "QueueableContext",
     "namespace": "System",
     "isEnum": false,
@@ -606,7 +606,7 @@
     "classes": [],
     "enums": []
   },
-  "QuickAction": {
+  "quickaction": {
     "name": "QuickAction",
     "namespace": "System",
     "isEnum": false,
@@ -617,7 +617,7 @@
     "classes": [],
     "enums": []
   },
-  "RemoteObjectController": {
+  "remoteobjectcontroller": {
     "name": "RemoteObjectController",
     "namespace": "System",
     "isEnum": false,
@@ -628,7 +628,7 @@
     "classes": [],
     "enums": []
   },
-  "ResetPasswordResult": {
+  "resetpasswordresult": {
     "name": "ResetPasswordResult",
     "namespace": "System",
     "isEnum": false,
@@ -639,7 +639,7 @@
     "classes": [],
     "enums": []
   },
-  "RestContext": {
+  "restcontext": {
     "name": "RestContext",
     "namespace": "System",
     "isEnum": false,
@@ -650,7 +650,7 @@
     "classes": [],
     "enums": []
   },
-  "RestRequest": {
+  "restrequest": {
     "name": "RestRequest",
     "namespace": "System",
     "isEnum": false,
@@ -661,7 +661,7 @@
     "classes": [],
     "enums": []
   },
-  "RestResponse": {
+  "restresponse": {
     "name": "RestResponse",
     "namespace": "System",
     "isEnum": false,
@@ -672,7 +672,7 @@
     "classes": [],
     "enums": []
   },
-  "SandboxPostCopy": {
+  "sandboxpostcopy": {
     "name": "SandboxPostCopy",
     "namespace": "System",
     "isEnum": false,
@@ -683,7 +683,7 @@
     "classes": [],
     "enums": []
   },
-  "Schedulable": {
+  "schedulable": {
     "name": "Schedulable",
     "namespace": "System",
     "isEnum": false,
@@ -694,7 +694,7 @@
     "classes": [],
     "enums": []
   },
-  "SchedulableContext": {
+  "schedulablecontext": {
     "name": "SchedulableContext",
     "namespace": "System",
     "isEnum": false,
@@ -705,7 +705,7 @@
     "classes": [],
     "enums": []
   },
-  "Schema": {
+  "schema": {
     "name": "Schema",
     "namespace": "System",
     "isEnum": false,
@@ -716,7 +716,7 @@
     "classes": [],
     "enums": []
   },
-  "Search": {
+  "search": {
     "name": "Search",
     "namespace": "System",
     "isEnum": false,
@@ -727,7 +727,7 @@
     "classes": [],
     "enums": []
   },
-  "Security": {
+  "security": {
     "name": "Security",
     "namespace": "System",
     "isEnum": false,
@@ -738,7 +738,7 @@
     "classes": [],
     "enums": []
   },
-  "SelectOption": {
+  "selectoption": {
     "name": "SelectOption",
     "namespace": "System",
     "isEnum": false,
@@ -749,7 +749,7 @@
     "classes": [],
     "enums": []
   },
-  "Set": {
+  "set": {
     "name": "Set",
     "namespace": "System",
     "isEnum": false,
@@ -760,7 +760,7 @@
     "classes": [],
     "enums": []
   },
-  "Site": {
+  "site": {
     "name": "Site",
     "namespace": "System",
     "isEnum": false,
@@ -771,7 +771,7 @@
     "classes": [],
     "enums": []
   },
-  "SObject": {
+  "sobject": {
     "name": "SObject",
     "namespace": "System",
     "isEnum": false,
@@ -782,7 +782,7 @@
     "classes": [],
     "enums": []
   },
-  "SObjectAccessDecision": {
+  "sobjectaccessdecision": {
     "name": "SObjectAccessDecision",
     "namespace": "System",
     "isEnum": false,
@@ -793,7 +793,7 @@
     "classes": [],
     "enums": []
   },
-  "StaticResourceCalloutMock": {
+  "staticresourcecalloutmock": {
     "name": "StaticResourceCalloutMock",
     "namespace": "System",
     "isEnum": false,
@@ -804,7 +804,7 @@
     "classes": [],
     "enums": []
   },
-  "String": {
+  "string": {
     "name": "String",
     "namespace": "System",
     "isEnum": false,
@@ -815,7 +815,7 @@
     "classes": [],
     "enums": []
   },
-  "StubProvider": {
+  "stubprovider": {
     "name": "StubProvider",
     "namespace": "System",
     "isEnum": false,
@@ -826,7 +826,7 @@
     "classes": [],
     "enums": []
   },
-  "System": {
+  "system": {
     "name": "System",
     "namespace": "System",
     "isEnum": false,
@@ -837,7 +837,7 @@
     "classes": [],
     "enums": []
   },
-  "Test": {
+  "test": {
     "name": "Test",
     "namespace": "System",
     "isEnum": false,
@@ -848,7 +848,7 @@
     "classes": [],
     "enums": []
   },
-  "Time": {
+  "time": {
     "name": "Time",
     "namespace": "System",
     "isEnum": false,
@@ -859,7 +859,7 @@
     "classes": [],
     "enums": []
   },
-  "TimeZone": {
+  "timezone": {
     "name": "TimeZone",
     "namespace": "System",
     "isEnum": false,
@@ -870,7 +870,7 @@
     "classes": [],
     "enums": []
   },
-  "Trigger": {
+  "trigger": {
     "name": "Trigger",
     "namespace": "System",
     "isEnum": false,
@@ -881,7 +881,7 @@
     "classes": [],
     "enums": []
   },
-  "TriggerOperation": {
+  "triggeroperation": {
     "name": "TriggerOperation",
     "namespace": "System",
     "isEnum": true,
@@ -900,7 +900,7 @@
     "classes": [],
     "enums": []
   },
-  "Type": {
+  "type": {
     "name": "Type",
     "namespace": "System",
     "isEnum": false,
@@ -911,7 +911,7 @@
     "classes": [],
     "enums": []
   },
-  "UninstallHandler": {
+  "uninstallhandler": {
     "name": "UninstallHandler",
     "namespace": "System",
     "isEnum": false,
@@ -922,7 +922,7 @@
     "classes": [],
     "enums": []
   },
-  "URL": {
+  "url": {
     "name": "URL",
     "namespace": "System",
     "isEnum": false,
@@ -933,7 +933,7 @@
     "classes": [],
     "enums": []
   },
-  "UserInfo": {
+  "userinfo": {
     "name": "UserInfo",
     "namespace": "System",
     "isEnum": false,
@@ -944,7 +944,7 @@
     "classes": [],
     "enums": []
   },
-  "UserManagement": {
+  "usermanagement": {
     "name": "UserManagement",
     "namespace": "System",
     "isEnum": false,
@@ -955,7 +955,7 @@
     "classes": [],
     "enums": []
   },
-  "Version": {
+  "version": {
     "name": "Version",
     "namespace": "System",
     "isEnum": false,
@@ -966,7 +966,7 @@
     "classes": [],
     "enums": []
   },
-  "WebServiceCallout": {
+  "webservicecallout": {
     "name": "WebServiceCallout",
     "namespace": "System",
     "isEnum": false,
@@ -977,7 +977,7 @@
     "classes": [],
     "enums": []
   },
-  "WebServiceMock": {
+  "webservicemock": {
     "name": "WebServiceMock",
     "namespace": "System",
     "isEnum": false,
@@ -988,7 +988,7 @@
     "classes": [],
     "enums": []
   },
-  "XmlStreamReader": {
+  "xmlstreamreader": {
     "name": "XmlStreamReader",
     "namespace": "System",
     "isEnum": false,
@@ -999,7 +999,7 @@
     "classes": [],
     "enums": []
   },
-  "XmlStreamWriter": {
+  "xmlstreamwriter": {
     "name": "XmlStreamWriter",
     "namespace": "System",
     "isEnum": false,

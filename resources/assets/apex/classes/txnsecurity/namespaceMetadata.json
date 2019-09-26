@@ -1,5 +1,5 @@
 {
-  "AsyncCondition": {
+  "asynccondition": {
     "name": "AsyncCondition",
     "namespace": "TxnSecurity",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "Event": {
+  "event": {
     "name": "Event",
     "namespace": "TxnSecurity",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "EventCondition": {
+  "eventcondition": {
     "name": "EventCondition",
     "namespace": "TxnSecurity",
     "isEnum": false,
@@ -32,7 +32,7 @@
     "classes": [],
     "enums": []
   },
-  "PolicyCondition": {
+  "policycondition": {
     "name": "PolicyCondition",
     "namespace": "TxnSecurity",
     "isEnum": false,

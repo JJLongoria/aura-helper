@@ -1,5 +1,5 @@
 {
-  "KnowledgeSuggestionFilter": {
+  "knowledgesuggestionfilter": {
     "name": "KnowledgeSuggestionFilter",
     "namespace": "Search",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "QuestionSuggestionFilter": {
+  "questionsuggestionfilter": {
     "name": "QuestionSuggestionFilter",
     "namespace": "Search",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "SearchResult": {
+  "searchresult": {
     "name": "SearchResult",
     "namespace": "Search",
     "isEnum": false,
@@ -32,7 +32,7 @@
     "classes": [],
     "enums": []
   },
-  "SearchResults": {
+  "searchresults": {
     "name": "SearchResults",
     "namespace": "Search",
     "isEnum": false,
@@ -43,7 +43,7 @@
     "classes": [],
     "enums": []
   },
-  "SuggestionOption": {
+  "suggestionoption": {
     "name": "SuggestionOption",
     "namespace": "Search",
     "isEnum": false,
@@ -54,7 +54,7 @@
     "classes": [],
     "enums": []
   },
-  "SuggestionResult": {
+  "suggestionresult": {
     "name": "SuggestionResult",
     "namespace": "Search",
     "isEnum": false,
@@ -65,7 +65,7 @@
     "classes": [],
     "enums": []
   },
-  "SuggestionResults": {
+  "suggestionresults": {
     "name": "SuggestionResults",
     "namespace": "Search",
     "isEnum": false,
