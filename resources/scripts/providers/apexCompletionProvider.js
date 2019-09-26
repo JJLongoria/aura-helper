@@ -14,8 +14,8 @@ const SnippetString = vscode.SnippetString;
 exports.provider = {
     provideCompletionItems(document, position) {
         let items;
-        if (FileChecker.isApexClass(document.uri.fsPath)) {
-            items = provideApexCompletion(document, position);
+        if (FileChecker.isApexClass(document.uri.fsPath) || FileChecker.isApexTrigger(document.uri.fsPath)) {
+            //items = provideApexCompletion(document, position);
         }
         return Promise.resolve(items);
     }
@@ -44,6 +44,8 @@ function provideApexCompletion(document, position) {
                     lastClass = getDatatype(lastClass, actToken, classes, systemMetadata, namespacesMetadata, sObjects, document);
                     logger.logJSON('lastClass', lastClass);
                 }
+                if (lastClass)
+                    items = getApexClassCompletionItems(position, lastClass);
             }
         } else {
             items = [];
@@ -168,18 +170,19 @@ function getDatatype(classOrObject, actToken, classes, systemMetadata, namespace
 
 function getStructureFromDatatype(datatype, sObjects, classes, systemMetadata, namespaceMetadata, document) {
     let classOrObject;
+    let parentClass;
     if (datatype.indexOf('.') === -1) {
         if (sObjects.sObjectsToLower.includes(datatype.toLowerCase())) {
             classOrObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[datatype.toLowerCase()]);
         } else if (classes.classesToLower.includes(datatype.toLowerCase())) {
             classOrObject = Utils.getClassStructure(document, '', classes.classesMap[datatype.toLowerCase()]);
         } else if (systemMetadata[datatype.toLowerCase()]) {
-            classOrObject = Utils.getClassStructure(document, 'System', classes.classesMap[datatype.toLowerCase()]);
+            classOrObject = Utils.getClassStructure(document, 'System', systemMetadata[datatype.toLowerCase()].name);
         } else if (namespaceMetadata[datatype.toLowerCase()]) {
             classOrObject = namespaceMetadata[datatype.toLowerCase()];
         }
     } else {
-        let splits = datatype.split('.');
+        /*let splits = datatype.split('.');
         if (splits.length === 2) {
             let classOrNS = splits[0];
             let member = splits[1];
@@ -273,7 +276,7 @@ function getStructureFromDatatype(datatype, sObjects, classes, systemMetadata, n
                     }
                 }
             }
-        }
+        }*/
     }
     return classOrObject;
 }
@@ -476,7 +479,7 @@ function getApexClassesCompletionItems(fileStructure, activationTokens, sObjects
     return items;*/
 }
 
-function getApexClassCompletionItems(position, apexClass, actToken) {
+function getApexClassCompletionItems(position, apexClass) {
     let items = [];
     if (apexClass) {
         if (apexClass.isEnum) {
