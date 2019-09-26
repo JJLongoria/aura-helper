@@ -1,5 +1,5 @@
 {
-  "DescribeAvailableQuickActionResult": {
+  "describeavailablequickactionresult": {
     "name": "DescribeAvailableQuickActionResult",
     "namespace": "QuickAction",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeLayoutComponent": {
+  "describelayoutcomponent": {
     "name": "DescribeLayoutComponent",
     "namespace": "QuickAction",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeLayoutItem": {
+  "describelayoutitem": {
     "name": "DescribeLayoutItem",
     "namespace": "QuickAction",
     "isEnum": false,
@@ -32,7 +32,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeLayoutRow": {
+  "describelayoutrow": {
     "name": "DescribeLayoutRow",
     "namespace": "QuickAction",
     "isEnum": false,
@@ -43,7 +43,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeLayoutSection": {
+  "describelayoutsection": {
     "name": "DescribeLayoutSection",
     "namespace": "QuickAction",
     "isEnum": false,
@@ -54,7 +54,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeQuickActionDefaultValue": {
+  "describequickactiondefaultvalue": {
     "name": "DescribeQuickActionDefaultValue",
     "namespace": "QuickAction",
     "isEnum": false,
@@ -65,7 +65,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeQuickActionResult": {
+  "describequickactionresult": {
     "name": "DescribeQuickActionResult",
     "namespace": "QuickAction",
     "isEnum": false,
@@ -76,7 +76,7 @@
     "classes": [],
     "enums": []
   },
-  "QuickActionDefaults": {
+  "quickactiondefaults": {
     "name": "QuickActionDefaults",
     "namespace": "QuickAction",
     "isEnum": false,
@@ -87,7 +87,7 @@
     "classes": [],
     "enums": []
   },
-  "QuickActionDefaultsHandler": {
+  "quickactiondefaultshandler": {
     "name": "QuickActionDefaultsHandler",
     "namespace": "QuickAction",
     "isEnum": false,
@@ -98,7 +98,7 @@
     "classes": [],
     "enums": []
   },
-  "QuickActionRequest": {
+  "quickactionrequest": {
     "name": "QuickActionRequest",
     "namespace": "QuickAction",
     "isEnum": false,
@@ -109,7 +109,7 @@
     "classes": [],
     "enums": []
   },
-  "QuickActionResult": {
+  "quickactionresult": {
     "name": "QuickActionResult",
     "namespace": "QuickAction",
     "isEnum": false,
@@ -120,7 +120,7 @@
     "classes": [],
     "enums": []
   },
-  "SendEmailQuickActionDefaults": {
+  "sendemailquickactiondefaults": {
     "name": "SendEmailQuickActionDefaults",
     "namespace": "QuickAction",
     "isEnum": false,

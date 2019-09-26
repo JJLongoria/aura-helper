@@ -1,5 +1,5 @@
 {
-  "Action": {
+  "action": {
     "name": "Action",
     "namespace": "ApexPages",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "Component": {
+  "component": {
     "name": "Component",
     "namespace": "ApexPages",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "IdeaStandardController": {
+  "ideastandardcontroller": {
     "name": "IdeaStandardController",
     "namespace": "ApexPages",
     "isEnum": false,
@@ -32,7 +32,7 @@
     "classes": [],
     "enums": []
   },
-  "IdeaStandardSetController": {
+  "ideastandardsetcontroller": {
     "name": "IdeaStandardSetController",
     "namespace": "ApexPages",
     "isEnum": false,
@@ -43,7 +43,7 @@
     "classes": [],
     "enums": []
   },
-  "KnowledgeArticleVersionStandardController": {
+  "knowledgearticleversionstandardcontroller": {
     "name": "KnowledgeArticleVersionStandardController",
     "namespace": "ApexPages",
     "isEnum": false,
@@ -54,7 +54,7 @@
     "classes": [],
     "enums": []
   },
-  "Message": {
+  "message": {
     "name": "Message",
     "namespace": "ApexPages",
     "isEnum": false,
@@ -65,7 +65,7 @@
     "classes": [],
     "enums": []
   },
-  "StandardController": {
+  "standardcontroller": {
     "name": "StandardController",
     "namespace": "ApexPages",
     "isEnum": false,
@@ -76,7 +76,7 @@
     "classes": [],
     "enums": []
   },
-  "StandardSetController": {
+  "standardsetcontroller": {
     "name": "StandardSetController",
     "namespace": "ApexPages",
     "isEnum": false,

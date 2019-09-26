@@ -1,5 +1,5 @@
 {
-  "Document": {
+  "document": {
     "name": "Document",
     "namespace": "Dom",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "XmlNode": {
+  "xmlnode": {
     "name": "XmlNode",
     "namespace": "Dom",
     "isEnum": false,

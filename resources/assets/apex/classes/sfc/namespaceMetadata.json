@@ -1,5 +1,5 @@
 {
-  "ContentDownloadContext": {
+  "contentdownloadcontext": {
     "name": "ContentDownloadContext",
     "namespace": "Sfc",
     "isEnum": true,
@@ -19,7 +19,7 @@
     "classes": [],
     "enums": []
   },
-  "ContentDownloadHandler": {
+  "contentdownloadhandler": {
     "name": "ContentDownloadHandler",
     "namespace": "Sfc",
     "isEnum": false,
@@ -30,7 +30,7 @@
     "classes": [],
     "enums": []
   },
-  "ContentDownloadHandlerFactory": {
+  "contentdownloadhandlerfactory": {
     "name": "ContentDownloadHandlerFactory",
     "namespace": "Sfc",
     "isEnum": false,

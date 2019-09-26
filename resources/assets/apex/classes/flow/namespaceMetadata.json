@@ -1,5 +1,5 @@
 {
-  "Interview": {
+  "interview": {
     "name": "Interview",
     "namespace": "Flow",
     "isEnum": false,

@@ -1,5 +1,5 @@
 {
-  "UrlRewriter": {
+  "urlrewriter": {
     "name": "UrlRewriter",
     "namespace": "Site",
     "isEnum": false,

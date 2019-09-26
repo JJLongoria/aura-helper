@@ -1,5 +1,5 @@
 {
-  "AttachmentRetrievalOption": {
+  "attachmentretrievaloption": {
     "name": "AttachmentRetrievalOption",
     "namespace": "Messaging",
     "isEnum": true,
@@ -19,7 +19,7 @@
     "classes": [],
     "enums": []
   },
-  "Email": {
+  "email": {
     "name": "Email",
     "namespace": "Messaging",
     "isEnum": false,
@@ -30,7 +30,7 @@
     "classes": [],
     "enums": []
   },
-  "EmailFileAttachment": {
+  "emailfileattachment": {
     "name": "EmailFileAttachment",
     "namespace": "Messaging",
     "isEnum": false,
@@ -41,7 +41,7 @@
     "classes": [],
     "enums": []
   },
-  "InboundEmail": {
+  "inboundemail": {
     "name": "InboundEmail",
     "namespace": "Messaging",
     "isEnum": false,
@@ -56,7 +56,7 @@
     ],
     "enums": []
   },
-  "InboundEmailResult": {
+  "inboundemailresult": {
     "name": "InboundEmailResult",
     "namespace": "Messaging",
     "isEnum": false,
@@ -67,7 +67,7 @@
     "classes": [],
     "enums": []
   },
-  "InboundEnvelope": {
+  "inboundenvelope": {
     "name": "InboundEnvelope",
     "namespace": "Messaging",
     "isEnum": false,
@@ -78,7 +78,7 @@
     "classes": [],
     "enums": []
   },
-  "MassEmailMessage": {
+  "massemailmessage": {
     "name": "MassEmailMessage",
     "namespace": "Messaging",
     "isEnum": false,
@@ -89,7 +89,7 @@
     "classes": [],
     "enums": []
   },
-  "PushNotification": {
+  "pushnotification": {
     "name": "PushNotification",
     "namespace": "Messaging",
     "isEnum": false,
@@ -100,7 +100,7 @@
     "classes": [],
     "enums": []
   },
-  "PushNotificationPayload": {
+  "pushnotificationpayload": {
     "name": "PushNotificationPayload",
     "namespace": "Messaging",
     "isEnum": false,
@@ -111,7 +111,7 @@
     "classes": [],
     "enums": []
   },
-  "RenderEmailTemplateBodyResult": {
+  "renderemailtemplatebodyresult": {
     "name": "RenderEmailTemplateBodyResult",
     "namespace": "Messaging",
     "isEnum": false,
@@ -122,7 +122,7 @@
     "classes": [],
     "enums": []
   },
-  "RenderEmailTemplateError": {
+  "renderemailtemplateerror": {
     "name": "RenderEmailTemplateError",
     "namespace": "Messaging",
     "isEnum": false,
@@ -133,7 +133,7 @@
     "classes": [],
     "enums": []
   },
-  "SendEmailError": {
+  "sendemailerror": {
     "name": "SendEmailError",
     "namespace": "Messaging",
     "isEnum": false,
@@ -144,7 +144,7 @@
     "classes": [],
     "enums": []
   },
-  "SendEmailResult": {
+  "sendemailresult": {
     "name": "SendEmailResult",
     "namespace": "Messaging",
     "isEnum": false,
@@ -155,7 +155,7 @@
     "classes": [],
     "enums": []
   },
-  "SingleEmailMessage": {
+  "singleemailmessage": {
     "name": "SingleEmailMessage",
     "namespace": "Messaging",
     "isEnum": false,

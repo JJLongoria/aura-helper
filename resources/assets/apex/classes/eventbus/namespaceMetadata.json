@@ -1,5 +1,5 @@
 {
-  "ChangeEventHeader": {
+  "changeeventheader": {
     "name": "ChangeEventHeader",
     "namespace": "EventBus",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "TestBroker": {
+  "testbroker": {
     "name": "TestBroker",
     "namespace": "EventBus",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "TriggerContext": {
+  "triggercontext": {
     "name": "TriggerContext",
     "namespace": "EventBus",
     "isEnum": false,

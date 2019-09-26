@@ -1,5 +1,5 @@
 {
-  "LockResult": {
+  "lockresult": {
     "name": "LockResult",
     "namespace": "Approval",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "ProcessRequest": {
+  "processrequest": {
     "name": "ProcessRequest",
     "namespace": "Approval",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "ProcessResult": {
+  "processresult": {
     "name": "ProcessResult",
     "namespace": "Approval",
     "isEnum": false,
@@ -32,7 +32,7 @@
     "classes": [],
     "enums": []
   },
-  "ProcessSubmitRequest": {
+  "processsubmitrequest": {
     "name": "ProcessSubmitRequest",
     "namespace": "Approval",
     "isEnum": false,
@@ -43,7 +43,7 @@
     "classes": [],
     "enums": []
   },
-  "ProcessWorkitemRequest": {
+  "processworkitemrequest": {
     "name": "ProcessWorkitemRequest",
     "namespace": "Approval",
     "isEnum": false,
@@ -54,7 +54,7 @@
     "classes": [],
     "enums": []
   },
-  "UnlockResult": {
+  "unlockresult": {
     "name": "UnlockResult",
     "namespace": "Approval",
     "isEnum": false,

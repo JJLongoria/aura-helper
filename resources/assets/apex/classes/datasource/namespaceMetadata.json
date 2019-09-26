@@ -1,5 +1,5 @@
 {
-  "AsyncDeleteCallback": {
+  "asyncdeletecallback": {
     "name": "AsyncDeleteCallback",
     "namespace": "Datasource",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "AsyncSaveCallback": {
+  "asyncsavecallback": {
     "name": "AsyncSaveCallback",
     "namespace": "Datasource",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "AuthenticationCapability": {
+  "authenticationcapability": {
     "name": "AuthenticationCapability",
     "namespace": "Datasource",
     "isEnum": true,
@@ -37,7 +37,7 @@
     "classes": [],
     "enums": []
   },
-  "AuthenticationProtocol": {
+  "authenticationprotocol": {
     "name": "AuthenticationProtocol",
     "namespace": "Datasource",
     "isEnum": true,
@@ -52,7 +52,7 @@
     "classes": [],
     "enums": []
   },
-  "Capability": {
+  "capability": {
     "name": "Capability",
     "namespace": "Datasource",
     "isEnum": true,
@@ -73,7 +73,7 @@
     "classes": [],
     "enums": []
   },
-  "Column": {
+  "column": {
     "name": "Column",
     "namespace": "Datasource",
     "isEnum": false,
@@ -84,7 +84,7 @@
     "classes": [],
     "enums": []
   },
-  "ColumnSelection": {
+  "columnselection": {
     "name": "ColumnSelection",
     "namespace": "Datasource",
     "isEnum": false,
@@ -95,7 +95,7 @@
     "classes": [],
     "enums": []
   },
-  "Connection": {
+  "connection": {
     "name": "Connection",
     "namespace": "Datasource",
     "isEnum": false,
@@ -106,7 +106,7 @@
     "classes": [],
     "enums": []
   },
-  "ConnectionParams": {
+  "connectionparams": {
     "name": "ConnectionParams",
     "namespace": "Datasource",
     "isEnum": false,
@@ -117,7 +117,7 @@
     "classes": [],
     "enums": []
   },
-  "DataSourceUtil": {
+  "datasourceutil": {
     "name": "DataSourceUtil",
     "namespace": "Datasource",
     "isEnum": false,
@@ -128,7 +128,7 @@
     "classes": [],
     "enums": []
   },
-  "DataType": {
+  "datatype": {
     "name": "DataType",
     "namespace": "Datasource",
     "isEnum": true,
@@ -149,7 +149,7 @@
     "classes": [],
     "enums": []
   },
-  "DeleteContext": {
+  "deletecontext": {
     "name": "DeleteContext",
     "namespace": "Datasource",
     "isEnum": false,
@@ -160,7 +160,7 @@
     "classes": [],
     "enums": []
   },
-  "DeleteResult": {
+  "deleteresult": {
     "name": "DeleteResult",
     "namespace": "Datasource",
     "isEnum": false,
@@ -171,7 +171,7 @@
     "classes": [],
     "enums": []
   },
-  "Filter": {
+  "filter": {
     "name": "Filter",
     "namespace": "Datasource",
     "isEnum": false,
@@ -182,7 +182,7 @@
     "classes": [],
     "enums": []
   },
-  "FilterType": {
+  "filtertype": {
     "name": "FilterType",
     "namespace": "Datasource",
     "isEnum": true,
@@ -207,7 +207,7 @@
     "classes": [],
     "enums": []
   },
-  "IdentityType": {
+  "identitytype": {
     "name": "IdentityType",
     "namespace": "Datasource",
     "isEnum": true,
@@ -222,7 +222,7 @@
     "classes": [],
     "enums": []
   },
-  "Order": {
+  "order": {
     "name": "Order",
     "namespace": "Datasource",
     "isEnum": false,
@@ -233,7 +233,7 @@
     "classes": [],
     "enums": []
   },
-  "OrderDirection": {
+  "orderdirection": {
     "name": "OrderDirection",
     "namespace": "Datasource",
     "isEnum": true,
@@ -247,7 +247,7 @@
     "classes": [],
     "enums": []
   },
-  "Provider": {
+  "provider": {
     "name": "Provider",
     "namespace": "Datasource",
     "isEnum": false,
@@ -258,7 +258,7 @@
     "classes": [],
     "enums": []
   },
-  "QueryAggregation": {
+  "queryaggregation": {
     "name": "QueryAggregation",
     "namespace": "Datasource",
     "isEnum": true,
@@ -276,7 +276,7 @@
     "classes": [],
     "enums": []
   },
-  "QueryContext": {
+  "querycontext": {
     "name": "QueryContext",
     "namespace": "Datasource",
     "isEnum": false,
@@ -287,7 +287,7 @@
     "classes": [],
     "enums": []
   },
-  "QueryUtils": {
+  "queryutils": {
     "name": "QueryUtils",
     "namespace": "Datasource",
     "isEnum": false,
@@ -298,7 +298,7 @@
     "classes": [],
     "enums": []
   },
-  "ReadContext": {
+  "readcontext": {
     "name": "ReadContext",
     "namespace": "Datasource",
     "isEnum": false,
@@ -309,7 +309,7 @@
     "classes": [],
     "enums": []
   },
-  "SearchContext": {
+  "searchcontext": {
     "name": "SearchContext",
     "namespace": "Datasource",
     "isEnum": false,
@@ -320,7 +320,7 @@
     "classes": [],
     "enums": []
   },
-  "SearchUtils": {
+  "searchutils": {
     "name": "SearchUtils",
     "namespace": "Datasource",
     "isEnum": false,
@@ -331,7 +331,7 @@
     "classes": [],
     "enums": []
   },
-  "Table": {
+  "table": {
     "name": "Table",
     "namespace": "Datasource",
     "isEnum": false,
@@ -342,7 +342,7 @@
     "classes": [],
     "enums": []
   },
-  "TableResult": {
+  "tableresult": {
     "name": "TableResult",
     "namespace": "Datasource",
     "isEnum": false,
@@ -353,7 +353,7 @@
     "classes": [],
     "enums": []
   },
-  "TableSelection": {
+  "tableselection": {
     "name": "TableSelection",
     "namespace": "Datasource",
     "isEnum": false,
@@ -364,7 +364,7 @@
     "classes": [],
     "enums": []
   },
-  "UpsertContext": {
+  "upsertcontext": {
     "name": "UpsertContext",
     "namespace": "Datasource",
     "isEnum": false,
@@ -375,7 +375,7 @@
     "classes": [],
     "enums": []
   },
-  "UpsertResult": {
+  "upsertresult": {
     "name": "UpsertResult",
     "namespace": "Datasource",
     "isEnum": false,
