@@ -1,5 +1,5 @@
 {
-  "CacheBuilder": {
+  "cachebuilder": {
     "name": "CacheBuilder",
     "namespace": "Cache",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "Org": {
+  "org": {
     "name": "Org",
     "namespace": "Cache",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "OrgPartition": {
+  "orgpartition": {
     "name": "OrgPartition",
     "namespace": "Cache",
     "isEnum": false,
@@ -32,7 +32,7 @@
     "classes": [],
     "enums": []
   },
-  "Partition": {
+  "partition": {
     "name": "Partition",
     "namespace": "Cache",
     "isEnum": false,
@@ -43,7 +43,7 @@
     "classes": [],
     "enums": []
   },
-  "Session": {
+  "session": {
     "name": "Session",
     "namespace": "Cache",
     "isEnum": false,
@@ -54,7 +54,7 @@
     "classes": [],
     "enums": []
   },
-  "SessionPartition": {
+  "sessionpartition": {
     "name": "SessionPartition",
     "namespace": "Cache",
     "isEnum": false,
@@ -65,7 +65,7 @@
     "classes": [],
     "enums": []
   },
-  "Visibility": {
+  "visibility": {
     "name": "Visibility",
     "namespace": "Cache",
     "isEnum": true,

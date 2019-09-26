@@ -1,5 +1,5 @@
 {
-  "AccountCreator": {
+  "accountcreator": {
     "name": "AccountCreator",
     "namespace": "ChatterAnswers",
     "isEnum": false,

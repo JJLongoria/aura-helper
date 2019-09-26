@@ -1,5 +1,5 @@
 {
-  "ConnectorTestUtil": {
+  "connectortestutil": {
     "name": "ConnectorTestUtil",
     "namespace": "UserProvisioning",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "UserProvisioningLog": {
+  "userprovisioninglog": {
     "name": "UserProvisioningLog",
     "namespace": "UserProvisioning",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "UserProvisioningPlugin": {
+  "userprovisioningplugin": {
     "name": "UserProvisioningPlugin",
     "namespace": "UserProvisioning",
     "isEnum": false,

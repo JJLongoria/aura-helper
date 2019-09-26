@@ -1,5 +1,5 @@
 {
-  "AppMenu": {
+  "appmenu": {
     "name": "AppMenu",
     "namespace": "AppLauncher",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "CommunityLogoController": {
+  "communitylogocontroller": {
     "name": "CommunityLogoController",
     "namespace": "AppLauncher",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "EmployeeLoginLinkController": {
+  "employeeloginlinkcontroller": {
     "name": "EmployeeLoginLinkController",
     "namespace": "AppLauncher",
     "isEnum": false,
@@ -32,7 +32,7 @@
     "classes": [],
     "enums": []
   },
-  "SocialLoginController": {
+  "sociallogincontroller": {
     "name": "SocialLoginController",
     "namespace": "AppLauncher",
     "isEnum": false,

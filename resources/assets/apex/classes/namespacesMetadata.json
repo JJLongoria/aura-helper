@@ -1,0 +1,212 @@
+{
+    "apexpages":{
+        "name": "ApexPages",
+        "path": "./resources/assets/apex/classes/ApexPages",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_ApexPages.htm",
+        "description": "The ApexPages namespace provides classes used in Visualforce controllers.",
+        "memberNumber": 8
+    },
+    "applauncher":{
+        "name": "AppLauncher",
+        "path": "./resources/assets/apex/classes/AppLauncher",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_applauncher.htm",
+        "description": "The AppLauncher namespace provides methods for managing the appearance of apps in the App Launcher, including their visibility and sort order.",
+        "memberNumber": 4
+    },
+    "approval":{
+        "name": "Approval",
+        "path": "./resources/assets/apex/classes/Approval",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Approval.htm",
+        "description": "The Approval namespace provides classes and methods for approval processes.",
+        "memberNumber": 6
+    },
+    "auth":{
+        "name": "Auth",
+        "path": "./resources/assets/apex/classes/Auth",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Auth.htm",
+        "description": "The Auth namespace provides an interface and classes for single sign-on into Salesforce and session security management.",
+        "memberNumber": 26
+    },
+    "cache":{
+        "name": "Cache",
+        "path": "./resources/assets/apex/classes/Cache",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_cache.htm",
+        "description": "The Cache namespace contains methods for managing the platform cache.",
+        "memberNumber": 7
+    },
+    "chatteranswers":{
+        "name": "ChatterAnswers",
+        "path": "./resources/assets/apex/classes/ChatterAnswers",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_ChatterAnswers.htm",
+        "description": "The ChatterAnswers namespace provides an interface for creating Account records.",
+        "memberNumber": 1
+    },
+    "connectapi":{
+        "name": "ConnectApi",
+        "path": "./resources/assets/apex/classes/ConnectApi",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_connect_api.htm",
+        "description": "The ConnectApi namespace (also called Chatter in Apex) provides classes for accessing the same data available in Chatter REST API. Use Chatter in Apex to create custom Chatter experiences in Salesforce.",
+        "memberNumber": 29
+    },
+    "database":{
+        "name": "Database",
+        "path": "./resources/assets/apex/classes/Database",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Database.htm",
+        "description": "The Database namespace provides classes used with DML operations.",
+        "memberNumber": 18
+    },
+    "datacloud":{
+        "name": "Datacloud",
+        "path": "./resources/assets/apex/classes/Datacloud",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_datacloud.htm",
+        "description": " The Datacloud namespace provides classes and methods for retrieving information about duplicate rules. Duplicate rules let you control whether and when users can save duplicate records within Salesforce. ",
+        "memberNumber": 8
+    },
+    "datasource":{
+        "name": "DataSource",
+        "path": "./resources/assets/apex/classes/DataSource",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_DataSource.htm",
+        "description": " The DataSource namespace provides the classes for the Apex Connector Framework. Use the Apex Connector Framework to develop a custom adapter for Salesforce Connect. Then connect your Salesforce organization to any data anywhere via the Salesforce Connect custom adapter.",
+        "memberNumber": 30
+    },
+    "dom":{
+        "name": "Dom",
+        "path": "./resources/assets/apex/classes/Dom",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_reference.htm",
+        "description": "The Dom namespace provides classes and methods for parsing and creating XML content.",
+        "memberNumber": 2
+    },
+    "eventbus":{
+        "name": "EventBus",
+        "path": "./resources/assets/apex/classes/EventBus",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_eventbus.htm",
+        "description": " The EventBus namespace provides classes and methods for platform events and Change Data Capture events.",
+        "memberNumber": 3
+    },
+    "flow":{
+        "name": "Flow",
+        "path": "./resources/assets/apex/classes/Flow",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Flow.htm",
+        "description": "The Flow namespace provides a class for advanced Visualforce controller access to flows.",
+        "memberNumber": 1
+    },
+    "kbmanagement":{
+        "name": "KbManagement",
+        "path": "./resources/assets/apex/classes/KbManagement",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_KbManagement.htm",
+        "description": "The KbManagement namespace provides a class for managing knowledge articles.",
+        "memberNumber": 1
+    },
+    "messaging":{
+        "name": "Messaging",
+        "path": "./resources/assets/apex/classes/Messaging",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Messaging.htm",
+        "description": "The Messaging namespace provides classes and methods for Salesforce outbound and inbound email functionality.",
+        "memberNumber": 14
+    },
+    "metadata":{
+        "name": "Metadata",
+        "path": "./resources/assets/apex/classes/Metadata",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Metadata.htm",
+        "description": "The Metadata namespace provides classes and methods for working with custom metadata in Salesforce",
+        "memberNumber": 53
+    },
+    "process":{
+        "name": "Process",
+        "path": "./resources/assets/apex/classes/Process",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Process.htm",
+        "description": "The Process namespace provides an interface and classes for passing data between your organization and a flow.",
+        "memberNumber": 4
+    },
+    "quickAction":{
+        "name": "QuickAction",
+        "path": "./resources/assets/apex/classes/QuickAction",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_QuickAction.htm",
+        "description": "The QuickAction namespace provides classes and methods for quick actions.",
+        "memberNumber": 12
+    },
+    "reports":{
+        "name": "Reports",
+        "path": "./resources/assets/apex/classes/Reports",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Reports.htm",
+        "description": "The Reports namespace provides classes for accessing the same data as is available in the Salesforce Reports and Dashboards REST API.",
+        "memberNumber": 54
+    },
+    "schema":{
+        "name": "Schema",
+        "path": "./resources/assets/apex/classes/Schema",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Schema.htm",
+        "description": "The Schema namespace provides classes and methods for schema metadata information.",
+        "memberNumber": 19
+    },
+    "search":{
+        "name": "Search",
+        "path": "./resources/assets/apex/classes/Search",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Search.htm",
+        "description": "The Search namespace provides classes for getting search results and suggestion results.",
+        "memberNumber": 9
+    },
+    "sfc":{
+        "name": "Sfc",
+        "path": "./resources/assets/apex/classes/Sfc",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Sfc.htm",
+        "description": "The Sfc namespace contains classes used in Salesforce Files.",
+        "memberNumber": 3
+    },
+    "site":{
+        "name": "Site",
+        "path": "./resources/assets/apex/classes/Site",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Site.htm",
+        "description": "The Site namespace provides an interface for rewriting Sites URLs.",
+        "memberNumber": 1
+    },
+    "support":{
+        "name": "Support",
+        "path": "./resources/assets/apex/classes/Support",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Support.htm",
+        "description": "The Support namespace provides an interface used for Case Feed.",
+        "memberNumber": 2
+    },
+    "system":{
+        "name": "System",
+        "path": "./resources/assets/apex/classes/System",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_System.htm",
+        "description": "The System namespace provides classes and methods for core Apex functionality",
+        "memberNumber": 90
+    },
+    "territorymgmt":{
+        "name": "TerritoryMgmt",
+        "path": "./resources/assets/apex/classes/TerritoryMgmt",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_TerritoryMgmt.htm",
+        "description": "The TerritoryMgmt namespace provides an interface used for territory management.",
+        "memberNumber": 1
+    },
+    "txnsecurity":{
+        "name": "TxnSecurity",
+        "path": "./resources/assets/apex/classes/TxnSecurity",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_TxnSecurity.htm",
+        "description": "The TxnSecurity namespace provides an interface used for transaction security.",
+        "memberNumber": 4
+    },
+    "userprovisioning":{
+        "name": "UserProvisioning",
+        "path": "./resources/assets/apex/classes/UserProvisioning",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_UserProvisioning.htm",
+        "description": "The UserProvisioning namespace provides methods for monitoring outbound user provisioning requests.",
+        "memberNumber": 3
+    },
+    "visualeditor":{
+        "name": "VisualEditor",
+        "path": "./resources/assets/apex/classes/VisualEditor",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_VisualEditor.htm",
+        "description": "The VisualEditor namespace provides classes and methods for interacting with the Lightning App Builder. The classes and methods in this namespace operate on Lightning components, which include Lightning web components and Aura components.",
+        "memberNumber": 4
+    },
+    "wave":{
+        "name": "wave",
+        "path": "./resources/assets/apex/classes/wave",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_wave.htm",
+        "description": "The classes in the wave namespace are part of the Wave Analytics SDK, designed to facilitate querying Wave data from Apex code.",
+        "memberNumber": 3
+    }
+}

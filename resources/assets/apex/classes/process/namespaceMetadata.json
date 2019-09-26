@@ -1,5 +1,5 @@
 {
-  "Plugin": {
+  "plugin": {
     "name": "Plugin",
     "namespace": "Process",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "PluginDescribeResult": {
+  "plugindescriberesult": {
     "name": "PluginDescribeResult",
     "namespace": "Process",
     "isEnum": false,
@@ -24,7 +24,7 @@
     ],
     "enums": []
   },
-  "PluginRequest": {
+  "pluginrequest": {
     "name": "PluginRequest",
     "namespace": "Process",
     "isEnum": false,
@@ -35,7 +35,7 @@
     "classes": [],
     "enums": []
   },
-  "PluginResult": {
+  "pluginresult": {
     "name": "PluginResult",
     "namespace": "Process",
     "isEnum": false,

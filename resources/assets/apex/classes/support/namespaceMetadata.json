@@ -1,5 +1,5 @@
 {
-  "EmailTemplateSelector": {
+  "emailtemplateselector": {
     "name": "EmailTemplateSelector",
     "namespace": "Support",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "MilestoneTriggerTimeCalculator": {
+  "milestonetriggertimecalculator": {
     "name": "MilestoneTriggerTimeCalculator",
     "namespace": "Support",
     "isEnum": false,
