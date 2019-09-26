@@ -81,9 +81,11 @@ class Utils {
         let files = FileReader.readDirSync(classesPath);
         if (files && files.length > 0) {
             for (const fileName of files) {
-                namespaces.namespacesToLower.push(fileName.toLowerCase());
-                namespaces.namespaces.push(fileName);
-                namespaces.namespacesMap[fileName.toLowerCase()] = fileName;
+                if(fileName !== 'namespacesMetadata.json'){
+                    namespaces.namespacesToLower.push(fileName.toLowerCase());
+                    namespaces.namespaces.push(fileName);
+                    namespaces.namespacesMap[fileName.toLowerCase()] = fileName;
+                }
             }
         }
         return namespaces;
@@ -192,8 +194,6 @@ class Utils {
                 activation = token.content + activation;
             } else if (token && (token.tokenType === TokenType.DOT || token.tokenType === TokenType.IDENTIFIER || isOnParams)) {
                 activation = token.content + activation;
-            } else {
-                endLoop = true;
             }
             tokenPos--
             if (tokenPos < 0)
@@ -407,43 +407,25 @@ class Utils {
         return items;
     }
 
-    static getMemberData(lastClass, actToken) {
+    static getActivationType(actToken) {
         let memberData = undefined;
         if (actToken.indexOf('(') !== -1 && actToken.indexOf(')') !== -1) {
             let name = actToken.split("(")[0].toLowerCase();
             let params = actToken.substring(actToken.indexOf("(") + 1, actToken.indexOf(")"));
             let paramSplits = [];
-            if (params.indexOf(',') !== -1)
-                params.split(",");
-            for (const method of lastClass.methods) {
-                if (method.params) {
-                    if (method.name.toLowerCase() === name && method.params.length === paramSplits.length) {
-                        memberData = {
-                            type: "method",
-                            data: method
-                        };
-                        return memberData;
-                    }
-                } else if (method.methodParams) {
-                    if (method.name.toLowerCase() === name && method.methodParams.length === paramSplits.length) {
-                        memberData = {
-                            type: "method",
-                            data: method
-                        };
-                        return memberData;
-                    }
-                }
-            }
+            if(params.indexOf(','))
+                paramSplits = params.split(',');
+            memberData = {
+                type: "method",
+                name: name,
+                params: paramSplits
+            };
+                
         } else {
-            for (const field of lastClass.fields) {
-                if (field.name.toLowerCase() === actToken.toLowerCase()) {
-                    memberData = {
-                        type: "field",
-                        data: field
-                    };
-                    return memberData;
-                }
-            }
+            memberData = {
+                type: "field",
+                name: actToken
+            };
         }
         return memberData;
     }
@@ -532,6 +514,11 @@ class Utils {
         if (FileChecker.isExists(path))
             return JSON.parse(FileReader.readFileSync(path));
         return undefined;
+    }
+
+    static getNamespacesMetadataFile(){
+        let nsMetadataPath = Paths.getSystemClassesPath() + '/namespacesMetadata.json';
+        return JSON.parse(FileReader.readFileSync(nsMetadataPath));
     }
 }
 exports.Utils = Utils;

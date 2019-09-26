@@ -43,7 +43,7 @@ function provideJSCompletion(document, position) {
         }
     } else {
         // Code for completions in othercases
-        items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.aura');
+
     }
     return items;
 }

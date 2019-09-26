@@ -1,5 +1,5 @@
 {
-  "AggregateColumn": {
+  "aggregatecolumn": {
     "name": "AggregateColumn",
     "namespace": "Reports",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "BucketField": {
+  "bucketfield": {
     "name": "BucketField",
     "namespace": "Reports",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "BucketFieldValue": {
+  "bucketfieldvalue": {
     "name": "BucketFieldValue",
     "namespace": "Reports",
     "isEnum": false,
@@ -32,7 +32,7 @@
     "classes": [],
     "enums": []
   },
-  "BucketType": {
+  "buckettype": {
     "name": "BucketType",
     "namespace": "Reports",
     "isEnum": true,
@@ -47,7 +47,7 @@
     "classes": [],
     "enums": []
   },
-  "ColumnDataType": {
+  "columndatatype": {
     "name": "ColumnDataType",
     "namespace": "Reports",
     "isEnum": true,
@@ -77,7 +77,7 @@
     "classes": [],
     "enums": []
   },
-  "ColumnSortOrder": {
+  "columnsortorder": {
     "name": "ColumnSortOrder",
     "namespace": "Reports",
     "isEnum": true,
@@ -91,7 +91,7 @@
     "classes": [],
     "enums": []
   },
-  "CrossFilter": {
+  "crossfilter": {
     "name": "CrossFilter",
     "namespace": "Reports",
     "isEnum": false,
@@ -102,7 +102,7 @@
     "classes": [],
     "enums": []
   },
-  "CsfGroupType": {
+  "csfgrouptype": {
     "name": "CsfGroupType",
     "namespace": "Reports",
     "isEnum": true,
@@ -117,7 +117,7 @@
     "classes": [],
     "enums": []
   },
-  "DateGranularity": {
+  "dategranularity": {
     "name": "DateGranularity",
     "namespace": "Reports",
     "isEnum": true,
@@ -141,7 +141,7 @@
     "classes": [],
     "enums": []
   },
-  "DetailColumn": {
+  "detailcolumn": {
     "name": "DetailColumn",
     "namespace": "Reports",
     "isEnum": false,
@@ -152,7 +152,7 @@
     "classes": [],
     "enums": []
   },
-  "Dimension": {
+  "dimension": {
     "name": "Dimension",
     "namespace": "Reports",
     "isEnum": false,
@@ -163,7 +163,7 @@
     "classes": [],
     "enums": []
   },
-  "EvaluatedCondition": {
+  "evaluatedcondition": {
     "name": "EvaluatedCondition",
     "namespace": "Reports",
     "isEnum": false,
@@ -174,7 +174,7 @@
     "classes": [],
     "enums": []
   },
-  "EvaluatedConditionOperator": {
+  "evaluatedconditionoperator": {
     "name": "EvaluatedConditionOperator",
     "namespace": "Reports",
     "isEnum": true,
@@ -192,7 +192,7 @@
     "classes": [],
     "enums": []
   },
-  "FilterOperator": {
+  "filteroperator": {
     "name": "FilterOperator",
     "namespace": "Reports",
     "isEnum": false,
@@ -203,7 +203,7 @@
     "classes": [],
     "enums": []
   },
-  "FilterValue": {
+  "filtervalue": {
     "name": "FilterValue",
     "namespace": "Reports",
     "isEnum": false,
@@ -214,7 +214,7 @@
     "classes": [],
     "enums": []
   },
-  "FormulaType": {
+  "formulatype": {
     "name": "FormulaType",
     "namespace": "Reports",
     "isEnum": true,
@@ -229,7 +229,7 @@
     "classes": [],
     "enums": []
   },
-  "GroupingColumn": {
+  "groupingcolumn": {
     "name": "GroupingColumn",
     "namespace": "Reports",
     "isEnum": false,
@@ -240,7 +240,7 @@
     "classes": [],
     "enums": []
   },
-  "GroupingInfo": {
+  "groupinginfo": {
     "name": "GroupingInfo",
     "namespace": "Reports",
     "isEnum": false,
@@ -251,7 +251,7 @@
     "classes": [],
     "enums": []
   },
-  "GroupingValue": {
+  "groupingvalue": {
     "name": "GroupingValue",
     "namespace": "Reports",
     "isEnum": false,
@@ -262,7 +262,7 @@
     "classes": [],
     "enums": []
   },
-  "NotificationAction": {
+  "notificationaction": {
     "name": "NotificationAction",
     "namespace": "Reports",
     "isEnum": false,
@@ -273,7 +273,7 @@
     "classes": [],
     "enums": []
   },
-  "NotificationActionContext": {
+  "notificationactioncontext": {
     "name": "NotificationActionContext",
     "namespace": "Reports",
     "isEnum": false,
@@ -284,7 +284,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportCsf": {
+  "reportcsf": {
     "name": "ReportCsf",
     "namespace": "Reports",
     "isEnum": false,
@@ -295,7 +295,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportCurrency": {
+  "reportcurrency": {
     "name": "ReportCurrency",
     "namespace": "Reports",
     "isEnum": false,
@@ -306,7 +306,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportDataCell": {
+  "reportdatacell": {
     "name": "ReportDataCell",
     "namespace": "Reports",
     "isEnum": false,
@@ -317,7 +317,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportDescribeResult": {
+  "reportdescriberesult": {
     "name": "ReportDescribeResult",
     "namespace": "Reports",
     "isEnum": false,
@@ -328,7 +328,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportDetailRow": {
+  "reportdetailrow": {
     "name": "ReportDetailRow",
     "namespace": "Reports",
     "isEnum": false,
@@ -339,7 +339,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportDivisionInfo": {
+  "reportdivisioninfo": {
     "name": "ReportDivisionInfo",
     "namespace": "Reports",
     "isEnum": false,
@@ -350,7 +350,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportExtendedMetadata": {
+  "reportextendedmetadata": {
     "name": "ReportExtendedMetadata",
     "namespace": "Reports",
     "isEnum": false,
@@ -361,7 +361,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportFact": {
+  "reportfact": {
     "name": "ReportFact",
     "namespace": "Reports",
     "isEnum": false,
@@ -372,7 +372,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportFactWithDetails": {
+  "reportfactwithdetails": {
     "name": "ReportFactWithDetails",
     "namespace": "Reports",
     "isEnum": false,
@@ -383,7 +383,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportFactWithSummaries": {
+  "reportfactwithsummaries": {
     "name": "ReportFactWithSummaries",
     "namespace": "Reports",
     "isEnum": false,
@@ -394,7 +394,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportFilter": {
+  "reportfilter": {
     "name": "ReportFilter",
     "namespace": "Reports",
     "isEnum": false,
@@ -405,7 +405,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportFormat": {
+  "reportformat": {
     "name": "ReportFormat",
     "namespace": "Reports",
     "isEnum": true,
@@ -420,7 +420,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportInstance": {
+  "reportinstance": {
     "name": "ReportInstance",
     "namespace": "Reports",
     "isEnum": false,
@@ -431,7 +431,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportManager": {
+  "reportmanager": {
     "name": "ReportManager",
     "namespace": "Reports",
     "isEnum": false,
@@ -442,7 +442,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportMetadata": {
+  "reportmetadata": {
     "name": "ReportMetadata",
     "namespace": "Reports",
     "isEnum": false,
@@ -453,7 +453,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportResults": {
+  "reportresults": {
     "name": "ReportResults",
     "namespace": "Reports",
     "isEnum": false,
@@ -464,7 +464,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportScopeInfo": {
+  "reportscopeinfo": {
     "name": "ReportScopeInfo",
     "namespace": "Reports",
     "isEnum": false,
@@ -475,7 +475,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportScopeValue": {
+  "reportscopevalue": {
     "name": "ReportScopeValue",
     "namespace": "Reports",
     "isEnum": false,
@@ -486,7 +486,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportType": {
+  "reporttype": {
     "name": "ReportType",
     "namespace": "Reports",
     "isEnum": false,
@@ -497,7 +497,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportTypeColumn": {
+  "reporttypecolumn": {
     "name": "ReportTypeColumn",
     "namespace": "Reports",
     "isEnum": false,
@@ -508,7 +508,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportTypeColumnCategory": {
+  "reporttypecolumncategory": {
     "name": "ReportTypeColumnCategory",
     "namespace": "Reports",
     "isEnum": false,
@@ -519,7 +519,7 @@
     "classes": [],
     "enums": []
   },
-  "ReportTypeMetadata": {
+  "reporttypemetadata": {
     "name": "ReportTypeMetadata",
     "namespace": "Reports",
     "isEnum": false,
@@ -530,7 +530,7 @@
     "classes": [],
     "enums": []
   },
-  "SortColumn": {
+  "sortcolumn": {
     "name": "SortColumn",
     "namespace": "Reports",
     "isEnum": false,
@@ -541,7 +541,7 @@
     "classes": [],
     "enums": []
   },
-  "StandardDateFilter": {
+  "standarddatefilter": {
     "name": "StandardDateFilter",
     "namespace": "Reports",
     "isEnum": false,
@@ -552,7 +552,7 @@
     "classes": [],
     "enums": []
   },
-  "StandardDateFilterDuration": {
+  "standarddatefilterduration": {
     "name": "StandardDateFilterDuration",
     "namespace": "Reports",
     "isEnum": false,
@@ -563,7 +563,7 @@
     "classes": [],
     "enums": []
   },
-  "StandardDateFilterDurationGroup": {
+  "standarddatefilterdurationgroup": {
     "name": "StandardDateFilterDurationGroup",
     "namespace": "Reports",
     "isEnum": false,
@@ -574,7 +574,7 @@
     "classes": [],
     "enums": []
   },
-  "StandardFilter": {
+  "standardfilter": {
     "name": "StandardFilter",
     "namespace": "Reports",
     "isEnum": false,
@@ -585,7 +585,7 @@
     "classes": [],
     "enums": []
   },
-  "StandardFilterInfo": {
+  "standardfilterinfo": {
     "name": "StandardFilterInfo",
     "namespace": "Reports",
     "isEnum": false,
@@ -596,7 +596,7 @@
     "classes": [],
     "enums": []
   },
-  "StandardFilterInfoPicklist": {
+  "standardfilterinfopicklist": {
     "name": "StandardFilterInfoPicklist",
     "namespace": "Reports",
     "isEnum": false,
@@ -607,7 +607,7 @@
     "classes": [],
     "enums": []
   },
-  "StandardFilterType": {
+  "standardfiltertype": {
     "name": "StandardFilterType",
     "namespace": "Reports",
     "isEnum": true,
@@ -621,7 +621,7 @@
     "classes": [],
     "enums": []
   },
-  "SummaryValue": {
+  "summaryvalue": {
     "name": "SummaryValue",
     "namespace": "Reports",
     "isEnum": false,
@@ -632,7 +632,7 @@
     "classes": [],
     "enums": []
   },
-  "ThresholdInformation": {
+  "thresholdinformation": {
     "name": "ThresholdInformation",
     "namespace": "Reports",
     "isEnum": false,
@@ -643,7 +643,7 @@
     "classes": [],
     "enums": []
   },
-  "TopRows": {
+  "toprows": {
     "name": "TopRows",
     "namespace": "Reports",
     "isEnum": false,

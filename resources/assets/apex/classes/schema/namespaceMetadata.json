@@ -1,5 +1,5 @@
 {
-  "ChildRelationship": {
+  "childrelationship": {
     "name": "ChildRelationship",
     "namespace": "Schema",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "DataCategory": {
+  "datacategory": {
     "name": "DataCategory",
     "namespace": "Schema",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "DataCategoryGroupSobjectTypePair": {
+  "datacategorygroupsobjecttypepair": {
     "name": "DataCategoryGroupSobjectTypePair",
     "namespace": "Schema",
     "isEnum": false,
@@ -32,7 +32,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeColorResult": {
+  "describecolorresult": {
     "name": "DescribeColorResult",
     "namespace": "Schema",
     "isEnum": false,
@@ -43,7 +43,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeDataCategoryGroupResult": {
+  "describedatacategorygroupresult": {
     "name": "DescribeDataCategoryGroupResult",
     "namespace": "Schema",
     "isEnum": false,
@@ -54,7 +54,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeDataCategoryGroupStructureResult": {
+  "describedatacategorygroupstructureresult": {
     "name": "DescribeDataCategoryGroupStructureResult",
     "namespace": "Schema",
     "isEnum": false,
@@ -65,7 +65,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeFieldResult": {
+  "describefieldresult": {
     "name": "DescribeFieldResult",
     "namespace": "Schema",
     "isEnum": false,
@@ -76,7 +76,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeIconResult": {
+  "describeiconresult": {
     "name": "DescribeIconResult",
     "namespace": "Schema",
     "isEnum": false,
@@ -87,7 +87,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeSObjectResult": {
+  "describesobjectresult": {
     "name": "DescribeSObjectResult",
     "namespace": "Schema",
     "isEnum": false,
@@ -98,7 +98,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeTabResult": {
+  "describetabresult": {
     "name": "DescribeTabResult",
     "namespace": "Schema",
     "isEnum": false,
@@ -109,7 +109,7 @@
     "classes": [],
     "enums": []
   },
-  "DescribeTabSetResult": {
+  "describetabsetresult": {
     "name": "DescribeTabSetResult",
     "namespace": "Schema",
     "isEnum": false,
@@ -120,7 +120,7 @@
     "classes": [],
     "enums": []
   },
-  "DisplayType": {
+  "displaytype": {
     "name": "DisplayType",
     "namespace": "Schema",
     "isEnum": true,
@@ -155,7 +155,7 @@
     "classes": [],
     "enums": []
   },
-  "FieldSet": {
+  "fieldset": {
     "name": "FieldSet",
     "namespace": "Schema",
     "isEnum": false,
@@ -166,7 +166,7 @@
     "classes": [],
     "enums": []
   },
-  "FieldSetMember": {
+  "fieldsetmember": {
     "name": "FieldSetMember",
     "namespace": "Schema",
     "isEnum": false,
@@ -177,7 +177,7 @@
     "classes": [],
     "enums": []
   },
-  "PicklistEntry": {
+  "picklistentry": {
     "name": "PicklistEntry",
     "namespace": "Schema",
     "isEnum": false,
@@ -188,7 +188,7 @@
     "classes": [],
     "enums": []
   },
-  "RecordTypeInfo": {
+  "recordtypeinfo": {
     "name": "RecordTypeInfo",
     "namespace": "Schema",
     "isEnum": false,
@@ -199,7 +199,7 @@
     "classes": [],
     "enums": []
   },
-  "SOAPType": {
+  "soaptype": {
     "name": "SOAPType",
     "namespace": "Schema",
     "isEnum": true,
@@ -220,7 +220,7 @@
     "classes": [],
     "enums": []
   },
-  "sObjectField": {
+  "sobjectfield": {
     "name": "sObjectField",
     "namespace": "Schema",
     "isEnum": false,
@@ -231,7 +231,7 @@
     "classes": [],
     "enums": []
   },
-  "SObjectType": {
+  "sobjecttype": {
     "name": "SObjectType",
     "namespace": "Schema",
     "isEnum": false,

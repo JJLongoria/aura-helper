@@ -434,7 +434,7 @@ function createMetadataFileForNamespaces(context, ns) {
             let name = classData.name.replace('.json', '');
             let classes = Object.keys(classData.classes);
             let enums = Object.keys(classData.enums);
-            metadata[name] = {
+            metadata[name.toLowerCase()] = {
                 name: name,
                 namespace: classData.namespace,
                 isEnum: classData.isEnum,

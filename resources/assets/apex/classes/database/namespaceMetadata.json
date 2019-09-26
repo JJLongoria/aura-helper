@@ -1,5 +1,5 @@
 {
-  "Batchable": {
+  "batchable": {
     "name": "Batchable",
     "namespace": "Database",
     "isEnum": false,
@@ -10,7 +10,7 @@
     "classes": [],
     "enums": []
   },
-  "BatchableContext": {
+  "batchablecontext": {
     "name": "BatchableContext",
     "namespace": "Database",
     "isEnum": false,
@@ -21,7 +21,7 @@
     "classes": [],
     "enums": []
   },
-  "DeletedRecord": {
+  "deletedrecord": {
     "name": "DeletedRecord",
     "namespace": "Database",
     "isEnum": false,
@@ -32,7 +32,7 @@
     "classes": [],
     "enums": []
   },
-  "DeleteResult": {
+  "deleteresult": {
     "name": "DeleteResult",
     "namespace": "Database",
     "isEnum": false,
@@ -43,7 +43,7 @@
     "classes": [],
     "enums": []
   },
-  "DMLOptions": {
+  "dmloptions": {
     "name": "DMLOptions",
     "namespace": "Database",
     "isEnum": false,
@@ -58,7 +58,7 @@
     ],
     "enums": []
   },
-  "DuplicateError": {
+  "duplicateerror": {
     "name": "DuplicateError",
     "namespace": "Database",
     "isEnum": false,
@@ -69,7 +69,7 @@
     "classes": [],
     "enums": []
   },
-  "EmptyRecycleBinResult": {
+  "emptyrecyclebinresult": {
     "name": "EmptyRecycleBinResult",
     "namespace": "Database",
     "isEnum": false,
@@ -80,7 +80,7 @@
     "classes": [],
     "enums": []
   },
-  "Error": {
+  "error": {
     "name": "Error",
     "namespace": "Database",
     "isEnum": false,
@@ -91,7 +91,7 @@
     "classes": [],
     "enums": []
   },
-  "GetDeletedResult": {
+  "getdeletedresult": {
     "name": "GetDeletedResult",
     "namespace": "Database",
     "isEnum": false,
@@ -102,7 +102,7 @@
     "classes": [],
     "enums": []
   },
-  "GetUpdatedResult": {
+  "getupdatedresult": {
     "name": "GetUpdatedResult",
     "namespace": "Database",
     "isEnum": false,
@@ -113,7 +113,7 @@
     "classes": [],
     "enums": []
   },
-  "LeadConvert": {
+  "leadconvert": {
     "name": "LeadConvert",
     "namespace": "Database",
     "isEnum": false,
@@ -124,7 +124,7 @@
     "classes": [],
     "enums": []
   },
-  "LeadConvertResult": {
+  "leadconvertresult": {
     "name": "LeadConvertResult",
     "namespace": "Database",
     "isEnum": false,
@@ -135,7 +135,7 @@
     "classes": [],
     "enums": []
   },
-  "MergeResult": {
+  "mergeresult": {
     "name": "MergeResult",
     "namespace": "Database",
     "isEnum": false,
@@ -146,7 +146,7 @@
     "classes": [],
     "enums": []
   },
-  "QueryLocator": {
+  "querylocator": {
     "name": "QueryLocator",
     "namespace": "Database",
     "isEnum": false,
@@ -157,7 +157,7 @@
     "classes": [],
     "enums": []
   },
-  "QueryLocatorIterator": {
+  "querylocatoriterator": {
     "name": "QueryLocatorIterator",
     "namespace": "Database",
     "isEnum": false,
@@ -168,7 +168,7 @@
     "classes": [],
     "enums": []
   },
-  "SaveResult": {
+  "saveresult": {
     "name": "SaveResult",
     "namespace": "Database",
     "isEnum": false,
@@ -179,7 +179,7 @@
     "classes": [],
     "enums": []
   },
-  "UndeleteResult": {
+  "undeleteresult": {
     "name": "UndeleteResult",
     "namespace": "Database",
     "isEnum": false,
@@ -190,7 +190,7 @@
     "classes": [],
     "enums": []
   },
-  "UpsertResult": {
+  "upsertresult": {
     "name": "UpsertResult",
     "namespace": "Database",
     "isEnum": false,
