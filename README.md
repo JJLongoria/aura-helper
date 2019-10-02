@@ -8,6 +8,9 @@ The Aura Helper Extension contains some of next features:
 ### Help
     - Run command "Aura Helper: Help" for open a navigable help with more information about the Aura Helper
 
+### Format Code
+    - Format Apex code with Ctrl+Atl+F
+
 ### Commands features
 Some commands with tools for help in your work. All commands start with "AuraHelper:"
 

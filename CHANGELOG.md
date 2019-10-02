@@ -320,3 +320,11 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
     - Fixed some bugs
+
+## [1.4.0 - 2019-09-26]
+### Added
+    - Apex Code Formatter
+
+## [1.4.1 - 2019-09-26]
+### Fixed
+    - Fixed some bugs with Apex Formatter
