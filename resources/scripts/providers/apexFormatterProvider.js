@@ -65,6 +65,7 @@ exports.provider = {
                 }
                 if (token.tokenType === TokenType.RBRACKET) {
                     bracketIndent--;
+                    aBracketIndent = 0;
                     if (bracketIndent === 2)
                         indentOffset = 0;
                 }
@@ -79,8 +80,10 @@ exports.provider = {
                     parentIndent--;
                     if (newLines > 0)
                         newLines = 0; // Remove line when line start with ")" and add token to previous line
-                    if (parentIndent === 0)
+                    if (parentIndent === 0) {
+                        aBracketIndent = 0;
                         firstParenEndColumn - 1;
+                    }
                 }
                 if (token.tokenType === TokenType.LSQBRACKET) {
                     sqBracketIndent++;
@@ -128,14 +131,14 @@ exports.provider = {
                     newLines = 0; // Remove line after "(" and add token to prevous line
                 if (lastToken && lastToken.tokenType === TokenType.RPAREN && newLines > 0 && !isOnFlowStructure && !isOneLineStructure)
                     newLines = 0; // Remove line after ")" and add token to prevous line
-                if (lastToken && lastToken.tokenType === TokenType.LBRACKET && newLines === 0)
-                    newLines = 1; // Add new line after "{"
-                if (lastToken && lastToken.tokenType === TokenType.SEMICOLON && newLines === 0)
-                    newLines = 1; // Add new line after ";"
-                if (lastToken && lastToken.tokenType === TokenType.RBRACKET && newLines === 0 && token.content.toLowerCase() !== 'else' && token.content.toLowerCase() !== 'catch' && token.content.toLowerCase() !== 'finnaly' && token.content.toLowerCase() !== 'while')
-                    newLines = 1; // Add new line after "}" when next token not "else", "catch", "finally" or "while"
-                if (lastToken && lastToken.tokenType === TokenType.RBRACKET && newLines > 0 && (token.content.toLowerCase() === 'else' || token.content.toLowerCase() === 'catch' || token.content.toLowerCase() === 'finnaly' || token.content.toLowerCase() === 'while'))
-                    newLines = 0; // Remove line after "}" when next token are "else", "catch", "finally" or "while" and add token to previous line
+                /*if (lastToken && lastToken.tokenType === TokenType.LBRACKET && newLines === 0)
+                    newLines = 1; // Add new line after "{"*/
+                /*if (lastToken && lastToken.tokenType === TokenType.SEMICOLON && newLines === 0)
+                    newLines = 1; // Add new line after ";"*/
+                /*if (lastToken && lastToken.tokenType === TokenType.RBRACKET && newLines === 0 && token.content.toLowerCase() !== 'else' && token.content.toLowerCase() !== 'catch' && token.content.toLowerCase() !== 'finnaly' && token.content.toLowerCase() !== 'while')
+                    newLines = 1; // Add new line after "}" when next token not "else", "catch", "finally" or "while"*/
+                /*if (lastToken && lastToken.tokenType === TokenType.RBRACKET && newLines > 0 && (token.content.toLowerCase() === 'else' || token.content.toLowerCase() === 'catch' || token.content.toLowerCase() === 'finnaly' || token.content.toLowerCase() === 'while'))
+                    newLines = 0; // Remove line after "}" when next token are "else", "catch", "finally" or "while" and add token to previous line*/
             }
             if (newLines > 0) {
                 lines.push(line + getNewLines(newLines - 1));
@@ -153,7 +156,14 @@ exports.provider = {
                 } else if (isCommentBlock) {
                     line = getIndent(indent) + ' ' + token.content + getWhitespaces((nextToken) ? nextToken.startColumn - token.endColumn : 0);
                 } else {
-                    line = getIndent(indent) + token.content + getWhitespaces((nextToken) ? nextToken.startColumn - token.endColumn : 0);
+                    if (token.tokenType === TokenType.RBRACKET && nextToken && (nextToken.content.toLowerCase() === 'else' || nextToken.content.toLowerCase() === 'catch' || nextToken.content.toLowerCase() === 'finnaly' || nextToken.content.toLowerCase() === 'while')) {
+                        line = getIndent(indent) + token.content + getWhitespaces(1);
+                    } else if ((token.content.toLowerCase() === 'catch' || token.content.toLowerCase() === 'while' || token.content.toLowerCase() === 'if') && nextToken.tokenType === TokenType.LPAREN) {
+                        line = getIndent(indent) + token.content + getWhitespaces(0);
+                    } else {
+                        line = getIndent(indent) + token.content + getWhitespaces((nextToken) ? nextToken.startColumn - token.endColumn : 0);
+                    }
+
                 }
             } else {
                 if (!isOnCommentLine && !isCommentBlock && !isOnText) {
@@ -161,8 +171,8 @@ exports.provider = {
                         line += token.content + getWhitespaces(1);
                     } else if (token.tokenType === TokenType.LPAREN) {
                         line += token.content + getWhitespaces(0);
-                    } else if (token.tokenType === TokenType.RBRACKET && nextToken && (nextToken.content.toLowerCase() === 'else' || nextToken.content.toLowerCase() === 'catch' || nextToken.content.toLowerCase() === 'finnaly' || nextToken.content.toLowerCase() === 'while')) {
-                        line += token.content + getWhitespaces(1);
+                    } else if ((token.content.toLowerCase() === 'catch' || token.content.toLowerCase() === 'while' || token.content.toLowerCase() === 'if') && nextToken.tokenType === TokenType.LPAREN) {
+                        line += token.content + getWhitespaces(0);
                     } else if (token.tokenType === TokenType.COMMA) {
                         line += token.content + getWhitespaces(1);
                     } else {
