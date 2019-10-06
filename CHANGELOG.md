@@ -328,3 +328,12 @@ All notable changes to this project will be documented in this file.
 ## [1.4.1 - 2019-09-26]
 ### Fixed
     - Fixed some bugs with Apex Formatter
+
+## [1.5.0 - 2019-10-XX]
+### Added
+    - Added autocompletion tools for SObjects and Classes (Support custom and more than 400 standard classes)
+    - Better code formatter
+
+### Fixed
+    - Fixed issues with autocompletion tools on queries
+    - Fixed classes autocompletion tools

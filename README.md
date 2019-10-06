@@ -297,6 +297,9 @@ If you type <c:ComponentName You can get all attributes of the component for cal
     
 ##### Apex:
     - /** : Add a class or method comment on your apex code
+    - Autocompletion support for more than 400 system classes
+    - Autocompletion support for SObject
+    - Autocompletion support for User Classes
 
 #### SLDS Snippets:
     - slds.modal: Create a base Modal Dialog Code Unit with Salesforce Lightning Design System (SLDS)
