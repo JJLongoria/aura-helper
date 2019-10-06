@@ -57,7 +57,7 @@ function provideAuraComponentCompletion(document, position) {
         // Code for completions when user types any snippets activation preffix (ltn., slds., ltng. ...)
         items = getSnippetsCompletionItems(position, snippets);
     } else if (similarAuraSnippetsNs.length > 0 && FileChecker.isAuraComponent(document.uri.fsPath)) {
-        // Code for completions when user types a similar words of snippets activations (lt (ltn.), sl (ltng.) ...)
+        // Code for completions when user types a similar words of snippets activations (lt (ltn.), (ltng.) ...)
         items = getSimilarCompletionItems(position, similarAuraSnippetsNs);
     } else if (similarSldsSnippetsNs.length > 0 && FileChecker.isAuraComponent(document.uri.fsPath)) {
         // Code for completions when user types a similar words of snippets activations (sl (slds.) ...)

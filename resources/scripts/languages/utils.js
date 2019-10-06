@@ -1,6 +1,8 @@
 const Tokenizer = require('./tokenizer').Tokenizer;
 const TokenType = require('./tokenTypes');
 const logger = require('../main/logger');
+const vscode = require('vscode');
+const Position = vscode.Position;
 
 class Utils {
     static getWhitespaces(number) {
@@ -29,42 +31,49 @@ class Utils {
     static getQueryData(document, position) {
         logger.log("Run getQueryData");
         let line = position.line;
+        let positionData;
+        let initLine = line;
         let endLoop = false;
         let endInnerLoop = false;
         let startQueryLine;
         let startQueryIndex;
+        let startQueryColumn;
+        let endQueryLine;
+        let endQueryIndex;
+        let endQueryColumn;
         let from;
         let queryData;
         if (document.lineAt(line).isEmptyOrWhitespace)
             return queryData;
-        let isSelect = true;
-        let selectIndex = 0;
+        let isSelect = false;
         let selectLine = 0;
         while (!endLoop) {
             let lineTokens = Tokenizer.tokenize(document.lineAt(line).text);
-            let index = lineTokens.length - 1;
+            let index;
+            index = lineTokens.length - 1;
+            endInnerLoop = false;
             while (!endInnerLoop) {
                 let token = lineTokens[index];
                 let lastToken = Utils.getLastToken(lineTokens, index);
                 let nextToken = Utils.getNextToken(lineTokens, index);
                 if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'select') {
                     isSelect = true;
-                    selectIndex = index;
                     selectLine = line;
-                } else if(token.tokenType === TokenType.RBRACKET || token.tokenType === TokenType.SEMICOLON){
+                } else if ((token.tokenType === TokenType.RBRACKET || token.tokenType === TokenType.SEMICOLON) && (line != initLine || (line === initLine && index !== lineTokens.length - 1))) {
                     endLoop = true;
                     endInnerLoop = true;
                 }
                 if (isSelect && (line === selectLine || line === selectLine - 1) && (token.tokenType === TokenType.LSQBRACKET || token.tokenType === TokenType.SQUOTTE || token.tokenType === TokenType.QUOTTE)) {
                     startQueryLine = line;
                     startQueryIndex = index;
+                    startQueryColumn = token.relativeStartColumn;
                 }
-                if (startQueryLine && startQueryIndex){
+                if (startQueryLine && startQueryIndex) {
                     endLoop = true;
                     endInnerLoop = true;
                 }
                 index--;
-                if(index < 0)
+                if (index < 0)
                     endInnerLoop = true;
             }
             line--;
@@ -76,6 +85,9 @@ class Utils {
         let queryFields = [];
         let field = "";
         let startFields = false;
+        let outsideQuery = false;
+        logger.log('startQueryIndex', startQueryIndex);
+        logger.log('startQueryLine', startQueryLine);
         if (startQueryIndex && startQueryLine) {
             while (!endLoop) {
                 let lineTokens = Tokenizer.tokenize(document.lineAt(line).text);
@@ -86,8 +98,12 @@ class Utils {
                     let token = lineTokens[index];
                     let lastToken = Utils.getLastToken(lineTokens, index);
                     let nextToken = Utils.getNextToken(lineTokens, index);
-                    if (token.tokenType === TokenType.RSQBRACKET || ((token.tokenType === TokenType.SQUOTTE || token.tokenType === TokenType.QUOTTE) && lastToken && lastToken.tokenType !== TokenType.BACKSLASH))
+                    if (token.tokenType === TokenType.RSQBRACKET || ((token.tokenType === TokenType.SQUOTTE || token.tokenType === TokenType.QUOTTE) && lastToken && lastToken.tokenType !== TokenType.BACKSLASH)) {
                         endLoop = true;
+                        endQueryLine = line;
+                        endQueryIndex = token.index;
+                        endQueryColumn = token.relativeStartColumn;
+                    }
                     if (!endLoop) {
                         if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "from") {
                             from = nextToken.content;
@@ -116,13 +132,82 @@ class Utils {
                     endLoop = true;
             }
         }
-        if (from) {
+        if (startQueryLine <= position.line && position.line <= endQueryLine) {
+            if (startQueryLine === position.line && endQueryLine === position.line) {
+                if(startQueryColumn + 1 > position.character || position.character > endQueryColumn)
+                    outsideQuery = true;
+
+            } else if (startQueryLine === position.line) {
+                if(startQueryColumn + 1 > position.character)
+                    outsideQuery = true;
+            } else if (endQueryLine === position.line) {
+                if(position.character > endQueryColumn)
+                    outsideQuery = true;
+            }
+        } else {
+            outsideQuery = true;
+        }
+        if (from && !outsideQuery) {
             queryData = {
                 from: from,
                 queryFields: queryFields
             };
         }
+        logger.logJSON('queryData', queryData);
         return queryData;
+    }
+
+    static isOnPosition(position, lastToken, token, nextToken) {
+        if (position && token.line == position.line) {
+            if (token.relativeStartColumn <= position.character && position.character <= nextToken.relativeStartColumn)
+                return true;
+        } else if (position && lastToken && lastToken.line < position.line && nextToken && position.line < nextToken.line) {
+            return true;
+        }
+        return false;
+    }
+
+    static getPositionData(position, token, nextToken) {
+        let positionData;
+        if (token.relativeStartColumn <= position.character && position.character <= token.relativeEndColumn) {
+            if (positionData === undefined)
+                positionData = {
+                    startPart: undefined,
+                    endPart: undefined,
+                    isOnClass: undefined,
+                    isOnMethod: undefined,
+                    isOnMethodParams: undefined,
+                    isOnEnum: undefined,
+                    methodSignature: undefined
+                };
+            let startIndex = position.character - token.relativeStartColumn;
+            positionData.startPart = token.content.substring(0, startIndex + 1);
+            positionData.endPart = token.content.substring(startIndex + 1, token.content.length - 1);
+        } else if (token.endColumn <= position.character && position.character <= nextToken.relativeStartColumn) {
+            if (positionData === undefined)
+                positionData = {
+                    startPart: undefined,
+                    endPart: undefined,
+                    isOnClass: undefined,
+                    isOnMethod: undefined,
+                    isOnMethodParams: undefined,
+                    isOnEnum: undefined,
+                    methodSignature: undefined
+                };
+            positionData.startPart = token.content;
+        } else {
+            if (positionData === undefined)
+                positionData = {
+                    startPart: undefined,
+                    endPart: undefined,
+                    isOnClass: undefined,
+                    isOnMethod: undefined,
+                    isOnMethodParams: undefined,
+                    isOnEnum: undefined,
+                    methodSignature: undefined
+                };
+        }
+        return positionData;
     }
 }
 exports.Utils = Utils;

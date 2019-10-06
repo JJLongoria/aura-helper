@@ -175,7 +175,7 @@ class Utils {
         let token;
         while (index < lineTokens.length) {
             token = lineTokens[index];
-            if (position.character >= token.startColumn) {
+            if (position.character >= token.relativeStartColumn) {
                 tokenPos = index;
             }
             index++;
@@ -186,6 +186,7 @@ class Utils {
         let isOnParams = false;
         while (!endLoop) {
             token = lineTokens[tokenPos];
+            let lastToken = (tokenPos - 1 > 0) ? lineTokens[tokenPos - 1] : undefined;
             if (token && token.tokenType === TokenType.RPAREN) {
                 isOnParams = true;
                 activation = token.content + activation;
@@ -193,7 +194,15 @@ class Utils {
                 isOnParams = false;
                 activation = token.content + activation;
             } else if (token && (token.tokenType === TokenType.DOT || token.tokenType === TokenType.IDENTIFIER || isOnParams)) {
-                activation = token.content + activation;
+                if(!isOnParams){
+                    if(lastToken && lastToken.endColumn != token.startColumn){
+                        endLoop = true;
+                        activation = token.content + activation;
+                    } else
+                        activation = token.content + activation;
+                } else {
+                    activation = token.content + activation;
+                }
             }
             tokenPos--
             if (tokenPos < 0)
@@ -238,6 +247,7 @@ class Utils {
                         itemRel = new CompletionItem(name, CompletionItemKind.Field);
                         itemRel.detail = sObject.name + " Relationsip Field";
                         itemRel.insertText = name;
+                        itemRel.preselect = true;
                         itemRel.command = {
                             title: 'sObject',
                             command: command,
@@ -252,6 +262,7 @@ class Utils {
                     }
                 }
                 item.insertText = field.name;
+                item.preselect = true;
                 item.command = {
                     title: 'sObject',
                     command: command,
@@ -376,17 +387,13 @@ class Utils {
         if (!config.getConfig().activeQuerySuggestion)
             return Promise.resolve(undefined);
         let sObjects = Utils.getObjectsFromMetadataIndex();
-        let similarSobjects;
         let items;
-        if (activationTokens.length === 1)
-            similarSobjects = Utils.getSimilar(sObjects.sObjectsToLower, activationTokens[0]);
         if (sObjects.sObjectsToLower.includes(queryData.from.toLowerCase())) {
             let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[queryData.from.toLowerCase()]);
             if (activationTokens.length === 0) {
                 items = Utils.getSobjectsFieldsCompletionItems(position, sObject, command);
             } else {
                 let lastObject = sObject;
-                let index = 0;
                 for (const activationToken of activationTokens) {
                     let actToken = activationToken;
                     if (actToken.endsWith('__r'))
@@ -399,7 +406,6 @@ class Utils {
                             lastObject = undefined;
                         }
                     }
-                    index++;
                 }
                 items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, command);
             }
@@ -519,6 +525,16 @@ class Utils {
     static getNamespacesMetadataFile(){
         let nsMetadataPath = Paths.getSystemClassesPath() + '/namespacesMetadata.json';
         return JSON.parse(FileReader.readFileSync(nsMetadataPath));
+    }
+
+    static isOnPosition(position, lastToken, token, nextToken) {
+        if (position && token.line == position.line) {
+            if (token.startColumn <= position.character && position.character <= nextToken.startColumn)
+                return true;
+        } else if (position && lastToken && lastToken.line < position.line && nextToken && position.line < nextToken.line) {
+            return true;
+        }
+        return false;
     }
 }
 exports.Utils = Utils;
