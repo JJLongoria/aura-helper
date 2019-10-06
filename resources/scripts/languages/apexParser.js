@@ -154,7 +154,9 @@ class ApexParser {
             inheritedFields: [],
             inheritedMethods: [],
             inheritedConstructors: [],
-            posData: undefined
+            posData: undefined,
+            parentEnum: undefined,
+            parentClass: undefined
         };
     }
 
@@ -194,7 +196,7 @@ class ApexParser {
                 if (bracketIndent === 1)
                     activeClassName = fileStructure.name;
             }
-            if (this.isOnPosition(position, lastToken, token, nextToken)) {
+            if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
                 if (positionData) {
                     positionData.isOnClass = true;
@@ -236,7 +238,7 @@ class ApexParser {
             } else if (this.isAccessModifier(token)) {
                 accessModifier = token.content;
                 dataTypeIndexStart = index;
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -245,7 +247,7 @@ class ApexParser {
             } else if (this.isDefinitionModifier(token)) {
                 definitionModifier = token.content;
                 dataTypeIndexStart = index;
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -255,7 +257,7 @@ class ApexParser {
                 withSharing = false;
                 inheritedSharing = false;
                 dataTypeIndexStart = index + 1;
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -265,7 +267,7 @@ class ApexParser {
                 withSharing = false;
                 inheritedSharing = true;
                 dataTypeIndexStart = index + 1;
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -274,7 +276,7 @@ class ApexParser {
             } else if (this.isStatic(token)) {
                 isStatic = true;
                 dataTypeIndexStart = index;
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -283,7 +285,7 @@ class ApexParser {
             } else if (this.isFinal(token)) {
                 isFinal = true;
                 dataTypeIndexStart = index;
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -292,7 +294,7 @@ class ApexParser {
             } else if (this.isOverride(token)) {
                 override = true;
                 dataTypeIndexStart = index;
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -301,7 +303,7 @@ class ApexParser {
             } else if (this.isAbstract(token)) {
                 isAbstract = true;
                 dataTypeIndexStart = index;
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -310,7 +312,7 @@ class ApexParser {
             } else if (this.isVirtual(token)) {
                 isVirtual = true;
                 dataTypeIndexStart = index;
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -319,7 +321,7 @@ class ApexParser {
             } else if (this.isTestMethod(token)) {
                 testMethod = true;
                 dataTypeIndexStart = index;
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -328,7 +330,7 @@ class ApexParser {
             } else if (this.isTransient(token)) {
                 transient = true;
                 dataTypeIndexStart = index;
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -355,14 +357,20 @@ class ApexParser {
                     fileStructure.virtual = token.isVirtual;
                     fileStructure.isEnum = true;
                     fileStructure.enumValues = data.enumValues;
+                    fileStructure.parentEnum = undefined;
+                    fileStructure.parentClass = undefined;
                 } else if (bracketIndent === 1 && activeClassName && activeClassName === fileStructure.name) {
                     fileStructure.enums[activeEnumName] = this.getClassBaseStructure();
                     fileStructure.enums[activeEnumName].isEnum = true;
                     fileStructure.enums[activeEnumName].enumValues = data.enumValues;
+                    fileStructure.enums[activeEnumName].parentEnum = fileStructure.name;
+                    fileStructure.enums[activeEnumName].parentClass = undefined;
                 } else if (bracketIndent === 2 && fileStructure.classes[activeClassName]) {
                     fileStructure.classes[activeClassName].enums[activeEnumName] = this.getClassBaseStructure();
                     fileStructure.classes[activeClassName].enums[activeEnumName].isEnum = true;
                     fileStructure.classes[activeClassName].enums[activeEnumName].enumValues = data.enumValues;
+                    fileStructure.classes[activeClassName].enums[activeEnumName].parentEnum = fileStructure.name;
+                    fileStructure.classes[activeClassName].enums[activeEnumName].parentClass = activeClassName;
                 }
             } else if (this.isClass(token, nextToken) || this.isInterface(token, nextToken)) {
                 activeClassName = nextToken.content;
@@ -379,6 +387,8 @@ class ApexParser {
                     fileStructure.column = token.startColumn;
                     fileStructure.abstract = isAbstract;
                     fileStructure.virtual = token.isVirtual;
+                    fileStructure.parentEnum = undefined;
+                    fileStructure.parentClass = undefined;
                 } else if (bracketIndent === 1 && !this.isEnum(token, nextToken)) {
                     fileStructure.classes[activeClassName] = this.getClassBaseStructure();
                     fileStructure.classes[activeClassName].name = activeClassName;
@@ -393,8 +403,10 @@ class ApexParser {
                     fileStructure.classes[activeClassName].column = token.startColumn;
                     fileStructure.classes[activeClassName].abstract = isAbstract;
                     fileStructure.classes[activeClassName].virtual = token.isVirtual;
+                    fileStructure.classes[activeClassName].parentEnum = undefined;
+                    fileStructure.classes[activeClassName].parentClass = fileStructure.name;
                 }
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -455,7 +467,7 @@ class ApexParser {
                 } else if (bracketIndent === 2 && fileStructure.classes[activeClassName]) {
                     fileStructure.classes[activeClassName].fields.push(variable);
                 }
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnClass = true;
@@ -485,7 +497,7 @@ class ApexParser {
                                 fileStructure.classes[activeClassName].fields.push(variable);
                             }
                         }
-                        if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                        if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                             positionData = this.getPositionData(position, token, nextToken);
                             if (positionData) {
                                 positionData.isOnClass = true;
@@ -595,7 +607,7 @@ class ApexParser {
             lastToken = Utils.getLastToken(tokens, index);
             token = tokens[index];
             nextToken = Utils.getNextToken(tokens, index);
-            if (this.isOnPosition(position, lastToken, token, nextToken)) {
+            if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
                 if (positionData) {
                     positionData.isOnEnum = true;
@@ -640,7 +652,7 @@ class ApexParser {
             } else if (token.content.toLowerCase() !== 'implements' && token.tokenType !== TokenType.LBRACKET) {
                 interfaceName += token.content;
             }
-            if (this.isOnPosition(position, lastToken, token, nextToken)) {
+            if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
             }
             index++;
@@ -694,7 +706,7 @@ class ApexParser {
             else if (token.tokenType === TokenType.RPAREN)
                 parenIndent--;
 
-            if (this.isOnPosition(position, lastToken, token, nextToken)) {
+            if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
                 if (positionData) {
                     if (bracketIndent === 0 && parenIndent === 1)
@@ -706,7 +718,7 @@ class ApexParser {
                 }
             }
             if (bracketIndent == 0 && parenIndent == 1) {
-                if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
                     if (positionData) {
                         positionData.isOnMethodParams = true;
@@ -786,7 +798,7 @@ class ApexParser {
                             }
                             index++;
                             method.bodyTokens.push(token);
-                            if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                            if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                                 positionData = this.getPositionData(position, token, nextToken);
                                 if (positionData) {
                                     positionData.isOnMethod = true;
@@ -795,7 +807,7 @@ class ApexParser {
                         }
                     } else {
                         method.bodyTokens.push(token);
-                        if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                        if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                             positionData = this.getPositionData(position, token, nextToken);
                             if (positionData) {
                                 positionData.isOnMethod = true;
@@ -804,7 +816,7 @@ class ApexParser {
                     }
                 } else {
                     method.bodyTokens.push(token);
-                    if (this.isOnPosition(position, lastToken, token, nextToken)) {
+                    if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                         positionData = this.getPositionData(position, token, nextToken);
                         if (positionData) {
                             positionData.isOnMethod = true;
@@ -834,7 +846,7 @@ class ApexParser {
             let lastToken = Utils.getLastToken(tokens, index);
             if (token.tokenType !== TokenType.LBRACKET && token.content.toLowerCase() !== 'extends')
                 extendsName += token.content;
-            if (this.isOnPosition(position, lastToken, token, nextToken)) {
+            if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
             }
             index++;
@@ -854,14 +866,14 @@ class ApexParser {
         let nextToken = Utils.getNextToken(tokens, index);
         let lastToken = Utils.getLastToken(tokens, index);
         let positionData;
-        if (this.isOnPosition(position, lastToken, token, nextToken)) {
+        if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
             positionData = this.getPositionData(position, token, nextToken);
         }
         while (token && nextToken && token.line == nextToken.line) {
             token = tokens[index];
             nextToken = Utils.getNextToken(tokens, index);
             commenTokens.push(token);
-            if (this.isOnPosition(position, lastToken, token, nextToken)) {
+            if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
             }
             index++;
@@ -881,7 +893,7 @@ class ApexParser {
         let lastToken = Utils.getLastToken(tokens, index);
         textTokens.push(token);
         let positionData;
-        if (this.isOnPosition(position, lastToken, token, nextToken)) {
+        if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
             positionData = this.getPositionData(position, token, nextToken);
         }
         index++;
@@ -891,7 +903,7 @@ class ApexParser {
             nextToken = Utils.getNextToken(tokens, index);
             token = tokens[index];
             textTokens.push(token);
-            if (this.isOnPosition(position, lastToken, token, nextToken)) {
+            if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
             }
             if (token.tokenType === TokenType.SQUOTTE && lastToken && lastToken.tokenType !== TokenType.BACKSLASH)
@@ -917,7 +929,7 @@ class ApexParser {
             let lastToken = Utils.getLastToken(tokens, index);
             commenTokens.push(token);
             endComment = token.tokenType === TokenType.OPERATOR && token.content === '*' && nextToken && nextToken.tokenType === TokenType.OPERATOR && nextToken.content === '/';
-            if (this.isOnPosition(position, lastToken, token, nextToken)) {
+            if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
             }
             index++;
@@ -942,7 +954,7 @@ class ApexParser {
             nextToken = Utils.getNextToken(tokens, index);
             lastToken = Utils.getLastToken(tokens, index);
             annotation += token.content;
-            if (this.isOnPosition(position, lastToken, token, nextToken)) {
+            if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
             }
             index++;
@@ -994,16 +1006,6 @@ class ApexParser {
                 };
         }
         return positionData;
-    }
-
-    static isOnPosition(position, lastToken, token, nextToken) {
-        if (position && token.line == position.line) {
-            if (token.startColumn <= position.character && position.character <= nextToken.startColumn)
-                return true;
-        } else if (position && lastToken && lastToken.line < position.line && nextToken && position.line < nextToken.line) {
-            return true;
-        }
-        return false;
     }
 
     static isOnAnnotation(token, bracketIndent) {
