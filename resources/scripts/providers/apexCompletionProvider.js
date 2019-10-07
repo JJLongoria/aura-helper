@@ -240,9 +240,9 @@ function getCompletionItems(document, position, activationTokens, fileStructure,
         }
         index++;
     }
-    if (lastClass) {
+    if (lastClass && config.getConfig().activeApexSuggestion) {
         items = getApexClassCompletionItems(position, lastClass);
-    } else if (sObject) {
+    } else if (sObject && config.getConfig().activeSobjectFieldsSuggestion) {
         items = Utils.getSobjectsFieldsCompletionItems(position, sObject, 'aurahelper.completion.apex');
     }
     return items;
@@ -250,51 +250,55 @@ function getCompletionItems(document, position, activationTokens, fileStructure,
 
 function getAllAvailableCompletionItems(position, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects) {
     let items = [];
-    items = getApexClassCompletionItems(position, fileStructure)
-    for (const userClass of classes.classes) {
-        let options = getCompletionItemOptions(userClass, 'Custom Apex Class', userClass, true, CompletionItemKind.Class);
-        let command = getCommand('UserClass', 'aurahelper.completion.apex', [position, 'UserClass', userClass]);
-        items.push(createItemForCompletion(userClass, options, command));
+    if (config.getConfig().activeApexSuggestion) {
+        items = getApexClassCompletionItems(position, fileStructure)
+        for (const userClass of classes.classes) {
+            let options = getCompletionItemOptions(userClass, 'Custom Apex Class', userClass, true, CompletionItemKind.Class);
+            let command = getCommand('UserClass', 'aurahelper.completion.apex', [position, 'UserClass', userClass]);
+            items.push(createItemForCompletion(userClass, options, command));
+        }
+        Object.keys(systemMetadata).forEach(function (key) {
+            let systemClass = systemMetadata[key];
+            if (systemClass.isEnum) {
+                let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '') + '\nEnum Values: \n' + systemClass.enumValues.join('\n');
+                let options = getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Enum);
+                let command = getCommand('SystemEnum', 'aurahelper.completion.apex', [position, 'SystemEnum', systemClass]);
+                items.push(createItemForCompletion(systemClass.name, options, command));
+            } else if (systemClass.isInterface) {
+                let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '');
+                let options = getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Interface);
+                let command = getCommand('SystemInterface', 'aurahelper.completion.apex', [position, 'SystemInterface', systemClass]);
+                items.push(createItemForCompletion(systemClass.name, options, command));
+            } else {
+                let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '');
+                let options = getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Class);
+                let command = getCommand('SystemClass', 'aurahelper.completion.apex', [position, 'SystemClass', systemClass]);
+                items.push(createItemForCompletion(systemClass.name, options, command));
+            }
+        });
+        Object.keys(namespacesMetadata).forEach(function (key) {
+            let nsMetadata = namespacesMetadata[key];
+            let options = getCompletionItemOptions(nsMetadata.description, nsMetadata.docLink, nsMetadata.name, true, CompletionItemKind.Module);
+            let command = getCommand('Namespace', 'aurahelper.completion.apex', [position, 'Namespace', nsMetadata]);
+            items.push(createItemForCompletion(nsMetadata.name, options, command));
+        });
     }
-    Object.keys(systemMetadata).forEach(function (key) {
-        let systemClass = systemMetadata[key];
-        if (systemClass.isEnum) {
-            let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '') + '\nEnum Values: \n' + systemClass.enumValues.join('\n');
-            let options = getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Enum);
-            let command = getCommand('SystemEnum', 'aurahelper.completion.apex', [position, 'SystemEnum', systemClass]);
-            items.push(createItemForCompletion(systemClass.name, options, command));
-        } else if (systemClass.isInterface) {
-            let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '');
-            let options = getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Interface);
-            let command = getCommand('SystemInterface', 'aurahelper.completion.apex', [position, 'SystemInterface', systemClass]);
-            items.push(createItemForCompletion(systemClass.name, options, command));
-        } else {
-            let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '');
-            let options = getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Class);
-            let command = getCommand('SystemClass', 'aurahelper.completion.apex', [position, 'SystemClass', systemClass]);
-            items.push(createItemForCompletion(systemClass.name, options, command));
+    if (config.getConfig().activeSObjectSuggestion) {
+        for (const sobject of sObjects.sObjectsToLower) {
+            let objName = sObjects.sObjectsMap[sobject];
+            let splits = objName.split('__');
+            let namespace = '';
+            let description = 'Standard SObject';
+            if (objName.indexOf('__c') !== -1)
+                description = 'Custom SObject';
+            if (splits.length > 2) {
+                namespace = splits[0].trim();
+                description += '\nNamespace: ' + namespace;
+            }
+            let options = getCompletionItemOptions(objName, description, objName, true, CompletionItemKind.Class);
+            let command = getCommand('SObject', 'aurahelper.completion.apex', [position, 'SObject', objName]);
+            items.push(createItemForCompletion(objName, options, command));
         }
-    });
-    Object.keys(namespacesMetadata).forEach(function (key) {
-        let nsMetadata = namespacesMetadata[key];
-        let options = getCompletionItemOptions(nsMetadata.description, nsMetadata.docLink, nsMetadata.name, true, CompletionItemKind.Module);
-        let command = getCommand('Namespace', 'aurahelper.completion.apex', [position, 'Namespace', nsMetadata]);
-        items.push(createItemForCompletion(nsMetadata.name, options, command));
-    });
-    for (const sobject of sObjects.sObjectsToLower) {
-        let objName = sObjects.sObjectsMap[sobject];
-        let splits = objName.split('__');
-        let namespace = '';
-        let description = 'Standard SObject';
-        if (objName.indexOf('__c') !== -1)
-            description = 'Custom SObject';
-        if (splits.length > 2) {
-            namespace = splits[0].trim();
-            description += '\nNamespace: ' + namespace;
-        }
-        let options = getCompletionItemOptions(objName, description, objName, true, CompletionItemKind.Class);
-        let command = getCommand('SObject', 'aurahelper.completion.apex', [position, 'SObject', objName]);
-        items.push(createItemForCompletion(objName, options, command));
     }
     return items;
 }
