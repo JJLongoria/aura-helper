@@ -37,6 +37,23 @@
 	],
 	"main": "./extension.js",
 	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "fileStructure",
+					"title": "File Structure",
+					"icon": "resources/images/code.svg"
+				}
+			]
+		},
+		"views": {
+			"fileStructure": [
+				{
+					"id": "fileExplorer",
+					"name": "Explorer"
+				}
+			]
+		},
 		"configuration": {
 			"title": "Aura Helper",
 			"properties": {
@@ -142,6 +159,14 @@
 			{
 				"command": "aurahelper.metadata.refresh.object",
 				"title": "AuraHelper: Refresh Metadata Index for Object"
+			},
+			{
+				"command": "aurahelper.fileExplorer.refresh",
+				"title": "AuraHelper: Refresh File Structure View",
+				"icon": {
+					"light": "resources/images/light/refresh.svg",
+					"dark": "resources/images/dark/refresh.svg"
+				  }
 			}
 		],
 		"languages": [
@@ -186,32 +211,43 @@
 				]
 			}
 		],
-		"menus":{
-			"explorer/context":[{
-				"when":"resourceExtname == .cmp",
-				"command": "aurahelper.file.new.aura",
-				"group": "navigation"
-			},
-			{
-				"when":"resourceExtname == .auradoc",
-				"command": "aurahelper.completion.aura.documentation",
-				"group": "navigation"
-			},
-			{
-				"when":"resource =~ /./aura/ && resourceExtname =~ /^(?!(.app|.cmp|.auradoc|.evt|.intf|.css|.design|.html|.js|.svg)$)/",
-				"command": "aurahelper.file.new.aura",
-				"group": "navigation"
-			}],
-			"editor/context":[{
-				"when":"resourceExtname == .cmp",
-				"command": "aurahelper.file.new.aura",
-				"group": "auraHelper@1"
-			},
-			{
-				"when":"resourceExtname == .auradoc",
-				"command": "aurahelper.completion.aura.documentation",
-				"group": "auraHelper@1"
-			}]
+		"menus": {
+			"explorer/context": [
+				{
+					"when": "resourceExtname == .cmp",
+					"command": "aurahelper.file.new.aura",
+					"group": "navigation"
+				},
+				{
+					"when": "resourceExtname == .auradoc",
+					"command": "aurahelper.completion.aura.documentation",
+					"group": "navigation"
+				},
+				{
+					"when": "resource =~ /./aura/ && resourceExtname =~ /^(?!(.app|.cmp|.auradoc|.evt|.intf|.css|.design|.html|.js|.svg)$)/",
+					"command": "aurahelper.file.new.aura",
+					"group": "navigation"
+				}
+			],
+			"editor/context": [
+				{
+					"when": "resourceExtname == .cmp",
+					"command": "aurahelper.file.new.aura",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resourceExtname == .auradoc",
+					"command": "aurahelper.completion.aura.documentation",
+					"group": "auraHelper@1"
+				}
+			],
+			"view/title": [
+				{
+					"command": "aurahelper.fileExplorer.refresh",
+					"when": "view == fileExplorer",
+					"group": "navigation"
+				}
+			]
 		}
 	},
 	"scripts": {

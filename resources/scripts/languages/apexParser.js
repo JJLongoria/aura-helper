@@ -361,12 +361,14 @@ class ApexParser {
                     fileStructure.parentClass = undefined;
                 } else if (bracketIndent === 1 && activeClassName && activeClassName === fileStructure.name) {
                     fileStructure.enums[activeEnumName] = this.getClassBaseStructure();
+                    fileStructure.enums[activeEnumName].name = activeEnumName;
                     fileStructure.enums[activeEnumName].isEnum = true;
                     fileStructure.enums[activeEnumName].enumValues = data.enumValues;
                     fileStructure.enums[activeEnumName].parentEnum = fileStructure.name;
                     fileStructure.enums[activeEnumName].parentClass = undefined;
                 } else if (bracketIndent === 2 && fileStructure.classes[activeClassName]) {
                     fileStructure.classes[activeClassName].enums[activeEnumName] = this.getClassBaseStructure();
+                    fileStructure.classes[activeClassName].enums[activeEnumName].name = activeEnumName;
                     fileStructure.classes[activeClassName].enums[activeEnumName].isEnum = true;
                     fileStructure.classes[activeClassName].enums[activeEnumName].enumValues = data.enumValues;
                     fileStructure.classes[activeClassName].enums[activeEnumName].parentEnum = fileStructure.name;
@@ -1418,7 +1420,7 @@ class ApexParser {
             signature += "abstract ";
         if (method.virtual)
             signature += "virtual ";
-        if (method.virtual)
+        if (method.override)
             signature += "override ";
         if (method.datatype)
             signature += method.datatype + " ";
