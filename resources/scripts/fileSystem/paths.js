@@ -70,5 +70,8 @@ class Paths {
     static asUri(filePath) {
         return vscode.Uri.file(filePath);
     }
+    static getImagesPath(){
+        return applicationContext.context.asAbsolutePath("./resources/images");
+    }
 }
 exports.Paths = Paths;

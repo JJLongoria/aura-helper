@@ -259,15 +259,18 @@ function getAllAvailableCompletionItems(position, fileStructure, classes, system
     Object.keys(systemMetadata).forEach(function (key) {
         let systemClass = systemMetadata[key];
         if (systemClass.isEnum) {
-            let options = getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', systemClass.description + '\nEnum Values: \n' + systemClass.enumValues.join('\n'), systemClass.name, true, CompletionItemKind.Enum);
+            let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '') + '\nEnum Values: \n' + systemClass.enumValues.join('\n');
+            let options = getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Enum);
             let command = getCommand('SystemEnum', 'aurahelper.completion.apex', [position, 'SystemEnum', systemClass]);
             items.push(createItemForCompletion(systemClass.name, options, command));
         } else if (systemClass.isInterface) {
-            let options = getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', systemClass.description, systemClass.name, true, CompletionItemKind.Interface);
+            let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '');
+            let options = getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Interface);
             let command = getCommand('SystemInterface', 'aurahelper.completion.apex', [position, 'SystemInterface', systemClass]);
             items.push(createItemForCompletion(systemClass.name, options, command));
         } else {
-            let options = getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', systemClass.description, systemClass.name, true, CompletionItemKind.Class);
+            let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '');
+            let options = getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Class);
             let command = getCommand('SystemClass', 'aurahelper.completion.apex', [position, 'SystemClass', systemClass]);
             items.push(createItemForCompletion(systemClass.name, options, command));
         }

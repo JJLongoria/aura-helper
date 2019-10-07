@@ -42,6 +42,8 @@ class JavaScriptParser {
                         func.name = lastToken.content;
                         func.token = lastToken;
                         func.params = [];
+                        func.line = token.line;
+                        func.column = token.startColumn;
                         let paramNames = [];
                         if (comment.description)
                             func.comment = comment;
