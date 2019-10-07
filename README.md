@@ -11,6 +11,9 @@ The Aura Helper Extension contains some of next features:
 ### Format Code
     - Format Apex code with Ctrl+Atl+F
 
+### File Structure View
+    - Added a new view for explore the file structure. You can see al classes, interfaces, components... member and go to it with one click
+
 ### Commands features
 Some commands with tools for help in your work. All commands start with "AuraHelper:"
 

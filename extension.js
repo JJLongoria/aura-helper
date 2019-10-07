@@ -3,6 +3,7 @@
 const vscode = require('vscode');
 const providers = require('./resources/scripts/providers');
 const commands = require('./resources/scripts/commands');
+let fileStructureProvider;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -18,6 +19,7 @@ function activate(context) {
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 	commands.initialization(context);
+	// prepare and register commands
 	let addApexMethodComment = vscode.commands.registerCommand('aurahelper.completion.apex.comment.command', commands.addApexComment);
 	let addJSFunction = vscode.commands.registerCommand('aurahelper.completion.js.function', commands.addJSFunction);
 	let addMethodBlock = vscode.commands.registerCommand('aurahelper.completion.documentation.method', commands.addMethodBlock);
@@ -31,7 +33,15 @@ function activate(context) {
 
 	vscode.commands.registerCommand('aurahelper.completion.apex', commands.apexCodeCompletion);
 	vscode.commands.registerCommand('aurahelper.completion.aura', commands.auraCodeCompletion);
+
+	// Register File Structure Provider
+	fileStructureProvider = new providers.FileStructureProvider();
+	vscode.window.registerTreeDataProvider('fileExplorer', fileStructureProvider);
+	vscode.commands.registerCommand('aurahelper.fileExplorer.refresh', () => fileStructureProvider.refresh());
+	vscode.commands.registerCommand('aurahelper.fileExplorer.gotoMember', commands.gotoFileMember);
 	
+	// Add commands to subscriptions
+	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(refreshTreeView));
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', providers.apexCommentProvider, '*'));
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', providers.apexCompletionProvider, '.'));
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('xml', providers.auraCompletionProvider, '.'));
@@ -53,6 +63,11 @@ exports.activate = activate;
 
 // this method is called when your extension is deactivated
 function deactivate() { }
+
+function refreshTreeView(){
+	if(fileStructureProvider)
+		fileStructureProvider.refresh();
+}
 
 module.exports = {
 	activate,

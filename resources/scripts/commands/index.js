@@ -24,3 +24,5 @@ const auraCodeCompletion = require('./auraCodeCompletion');
 exports.auraCodeCompletion = auraCodeCompletion.run;
 const initialization = require('./initialization');
 exports.initialization = initialization.run;
+const gotoFileMember = require('./gotoFileMember');
+exports.gotoFileMember = gotoFileMember.run;
