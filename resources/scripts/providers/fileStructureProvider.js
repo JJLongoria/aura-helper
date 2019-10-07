@@ -22,6 +22,10 @@ function getMethodNode(method) {
     }
     name += ')';
     let type = 'methodElement';
+    if (method.accessModifier && method.accessModifier.toLowerCase() === 'protected')
+        type = 'protectedMethodElement';
+    if (method.accessModifier && method.accessModifier.toLowerCase() === 'private')
+        type = 'privateMethodElement';
     let fileNode = new FileNode(name, type, vscode.TreeItemCollapsibleState.None, []);
     fileNode.description = method.signature;
     fileNode.command = {
@@ -45,6 +49,10 @@ function getFieldNode(field) {
     description += field.datatype + ' ' + field.name;
     let name = field.name;
     let type = 'fieldElement';
+    if (field.accessModifier && field.accessModifier.toLowerCase() === 'protected')
+        type = 'protectedFieldElement';
+    if (field.accessModifier && field.accessModifier.toLowerCase() === 'private')
+        type = 'privateFieldElement';
     let fileNode = new FileNode(name, type, vscode.TreeItemCollapsibleState.None, []);
     fileNode.description = description;
     fileNode.command = {
@@ -120,7 +128,7 @@ function getEnumNode(enumNode) {
     return fileNode;
 }
 
-function getAttributeNode(attribute){
+function getAttributeNode(attribute) {
     let name = attribute.name;
     let type = 'attributeElement';
     let fileNode = new FileNode(name, type, vscode.TreeItemCollapsibleState.None, []);
@@ -132,7 +140,7 @@ function getAttributeNode(attribute){
     return fileNode;
 }
 
-function getHandlerNode(handler){
+function getHandlerNode(handler) {
     let name = handler.name;
     let type = 'handlerElement';
     let fileNode = new FileNode(name, type, vscode.TreeItemCollapsibleState.None, []);
@@ -144,7 +152,7 @@ function getHandlerNode(handler){
     return fileNode;
 }
 
-function getEventNode(event){
+function getEventNode(event) {
     let name = event.name;
     let type = 'eventElement';
     let fileNode = new FileNode(name, type, vscode.TreeItemCollapsibleState.None, []);
@@ -156,7 +164,7 @@ function getEventNode(event){
     return fileNode;
 }
 
-function getFunctionNode(functionNode){
+function getFunctionNode(functionNode) {
     let name = functionNode.signature;
     let type = 'functionElement';
     let fileNode = new FileNode(name, type, vscode.TreeItemCollapsibleState.None, []);
@@ -173,60 +181,141 @@ class FileStructureTreeProvider {
     constructor() {
         this._onDidChangeTreeData = new vscode.EventEmitter();
         this.onDidChangeTreeData = this._onDidChangeTreeData.event;
+        this.orderBy = 'default';
     }
 
     refresh() {
         this._onDidChangeTreeData.fire();
     }
 
+    sortElements(orderBy) {
+        this.orderBy = orderBy;
+        this.refresh();
+    }
+
     getChildren(element) {
         if (element) {
             let nodes = [];
             if (element.type === 'method') {
+                let methodsMap = {};
                 for (const method of element.childs) {
-                    nodes.push(getMethodNode(method));
+                    let name = method.name + '(';
+                    if (method.params && method.params.length > 0) {
+                        let params = [];
+                        for (const param of method.params) {
+                            params.push(param.datatype);
+                        }
+                        name += params.join(", ");
+                    }
+                    name += ')';
+                    methodsMap[name.toLowerCase()] = method;
+                }
+                let keys = Object.keys(methodsMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getMethodNode(methodsMap[key]));
                 }
             } else if (element.type === 'field') {
+                let fieldsMap = {};
                 for (const field of element.childs) {
-                    nodes.push(getFieldNode(field));
+                    let name = field.name;
+                    fieldsMap[name.toLowerCase()] = field;
+                }
+                let keys = Object.keys(fieldsMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getFieldNode(fieldsMap[key]));
                 }
             } else if (element.type === 'class') {
-                Object.keys(element.childs).forEach(function (key) {
-                    let innerClass = element.childs[key];
-                    if (innerClass)
-                        nodes.push(getClassNode(innerClass));
-                });
+                let keys = Object.keys(element.childs);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getClassNode(element.childs[key]));
+                }
             } else if (element.type === 'classElement' || element.type === 'interfaceElement') {
                 nodes = getClassElementsNodes(element.element);
             } else if (element.type === 'enumElement') {
+                let enumValueMap = {};
                 for (const enumValue of element.childs) {
-                    nodes.push(getEnumValueNode(enumValue));
+                    enumValueMap[enumValue.name.toLowerCase()] = enumValue;
+                }
+                let keys = Object.keys(enumValueMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getEnumValueNode(enumValueMap[key]));
                 }
             } else if (element.type === 'enum') {
-                Object.keys(element.childs).forEach(function (key) {
-                    let innerEnum = element.childs[key];
-                    if (innerEnum)
-                        nodes.push(getEnumNode(innerEnum));
-                });
-            } else if(element.type === 'attribute'){
+                let keys = Object.keys(element.childs);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getEnumNode(element.childs[key]));
+                }
+            } else if (element.type === 'attribute') {
+                let attributesMap = {};
                 for (const attribute of element.childs) {
-                    nodes.push(getAttributeNode(attribute));
+                    attributesMap[attribute.name.toLowerCase()] = attribute;
                 }
-            } else if(element.type === 'handler'){
+                let keys = Object.keys(attributesMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getAttributeNode(attributesMap[key]));
+                }
+            } else if (element.type === 'handler') {
+                let handlersMap = {};
                 for (const handler of element.childs) {
-                    nodes.push(getHandlerNode(handler));
+                    handlersMap[handler.name.toLowerCase()] = handler;
                 }
-            } else if(element.type === 'event'){
-                for (const event of element.childs) {
-                    nodes.push(getEventNode(event));
+                let keys = Object.keys(handlersMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getHandlerNode(handlersMap[key]));
                 }
-            } else if(element.type === 'event'){
+            } else if (element.type === 'event') {
+                let eventsMap = {};
                 for (const event of element.childs) {
-                    nodes.push(getEventNode(event));
+                    eventsMap[event.name.toLowerCase()] = event;
                 }
-            } else if(element.type === 'function'){
-                for (const event of element.childs) {
-                    nodes.push(getFunctionNode(event));
+                let keys = Object.keys(eventsMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getEventNode(eventsMap[key]));
+                }
+            } else if (element.type === 'function') {
+                let functionsMap = {};
+                for (const func of element.childs) {
+                    functionsMap[func.signature.toLowerCase()] = func;
+                }
+                let keys = Object.keys(functionsMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getFunctionNode(functionsMap[key]));
                 }
             }
             return nodes;
@@ -245,26 +334,26 @@ class FileStructureTreeProvider {
                     nodes = getClassElementsNodes(fileStructure);
                 }
                 return nodes;
-            } else if(FileChecker.isAuraComponent(editor.document.uri.fsPath)){
+            } else if (FileChecker.isAuraComponent(editor.document.uri.fsPath)) {
                 let fileStructure = AuraParser.parse(FileReader.readDocument(editor.document));
                 let nodes = [];
-                if(fileStructure.attributes && fileStructure.attributes.length > 0){
+                if (fileStructure.attributes && fileStructure.attributes.length > 0) {
                     let fileNode = new FileNode('ATTRIBUTES', 'attribute', '', fileStructure.attributes);
                     nodes.push(fileNode);
                 }
-                if(fileStructure.handlers && fileStructure.handlers.length > 0){
+                if (fileStructure.handlers && fileStructure.handlers.length > 0) {
                     let fileNode = new FileNode('HANDLERS', 'handler', '', fileStructure.handlers);
                     nodes.push(fileNode);
                 }
-                if(fileStructure.events && fileStructure.events.length > 0){
+                if (fileStructure.events && fileStructure.events.length > 0) {
                     let fileNode = new FileNode('EVENT', 'event', '', fileStructure.events);
                     nodes.push(fileNode);
                 }
                 return nodes;
-            } else if(FileChecker.isJavaScript(editor.document.uri.fsPath)){
+            } else if (FileChecker.isJavaScript(editor.document.uri.fsPath)) {
                 let fileStructure = JavaScriptParser.parse(FileReader.readDocument(editor.document));
                 let nodes = [];
-                if(fileStructure.functions && fileStructure.functions.length > 0){
+                if (fileStructure.functions && fileStructure.functions.length > 0) {
                     let fileNode = new FileNode('FUNCTIONS', 'function', '', fileStructure.functions);
                     nodes.push(fileNode);
                 }
@@ -306,6 +395,14 @@ class FileNode extends vscode.TreeItem {
             iconName = 'Enumerator_16x.svg';
         } else if (this.type === 'enumValue' || this.type === 'enumValueElement') {
             iconName = 'EnumItem_16x.svg';
+        } else if (this.type === 'protectedMethodElement') {
+            iconName = 'MethodProtect_16x.svg';
+        } else if (this.type === 'privateMethodElement') {
+            iconName = 'MethodPrivate_16x.svg';
+        } else if (this.type === 'protectedFieldElement') {
+            iconName = 'FieldProtect_16x.svg';
+        } else if (this.type === 'privateFieldElement') {
+            iconName = 'FieldPrivate_16x.svg';
         }
         return Paths.getImagesPath() + '/' + iconName;
     }
