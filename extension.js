@@ -38,6 +38,9 @@ function activate(context) {
 	fileStructureProvider = new providers.FileStructureProvider();
 	vscode.window.registerTreeDataProvider('fileExplorer', fileStructureProvider);
 	vscode.commands.registerCommand('aurahelper.fileExplorer.refresh', () => fileStructureProvider.refresh());
+	vscode.commands.registerCommand('aurahelper.fileExplorer.sort.default', () => fileStructureProvider.sortElements('default'));
+	vscode.commands.registerCommand('aurahelper.fileExplorer.sort.name.asc', () => fileStructureProvider.sortElements('nameASC'));
+	vscode.commands.registerCommand('aurahelper.fileExplorer.sort.name.desc', () => fileStructureProvider.sortElements('nameDESC'));
 	vscode.commands.registerCommand('aurahelper.fileExplorer.gotoMember', commands.gotoFileMember);
 	
 	// Add commands to subscriptions

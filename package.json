@@ -167,6 +167,30 @@
 					"light": "resources/images/light/refresh.svg",
 					"dark": "resources/images/dark/refresh.svg"
 				  }
+			},
+			{
+				"command": "aurahelper.fileExplorer.sort.default",
+				"title": "AuraHelper: Sort File Structure by Default",
+				"icon": {
+					"light": "resources/images/SortByType_16x.svg",
+					"dark": "resources/images/SortByType_16x.svg"
+				  }
+			},
+			{
+				"command": "aurahelper.fileExplorer.sort.name.asc",
+				"title": "AuraHelper: Sort File Structure by Name ASC",
+				"icon": {
+					"light": "resources/images/SortAscendingFilter_16x.svg",
+					"dark": "resources/images/SortAscendingFilter_16x.svg"
+				  }
+			},
+			{
+				"command": "aurahelper.fileExplorer.sort.name.desc",
+				"title": "AuraHelper: Sort File Structure by Name DESC",
+				"icon": {
+					"light": "resources/images/SortDescendingFilter_16x.svg",
+					"dark": "resources/images/SortDescendingFilter_16x.svg"
+				  }
 			}
 		],
 		"languages": [
@@ -244,6 +268,21 @@
 			"view/title": [
 				{
 					"command": "aurahelper.fileExplorer.refresh",
+					"when": "view == fileExplorer",
+					"group": "navigation"
+				},
+				{
+					"command": "aurahelper.fileExplorer.sort.default",
+					"when": "view == fileExplorer",
+					"group": "navigation"
+				},
+				{
+					"command": "aurahelper.fileExplorer.sort.name.asc",
+					"when": "view == fileExplorer",
+					"group": "navigation"
+				},
+				{
+					"command": "aurahelper.fileExplorer.sort.name.desc",
 					"when": "view == fileExplorer",
 					"group": "navigation"
 				}
