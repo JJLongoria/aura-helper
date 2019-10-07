@@ -8,3 +8,5 @@ const apexCommentProvider = require('./apexCommentProvider');
 exports.apexCommentProvider = apexCommentProvider.provider;
 const apexFormatterProvider = require('./apexFormatterProvider');
 exports.apexFormatterProvider = apexFormatterProvider.provider;
+const fileStructureProvider = require('./fileStructureProvider');
+exports.FileStructureProvider = fileStructureProvider.FileStructureTreeProvider;

@@ -333,6 +333,7 @@ All notable changes to this project will be documented in this file.
 ### Added
     - Added autocompletion tools for SObjects and Classes (Support custom and more than 400 standard classes)
     - Better code formatter
+    - Added a new view for explore the file structure.
 
 ### Fixed
     - Fixed issues with autocompletion tools on queries

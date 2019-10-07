@@ -52,14 +52,20 @@ class AuraParser {
                 else if (token.tokenType === TokenType.COLON && lastToken && lastToken.tokenType === TokenType.IDENTIFIER && lastToken.content === 'aura' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER && nextToken.content === 'attribute') {
                     // Is on Attribute
                     let data = AuraParser.getTagData(tokens, index);
+                    data.tagData.line = lastToken.line;
+                    data.tagData.column = lastToken.startColumn;
                     fileStructure.attributes.push(data.tagData);
                 } else if (token.tokenType === TokenType.COLON && lastToken && lastToken.tokenType === TokenType.IDENTIFIER && lastToken.content === 'aura' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER && nextToken.content === 'registerEvent') {
                     // Is on Events
                     let data = AuraParser.getTagData(tokens, index);
+                    data.tagData.line = lastToken.line;
+                    data.tagData.column = lastToken.startColumn;
                     fileStructure.events.push(data.tagData);
                 } else if (token.tokenType === TokenType.COLON && lastToken && lastToken.tokenType === TokenType.IDENTIFIER && lastToken.content === 'aura' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER && nextToken.content === 'handler') {
                     // Is on Handlers
                     let data = AuraParser.getTagData(tokens, index);
+                    data.tagData.line = lastToken.line;
+                    data.tagData.column = lastToken.startColumn;
                     fileStructure.handlers.push(data.tagData);
                 }
             }
