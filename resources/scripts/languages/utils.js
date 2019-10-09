@@ -28,6 +28,11 @@ class Utils {
             return tokens[index - 1];
     }
 
+    static getTwoLastToken(tokens, index) {
+        if (index - 2 >= 0)
+            return tokens[index - 2];
+    }
+
     static getQueryData(document, position) {
         logger.log("Run getQueryData");
         let line = position.line;
@@ -59,7 +64,7 @@ class Utils {
                 if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'select') {
                     isSelect = true;
                     selectLine = line;
-                } else if ((token.tokenType === TokenType.RBRACKET || token.tokenType === TokenType.SEMICOLON) && (line != initLine || (line === initLine && index !== lineTokens.length - 1))) {
+                } else if ((token.tokenType === TokenType.RBRACKET || token.tokenType === TokenType.SEMICOLON || token.tokenType === TokenType.LBRACKET) && (line != initLine || (line === initLine && index !== lineTokens.length - 1))) {
                     endLoop = true;
                     endInnerLoop = true;
                 }

@@ -10,3 +10,5 @@ const apexFormatterProvider = require('./apexFormatterProvider');
 exports.apexFormatterProvider = apexFormatterProvider.provider;
 const fileStructureProvider = require('./fileStructureProvider');
 exports.FileStructureProvider = fileStructureProvider.FileStructureTreeProvider;
+const onTypeFormattingProvider = require('./onTypeFormattingProvider');
+exports.onTypeFormattingProvider = onTypeFormattingProvider.provider;
