@@ -81,7 +81,7 @@ class Utils {
         let files = FileReader.readDirSync(classesPath);
         if (files && files.length > 0) {
             for (const fileName of files) {
-                if(fileName !== 'namespacesMetadata.json'){
+                if (fileName !== 'namespacesMetadata.json') {
                     namespaces.namespacesToLower.push(fileName.toLowerCase());
                     namespaces.namespaces.push(fileName);
                     namespaces.namespacesMap[fileName.toLowerCase()] = fileName;
@@ -187,15 +187,17 @@ class Utils {
         while (!endLoop) {
             token = lineTokens[tokenPos];
             let lastToken = (tokenPos - 1 > 0) ? lineTokens[tokenPos - 1] : undefined;
-            if (token && token.tokenType === TokenType.RPAREN) {
+            if (token && token.tokenType === TokenType.RPAREN && !isOnParams) {
                 isOnParams = true;
                 activation = token.content + activation;
-            } else if (token && token.tokenType === TokenType.LPAREN) {
+            } else if (token && token.tokenType === TokenType.LPAREN && isOnParams) {
                 isOnParams = false;
                 activation = token.content + activation;
+            } else if (token && token.tokenType === TokenType.LPAREN && !isOnParams) {
+                endLoop = true;
             } else if (token && (token.tokenType === TokenType.DOT || token.tokenType === TokenType.IDENTIFIER || isOnParams)) {
-                if(!isOnParams){
-                    if(lastToken && lastToken.endColumn != token.startColumn){
+                if (!isOnParams) {
+                    if (lastToken && lastToken.endColumn != token.startColumn) {
                         endLoop = true;
                         activation = token.content + activation;
                     } else
@@ -276,113 +278,6 @@ class Utils {
         return items;
     }
 
-    static getAllAvailableCompletionItems(similarClasses, similarSobjects, fileStructure, position, command, classes, sObjects) {
-        let items = [];
-        if (config.getConfig().activeApexSuggestion) {
-            if (fileStructure.posData && fileStructure.posData.isOnMethod) {
-                let method = this.getMethod(fileStructure, fileStructure.posData.methodSignature);
-                for (const param of method.params) {
-                    let item = new CompletionItem(param.name, CompletionItemKind.Field);
-                    item.detail = 'Method Param';
-                    item.documentation = 'Type: ' + param.type;
-                    item.insertText = param.name;
-                    item.preselect = true;
-                    item.command = {
-                        title: 'Method Field',
-                        command: command,
-                        arguments: [position, 'MethodParam', param]
-                    };
-                    items.push(item);
-                }
-                for (const field of method.declaredVariables) {
-                    let item = new CompletionItem(field.name, CompletionItemKind.Field);
-                    item.detail = 'Declared variable';
-                    item.documentation = 'Type: ' + field.type;
-                    item.insertText = field.name;
-                    item.preselect = true;
-                    item.command = {
-                        title: 'Method Field',
-                        command: command,
-                        arguments: [position, 'MethodField', field]
-                    };
-                    items.push(item);
-                }
-            }
-            for (const method of fileStructure.methods) {
-                let insertText = method.name + "(";
-                let snippetNum = 1;
-                let name = method.name + "(";
-                for (const param of method.params) {
-                    if (snippetNum === 1) {
-                        name += param.name;
-                        insertText += "${" + snippetNum + ":" + param.name + "}";
-                    }
-                    else {
-                        name += ", " + param.name;
-                        insertText += ", ${" + snippetNum + ":" + param.name + "}";
-                    }
-                    snippetNum++;
-                }
-                name += ")";
-                insertText += ")";
-                if (method.datatype.toLowerCase() === 'void')
-                    insertText += ';';
-                let item = new CompletionItem(name, CompletionItemKind.Method);
-                item.detail = method.signature;
-                item.documentation = 'Return: ' + method.datatype;
-                item.insertText = new SnippetString(insertText);
-                item.preselect = true;
-                item.command = {
-                    title: 'Class Method',
-                    command: command,
-                    arguments: [position, 'ClassMethod', method]
-                };
-                items.push(item);
-            }
-            for (const field of fileStructure.fields) {
-                let item = new CompletionItem(field.name, CompletionItemKind.Field);
-                item.detail = field.name + ' Class field';
-                item.documentation = 'Type: ' + field.type;
-                item.insertText = field.name;
-                item.preselect = true;
-                item.command = {
-                    title: 'sObject',
-                    command: command,
-                    arguments: [position, 'ClassField', field]
-                };
-                items.push(item);
-            }
-            for (const cls of similarClasses) {
-                let clsName = classes.classesMap[cls];
-                let item = new CompletionItem(clsName, CompletionItemKind.Class);
-                item.detail = clsName + ' Class';
-                item.documentation = clsName;
-                item.insertText = clsName;
-                item.command = {
-                    title: 'Class',
-                    command: command,
-                    arguments: [position, 'Class', cls]
-                };
-                items.push(item);
-            }
-        }
-        if (config.getConfig().activeSObjectSuggestion) {
-            for (const sobject of similarSobjects) {
-                let objName = sObjects.sObjectsMap[sobject];
-                let item = new CompletionItem(objName, CompletionItemKind.Class);
-                item.detail = objName + ' SObject';
-                item.insertText = objName;
-                item.command = {
-                    title: 'sObject',
-                    command: command,
-                    arguments: [position, 'sObject', objName]
-                };
-                items.push(item);
-            }
-        }
-        return items;
-    }
-
     static getQueryCompletionItems(activationTokens, queryData, position, command) {
         if (!config.getConfig().activeQuerySuggestion)
             return Promise.resolve(undefined);
@@ -419,14 +314,14 @@ class Utils {
             let name = actToken.split("(")[0].toLowerCase();
             let params = actToken.substring(actToken.indexOf("(") + 1, actToken.indexOf(")"));
             let paramSplits = [];
-            if(params.indexOf(','))
+            if (params.indexOf(','))
                 paramSplits = params.split(',');
             memberData = {
                 type: "method",
                 name: name,
                 params: paramSplits
             };
-                
+
         } else {
             memberData = {
                 type: "field",
@@ -522,7 +417,7 @@ class Utils {
         return undefined;
     }
 
-    static getNamespacesMetadataFile(){
+    static getNamespacesMetadataFile() {
         let nsMetadataPath = Paths.getSystemClassesPath() + '/namespacesMetadata.json';
         return JSON.parse(FileReader.readFileSync(nsMetadataPath));
     }
@@ -535,6 +430,420 @@ class Utils {
             return true;
         }
         return false;
+    }
+
+    static getApexCompletionItems(document, position, activationTokens, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects) {
+        let items = [];
+        let sObject;
+        let lastClass = fileStructure;
+        let parentStruct;
+        let index = 0;
+        for (let actToken of activationTokens) {
+            if (index < activationTokens.length - 1) {
+                let actType = Utils.getActivationType(actToken);
+                let datatype;
+                let className;
+                if (sObject) {
+                    if (actToken.endsWith('__r'))
+                        actToken = actToken.substring(0, actToken.length - 3) + '__c';
+                    let fielData = Utils.getFieldData(sObject, actToken);
+                    if (fielData) {
+                        if (fielData.referenceTo.length === 1) {
+                            sObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
+                        } else {
+                            datatype = fielData.type;
+                            if (datatype.indexOf('<') !== -1)
+                                datatype = datatype.split('<')[0];
+                            if (datatype.indexOf('[') !== -1 && datatype.indexOf(']') !== -1)
+                                datatype = "List";
+                            if (datatype.indexOf('.') !== -1) {
+                                let splits = datatype.split('.');
+                                if (splits.length === 2) {
+                                    let parentClassOrNs = splits[0];
+                                    className = splits[1];
+                                    if (systemMetadata[parentClassOrNs]) {
+                                        parentStruct = Utils.getClassStructure(document, 'System', parentClassOrNs);
+                                    } else if (namespacesMetadata[parentClassOrNs]) {
+                                        lastClass = Utils.getClassStructure(document, parentClassOrNs, className);
+                                        parentStruct = undefined;
+                                        sObject = undefined;
+                                    }
+                                } else if (splits.length === 2) {
+                                    let nsName = splits[0];
+                                    let parentClassName = splits[1];
+                                    className = splits[2];
+                                    if (systemMetadata[parentClassName.toLowerCase()]) {
+                                        parentStruct = Utils.getClassStructure(document, 'System', parentClassName);
+                                    } else if (namespacesMetadata[nsName.toLowerCase()]) {
+                                        lastClass = Utils.getClassStructure(document, nsName, parentClassName);
+                                        parentStruct = undefined;
+                                        sObject = undefined;
+                                    }
+                                }
+                            } else {
+                                parentStruct = undefined;
+                                if (systemMetadata[datatype.toLowerCase()]) {
+                                    lastClass = Utils.getClassStructure(document, 'System', datatype);
+                                    sObject = undefined;
+                                }
+                            }
+                            if (parentStruct && className) {
+                                let classFound = false;
+                                Object.keys(parentStruct.classes).forEach(function (key) {
+                                    let innerClass = parentStruct.classes[key];
+                                    if (innerClass.name.toLowerCase() === className.toLowerCase()) {
+                                        classFound = true;
+                                        lastClass = innerClass;
+                                    }
+                                });
+                                if (!classFound) {
+                                    Object.keys(parentStruct.enums).forEach(function (key) {
+                                        let innerEnum = parentStruct.enums[key];
+                                        if (innerEnum.name.toLowerCase() === className.toLowerCase()) {
+                                            lastClass = innerEnum;
+                                            classFound = true;
+                                        }
+                                    });
+                                }
+                                if (!classFound)
+                                    lastClass = undefined;
+                            }
+                        }
+                    }
+                } else if (lastClass) {
+                    if (!lastClass.isEnum) {
+                        if (actType.type === 'field') {
+                            if (lastClass.posData && lastClass.posData.isOnMethod) {
+                                let method = Utils.getMethod(lastClass, lastClass.posData.methodSignature);
+                                let methodVar = Utils.getVariable(method, actToken);
+                                let classVar = Utils.getClassField(lastClass, actToken);
+                                if (methodVar)
+                                    datatype = methodVar.datatype;
+                                else if (classVar)
+                                    datatype = classVar.datatype;
+                            } else {
+                                let classVar = Utils.getClassField(lastClass, actToken);
+                                if (classVar)
+                                    datatype = classVar.datatype;
+                            }
+                        } else if (actType.type === 'method') {
+                            let method = Utils.getMethodFromCall(lastClass, actType.name, actType.params);
+                            if (method)
+                                datatype = method.datatype;
+                        }
+                        if (!datatype) {
+                            if (lastClass.parentClass) {
+                                parentStruct = Utils.getClassStructure(document, undefined, lastClass.parentClass);
+                                className = actToken;
+                            } else {
+                                if (classes.classesToLower.includes(actToken.toLowerCase())) {
+                                    lastClass = Utils.getClassStructure(document, undefined, actToken);
+                                    parentStruct = undefined;
+                                    sObject = undefined;
+                                } else if (systemMetadata[actToken.toLowerCase()]) {
+                                    lastClass = Utils.getClassStructure(document, 'System', actToken);
+                                    parentStruct = undefined;
+                                    sObject = undefined;
+                                } else if (sObjects.sObjectsToLower.includes(actToken.toLowerCase())) {
+                                    sObject = Utils.getObjectFromMetadataIndex(actToken);
+                                    parentStruct = undefined;
+                                    lastClass = undefined;
+                                }
+                            }
+                        } else {
+                            if (datatype.indexOf('<') !== -1)
+                                datatype = datatype.split('<')[0];
+                            if (datatype.indexOf('[') !== -1 && datatype.indexOf(']') !== -1)
+                                datatype = "List";
+                            if (datatype.indexOf('.') !== -1) {
+                                let splits = datatype.split('.');
+                                if (splits.length === 2) {
+                                    let parentClassOrNs = splits[0];
+                                    className = splits[1];
+                                    if (classes.classesToLower.includes(parentClassOrNs.toLowerCase())) {
+                                        parentStruct = Utils.getClassStructure(document, undefined, parentClassOrNs);
+                                    } else if (systemMetadata[parentClassOrNs]) {
+                                        parentStruct = Utils.getClassStructure(document, 'System', parentClassOrNs);
+                                    } else if (namespacesMetadata[parentClassOrNs]) {
+                                        lastClass = Utils.getClassStructure(document, parentClassOrNs, className);
+                                        parentStruct = undefined;
+                                        sObject = undefined;
+                                    }
+                                } else if (splits.length === 2) {
+                                    let nsName = splits[0];
+                                    let parentClassName = splits[1];
+                                    className = splits[2];
+                                    if (classes.classesToLower.includes(parentClassName.toLowerCase())) {
+                                        parentStruct = Utils.getClassStructure(document, undefined, parentClassName);
+                                    } else if (systemMetadata[parentClassName.toLowerCase()]) {
+                                        parentStruct = Utils.getClassStructure(document, 'System', parentClassName);
+                                    } else if (namespacesMetadata[nsName.toLowerCase()]) {
+                                        lastClass = Utils.getClassStructure(document, nsName, parentClassName);
+                                        parentStruct = undefined;
+                                        sObject = undefined;
+                                    }
+                                }
+                            } else {
+                                parentStruct = undefined;
+                                if (lastClass.parentClass && datatype !== 'List') {
+                                    parentStruct = Utils.getClassStructure(document, undefined, lastClass.parentClass);
+                                    className = datatype;
+                                } else if (classes.classesToLower.includes(datatype.toLowerCase())) {
+                                    lastClass = Utils.getClassStructure(document, undefined, datatype);
+                                    sObject = undefined;
+                                } else if (systemMetadata[datatype.toLowerCase()]) {
+                                    lastClass = Utils.getClassStructure(document, 'System', datatype);
+                                    sObject = undefined;
+                                } else if (sObjects.sObjectsToLower.includes(datatype.toLowerCase())) {
+                                    sObject = Utils.getObjectFromMetadataIndex(datatype);
+                                    parentStruct = undefined;
+                                    lastClass = undefined;
+                                }
+                            }
+                        }
+                        if (parentStruct && className) {
+                            let classFound = false;
+                            Object.keys(parentStruct.classes).forEach(function (key) {
+                                let innerClass = parentStruct.classes[key];
+                                if (innerClass.name.toLowerCase() === className.toLowerCase()) {
+                                    classFound = true;
+                                    lastClass = innerClass;
+                                }
+                            });
+                            if (!classFound) {
+                                Object.keys(parentStruct.enums).forEach(function (key) {
+                                    let innerEnum = parentStruct.enums[key];
+                                    if (innerEnum.name.toLowerCase() === className.toLowerCase()) {
+                                        lastClass = innerEnum;
+                                        classFound = true;
+                                    }
+                                });
+                            }
+                            if (!classFound)
+                                lastClass = undefined;
+                        }
+                    }
+                }
+            }
+            index++;
+        }
+        if (lastClass && config.getConfig().activeApexSuggestion) {
+            items = Utils.getApexClassCompletionItems(position, lastClass);
+        } else if (sObject && config.getConfig().activeSobjectFieldsSuggestion) {
+            items = Utils.getSobjectsFieldsCompletionItems(position, sObject, 'aurahelper.completion.apex');
+        }
+        return items;
+    }
+
+    static getMethodFromCall(apexClass, name, params) {
+        for (const method of apexClass.methods) {
+            if (method.name.toLowerCase() === name.toLowerCase() && method.params.length === params.length)
+                return method;
+        }
+        for (const method of apexClass.constructors) {
+            if (method.name.toLowerCase() === name.toLowerCase() && method.params.length === params.length)
+                return method;
+        }
+        return undefined;
+    }
+
+    static getApexClassCompletionItems(position, apexClass) {
+        let items = [];
+        if (apexClass) {
+            if (apexClass.isEnum) {
+                for (const value of apexClass.enumValues) {
+                    let options = Utils.getCompletionItemOptions('Enum Member', '', value, true, CompletionItemKind.EnumMember);
+                    let command = Utils.getCommand('EnumMember', 'aurahelper.completion.apex', [position, 'EnumMember', value]);
+                    items.push(Utils.createItemForCompletion(value, options, command));
+                }
+            } else {
+                if (apexClass.posData && apexClass.posData.isOnMethod) {
+                    let method = Utils.getMethod(apexClass, apexClass.posData.methodSignature);
+                    for (const variable of method.params) {
+                        let options = Utils.getCompletionItemOptions(variable.description, 'Datatype: ' + variable.datatype, variable.name, true, CompletionItemKind.Variable);
+                        let command = Utils.getCommand('MethodParam', 'aurahelper.completion.apex', [position, 'MethodParam', variable]);
+                        items.push(Utils.createItemForCompletion(variable.name, options, command));
+                    }
+                    for (const variable of method.declaredVariables) {
+                        let options = Utils.getCompletionItemOptions('Method declared variable', 'Datatype: ' + variable.datatype, variable.name, true, CompletionItemKind.Variable);
+                        let command = Utils.getCommand('DeclaredVar', 'aurahelper.completion.apex', [position, 'DeclaredVar', variable]);
+                        items.push(Utils.createItemForCompletion(variable.name, options, command));
+                    }
+                }
+                for (const field of apexClass.fields) {
+                    let options = Utils.getCompletionItemOptions('Class field', 'Type: ' + field.type, field.name, true, CompletionItemKind.Field);
+                    let command = Utils.getCommand('ClassField', 'aurahelper.completion.apex', [position, 'ClassField', field.name]);
+                    items.push(Utils.createItemForCompletion(field.name, options, command));
+                }
+                for (const method of apexClass.constructors) {
+                    let insertText = method.name + "(";
+                    let snippetNum = 1;
+                    let name = method.name + "(";
+                    if (method.params) {
+                        for (const param of method.params) {
+                            if (snippetNum === 1) {
+                                name += param.name;
+                                insertText += "${" + snippetNum + ":" + param.name + "}";
+                            }
+                            else {
+                                name += ", " + param.name;
+                                insertText += ", ${" + snippetNum + ":" + param.name + "}";
+                            }
+                            snippetNum++;
+                        }
+                    } else if (method.methodParams) {
+                        for (const param of method.methodParams) {
+                            if (snippetNum === 1) {
+                                name += param.name;
+                                insertText += "${" + snippetNum + ":" + param.name + "}";
+                            }
+                            else {
+                                name += ", " + param.name;
+                                insertText += ", ${" + snippetNum + ":" + param.name + "}";
+                            }
+                            snippetNum++;
+                        }
+                    }
+                    name += ")";
+                    insertText += ")";
+                    let options = Utils.getCompletionItemOptions(method.signature, method.description, new SnippetString(insertText), true, CompletionItemKind.Constructor);
+                    let command = Utils.getCommand('ClassConstructor', 'aurahelper.completion.apex', [position, 'ClassConstructor', method]);
+                    items.push(Utils.createItemForCompletion(name, options, command));
+                }
+                for (const method of apexClass.methods) {
+                    let insertText = method.name + "(";
+                    let snippetNum = 1;
+                    let name = method.name + "(";
+                    for (const param of method.params) {
+                        if (snippetNum === 1) {
+                            name += param.name;
+                            insertText += "${" + snippetNum + ":" + param.name + "}";
+                        }
+                        else {
+                            name += ", " + param.name;
+                            insertText += ", ${" + snippetNum + ":" + param.name + "}";
+                        }
+                        snippetNum++;
+                    }
+                    name += ")";
+                    insertText += ")";
+                    if (method.datatype.toLowerCase() === 'void')
+                        insertText += ';';
+                    let options = Utils.getCompletionItemOptions(method.signature, method.description, new SnippetString(insertText), true, CompletionItemKind.Method);
+                    let command = Utils.getCommand('ClassMethod', 'aurahelper.completion.apex', [position, 'ClassMethod', method]);
+                    items.push(Utils.createItemForCompletion(name, options, command));
+                }
+                Object.keys(apexClass.classes).forEach(function (key) {
+                    let innerClass = apexClass.classes[key];
+                    let options;
+                    if (innerClass.isInterface) {
+                        options = Utils.getCompletionItemOptions('Internal Interface from : ' + apexClass.name, innerClass.description, innerClass.name, true, CompletionItemKind.Interface);
+                    } else {
+                        options = Utils.getCompletionItemOptions('Internal Class from : ' + apexClass.name, innerClass.description, innerClass.name, true, CompletionItemKind.Class);
+                    }
+                    let command = Utils.getCommand('InnerClass', 'aurahelper.completion.apex', [position, 'InnerClass', innerClass]);
+                    items.push(Utils.createItemForCompletion(innerClass.name, options, command));
+                });
+                Object.keys(apexClass.enums).forEach(function (key) {
+                    let innerEnum = apexClass.enums[key];
+                    let options = Utils.getCompletionItemOptions(innerEnum.name + ' Enum', innerEnum.description, innerEnum.name, true, CompletionItemKind.Enum);
+                    let command = Utils.getCommand('InnerEnum', 'aurahelper.completion.apex', [position, 'InnerEnum', innerEnum]);
+                    items.push(Utils.createItemForCompletion(innerEnum.name, options, command));
+                });
+            }
+        }
+        return items;
+    }
+
+    static getCommand(title, command, args) {
+        return {
+            title: title,
+            command: command,
+            arguments: args
+        };
+    }
+
+    static getCompletionItemOptions(detail, documentation, insertText, preselect, type) {
+        return {
+            detail: detail,
+            documentation: documentation,
+            insertText: insertText,
+            preselect: preselect,
+            type: type
+        };
+    }
+
+    static createItemForCompletion(name, options, command) {
+        let type = CompletionItemKind.Value;
+        if (options && options.type)
+            type = options.type;
+        let item = new CompletionItem(name, type);
+        if (options && options.detail)
+            item.detail = options.detail;
+        if (options && options.documentation)
+            item.documentation = options.documentation;
+        if (options && options.preselect)
+            item.preselect = options.preselect;
+        if (options && options.insertText)
+            item.insertText = options.insertText;
+        if (command)
+            item.command = options.command;
+        return item;
+    }
+
+    static getAllAvailableCompletionItems(position, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects) {
+        let items = [];
+        if (config.getConfig().activeApexSuggestion) {
+            items = Utils.getApexClassCompletionItems(position, fileStructure)
+            for (const userClass of classes.classes) {
+                let options = Utils.getCompletionItemOptions(userClass, 'Custom Apex Class', userClass, true, CompletionItemKind.Class);
+                let command = Utils.getCommand('UserClass', 'aurahelper.completion.apex', [position, 'UserClass', userClass]);
+                items.push(Utils.createItemForCompletion(userClass, options, command));
+            }
+            Object.keys(systemMetadata).forEach(function (key) {
+                let systemClass = systemMetadata[key];
+                if (systemClass.isEnum) {
+                    let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '') + '\nEnum Values: \n' + systemClass.enumValues.join('\n');
+                    let options = Utils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Enum);
+                    let command = Utils.getCommand('SystemEnum', 'aurahelper.completion.apex', [position, 'SystemEnum', systemClass]);
+                    items.push(Utils.createItemForCompletion(systemClass.name, options, command));
+                } else if (systemClass.isInterface) {
+                    let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '');
+                    let options = Utils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Interface);
+                    let command = Utils.getCommand('SystemInterface', 'aurahelper.completion.apex', [position, 'SystemInterface', systemClass]);
+                    items.push(Utils.createItemForCompletion(systemClass.name, options, command));
+                } else {
+                    let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '');
+                    let options = Utils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Class);
+                    let command = Utils.getCommand('SystemClass', 'aurahelper.completion.apex', [position, 'SystemClass', systemClass]);
+                    items.push(Utils.createItemForCompletion(systemClass.name, options, command));
+                }
+            });
+            Object.keys(namespacesMetadata).forEach(function (key) {
+                let nsMetadata = namespacesMetadata[key];
+                let options = Utils.getCompletionItemOptions(nsMetadata.description, nsMetadata.docLink, nsMetadata.name, true, CompletionItemKind.Module);
+                let command = Utils.getCommand('Namespace', 'aurahelper.completion.apex', [position, 'Namespace', nsMetadata]);
+                items.push(Utils.createItemForCompletion(nsMetadata.name, options, command));
+            });
+        }
+        if (config.getConfig().activeSObjectSuggestion) {
+            for (const sobject of sObjects.sObjectsToLower) {
+                let objName = sObjects.sObjectsMap[sobject];
+                let splits = objName.split('__');
+                let namespace = '';
+                let description = 'Standard SObject';
+                if (objName.indexOf('__c') !== -1)
+                    description = 'Custom SObject';
+                if (splits.length > 2) {
+                    namespace = splits[0].trim();
+                    description += '\nNamespace: ' + namespace;
+                }
+                let options = Utils.getCompletionItemOptions(objName, description, objName, true, CompletionItemKind.Class);
+                let command = Utils.getCommand('SObject', 'aurahelper.completion.apex', [position, 'SObject', objName]);
+                items.push(Utils.createItemForCompletion(objName, options, command));
+            }
+        }
+        return items;
     }
 }
 exports.Utils = Utils;

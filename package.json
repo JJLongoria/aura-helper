@@ -41,7 +41,7 @@
 			"activitybar": [
 				{
 					"id": "fileStructure",
-					"title": "File Structure",
+					"title": "Outline",
 					"icon": "resources/images/code.svg"
 				}
 			]
