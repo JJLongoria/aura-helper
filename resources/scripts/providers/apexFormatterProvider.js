@@ -50,7 +50,7 @@ exports.provider = {
             if (newLines > 0 && isOnCommentLine) {
                 isOnCommentLine = false;
                 isLastLineComment = true;
-            } else if (newLines > 0 && isLastLineComment) {
+            } else if (!isOnCommentLine && isLastLineComment) {
                 isLastLineComment = false;
             }
             if (!isCommentBlock && lastToken && lastToken.tokenType === TokenType.OPERATOR && lastToken.content === '/' && token.tokenType === TokenType.OPERATOR && token.content === '*') {
@@ -174,7 +174,11 @@ exports.provider = {
                 if (lastToken && lastToken.tokenType === TokenType.RBRACKET && newLines > 0 && token.content.toLowerCase() === 'else' && nextToken && nextToken.content !== 'if')
                     newLines = 0;
                 if (lastToken && lastToken.tokenType === TokenType.SEMICOLON && newLines === 0 && token.content.toLowerCase() !== 'get' && token.content.toLowerCase() !== 'set' && token.tokenType !== TokenType.RBRACKET && parentIndent == 0)
-                    newLines = 1; // Add new line after ";"*/
+                    if(!(token.tokenType === TokenType.OPERATOR && token.content === '/' && nextToken && nextToken.tokenType === TokenType.OPERATOR && nextToken.content === '/'))
+                        newLines = 1; // Add new line after ";"*/
+            }
+            if (isLastLineComment && newLines === 0) { 
+                newLines = (lastToken) ? token.line - lastToken.line : 1;
             }
             if (newLines > 0) {
                 lines.push(line + getNewLines(newLines - 1));
@@ -212,6 +216,10 @@ exports.provider = {
                 if (!isOnCommentLine && !isCommentBlock && !isOnText) {
                     if (token.tokenType === TokenType.RABRACKET && nextToken && nextToken.tokenType === TokenType.LBRACKET) {
                         line += token.content + getWhitespaces(0);
+                    } else if (token.tokenType === TokenType.OPERATOR && nextToken && nextToken.tokenType === TokenType.NUMBER && lastToken && lastToken.tokenType !== TokenType.IDENTIFIER) { 
+                        line += token.content + getWhitespaces(0);
+                    } else if (token.tokenType === TokenType.EQUAL || token.tokenType === TokenType.OPERATOR && nextToken && nextToken.tokenType === TokenType.LPAREN) {
+                        line += token.content + getWhitespaces(1);
                     } else if ((token.content.toLowerCase() === 'get' || token.content.toLowerCase() === 'set') && nextToken && nextToken.tokenType === TokenType.LBRACKET) {
                         line += token.content + getWhitespaces(1);
                     } else if (token.content.toLowerCase() === 'else') {
@@ -243,7 +251,6 @@ exports.provider = {
                     } else if (token.tokenType === TokenType.COLON) {
                         line += token.content + getWhitespaces(0);
                     } else {
-                        // line += token.content + getWhitespaces((nextToken) ? nextToken.startColumn - token.endColumn : 0);
                         line += token.content + getWhitespaces(1);
                     }
                 } else {
