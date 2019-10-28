@@ -339,7 +339,8 @@ All notable changes to this project will be documented in this file.
     - Fixed issues with autocompletion tools on queries
     - Fixed classes autocompletion tools
 
-## [1.5.1 - 2019-10-09]
+## [1.5.1 - 2019-10-28]
 ### Fixed
-    - Fixed more issues with autocompletion tools on queries
+    - Fixed issues with autocompletion tools
     - Fixed formatter issues
+    - Change File Structure View name for Outline
