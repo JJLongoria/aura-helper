@@ -218,7 +218,9 @@ exports.provider = {
                         line += token.content + getWhitespaces(0);
                     } else if (token.tokenType === TokenType.OPERATOR && nextToken && nextToken.tokenType === TokenType.NUMBER && lastToken && lastToken.tokenType !== TokenType.IDENTIFIER) { 
                         line += token.content + getWhitespaces(0);
-                    } else if (token.tokenType === TokenType.EQUAL || token.tokenType === TokenType.OPERATOR && nextToken && nextToken.tokenType === TokenType.LPAREN) {
+                    } else if ((token.tokenType === TokenType.AND || token.tokenType === TokenType.OR) && nextToken && (nextToken.tokenType === TokenType.AND || nextToken.tokenType === TokenType.OR)) {
+                        line += token.content + getWhitespaces(0);
+                    } else if ((token.tokenType === TokenType.EQUAL || token.tokenType === TokenType.OPERATOR || token.tokenType === TokenType.AND || token.tokenType === TokenType.OR) && nextToken && nextToken.tokenType === TokenType.LPAREN) {
                         line += token.content + getWhitespaces(1);
                     } else if ((token.content.toLowerCase() === 'get' || token.content.toLowerCase() === 'set') && nextToken && nextToken.tokenType === TokenType.LBRACKET) {
                         line += token.content + getWhitespaces(1);
