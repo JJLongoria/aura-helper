@@ -30,6 +30,9 @@ function activate(context) {
 	let newAuraFile = vscode.commands.registerCommand('aurahelper.file.new.aura', commands.newAuraFile);
 	let refreshMetadataIndex = vscode.commands.registerCommand('aurahelper.metadata.refresh.index', commands.refreshAllMetadataIndex);
 	let refreshMetadataIndexForObject = vscode.commands.registerCommand('aurahelper.metadata.refresh.object', commands.refreshObjectMetadataIndex);
+	let compressProfile = vscode.commands.registerCommand('aurahelper.profile.compress', commands.compressProfile);
+	let openProfile = vscode.commands.registerCommand('aurahelper.profile.open', commands.openProfile);
+	let retrieveFullProfile = vscode.commands.registerCommand('aurahelper.profile.retrieve', commands.retrieveFullProfile);
 
 	vscode.commands.registerCommand('aurahelper.completion.apex', commands.apexCodeCompletion);
 	vscode.commands.registerCommand('aurahelper.completion.aura', commands.auraCodeCompletion);
@@ -62,6 +65,9 @@ function activate(context) {
 	context.subscriptions.push(editApexCommentTemplate);
 	context.subscriptions.push(refreshMetadataIndex);
 	context.subscriptions.push(refreshMetadataIndexForObject);
+	context.subscriptions.push(compressProfile);
+	context.subscriptions.push(openProfile);
+	context.subscriptions.push(retrieveFullProfile);
 }
 exports.activate = activate;
 

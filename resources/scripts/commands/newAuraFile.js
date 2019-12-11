@@ -43,7 +43,7 @@ exports.run = function(uri) {
             window.showQuickPick(filesForCreate, { placeHolder: "Select an Aura File for Create" }).then((selected) => onSelectedFile(selected));
         }
         else {
-            window.showErrorMessage('The selected file is not a Aura Component File or Folder');
+            window.showErrorMessage('The selected file is not an Aura Component File or Folder');
         }
     } catch (error) {
         window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);

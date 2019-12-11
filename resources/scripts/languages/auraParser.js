@@ -2,8 +2,32 @@ const logger = require('../main/logger');
 const Tokenizer = require('./tokenizer').Tokenizer;
 const TokenType = require('./tokenTypes');
 const utils = require('./utils').Utils;
+const parser = require('fast-xml-parser');
+var he = require('he');
 
 class AuraParser {
+
+    static getParserOptions() {
+        return {
+            attributeNamePrefix: "",
+            attrNodeName: "attributes", //default is 'false'
+            textNodeName: "content",
+            ignoreAttributes: false,
+            ignoreNameSpace: false,
+            allowBooleanAttributes: false,
+            parseNodeValue: true,
+            parseAttributeValue: false,
+            trimValues: true,
+            cdataTagName: "__cdata", //default is 'false'
+            cdataPositionChar: "\\c",
+            localeRange: "", //To support non english character in tag/attribute values.
+            parseTrueNumberOnly: false,
+            arrayMode: false, //"strict"
+            attrValueProcessor: (val, attrName) => he.decode(val, { isAttributeValue: true }),//default is a=>a
+            tagValueProcessor: (val, tagName) => he.decode(val), //default is a=>a
+            stopNodes: ["parse-me-as-string"]
+        };
+    }
 
     static parse(content) {
         let tokens = Tokenizer.tokenize(content);
@@ -74,6 +98,10 @@ class AuraParser {
         return fileStructure;
     }
 
+    static parseXML(content) {
+        return parser.parse(content, this.getParserOptions());
+    }
+
     static getTagData(tokens, index, position) {
         let data = {}
         let tagData = {};
@@ -86,7 +114,7 @@ class AuraParser {
         let isOnAttributeValue;
         let isParamEmpty = false;
         let attributeName;
-        while (token.tokenType !== 'rABracket') {
+        while (token.tokenType !== TokenType.RABRACKET) {
             token = tokens[index];
             let lastToken = utils.getLastToken(tokens, index);
             let nextToken = utils.getNextToken(tokens, index);
@@ -131,7 +159,6 @@ class AuraParser {
     }
 
     static parseForPutAttributes(content, position) {
-        logger.log("content", content);
         let tokens = Tokenizer.tokenize(content);
         let index = 0;
         let openBracket = false;
