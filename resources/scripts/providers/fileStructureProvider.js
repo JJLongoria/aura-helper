@@ -106,6 +106,123 @@ function getClassElementsNodes(cls) {
     return nodes;
 }
 
+function getProfileNodes(profile) {
+    let nodes = [];
+    if (profile.description || profile.userLicense || profile.custom != undefined) {
+        let childs = [];
+        if (profile.description)
+            childs.push({ name: 'description', value: profile.description });
+        if (profile.userLicense)
+            childs.push({ name: 'userLicense', value: profile.userLicense });
+        if (profile.custom != undefined)
+            childs.push({ name: 'custom', value: '' + profile.custom });
+        let fileNode = new FileNode('MAIN DATA', 'mainData', '', childs);
+        nodes.push(fileNode);
+    }
+    if (profile.applicationVisibilities && profile.applicationVisibilities.length > 0) {
+        let fileNode = new FileNode('APP VISIBILITY', 'applicationVisibilities', '', profile.applicationVisibilities);
+        nodes.push(fileNode);
+    }
+    if (profile.classAccesses && profile.classAccesses.length > 0) {
+        let fileNode = new FileNode('CLASS ACCESSES', 'classAccesses', '', profile.classAccesses);
+        nodes.push(fileNode);
+    }
+    if (profile.customMetadataTypeAccesses && profile.customMetadataTypeAccesses.length > 0) {
+        let fileNode = new FileNode('CUSTOM METADATA ACCESSES', 'customMetadataTypeAccesses', '', profile.customMetadataTypeAccesses);
+        nodes.push(fileNode);
+    }
+    if (profile.customPermissions && profile.customPermissions.length > 0) {
+        let fileNode = new FileNode('CUSTOM PERMISSIONS', 'customPermissions', '', profile.customPermissions);
+        nodes.push(fileNode);
+    }
+    if (profile.customSettingAccesses && profile.customSettingAccesses.length > 0) {
+        let fileNode = new FileNode('CUSTOM SETTING ACCESSES', 'customSettingAccesses', '', profile.customSettingAccesses);
+        nodes.push(fileNode);
+    }
+    if (profile.externalDataSourceAccesses && profile.externalDataSourceAccesses.length > 0) {
+        let fileNode = new FileNode('EXT. DATA SOURCE ACCESSES', 'externalDataSourceAccesses', '', profile.externalDataSourceAccesses);
+        nodes.push(fileNode);
+    }
+    if (profile.fieldPermissions && profile.fieldPermissions.length > 0) {
+        let fileNode = new FileNode('FIELD PERMISSIONS', 'fieldPermissions', '', profile.fieldPermissions);
+        nodes.push(fileNode);
+    }
+    if (profile.fieldLevelSecurities && profile.fieldLevelSecurities.length > 0) {
+        let fileNode = new FileNode('FIELD LEVEL SECURITY', 'fieldLevelSecurities', '', profile.fieldLevelSecurities);
+        nodes.push(fileNode);
+    }
+    if (profile.flowAccesses && profile.flowAccesses.length > 0) {
+        let fileNode = new FileNode('FLOW ACCESSES', 'flowAccesses', '', profile.flowAccesses);
+        nodes.push(fileNode);
+    }
+    if (profile.layoutAssignments && profile.layoutAssignments.length > 0) {
+        let fileNode = new FileNode('LAYOUT ASSIGNMENTS', 'layoutAssignments', '', profile.layoutAssignments);
+        nodes.push(fileNode);
+    }
+    if (profile.loginHours) {
+        let childs = [];
+        if (profile.loginHours.mondayStart != undefined)
+            childs.push({ name: 'mondayStart', value: profile.loginHours.mondayStart });
+        if (profile.loginHours.mondayEnd != undefined)
+            childs.push({ name: 'mondayEnd', value: profile.loginHours.mondayEnd });
+        if (profile.loginHours.tuesdayStart != undefined)
+            childs.push({ name: 'tuesdayStart', value: profile.loginHours.tuesdayStart });
+        if (profile.loginHours.tuesdayEnd != undefined)
+            childs.push({ name: 'tuesdayEnd', value: profile.loginHours.tuesdayEnd });
+        if (profile.loginHours.wednesdayStart != undefined)
+            childs.push({ name: 'wednesdayStart', value: profile.loginHours.wednesdayStart });
+        if (profile.loginHours.wednesdayEnd != undefined)
+            childs.push({ name: 'wednesdayEnd', value: profile.loginHours.wednesdayEnd });
+        if (profile.loginHours.thursdayStart != undefined)
+            childs.push({ name: 'thursdayStart', value: profile.loginHours.thursdayStart });
+        if (profile.loginHours.thursdayEnd != undefined)
+            childs.push({ name: 'thursdayEnd', value: profile.loginHours.thursdayEnd });
+        if (profile.loginHours.fridayStart != undefined)
+            childs.push({ name: 'fridayStart', value: profile.loginHours.fridayStart });
+        if (profile.loginHours.fridayEnd != undefined)
+            childs.push({ name: 'fridayEnd', value: profile.loginHours.fridayEnd });
+        if (profile.loginHours.saturdayStart != undefined)
+            childs.push({ name: 'saturdayStart', value: profile.loginHours.saturdayStart });
+        if (profile.loginHours.saturdayEnd != undefined)
+            childs.push({ name: 'saturdayEnd', value: profile.loginHours.saturdayEnd });
+        if (profile.loginHours.sundayStart != undefined)
+            childs.push({ name: 'sundayStart', value: profile.loginHours.sundayStart });
+        if (profile.loginHours.sundayEnd != undefined)
+            childs.push({ name: 'sundayEnd', value: profile.loginHours.sundayEnd });
+        let fileNode = new FileNode('LOGIN HOURS', 'loginHours', '', childs);
+        nodes.push(fileNode);
+    }
+    if (profile.loginIpRanges && profile.loginIpRanges.length > 0) {
+        let fileNode = new FileNode('LOGIN IP RANGES', 'loginIpRanges', '', profile.loginIpRanges);
+        nodes.push(fileNode);
+    }
+    if (profile.objectPermissions && profile.objectPermissions.length > 0) {
+        let fileNode = new FileNode('OBJECT PERMISSIONS', 'objectPermissions', '', profile.objectPermissions);
+        nodes.push(fileNode);
+    }
+    if (profile.pageAccesses && profile.pageAccesses.length > 0) {
+        let fileNode = new FileNode('PAGE ACCESSES', 'pageAccesses', '', profile.pageAccesses);
+        nodes.push(fileNode);
+    }
+    if (profile.profileActionOverrides && profile.profileActionOverrides.length > 0) {
+        let fileNode = new FileNode('PROFILE ACTION OVERRIDES', 'profileActionOverrides', '', profile.profileActionOverrides);
+        nodes.push(fileNode);
+    }
+    if (profile.recordTypeVisibilities && profile.recordTypeVisibilities.length > 0) {
+        let fileNode = new FileNode('RECORD TYPE VISIBILITY', 'recordTypeVisibilities', '', profile.recordTypeVisibilities);
+        nodes.push(fileNode);
+    }
+    if (profile.tabVisibilities && profile.tabVisibilities.length > 0) {
+        let fileNode = new FileNode('TAB VISIBILITY', 'tabVisibilities', '', profile.tabVisibilities);
+        nodes.push(fileNode);
+    }
+    if (profile.userPermissions && profile.userPermissions.length > 0) {
+        let fileNode = new FileNode('USER PERMISSIONS', 'userPermissions', '', profile.userPermissions);
+        nodes.push(fileNode);
+    }
+    return nodes;
+}
+
 function getEnumValueNode(enumValue) {
     let fileNode = new FileNode(enumValue.name, 'enumValueElement', vscode.TreeItemCollapsibleState.None, []);
     fileNode.command = {
@@ -172,6 +289,70 @@ function getFunctionNode(functionNode) {
         title: "GoToEvent",
         command: "aurahelper.fileExplorer.gotoMember",
         arguments: [functionNode.line, functionNode.column]
+    };
+    return fileNode;
+}
+
+function getProfileMainDataNode(mainDataNode) {
+    let name = mainDataNode.name;
+    let type = 'mainData';
+    let fileNode = new FileNode(name, type, vscode.TreeItemCollapsibleState.None, []);
+    fileNode.description = '' + mainDataNode.value;
+    let item = {
+        type: "mainData",
+        parentMember: 'Profile',
+        memberName: mainDataNode.name,
+        memberValue: mainDataNode.value
+    };
+    fileNode.command = {
+        title: "GoToProfileData",
+        command: "aurahelper.fileExplorer.gotoMember",
+        arguments: [0, 0, item]
+    };
+    return fileNode;
+}
+
+function getProfileLoginHourDataNode(loginHourNode) { 
+    let name = loginHourNode.name;
+    let type = 'loginHour';
+    let fileNode = new FileNode(name, type, vscode.TreeItemCollapsibleState.None, []);
+    fileNode.description = '' + loginHourNode.value;
+    let item = {
+        type: "loginHour",
+        parentMember: 'loginHours',
+        memberName: loginHourNode.name,
+        memberValue: loginHourNode.value
+    };
+    fileNode.command = {
+        title: "GoToProfileData",
+        command: "aurahelper.fileExplorer.gotoMember",
+        arguments: [0, 0, item]
+    };
+    return fileNode;
+}
+
+function getProfilePermissionNode(name, type, permissionNode) {
+    let childs = [];
+    Object.keys(permissionNode).forEach(function (key) {
+        childs.push({ name: key, value: permissionNode[key] });
+    });
+    let fileNode = new FileNode(name, type, vscode.TreeItemCollapsibleState.Collapsed, childs);
+    return fileNode;
+}
+
+function getProfilePermissionDataNode(type, parent, profilePermissionDataNode) {
+    let fileNode = new FileNode(profilePermissionDataNode.name, type, vscode.TreeItemCollapsibleState.None, []);
+    fileNode.description = '' + profilePermissionDataNode.value;
+    let item = {
+        type: type,
+        parentMember: parent,
+        memberName: profilePermissionDataNode.name,
+        memberValue: '' + profilePermissionDataNode.value
+    };
+    fileNode.command = {
+        title: "GoToProfileData",
+        command: "aurahelper.fileExplorer.gotoMember",
+        arguments: [0, 0, item]
     };
     return fileNode;
 }
@@ -317,13 +498,484 @@ class FileStructureTreeProvider {
                 for (const key of keys) {
                     nodes.push(getFunctionNode(functionsMap[key]));
                 }
+            } else if (element.type === 'mainData') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfileMainDataNode(permissionDataMap[key]));
+                }
+            } else if (element.type === 'applicationVisibilities') {
+                let permissionDataMap = {};
+                for (const appVisibility of element.childs) {
+                    permissionDataMap[appVisibility.application] = appVisibility;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'appVisibility', permissionDataMap[key]));
+                }
+            } else if (element.type === 'appVisibility') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('appVisibilityData', 'applicationVisibilities', permissionDataMap[key]));
+                }
+            } else if (element.type === 'classAccesses') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.apexClass] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'classAccess', permissionDataMap[key]));
+                }
+            } else if (element.type === 'classAccess') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('classAccessData', 'classAccesses', permissionDataMap[key]));
+                }
+            } else if (element.type === 'customMetadataTypeAccesses') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'customMetadataTypeAccess', permissionDataMap[key]));
+                }
+            } else if (element.type === 'customMetadataTypeAccess') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('customMetadataTypeAccessData', 'customMetadataTypeAccesses', permissionDataMap[key]));
+                }
+            } else if (element.type === 'customPermissions') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'customPermission', permissionDataMap[key]));
+                }
+            } else if (element.type === 'customPermission') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('customPermissionData', 'customPermissions', permissionDataMap[key]));
+                }
+            } else if (element.type === 'customSettingAccesses') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'customSettingAccess', permissionDataMap[key]));
+                }
+            } else if (element.type === 'customSettingAccess') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('customSettingAccessData', 'customSettingAccesses', permissionDataMap[key]));
+                }
+            } else if (element.type === 'externalDataSourceAccesses') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.externalDataSource] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'externalDataSourceAccess', permissionDataMap[key]));
+                }
+            } else if (element.type === 'externalDataSourceAccess') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('externalDataSourceAccessData', 'externalDataSourceAccesses', permissionDataMap[key]));
+                }
+            } else if (element.type === 'fieldPermissions') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.field] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'fieldPermission', permissionDataMap[key]));
+                }
+            } else if (element.type === 'fieldPermission') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('fieldPermissionData', 'fieldPermissions', permissionDataMap[key]));
+                }
+            } else if (element.type === 'fieldLevelSecurities') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.field] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'fieldLevelSecurity', permissionDataMap[key]));
+                }
+            } else if (element.type === 'fieldLevelSecurity') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('fieldLevelSecurityData', 'fieldLevelSecurities', permissionDataMap[key]));
+                }
+            } else if (element.type === 'flowAccesses') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.flow] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'flowAccess', permissionDataMap[key]));
+                }
+            } else if (element.type === 'flowAccess') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('flowAccessData', 'flowAccesses', permissionDataMap[key]));
+                }
+            } else if (element.type === 'layoutAssignments') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    if(data.recordType)
+                        permissionDataMap[data.layout + '__' + data.recordType] = data;
+                    else
+                        permissionDataMap[data.layout] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'layoutAssignment', permissionDataMap[key]));
+                }
+            } else if (element.type === 'layoutAssignment') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('layoutAssignmentData', 'layoutAssignments', permissionDataMap[key]));
+                }
+            } else if (element.type === 'loginHours') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfileLoginHourDataNode(permissionDataMap[key]));
+                }
+            } else if (element.type === 'loginIpRanges') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.startAddress + '-' + data.endAddress] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'loginIpRange', permissionDataMap[key]));
+                }
+            } else if (element.type === 'loginIpRange') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('loginIpRangeData', 'loginIpRanges', permissionDataMap[key]));
+                }
+            } else if (element.type === 'objectPermissions') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.object] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'objectPermission', permissionDataMap[key]));
+                }
+            } else if (element.type === 'objectPermission') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('objectPermissionData', 'objectPermissions', permissionDataMap[key]));
+                }
+            } else if (element.type === 'pageAccesses') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.apexPage] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'pageAccess', permissionDataMap[key]));
+                }
+            } else if (element.type === 'pageAccess') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('pageAccessData', 'pageAccesses', permissionDataMap[key]));
+                }
+            } else if (element.type === 'profileActionOverrides') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.pageOrSobjectType + '__' + data.type + '__' + data.actionName + '__' + data.recordType] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'profileActionOverride', permissionDataMap[key]));
+                }
+            } else if (element.type === 'profileActionOverride') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('profileActionOverrideData', 'profileActionOverrides', permissionDataMap[key]));
+                }
+            } else if (element.type === 'recordTypeVisibilities') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.recordType] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'recordTypeVisibility', permissionDataMap[key]));
+                }
+            } else if (element.type === 'recordTypeVisibility') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('recordTypeVisibilityData', 'recordTypeVisibilities', permissionDataMap[key]));
+                }
+            } else if (element.type === 'tabVisibilities') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.tab] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'tabVisibility', permissionDataMap[key]));
+                }
+            } else if (element.type === 'tabVisibility') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('tabVisibilityData', 'tabVisibilities', permissionDataMap[key]));
+                }
+            } else if (element.type === 'userPermissions') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionNode(key, 'userPermission', permissionDataMap[key]));
+                }
+            } else if (element.type === 'userPermission') {
+                let permissionDataMap = {};
+                for (const data of element.childs) {
+                    permissionDataMap[data.name] = data;
+                }
+                let keys = Object.keys(permissionDataMap);
+                if (this.orderBy === 'nameASC')
+                    keys = keys.sort();
+                else if (this.orderBy === 'nameDESC')
+                    keys = keys.reverse();
+                for (const key of keys) {
+                    nodes.push(getProfilePermissionDataNode('userPermissionData', 'userPermissions', permissionDataMap[key]));
+                }
             }
             return nodes;
         } else {
             let editor = vscode.window.activeTextEditor;
             if (!editor)
                 return undefined;
-            if (!FileChecker.isApexClass(editor.document.uri.fsPath) && !FileChecker.isAuraComponent(editor.document.uri.fsPath) && !FileChecker.isJavaScript(editor.document.uri.fsPath))
+            if (!FileChecker.isApexClass(editor.document.uri.fsPath) && !FileChecker.isAuraComponent(editor.document.uri.fsPath) && !FileChecker.isJavaScript(editor.document.uri.fsPath) && !FileChecker.isProfile(editor.document.uri.fsPath))
                 return undefined;
             if (FileChecker.isApexClass(editor.document.uri.fsPath)) {
                 let fileStructure = ApexParser.parse(FileReader.readDocument(editor.document));
@@ -357,6 +1009,12 @@ class FileStructureTreeProvider {
                     let fileNode = new FileNode('FUNCTIONS', 'function', '', fileStructure.functions);
                     nodes.push(fileNode);
                 }
+                return nodes;
+            } else if (FileChecker.isProfile(editor.document.uri.fsPath)) {
+                let root = AuraParser.parseXML(FileReader.readDocument(editor.document));
+                let nodes = [];
+                if (root.Profile)
+                    nodes = getProfileNodes(root.Profile);
                 return nodes;
             }
         }

@@ -43,6 +43,9 @@ class Paths {
     static getBaseComponentsDetailPath() {
         return applicationContext.context.asAbsolutePath("./resources/assets/baseComponentsDetail.json");
     }
+    static getProfilePage() { 
+        return applicationContext.context.asAbsolutePath("./resources/assets/metadata/profilePage.html");
+    }
     static getMetadataIndexPath() {
         return applicationContext.context.storagePath + "\\" + "metadata";
     }
@@ -52,11 +55,20 @@ class Paths {
     static getSystemClassesPath() {
         return applicationContext.context.asAbsolutePath("./resources/assets/apex/classes");
     }
+    static getSFDXFolderPath() { 
+        return vscode.workspace.rootPath + '/.sfdx';
+    }
     static getBasename(filePath) {
         return path.basename(filePath);
     }
     static getFolderPath(filePath) {
         return path.dirname(filePath);
+    }
+    static getPackageFolder() { 
+        return applicationContext.context.storagePath + "\\" + "download\\metadata\\package";
+    }
+    static getMetadataRootFolder() { 
+        return vscode.workspace.rootPath + '/force-app/main/default';
     }
     static getBundleHelperPath(filePath) {
         return filePath.replace('.cmp', '').replace('.auradoc', '').replace('.svg', '').replace('.css', '').replace('.design', '').replace('.app', '').replace('.app', 'Renderer.js').replace('.app', 'Controller.js') + 'Helper.js';

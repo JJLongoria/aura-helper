@@ -4,4 +4,6 @@ const refreshAllMetadataIndex = require('./refreshAllMetadataIndex');
 exports.refreshAllMetadataIndex = refreshAllMetadataIndex;
 const refreshObjectMetadataIndex = require('./refreshObjectMetadataIndex');
 exports.refreshObjectMetadataIndex = refreshObjectMetadataIndex;
+const refreshFullProfile = require('./refreshFullProfile');
+exports.refreshFullProfile = refreshFullProfile;
 

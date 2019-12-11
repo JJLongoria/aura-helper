@@ -19,6 +19,12 @@ class FileChecker{
     static isAuraComponentFolder(filePath){
         return filePath.indexOf('/aura/') !== -1 || filePath.indexOf('\\aura\\') !== -1;
     }
+    static isProfile(filePath) { 
+        return filePath.endsWith('.profile-meta.xml');
+    }
+    static isProfileFolder(filePath) { 
+        return filePath.endsWith('/profiles') || filePath.endsWith('\\profiles');
+    }
     static isExists(filePath){
         return fs.existsSync(filePath);
     }

@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Salesforce extension for make more powerfull and easy the development work. Work with Apex and Lightning",
-	"version": "1.5.3",
+	"version": "1.6.0",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
@@ -30,7 +30,12 @@
 		"javadoc",
 		"apexdoc",
 		"aura documentation",
-		"auradoc"
+		"auradoc",
+		"profile",
+		"profile management",
+		"salesforce profile",
+		"metadata management",
+		"local metadata management"
 	],
 	"activationEvents": [
 		"*"
@@ -166,7 +171,7 @@
 				"icon": {
 					"light": "resources/images/light/refresh.svg",
 					"dark": "resources/images/dark/refresh.svg"
-				  }
+				}
 			},
 			{
 				"command": "aurahelper.fileExplorer.sort.default",
@@ -174,7 +179,7 @@
 				"icon": {
 					"light": "resources/images/SortByType_16x.svg",
 					"dark": "resources/images/SortByType_16x.svg"
-				  }
+				}
 			},
 			{
 				"command": "aurahelper.fileExplorer.sort.name.asc",
@@ -182,7 +187,7 @@
 				"icon": {
 					"light": "resources/images/SortAscendingFilter_16x.svg",
 					"dark": "resources/images/SortAscendingFilter_16x.svg"
-				  }
+				}
 			},
 			{
 				"command": "aurahelper.fileExplorer.sort.name.desc",
@@ -190,7 +195,19 @@
 				"icon": {
 					"light": "resources/images/SortDescendingFilter_16x.svg",
 					"dark": "resources/images/SortDescendingFilter_16x.svg"
-				  }
+				}
+			},
+			{
+				"command": "aurahelper.profile.compress",
+				"title": "AuraHelper: Compress Profile"
+			},
+			{
+				"command": "aurahelper.profile.open",
+				"title": "AuraHelper: Open Profile on UI"
+			},
+			{
+				"command": "aurahelper.profile.retrieve",
+				"title": "AuraHelper: Retrieve Full Profile"
 			}
 		],
 		"languages": [
@@ -209,7 +226,8 @@
 				"id": "xml",
 				"extensions": [
 					".auradoc",
-					".cmp"
+					".cmp",
+					".profile-meta.xml"
 				],
 				"aliases": [
 					"XML"
@@ -240,17 +258,37 @@
 				{
 					"when": "resourceExtname == .cmp",
 					"command": "aurahelper.file.new.aura",
-					"group": "navigation"
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"command": "aurahelper.profile.compress",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"command": "aurahelper.profile.open",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"command": "aurahelper.profile.retrieve",
+					"group": "auraHelper@1"
 				},
 				{
 					"when": "resourceExtname == .auradoc",
 					"command": "aurahelper.completion.aura.documentation",
-					"group": "navigation"
+					"group": "auraHelper@1"
 				},
 				{
 					"when": "resource =~ /./aura/ && resourceExtname =~ /^(?!(.app|.cmp|.auradoc|.evt|.intf|.css|.design|.html|.js|.svg)$)/",
 					"command": "aurahelper.file.new.aura",
-					"group": "navigation"
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./profiles/ && resourceExtname == ''",
+					"command": "aurahelper.profile.retrieve",
+					"group": "auraHelper@1"
 				}
 			],
 			"editor/context": [
@@ -262,6 +300,21 @@
 				{
 					"when": "resourceExtname == .auradoc",
 					"command": "aurahelper.completion.aura.documentation",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"command": "aurahelper.profile.compress",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"command": "aurahelper.profile.open",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"command": "aurahelper.profile.retrieve",
 					"group": "auraHelper@1"
 				}
 			],
@@ -297,6 +350,10 @@
 		"url": "https://github.com/JJLongoria/aura-helper/issues",
 		"email": "juanjoselongoria@gmail.com"
 	},
+	"dependencies": {
+		"fast-xml-parser": "^3.15.0",
+		"unzipper": "^0.10.5"
+	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^5.2.6",
@@ -306,7 +363,9 @@
 		"glob": "^7.1.4",
 		"mocha": "^6.1.4",
 		"typescript": "^3.3.1",
-		"vscode-test": "^1.0.2"
+		"vscode-test": "^1.0.2",
+		"fast-xml-parser": "^3.15.0",
+		"unzipper": "^0.10.5"
 	},
 	"extensionDependencies": [
 		"salesforce.salesforcedx-vscode"
