@@ -1,7 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [1.6.1 - 2019-10-11]
+- Fixed some probles with dependencies
 
-## [1.6.0 - 2019-10-XX]
+## [1.6.0 - 2019-10-11]
 ### Added
 - Compress Profile files
 - Include Local Metadata Management for Profiles
