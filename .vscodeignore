@@ -7,4 +7,3 @@ vsc-extension-quickstart.md
 **/*.map
 **/.eslintrc.json
 ./resources/userTemplates/**
-./resources/assets/metadata/**
