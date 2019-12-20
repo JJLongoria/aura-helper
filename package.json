@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Salesforce extension for make more powerfull and easy the development work. Work with Apex and Lightning",
-	"version": "1.6.2",
+	"version": "1.7.0",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
@@ -198,16 +198,36 @@
 				}
 			},
 			{
-				"command": "aurahelper.profile.compress",
+				"command": "aurahelper.metadata.profile.compress",
 				"title": "AuraHelper: Compress Profile"
 			},
 			{
-				"command": "aurahelper.profile.open",
+				"command": "aurahelper.metadata.permissionset.compress",
+				"title": "AuraHelper: Compress Permission Set"
+			},
+			{
+				"command": "aurahelper.metadata.profile.open",
 				"title": "AuraHelper: Open Profile on UI"
 			},
 			{
-				"command": "aurahelper.profile.retrieve",
+				"command": "aurahelper.metadata.permissionset.open",
+				"title": "AuraHelper: Open Permission Set on UI"
+			},
+			{
+				"command": "aurahelper.metadata.profile.retrieve",
 				"title": "AuraHelper: Retrieve Full Profile"
+			},
+			{
+				"command": "aurahelper.metadata.permissionset.retrieve",
+				"title": "AuraHelper: Retrieve Full Permission Set"
+			},
+			{
+				"command": "aurahelper.metadata.package.generate",
+				"title": "AuraHelper: Package Generator"
+			},
+			{
+				"command": "aurahelper.metadata.org.match",
+				"title": "AuraHelper: Match Org with Local"
 			}
 		],
 		"languages": [
@@ -220,17 +240,6 @@
 				],
 				"aliases": [
 					"Apex"
-				]
-			},
-			{
-				"id": "xml",
-				"extensions": [
-					".auradoc",
-					".cmp",
-					".profile-meta.xml"
-				],
-				"aliases": [
-					"XML"
 				]
 			},
 			{
@@ -261,18 +270,8 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.profile.compress",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.profile.open",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.profile.retrieve",
+					"when": "resource =~ /./aura/ && resourceExtname =~ /^(?!(.app|.cmp|.auradoc|.evt|.intf|.css|.design|.html|.js|.svg)$)/",
+					"command": "aurahelper.file.new.aura",
 					"group": "auraHelper@1"
 				},
 				{
@@ -281,13 +280,33 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./aura/ && resourceExtname =~ /^(?!(.app|.cmp|.auradoc|.evt|.intf|.css|.design|.html|.js|.svg)$)/",
-					"command": "aurahelper.file.new.aura",
+					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"command": "aurahelper.metadata.profile.compress",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"command": "aurahelper.metadata.profile.open",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
+					"command": "aurahelper.metadata.permissionset.compress",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
+					"command": "aurahelper.metadata.permissionset.open",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"command": "aurahelper.metadata.profile.retrieve",
 					"group": "auraHelper@1"
 				},
 				{
 					"when": "resource =~ /./profiles/ && resourceExtname == ''",
-					"command": "aurahelper.profile.retrieve",
+					"command": "aurahelper.metadata.profile.retrieve",
 					"group": "auraHelper@1"
 				}
 			],
@@ -304,17 +323,27 @@
 				},
 				{
 					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.profile.compress",
+					"command": "aurahelper.metadata.profile.compress",
 					"group": "auraHelper@1"
 				},
 				{
 					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.profile.open",
+					"command": "aurahelper.metadata.profile.open",
 					"group": "auraHelper@1"
 				},
 				{
 					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.profile.retrieve",
+					"command": "aurahelper.metadata.profile.retrieve",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
+					"command": "aurahelper.metadata.permissionset.compress",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
+					"command": "aurahelper.metadata.permissionset.open",
 					"group": "auraHelper@1"
 				}
 			],

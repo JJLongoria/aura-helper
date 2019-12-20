@@ -1,20 +1,22 @@
 const https = require('https');
+const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
-const languages = require('../languages');
+const Metadata = require('../metadata');
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
-const ApexParser = languages.ApexParser;
+const PackageGenerator = Metadata.PackageGenerator;
 
 const applicationContext = require('../main/applicationContext');
 
 exports.run = function (context) {
-    console.log('Aura Helper Extension is now active');
-    console.log('Aura Helper Init files');
     applicationContext.context = context;
+    applicationContext.outputChannel = vscode.window.createOutputChannel("Aura Helper");
+    applicationContext.outputChannel.appendLine('Aura Helper Extension is now active');
+    applicationContext.outputChannel.appendLine('Start loading init files');
     init(context, function () {
-        console.log('Aura Helper files initialized');
+        applicationContext.outputChannel.appendLine('Files loading succesfully');
     });
 }
 
@@ -42,6 +44,15 @@ async function init(context, callback) {
         if (callback)
             callback.call(this);
     }, 50);
+}
+
+function mergePackages(context) {
+    console.log("Mergin Packages started");
+    let package1XML = context.asAbsolutePath('./resources/package01.xml');
+    let package2XML = context.asAbsolutePath('./resources/package02.xml');
+    let result = PackageGenerator.mergePackages([package1XML, package2XML]);
+    FileWriter.createFileSync(context.asAbsolutePath('./resources/packageResult.xml'), result);
+    console.log("Mergin Packages finished");
 }
 
 function repairSystemClasses(context, ns, className) {

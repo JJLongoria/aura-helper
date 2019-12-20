@@ -20,6 +20,11 @@ The Aura Helper Extension contains some of next features:
     - Manage profile with custom UI on VSCode
     - Retrieve full Profile(s) permissions
 
+#### Permission Sets
+    - Compress permission sets files
+    - Manage permission sets with custom UI on VSCode
+    - Retrieve full Permission Set(s) permissions
+
 ### Commands features
 Some commands with tools for help in your work. All commands start with "AuraHelper:"
 

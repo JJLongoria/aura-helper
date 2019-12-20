@@ -1,15 +1,16 @@
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
-const metadataUtils = require('../metadataUtils');
+const Metadata = require('../metadata');
 const AuraParser = languages.AuraParser;
 const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
+const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
 const ViewColumn = vscode.ViewColumn;
 const window = vscode.window;
-const ProfileUtils = metadataUtils.ProfileUtils;
-const MtUtils = metadataUtils.Utils;
+const ProfileUtils = Metadata.ProfileUtils;
+const MetadataUtils = Metadata.Utils;
 
 exports.run = function (fileUri) {
     try {
@@ -21,14 +22,15 @@ exports.run = function (fileUri) {
             if (editor)
                 filePath = editor.document.uri.fsPath;
         }
-        let profileName = Paths.getBasename(filePath).replace('.profile-meta.xml', '');
+        let profileName = Paths.getBasename(filePath).replace('.profile-meta.xml', '').replace('.permissionset-meta.xml', '');
         const panel = window.createWebviewPanel('Profile', 'Profile: ' + profileName, ViewColumn.One, { enableScripts: true, retainContextWhenHidden: true });
         panel.webview.html = getProfilePage();
         setTimeout(() => {
-            let storageMetadata = MtUtils.getMetadataFromFileSystem();
+            let storageMetadata = MetadataUtils.getMetadataFromFileSystem();
             let root = readProfile(filePath);
-            if (root.Profile) {
-                let profile = ProfileUtils.createProfile(root.Profile);
+            let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
+            if (profileRaw) {
+                let profile = ProfileUtils.createProfile(profileRaw, FileChecker.isPermissionSet(filePath));
                 profile = ProfileUtils.mergeProfileWithLocalData(profile, storageMetadata);
                 panel.webview.postMessage({ name: profileName, profile: profile });
             } else {

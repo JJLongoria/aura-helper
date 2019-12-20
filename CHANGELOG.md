@@ -1,21 +1,26 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [1.6.1 - 2019-10-11]
+## [1.7.0 - 2019-12-XX]
+- Compress Permission Set files
+- Include Local Metadata Management for Permission Sets
+- Retrieve full Permission Set(s) permissions
+
+## [1.6.1 - 2019-12-11]
 - Fixed some probles with dependencies
 
-## [1.6.0 - 2019-10-11]
+## [1.6.0 - 2019-12-11]
 ### Added
 - Compress Profile files
 - Include Local Metadata Management for Profiles
 - Retrieve full Profile(s) permissions
 
-## [1.5.1 - 2019-10-28]
+## [1.5.1 - 2019-11-28]
 ### Fixed
 - Fixed issues with autocompletion tools
 - Fixed formatter issues
 - Change File Structure View name for Outline
 
-## [1.5.0 - 2019-10-07]
+## [1.5.0 - 2019-11-07]
 ### Added
 - Added autocompletion tools for SObjects and Classes (Support custom and more than 400 standard classes)
 - Better code formatter

@@ -32,3 +32,7 @@ const openProfile = require('./openProfile');
 exports.openProfile = openProfile.run;
 const retrieveFullProfile = require('./retrieveFullProfile');
 exports.retrieveFullProfile = retrieveFullProfile.run;
+const packageGenerator = require('./packageGenerator');
+exports.packageGenerator = packageGenerator.run;
+const matchOrgWithLocal = require('./matchOrgWithLocal');
+exports.matchOrgWithLocal = matchOrgWithLocal.run;

@@ -1010,11 +1010,12 @@ class FileStructureTreeProvider {
                     nodes.push(fileNode);
                 }
                 return nodes;
-            } else if (FileChecker.isProfile(editor.document.uri.fsPath)) {
+            } else if (FileChecker.isProfile(editor.document.uri.fsPath) || FileChecker.isPermissionSet(editor.document.uri.fsPath)) {
                 let root = AuraParser.parseXML(FileReader.readDocument(editor.document));
                 let nodes = [];
-                if (root.Profile)
-                    nodes = getProfileNodes(root.Profile);
+                let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
+                if (profileRaw)
+                    nodes = getProfileNodes(profileRaw);
                 return nodes;
             }
         }
