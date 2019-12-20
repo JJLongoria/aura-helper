@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const rimraf = require("rimraf");
 const unzipper = require('unzipper');
 
@@ -28,7 +29,17 @@ class FileWriter {
         fs.copyFileSync(sourcePath, targetPath);
     }
     static delete(folderPath) {
-        rimraf.sync(folderPath);
+        if (fs.existsSync(folderPath)) {
+            fs.readdirSync(folderPath).forEach(function (entry) {
+                var entry_path = path.join(folderPath, entry);
+                if (fs.lstatSync(entry_path).isDirectory()) {
+                    FileWriter.delete(entry_path);
+                } else {
+                    fs.unlinkSync(entry_path);
+                }
+            });
+            fs.rmdirSync(folderPath);
+        }
     }
     static async unzip(zipFile, targetPath, callback) {
         let rstream = fs.createReadStream(zipFile).pipe(unzipper.Extract({

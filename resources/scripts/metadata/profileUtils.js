@@ -1,13 +1,16 @@
+const Utils = require('./utils');
+
 class ProfileUtils {
 
-    static createProfile(profile) {
+    static createProfile(profile, isPermissionSet) {
         let result = {};
         if (profile) {
-            result = this.createProfile();
+            result = ProfileUtils.createProfile();
+            result.isPermissionSet = (isPermissionSet) ? true : false;
             let profileKeys = Object.keys(result);
             Object.keys(profile).forEach(function (key) {
                 if (profileKeys.includes(key)) {
-                    if (Array.isArray(profile[key]) || key === 'loginHours' || key === 'description' || key === 'userLicense' || key === 'custom')
+                    if (Array.isArray(profile[key]) || key === 'loginHours' || key === 'description' || key === 'userLicense' || key === 'custom' || key === 'isPermissionSet')
                         result[key] = profile[key];
                     else
                         result[key].push(profile[key]);
@@ -66,7 +69,8 @@ class ProfileUtils {
                 profileActionOverrides: [],
                 recordTypeVisibilities: [],
                 tabVisibilities: [],
-                userPermissions: []
+                userPermissions: [],
+                isPermissionSet: (isPermissionSet) ? true : false,
             };
         }
         return result;
@@ -74,7 +78,7 @@ class ProfileUtils {
 
     static mergeProfileWithLocalData(profile, storageMetadata) {
         if (profile) {
-            profile = ProfileUtils.createProfile(profile);
+            profile = ProfileUtils.createProfile(profile, profile.isPermissionSet);
             Object.keys(profile).forEach(function (key) {
                 let profileElement = profile[key];
                 if (key === 'applicationVisibilities') {
@@ -453,14 +457,22 @@ class ProfileUtils {
         let profileLines = [];
         if (profile) {
             profileLines.push('<?xml version="1.0" encoding="UTF-8"?>');
-            profileLines.push('<Profile xmlns="http://soap.sforce.com/2006/04/metadata">');
+            if (profile.isPermissionSet)
+                profileLines.push('<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">');
+            else
+                profileLines.push('<Profile xmlns="http://soap.sforce.com/2006/04/metadata">');
             if (profile.description)
                 profileLines.push('\t<description>' + profile.description + '</description>');
-            if (profile.userLicense)
-                profileLines.push('\t<userLicense>' + profile.userLicense + '</userLicense>');
-            if (profile.custom !== undefined)
-                profileLines.push('\t<custom>' + profile.custom + '</custom>');
+            if (!profile.isPermissionSet) {
+                if (profile.userLicense)
+                    profileLines.push('\t<userLicense>' + profile.userLicense + '</userLicense>');
+                if (profile.custom !== undefined)
+                    profileLines.push('\t<custom>' + profile.custom + '</custom>');
+            }
             if (profile.applicationVisibilities) {
+                profile.applicationVisibilities.sort(function (a, b) {
+                    return a.application.toLowerCase().localeCompare(b.application.toLowerCase());
+                });
                 for (const appVisibility of profile.applicationVisibilities) {
                     if (compress)
                         profileLines.push('\t<applicationVisibilities><application>' + appVisibility.application + '</application><default>' + appVisibility.default + '</default><visible>' + appVisibility.visible + '</visible></applicationVisibilities>');
@@ -469,6 +481,9 @@ class ProfileUtils {
                 }
             }
             if (profile.classAccesses) {
+                profile.classAccesses.sort(function (a, b) {
+                    return a.apexClass.toLowerCase().localeCompare(b.apexClass.toLowerCase());
+                });
                 for (const classAccess of profile.classAccesses) {
                     if (compress)
                         profileLines.push('\t<classAccesses><apexClass>' + classAccess.apexClass + '</apexClass><enabled>' + classAccess.enabled + '</enabled></classAccesses>');
@@ -477,6 +492,9 @@ class ProfileUtils {
                 }
             }
             if (profile.customMetadataTypeAccesses) {
+                profile.customMetadataTypeAccesses.sort(function (a, b) {
+                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+                });
                 for (const customMetadataAccess of profile.customMetadataTypeAccesses) {
                     if (compress)
                         profileLines.push('\t<customMetadataTypeAccesses><name>' + customMetadataAccess.name + '</name><enabled>' + customMetadataAccess.enabled + '</enabled></customMetadataTypeAccesses>');
@@ -485,6 +503,9 @@ class ProfileUtils {
                 }
             }
             if (profile.customPermissions) {
+                profile.customPermissions.sort(function (a, b) {
+                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+                });
                 for (const customPermission of profile.customPermissions) {
                     if (compress)
                         profileLines.push('\t<customPermissions><name>' + customPermission.name + '</name><enabled>' + customPermission.enabled + '</enabled></customPermissions>');
@@ -493,6 +514,9 @@ class ProfileUtils {
                 }
             }
             if (profile.customSettingAccesses) {
+                profile.customSettingAccesses.sort(function (a, b) {
+                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+                });
                 for (const customSettingAccess of profile.customSettingAccesses) {
                     if (compress)
                         profileLines.push('\t<customSettingAccesses><name>' + customSettingAccess.name + '</name><enabled>' + customSettingAccess.enabled + '</enabled></customSettingAccesses>');
@@ -501,6 +525,9 @@ class ProfileUtils {
                 }
             }
             if (profile.externalDataSourceAccesses) {
+                profile.externalDataSourceAccesses.sort(function (a, b) {
+                    return a.externalDataSource.toLowerCase().localeCompare(b.externalDataSource.toLowerCase());
+                });
                 for (const externalDataSourceAccess of profile.externalDataSourceAccesses) {
                     if (compress)
                         profileLines.push('\t<externalDataSourceAccesses><externalDataSource>' + externalDataSourceAccess.externalDataSource + '</externalDataSource><enabled>' + externalDataSourceAccess.enabled + '</enabled></externalDataSourceAccesses>');
@@ -509,6 +536,9 @@ class ProfileUtils {
                 }
             }
             if (profile.fieldPermissions) {
+                profile.fieldPermissions.sort(function (a, b) {
+                    return a.field.toLowerCase().localeCompare(b.field.toLowerCase());
+                });
                 for (const fieldPermission of profile.fieldPermissions) {
                     if (compress)
                         profileLines.push('\t<fieldPermissions><field>' + fieldPermission.field + '</field><readable>' + fieldPermission.readable + '</readable><editable>' + fieldPermission.editable + '</editable></fieldPermissions>');
@@ -517,6 +547,9 @@ class ProfileUtils {
                 }
             }
             if (profile.fieldLevelSecurities) {
+                profile.fieldLevelSecurities.sort(function (a, b) {
+                    return a.field.toLowerCase().localeCompare(b.field.toLowerCase());
+                });
                 for (const fieldLevelSecurity of profile.fieldLevelSecurities) {
                     if (compress)
                         profileLines.push('\t<fieldLevelSecurities><field>' + fieldLevelSecurity.field + '</field><hidden>' + fieldLevelSecurity.hidden + '</editable><hidden>' + fieldLevelSecurity.readable + '</readable><editable>' + fieldLevelSecurity.editable + '</editable></fieldLevelSecurities>');
@@ -525,6 +558,9 @@ class ProfileUtils {
                 }
             }
             if (profile.flowAccesses) {
+                profile.flowAccesses.sort(function (a, b) {
+                    return a.flow.toLowerCase().localeCompare(b.flow.toLowerCase());
+                });
                 for (const flowAccess of profile.flowAccesses) {
                     if (compress)
                         profileLines.push('\t<flowAccesses><flow>' + flowAccess.flow + '</flow><enabled>' + flowAccess.enabled + '</enabled></flowAccesses>');
@@ -532,70 +568,91 @@ class ProfileUtils {
                         profileLines.push('\t<flowAccesses>\n\t\t<flow>' + flowAccess.flow + '</flow>\n\t\t<enabled>' + flowAccess.enabled + '</enabled>\n\t</flowAccesses>');
                 }
             }
-            if (profile.layoutAssignments) {
-                for (const layoutAssign of profile.layoutAssignments) {
-                    if (compress) {
-                        if (layoutAssign.recordType)
-                            profileLines.push('\t<layoutAssignments><layout>' + layoutAssign.layout + '</layout><recordType>' + layoutAssign.recordType + '</recordType></layoutAssignments>');
-                        else
-                            profileLines.push('\t<layoutAssignments><layout>' + layoutAssign.layout + '</layout></layoutAssignments>');
-                    } else {
-                        if (layoutAssign.recordType)
-                            profileLines.push('\t<layoutAssignments>\n\t\t<layout>' + layoutAssign.layout + '</layout>\n\t\t<recordType>' + layoutAssign.recordType + '</recordType>\n\t</layoutAssignments>');
-                        else
-                            profileLines.push('\t<layoutAssignments>\n\t\t<layout>' + layoutAssign.layout + '</layout>\n\t</layoutAssignments>');
+            if (!profile.isPermissionSet) {
+                if (profile.layoutAssignments) {
+                    profile.layoutAssignments.sort(function (a, b) {
+                        let rtA = (a.recordType) ? a.recordType : "";
+                        let rtB = (b.recordType) ? b.recordType : "";
+                        let nameA = a.layout + '-' + rtA;
+                        let nameB = b.layout + '-' + rtB;
+                        return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
+                    });
+                    for (const layoutAssign of profile.layoutAssignments) {
+                        if (compress) {
+                            if (layoutAssign.recordType)
+                                profileLines.push('\t<layoutAssignments><layout>' + layoutAssign.layout + '</layout><recordType>' + layoutAssign.recordType + '</recordType></layoutAssignments>');
+                            else
+                                profileLines.push('\t<layoutAssignments><layout>' + layoutAssign.layout + '</layout></layoutAssignments>');
+                        } else {
+                            if (layoutAssign.recordType)
+                                profileLines.push('\t<layoutAssignments>\n\t\t<layout>' + layoutAssign.layout + '</layout>\n\t\t<recordType>' + layoutAssign.recordType + '</recordType>\n\t</layoutAssignments>');
+                            else
+                                profileLines.push('\t<layoutAssignments>\n\t\t<layout>' + layoutAssign.layout + '</layout>\n\t</layoutAssignments>');
+                        }
                     }
                 }
-            }
-            if (profile.loginHours) {
-                profileLines.push('\t<loginHours>');
-                if (profile.loginHours.mondayStart != -1)
-                    profileLines.push('\t\t<mondayStart>' + profile.loginHours.mondayStart + '</mondayStart>');
-                if (profile.loginHours.mondayEnd != -1)
-                    profileLines.push('\t\t<mondayEnd>' + profile.loginHours.mondayEnd + '</mondayEnd>');
-                if (profile.loginHours.tuesdayStart != -1)
-                    profileLines.push('\t\t<tuesdayStart>' + profile.loginHours.tuesdayStart + '</tuesdayStart>');
-                if (profile.loginHours.tuesdayEnd != -1)
-                    profileLines.push('\t\t<tuesdayEnd>' + profile.loginHours.tuesdayEnd + '</tuesdayEnd>');
-                if (profile.loginHours.wednesdayStart != -1)
-                    profileLines.push('\t\t<wednesdayStart>' + profile.loginHours.wednesdayStart + '</wednesdayStart>');
-                if (profile.loginHours.wednesdayEnd != -1)
-                    profileLines.push('\t\t<wednesdayEnd>' + profile.loginHours.wednesdayEnd + '</wednesdayEnd>');
-                if (profile.loginHours.thursdayStart != -1)
-                    profileLines.push('\t\t<thursdayStart>' + profile.loginHours.thursdayStart + '</thursdayStart>');
-                if (profile.loginHours.thursdayEnd != -1)
-                    profileLines.push('\t\t<thursdayEnd>' + profile.loginHours.thursdayEnd + '</thursdayEnd>');
-                if (profile.loginHours.fridayStart != -1)
-                    profileLines.push('\t\t<fridayStart>' + profile.loginHours.fridayStart + '</fridayStart>');
-                if (profile.loginHours.fridayEnd != -1)
-                    profileLines.push('\t\t<fridayEnd>' + profile.loginHours.fridayEnd + '</fridayEnd>');
-                if (profile.loginHours.saturdayStart != -1)
-                    profileLines.push('\t\t<saturdayStart>' + profile.loginHours.saturdayStart + '</saturdayStart>');
-                if (profile.loginHours.saturdayEnd != -1)
-                    profileLines.push('\t\t<saturdayEnd>' + profile.loginHours.saturdayEnd + '</saturdayEnd>');
-                if (profile.loginHours.sundayStart != -1)
-                    profileLines.push('\t\t<sundayStart>' + profile.loginHours.sundayStart + '</sundayStart>');
-                if (profile.loginHours.sundayEnd != -1)
-                    profileLines.push('\t\t<sundayEnd>' + profile.loginHours.sundayEnd + '</sundayEnd>');
-                profileLines.push('\t</loginHours>');
-            }
-            if (profile.loginIpRanges) {
-                for (const ipRange of profile.loginIpRanges) {
-                    if (compress) {
-                        if (ipRange.description)
-                            profileLines.push('\t<loginIpRanges><startAddress>' + ipRange.startAddress + '</startAddress><endAddress>' + ipRange.endAddress + '</endAddress><description>' + ipRange.description + '</description></loginIpRanges>');
-                        else
-                            profileLines.push('\t<loginIpRanges><startAddress>' + ipRange.startAddress + '</startAddress><endAddress>' + ipRange.endAddress + '</endAddress></loginIpRanges>');
-                    } else {
-                        if (ipRange.description)
-                            profileLines.push('\t<loginIpRanges>\n\t\t<startAddress>' + ipRange.startAddress + '</startAddress>\n\t\t<endAddress>' + ipRange.endAddress + '</endAddress>\n\t\t<description>' + ipRange.description + '</description>\n\t</loginIpRanges>');
-                        else
-                            profileLines.push('\t<loginIpRanges>\n\t\t<startAddress>' + ipRange.startAddress + '</startAddress>\n\t\t<endAddress>' + ipRange.endAddress + '</endAddress>\n\t</loginIpRanges>');
+                if (profile.loginHours) {
+                    profileLines.push('\t<loginHours>');
+                    if (profile.loginHours.mondayStart != -1 && profile.loginHours.mondayStart != undefined)
+                        profileLines.push('\t\t<mondayStart>' + profile.loginHours.mondayStart + '</mondayStart>');
+                    if (profile.loginHours.mondayEnd != -1 && profile.loginHours.mondayEnd != undefined)
+                        profileLines.push('\t\t<mondayEnd>' + profile.loginHours.mondayEnd + '</mondayEnd>');
+                    if (profile.loginHours.tuesdayStart != -1 && profile.loginHours.tuesdayStart != undefined)
+                        profileLines.push('\t\t<tuesdayStart>' + profile.loginHours.tuesdayStart + '</tuesdayStart>');
+                    if (profile.loginHours.tuesdayEnd != -1 && profile.loginHours.tuesdayEnd != undefined)
+                        profileLines.push('\t\t<tuesdayEnd>' + profile.loginHours.tuesdayEnd + '</tuesdayEnd>');
+                    if (profile.loginHours.wednesdayStart != -1 && profile.loginHours.wednesdayStart != undefined)
+                        profileLines.push('\t\t<wednesdayStart>' + profile.loginHours.wednesdayStart + '</wednesdayStart>');
+                    if (profile.loginHours.wednesdayEnd != -1 && profile.loginHours.wednesdayEnd != undefined)
+                        profileLines.push('\t\t<wednesdayEnd>' + profile.loginHours.wednesdayEnd + '</wednesdayEnd>');
+                    if (profile.loginHours.thursdayStart != -1 && profile.loginHours.thursdayStart != undefined)
+                        profileLines.push('\t\t<thursdayStart>' + profile.loginHours.thursdayStart + '</thursdayStart>');
+                    if (profile.loginHours.thursdayEnd != -1 && profile.loginHours.thursdayEnd != undefined)
+                        profileLines.push('\t\t<thursdayEnd>' + profile.loginHours.thursdayEnd + '</thursdayEnd>');
+                    if (profile.loginHours.fridayStart != -1 && profile.loginHours.fridayStart != undefined)
+                        profileLines.push('\t\t<fridayStart>' + profile.loginHours.fridayStart + '</fridayStart>');
+                    if (profile.loginHours.fridayEnd != -1 && profile.loginHours.fridayEnd != undefined)
+                        profileLines.push('\t\t<fridayEnd>' + profile.loginHours.fridayEnd + '</fridayEnd>');
+                    if (profile.loginHours.saturdayStart != -1 && profile.loginHours.saturdayStart != undefined)
+                        profileLines.push('\t\t<saturdayStart>' + profile.loginHours.saturdayStart + '</saturdayStart>');
+                    if (profile.loginHours.saturdayEnd != -1 && profile.loginHours.saturdayEnd != undefined)
+                        profileLines.push('\t\t<saturdayEnd>' + profile.loginHours.saturdayEnd + '</saturdayEnd>');
+                    if (profile.loginHours.sundayStart != -1 && profile.loginHours.sundayStart != undefined)
+                        profileLines.push('\t\t<sundayStart>' + profile.loginHours.sundayStart + '</sundayStart>');
+                    if (profile.loginHours.sundayEnd != -1 && profile.loginHours.sundayEnd != undefined)
+                        profileLines.push('\t\t<sundayEnd>' + profile.loginHours.sundayEnd + '</sundayEnd>');
+                    profileLines.push('\t</loginHours>');
+                }
+                if (profile.loginIpRanges) {
+                    for (const ipRange of profile.loginIpRanges) {
+                        profile.flowAccesses.sort(function (a, b) {
+                            let startA = a.startAddress;
+                            let endA = a.endAddress;
+                            let startB = b.startAddress;
+                            let endB = b.endAddress;
+                            let nameA = startA + '-' + endA;
+                            let nameB = startB + '-' + endB;
+                            return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
+                        });
+                        if (compress) {
+                            if (ipRange.description)
+                                profileLines.push('\t<loginIpRanges><startAddress>' + ipRange.startAddress + '</startAddress><endAddress>' + ipRange.endAddress + '</endAddress><description>' + ipRange.description + '</description></loginIpRanges>');
+                            else
+                                profileLines.push('\t<loginIpRanges><startAddress>' + ipRange.startAddress + '</startAddress><endAddress>' + ipRange.endAddress + '</endAddress></loginIpRanges>');
+                        } else {
+                            if (ipRange.description)
+                                profileLines.push('\t<loginIpRanges>\n\t\t<startAddress>' + ipRange.startAddress + '</startAddress>\n\t\t<endAddress>' + ipRange.endAddress + '</endAddress>\n\t\t<description>' + ipRange.description + '</description>\n\t</loginIpRanges>');
+                            else
+                                profileLines.push('\t<loginIpRanges>\n\t\t<startAddress>' + ipRange.startAddress + '</startAddress>\n\t\t<endAddress>' + ipRange.endAddress + '</endAddress>\n\t</loginIpRanges>');
+                        }
                     }
                 }
             }
             if (profile.objectPermissions) {
                 for (const objPermission of profile.objectPermissions) {
+                    profile.objectPermissions.sort(function (a, b) {
+                        return a.object.toLowerCase().localeCompare(b.object.toLowerCase());
+                    });
                     if (compress)
                         profileLines.push('\t<objectPermissions><object>' + objPermission.object + '</object><allowRead>' + objPermission.allowRead + '</allowRead><allowCreate>' + objPermission.allowCreate + '</allowCreate><allowEdit>' + objPermission.allowEdit + '</allowEdit><allowDelete>' + objPermission.allowDelete + '</allowDelete><viewAllRecords>' + objPermission.viewAllRecords + '</viewAllRecords><modifyAllRecords>' + objPermission.modifyAllRecords + '</modifyAllRecords></objectPermissions>');
                     else
@@ -604,14 +661,33 @@ class ProfileUtils {
             }
             if (profile.pageAccesses) {
                 for (const pageAccess of profile.pageAccesses) {
+                    profile.pageAccesses.sort(function (a, b) {
+                        return a.apexPage.toLowerCase().localeCompare(b.apexPage.toLowerCase());
+                    });
                     if (compress)
                         profileLines.push('\t<pageAccesses><apexPage>' + pageAccess.apexPage + '</apexPage><enabled>' + pageAccess.enabled + '</enabled></pageAccesses>');
                     else
                         profileLines.push('\t<pageAccesses>\n\t\t<apexPage>' + pageAccess.apexPage + '</apexPage>\n\t\t<enabled>' + pageAccess.enabled + '</enabled>\n\t</pageAccesses>');
                 }
             }
+            if (!profile.isPermissionSet) {
+
+            }
             if (profile.profileActionOverrides) {
                 for (const profileActionOverride of profile.profileActionOverrides) {
+                    profile.profileActionOverrides.sort(function (a, b) {
+                        let actionNameA = a.actionName;
+                        let typeA = a.type;
+                        let sObjectA = a.pageOrSobjectType;
+                        let rtA = a.recordType;
+                        let actionNameB = b.actionName;
+                        let typeB = b.type;
+                        let sObjectB = b.pageOrSobjectType;
+                        let rtB = b.recordType;
+                        let nameA = actionNameA + '-' + typeA + '-' + sObjectA + '-' + rtA;
+                        let nameB = actionNameB + '-' + typeB + '-' + sObjectB + '-' + rtB;
+                        return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
+                    });
                     if (compress) {
                         if (profileActionOverride.content)
                             profileLines.push('\t<profileActionOverrides><actionName>' + profileActionOverride.actionName + '</actionName><type>' + profileActionOverride.type + '</type><content>' + profileActionOverride.content + '</content><formFactor>' + profileActionOverride.formFactor + '</formFactor><pageOrSobjectType>' + profileActionOverride.pageOrSobjectType + '</pageOrSobjectType><recordType>' + profileActionOverride.recordType + '</recordType></profileActionOverrides>');
@@ -626,6 +702,9 @@ class ProfileUtils {
                 }
             }
             if (profile.recordTypeVisibilities) {
+                profile.recordTypeVisibilities.sort(function (a, b) {
+                    return a.recordType.toLowerCase().localeCompare(b.recordType.toLowerCase());
+                });
                 for (const rtVisibility of profile.recordTypeVisibilities) {
                     if (compress)
                         profileLines.push('\t<recordTypeVisibilities><recordType>' + rtVisibility.recordType + '</recordType><visible>' + rtVisibility.visible + '</visible><default>' + rtVisibility.default + '</default></recordTypeVisibilities>');
@@ -634,6 +713,9 @@ class ProfileUtils {
                 }
             }
             if (profile.tabVisibilities) {
+                profile.tabVisibilities.sort(function (a, b) {
+                    return a.tab.toLowerCase().localeCompare(b.tab.toLowerCase());
+                });
                 for (const tabVisibility of profile.tabVisibilities) {
                     if (compress)
                         profileLines.push('\t<tabVisibilities><tab>' + tabVisibility.tab + '</tab><visibility>' + tabVisibility.visibility + '</visibility></tabVisibilities>');
@@ -642,6 +724,9 @@ class ProfileUtils {
                 }
             }
             if (profile.userPermissions) {
+                profile.userPermissions.sort(function (a, b) {
+                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+                });
                 for (const userPermission of profile.userPermissions) {
                     if (compress)
                         profileLines.push('\t<userPermissions><name>' + userPermission.name + '</name><enabled>' + userPermission.enabled + '</enabled></userPermissions>');
@@ -649,7 +734,11 @@ class ProfileUtils {
                         profileLines.push('\t<userPermissions>\n\t\t<name>' + userPermission.name + '</name>\n\t\t<enabled>' + userPermission.enabled + '</enabled>\n\t</userPermissions>');
                 }
             }
-            profileLines.push('</Profile>');
+            if (profile.isPermissionSet)
+                profileLines.push('</PermissionSet>');
+            else
+                profileLines.push('</Profile>');
+
         }
         return profileLines.join('\n');
     }

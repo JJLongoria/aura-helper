@@ -22,8 +22,14 @@ class FileChecker{
     static isProfile(filePath) { 
         return filePath.endsWith('.profile-meta.xml');
     }
+    static isPermissionSet(filePath) { 
+        return filePath.endsWith('.permissionset-meta.xml');
+    }
     static isProfileFolder(filePath) { 
         return filePath.endsWith('/profiles') || filePath.endsWith('\\profiles');
+    }
+    static isPermissionSetFolder(filePath) { 
+        return filePath.endsWith('/permissionsets') || filePath.endsWith('\\permissionsets');
     }
     static isExists(filePath){
         return fs.existsSync(filePath);

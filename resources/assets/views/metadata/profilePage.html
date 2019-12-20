@@ -205,10 +205,7 @@
                 </div>
                 <!-- Navigation Bar End -->
                 <!-- Page Content Start -->
-                <div class="w3-container" style="margin-left:300px; height: 85%; overflow: scroll;">
-                    <div style="margin-top:80px;">
-
-                    </div>
+                <div class="w3-container" style="margin-left:300px; height: 85%; overflow: scroll; padding-top:  80px; padding-bottom: 80px;">
                     <div id="mainDataContainer" class="w3-container">
                         <div id="mainDataHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -220,22 +217,22 @@
                         </div>
                         <div id="mainDataBody" class="w3-container sectionContent w3-hide">
                             <div class="w3-row w3-padding-16">
-                                <div class="w3-third w3-container">
+                                <div class="w3-third w3-container" id="descriptionColumn">
                                     <label>Description</label>
-                                    <input class="w3-input inputText" type="text" placeholder="Profile Description..." id="mainData_Description">
+                                    <input class="w3-input inputText" type="text" placeholder="Description..." id="mainData_Description">
                                 </div>
-                                <div class="w3-third w3-container">
+                                <div class="w3-third w3-container" id="licenseColumn">
                                     <label>License</label>
                                     <input class="w3-input inputText" readonly placeholder="User License..." type="text" id="mainData_License">
                                 </div>
-                                <div class="w3-third w3-container w3-center">
+                                <div class="w3-third w3-container w3-center" id="customColumn">
                                     <label>Custom</label><br />
                                     <input class="w3-check inputCheckbox" type="checkbox" id="mainData_Custom" disabled>
                                 </div>
                             </div>
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <div id="applicationVisibilitiesContainer" class="w3-container">
                         <div id="applicationVisibilitiesHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -248,8 +245,8 @@
                         <div id="applicationVisibilitiesBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <!--<div id="categoryGroupVisibilitiesContainer" class="w3-container">
                         <div id="categoryGroupVisibilitiesHeader" class="w3-container sectionHeader">
                             <h2 id="categoryGroupVisibilitiesTitle"></h2>
@@ -268,8 +265,8 @@
                         <div id="classAccessesBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <div id="customMetadataTypeAccessesContainer" class="w3-container">
                         <div id="customMetadataTypeAccessesHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -282,8 +279,8 @@
                         <div id="customMetadataTypeAccessesBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <div id="customPermissionsContainer" class="w3-container">
                         <div id="customPermissionsHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -296,8 +293,8 @@
                         <div id="customPermissionsBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <div id="customSettingAccessesContainer" class="w3-container">
                         <div id="customSettingAccessesHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -310,8 +307,8 @@
                         <div id="customSettingAccessesBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <!-- <div id="externalDataSourceAccessesContainer" class="w3-container">
                         <div id="externalDataSourceAccessesHeader" class="w3-container sectionHeader">
                             <h2 id="externalDataSourceAccessesTitle"></h2>
@@ -330,8 +327,8 @@
                         <div id="fieldPermissionsBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <!-- <div id="fieldLevelSecuritiesContainer" class="w3-container">
                         <div id="fieldLevelSecuritiesHeader" class="w3-container sectionHeader">
                             <h2 id="fieldLevelSecuritiesTitle"></h2>
@@ -350,8 +347,8 @@
                         <div id="flowAccessesBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <div id="layoutAssignmentsContainer" class="w3-container">
                         <div id="layoutAssignmentsHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -364,8 +361,8 @@
                         <div id="layoutAssignmentsBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <div id="loginHoursContainer" class="w3-container">
                         <div id="loginHoursHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -378,8 +375,8 @@
                         <div id="loginHoursBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <div id="loginIpRangesContainer" class="w3-container">
                         <div id="loginIpRangesHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -392,8 +389,8 @@
                         <div id="loginIpRangesBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <div id="objectPermissionsContainer" class="w3-container">
                         <div id="objectPermissionsHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -406,8 +403,8 @@
                         <div id="objectPermissionsBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <div id="pageAccessesContainer" class="w3-container">
                         <div id="pageAccessesHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -420,8 +417,8 @@
                         <div id="pageAccessesBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <!-- <div id="profileActionOverridesContainer" class="w3-container">
                         <div id="profileActionOverridesHeader" class="w3-container sectionHeader">
                             <h2 id="profileActionOverridesTitle"></h2>
@@ -440,8 +437,8 @@
                         <div id="recordTypeVisibilitiesBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <div id="tabVisibilitiesContainer" class="w3-container">
                         <div id="tabVisibilitiesHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -454,8 +451,8 @@
                         <div id="tabVisibilitiesBody" class="w3-container sectionContent w3-hide">
 
                         </div>
+                        <br />
                     </div>
-                    <br />
                     <div id="userPermissionsContainer" class="w3-container">
                         <div id="userPermissionsHeader" class="w3-row sectionHeader">
                             <div class="w3-threequarter">
@@ -468,10 +465,7 @@
                         <div id="userPermissionsBody" class="w3-container sectionContent w3-hide">
 
                         </div>
-                    </div>
-                    <br />
-                    <div style="margin-top:80px;">
-
+                        <br />
                     </div>
                 </div>
                 <!-- Page Content End -->
@@ -502,9 +496,15 @@
                 setCustomSettingAccessesData(profile);
                 setFieldPermissionsData(profile);
                 setFlowAccessesData(profile);
-                setLayoutAssignmentData(profile);
-                setLoginHoursData(profile);
-                setLoginIpRangesData(profile);
+                if (profile.isPermissionSet) {
+                    document.getElementById("layoutAssignmentsContainer").style.display = 'none';
+                    document.getElementById("loginHoursContainer").style.display = 'none';
+                    document.getElementById("loginIpRangesContainer").style.display = 'none';
+                } else {
+                    setLayoutAssignmentData(profile);
+                    setLoginHoursData(profile);
+                    setLoginIpRangesData(profile);
+                }
                 setObjectPermissionsData(profile);
                 setPageAccessesData(profile);
                 setRecordTypeVisibilitiesData(profile);
@@ -526,8 +526,12 @@
                 let htmlContent = [];
                 htmlContent.push('\t\t\t\t\t\t<a href="#mainDataContainer" class="w3-bar-item w3-border-bottom menuSection">Main Data</a>');
                 Object.keys(profile).forEach(function (key) {
-                    if (key != 'description' && key != 'userLicense' && key != 'custom' && key != 'profileActionOverrides' && key != 'categoryGroupVisibilities' && key != 'externalDataSourceAccesses' && key != 'fieldLevelSecurities') {
-                        htmlContent.push('\t\t\t\t\t\t<a href="#' + key + 'Container" class="w3-bar-item w3-border-bottom menuSection">' + getProfileSectionName(key) + '</a>');
+                    if (key != 'isPermissionSet' && key != 'description' && key != 'userLicense' && key != 'custom' && key != 'profileActionOverrides' && key != 'categoryGroupVisibilities' && key != 'externalDataSourceAccesses' && key != 'fieldLevelSecurities') {
+                        if (profile.isPermissionSet && key != 'layoutAssignments' && key != 'loginHours' && key != 'loginIpRanges') {
+                            htmlContent.push('\t\t\t\t\t\t<a href="#' + key + 'Container" class="w3-bar-item w3-border-bottom menuSection">' + getProfileSectionName(key) + '</a>');
+                        } else if (!profile.isPermissionSet) {
+                            htmlContent.push('\t\t\t\t\t\t<a href="#' + key + 'Container" class="w3-bar-item w3-border-bottom menuSection">' + getProfileSectionName(key) + '</a>');
+                        }
                     }
                 });
                 htmlContent.push('<div style="margin-top:80px;"></div>');
@@ -536,8 +540,14 @@
 
             function setProfileMainData(profile) {
                 document.getElementById("mainData_Description").value = profile.description;
-                document.getElementById("mainData_License").value = profile.userLicense;
-                document.getElementById("mainData_Custom").checked = profile.custom;
+                if (profile.isPermissionSet) {
+                    document.getElementById("licenseColumn").style.display = 'none';
+                    document.getElementById("customColumn").style.display = 'none';
+                    document.getElementById("descriptionColumn").className = document.getElementById("descriptionColumn").className.replace("w3-third", "w3-col");
+                } else {
+                    document.getElementById("mainData_License").value = profile.userLicense;
+                    document.getElementById("mainData_Custom").checked = profile.custom;
+                }
             }
 
             function setAppVisibilityData(profile) {
@@ -700,38 +710,42 @@
             }
 
             function setLoginHoursData(profile) {
-                document.getElementById("loginHoursTitle").innerHTML = getProfileSectionName('loginHours');
-                let contentLines = [];
-                contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
-                contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
-                contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Day</h5>');
-                contentLines.push('\t\t\t\t\t\t\t\t</div>');
-                contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
-                contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Start Time</h5>');
-                contentLines.push('\t\t\t\t\t\t\t\t</div>');
-                contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
-                contentLines.push('\t\t\t\t\t\t\t\t\t<h5>End Time</h5>');
-                contentLines.push('\t\t\t\t\t\t\t\t</div>');
-                contentLines.push('\t\t\t\t\t\t\t</div>');
-                let daysProcessed = [];
-                Object.keys(profile.loginHours).forEach(function (key) {
-                    let dayName = key.substring(0, 1).toUpperCase() + key.substring(1).replace('End', '').replace('Start', '');
-                    if (!daysProcessed.includes(dayName)) {
-                        contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
-                        contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
-                        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>' + dayName + '</h5>');
-                        contentLines.push('\t\t\t\t\t\t\t\t</div>');
-                        contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
-                        contentLines.push(getHoursSelect(key, profile.loginHours[dayName.toLowerCase() + 'Start']));
-                        contentLines.push('\t\t\t\t\t\t\t\t</div>');
-                        contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
-                        contentLines.push(getHoursSelect(key, profile.loginHours[dayName.toLowerCase() + 'End']));
-                        contentLines.push('\t\t\t\t\t\t\t\t</div>');
-                        contentLines.push('\t\t\t\t\t\t\t</div>');
-                        daysProcessed.push(dayName);
-                    }
-                });
-                document.getElementById("loginHoursBody").innerHTML = contentLines.join('\n');
+                if (profile.loginHours) {
+                    document.getElementById("loginHoursTitle").innerHTML = getProfileSectionName('loginHours');
+                    let contentLines = [];
+                    contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
+                    contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
+                    contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Day</h5>');
+                    contentLines.push('\t\t\t\t\t\t\t\t</div>');
+                    contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
+                    contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Start Time</h5>');
+                    contentLines.push('\t\t\t\t\t\t\t\t</div>');
+                    contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
+                    contentLines.push('\t\t\t\t\t\t\t\t\t<h5>End Time</h5>');
+                    contentLines.push('\t\t\t\t\t\t\t\t</div>');
+                    contentLines.push('\t\t\t\t\t\t\t</div>');
+                    let daysProcessed = [];
+                    Object.keys(profile.loginHours).forEach(function (key) {
+                        let dayName = key.substring(0, 1).toUpperCase() + key.substring(1).replace('End', '').replace('Start', '');
+                        if (!daysProcessed.includes(dayName)) {
+                            contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
+                            contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
+                            contentLines.push('\t\t\t\t\t\t\t\t\t<h5>' + dayName + '</h5>');
+                            contentLines.push('\t\t\t\t\t\t\t\t</div>');
+                            contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
+                            contentLines.push(getHoursSelect(key, profile.loginHours[dayName.toLowerCase() + 'Start']));
+                            contentLines.push('\t\t\t\t\t\t\t\t</div>');
+                            contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
+                            contentLines.push(getHoursSelect(key, profile.loginHours[dayName.toLowerCase() + 'End']));
+                            contentLines.push('\t\t\t\t\t\t\t\t</div>');
+                            contentLines.push('\t\t\t\t\t\t\t</div>');
+                            daysProcessed.push(dayName);
+                        }
+                    });
+                    document.getElementById("loginHoursBody").innerHTML = contentLines.join('\n');
+                } else {
+
+                }
             }
 
             function setLoginIpRangesData(profile) {

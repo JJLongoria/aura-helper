@@ -29,7 +29,7 @@ function onButtonClick(selected) {
 					location: ProgressLocation.Notification,
 					title: "Loading available Metadata for refresh",
 					cancellable: false
-				}, (listProgress, listCancel) => {
+				}, (progress, token) => {
 					return new Promise(resolve => {
 						setTimeout(() => {
 							processes.listMetadata.run(username, function (result) {
@@ -75,7 +75,7 @@ function onButtonClick(selected) {
 						location: ProgressLocation.Notification,
 						title: "Loading available Metadata for refresh",
 						cancellable: false
-					}, (listProgress, listCancel) => {
+					}, (progress, token) => {
 						return new Promise(resolve => {
 							setTimeout(() => {
 								processes.listMetadata.run(org.username, function (result) {

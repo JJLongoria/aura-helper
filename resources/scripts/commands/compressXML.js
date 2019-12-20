@@ -23,16 +23,16 @@ exports.run = function (fileUri) {
             if (editor)
                 filePath = editor.document.uri.fsPath;
         }
-        if (filePath && (FileChecker.isProfile(filePath) || FileChecker.isPermissionSet(filePath)))
-            compressProfile(filePath);
+        if (filePath && filePath.endswith('.xml') && filePath.indexOf('force-app') != -1)
+            compressFile(filePath);
         else
-            window.showErrorMessage("The selected file isn't a profile or permission set file");
+            window.showErrorMessage("The selected file isn't a XML Salesforce project file");
     } catch (error) {
         window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
     }
 }
 
-function compressProfile(filePath) {
+function compressFile(filePath) {
     let editor = window.activeTextEditor;
     if (editor && editor.document.uri.fsPath === filePath) {
         compress(filePath, editor);
@@ -44,11 +44,7 @@ function compressProfile(filePath) {
 function compress(filePath, editor) {
     let root = AuraParser.parseXML(FileReader.readFileSync(filePath));
     let content = '';
-    let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
-    if (profileRaw) {
-        let profile = profileUtils.createProfile(profileRaw, FileChecker.isPermissionSet(filePath));
-        content = profileUtils.toXML(profile, true);
-    }
+
     let replaceRange = new Range(0, 0, editor.document.lineCount - 1, editor.document.lineAt(editor.document.lineCount - 1).range.end.character);
     FileWriter.replaceEditorContent(editor, replaceRange, content);
     editor.revealRange(editor.document.lineAt(0).range);

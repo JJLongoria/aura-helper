@@ -6,4 +6,6 @@ const refreshObjectMetadataIndex = require('./refreshObjectMetadataIndex');
 exports.refreshObjectMetadataIndex = refreshObjectMetadataIndex;
 const refreshFullProfile = require('./refreshFullProfile');
 exports.refreshFullProfile = refreshFullProfile;
+const Process = require('./process');
+exports.Process = Process;
 

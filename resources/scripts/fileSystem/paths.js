@@ -44,7 +44,10 @@ class Paths {
         return applicationContext.context.asAbsolutePath("./resources/assets/baseComponentsDetail.json");
     }
     static getProfilePage() { 
-        return applicationContext.context.asAbsolutePath("./resources/assets/metadata/profilePage.html");
+        return applicationContext.context.asAbsolutePath("./resources/assets/views/metadata/profilePage.html");
+    }
+    static getPackageGeneratorPage() { 
+        return applicationContext.context.asAbsolutePath("./resources/assets/views/metadata/packageGeneratorPage.html");
     }
     static getMetadataIndexPath() {
         return applicationContext.context.storagePath + "\\" + "metadata";
@@ -57,6 +60,9 @@ class Paths {
     }
     static getSFDXFolderPath() { 
         return vscode.workspace.rootPath + '/.sfdx';
+    }
+    static getManifestPath() { 
+        return vscode.workspace.rootPath + '/manifest';
     }
     static getBasename(filePath) {
         return path.basename(filePath);

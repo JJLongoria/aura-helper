@@ -30,9 +30,14 @@ function activate(context) {
 	let newAuraFile = vscode.commands.registerCommand('aurahelper.file.new.aura', commands.newAuraFile);
 	let refreshMetadataIndex = vscode.commands.registerCommand('aurahelper.metadata.refresh.index', commands.refreshAllMetadataIndex);
 	let refreshMetadataIndexForObject = vscode.commands.registerCommand('aurahelper.metadata.refresh.object', commands.refreshObjectMetadataIndex);
-	let compressProfile = vscode.commands.registerCommand('aurahelper.profile.compress', commands.compressProfile);
-	let openProfile = vscode.commands.registerCommand('aurahelper.profile.open', commands.openProfile);
-	let retrieveFullProfile = vscode.commands.registerCommand('aurahelper.profile.retrieve', commands.retrieveFullProfile);
+	let compressProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.compress', commands.compressProfile);
+	let compressPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.compress', commands.compressProfile);
+	let openProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.open', commands.openProfile);
+	let openPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.open', commands.openProfile);
+	let retrieveFullProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.retrieve', commands.retrieveFullProfile);
+	let retrieveFullPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.retrieve', commands.retrieveFullProfile);
+	let packageGenerator = vscode.commands.registerCommand('aurahelper.metadata.package.generate', commands.packageGenerator);
+	let matchOrgWithLocal = vscode.commands.registerCommand('aurahelper.metadata.org.match', commands.matchOrgWithLocal);
 
 	vscode.commands.registerCommand('aurahelper.completion.apex', commands.apexCodeCompletion);
 	vscode.commands.registerCommand('aurahelper.completion.aura', commands.auraCodeCompletion);
@@ -66,8 +71,13 @@ function activate(context) {
 	context.subscriptions.push(refreshMetadataIndex);
 	context.subscriptions.push(refreshMetadataIndexForObject);
 	context.subscriptions.push(compressProfile);
+	context.subscriptions.push(compressPermissionSet);
 	context.subscriptions.push(openProfile);
+	context.subscriptions.push(openPermissionSet);
 	context.subscriptions.push(retrieveFullProfile);
+	context.subscriptions.push(retrieveFullPermissionSet);
+	context.subscriptions.push(packageGenerator);
+	context.subscriptions.push(matchOrgWithLocal);
 }
 exports.activate = activate;
 
