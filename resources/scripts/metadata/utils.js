@@ -153,5 +153,51 @@ class Utils {
         return '';
     }
 
+    static getXMLBlock(blockName, data, compress, initIndent) {
+        let xmlBlock = [];
+        if (data) {
+            if (Array.isArray(data)) {
+                for (const dataElement of data) {
+                    let line = [];
+                    if (typeof dataElement === 'object') {
+                        line.push(Utils.getTabs(initIndent) + '<' + blockName + '>');
+                        Object.keys(dataElement).forEach(function (key) {
+                            if (Array.isArray(dataElement[key])) {
+                                for (const arrayElement of dataElement[key]) {
+                                    line.push(Utils.getXMLTag(key, arrayElement));
+                                }
+                            } else {
+                                line.push(Utils.getXMLTag(key, dataElement[key]));
+                            }
+                        });
+                        line.push(Utils.getTabs(initIndent) + '</' + blockName + '>');
+                    } else {
+                        line.push(Utils.getTabs(initIndent) + Utils.getXMLTag(blockName, dataElement));
+                    }
+                    xmlBlock.push(line.join(''));
+                }
+            } else if (typeof data === 'object') {
+                let line = [];
+                line.push(Utils.getTabs(initIndent) + '<' + blockName + '>');
+                Object.keys(data).forEach(function (key) {
+                    line.push(Utils.getXMLTag(key, data[key]));
+                });
+                line.push(Utils.getTabs(initIndent) + '</' + blockName + '>');
+                xmlBlock.push(line.join(''));
+            } else { 
+                xmlBlock.push(Utils.getTabs(initIndent) + Utils.getXMLTag(blockName, data));
+            }
+        }
+        return xmlBlock;
+    }
+
+    static getTabs(nTabs) {
+        let tabs = '';
+        for (let i = 0; i < nTabs; i++) {
+            tabs += '\t';
+        }
+        return tabs;
+    }
+
 }
 module.exports = Utils;

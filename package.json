@@ -198,12 +198,8 @@
 				}
 			},
 			{
-				"command": "aurahelper.metadata.profile.compress",
-				"title": "AuraHelper: Compress Profile"
-			},
-			{
-				"command": "aurahelper.metadata.permissionset.compress",
-				"title": "AuraHelper: Compress Permission Set"
+				"command": "aurahelper.metadata.compress.xml",
+				"title": "AuraHelper: Compress XML File"
 			},
 			{
 				"command": "aurahelper.metadata.profile.open",
@@ -280,18 +276,13 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.profile.compress",
+					"when": "resource =~ /./force-app/ && resourceExtname == .xml",
+					"command": "aurahelper.metadata.compress.xml",
 					"group": "auraHelper@1"
 				},
 				{
 					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
 					"command": "aurahelper.metadata.profile.open",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.permissionset.compress",
 					"group": "auraHelper@1"
 				},
 				{
@@ -322,8 +313,8 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.profile.compress",
+					"when": "resource =~ /./force-app/ && resourceExtname == .xml",
+					"command": "aurahelper.metadata.compress.xml",
 					"group": "auraHelper@1"
 				},
 				{
@@ -334,11 +325,6 @@
 				{
 					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
 					"command": "aurahelper.metadata.profile.retrieve",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.permissionset.compress",
 					"group": "auraHelper@1"
 				},
 				{
