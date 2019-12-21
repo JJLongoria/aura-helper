@@ -193,28 +193,48 @@ class CustomApplicationUtils {
         if (customApplication) {
             xmlLines.push('<?xml version="1.0" encoding="UTF-8"?>');
             xmlLines.push('<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">');
+            if (customApplication.label)
+                xmlLines.push('\t' + Utils.getXMLTag('label', customApplication.label));
+            if (customApplication.logo)
+                xmlLines.push('\t' + Utils.getXMLTag('logo', customApplication.logo));
+            if (customApplication.description)
+                xmlLines.push('\t' + Utils.getXMLTag('description', customApplication.description));
+            if (customApplication.navType)
+                xmlLines.push('\t' + Utils.getXMLTag('logo', customApplication.navType));
+            if (customApplication.defaultLandingTab)
+                xmlLines.push('\t' + Utils.getXMLTag('defaultLandingTab', customApplication.defaultLandingTab));
+            if (customApplication.setupExperience)
+                xmlLines.push('\t' + Utils.getXMLTag('setupExperience', customApplication.setupExperience));
+            if (customApplication.uiType)
+                xmlLines.push('\t' + Utils.getXMLTag('uiType', customApplication.uiType));
+            if (customApplication.utilityBar)
+                xmlLines.push('\t' + Utils.getXMLTag('utilityBar', customApplication.utilityBar));
+            if (customApplication.formFactors)
+                xmlLines.push('\t' + Utils.getXMLTag('defaultLandingTab', customApplication.formFactors));
+            if (customApplication.isNavAutoTempTabsDisabled != undefined)
+                xmlLines.push('\t' + Utils.getXMLTag('isNavAutoTempTabsDisabled', customApplication.isNavAutoTempTabsDisabled));
+            if (customApplication.isNavPersonalizationDisabled != undefined)
+                xmlLines.push('\t' + Utils.getXMLTag('isNavPersonalizationDisabled', customApplication.isNavPersonalizationDisabled));
+            if (customApplication.isServiceCloudConsole != undefined)
+                xmlLines.push('\t' + Utils.getXMLTag('isServiceCloudConsole', customApplication.isServiceCloudConsole));
             if (customApplication.actionOverrides) {
                 customApplication.actionOverrides.sort(function (a, b) {
                     let nameA = a.pageOrSobjectType + a.actionName + a.content;
                     let nameB = b.pageOrSobjectType + b.actionName + b.content;
                     return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
                 });
-                for (const actionOverride of customApplication.actionOverrides) {
-                    if (compress)
-                        xmlLines.push('\t<actionOverrides>' + Utils.getXMLTag('pageOrSobjectType', actionOverride.pageOrSobjectType) + Utils.getXMLTag('actionName', actionOverride.actionName) + Utils.getXMLTag('comment', actionOverride.comment) + Utils.getXMLTag('content', actionOverride.content) + Utils.getXMLTag('formFactor', actionOverride.formFactor) + Utils.getXMLTag('skipRecordTypeSelect', actionOverride.skipRecordTypeSelect) + Utils.getXMLTag('type', actionOverride.type) + '</actionOverrides>');
-                    else
-                        xmlLines.push('\t<actionOverrides>\n\t\t' + Utils.getXMLTag('pageOrSobjectType', actionOverride.pageOrSobjectType) + '\n\t\t' + Utils.getXMLTag('actionName', actionOverride.actionName) + '\n\t\t' + Utils.getXMLTag('comment', actionOverride.comment) + '\n\t\t' + Utils.getXMLTag('content', actionOverride.content) + '\n\t\t' + Utils.getXMLTag('formFactor', actionOverride.formFactor) + '\n\t\t' + Utils.getXMLTag('skipRecordTypeSelect', actionOverride.skipRecordTypeSelect) + '\n\t\t' + Utils.getXMLTag('type', actionOverride.type) + '\n\t' + '</actionOverrides>');
-                }
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('actionOverrides', customApplication.actionOverrides, compress, 1));
             }
             if (customApplication.brand) {
-                if (compress) {
-                    xmlLines.push('\t<brand>' + Utils.getXMLTag('headerColor', customApplication.brand.headerColor) + Utils.getXMLTag('footerColor', customApplication.brand.footerColor) + Utils.getXMLTag('logo', customApplication.brand.logo) + Utils.getXMLTag('logoVersion', customApplication.brand.logoVersion) + Utils.getXMLTag('shouldOverrideOrgTheme', customApplication.brand.shouldOverrideOrgTheme) + '</brand>');
-                } else {
-                    xmlLines.push('\t<brand>\n\t\t' + Utils.getXMLTag('headerColor', customApplication.brand.headerColor) + '\n\t\t' + Utils.getXMLTag('footerColor', customApplication.brand.footerColor) + '\n\t\t' + Utils.getXMLTag('logo', customApplication.brand.logo) + '\n\t\t' + Utils.getXMLTag('logoVersion', customApplication.brand.logoVersion) + '\n\t\t' + Utils.getXMLTag('shouldOverrideOrgTheme', customApplication.brand.shouldOverrideOrgTheme) + '\n\t</brand>');
-                }
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('brand', customApplication.brand, compress, 1));
             }
             if (customApplication.consoleConfig) {
                 xmlLines.push('\t<consoleConfig>');
+                xmlLines.push('\t\t' + Utils.getXMLTag('detailPageRefreshMethod', customApplication.consoleConfig.detailPageRefreshMethod));
+                xmlLines.push('\t\t' + Utils.getXMLTag('listRefreshMethod', customApplication.consoleConfig.listRefreshMethod));
+                xmlLines.push('\t\t' + Utils.getXMLTag('headerColor', customApplication.consoleConfig.headerColor));
+                xmlLines.push('\t\t' + Utils.getXMLTag('footerColor', customApplication.consoleConfig.footerColor));
+                xmlLines.push('\t\t' + Utils.getXMLTag('primaryTabColor', customApplication.consoleConfig.primaryTabColor));
                 if (customApplication.consoleConfig.componentList.components) {
                     customApplication.consoleConfig.componentList.components.sort(function (a, b) {
                         let nameA = a;
@@ -228,12 +248,56 @@ class CustomApplicationUtils {
                     }
                     xmlLines.push('\t\t</componentList>');
                 }
-                if (compress) {
-
-                } else {
-
+                if (customApplication.consoleConfig.keyboardShortcuts) {
+                    xmlLines.push('\t\t<keyboardShortcuts>');
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('customShortcuts', customApplication.consoleConfig.keyboardShort.cutscustomShortcuts, compress, 3));
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('defaultShortcuts', customApplication.consoleConfig.keyboardShort.defaultShortcuts, compress, 3));
+                    xmlLines.push('\t\t<keyboardShortcuts>');
+                }
+                if (customApplication.consoleConfig.listPlacement) {
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('listPlacement', customApplication.consoleConfig.listPlacement, compress, 2));
+                }
+                if (customApplication.consoleConfig.liveAgentConfig) {
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('liveAgentConfig', customApplication.consoleConfig.liveAgentConfig, compress, 2));
+                }
+                if (customApplication.consoleConfig.pushNotifications) {
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('pushNotifications', customApplication.consoleConfig.pushNotifications, compress, 2));
+                }
+                if (customApplication.consoleConfig.pushNotifications) {
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('pushNotifications', customApplication.consoleConfig.pushNotifications, compress, 2));
+                }
+                if (customApplication.consoleConfig.tabLimitConfig) {
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('tabLimitConfig', customApplication.consoleConfig.tabLimitConfig, compress, 2));
+                }
+                if (customApplication.consoleConfig.whiteListedDomains) {
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('whiteListedDomains', customApplication.consoleConfig.whiteListedDomains, compress, 2));
                 }
                 xmlLines.push('\t</consoleConfig>');
+            }
+            if (customApplication.preferences) {
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('preferences', customApplication.preferences, compress, 1));
+            }
+            if (customApplication.preferences) {
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('preferences', customApplication.preferences, compress, 1));
+            }
+            if (customApplication.profileActionOverrides) {
+                customApplication.profileActionOverrides.sort(function (a, b) {
+                    let nameA = a.pageOrSobjectType + a.actionName + a.content;
+                    let nameB = b.pageOrSobjectType + b.actionName + b.content;
+                    return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
+                });
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('profileActionOverrides', customApplication.profileActionOverrides, compress, 1));
+            }
+            if (customApplication.subscriberTabs) {
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('subscriberTabs', customApplication.subscriberTabs, compress, 1));
+            }
+            if (customApplication.tabs) {
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('tabs', customApplication.tabs, compress, 1));
+            }
+            if (customApplication.workspaceConfig) {
+                xmlLines.push('\t<workspaceConfig>');
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('mappings', customApplication.workspaceConfig.mappings, compress, 2));
+                xmlLines.push('\t</workspaceConfig>');
             }
             xmlLines.push('</CustomApplication>');
         }

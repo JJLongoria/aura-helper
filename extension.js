@@ -30,8 +30,7 @@ function activate(context) {
 	let newAuraFile = vscode.commands.registerCommand('aurahelper.file.new.aura', commands.newAuraFile);
 	let refreshMetadataIndex = vscode.commands.registerCommand('aurahelper.metadata.refresh.index', commands.refreshAllMetadataIndex);
 	let refreshMetadataIndexForObject = vscode.commands.registerCommand('aurahelper.metadata.refresh.object', commands.refreshObjectMetadataIndex);
-	let compressProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.compress', commands.compressProfile);
-	let compressPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.compress', commands.compressProfile);
+	let compressProfile = vscode.commands.registerCommand('aurahelper.metadata.compress.xml', commands.compressXML);
 	let openProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.open', commands.openProfile);
 	let openPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.open', commands.openProfile);
 	let retrieveFullProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.retrieve', commands.retrieveFullProfile);
