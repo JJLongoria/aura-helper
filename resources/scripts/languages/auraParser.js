@@ -7,10 +7,10 @@ var he = require('he');
 
 class AuraParser {
 
-    static getParserOptions() {
+    static getParserXMLToJSONOptions() {
         return {
             attributeNamePrefix: "",
-            attrNodeName: "attributes", //default is 'false'
+            attrNodeName: "attrs", //default is 'false'
             textNodeName: "content",
             ignoreAttributes: false,
             ignoreNameSpace: false,
@@ -26,6 +26,22 @@ class AuraParser {
             attrValueProcessor: (val, attrName) => he.decode(val, { isAttributeValue: true }),//default is a=>a
             tagValueProcessor: (val, tagName) => he.decode(val), //default is a=>a
             stopNodes: ["parse-me-as-string"]
+        };
+    }
+
+    static getParserJSONToXMLOptions() {
+        return {
+            attributeNamePrefix: "",
+            attrNodeName: "attrs", //default is false
+            textNodeName: "content",
+            ignoreAttributes: false,
+            cdataTagName: "__cdata", //default is false
+            cdataPositionChar: "\\c",
+            format: false,
+            indentBy: "\t",
+            supressEmptyNode: false,
+            tagValueProcessor: a => he.encode(a, { useNamedReferences: true }),// default is a=>a
+            attrValueProcessor: a => he.encode(a, { useNamedReferences: true})// default is a=>a
         };
     }
 
@@ -98,8 +114,17 @@ class AuraParser {
         return fileStructure;
     }
 
-    static parseXML(content) {
-        return parser.parse(content, this.getParserOptions());
+    static parseXML(content, parseComments) {
+        if (parseComments) {
+            content = content.split('<!--').join('«!--');
+            content = content.split('-->').join('--»');
+        }
+        return parser.parse(content, AuraParser.getParserXMLToJSONOptions());
+    }
+
+    static toXML(jsonObj) {
+        let xmlParser = new parser.j2xParser(AuraParser.getParserJSONToXMLOptions());
+        return xmlParser.parse(jsonObj);
     }
 
     static getTagData(tokens, index, position) {

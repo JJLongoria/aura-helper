@@ -1,42 +1,34 @@
 const Utils = require('./utils');
+const AuraParser = require('../languages').AuraParser;
 
 class CustomApplicationUtils {
 
     static createCustomApplication(customApp) {
         let customApplication;
         if (customApp) {
-            customApplication = CustomApplicationUtils.createCustomApplication();
-            let customAppKeys = Object.keys(customApplication);
-            Object.keys(customApplication).forEach(function (key) {
-                if (customAppKeys.includes(key)) {
-                    if (Array.isArray(customAppKeys[key]) || (key !== 'actionOverrides' && key !== 'profileActionOverrides' && key !== 'subscriberTabs'))
-                        customApplication[key] = customAppKeys[key];
-                    else
-                        customApplication[key].push(customAppKeys[key]);
-                }
-            });
+            customApplication = Utils.prepareXML(customApp, CustomApplicationUtils.createCustomApplication());
         } else {
             customApplication = {
                 actionOverrides: [],
-                brand: {},
-                consoleConfig: {},
-                defaultLandingTab: "",
-                description: "",
+                brand: undefined,
+                consoleConfig: undefined,
+                defaultLandingTab: undefined,
+                description: undefined,
                 formFactors: undefined,
-                isNavAutoTempTabsDisabled: false,
-                isNavPersonalizationDisabled: false,
-                isServiceCloudConsole: false,
-                label: "",
-                logo: "",
-                navType: "",
-                preferences: {},
+                isNavAutoTempTabsDisabled: undefined,
+                isNavPersonalizationDisabled: undefined,
+                isServiceCloudConsole: undefined,
+                label: undefined,
+                logo: undefined,
+                navType: undefined,
+                preferences: undefined,
                 profileActionOverrides: [],
-                setupExperience: "",
+                setupExperience: undefined,
                 subscriberTabs: [],
-                tabs: "",
-                uiType: "",
-                utilityBar: "",
-                workspaceConfig: {}
+                tabs: undefined,
+                uiType: undefined,
+                utilityBar: undefined,
+                workspaceConfig: undefined
             }
         }
         return customApplication;
@@ -191,115 +183,125 @@ class CustomApplicationUtils {
     static toXML(customApplication, compress) {
         let xmlLines = [];
         if (customApplication) {
-            xmlLines.push('<?xml version="1.0" encoding="UTF-8"?>');
-            xmlLines.push('<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">');
-            if (customApplication.label)
-                xmlLines.push('\t' + Utils.getXMLTag('label', customApplication.label));
-            if (customApplication.logo)
-                xmlLines.push('\t' + Utils.getXMLTag('logo', customApplication.logo));
-            if (customApplication.description)
-                xmlLines.push('\t' + Utils.getXMLTag('description', customApplication.description));
-            if (customApplication.navType)
-                xmlLines.push('\t' + Utils.getXMLTag('logo', customApplication.navType));
-            if (customApplication.defaultLandingTab)
-                xmlLines.push('\t' + Utils.getXMLTag('defaultLandingTab', customApplication.defaultLandingTab));
-            if (customApplication.setupExperience)
-                xmlLines.push('\t' + Utils.getXMLTag('setupExperience', customApplication.setupExperience));
-            if (customApplication.uiType)
-                xmlLines.push('\t' + Utils.getXMLTag('uiType', customApplication.uiType));
-            if (customApplication.utilityBar)
-                xmlLines.push('\t' + Utils.getXMLTag('utilityBar', customApplication.utilityBar));
-            if (customApplication.formFactors)
-                xmlLines.push('\t' + Utils.getXMLTag('defaultLandingTab', customApplication.formFactors));
-            if (customApplication.isNavAutoTempTabsDisabled != undefined)
-                xmlLines.push('\t' + Utils.getXMLTag('isNavAutoTempTabsDisabled', customApplication.isNavAutoTempTabsDisabled));
-            if (customApplication.isNavPersonalizationDisabled != undefined)
-                xmlLines.push('\t' + Utils.getXMLTag('isNavPersonalizationDisabled', customApplication.isNavPersonalizationDisabled));
-            if (customApplication.isServiceCloudConsole != undefined)
-                xmlLines.push('\t' + Utils.getXMLTag('isServiceCloudConsole', customApplication.isServiceCloudConsole));
-            if (customApplication.actionOverrides) {
-                customApplication.actionOverrides.sort(function (a, b) {
-                    let nameA = a.pageOrSobjectType + a.actionName + a.content;
-                    let nameB = b.pageOrSobjectType + b.actionName + b.content;
-                    return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
-                });
-                xmlLines = xmlLines.concat(Utils.getXMLBlock('actionOverrides', customApplication.actionOverrides, compress, 1));
-            }
-            if (customApplication.brand) {
-                xmlLines = xmlLines.concat(Utils.getXMLBlock('brand', customApplication.brand, compress, 1));
-            }
-            if (customApplication.consoleConfig) {
-                xmlLines.push('\t<consoleConfig>');
-                xmlLines.push('\t\t' + Utils.getXMLTag('detailPageRefreshMethod', customApplication.consoleConfig.detailPageRefreshMethod));
-                xmlLines.push('\t\t' + Utils.getXMLTag('listRefreshMethod', customApplication.consoleConfig.listRefreshMethod));
-                xmlLines.push('\t\t' + Utils.getXMLTag('headerColor', customApplication.consoleConfig.headerColor));
-                xmlLines.push('\t\t' + Utils.getXMLTag('footerColor', customApplication.consoleConfig.footerColor));
-                xmlLines.push('\t\t' + Utils.getXMLTag('primaryTabColor', customApplication.consoleConfig.primaryTabColor));
-                if (customApplication.consoleConfig.componentList.components) {
-                    customApplication.consoleConfig.componentList.components.sort(function (a, b) {
-                        let nameA = a;
-                        let nameB = b;
-                        return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
-                    });
-                    xmlLines.push('\t\t<componentList>');
-                    xmlLines.push('\t\t\t<alignment>' + customApplication.consoleConfig.componentList.alignment + '</alignment>');
-                    for (const component of customApplication.consoleConfig.componentList.components) {
-                        xmlLines.push('\t\t\t<components>' + component + '</components>');
+            if (compress) {
+                xmlLines.push('<?xml version="1.0" encoding="UTF-8"?>');
+                xmlLines.push('<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">');
+                if (customApplication.label)
+                    xmlLines.push('\t' + Utils.getXMLTag('label', customApplication.label));
+                if (customApplication.logo)
+                    xmlLines.push('\t' + Utils.getXMLTag('logo', customApplication.logo));
+                if (customApplication.description)
+                    xmlLines.push('\t' + Utils.getXMLTag('description', customApplication.description));
+                if (customApplication.navType)
+                    xmlLines.push('\t' + Utils.getXMLTag('logo', customApplication.navType));
+                if (customApplication.defaultLandingTab)
+                    xmlLines.push('\t' + Utils.getXMLTag('defaultLandingTab', customApplication.defaultLandingTab));
+                if (customApplication.setupExperience)
+                    xmlLines.push('\t' + Utils.getXMLTag('setupExperience', customApplication.setupExperience));
+                if (customApplication.uiType)
+                    xmlLines.push('\t' + Utils.getXMLTag('uiType', customApplication.uiType));
+                if (customApplication.utilityBar)
+                    xmlLines.push('\t' + Utils.getXMLTag('utilityBar', customApplication.utilityBar));
+                if (customApplication.formFactors)
+                    xmlLines.push('\t' + Utils.getXMLTag('defaultLandingTab', customApplication.formFactors));
+                if (customApplication.isNavAutoTempTabsDisabled != undefined)
+                    xmlLines.push('\t' + Utils.getXMLTag('isNavAutoTempTabsDisabled', customApplication.isNavAutoTempTabsDisabled));
+                if (customApplication.isNavPersonalizationDisabled != undefined)
+                    xmlLines.push('\t' + Utils.getXMLTag('isNavPersonalizationDisabled', customApplication.isNavPersonalizationDisabled));
+                if (customApplication.isServiceCloudConsole != undefined)
+                    xmlLines.push('\t' + Utils.getXMLTag('isServiceCloudConsole', customApplication.isServiceCloudConsole));
+                if (customApplication.actionOverrides) {
+                    Utils.sort(customApplication.actionOverrides, ['pageOrSobjectType', 'actionName', 'content']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('actionOverrides', customApplication.actionOverrides, compress, 1));
+                }
+                if (customApplication.brand) {
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('brand', customApplication.brand, compress, 1));
+                }
+                if (customApplication.consoleConfig) {
+                    xmlLines.push('\t<consoleConfig>');
+                    if (customApplication.consoleConfig.detailPageRefreshMethod)
+                        xmlLines.push('\t\t' + Utils.getXMLTag('detailPageRefreshMethod', customApplication.consoleConfig.detailPageRefreshMethod));
+                    if (customApplication.consoleConfig.listRefreshMethod)
+                        xmlLines.push('\t\t' + Utils.getXMLTag('listRefreshMethod', customApplication.consoleConfig.listRefreshMethod));
+                    if (customApplication.consoleConfig.headerColor)
+                        xmlLines.push('\t\t' + Utils.getXMLTag('headerColor', customApplication.consoleConfig.headerColor));
+                    if (customApplication.consoleConfig.footerColor)
+                        xmlLines.push('\t\t' + Utils.getXMLTag('footerColor', customApplication.consoleConfig.footerColor));
+                    if (customApplication.consoleConfig.primaryTabColor)
+                        xmlLines.push('\t\t' + Utils.getXMLTag('primaryTabColor', customApplication.consoleConfig.primaryTabColor));
+                    if (customApplication.consoleConfig.componentList && customApplication.consoleConfig.componentList.components) {
+                        customApplication.consoleConfig.componentList.components.sort(function (a, b) {
+                            let nameA = a;
+                            let nameB = b;
+                            return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
+                        });
+                        Utils.sort(customApplication.consoleConfig.componentList.components);
+                        xmlLines.push('\t\t<componentList>');
+                        xmlLines.push('\t\t\t<alignment>' + customApplication.consoleConfig.componentList.alignment + '</alignment>');
+                        for (const component of customApplication.consoleConfig.componentList.components) {
+                            xmlLines.push('\t\t\t<components>' + component + '</components>');
+                        }
+                        xmlLines.push('\t\t</componentList>');
+                    } else if (customApplication.consoleConfig.CustomApplicationComponents && customApplication.consoleConfig.CustomApplicationComponents.customApplicationComponent) {
+                        Utils.sort(customApplication.consoleConfig.CustomApplicationComponents.customApplicationComponent);
+                        xmlLines.push('\t\t<CustomApplicationComponents>');
+                        xmlLines.push('\t\t\t<alignment>' + customApplication.consoleConfig.CustomApplicationComponents.alignment + '</alignment>');
+                        for (const component of customApplication.consoleConfig.CustomApplicationComponents.customApplicationComponent) {
+                            xmlLines.push('\t\t\t<customApplicationComponent>' + component + '</customApplicationComponent>');
+                        }
+                        xmlLines.push('\t\t</CustomApplicationComponents>');
                     }
-                    xmlLines.push('\t\t</componentList>');
+                    if (customApplication.consoleConfig.keyboardShortcuts) {
+                        Utils.sort(customApplication.consoleConfig.keyboardShortcuts.customShortcuts, ['action']);
+                        Utils.sort(customApplication.consoleConfig.keyboardShortcuts.defaultShortcuts ['action']);
+                        xmlLines.push('\t\t<keyboardShortcuts>');
+                        xmlLines = xmlLines.concat(Utils.getXMLBlock('customShortcuts', customApplication.consoleConfig.keyboardShortcuts.customShortcuts, compress, 3));
+                        xmlLines = xmlLines.concat(Utils.getXMLBlock('defaultShortcuts', customApplication.consoleConfig.keyboardShortcuts.defaultShortcuts, compress, 3));
+                        xmlLines.push('\t\t<keyboardShortcuts>');
+                    }
+                    if (customApplication.consoleConfig.listPlacement) {
+                        xmlLines = xmlLines.concat(Utils.getXMLBlock('listPlacement', customApplication.consoleConfig.listPlacement, compress, 2));
+                    }
+                    if (customApplication.consoleConfig.liveAgentConfig) {
+                        xmlLines = xmlLines.concat(Utils.getXMLBlock('liveAgentConfig', customApplication.consoleConfig.liveAgentConfig, compress, 2));
+                    }
+                    if (customApplication.consoleConfig.pushNotifications) {
+                        xmlLines = xmlLines.concat(Utils.getXMLBlock('pushNotifications', customApplication.consoleConfig.pushNotifications, compress, 2));
+                    }
+                    if (customApplication.consoleConfig.pushNotifications) {
+                        xmlLines = xmlLines.concat(Utils.getXMLBlock('pushNotifications', customApplication.consoleConfig.pushNotifications, compress, 2));
+                    }
+                    if (customApplication.consoleConfig.tabLimitConfig) {
+                        xmlLines = xmlLines.concat(Utils.getXMLBlock('tabLimitConfig', customApplication.consoleConfig.tabLimitConfig, compress, 2));
+                    }
+                    if (customApplication.consoleConfig.whiteListedDomains) {
+                        xmlLines = xmlLines.concat(Utils.getXMLBlock('whiteListedDomains', customApplication.consoleConfig.whiteListedDomains, compress, 2));
+                    }
+                    xmlLines.push('\t</consoleConfig>');
                 }
-                if (customApplication.consoleConfig.keyboardShortcuts) {
-                    xmlLines.push('\t\t<keyboardShortcuts>');
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('customShortcuts', customApplication.consoleConfig.keyboardShort.cutscustomShortcuts, compress, 3));
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('defaultShortcuts', customApplication.consoleConfig.keyboardShort.defaultShortcuts, compress, 3));
-                    xmlLines.push('\t\t<keyboardShortcuts>');
+                if (customApplication.preferences) {
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('preferences', customApplication.preferences, compress, 1));
                 }
-                if (customApplication.consoleConfig.listPlacement) {
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('listPlacement', customApplication.consoleConfig.listPlacement, compress, 2));
+                if (customApplication.profileActionOverrides) {
+                    Utils.sort(customApplication.profileActionOverrides, ['pageOrSobjectType', 'actionName', 'content']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('profileActionOverrides', customApplication.profileActionOverrides, compress, 1));
                 }
-                if (customApplication.consoleConfig.liveAgentConfig) {
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('liveAgentConfig', customApplication.consoleConfig.liveAgentConfig, compress, 2));
+                if (customApplication.subscriberTabs) {
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('subscriberTabs', customApplication.subscriberTabs, compress, 1));
                 }
-                if (customApplication.consoleConfig.pushNotifications) {
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('pushNotifications', customApplication.consoleConfig.pushNotifications, compress, 2));
+                if (customApplication.tabs) {
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('tabs', customApplication.tabs, compress, 1));
                 }
-                if (customApplication.consoleConfig.pushNotifications) {
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('pushNotifications', customApplication.consoleConfig.pushNotifications, compress, 2));
+                if (customApplication.workspaceConfig && customApplication.workspaceConfig.mappings) {
+                    Utils.sort(customApplication.workspaceConfig.mappings, ['tab']);
+                    xmlLines.push('\t<workspaceConfig>');
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('mappings', customApplication.workspaceConfig.mappings, compress, 2));
+                    xmlLines.push('\t</workspaceConfig>');
                 }
-                if (customApplication.consoleConfig.tabLimitConfig) {
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('tabLimitConfig', customApplication.consoleConfig.tabLimitConfig, compress, 2));
-                }
-                if (customApplication.consoleConfig.whiteListedDomains) {
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('whiteListedDomains', customApplication.consoleConfig.whiteListedDomains, compress, 2));
-                }
-                xmlLines.push('\t</consoleConfig>');
+                xmlLines.push('</CustomApplication>');
+            } else { 
+                return AuraParser.toXML(customApplication);
             }
-            if (customApplication.preferences) {
-                xmlLines = xmlLines.concat(Utils.getXMLBlock('preferences', customApplication.preferences, compress, 1));
-            }
-            if (customApplication.preferences) {
-                xmlLines = xmlLines.concat(Utils.getXMLBlock('preferences', customApplication.preferences, compress, 1));
-            }
-            if (customApplication.profileActionOverrides) {
-                customApplication.profileActionOverrides.sort(function (a, b) {
-                    let nameA = a.pageOrSobjectType + a.actionName + a.content;
-                    let nameB = b.pageOrSobjectType + b.actionName + b.content;
-                    return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
-                });
-                xmlLines = xmlLines.concat(Utils.getXMLBlock('profileActionOverrides', customApplication.profileActionOverrides, compress, 1));
-            }
-            if (customApplication.subscriberTabs) {
-                xmlLines = xmlLines.concat(Utils.getXMLBlock('subscriberTabs', customApplication.subscriberTabs, compress, 1));
-            }
-            if (customApplication.tabs) {
-                xmlLines = xmlLines.concat(Utils.getXMLBlock('tabs', customApplication.tabs, compress, 1));
-            }
-            if (customApplication.workspaceConfig) {
-                xmlLines.push('\t<workspaceConfig>');
-                xmlLines = xmlLines.concat(Utils.getXMLBlock('mappings', customApplication.workspaceConfig.mappings, compress, 2));
-                xmlLines.push('\t</workspaceConfig>');
-            }
-            xmlLines.push('</CustomApplication>');
         }
         return xmlLines.join('\n');
     }

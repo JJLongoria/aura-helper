@@ -1,4 +1,5 @@
 const Utils = require('./utils');
+const AuraParser = require('../languages').AuraParser;
 
 class ProfileUtils {
 
@@ -6,51 +7,43 @@ class ProfileUtils {
         let result = {};
         if (profile) {
             result = ProfileUtils.createProfile();
-            result.isPermissionSet = (isPermissionSet) ? true : false;
-            let profileKeys = Object.keys(result);
-            Object.keys(profile).forEach(function (key) {
-                if (profileKeys.includes(key)) {
-                    if (Array.isArray(profile[key]) || key === 'loginHours' || key === 'description' || key === 'userLicense' || key === 'custom' || key === 'isPermissionSet')
-                        result[key] = profile[key];
-                    else
-                        result[key].push(profile[key]);
-                }
-            });
-            if (profile.loginHours) {
-                if (!profile.loginHours.mondayStart)
-                    profile.loginHours.mondayStart = -1;
-                if (!profile.loginHours.mondayEnd)
-                    profile.loginHours.mondayEnd = -1;
-                if (!profile.loginHours.tuesdayStart)
-                    profile.loginHours.tuesdayStart = -1;
-                if (!profile.loginHours.tuesdayEnd)
-                    profile.loginHours.tuesdayEnd = -1;
-                if (!profile.loginHours.wednesdayStart)
-                    profile.loginHours.wednesdayStart = -1;
-                if (!profile.loginHours.wednesdayEnd)
-                    profile.loginHours.wednesdayEnd = -1;
-                if (!profile.loginHours.thursdayStart)
-                    profile.loginHours.thursdayStart = -1;
-                if (!profile.loginHours.thursdayEnd)
-                    profile.loginHours.thursdayEnd = -1;
-                if (!profile.loginHours.fridayStart)
-                    profile.loginHours.fridayStart = -1;
-                if (!profile.loginHours.fridayEnd)
-                    profile.loginHours.fridayEnd = -1;
-                if (!profile.loginHours.saturdayStart)
-                    profile.loginHours.saturdayStart = -1;
-                if (!profile.loginHours.saturdayEnd)
-                    profile.loginHours.saturdayEnd = -1;
-                if (!profile.loginHours.sundayStart)
-                    profile.loginHours.sundayStart = -1;
-                if (!profile.loginHours.sundayEnd)
-                    profile.loginHours.sundayEnd = -1;
+            result.isPermissionSet = (isPermissionSet !== undefined) ? isPermissionSet : false;
+            result = Utils.prepareXML(profile, result);
+            if (result.loginHours) {
+                if (!result.loginHours.mondayStart)
+                    result.loginHours.mondayStart = -1;
+                if (!result.loginHours.mondayEnd)
+                    result.loginHours.mondayEnd = -1;
+                if (!result.loginHours.tuesdayStart)
+                    result.loginHours.tuesdayStart = -1;
+                if (!result.loginHours.tuesdayEnd)
+                    result.loginHours.tuesdayEnd = -1;
+                if (!result.loginHours.wednesdayStart)
+                    result.loginHours.wednesdayStart = -1;
+                if (!result.loginHours.wednesdayEnd)
+                    result.loginHours.wednesdayEnd = -1;
+                if (!result.loginHours.thursdayStart)
+                    result.loginHours.thursdayStart = -1;
+                if (!result.loginHours.thursdayEnd)
+                    result.loginHours.thursdayEnd = -1;
+                if (!result.loginHours.fridayStart)
+                    result.loginHours.fridayStart = -1;
+                if (!result.loginHours.fridayEnd)
+                    result.loginHours.fridayEnd = -1;
+                if (!result.loginHours.saturdayStart)
+                    result.loginHours.saturdayStart = -1;
+                if (!result.loginHours.saturdayEnd)
+                    result.loginHours.saturdayEnd = -1;
+                if (!result.loginHours.sundayStart)
+                    result.loginHours.sundayStart = -1;
+                if (!result.loginHours.sundayEnd)
+                    result.loginHours.sundayEnd = -1;
             }
         } else {
             result = {
-                description: '',
-                userLicense: '',
-                custom: false,
+                description: undefined,
+                userLicense: undefined,
+                custom: undefined,
                 applicationVisibilities: [],
                 categoryGroupVisibilities: [],
                 classAccesses: [],
@@ -62,7 +55,7 @@ class ProfileUtils {
                 fieldLevelSecurities: [],
                 flowAccesses: [],
                 layoutAssignments: [],
-                loginHours: {},
+                loginHours: undefined,
                 loginIpRanges: [],
                 objectPermissions: [],
                 pageAccesses: [],
@@ -70,7 +63,7 @@ class ProfileUtils {
                 recordTypeVisibilities: [],
                 tabVisibilities: [],
                 userPermissions: [],
-                isPermissionSet: (isPermissionSet) ? true : false,
+                isPermissionSet: (isPermissionSet !== undefined) ? isPermissionSet : false,
             };
         }
         return result;
@@ -456,288 +449,135 @@ class ProfileUtils {
     static toXML(profile, compress) {
         let profileLines = [];
         if (profile) {
-            profileLines.push('<?xml version="1.0" encoding="UTF-8"?>');
-            if (profile.isPermissionSet)
-                profileLines.push('<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">');
-            else
-                profileLines.push('<Profile xmlns="http://soap.sforce.com/2006/04/metadata">');
-            if (profile.description)
-                profileLines.push('\t<description>' + profile.description + '</description>');
-            if (!profile.isPermissionSet) {
-                if (profile.userLicense)
-                    profileLines.push('\t<userLicense>' + profile.userLicense + '</userLicense>');
-                if (profile.custom !== undefined)
-                    profileLines.push('\t<custom>' + profile.custom + '</custom>');
-            }
-            if (profile.applicationVisibilities) {
-                profile.applicationVisibilities.sort(function (a, b) {
-                    return a.application.toLowerCase().localeCompare(b.application.toLowerCase());
-                });
-                for (const appVisibility of profile.applicationVisibilities) {
-                    if (compress)
-                        profileLines.push('\t<applicationVisibilities><application>' + appVisibility.application + '</application><default>' + appVisibility.default + '</default><visible>' + appVisibility.visible + '</visible></applicationVisibilities>');
-                    else
-                        profileLines.push('\t<applicationVisibilities>\n\t\t<application>' + appVisibility.application + '</application>\n\t\t<default>' + appVisibility.default + '</default>\n\t\t<visible>' + appVisibility.visible + '</visible>\n\t</applicationVisibilities>');
+            if (compress) {
+                profileLines.push('<?xml version="1.0" encoding="UTF-8"?>');
+                if (profile.isPermissionSet)
+                    profileLines.push('<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">');
+                else
+                    profileLines.push('<Profile xmlns="http://soap.sforce.com/2006/04/metadata">');
+                if (profile.description)
+                    profileLines.push('\t' + Utils.getXMLTag('description', profile.description));
+                if (!profile.isPermissionSet) {
+                    if (profile.userLicense)
+                        profileLines.push('\t' + Utils.getXMLTag('userLicense', profile.userLicense));
+                    if (profile.custom !== undefined)
+                        profileLines.push('\t' + Utils.getXMLTag('custom', profile.custom));
                 }
-            }
-            if (profile.classAccesses) {
-                profile.classAccesses.sort(function (a, b) {
-                    return a.apexClass.toLowerCase().localeCompare(b.apexClass.toLowerCase());
-                });
-                for (const classAccess of profile.classAccesses) {
-                    if (compress)
-                        profileLines.push('\t<classAccesses><apexClass>' + classAccess.apexClass + '</apexClass><enabled>' + classAccess.enabled + '</enabled></classAccesses>');
-                    else
-                        profileLines.push('\t<classAccesses>\n\t\t<apexClass>' + classAccess.apexClass + '</apexClass>\n\t\t<enabled>' + classAccess.enabled + '</enabled>\n\t</classAccesses>');
+                if (profile.applicationVisibilities) {
+                    Utils.sort(profile.applicationVisibilities, ['application']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('applicationVisibilities', profile.applicationVisibilities, true, 1));
                 }
-            }
-            if (profile.customMetadataTypeAccesses) {
-                profile.customMetadataTypeAccesses.sort(function (a, b) {
-                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                });
-                for (const customMetadataAccess of profile.customMetadataTypeAccesses) {
-                    if (compress)
-                        profileLines.push('\t<customMetadataTypeAccesses><name>' + customMetadataAccess.name + '</name><enabled>' + customMetadataAccess.enabled + '</enabled></customMetadataTypeAccesses>');
-                    else
-                        profileLines.push('\t<customMetadataTypeAccesses>\n\t\t<name>' + customMetadataAccess.name + '</name>\n\t\t<enabled>' + customMetadataAccess.enabled + '</enabled>\n\t</customMetadataTypeAccesses>');
+                if (profile.classAccesses) {
+                    Utils.sort(profile.classAccesses, ['apexClass']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('classAccesses', profile.classAccesses, true, 1));
                 }
-            }
-            if (profile.customPermissions) {
-                profile.customPermissions.sort(function (a, b) {
-                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                });
-                for (const customPermission of profile.customPermissions) {
-                    if (compress)
-                        profileLines.push('\t<customPermissions><name>' + customPermission.name + '</name><enabled>' + customPermission.enabled + '</enabled></customPermissions>');
-                    else
-                        profileLines.push('\t<customPermissions>\n\t\t<name>' + customPermission.name + '</name>\n\t\t<enabled>' + customPermission.enabled + '</enabled>\n\t</customPermissions>');
+                if (profile.customMetadataTypeAccesses) {
+                    Utils.sort(profile.customMetadataTypeAccesses, ['name']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('customMetadataTypeAccesses', profile.customMetadataTypeAccesses, true, 1));
                 }
-            }
-            if (profile.customSettingAccesses) {
-                profile.customSettingAccesses.sort(function (a, b) {
-                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                });
-                for (const customSettingAccess of profile.customSettingAccesses) {
-                    if (compress)
-                        profileLines.push('\t<customSettingAccesses><name>' + customSettingAccess.name + '</name><enabled>' + customSettingAccess.enabled + '</enabled></customSettingAccesses>');
-                    else
-                        profileLines.push('\t<customSettingAccesses>\n\t\t<name>' + customSettingAccess.name + '</name>\n\t\t<enabled>' + customSettingAccess.enabled + '</enabled>\n\t</customSettingAccesses>');
+                if (profile.customPermissions) {
+                    Utils.sort(profile.customPermissions, ['name']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('customPermissions', profile.customPermissions, true, 1));
                 }
-            }
-            if (profile.externalDataSourceAccesses) {
-                profile.externalDataSourceAccesses.sort(function (a, b) {
-                    return a.externalDataSource.toLowerCase().localeCompare(b.externalDataSource.toLowerCase());
-                });
-                for (const externalDataSourceAccess of profile.externalDataSourceAccesses) {
-                    if (compress)
-                        profileLines.push('\t<externalDataSourceAccesses><externalDataSource>' + externalDataSourceAccess.externalDataSource + '</externalDataSource><enabled>' + externalDataSourceAccess.enabled + '</enabled></externalDataSourceAccesses>');
-                    else
-                        profileLines.push('\t<externalDataSourceAccesses>\n\t\t<externalDataSource>' + externalDataSourceAccess.externalDataSource + '</externalDataSource>\n\t\t<enabled>' + externalDataSourceAccess.enabled + '</enabled>\n\t</externalDataSourceAccesses>');
+                if (profile.customSettingAccesses) {
+                    Utils.sort(profile.customSettingAccesses, ['name']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('customSettingAccesses', profile.customSettingAccesses, true, 1));
                 }
-            }
-            if (profile.fieldPermissions) {
-                profile.fieldPermissions.sort(function (a, b) {
-                    return a.field.toLowerCase().localeCompare(b.field.toLowerCase());
-                });
-                for (const fieldPermission of profile.fieldPermissions) {
-                    if (compress)
-                        profileLines.push('\t<fieldPermissions><field>' + fieldPermission.field + '</field><readable>' + fieldPermission.readable + '</readable><editable>' + fieldPermission.editable + '</editable></fieldPermissions>');
-                    else
-                        profileLines.push('\t<fieldPermissions>\n\t\t<field>' + fieldPermission.field + '</field>\n\t\t<readable>' + fieldPermission.readable + '</readable>\n\t\t<editable>' + fieldPermission.editable + '</editable>\n\t</fieldPermissions>');
+                if (profile.externalDataSourceAccesses) {
+                    Utils.sort(profile.externalDataSourceAccesses, ['externalDataSource']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('externalDataSourceAccesses', profile.externalDataSourceAccesses, true, 1));
                 }
-            }
-            if (profile.fieldLevelSecurities) {
-                profile.fieldLevelSecurities.sort(function (a, b) {
-                    return a.field.toLowerCase().localeCompare(b.field.toLowerCase());
-                });
-                for (const fieldLevelSecurity of profile.fieldLevelSecurities) {
-                    if (compress)
-                        profileLines.push('\t<fieldLevelSecurities><field>' + fieldLevelSecurity.field + '</field><hidden>' + fieldLevelSecurity.hidden + '</editable><hidden>' + fieldLevelSecurity.readable + '</readable><editable>' + fieldLevelSecurity.editable + '</editable></fieldLevelSecurities>');
-                    else
-                        profileLines.push('\t<fieldLevelSecurities>\n\t\t<field>' + fieldLevelSecurity.field + '</field>\n\t\t<hidden>' + fieldLevelSecurity.hidden + '</editable>\n\t\t<hidden>' + fieldLevelSecurity.readable + '</readable>\n\t\t<editable>' + fieldLevelSecurity.editable + '</editable>\n\t</fieldLevelSecurities>');
+                if (profile.fieldPermissions) {
+                    Utils.sort(profile.fieldPermissions, ['field']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('fieldPermissions', profile.fieldPermissions, true, 1));
                 }
-            }
-            if (profile.flowAccesses) {
-                profile.flowAccesses.sort(function (a, b) {
-                    return a.flow.toLowerCase().localeCompare(b.flow.toLowerCase());
-                });
-                for (const flowAccess of profile.flowAccesses) {
-                    if (compress)
-                        profileLines.push('\t<flowAccesses><flow>' + flowAccess.flow + '</flow><enabled>' + flowAccess.enabled + '</enabled></flowAccesses>');
-                    else
-                        profileLines.push('\t<flowAccesses>\n\t\t<flow>' + flowAccess.flow + '</flow>\n\t\t<enabled>' + flowAccess.enabled + '</enabled>\n\t</flowAccesses>');
+                if (profile.fieldLevelSecurities) {
+                    Utils.sort(profile.fieldLevelSecurities, ['field']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('fieldLevelSecurities', profile.fieldLevelSecurities, true, 1));
                 }
-            }
-            if (!profile.isPermissionSet) {
-                if (profile.layoutAssignments) {
-                    profile.layoutAssignments.sort(function (a, b) {
-                        let rtA = (a.recordType) ? a.recordType : "";
-                        let rtB = (b.recordType) ? b.recordType : "";
-                        let nameA = a.layout + '-' + rtA;
-                        let nameB = b.layout + '-' + rtB;
-                        return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
-                    });
-                    for (const layoutAssign of profile.layoutAssignments) {
-                        if (compress) {
-                            if (layoutAssign.recordType)
-                                profileLines.push('\t<layoutAssignments><layout>' + layoutAssign.layout + '</layout><recordType>' + layoutAssign.recordType + '</recordType></layoutAssignments>');
-                            else
-                                profileLines.push('\t<layoutAssignments><layout>' + layoutAssign.layout + '</layout></layoutAssignments>');
-                        } else {
-                            if (layoutAssign.recordType)
-                                profileLines.push('\t<layoutAssignments>\n\t\t<layout>' + layoutAssign.layout + '</layout>\n\t\t<recordType>' + layoutAssign.recordType + '</recordType>\n\t</layoutAssignments>');
-                            else
-                                profileLines.push('\t<layoutAssignments>\n\t\t<layout>' + layoutAssign.layout + '</layout>\n\t</layoutAssignments>');
-                        }
-                    }
+                if (profile.flowAccesses) {
+                    Utils.sort(profile.flowAccesses, ['flow']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('flowAccesses', profile.flowAccesses, true, 1));
                 }
-                if (profile.loginHours) {
-                    profileLines.push('\t<loginHours>');
-                    if (profile.loginHours.mondayStart != -1 && profile.loginHours.mondayStart != undefined)
-                        profileLines.push('\t\t<mondayStart>' + profile.loginHours.mondayStart + '</mondayStart>');
-                    if (profile.loginHours.mondayEnd != -1 && profile.loginHours.mondayEnd != undefined)
-                        profileLines.push('\t\t<mondayEnd>' + profile.loginHours.mondayEnd + '</mondayEnd>');
-                    if (profile.loginHours.tuesdayStart != -1 && profile.loginHours.tuesdayStart != undefined)
-                        profileLines.push('\t\t<tuesdayStart>' + profile.loginHours.tuesdayStart + '</tuesdayStart>');
-                    if (profile.loginHours.tuesdayEnd != -1 && profile.loginHours.tuesdayEnd != undefined)
-                        profileLines.push('\t\t<tuesdayEnd>' + profile.loginHours.tuesdayEnd + '</tuesdayEnd>');
-                    if (profile.loginHours.wednesdayStart != -1 && profile.loginHours.wednesdayStart != undefined)
-                        profileLines.push('\t\t<wednesdayStart>' + profile.loginHours.wednesdayStart + '</wednesdayStart>');
-                    if (profile.loginHours.wednesdayEnd != -1 && profile.loginHours.wednesdayEnd != undefined)
-                        profileLines.push('\t\t<wednesdayEnd>' + profile.loginHours.wednesdayEnd + '</wednesdayEnd>');
-                    if (profile.loginHours.thursdayStart != -1 && profile.loginHours.thursdayStart != undefined)
-                        profileLines.push('\t\t<thursdayStart>' + profile.loginHours.thursdayStart + '</thursdayStart>');
-                    if (profile.loginHours.thursdayEnd != -1 && profile.loginHours.thursdayEnd != undefined)
-                        profileLines.push('\t\t<thursdayEnd>' + profile.loginHours.thursdayEnd + '</thursdayEnd>');
-                    if (profile.loginHours.fridayStart != -1 && profile.loginHours.fridayStart != undefined)
-                        profileLines.push('\t\t<fridayStart>' + profile.loginHours.fridayStart + '</fridayStart>');
-                    if (profile.loginHours.fridayEnd != -1 && profile.loginHours.fridayEnd != undefined)
-                        profileLines.push('\t\t<fridayEnd>' + profile.loginHours.fridayEnd + '</fridayEnd>');
-                    if (profile.loginHours.saturdayStart != -1 && profile.loginHours.saturdayStart != undefined)
-                        profileLines.push('\t\t<saturdayStart>' + profile.loginHours.saturdayStart + '</saturdayStart>');
-                    if (profile.loginHours.saturdayEnd != -1 && profile.loginHours.saturdayEnd != undefined)
-                        profileLines.push('\t\t<saturdayEnd>' + profile.loginHours.saturdayEnd + '</saturdayEnd>');
-                    if (profile.loginHours.sundayStart != -1 && profile.loginHours.sundayStart != undefined)
-                        profileLines.push('\t\t<sundayStart>' + profile.loginHours.sundayStart + '</sundayStart>');
-                    if (profile.loginHours.sundayEnd != -1 && profile.loginHours.sundayEnd != undefined)
-                        profileLines.push('\t\t<sundayEnd>' + profile.loginHours.sundayEnd + '</sundayEnd>');
-                    profileLines.push('\t</loginHours>');
-                }
-                if (profile.loginIpRanges) {
-                    for (const ipRange of profile.loginIpRanges) {
-                        profile.flowAccesses.sort(function (a, b) {
-                            let startA = a.startAddress;
-                            let endA = a.endAddress;
-                            let startB = b.startAddress;
-                            let endB = b.endAddress;
-                            let nameA = startA + '-' + endA;
-                            let nameB = startB + '-' + endB;
-                            return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
-                        });
-                        if (compress) {
-                            if (ipRange.description)
-                                profileLines.push('\t<loginIpRanges><startAddress>' + ipRange.startAddress + '</startAddress><endAddress>' + ipRange.endAddress + '</endAddress><description>' + ipRange.description + '</description></loginIpRanges>');
-                            else
-                                profileLines.push('\t<loginIpRanges><startAddress>' + ipRange.startAddress + '</startAddress><endAddress>' + ipRange.endAddress + '</endAddress></loginIpRanges>');
-                        } else {
-                            if (ipRange.description)
-                                profileLines.push('\t<loginIpRanges>\n\t\t<startAddress>' + ipRange.startAddress + '</startAddress>\n\t\t<endAddress>' + ipRange.endAddress + '</endAddress>\n\t\t<description>' + ipRange.description + '</description>\n\t</loginIpRanges>');
-                            else
-                                profileLines.push('\t<loginIpRanges>\n\t\t<startAddress>' + ipRange.startAddress + '</startAddress>\n\t\t<endAddress>' + ipRange.endAddress + '</endAddress>\n\t</loginIpRanges>');
-                        }
-                    }
-                }
-            }
-            if (profile.objectPermissions) {
-                for (const objPermission of profile.objectPermissions) {
-                    profile.objectPermissions.sort(function (a, b) {
-                        return a.object.toLowerCase().localeCompare(b.object.toLowerCase());
-                    });
-                    if (compress)
-                        profileLines.push('\t<objectPermissions><object>' + objPermission.object + '</object><allowRead>' + objPermission.allowRead + '</allowRead><allowCreate>' + objPermission.allowCreate + '</allowCreate><allowEdit>' + objPermission.allowEdit + '</allowEdit><allowDelete>' + objPermission.allowDelete + '</allowDelete><viewAllRecords>' + objPermission.viewAllRecords + '</viewAllRecords><modifyAllRecords>' + objPermission.modifyAllRecords + '</modifyAllRecords></objectPermissions>');
-                    else
-                        profileLines.push('\t<objectPermissions>\n\t\t<object>' + objPermission.object + '</object>\n\t\t<allowRead>' + objPermission.allowRead + '</allowRead>\n\t\t<allowCreate>' + objPermission.allowCreate + '</allowCreate>\n\t\t<allowEdit>' + objPermission.allowEdit + '</allowEdit>\n\t\t<allowDelete>' + objPermission.allowDelete + '</allowDelete>\n\t\t<viewAllRecords>' + objPermission.viewAllRecords + '</viewAllRecords>\n\t\t<modifyAllRecords>' + objPermission.modifyAllRecords + '</modifyAllRecords>\n\t</objectPermissions>');
-                }
-            }
-            if (profile.pageAccesses) {
-                for (const pageAccess of profile.pageAccesses) {
-                    profile.pageAccesses.sort(function (a, b) {
-                        return a.apexPage.toLowerCase().localeCompare(b.apexPage.toLowerCase());
-                    });
-                    if (compress)
-                        profileLines.push('\t<pageAccesses><apexPage>' + pageAccess.apexPage + '</apexPage><enabled>' + pageAccess.enabled + '</enabled></pageAccesses>');
-                    else
-                        profileLines.push('\t<pageAccesses>\n\t\t<apexPage>' + pageAccess.apexPage + '</apexPage>\n\t\t<enabled>' + pageAccess.enabled + '</enabled>\n\t</pageAccesses>');
-                }
-            }
-            if (!profile.isPermissionSet) {
+                if (!profile.isPermissionSet) {
+                    Utils.sort(profile.flowAccesses, ['flow']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('flowAccesses', profile.flowAccesses, true, 1));
 
-            }
-            if (profile.profileActionOverrides) {
-                for (const profileActionOverride of profile.profileActionOverrides) {
-                    profile.profileActionOverrides.sort(function (a, b) {
-                        let actionNameA = a.actionName;
-                        let typeA = a.type;
-                        let sObjectA = a.pageOrSobjectType;
-                        let rtA = a.recordType;
-                        let actionNameB = b.actionName;
-                        let typeB = b.type;
-                        let sObjectB = b.pageOrSobjectType;
-                        let rtB = b.recordType;
-                        let nameA = actionNameA + '-' + typeA + '-' + sObjectA + '-' + rtA;
-                        let nameB = actionNameB + '-' + typeB + '-' + sObjectB + '-' + rtB;
-                        return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
-                    });
-                    if (compress) {
-                        if (profileActionOverride.content)
-                            profileLines.push('\t<profileActionOverrides><actionName>' + profileActionOverride.actionName + '</actionName><type>' + profileActionOverride.type + '</type><content>' + profileActionOverride.content + '</content><formFactor>' + profileActionOverride.formFactor + '</formFactor><pageOrSobjectType>' + profileActionOverride.pageOrSobjectType + '</pageOrSobjectType><recordType>' + profileActionOverride.recordType + '</recordType></profileActionOverrides>');
-                        else
-                            profileLines.push('\t<profileActionOverrides><actionName>' + profileActionOverride.actionName + '</actionName><type>' + profileActionOverride.type + '</type><formFactor>' + profileActionOverride.formFactor + '</formFactor><pageOrSobjectType>' + profileActionOverride.pageOrSobjectType + '</pageOrSobjectType><recordType>' + profileActionOverride.recordType + '</recordType></profileActionOverrides>');
-                    } else {
-                        if (profileActionOverride.content)
-                            profileLines.push('\t<profileActionOverrides>\n\t\t<actionName>' + profileActionOverride.actionName + '</actionName>\n\t\t<type>' + profileActionOverride.type + '</type>\n\t\t<content>' + profileActionOverride.content + '</content>\n\t\t<formFactor>' + profileActionOverride.formFactor + '</formFactor>\n\t\t<pageOrSobjectType>' + profileActionOverride.pageOrSobjectType + '</pageOrSobjectType>\n\t\t<recordType>' + profileActionOverride.recordType + '</recordType>\n\t</profileActionOverrides>');
-                        else
-                            profileLines.push('\t<profileActionOverrides>\n\t\t<actionName>' + profileActionOverride.actionName + '</actionName>\n\t\t<type>' + profileActionOverride.type + '</type>\n\t\t<formFactor>' + profileActionOverride.formFactor + '</formFactor>\n\t\t<pageOrSobjectType>' + profileActionOverride.pageOrSobjectType + '</pageOrSobjectType>\n\t\t<recordType>' + profileActionOverride.recordType + '</recordType>\n\t\t</profileActionOverrides>');
+                    if (profile.layoutAssignments) {
+                        Utils.sort(profile.layoutAssignments, ['layout', 'recordType']);
+                        profileLines = profileLines.concat(Utils.getXMLBlock('layoutAssignments', profile.layoutAssignments, true, 1));
+                    }
+                    if (profile.loginHours) {
+                        profileLines.push('\t<loginHours>');
+                        if (profile.loginHours.mondayStart != -1 && profile.loginHours.mondayStart != undefined)
+                            profileLines.push('\t\t<mondayStart>' + profile.loginHours.mondayStart + '</mondayStart>');
+                        if (profile.loginHours.mondayEnd != -1 && profile.loginHours.mondayEnd != undefined)
+                            profileLines.push('\t\t<mondayEnd>' + profile.loginHours.mondayEnd + '</mondayEnd>');
+                        if (profile.loginHours.tuesdayStart != -1 && profile.loginHours.tuesdayStart != undefined)
+                            profileLines.push('\t\t<tuesdayStart>' + profile.loginHours.tuesdayStart + '</tuesdayStart>');
+                        if (profile.loginHours.tuesdayEnd != -1 && profile.loginHours.tuesdayEnd != undefined)
+                            profileLines.push('\t\t<tuesdayEnd>' + profile.loginHours.tuesdayEnd + '</tuesdayEnd>');
+                        if (profile.loginHours.wednesdayStart != -1 && profile.loginHours.wednesdayStart != undefined)
+                            profileLines.push('\t\t<wednesdayStart>' + profile.loginHours.wednesdayStart + '</wednesdayStart>');
+                        if (profile.loginHours.wednesdayEnd != -1 && profile.loginHours.wednesdayEnd != undefined)
+                            profileLines.push('\t\t<wednesdayEnd>' + profile.loginHours.wednesdayEnd + '</wednesdayEnd>');
+                        if (profile.loginHours.thursdayStart != -1 && profile.loginHours.thursdayStart != undefined)
+                            profileLines.push('\t\t<thursdayStart>' + profile.loginHours.thursdayStart + '</thursdayStart>');
+                        if (profile.loginHours.thursdayEnd != -1 && profile.loginHours.thursdayEnd != undefined)
+                            profileLines.push('\t\t<thursdayEnd>' + profile.loginHours.thursdayEnd + '</thursdayEnd>');
+                        if (profile.loginHours.fridayStart != -1 && profile.loginHours.fridayStart != undefined)
+                            profileLines.push('\t\t<fridayStart>' + profile.loginHours.fridayStart + '</fridayStart>');
+                        if (profile.loginHours.fridayEnd != -1 && profile.loginHours.fridayEnd != undefined)
+                            profileLines.push('\t\t<fridayEnd>' + profile.loginHours.fridayEnd + '</fridayEnd>');
+                        if (profile.loginHours.saturdayStart != -1 && profile.loginHours.saturdayStart != undefined)
+                            profileLines.push('\t\t<saturdayStart>' + profile.loginHours.saturdayStart + '</saturdayStart>');
+                        if (profile.loginHours.saturdayEnd != -1 && profile.loginHours.saturdayEnd != undefined)
+                            profileLines.push('\t\t<saturdayEnd>' + profile.loginHours.saturdayEnd + '</saturdayEnd>');
+                        if (profile.loginHours.sundayStart != -1 && profile.loginHours.sundayStart != undefined)
+                            profileLines.push('\t\t<sundayStart>' + profile.loginHours.sundayStart + '</sundayStart>');
+                        if (profile.loginHours.sundayEnd != -1 && profile.loginHours.sundayEnd != undefined)
+                            profileLines.push('\t\t<sundayEnd>' + profile.loginHours.sundayEnd + '</sundayEnd>');
+                        profileLines.push('\t</loginHours>');
+                    }
+                    if (profile.loginIpRanges) {
+                        Utils.sort(profile.loginIpRanges, ['startAddress', 'endAddress']);
+                        profileLines = profileLines.concat(Utils.getXMLBlock('loginIpRanges', profile.loginIpRanges, true, 1));
                     }
                 }
-            }
-            if (profile.recordTypeVisibilities) {
-                profile.recordTypeVisibilities.sort(function (a, b) {
-                    return a.recordType.toLowerCase().localeCompare(b.recordType.toLowerCase());
-                });
-                for (const rtVisibility of profile.recordTypeVisibilities) {
-                    if (compress)
-                        profileLines.push('\t<recordTypeVisibilities><recordType>' + rtVisibility.recordType + '</recordType><visible>' + rtVisibility.visible + '</visible><default>' + rtVisibility.default + '</default></recordTypeVisibilities>');
-                    else
-                        profileLines.push('\t<recordTypeVisibilities>\n\t\t<recordType>' + rtVisibility.recordType + '</recordType>\n\t\t<visible>' + rtVisibility.visible + '</visible>\n\t\t<default>' + rtVisibility.default + '</default>\n\t</recordTypeVisibilities>');
+                if (profile.objectPermissions) {
+                    Utils.sort(profile.objectPermissions, ['object']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('objectPermissions', profile.objectPermissions, true, 1));
                 }
-            }
-            if (profile.tabVisibilities) {
-                profile.tabVisibilities.sort(function (a, b) {
-                    return a.tab.toLowerCase().localeCompare(b.tab.toLowerCase());
-                });
-                for (const tabVisibility of profile.tabVisibilities) {
-                    if (compress)
-                        profileLines.push('\t<tabVisibilities><tab>' + tabVisibility.tab + '</tab><visibility>' + tabVisibility.visibility + '</visibility></tabVisibilities>');
-                    else
-                        profileLines.push('\t<tabVisibilities>\n\t\t<tab>' + tabVisibility.tab + '</tab>\n\t\t<visibility>' + tabVisibility.visibility + '</visibility>\n\t</tabVisibilities>');
+                if (profile.pageAccesses) {
+                    Utils.sort(profile.pageAccesses, ['apexPage']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('pageAccesses', profile.pageAccesses, true, 1));
                 }
-            }
-            if (profile.userPermissions) {
-                profile.userPermissions.sort(function (a, b) {
-                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                });
-                for (const userPermission of profile.userPermissions) {
-                    if (compress)
-                        profileLines.push('\t<userPermissions><name>' + userPermission.name + '</name><enabled>' + userPermission.enabled + '</enabled></userPermissions>');
-                    else
-                        profileLines.push('\t<userPermissions>\n\t\t<name>' + userPermission.name + '</name>\n\t\t<enabled>' + userPermission.enabled + '</enabled>\n\t</userPermissions>');
+                if (!profile.isPermissionSet) {
+
                 }
+                if (profile.profileActionOverrides) {
+                    Utils.sort(profile.profileActionOverrides, ['actionName', 'type', 'pageOrSobjectType', 'recordType']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('profileActionOverrides', profile.profileActionOverrides, true, 1));
+                }
+                if (profile.recordTypeVisibilities) {
+                    Utils.sort(profile.recordTypeVisibilities, ['recordType']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('recordTypeVisibilities', profile.recordTypeVisibilities, true, 1));
+                }
+                if (profile.tabVisibilities) {
+                    Utils.sort(profile.tabVisibilities, ['tab']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('tabVisibilities', profile.tabVisibilities, true, 1));
+                }
+                if (profile.userPermissions) {
+                    Utils.sort(profile.userPermissions, ['name']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('userPermissions', profile.userPermissions, true, 1));
+                }
+                if (profile.isPermissionSet)
+                    profileLines.push('</PermissionSet>');
+                else
+                    profileLines.push('</Profile>');
+            } else {
+                return AuraParser.toXML(profile);
             }
-            if (profile.isPermissionSet)
-                profileLines.push('</PermissionSet>');
-            else
-                profileLines.push('</Profile>');
 
         }
         return profileLines.join('\n');
