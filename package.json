@@ -202,6 +202,10 @@
 				"title": "AuraHelper: Compress XML File"
 			},
 			{
+				"command": "aurahelper.metadata.compress.xml.all",
+				"title": "AuraHelper: Compress ALL XML Files"
+			},
+			{
 				"command": "aurahelper.metadata.profile.open",
 				"title": "AuraHelper: Open Profile on UI"
 			},
@@ -273,6 +277,11 @@
 				{
 					"when": "resourceExtname == .auradoc",
 					"command": "aurahelper.completion.aura.documentation",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./force-app/",
+					"command": "aurahelper.metadata.compress.xml.all",
 					"group": "auraHelper@1"
 				},
 				{

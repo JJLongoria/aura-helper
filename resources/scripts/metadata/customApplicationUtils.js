@@ -257,7 +257,7 @@ class CustomApplicationUtils {
                         xmlLines.push('\t\t<keyboardShortcuts>');
                         xmlLines = xmlLines.concat(Utils.getXMLBlock('customShortcuts', customApplication.consoleConfig.keyboardShortcuts.customShortcuts, compress, 3));
                         xmlLines = xmlLines.concat(Utils.getXMLBlock('defaultShortcuts', customApplication.consoleConfig.keyboardShortcuts.defaultShortcuts, compress, 3));
-                        xmlLines.push('\t\t<keyboardShortcuts>');
+                        xmlLines.push('\t\t</keyboardShortcuts>');
                     }
                     if (customApplication.consoleConfig.listPlacement) {
                         xmlLines = xmlLines.concat(Utils.getXMLBlock('listPlacement', customApplication.consoleConfig.listPlacement, compress, 2));

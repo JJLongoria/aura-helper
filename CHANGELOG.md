@@ -1,9 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 ## [1.7.0 - 2019-12-XX]
-- Compress Permission Set files
+- Compress XML Files for better git management and performance
 - Include Local Metadata Management for Permission Sets
 - Retrieve full Permission Set(s) permissions
+- Package Generator (From local or from Org)
 
 ## [1.6.1 - 2019-12-11]
 - Fixed some probles with dependencies

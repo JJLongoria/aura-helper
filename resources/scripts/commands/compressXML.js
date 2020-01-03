@@ -17,6 +17,7 @@ const ApprovalProcessUtils = metadata.ApprovalProcessUtils;
 const AssignmentRulesUtils = metadata.AssignmentRulesUtils;
 const AudienceUtils = metadata.AudienceUtils;
 const AutoResponseRulesUtils = metadata.AutoResponseRulesUtils;
+const BotUtils = metadata.BotUtils;
 const BrandingSetUtils = metadata.BrandingSetUtils;
 const CallCenterUtils = metadata.CallCenterUtils;
 const CleanDataServiceUtils = metadata.CleanDataServiceUtils;
@@ -48,9 +49,35 @@ const EscalationRulesUtils = metadata.EscalationRulesUtils;
 const EventDeliveryUtils = metadata.EventDeliveryUtils;
 const EventSubscriptionUtils = metadata.EventSubscriptionUtils;
 const ExternalDataSourceUtils = metadata.ExternalDataSourceUtils;
+const FlexiPageUtils = metadata.FlexiPageUtils;
+const FlowCategoryUtils = metadata.FlowCategoryUtils;
+const GlobalPicklistUtils = metadata.GlobalPicklistUtils;
+const GlobalValueSetUtils = metadata.GlobalValueSetUtils;
+const GlobalValueSetTranslationUtils = metadata.GlobalValueSetTranslationUtils;
+const KeywordListUtils = metadata.KeywordListUtils;
+const LayoutUtils = metadata.LayoutUtils;
+const LightningBoltUtils = metadata.LightningBoltUtils;
+const LightningMessageChannelUtils = metadata.LightningMessageChannelUtils;
+const ManagedContentTypeUtils = metadata.ManagedContentTypeUtils;
+const MatchingRulesUtils = metadata.MatchingRulesUtils;
+const MlDomainUtils = metadata.MlDomainUtils;
+const ModerationRuleUtils = metadata.ModerationRuleUtils;
+const NavigationMenuUtils = metadata.NavigationMenuUtils;
+const PathAssistantUtils = metadata.PathAssistantUtils;
+const PermissionSetUtils = metadata.PermissionSetUtils;
+const PlatformCachePartitionUtils = metadata.PlatformCachePartitionUtils;
+const PlatformEventChannelUtils = metadata.PlatformEventChannelUtils;
 const ProfileUtils = metadata.ProfileUtils;
-const BotUtils = metadata.BotUtils;
-
+const QuickActionUtils = metadata.QuickActionUtils;
+const ReportUtils = metadata.ReportUtils;
+const ReportTypeUtils = metadata.ReportTypeUtils;
+const SharingSetUtils = metadata.SharingSetUtils;
+const StandardValueSetTranslationUtils = metadata.StandardValueSetTranslationUtils;
+const Territory2Utils = metadata.Territory2Utils;
+const Territory2ModelUtils = metadata.Territory2ModelUtils;
+const Territory2RuleUtils = metadata.Territory2RuleUtils;
+const TranslationsUtils = metadata.TranslationsUtils;
+const WorkflowUtils = metadata.WorkflowUtils;
 
 exports.run = function (fileUri) {
     try {
@@ -177,10 +204,64 @@ function compress(filePath, editor) {
         content = EventSubscriptionUtils.toXML(EventSubscriptionUtils.createEventSubscription(root.EventSubscription), true);
     else if (root.ExternalDataSource)
         content = ExternalDataSourceUtils.toXML(ExternalDataSourceUtils.createExternalDataSource(root.ExternalDataSource), true);
-    else if (root.Profile)
-        content = ProfileUtils.toXML(ProfileUtils.createProfile(root.Profile, false), true);
+    else if (root.FlexiPage)
+        content = FlexiPageUtils.toXML(FlexiPageUtils.createFlexiPage(root.FlexiPage), true);
+    else if (root.FlowCategory)
+        content = FlowCategoryUtils.toXML(FlowCategoryUtils.createFlowCategory(root.FlowCategory), true);
+    else if (root.GlobalPicklist)
+        content = GlobalPicklistUtils.toXML(GlobalPicklistUtils.createGlobalPicklist(root.GlobalPicklist), true);
+    else if (root.GlobalValueSet)
+        content = GlobalValueSetUtils.toXML(GlobalValueSetUtils.createGlobalValueSet(root.GlobalValueSet), true);
+    else if (root.GlobalValueSetTranslation)
+        content = GlobalValueSetTranslationUtils.toXML(GlobalValueSetTranslationUtils.createGlobalValueSetTranslation(root.GlobalValueSetTranslation), true);
+    else if (root.KeywordList)
+        content = KeywordListUtils.toXML(KeywordListUtils.createKeywordList(root.KeywordList), true);
+    else if (root.Layout)
+        content = LayoutUtils.toXML(LayoutUtils.createLayout(root.Layout), true);
+    else if (root.LightningBolt)
+        content = LightningBoltUtils.toXML(LightningBoltUtils.createLightningBolt(root.LightningBolt), true);
+    else if (root.LightningMessageChannel)
+        content = LightningMessageChannelUtils.toXML(LightningMessageChannelUtils.createLightningMessageChannel(root.LightningMessageChannel), true);
+    else if (root.ManagedContentType)
+        content = ManagedContentTypeUtils.toXML(ManagedContentTypeUtils.createManagedContentType(root.ManagedContentType), true);
+    else if (root.MatchingRules)
+        content = MatchingRulesUtils.toXML(MatchingRulesUtils.createMatchingRules(root.MatchingRules), true);
+    else if (root.MlDomain)
+        content = MlDomainUtils.toXML(MlDomainUtils.createMlDomain(root.MlDomain), true);
+    else if (root.ModerationRule)
+        content = ModerationRuleUtils.toXML(ModerationRuleUtils.createModerationRule(root.ModerationRule), true);
+    else if (root.NavigationMenu)
+        content = NavigationMenuUtils.toXML(NavigationMenuUtils.createNavigationMenu(root.NavigationMenu), true);
+    else if (root.PathAssistant)
+        content = PathAssistantUtils.toXML(PathAssistantUtils.createPathAssistant(root.PathAssistant), true);
     else if (root.PermissionSet)
-        content = ProfileUtils.toXML(ProfileUtils.createProfile(root.Profile, true), true);
+        content = PermissionSetUtils.toXML(PermissionSetUtils.createPermissionSet(root.PermissionSet), true);
+    else if (root.PlatformCachePartition)
+        content = PlatformCachePartitionUtils.toXML(PlatformCachePartitionUtils.createPlatformCachePartition(root.PlatformCachePartition), true);
+    else if (root.PlatformEventChannel)
+        content = PlatformEventChannelUtils.toXML(PlatformEventChannelUtils.createPlatformEventChannel(root.PlatformEventChannel), true);
+    else if (root.Profile)
+        content = ProfileUtils.toXML(ProfileUtils.createProfile(root.Profile), true);
+    else if (root.QuickAction)
+        content = QuickActionUtils.toXML(QuickActionUtils.createQuickAction(root.QuickAction), true);
+    else if (root.Report)
+        content = ReportUtils.toXML(ReportUtils.createReport(root.Report), true);
+    else if (root.ReportType)
+        content = ReportTypeUtils.toXML(ReportTypeUtils.createReportType(root.ReportType), true);
+    else if (root.SharingSet)
+        content = SharingSetUtils.toXML(SharingSetUtils.createSharingSet(root.SharingSet), true);
+    else if (root.StandardValueSetTranslation)
+        content = StandardValueSetTranslationUtils.toXML(StandardValueSetTranslationUtils.createStandardValueSetTranslation(root.StandardValueSetTranslation), true);
+    else if (root.Territory2)
+        content = Territory2Utils.toXML(Territory2Utils.createTerritory2(root.Territory2), true);
+    else if (root.Territory2Model)
+        content = Territory2ModelUtils.toXML(Territory2ModelUtils.createTerritory2Model(root.Territory2Model), true);
+    else if (root.Territory2Rule)
+        content = Territory2RuleUtils.toXML(Territory2RuleUtils.createTerritory2Rule(root.Territory2Rule), true);
+    else if (root.Translations)
+        content = TranslationsUtils.toXML(TranslationsUtils.createTranslations(root.Translations), true);
+    else if (root.Workflow)
+        content = WorkflowUtils.toXML(WorkflowUtils.createWorkflow(root.Workflow), true);
 
     if (content) {
         let replaceRange = new Range(0, 0, editor.document.lineCount - 1, editor.document.lineAt(editor.document.lineCount - 1).range.end.character);

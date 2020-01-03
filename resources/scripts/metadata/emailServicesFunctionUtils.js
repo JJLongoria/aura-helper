@@ -6,7 +6,7 @@ class EmailServicesFunctionUtils {
     static createEmailServicesFunction(emailServiceFunction) {
         let newEmailServiceFunction;
         if (emailServiceFunction) {
-            newEmailServiceFunction = Utils.prepareXML(emailServiceFunction, EmailServiceFunctionUtils.createEmailServiceFunction());
+            newEmailServiceFunction = Utils.prepareXML(emailServiceFunction, EmailServicesFunctionUtils.createEmailServicesFunction());
         } else {
             newEmailServiceFunction = {
                 apexClass: undefined,
