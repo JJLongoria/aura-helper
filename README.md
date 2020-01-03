@@ -15,6 +15,10 @@ The Aura Helper Extension contains some of next features:
     - Added a new view for explore the file structure. You can see al classes, interfaces, components... member and go to it with one click
 
 ### Local Metadata Management
+#### Metadata
+    - Compress XML Metadata Files for better git management and performance
+    - Package Generator (From local or from Org)
+
 #### Profiles
     - Compress profile files
     - Manage profile with custom UI on VSCode

@@ -10,8 +10,8 @@ class AuraParser {
     static getParserXMLToJSONOptions() {
         return {
             attributeNamePrefix: "",
-            attrNodeName: "attrs", //default is 'false'
-            textNodeName: "content",
+            attrNodeName: "@attrs", //default is 'false'
+            textNodeName: "#text",
             ignoreAttributes: false,
             ignoreNameSpace: false,
             allowBooleanAttributes: false,
@@ -41,7 +41,7 @@ class AuraParser {
             indentBy: "\t",
             supressEmptyNode: false,
             tagValueProcessor: a => he.encode(a, { useNamedReferences: true }),// default is a=>a
-            attrValueProcessor: a => he.encode(a, { useNamedReferences: true})// default is a=>a
+            attrValueProcessor: a => he.encode(a, { useNamedReferences: true })// default is a=>a
         };
     }
 
@@ -115,11 +115,15 @@ class AuraParser {
     }
 
     static parseXML(content, parseComments) {
-        if (parseComments) {
-            content = content.split('<!--').join('«!--');
-            content = content.split('-->').join('--»');
+        if (content && content.length > 0) {
+            if (parseComments) {
+                content = content.split('<!--').join('«!--');
+                content = content.split('-->').join('--»');
+            }
+            return parser.parse(content, AuraParser.getParserXMLToJSONOptions());
         }
-        return parser.parse(content, AuraParser.getParserXMLToJSONOptions());
+        return {};
+        
     }
 
     static toXML(jsonObj) {

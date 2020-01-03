@@ -156,7 +156,7 @@ class Utils {
                 isJSONValue = true
             else
                 isJSONValue = false;
-        } catch (error) { 
+        } catch (error) {
             isJSONValue = false;
         }
         let keys = Object.keys(xmlValue);
@@ -227,18 +227,33 @@ class Utils {
             } else if (typeof data === 'object') {
                 let line = [];
                 let attributes = Utils.getAttributes(data);
-                if (attributes.length > 0)
-                    line.push(Utils.getTabs(initIndent) + '<' + blockName + ' ' + attributes.join(' ') + '>');
-                else
-                    line.push(Utils.getTabs(initIndent) + '<' + blockName + '>');
+                let text = Utils.getText(data);
+                let lineData = [];
                 let orderedKeys = Object.keys(data).sort(function (a, b) {
                     return a.toLowerCase().localeCompare(b.toLowerCase());
                 });
-                for (const key of orderedKeys) {
-                    if (key !== 'attrs')
-                        line.push(Utils.getXMLTag(key, data[key]));
+                if (text !== undefined) {
+                    lineData.push(text);
+                } else {
+                    for (const key of orderedKeys) {
+                        if (key !== '@attrs' && key !== '#text') {
+                            lineData.push(Utils.getXMLTag(key, data[key]));
+                        }
+                    }
                 }
-                line.push('</' + blockName + '>');
+                if (lineData.length > 0) {
+                    if (attributes.length > 0)
+                        line.push(Utils.getTabs(initIndent) + '<' + blockName + ' ' + attributes.join(' ') + '>');
+                    else
+                        line.push(Utils.getTabs(initIndent) + '<' + blockName + '>');
+                    line.push(lineData.join(''));
+                    line.push('</' + blockName + '>');
+                } else {
+                    if (attributes.length > 0)
+                        line.push(Utils.getTabs(initIndent) + '<' + blockName + ' ' + attributes.join(' ') + '/>');
+                    else
+                        line.push(Utils.getTabs(initIndent) + '<' + blockName + '/>');
+                }
                 xmlBlock.push(line.join(''));
             } else {
                 xmlBlock.push(Utils.getTabs(initIndent) + Utils.getXMLTag(blockName, data));
@@ -249,12 +264,19 @@ class Utils {
 
     static getAttributes(data) {
         let attributes = [];
-        if (data['attrs'] !== undefined) {
-            Object.keys(data['attrs']).forEach(function (key) {
-                attributes.push(key + '="' + data['attrs'][key] + '"');
+        if (data['@attrs'] !== undefined) {
+            Object.keys(data['@attrs']).forEach(function (key) {
+                attributes.push(key + '="' + data['@attrs'][key] + '"');
             });
         }
         return attributes;
+    }
+
+    static getText(data) {
+        let text = undefined;
+        if (data['#text'] !== undefined)
+            text = data['#text'];
+        return text;
     }
 
     static getTabs(nTabs) {

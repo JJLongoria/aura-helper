@@ -3,11 +3,10 @@ const AuraParser = require('../languages').AuraParser;
 
 class ProfileUtils {
 
-    static createProfile(profile, isPermissionSet) {
+    static createProfile(profile) {
         let result = {};
         if (profile) {
             result = ProfileUtils.createProfile();
-            result.isPermissionSet = (isPermissionSet !== undefined) ? isPermissionSet : false;
             result = Utils.prepareXML(profile, result);
             if (result.loginHours) {
                 if (!result.loginHours.mondayStart)
@@ -54,6 +53,7 @@ class ProfileUtils {
                 fieldPermissions: [],
                 fieldLevelSecurities: [],
                 flowAccesses: [],
+                fullName: undefined,
                 layoutAssignments: [],
                 loginHours: undefined,
                 loginIpRanges: [],
@@ -63,7 +63,6 @@ class ProfileUtils {
                 recordTypeVisibilities: [],
                 tabVisibilities: [],
                 userPermissions: [],
-                isPermissionSet: (isPermissionSet !== undefined) ? isPermissionSet : false,
             };
         }
         return result;
@@ -71,7 +70,7 @@ class ProfileUtils {
 
     static mergeProfileWithLocalData(profile, storageMetadata) {
         if (profile) {
-            profile = ProfileUtils.createProfile(profile, profile.isPermissionSet);
+            profile = ProfileUtils.createProfile(profile);
             Object.keys(profile).forEach(function (key) {
                 let profileElement = profile[key];
                 if (key === 'applicationVisibilities') {
@@ -451,18 +450,15 @@ class ProfileUtils {
         if (profile) {
             if (compress) {
                 profileLines.push('<?xml version="1.0" encoding="UTF-8"?>');
-                if (profile.isPermissionSet)
-                    profileLines.push('<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">');
-                else
-                    profileLines.push('<Profile xmlns="http://soap.sforce.com/2006/04/metadata">');
+                profileLines.push('<Profile xmlns="http://soap.sforce.com/2006/04/metadata">');
+                if (profile.fullName)
+                    profileLines.push(Utils.getTabs(1) + Utils.getXMLTag('fullName', profile.fullName));
                 if (profile.description)
-                    profileLines.push('\t' + Utils.getXMLTag('description', profile.description));
-                if (!profile.isPermissionSet) {
-                    if (profile.userLicense)
-                        profileLines.push('\t' + Utils.getXMLTag('userLicense', profile.userLicense));
-                    if (profile.custom !== undefined)
-                        profileLines.push('\t' + Utils.getXMLTag('custom', profile.custom));
-                }
+                    profileLines.push(Utils.getTabs(1) + Utils.getXMLTag('description', profile.description));
+                if (profile.userLicense)
+                    profileLines.push(Utils.getTabs(1) + Utils.getXMLTag('userLicense', profile.userLicense));
+                if (profile.custom !== undefined)
+                    profileLines.push(Utils.getTabs(1) + Utils.getXMLTag('custom', profile.custom));
                 if (profile.applicationVisibilities) {
                     Utils.sort(profile.applicationVisibilities, ['application']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('applicationVisibilities', profile.applicationVisibilities, true, 1));
@@ -499,50 +495,45 @@ class ProfileUtils {
                     Utils.sort(profile.flowAccesses, ['flow']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('flowAccesses', profile.flowAccesses, true, 1));
                 }
-                if (!profile.isPermissionSet) {
-                    Utils.sort(profile.flowAccesses, ['flow']);
-                    profileLines = profileLines.concat(Utils.getXMLBlock('flowAccesses', profile.flowAccesses, true, 1));
-
-                    if (profile.layoutAssignments) {
-                        Utils.sort(profile.layoutAssignments, ['layout', 'recordType']);
-                        profileLines = profileLines.concat(Utils.getXMLBlock('layoutAssignments', profile.layoutAssignments, true, 1));
-                    }
-                    if (profile.loginHours) {
-                        profileLines.push('\t<loginHours>');
-                        if (profile.loginHours.mondayStart != -1 && profile.loginHours.mondayStart != undefined)
-                            profileLines.push('\t\t<mondayStart>' + profile.loginHours.mondayStart + '</mondayStart>');
-                        if (profile.loginHours.mondayEnd != -1 && profile.loginHours.mondayEnd != undefined)
-                            profileLines.push('\t\t<mondayEnd>' + profile.loginHours.mondayEnd + '</mondayEnd>');
-                        if (profile.loginHours.tuesdayStart != -1 && profile.loginHours.tuesdayStart != undefined)
-                            profileLines.push('\t\t<tuesdayStart>' + profile.loginHours.tuesdayStart + '</tuesdayStart>');
-                        if (profile.loginHours.tuesdayEnd != -1 && profile.loginHours.tuesdayEnd != undefined)
-                            profileLines.push('\t\t<tuesdayEnd>' + profile.loginHours.tuesdayEnd + '</tuesdayEnd>');
-                        if (profile.loginHours.wednesdayStart != -1 && profile.loginHours.wednesdayStart != undefined)
-                            profileLines.push('\t\t<wednesdayStart>' + profile.loginHours.wednesdayStart + '</wednesdayStart>');
-                        if (profile.loginHours.wednesdayEnd != -1 && profile.loginHours.wednesdayEnd != undefined)
-                            profileLines.push('\t\t<wednesdayEnd>' + profile.loginHours.wednesdayEnd + '</wednesdayEnd>');
-                        if (profile.loginHours.thursdayStart != -1 && profile.loginHours.thursdayStart != undefined)
-                            profileLines.push('\t\t<thursdayStart>' + profile.loginHours.thursdayStart + '</thursdayStart>');
-                        if (profile.loginHours.thursdayEnd != -1 && profile.loginHours.thursdayEnd != undefined)
-                            profileLines.push('\t\t<thursdayEnd>' + profile.loginHours.thursdayEnd + '</thursdayEnd>');
-                        if (profile.loginHours.fridayStart != -1 && profile.loginHours.fridayStart != undefined)
-                            profileLines.push('\t\t<fridayStart>' + profile.loginHours.fridayStart + '</fridayStart>');
-                        if (profile.loginHours.fridayEnd != -1 && profile.loginHours.fridayEnd != undefined)
-                            profileLines.push('\t\t<fridayEnd>' + profile.loginHours.fridayEnd + '</fridayEnd>');
-                        if (profile.loginHours.saturdayStart != -1 && profile.loginHours.saturdayStart != undefined)
-                            profileLines.push('\t\t<saturdayStart>' + profile.loginHours.saturdayStart + '</saturdayStart>');
-                        if (profile.loginHours.saturdayEnd != -1 && profile.loginHours.saturdayEnd != undefined)
-                            profileLines.push('\t\t<saturdayEnd>' + profile.loginHours.saturdayEnd + '</saturdayEnd>');
-                        if (profile.loginHours.sundayStart != -1 && profile.loginHours.sundayStart != undefined)
-                            profileLines.push('\t\t<sundayStart>' + profile.loginHours.sundayStart + '</sundayStart>');
-                        if (profile.loginHours.sundayEnd != -1 && profile.loginHours.sundayEnd != undefined)
-                            profileLines.push('\t\t<sundayEnd>' + profile.loginHours.sundayEnd + '</sundayEnd>');
-                        profileLines.push('\t</loginHours>');
-                    }
-                    if (profile.loginIpRanges) {
-                        Utils.sort(profile.loginIpRanges, ['startAddress', 'endAddress']);
-                        profileLines = profileLines.concat(Utils.getXMLBlock('loginIpRanges', profile.loginIpRanges, true, 1));
-                    }
+                if (profile.layoutAssignments) {
+                    Utils.sort(profile.layoutAssignments, ['layout', 'recordType']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('layoutAssignments', profile.layoutAssignments, true, 1));
+                }
+                if (profile.loginHours) {
+                    profileLines.push('\t<loginHours>');
+                    if (profile.loginHours.mondayStart != -1 && profile.loginHours.mondayStart != undefined)
+                        profileLines.push('\t\t<mondayStart>' + profile.loginHours.mondayStart + '</mondayStart>');
+                    if (profile.loginHours.mondayEnd != -1 && profile.loginHours.mondayEnd != undefined)
+                        profileLines.push('\t\t<mondayEnd>' + profile.loginHours.mondayEnd + '</mondayEnd>');
+                    if (profile.loginHours.tuesdayStart != -1 && profile.loginHours.tuesdayStart != undefined)
+                        profileLines.push('\t\t<tuesdayStart>' + profile.loginHours.tuesdayStart + '</tuesdayStart>');
+                    if (profile.loginHours.tuesdayEnd != -1 && profile.loginHours.tuesdayEnd != undefined)
+                        profileLines.push('\t\t<tuesdayEnd>' + profile.loginHours.tuesdayEnd + '</tuesdayEnd>');
+                    if (profile.loginHours.wednesdayStart != -1 && profile.loginHours.wednesdayStart != undefined)
+                        profileLines.push('\t\t<wednesdayStart>' + profile.loginHours.wednesdayStart + '</wednesdayStart>');
+                    if (profile.loginHours.wednesdayEnd != -1 && profile.loginHours.wednesdayEnd != undefined)
+                        profileLines.push('\t\t<wednesdayEnd>' + profile.loginHours.wednesdayEnd + '</wednesdayEnd>');
+                    if (profile.loginHours.thursdayStart != -1 && profile.loginHours.thursdayStart != undefined)
+                        profileLines.push('\t\t<thursdayStart>' + profile.loginHours.thursdayStart + '</thursdayStart>');
+                    if (profile.loginHours.thursdayEnd != -1 && profile.loginHours.thursdayEnd != undefined)
+                        profileLines.push('\t\t<thursdayEnd>' + profile.loginHours.thursdayEnd + '</thursdayEnd>');
+                    if (profile.loginHours.fridayStart != -1 && profile.loginHours.fridayStart != undefined)
+                        profileLines.push('\t\t<fridayStart>' + profile.loginHours.fridayStart + '</fridayStart>');
+                    if (profile.loginHours.fridayEnd != -1 && profile.loginHours.fridayEnd != undefined)
+                        profileLines.push('\t\t<fridayEnd>' + profile.loginHours.fridayEnd + '</fridayEnd>');
+                    if (profile.loginHours.saturdayStart != -1 && profile.loginHours.saturdayStart != undefined)
+                        profileLines.push('\t\t<saturdayStart>' + profile.loginHours.saturdayStart + '</saturdayStart>');
+                    if (profile.loginHours.saturdayEnd != -1 && profile.loginHours.saturdayEnd != undefined)
+                        profileLines.push('\t\t<saturdayEnd>' + profile.loginHours.saturdayEnd + '</saturdayEnd>');
+                    if (profile.loginHours.sundayStart != -1 && profile.loginHours.sundayStart != undefined)
+                        profileLines.push('\t\t<sundayStart>' + profile.loginHours.sundayStart + '</sundayStart>');
+                    if (profile.loginHours.sundayEnd != -1 && profile.loginHours.sundayEnd != undefined)
+                        profileLines.push('\t\t<sundayEnd>' + profile.loginHours.sundayEnd + '</sundayEnd>');
+                    profileLines.push('\t</loginHours>');
+                }
+                if (profile.loginIpRanges) {
+                    Utils.sort(profile.loginIpRanges, ['startAddress', 'endAddress']);
+                    profileLines = profileLines.concat(Utils.getXMLBlock('loginIpRanges', profile.loginIpRanges, true, 1));
                 }
                 if (profile.objectPermissions) {
                     Utils.sort(profile.objectPermissions, ['object']);
@@ -551,9 +542,6 @@ class ProfileUtils {
                 if (profile.pageAccesses) {
                     Utils.sort(profile.pageAccesses, ['apexPage']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('pageAccesses', profile.pageAccesses, true, 1));
-                }
-                if (!profile.isPermissionSet) {
-
                 }
                 if (profile.profileActionOverrides) {
                     Utils.sort(profile.profileActionOverrides, ['actionName', 'type', 'pageOrSobjectType', 'recordType']);
@@ -571,10 +559,8 @@ class ProfileUtils {
                     Utils.sort(profile.userPermissions, ['name']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('userPermissions', profile.userPermissions, true, 1));
                 }
-                if (profile.isPermissionSet)
-                    profileLines.push('</PermissionSet>');
-                else
-                    profileLines.push('</Profile>');
+                profileLines.push('</Profile>');
+
             } else {
                 return AuraParser.toXML(profile);
             }

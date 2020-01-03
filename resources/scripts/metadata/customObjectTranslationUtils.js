@@ -188,7 +188,7 @@ class CustomObjectTranslationUtils {
     static getLayoutTranslationsXMLLines(layouts, initIndent) {
         let xmlLines = [];
         for (const layout of layouts) {
-            xmlLines.push(Utils.getTabs(initIndent) + '</layouts>');
+            xmlLines.push(Utils.getTabs(initIndent) + '<layouts>');
             if (layout.layout !== undefined)
                 xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('layout', layout.layout));
             if (layout.layoutType !== undefined)

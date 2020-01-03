@@ -177,7 +177,7 @@ class ApprovalProcessUtils {
     static getApprovalStepXMLLines(approvalSteps, initIndent) {
         let xmlLines = [];
         for (const approvalStep of approvalSteps) {
-            xmlLines.push(Utils.getTabs(initIndent) + '</approvalStep>');
+            xmlLines.push(Utils.getTabs(initIndent) + '<approvalStep>');
             if (approvalStep.name !== undefined)
                 xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('name', approvalStep.name));
             if (approvalStep.label !== undefined)
