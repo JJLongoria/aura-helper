@@ -1,10 +1,24 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [1.7.0 - 2019-12-XX]
+## [1.7.0 - 2020-01-10]
+### Added
 - Compress XML Files for better git management and performance
 - Include Local Metadata Management for Permission Sets
 - Retrieve full Permission Set(s) permissions
 - Package Generator (From local or from Org)
+- Create Graphic User Interface Engine for better experience
+- Added Help in different languages (English and Spanish)
+- Added Support for Code Suggestion on lightning component tags attribute's values like varian, size...(It has support for most types and attributes)
+- Added Tool for Match Org content with Local content (delete metadata that not exists in local, user can choose the metadata for delete)
+
+### Changed
+- Optimized Refresh Metadata Index Commands
+- Better Help 
+
+
+### Fixed
+- Fixed some problem with New Aura File Command
+- Fixed bugs with Code Completion Tools
 
 ## [1.6.1 - 2019-12-11]
 - Fixed some probles with dependencies

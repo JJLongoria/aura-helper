@@ -40,7 +40,9 @@ exports.run = function(uri) {
                 path = Paths.getFolderPath(path);
             let filesOnDir = FileReader.readDirSync(path);
             var filesForCreate = getNotExistsAuraFiles(filesOnDir);
-            window.showQuickPick(filesForCreate, { placeHolder: "Select an Aura File for Create" }).then((selected) => onSelectedFile(selected));
+            window.showQuickPick(filesForCreate, { placeHolder: "Select an Aura File for Create" }).then((selected) =>
+                onSelectedFile(path, selected)
+            );
         }
         else {
             window.showErrorMessage('The selected file is not an Aura Component File or Folder');

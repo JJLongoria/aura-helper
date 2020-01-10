@@ -12,7 +12,8 @@ const MetadataTypes = Metadata.MetadataTypes;
 const PackageGenerator = Metadata.PackageGenerator;
 const MetadataFactory = Metadata.Factory;
 const AuraParser = languages.AuraParser;
-const profileUtils = Metadata.ProfileUtils;
+const ProfileUtils = Metadata.ProfileUtils;
+const PermissionSetUtils = Metadata.PermissionSetUtils;
 
 
 const PACKAGE_FILE_NAME = "package.xml";
@@ -96,9 +97,12 @@ exports.run = function (profileNames, isPermissionSets, compress, callback, toke
     else
         profileMetadata = MetadataFactory.createMetadataType('Profile', true);
     for (const profile of profileNames) {
-        profileMetadata.childs.push(MetadataFactory.createMetadataObject(profile, true));
+        profileMetadata.childs[profile] = MetadataFactory.createMetadataObject(profile, true);
     }
-    metadata.push(profileMetadata);
+    if (isPermissionSets)
+        metadata['PermissionSet'] = profileMetadata;
+    else
+        metadata['Profile'] = profileMetadata;
     if (metadata.length > 0) {
         let packageContent = PackageGenerator.createPackage(metadata, Config.getOrgVersion());
         let packageFolder = Paths.getPackageFolder();
@@ -123,8 +127,8 @@ exports.run = function (profileNames, isPermissionSets, compress, callback, toke
                                 let root = AuraParser.parseXML(FileReader.readFileSync(sourceFile));
                                 let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
                                 if (profileRaw) {
-                                    let profile = profileUtils.createProfile(profileRaw, isPermissionSets);
-                                    FileWriter.createFileSync(sourceFile, profileUtils.toXML(profile, true));
+                                    let profile = PermissionSetUtils.createPermissionSet(profileRaw);
+                                    FileWriter.createFileSync(sourceFile, PermissionSetUtils.toXML(profile, true));
                                 }
                             }
                             FileWriter.copyFileSync(sourceFile, targetFile);
@@ -140,8 +144,8 @@ exports.run = function (profileNames, isPermissionSets, compress, callback, toke
                                 let root = AuraParser.parseXML(FileReader.readFileSync(sourceFile));
                                 let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
                                 if (profileRaw) {
-                                    let profile = profileUtils.createProfile(profileRaw, isPermissionSets);
-                                    FileWriter.createFileSync(sourceFile, profileUtils.toXML(profile, true));
+                                    let profile = ProfileUtils.createProfile(profileRaw);
+                                    FileWriter.createFileSync(sourceFile, ProfileUtils.toXML(profile, true));
                                 }
                             }
                             FileWriter.copyFileSync(sourceFile, targetFile);

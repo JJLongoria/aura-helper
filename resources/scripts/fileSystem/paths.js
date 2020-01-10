@@ -1,9 +1,10 @@
-
-
 const vscode = require('vscode');
 const applicationContext = require('../main/applicationContext');
 const path = require('path');
 class Paths {
+    static getResourcesPath() { 
+        return applicationContext.context.asAbsolutePath("./resources");
+    }
     static getOldUserTemplatesPath() {
         return applicationContext.context.asAbsolutePath("./resources/userTemplates");
     }
@@ -28,8 +29,11 @@ class Paths {
     static getApexCommentUserTemplatePath() {
         return applicationContext.context.storagePath + "\\" + "userTemplates\\apexComment.json";
     }
-    static getHelpPath() {
-        return applicationContext.context.asAbsolutePath("./resources/help/index.html");
+    static getEnglishHelpPath() {
+        return applicationContext.context.asAbsolutePath("./resources/gui/help/help_en.html");
+    }
+    static getSpanishHelpPath() {
+        return applicationContext.context.asAbsolutePath("./resources/gui/help/help_es.html");
     }
     static getAuraSnippetsPath() {
         return applicationContext.context.asAbsolutePath("./resources/snippets/auraSnippets.json");
@@ -44,10 +48,10 @@ class Paths {
         return applicationContext.context.asAbsolutePath("./resources/assets/baseComponentsDetail.json");
     }
     static getProfilePage() { 
-        return applicationContext.context.asAbsolutePath("./resources/assets/views/metadata/profilePage.html");
+        return applicationContext.context.asAbsolutePath("./resources/gui/metadata/profilePage.html");
     }
     static getPackageGeneratorPage() { 
-        return applicationContext.context.asAbsolutePath("./resources/assets/views/metadata/packageGeneratorPage.html");
+        return applicationContext.context.asAbsolutePath("./resources/gui/metadata/packageGeneratorPage.html");
     }
     static getMetadataIndexPath() {
         return applicationContext.context.storagePath + "\\" + "metadata";
@@ -72,6 +76,9 @@ class Paths {
     }
     static getPackageFolder() { 
         return applicationContext.context.storagePath + "\\" + "download\\metadata\\package";
+    }
+    static getDestructivePackageFolder() { 
+        return applicationContext.context.storagePath + "\\" + "download\\metadata\\destructivePackage";
     }
     static getMetadataRootFolder() { 
         return vscode.workspace.rootPath + '/force-app/main/default';

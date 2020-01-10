@@ -1,0 +1,92 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    </head>
+    <style>
+        .style {}
+
+        .pageStyle {}
+    </style>
+    <script>
+        function showContent() {
+            document.getElementById("spinner").style.display = 'none';
+            document.getElementById("modalSpinner").style.display = 'none';
+            document.getElementById("mainContent").style.display = 'block';
+        }
+
+        function showSpinner() {
+            document.getElementById("spinner").style.display = 'block';
+            document.getElementById("mainContent").style.display = 'none';
+        }
+
+        function openSpinnerModal() {
+            document.getElementById("modalSpinner").style.display = 'block';
+        }
+
+        function closeSpinnerModal() {
+            document.getElementById("modalSpinner").style.display = 'none';
+        }
+    </script>
+
+    <body>
+        <!-- LOADER START -->
+        <div id="spinner" style="position: absolute; left: 50%; top: 50%;">
+            <div style="width: 120px; height: 120px; position: absolute; left: -50%;">
+                <div class="loader1"></div>
+            </div>
+            <div style="width: 120px; height: 120px; position: absolute; left: -50%;">
+                <div class="loader2"></div>
+            </div>
+            <div style="width: 120px; height: 120px; position: absolute; left: -50%;">
+                <div class="loader3"></div>
+            </div>
+            <div style="width: 120px; height: 120px; position: absolute; left: -50%;">
+                <div class="loader4"></div>
+            </div>
+        </div>
+        <!-- LOADER START -->
+        <!-- MODAL LOADER START -->
+        <div id="modalSpinner" class="w3-modal" style="display: none;">
+            <div class="w3-modal-content" style="background-color: #ffffff00;">
+                <div style="position: absolute; left: 50%; top: 50%">
+                    <div style="width: 120px; height: 120px; top: 50%; position: fixed;">
+                        <div class="loader1"></div>
+                    </div>
+                    <div style="width: 120px; height: 120px; top: 50%; position: fixed;">
+                        <div class="loader2"></div>
+                    </div>
+                    <div style="width: 120px; height: 120px; top: 50%; position: fixed;">
+                        <div class="loader3"></div>
+                    </div>
+                    <div style="width: 120px; height: 120px; top: 50%; position: fixed;">
+                        <div class="loader4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MODAL LOADER START -->
+        <!-- PAGE CONTENT START -->
+        <div id="mainContent" class="w3-container" style="min-height: 85%; overflow: scroll; padding-top:  80px; padding-bottom: 80px; display:none;">
+            <!-- HEADER START -->
+            <div class="w3-top">
+                <div class="w3-bar">
+                    <div class="w3-container w3-center header w3-border-bottom">
+                        <h1 id="titlePage">{!title}</h1>
+                    </div>
+                </div>
+            </div>
+            <!-- HEADER END -->
+            <div id="pageContent" style="height: 85%;">
+                {!pageContent}
+            </div>
+            {!footer}
+        </div>
+        <!-- PAGE CONTENT END -->
+    </body>
+    <script>
+        function controller();
+    </script>
+
+</html>

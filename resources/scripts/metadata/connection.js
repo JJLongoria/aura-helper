@@ -3,6 +3,7 @@ const MetadataTypes = require('./metadataTypes');
 const FileSystem = require('../fileSystem');
 const MetadataFactory = require('./factory');
 const Processes = require('../processes');
+const Utils = require('./utils');
 const FileReader = FileSystem.FileReader;
 
 const suffixByMetadataType = {
@@ -62,18 +63,23 @@ class Connection {
         return metadataObjects;
     }
 
-    static getMetadataFromOrg(user, metadataObjects, orgNamespace, progressCallback) {
+    static getMetadataFromOrg(user, metadataObjects, orgNamespace, progress, cancelToken) {
         let metadata = {};
-        let counter = 0;
+        let counter = 1;
         for (const metadataObject of metadataObjects) {
-            if (progressCallback)
-                progressCallback.call(this, metadataObject.xmlName);
+            if (progress)
+                progress.report({ message: "Downloading " + metadataObject.xmlName + " (" + counter + "/)" });
             let metadataType = Connection.getMetadataObjectsFromOrg(user, metadataObject.xmlName, orgNamespace);
-            counter++;
             if (metadataType) {
                 metadata[metadataObject.xmlName] = metadataType;
-                if (progressCallback)
-                    progressCallback.call(this, metadataType, counter, metadataObjects.length);
+                if (progress)
+                    progress.report({ message: "Downloading " + metadataObject.xmlName + " (" + counter + "/" + metadataObjects.length + ")", increment: (counter / metadataObjects.length) });
+            }
+            counter++;
+            if (cancelToken) {
+                cancelToken.onCancellationRequested(function (event) {
+                    abort = true;
+                });
             }
             if (abort) {
                 abort = false;
@@ -90,11 +96,7 @@ class Connection {
             if (processOut) {
                 let data = JSON.parse(processOut.toString());
                 if (data.status === 0) {
-                    let dataList = [];
-                    if (Array.isArray(data.result))
-                        dataList = data.result
-                    else
-                        dataList.push(data.result);
+                    let dataList = Utils.forceArray(data.result);
                     metadataType = MetadataFactory.createMetadataType(metadataTypeName, false);
                     let objects = {};
                     for (const obj of dataList) {
@@ -115,11 +117,15 @@ class Connection {
                             } else {
                                 name = obj.fullName;
                             }
-                            if (!objects[name])
-                                objects[name] = MetadataFactory.createMetadataObject(name, false);
-                            if (item && obj.namespacePrefix === orgNamespace) {
+                            if (!item && (!obj.namespacePrefix || obj.namespacePrefix === orgNamespace)) {
+                                if (!objects[name])
+                                    objects[name] = MetadataFactory.createMetadataObject(name, false);
+                            } else if (!obj.namespacePrefix || obj.namespacePrefix === orgNamespace) {
+                                if (!objects[name])
+                                    objects[name] = MetadataFactory.createMetadataObject(name, false);
                                 objects[name].childs[item] = MetadataFactory.createMetadataItem(item, false);
                             }
+
                         }
                     }
                     Object.keys(objects).forEach(function (key) {

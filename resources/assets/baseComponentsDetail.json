@@ -35,6 +35,171 @@
         "medium",
         "large"
     ],
+    "paddings": [
+        "horizontal-small",
+        "horizontal-medium",
+        "horizontal-large",
+        "around-small",
+        "around-medium",
+        "around-large"
+    ],
+    "booleans": [
+        "true",
+        "false"
+    ],
+    "variants": [
+        "circle",
+        "square",
+        "base",
+        "neutral",
+        "brand",
+        "destructive",
+        "inverse",
+        "success",
+        "bare",
+        "container",
+        "border",
+        "border-filled",
+        "bare-inverse",
+        "border-inverse",
+        "text",
+        "narrow",
+        "standard",
+        "label-hidden",
+        "label-inline",
+        "label-stacked",
+        "bottom-toolbar",
+        "linear",
+        "non-linear",
+        "circular",
+        "shaded",
+        "default",
+        "scoped",
+        "vertical"
+    ],
+    "progressTypes": [
+        "base",
+        "path"
+    ],
+    "recordModes": [
+        "VIEW",
+        "EDIT"
+    ],
+    "feedDesigns": [
+        "BROWSE",
+        "DEFAULT"
+    ],
+    "publisherContexts": [
+        "RECORD",
+        "GLOBAL"
+    ],
+    "feedTypes": [
+        "Bookmarks",
+        "Company",
+        "DirectMessages",
+        "Feeds",
+        "Files",
+        "Filter",
+        "Groups",
+        "Home",
+        "Moderation",
+        "Mute",
+        "News",
+        "PendingReview",
+        "Record",
+        "Streams",
+        "To",
+        "Topics",
+        "UserProfile"
+    ],
+    "fullFeedTypes": [
+        "News",
+        "Home", 
+        "Record", 
+        "To"
+    ],
+    "buttonTypes": [
+        "button",
+        "reset",
+        "submit"
+    ],
+    "severities":[
+        "message",
+        "confirm",
+        "info",
+        "warning",
+        "error"
+    ],
+    "inputTypes": [
+        "radio",
+        "button"
+    ],
+    "densities": [
+        "compact",
+        "comfy",
+        "auto"
+    ],
+    "dynamicIcons": [
+        "ellie",
+        "eq",
+        "score",
+        "strength",
+        "trend",
+        "waffle"
+    ],
+    "timeZoneNames": [
+        "short",
+        "long"
+    ],
+    "nameFormats": [
+        "short",
+        "medium",
+        "long"
+    ],
+    "numberStyles": [
+        "decimal",
+        "currency",
+        "percent"
+    ],
+    "currencyDisplays": [
+        "symbol",
+        "code",
+        "name"
+    ],
+    "urlTargets": [
+        "_blank",
+        "_parent",
+        "_self",
+        "_top"
+    ],
+    "sortValues": [
+        "asc",
+        "desc"
+    ],
+    "positions": [
+        "left",
+        "right",
+        "top",
+        "bottom",
+        "auto",
+        "center",
+        "bottom-left",
+        "bottom-center",
+        "bottom-right",
+        "space",
+        "spread",
+        "end",
+        "stretch",
+        "horizontal"
+    ],
+    "flexibilities":[
+        "auto",
+        "shrink",
+        "no-shrink",
+        "grow",
+        "no-grow",
+        "no-flex"
+    ],
     "components": {
         "lightning": {
             "input": [

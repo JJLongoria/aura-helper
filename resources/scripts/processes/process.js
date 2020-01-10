@@ -31,5 +31,14 @@ class Process {
         callback.call(this, out);
     }
 
+    static destructiveChanges(user, destructiveFolder) { 
+        return process.execSync('sfdx force:mdapi:deploy --json -d "' + destructiveFolder + '" -u ' + user, { maxBuffer: BUFFER_SIZE });
+    }
+
+    static async destructiveChangesAsync(user, destructiveFolder, callback) { 
+        let out = process.execSync('sfdx force:mdapi:deploy --json -d "' + destructiveFolder + '" -u ' + user, { maxBuffer: BUFFER_SIZE });
+        callback.call(this, out);
+    }
+
 }
 module.exports = Process;

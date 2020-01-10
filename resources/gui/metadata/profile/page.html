@@ -1,0 +1,279 @@
+<form>
+    <div class="w3-top">
+        <div class="w3-bar">
+            <div class="w3-container w3-center header w3-border-bottom">
+                <h1 id="profileName"></h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar Start -->
+    <div id="navBar" class="w3-bar-block w3-sidebar" style="margin-top:74px; width:300px; height: 85%; background-color:rgba(0,0,0,0);">
+
+    </div>
+    <!-- Navigation Bar End -->
+    <!-- Page Content Start -->
+    <div class="w3-container" style="margin-left:300px; height: 85%; overflow: scroll; padding-top:  80px; padding-bottom: 80px;">
+        <div id="mainDataContainer" class="w3-container">
+            <div id="mainDataHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="mainDataTitle">Main Data</h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('mainDataBody', 'mainDataCollapseBtn')" id="mainDataCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="mainDataBody" class="w3-container sectionContent w3-hide">
+                <div class="w3-row w3-padding-16">
+                    <div class="w3-third w3-container" id="descriptionColumn">
+                        <label>Description</label>
+                        <input class="w3-input inputText" type="text" placeholder="Description..." id="mainData_Description">
+                    </div>
+                    <div class="w3-third w3-container" id="licenseColumn">
+                        <label>License</label>
+                        <input class="w3-input inputText" readonly placeholder="User License..." type="text" id="mainData_License">
+                    </div>
+                    <div class="w3-third w3-container w3-center" id="customColumn">
+                        <label>Custom</label><br />
+                        <input class="w3-check inputCheckbox" type="checkbox" id="mainData_Custom" disabled>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+        <div id="applicationVisibilitiesContainer" class="w3-container">
+            <div id="applicationVisibilitiesHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="applicationVisibilitiesTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('applicationVisibilitiesBody', 'applicationVisibilitiesCollapseBtn')" id="applicationVisibilitiesCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="applicationVisibilitiesBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <!--<div id="categoryGroupVisibilitiesContainer" class="w3-container">
+            <div id="categoryGroupVisibilitiesHeader" class="w3-container sectionHeader">
+                <h2 id="categoryGroupVisibilitiesTitle"></h2>
+            </div>
+        </div>
+        <br /> -->
+        <div id="classAccessesContainer" class="w3-container">
+            <div id="classAccessesHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="classAccessesTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('classAccessesBody', 'classAccessesCollapseBtn')" id="classAccessesCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="classAccessesBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <div id="customMetadataTypeAccessesContainer" class="w3-container">
+            <div id="customMetadataTypeAccessesHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="customMetadataTypeAccessesTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('customMetadataTypeAccessesBody', 'customMetadataTypeAccessesCollapseBtn')" id="customMetadataTypeAccessesCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="customMetadataTypeAccessesBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <div id="customPermissionsContainer" class="w3-container">
+            <div id="customPermissionsHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="customPermissionsTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('customPermissionsBody', 'customPermissionsCollapseBtn')" id="customPermissionsCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="customPermissionsBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <div id="customSettingAccessesContainer" class="w3-container">
+            <div id="customSettingAccessesHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="customSettingAccessesTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('customSettingAccessesBody', 'customSettingAccessesCollapseBtn')" id="customSettingAccessesCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="customSettingAccessesBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <!-- <div id="externalDataSourceAccessesContainer" class="w3-container">
+            <div id="externalDataSourceAccessesHeader" class="w3-container sectionHeader">
+                <h2 id="externalDataSourceAccessesTitle"></h2>
+            </div>
+        </div>
+        <br /> -->
+        <div id="fieldPermissionsContainer" class="w3-container">
+            <div id="fieldPermissionsHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="fieldPermissionsTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('fieldPermissionsBody', 'fieldPermissionsCollapseBtn')" id="fieldPermissionsCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="fieldPermissionsBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <!-- <div id="fieldLevelSecuritiesContainer" class="w3-container">
+            <div id="fieldLevelSecuritiesHeader" class="w3-container sectionHeader">
+                <h2 id="fieldLevelSecuritiesTitle"></h2>
+            </div>
+        </div>
+        <br /> -->
+        <div id="flowAccessesContainer" class="w3-container">
+            <div id="flowAccessesHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="flowAccessesTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('flowAccessesBody', 'flowAccessesCollapseBtn')" id="flowAccessesCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="flowAccessesBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <div id="layoutAssignmentsContainer" class="w3-container">
+            <div id="layoutAssignmentsHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="layoutAssignmentsTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('layoutAssignmentsBody', 'layoutAssignmentsCollapseBtn')" id="layoutAssignmentsCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="layoutAssignmentsBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <div id="loginHoursContainer" class="w3-container">
+            <div id="loginHoursHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="loginHoursTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('loginHoursBody', 'loginHoursCollapseBtn')" id="loginHoursCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="loginHoursBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <div id="loginIpRangesContainer" class="w3-container">
+            <div id="loginIpRangesHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="loginIpRangesTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('loginIpRangesBody', 'loginIpRangesCollapseBtn')" id="loginIpRangesCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="loginIpRangesBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <div id="objectPermissionsContainer" class="w3-container">
+            <div id="objectPermissionsHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="objectPermissionsTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('objectPermissionsBody', 'objectPermissionsCollapseBtn')" id="objectPermissionsCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="objectPermissionsBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <div id="pageAccessesContainer" class="w3-container">
+            <div id="pageAccessesHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="pageAccessesTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('pageAccessesBody', 'pageAccessesCollapseBtn')" id="pageAccessesCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="pageAccessesBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <!-- <div id="profileActionOverridesContainer" class="w3-container">
+            <div id="profileActionOverridesHeader" class="w3-container sectionHeader">
+                <h2 id="profileActionOverridesTitle"></h2>
+            </div>
+        </div> 
+        <br /> -->
+        <div id="recordTypeVisibilitiesContainer" class="w3-container">
+            <div id="recordTypeVisibilitiesHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="recordTypeVisibilitiesTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('recordTypeVisibilitiesBody', 'recordTypeVisibilitiesCollapseBtn')" id="recordTypeVisibilitiesCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="recordTypeVisibilitiesBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <div id="tabVisibilitiesContainer" class="w3-container">
+            <div id="tabVisibilitiesHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="tabVisibilitiesTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('tabVisibilitiesBody', 'tabVisibilitiesCollapseBtn')" id="tabVisibilitiesCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="tabVisibilitiesBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+        <div id="userPermissionsContainer" class="w3-container">
+            <div id="userPermissionsHeader" class="w3-row sectionHeader">
+                <div class="w3-threequarter">
+                    <h2 id="userPermissionsTitle"></h2>
+                </div>
+                <div class="w3-quarter">
+                    <button onclick="openCloseAccordion('userPermissionsBody', 'userPermissionsCollapseBtn')" id="userPermissionsCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapse">Show</button>
+                </div>
+            </div>
+            <div id="userPermissionsBody" class="w3-container sectionContent w3-hide">
+
+            </div>
+            <br />
+        </div>
+    </div>
+</form>

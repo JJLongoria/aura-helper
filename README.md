@@ -1,42 +1,128 @@
-# Aura Helper
-Extension for Salesforce and Lightning Experience with some tools for make more easy the development work. 
+# Aura Helper Features
+Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation.
 
+From code autocomplete tools, to an advanced graphical interface that allows you to perform more powerful tasks, through formatting Apex code or offering views for file structure. Aura Helper is undoubtedly one of the necessary applications for any Salaesforce developer.
+
+## Code Completion Tools
+Aura Helper offers the user multiple code autocomplete tools to facilitate coding, which can be activated or disabled from the extension settings.
+
+Some of the functions are:
+- Ability to list all objects, custom and standard available in the application. It works in the Apex classes
+- List the fields of the objects, including information such as label, picklist values, length ... It works in both Apex classes and Lightning components
+- Show all application classes, including system classes (System, Database...). It works in the Apex classes
+- Obtain and list the variables and methods of all classes, including system classes. It works in the Apex classes
+- Ability to create class and method comments quickly through a user-defined template
+- Ability to list the above information concatenated (class.method (). Method ()...). It works in both Apex classes and Lightning components
+- List all the standard and custom lightning components of any namespace (lightning, aura...)
+- List attributes not included in calls to lightnig components, both custom and standard of any namespace
+- Suggest the possible values ​​of the attributes of the elements of the lightning components, such as variants, sizes... 
+- Ability to display the functions of the Apex, Javascript or Helper files in the files of any Lightning Bundle
+- Support to facilitate the construction of queries showing the fields of the object indicated in the "from" clause
+- More than 100 code snippets to facilitate the creation of lightning components. For more details see the <a href="#snippetsCollectionSection">Snippets</a> section on Aura Helper's Help
+
+Examples: 
+
+![Code Completion Example 1](https://i.imgur.com/wIQzHi3.gif)
+![Code Completion Example 2](https://i.imgur.com/eiae45B.gif) 
+![Code Completion Example 3](https://i.imgur.com/bXytdW5.gif) 
+![Code Completion Example 4](https://i.imgur.com/TYP5IoY.gif)
+
+## Advance Graphic User Interface
+Another of the main features that Aura Helper implements, is the support of an advanced graphical interface to implement more powerful features that facilitate the maintenance of metadata or serve as support for other tasks.
+
+Through the graphical interface, Aura Helper provides a tool to create <code>package.xml</code> files quickly, both of the local metadata, and of all the metadata of the organization.
+
+Another feature implemented through the interface is the ability to manage metadata files as if it were Salesforce. Add similar validations and behavior, taking into account the context and possibilities offered by VSCode.
+
+Examples: 
+
+![Advance Graphic User Interface Example 1](https://i.imgur.com/9QdVz4m.gif)
+![Advance Graphic User Interface Example 2](https://i.imgur.com/10IL1eI.gif) 
+![Advance Graphic User Interface Example 3](https://i.imgur.com/K74Swpa.gif) 
+
+## Apex Code Formatter
+Due to the lack of code formatters exclusively for Apex and that official salesforce extensions do not implement it, Aura Helper has a tool to format Apex code. We just have to press <code>Alt + Shift + F</code>
+
+Examples:
+
+![Apex Code Formatter Example 1](https://i.imgur.com/I4HruJ5.gif)
+
+## Version Control and Metadata
+To facilitate working with version control applications such as Git, Aura Helper contains several tools to manage metadata files which simplify version control in Salesforce.
+
+Some of the tools are:
+- Possibility of compressing the XML files so that they occupy fewer lines and reorganize the content to facilitate its reading by the user
+- Graphical interface to manage files more simply and without leaving VSCode
+- Possibility of updating the files that are created at runtime during the deployments depending on the content, such as profiles or permission sets, including all system information and without the need to update the other elements
+- Ability to check what elements exist in the environment and not locally, to be able to eliminate them and match the environment with the local content
+- If we want to perform metadata deployments or retrieves, we can use the Package Generator tools and the SFDX Deploy and Retrieve options
+
+Examples: 
+
+![Version Control and Metadata Example 1](https://i.imgur.com/L7kBr8L.gif)
+![Version Control and Metadata Example 2](https://i.imgur.com/QxfiLqI.gif)
+![Version Control and Metadata Example 3](https://i.imgur.com/4QSZUJX.gif)
+
+## Documentation
+To facilitate the tedious documentation task, Aura Helper has tools to automatically generate or facilitate the work of documenting code
+
+The main tools are:
+- Ability to generate comments of classes and Apex methods following the structure of a user-defined template, so that it can be adapted the style of comments to that established in the project.
+- Support to automatically generate all or almost all documentation of the Lightning components <code>(.auradoc)</code>. Using the Javascript comment scheme, and a user-defined template, almost all of the documentation can be generated with a single click
+
+Examples:
+
+![Documentation Example 1](https://i.imgur.com/IPwVJHy.gif)
+![Documentation Example 2](https://i.imgur.com/gMf4Feg.gif) 
+![Documentation Example 3](https://i.imgur.com/SHmaVYH.gif) 
+![Documentation Example 4](https://i.imgur.com/xpAVOFf.gif)
+
+## Help
+Aura Helper includes a navigable help to learn more about all the features contained in the extension and thus make better use and be more productive Command -> AuraHelper: Help
+
+Help are available in English and Spanish.
+
+Examples:
+
+![Help 1](https://i.imgur.com/sPqmwS6.gif)
+
+
+
+<!-- 
 ## Features
 
 The Aura Helper Extension contains some of next features:
 
-### Help
+## Help
     - Run command "Aura Helper: Help" for open a navigable help with more information about the Aura Helper
 
-### Format Code
+## Format Code
     - Format Apex code with Ctrl+Atl+F
 
-### File Structure View
+## File Structure View
     - Added a new view for explore the file structure. You can see al classes, interfaces, components... member and go to it with one click
 
-### Local Metadata Management
-#### Metadata
+## Local Metadata Management
+### Metadata
     - Compress XML Metadata Files for better git management and performance
     - Package Generator (From local or from Org)
 
-#### Profiles
-    - Compress profile files
+### Profiles
     - Manage profile with custom UI on VSCode
     - Retrieve full Profile(s) permissions
 
-#### Permission Sets
-    - Compress permission sets files
+### Permission Sets
     - Manage permission sets with custom UI on VSCode
     - Retrieve full Permission Set(s) permissions
 
-### Commands features
+## Commands features
 Some commands with tools for help in your work. All commands start with "AuraHelper:"
 
-#### Code Completion:
+### Code Completion:
     - Refresh Metadata Index: Refresh the Aura Helper metadata index for support Code Completion tools with sObjects and queries.
     - Refresh Metadata Index for Object: Refresh the Aura metadata index for spececific object.
 
-#### Aura:
+### Aura:
     - Generate Aura Documentation: A simple command for generate a skeleton of aura documentation file for an Aura Component based on user designed templates.
                             If you create JavaScript comments with JavaScript standard scheme, method information will be filled automatically.
     - Add Method Section: Add a method section based on template to documentation file if you need modify it.
@@ -45,46 +131,46 @@ Some commands with tools for help in your work. All commands start with "AuraHel
     - Edit Aura Documentation Template: Command for edit Aura Documentation Template for Aura Components.
     - Edit Apex Comment Template: Command for edit Apex Comment Template for Apex Code.
 
-#### Apex:
+### Apex:
     - Add Apex Comment: Add a class or method comment on your apex code
 
-#### JavaScript:
+### JavaScript:
     - Add Javascript Aura Function: Add an Aura Javascript function block with params number indicated by the user
 
-### Code Completion features
+## Code Completion features
 
     Call components easy, construct components easy, complet code easy, make your work more easy. To many snippets and code completion tools for make your work more productive:
 
-#### Query Support:
+### Query Support:
 both in apex and lightning code (.cmp, .js ...) Aura Helper has support for autocomplete queries with fields and subfields of objects
 
-#### Aura (Lightning):
+### Aura (Lightning):
 
-##### - Get Aura Attributes:
+#### - Get Aura Attributes:
 You can get any component attributes (even the inherited) on .cmp files and .js files
 Only need type: "v." and you can show and use all attributes. If the attribute is a SObject you can get all fields from it like in Apex Code
 
 Also Aura Helper support for list the available types for to much attributes.
 
-##### - Get JavaScript Controller functions:
+#### - Get JavaScript Controller functions:
 You can get any controller functions (even the inherited) on .cmp files
 Only need type: "c." and you can show and use all functions.
 
-##### - Get JavaScript Helper functions:
+#### - Get JavaScript Helper functions:
 You can get any helper functions (even the inherited) on .js files
 Only need type: "helper." and you can show and use all functions.
 
-##### - Get Apex Controller methods:
+#### - Get Apex Controller methods:
 You can get any Apex controller methods (even the inherited) on .js file
 Only need type: "c." and you can show and use all methods.
 If you type "c.{methodName}.params" you get the JSON structure with method parameters
 
-##### - Call Custom Component
+#### - Call Custom Component
 You can get and call all Components, Events or Apps for .cmp files and .js files
 Only need type: "c:" and you can show, use and call Componentes.
 If you type <c:ComponentName You can get all attributes of the component for call it. Only appears not used attributes for easy component constructions.
 
-##### - Aura NS
+#### - Aura NS
     - aura.attribute: Create Aura Attribute (aura:attribute)
     - aura.handler: Create Aura Handler (aura:handler)
     - aura.initHandler: Create Initialization Component Aura Handler (aura:handler)
@@ -100,13 +186,13 @@ If you type <c:ComponentName You can get all attributes of the component for cal
     - aura.if: Create Aura If Code Unit (aura:if)
     - aura.iteration: Create Aura Iteration Code Unit (aura:iteration)
     
-##### - Ltng NS
+#### - Ltng NS
     - ltng.style: Create ltng Required for CSS Style (ltng:require)
     - ltng.script: Create ltng Required for load scripts (ltng:require)
     - ltng.styleAfterLoad: Create ltng Required for CSS Styles  with afterScriptsLoaded attribute (ltng:require)
     - ltng.scriptAfterLoad: Create ltng Required for load scripts with afterScriptsLoaded attribute (ltng:require)
 
-##### - Force NS
+#### - Force NS
     - force.recordView: Create Force Record View Code Unit (force:recordView)
     - force.recordEdit: Create Force Record Edit Code Unit (force:recordEdit)
     - force.recordData: Create Force Record Data Code Unit (force:recordData)
@@ -114,17 +200,17 @@ If you type <c:ComponentName You can get all attributes of the component for cal
     - force.inputField: Create Force Output Field Code Unit (force:inputField)
     - force.canvasApp: Create Force Canvas App Code Unit (force:canvasApp)
 
-##### - Force Chatter NS
+#### - Force Chatter NS
     - forceChatter.feed: Create Force Chatter Feed Code Unit (forceChatter:feed)
     - forceChatter.publisher: Create Force Chatter Publisher Code Unit (forceChatter:publisher)
 
-##### - Force Community NS
+#### - Force Community NS
     - forceCommunity.appLauncher: Create Force Community App Launcher Code Unit (forceCommunity:appLauncher)
     - forceCommunity.notifications: Create Force Community Notifications Code Unit (forceCommunity:notifications)
     - forceCommunity.routeLink: Create Force Community Route Link Code Unit (forceCommunity:routeLink)
     - forceCommunity.waveDashboard: Create Force Community Wave Dashboard Code Unit (forceCommunity:waveDashboard)
 
-##### - Lightning NS
+#### - Lightning NS
     - ltn.accordion: Create Lightning Accordion Code Unit (lightning:accordion).
     - ltn.accordionSection: Create Lightning Accordion Code Unit (lightning:accordionSection). Alternative: ltn.accSection
     - ltn.avatar: Create Lightning Avatar Code Unit (lightning:avatar)
@@ -257,15 +343,15 @@ If you type <c:ComponentName You can get all attributes of the component for cal
     - ltn.verticalNavigationSection: Create Lightning Vertical Navigation Section Code Unit (lightning:verticalNavigationSection)
     - ltn.workspaceAPI: Create Lightning Workspace API Code Unit (lightning:workspaceAPI)
     
-##### - Lightning Community NS
+#### - Lightning Community NS
     - ltnCommunity.backButton: Create Community Back Button Code Unit (lightningcommunity:backButton)
 
-##### - Lightning Snapin NS
+#### - Lightning Snapin NS
     - ltnSnapin.minimizedAPI: Create Lightning Snapin Minimized API Code Unit (lightningsnapin:minimizedAPI)
     - ltnSnapin.prechatAPI: Create Lightning Snapin Prechat API Code Unit (lightningsnapin:prechatAPI)
     - ltnSnapin.settingsAPI: Create Lightning Snapin Settings API Code Unit (lightningsnapin:settingsAPI)
 
-##### - UI NS
+#### - UI NS
     - ui.actionMenuItem: Create UI Action Menu Item Code Unit (ui:actionMenuItem)
     - ui.button: Create UI Button Code Unit (ui:button)
     - ui.checkboxMenuItem: Create UI Checkbox Menu Item Code Unit (ui:checkboxMenuItem)
@@ -307,19 +393,19 @@ If you type <c:ComponentName You can get all attributes of the component for cal
     - ui.radioMenuItem: Create UI Radio Menu Item Code Unit (ui:radioMenuItem)
     - ui.scrollerWrapper: Create UI Scroller Wrapper Code Unit (ui:scrollerWrapper)
 
-##### JavaScript:
+#### JavaScript:
     - aura.controllerFunction: Create a standard controller function
     - aura.function: Create a standard Aura function
     - aura.JSONPretty: Write an instruction for get pretty JSON
     - aura.JSONPrettyConsole: Write an instruction for pretty print JSON in console
     
-##### Apex:
+#### Apex:
     - /** : Add a class or method comment on your apex code
     - Autocompletion support for more than 400 system classes
     - Autocompletion support for SObject
     - Autocompletion support for User Classes
 
-#### SLDS Snippets:
+### SLDS Snippets:
     - slds.modal: Create a base Modal Dialog Code Unit with Salesforce Lightning Design System (SLDS)
     - slds.modalLtn: Create a base Modal Dialog Code Unit with Salesforce Lightning Design System (SLDS) and Lightning elements (Buttons, icon...)
     - slds.modalTagline: Create a base Modal Dialog with Tagline Code Unit with Salesforce Lightning Design System (SLDS)
@@ -332,13 +418,13 @@ If you type <c:ComponentName You can get all attributes of the component for cal
     - slds.modalDirectionalLtn: Create a base Modal Dialog Code Directional Unit with Salesforce Lightning Design System (SLDS) and Lightning elements (Buttons, icon...)
 
 
-### Contextual Menus
+## Contextual Menus
 
-#### Explorer:
+### Explorer:
     - New Aura File: Active when click on .cmp file or Component Bundle Folder.
     - Compress Profile: Compress the profile file (one permission for line) 
 
-### Settings
+## Settings
     - activeAttributeSuggest: Use Code Suggestion and autocompletion tools for component attributes (v.)
     - activeControllerFunctionsSuggest: Use Code Suggestion and autocompletion tools for JavaScript Controller Functions (c.)
     - activeHelperFunctionsSuggest: Use Code Suggestion and autocompletion tools for JavaScript Helper Functions (helper.)
@@ -347,7 +433,7 @@ If you type <c:ComponentName You can get all attributes of the component for cal
     - activeComponentCallSuggest: Use Code Suggestion and autocompletion tools for show available attributes for standard components when are called
     - activeCustomComponentCallSuggest: Use Code Suggestion and autocompletion tools for show available attributes for custom components when are called
     - activeApexCommentSuggestion: Use Code Suggestion and autocompletion tools for create a method or class comment on Apex
-
+ -->
 <!-- \!\[feature X\]\(images/feature-x.png\) 
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
@@ -375,15 +461,15 @@ Calling out known issues can help limit users opening duplicate issues against y
 
 Users appreciate release notes as you update your extension.
 
-### 1.0.0
+## 1.0.0
 
 Initial release of ...
 
-### 1.0.1
+## 1.0.1
 
 Fixed issue #.
 
-### 1.1.0
+## 1.1.0
 
 Added features X, Y, and Z.
 
@@ -397,7 +483,7 @@ Added features X, Y, and Z.
 * Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
 * Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
 
-### For more information
+## For more information
 
 * [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)

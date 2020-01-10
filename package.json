@@ -2,7 +2,7 @@
 	"name": "aura-helper",
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
-	"description": "Salesforce extension for make more powerfull and easy the development work. Work with Apex and Lightning",
+	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. From code autocomplete tools, to an advanced graphical interface that allows you to perform more powerful tasks, through formatting Apex code or offering views for file structure. Aura Helper is undoubtedly one of the necessary applications for any Salaesforce developer.",
 	"version": "1.7.0",
 	"engines": {
 		"vscode": "^1.37.0"
@@ -35,7 +35,9 @@
 		"profile management",
 		"salesforce profile",
 		"metadata management",
-		"local metadata management"
+		"local metadata management",
+		"graphic interface",
+		"compress files"
 	],
 	"activationEvents": [
 		"*"
@@ -126,16 +128,12 @@
 		},
 		"commands": [
 			{
-				"command": "aurahelper.completion.apex.comment.command",
-				"title": "AuraHelper: Add Apex Comment"
-			},
-			{
 				"command": "aurahelper.completion.js.function",
 				"title": "AuraHelper: Add Javascript Aura Function"
 			},
 			{
 				"command": "aurahelper.completion.documentation.method",
-				"title": "AuraHelper: Add Method Block to Documentation"
+				"title": "AuraHelper: Add Method Block to Aura Documentation"
 			},
 			{
 				"command": "aurahelper.template.apex.comment",
@@ -215,11 +213,11 @@
 			},
 			{
 				"command": "aurahelper.metadata.profile.retrieve",
-				"title": "AuraHelper: Retrieve Full Profile"
+				"title": "AuraHelper: Retrieve Full Profile(s)"
 			},
 			{
 				"command": "aurahelper.metadata.permissionset.retrieve",
-				"title": "AuraHelper: Retrieve Full Permission Set"
+				"title": "AuraHelper: Retrieve Full Permission Set(s)"
 			},
 			{
 				"command": "aurahelper.metadata.package.generate",
@@ -300,13 +298,13 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"when": "resource =~ /./profiles/",
 					"command": "aurahelper.metadata.profile.retrieve",
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./profiles/ && resourceExtname == ''",
-					"command": "aurahelper.metadata.profile.retrieve",
+					"when": "resource =~ /./permissionsets/",
+					"command": "aurahelper.metadata.permissionset.retrieve",
 					"group": "auraHelper@1"
 				}
 			],

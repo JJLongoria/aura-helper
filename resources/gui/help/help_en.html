@@ -1,0 +1,947 @@
+<div class="w3-container" style="padding: 0px">
+    <!-- Navigation Bar Start -->
+    <div class="w3-bar-block w3-sidebar" style="width:300px; height: 85%; background-color:rgba(0,0,0,0);">
+        <div class="w3-container" style="padding: 0">
+            <a href="#featureSummary" class="w3-bar-item w3-border-bottom menu" onclick="openCloseAccordion('features')">Features Summary</a>
+            <div id="features" class="w3-hide w3-margin-left">
+                <a href="#codeCompletionFeature" class="w3-bar-item w3-border-bottom w3-small menu">Code Completion</a>
+                <a href="#guiFeature" class="w3-bar-item w3-border-bottom w3-small menu">Advance Graphic User Interface</a>
+                <a href="#codeFormatFeature" class="w3-bar-item w3-border-bottom w3-small menu">Apex Code Formatter</a>
+                <a href="#versionControlAndMetadataFeature" class="w3-bar-item w3-border-bottom w3-small menu">Version Control and Metadata</a>
+                <a href="#documentationFeature" class="w3-bar-item w3-border-bottom w3-small menu">Documentation</a>
+            </div>
+            <a href="#commandSection" class="w3-bar-item w3-border-bottom menu" onclick="openCloseAccordion('commands')">Commands</a>
+            <div id="commands" class="w3-hide w3-margin-left">
+                <!-- Commands Menu Items -->
+                <a href="#addJsFunction" class="w3-bar-item w3-border-bottom w3-small menu">Add Javascript Aura Function</a>
+                <a href="#addMethodBlockCommand" class="w3-bar-item w3-border-bottom w3-small menu">Add Method Block to Aura Documentation</a>
+                <a href="#compressXMLFile" class="w3-bar-item w3-border-bottom w3-small menu">Compress XML File</a>
+                <a href="#compressAllXMLFiles" class="w3-bar-item w3-border-bottom w3-small menu">Compress ALL XML Files</a>
+                <a href="#editApexCommentTemplate" class="w3-bar-item w3-border-bottom w3-small menu">Edit Apex Comment Template</a>
+                <a href="#editAuraDocumentationTemplate" class="w3-bar-item w3-border-bottom w3-small menu">Edit Aura Documentation Template</a>
+                <a href="#genAuraDoc" class="w3-bar-item w3-border-bottom w3-small menu">Generate Aura Documentation</a>
+                <a href="#matchOrgWithLocal" class="w3-bar-item w3-border-bottom w3-small menu">Match Org With Local</a>
+                <a href="#newAuraFile" class="w3-bar-item w3-border-bottom w3-small menu">New Aura File</a>
+                <a href="#refreshMetadataIndex" class="w3-bar-item w3-border-bottom w3-small menu">Refresh Metadata Index</a>
+                <a href="#refreshMetadataIndexForObject" class="w3-bar-item w3-border-bottom w3-small menu">Refresh Metadata Index for Object</a>
+                <a href="#retrieveFullPermissionSet" class="w3-bar-item w3-border-bottom w3-small menu">Retrieve Full Permission Set(s)</a>
+                <a href="#retrieveFullProfile" class="w3-bar-item w3-border-bottom w3-small menu">Retrieve Full Profile(s)</a>
+            </div>
+            <a href="#viewsSection" class="w3-bar-item w3-border-bottom menu" onclick="openCloseAccordion('views')">Views</a>
+            <div id="views" class="w3-hide w3-margin-left">
+                <a href="#fileStructureView" class="w3-bar-item w3-border-bottom w3-small menu">File Structure</a>
+            </div>
+            <a href="#guiSection" class="w3-bar-item w3-border-bottom menu" onclick="openCloseAccordion('gui')">Graphic User Interface</a>
+            <div id="gui" class="w3-hide w3-margin-left">
+                <a href="#openPermissionSetOnUI" class="w3-bar-item w3-border-bottom w3-small menu">Open Permission Set on UI</a>
+                <a href="#openProfileOnUI" class="w3-bar-item w3-border-bottom w3-small menu">Open Profile on UI</a>
+                <a href="#packageGenerator" class="w3-bar-item w3-border-bottom w3-small menu">Package Generator (package.xml)</a>
+            </div>
+            <a href="#commandSection" class="w3-bar-item w3-border-bottom menu" onclick="openCloseAccordion('commands')">Commands</a>
+            <div id="commands" class="w3-hide w3-margin-left">
+                <a href="#addJsFunction" class="w3-bar-item w3-border-bottom w3-small menu">Add Javascript Aura Function</a>
+            </div>
+            <a href="#codeCompletionSection" class="w3-bar-item w3-border-bottom menu" onclick="openCloseAccordion('codeCompletions')">Code Completion Tools</a>
+            <div id="codeCompletions" class="w3-hide w3-margin-left">
+                <a href="#components" class="w3-bar-item w3-border-bottom w3-small menu">Get, call & create Components</a>
+                <a href="#cmpAttributes" class="w3-bar-item w3-border-bottom w3-small menu">Getting Component Attributes</a>
+                <a href="#jsControllerFunctions" class="w3-bar-item w3-border-bottom w3-small menu">Getting JS Controller Functions</a>
+                <a href="#jsHelperFunctions" class="w3-bar-item w3-border-bottom w3-small menu">Getting JS Helper Functions</a>
+                <a href="#apexMethods" class="w3-bar-item w3-border-bottom w3-small menu">Getting Apex Methods on JavaScript</a>
+                <a href="#queriesSupport" class="w3-bar-item w3-border-bottom w3-small menu">Queries Support</a>
+                <a href="#apexCodeSupport" class="w3-bar-item w3-border-bottom w3-small menu">Apex Code Support</a>
+                <!-- <a href="#js" class="w3-bar-item w3-border-bottom w3-small menu">JavaScript Code</a> -->
+            </div>
+            <a href="#templatesSection" class="w3-bar-item w3-border-bottom menu" onclick="openCloseAccordion('templates')">Documentation (Templates)</a>
+            <div id="templates" class="w3-hide w3-margin-left">
+                <a href="#auraDocTemplate" class="w3-bar-item w3-border-bottom w3-small menu">Aura Documentation Template</a>
+                <a href="#apexCommentTemplate" class="w3-bar-item w3-border-bottom w3-small menu">Apex Comment Template</a>
+            </div>
+            <a href="#snippetsCollectionSection" class="w3-bar-item w3-border-bottom menu" onclick="openCloseAccordion('snippetsCollection')">Snippets Collection</a>
+            <div id="snippetsCollection" class="w3-hide w3-margin-left">
+
+            </div>
+        </div>
+    </div>
+    <!-- Navigation Bar End -->
+    <!-- Help Body Start -->
+    <div class="w3-container" style="margin-left:300px; height: 100%; overflow: scroll;">
+        <p>Aura Helper includes a navigable help to learn more about all the features contained in the extension and thus make better use and be more productive</p>
+        <!-- Feature Summary Start -->
+        <div class="w3-container" id="featureSummary">
+            <h2 class="sectionHeader"><b>Features Summary</b></h2>
+            <!-- Code Completion Feature Start -->
+            <div class="w3-container w3-margin-left" id="codeCompletionFeature">
+                <h4 class="subsectionHeader"><b>Code Completion</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        Aura Helper offers the user multiple code autocomplete tools to facilitate coding, which can be activated
+                        or disabled from the extension settings.
+                    </p>
+                    <p>
+                        Some of the functions are:
+                        <ul>
+                            <li class="liElement">Ability to list all objects, custom and standard available in the application. It works in the Apex classes</li>
+                            <li class="liElement">List the fields of the objects, including information such as label, picklist values, length ... It works in both Apex classes and Lightning components</li>
+                            <li class="liElement">Show all application classes, including system classes (System, Database...). It works in the Apex classes</li>
+                            <li class="liElement">Obtain and list the variables and methods of all classes, including system classes. It works in the Apex classes</li>
+                            <li class="liElement">Ability to create class and method comments quickly through a user-defined template</li>
+                            <li class="liElement">Ability to list the above information concatenated (class.method (). Method ()...). It works in both Apex classes and Lightning components</li>
+                            <li class="liElement">List all the standard and custom lightning components of any namespace (lightning, aura...)</li>
+                            <li class="liElement">List attributes not included in calls to lightnig components, both custom and standard of any namespace</li>
+                            <li class="liElement">Suggest the possible values ​​of the attributes of the elements of the lightning components, such as variants, sizes... </li>
+                            <li class="liElement">Ability to display the functions of the Apex, Javascript or Helper files in the files of any Lightning Bundle</li>
+                            <li class="liElement">Support to facilitate the construction of queries showing the fields of the object indicated in the "from" clause</li>
+                            <li class="liElement">More than 100 code snippets to facilitate the creation of lightning components. For more details see the <a href="#snippetsCollectionSection">Snippets</a> section</li>
+
+                        </ul>
+                    </p>
+                    <p>Examples: </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/wIQzHi3.gif" width="480" />
+                        <img src="https://i.imgur.com/eiae45B.gif" width="480" />
+                        <img src="https://i.imgur.com/bXytdW5.gif" width="480" />
+                        <img src="https://i.imgur.com/TYP5IoY.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Code Completion Feature End -->
+            <!-- Advance Graphic User Interface Feature Start -->
+            <div class="w3-container w3-margin-left" id="guiFeature">
+                <h4 class="subsectionHeader"><b>Advance Graphic User Interface</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        Another of the main features that Aura Helper implements, is the support of an advanced graphical interface to implement
+                        more powerful features that facilitate the maintenance of metadata or serve as support for other tasks.
+                    </p>
+                    <p>
+                        Through the graphical interface, Aura Helper provides a tool to create <code>package.xml</code> files quickly,
+                        both of the local metadata, and of all the metadata of the organization.
+                    </p>
+                    <p>
+                        Another feature implemented through the interface is the ability to manage metadata files as if it were Salesforce.
+                        Add similar validations and behavior, taking into account the context and possibilities offered by VSCode.
+                    </p>
+                    <p>Examples: </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/9QdVz4m.gif" width="480" />
+                        <img src="https://i.imgur.com/10IL1eI.gif" width="480" />
+                        <img src="https://i.imgur.com/K74Swpa.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <!-- Advance Graphic User Interface Feature End -->
+            <!-- Apex Code Formatter Feature Start -->
+            <div class="w3-container w3-margin-left" id="codeFormatFeature">
+                <h4 class="subsectionHeader"><b>Apex Code Formatter</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>Due to the lack of code formatters exclusively for Apex and that official salesforce extensions do not implement it, Aura Helper has
+                        A tool to format Apex code. We just have to press <code>Alt + Shift + F</code>
+                    </p>
+                    <p>Examples: </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/I4HruJ5.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <!-- Apex Code Formatter Feature End -->
+            <!-- Apex Code Formatter Feature Start -->
+            <div class="w3-container w3-margin-left" id="versionControlAndMetadataFeature">
+                <h4 class="subsectionHeader"><b>Version Control and Metadata</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        To facilitate working with version control applications such as Git, Aura Helper contains several tools to manage metadata files
+                        which simplify version control in Salesforce.
+                    </p>
+                    <p>
+                        Some of the tools are:
+                        <ul>
+                            <li class="liElement">Possibility of compressing the XML files so that they occupy fewer lines and reorganize the content to facilitate its reading by the user</li>
+                            <li class="liElement">Graphical interface to manage files more simply and without leaving VSCode</li>
+                            <li class="liElement">Possibility of updating the files that are created at runtime during the deployments depending on the content, such as profiles or permission sets, including all system information and without the need to update the other elements</li>
+                            <li class="liElement">Ability to check what elements exist in the environment and not locally, to be able to eliminate them and match the environment with the local content. The user can choose which metadata will be deleted</li>
+                            <li class="liElement">If we want to perform metadata deployments or retrieves, we can use the Package Generator tools and the SFDX Deploy and Retrieve options</li>
+                        </ul>
+                    </p>
+                    <p>Examples: </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/L7kBr8L.gif" width="480" />
+                        <img src="https://i.imgur.com/QxfiLqI.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <!-- Apex Code Formatter Feature End -->
+            <!-- Documentation Feature Start -->
+            <div class="w3-container w3-margin-left" id="documentationFeature">
+                <h4 class="subsectionHeader"><b>Documentation</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        To facilitate the tedious documentation task, Aura Helper has tools to automatically generate or facilitate the work of documenting code
+                    </p>
+                    <p>
+                        The main tools are:
+                        <li class="liElement">
+                            Ability to generate comments of classes and Apex methods following the structure of a user-defined template, so that it can be adapted
+                            the style of comments to that established in the project.
+                        </li>
+                        <li class="liElement">Support to automatically generate all or almost all documentation of the Lightning components <code>(.auradoc)</code>. Using the Javascript comment scheme, and a user-defined template, almost all of the documentation can be generated with a single click</li>
+                    </p>
+                    <p>Examples: </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/IPwVJHy.gif" width="480" />
+                        <img src="https://i.imgur.com/gMf4Feg.gif" width="480" />
+                        <img src="https://i.imgur.com/SHmaVYH.gif" width="480" />
+                        <img src="https://i.imgur.com/xpAVOFf.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <!-- Documentation Feature End -->
+        </div>
+        <!-- Feature Summary End -->
+        <!-- Commands Section Start -->
+        <div class="w3-container" id="commandSection">
+            <h2 class="sectionHeader"><b>Commands</b></h2>
+            <!-- Add Javascript Aura Function Start -->
+            <div class="w3-container w3-margin-left" id="addJsFunction">
+                <h4 class="subsectionHeader"><b>Add Javascript Aura Function</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>This command allows the creation of a block of code that represents a Javascript function in the Aura files that allows you to choose the number of parameters
+                        that will have the function, in this way we can create functions faster.
+                    </p>
+                    <p>To use this feature you must place the mouse in the position of the file where we want to create the function and execute the "Add Javascript Aura Function" command,
+                        We choose the number of parameters we want for the function and that's it.
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/skhLzAY.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Add Javascript Aura Function End -->
+            <!-- Add Method Block to Doc Start -->
+            <div class="w3-container w3-margin-left" id="addMethodBlockCommand">
+                <h4 class="subsectionHeader"><b>Add Method Block to Doc</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>This command allows you to add a new method to the Aura documentation file following the scheme established in the template.
+                        The block will be created at the position of the mouse when executing the command and when executing it will provide us with a list of the methods
+                        available, both from the helper and the controller.
+                    </p>
+                    <p>You can edit the template at any time with the <a href="#editAuraDocumentationTemplate">"Edit Aura Documentation Template"</a> command. To know more about
+                        templates, <a href="#templatesSection">click here</a></p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/7GLP6o5.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Add Method Block to Doc End -->
+            <!-- Compress XML File Start -->
+            <div class="w3-container w3-margin-left" id="compressXMLFile">
+                <h4 class="subsectionHeader"><b>Compress XML File</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>To facilitate file management with version control programs such as GIT, Aura Helper provides a method to compress XML files
+                        of metadata so that it is easier to identify the changes, combine them or discard them. It also reduces the size of the files allowing
+                        more efficient management by Git or the like.
+                    </p>
+                    <p>
+                        To execute this command we have several options.
+                        <ul>
+                            <li class="liElement">Execute the command with an open XML file to compress that file</li>
+                            <li class="liElement">Right click on the open file and execute the command from the context menu</li>
+                            <li class="liElement">Right click on the file in the file explorer and execute the command from the context menu</li>
+                        </ul>
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/L7kBr8L.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Compress XML File End -->
+            <!-- Compress XML File Start -->
+            <div class="w3-container w3-margin-left" id="compressAllXMLFiles">
+                <h4 class="subsectionHeader"><b>Compress All XML Files</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>Just as we can compress a single file, we can compress all the metadata files of the project or a specific folder.</p>
+                    <p>
+                        To execute this command we have several options.
+                        <ul>
+                            <li class="liElement">If we execute the command from the command palette, all the files will be compressed</li>
+                            <li class="liElement">Right click on the root folder of the project and execute the command from the context menu. This will compress all files</li>
+                            <li class="liElement">Right click on a specific folder and execute the command from the context menu. This will compress all the files in that folder, including subfolders</li>
+                        </ul>
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/QxfiLqI.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Compress XML File End -->
+            <!-- Edit Apex Comment Template Start -->
+            <div class="w3-container w3-margin-left" id="editApexCommentTemplate">
+                <h4 class="subsectionHeader"><b>Edit Apex Comment Template</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>The "Edit Apex Comment Template" command allows you to edit the template that will be used to create the comments of the Apex classes and methods.
+                        This template can be edited by the user following the rules indicated in the templates section in order to adapt the project documentation
+                        to the standards set by the user
+                    </p>
+                    <p>To learn more about templates, <a href="#templatesSection">click here</a></p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/gMf4Feg.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Edit Apex Comment Template End -->
+            <!-- Edit Aura Documentation Template Start -->
+            <div class="w3-container w3-margin-left" id="editAuraDocumentationTemplate">
+                <h4 class="subsectionHeader"><b>Edit Aura Documentation Template</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>This command, similar to the command to edit the Apex comment template, allows you to create and edit a template to create the documentation
+                        Lightning components automatically.
+                    </p>
+                    <p>To learn more about templates, <a href="#templatesSection">click here</a></p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/IPwVJHy.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Edit Aura Documentation Template End -->
+            <!-- Generate Aura Documentation Command Start -->
+            <div class="w3-container w3-margin-left" id="genAuraDoc">
+                <h4 class="subsectionHeader"><b>Generate Aura Documentation</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>This command allows you to create the Aura documentation of the lightning components automatically based on the user-defined template
+                        and the basic JavaScript comment scheme
+                    </p>
+                    <p class="w3-margin-left">
+                        <pre>
+                            <code class="darkGrey codeColor">
+                        /**
+                         * functionDescription
+                         * @param {paramType} paramName paramDescription
+                         */
+                            </code>
+                        </pre>
+                    </p>
+                    <p>You can edit the documentation template at any time by running the <a href="#editAuraDocumentationTemplate">"Edit Aura Documentation Template"</a></p>
+                    <p>To learn more about templates, <a href="#templatesSection">click here</a></p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/SHmaVYH.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Generate Aura Documentation Command End -->
+            <!-- Match Org With Local Start -->
+            <div class="w3-container w3-margin-left" id="matchOrgWithLocal">
+                <h4 class="subsectionHeader"><b>Match Org With Local</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        The "Match Org With Local" command compares all the metadata that exists in the local project with the metadata that exists in the application for later
+                        offer the user a view with the metadata that exists in the organization but does not exist locally. The process may take several minutes depending on the connection
+                        Internet and your PC.
+                    </p>
+                    <p>
+                        In the view shown, the user can choose which metadata he wants to delete from the organization to match the environment with the local project and, by clicking on "Delete",
+                        selected metadata will be removed from the organization. This process is much faster than the comparison of data, except for production, where they will run
+                        the test classes, which can lengthen the process.
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/TlK6k7e.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Match Org With Local End -->
+            <!-- New Aura File Start -->
+            <div class="w3-container w3-margin-left" id="newAuraFile">
+                <h4 class="subsectionHeader"><b>New Aura File</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        With this command we can create any file within the Aura package. We can execute it in two ways:
+                        <ul>
+                            <li class="liElement">This command can be executed when an Aura Component file (<code>.cmp</code>) is open in the editor</li>
+                            <li class="liElement">You can right click on the Aura Component file (<code>.cmp</code>) or in the component package folder and select the command in the context menu</li>
+                        </ul>
+                        After executing this command, we will be shown a list to choose the type of file we want to create. Only files that do not exist in the Bundle will appear.
+                    </p>
+                    <p>All files will be created with the default structure, except the documentation file, which will be created with the user-defined template (or the default template)</p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/4QSZUJX.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- New Aura File End -->
+            <!-- Refresh Metadata Index Start -->
+            <div class="w3-container w3-margin-left" id="refreshMetadataIndex">
+                <h4 class="subsectionHeader"><b>Refresh Metadata Index</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>To offer a better code autocomplete experience, Aura Helper has commands to refresh the index of objects and their fields.
+                        To update this index, we must execute this command
+                    </p>
+                    <p>This operation may take several minutes depending on the number of objects in the organization, but it is only necessary to execute it completely once,
+                        since Aura Helper has another command to update the <a href="#refreshMetadataIndexForObject">Index of an Object</a>, being a much faster execution.
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/SjmBKHS.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Refresh Metadata Index End -->
+            <!-- Refresh Metadata Index for Object Start -->
+            <div class="w3-container w3-margin-left" id="refreshMetadataIndexForObject">
+                <h4 class="subsectionHeader"><b>Refresh Metadata Index for Object</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        Just as we can update the index for all the objects in the organization, we can do it for a single object. This operation is significantly more.
+                        Quick than the full index update.
+                    </p>
+                    <p>This operation may take several minutes, depending on the connection speed and the number of objects in the organization.</p>
+                    <p>
+                        To update the complete index, execute the <a href="#refreshMetadataIndex">"Refresh Metadata Index"</a>
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/gR7XqMX.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Refresh Metadata Index for Object End -->
+            <!-- Retrieve Full Permission Set Start -->
+            <div class="w3-container w3-margin-left" id="retrieveFullPermissionSet">
+                <h4 class="subsectionHeader"><b>Retrieve Full Permission Set(s)</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        This command allows you to update the files of permissions sets stored locally with all the permissions, unlike a retrieve
+                        normal, which brings basic information if we include other metadata such as classes, fields, objects...
+                    </p>
+                    <p>
+                        It only affects the permission files and allows the update of one or all the permissions, both those stored locally and all those of the organization.
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/w26CDbQ.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Retrieve Full Permission Set End -->
+            <!-- Retrieve Full Profile Start -->
+            <div class="w3-container w3-margin-left" id="retrieveFullProfile">
+                <h4 class="subsectionHeader"><b>Retrieve Full Profile(s)</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        This command allows updating profile files stored locally with all the permissions, unlike a retrieve
+                        normal, which brings basic information if we include other metadata such as classes, fields, objects...
+                    </p>
+                    <p>
+                        It only affects the profile files and allows the update of one or all profiles, both those stored locally and all those of the organization.
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/549jWaW.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Retrieve Full Profile End -->
+        </div>
+        <!-- Commands Section End -->
+        <!-- Views Section Start -->
+        <div class="w3-container" id="viewsSection">
+            <h2 class="sectionHeader"><b>Views</b></h2>
+            <!-- File Structure View Start -->
+            <div class="w3-container w3-margin-left" id="fileStructureView">
+                <h4 class="subsectionHeader"><b>File Structure</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>Aura Helper provides a view that allows you to quickly identify the structure of methods, fields, classes, labels or elements
+                        of various files both Apex classes, JavaScript files of Aura components or the same components. It also allows to see the structure of
+                        several XML files of Metadata. <br/>
+                        By clicking on any of the items in the list, you will navigate directly to the definition of the pressed item.
+                    </p>
+                    <p>
+                        This view can be activated and deactivated this side view panel from the extension options.
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/hYiR7iP.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- File Structure View End -->
+        </div>
+        <!-- Views Section End -->
+        <!-- Graphic User Interface Section Start -->
+        <div class="w3-container" id="guiSection">
+            <h2 class="sectionHeader"><b>Graphic User Interface</b></h2>
+            <!-- Open Permission Set on UI Start -->
+            <div class="w3-container w3-margin-left" id="openPermissionSetOnUI">
+                <h4 class="subsectionHeader"><b>Open Permission Set on UI</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        Aura Helper includes tools to provide the user with a graphical interface to facilitate the management of Permission Sets. The interface is managed by
+                        similar to salesforce, with similar responses.
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/10IL1eI.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Open Permission Set on UI End -->
+            <!-- Open Profile on UI Start -->
+            <div class="w3-container w3-margin-left" id="openProfileOnUI">
+                <h4 class="subsectionHeader"><b>Open Profile on UI</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        Just as permission sets can be opened in the graphical interface, profiles can be managed in the same way to manage all permissions without leaving VSCode easily.
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/K74Swpa.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Open Profile on UI End -->
+            <!-- Package Generator Start -->
+            <div class="w3-container w3-margin-left" id="packageGenerator">
+                <h4 class="subsectionHeader"><b>Package Generator (package.xml)</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        Aura Helper includes a tool that allows the generation of <code>package.xml</code> files both for downloading and for displaying metadata.
+                    </p>
+                    <p>
+                        It is capable of loading and displaying all types of metadata stored in the local project, as well as displaying all the metadata of the organization.
+                        It also allows you to save the file in the project manifest, or in any other location
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/9QdVz4m.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Package Generator End -->
+        </div>
+        <!-- Graphic User Interface Section End -->
+        <!-- Code Completion Tools Section Start -->
+        <div class="w3-container" id="codeCompletionSection">
+            <h2 class="sectionHeader"><b>Code Completion Tools</b></h2>
+            <p>Aura Helper provides multiple code autocomplete tools for both Apex and Lightning, allowing for easier and more efficient programming. <br />
+                At the same time you have multiple snippets that can be seen more closely in the <a href="#snippetsCollectionSection">Snippets</a> section</p>
+            <!-- Code Completions for Get, Call and Create Components Start -->
+            <div class="w3-container w3-margin-left" id="components">
+                <h4 class="subsectionHeader"><b>Obtener, llamar y crear Componentes</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        One of the code autocomplete tools available to Aura Helper is the ability to obtain, call and build Lightning components, events and applications
+                    </p>
+                    <p>
+                        Ways to use:
+                        <ul>
+                            <li class="liElement">Type <code>c:</code> and press <code>Ctrl + space</code> to get a list of all the components, events and applications of the space named "c"</li>
+                            <li class="liElement">If you type <code>&lt;c:ComponentName</code> and press <code>Ctrl + space</code> you will get a list of all the attributes of the component, appearing only those that are not already added to the component</li>
+                            <li class="liElement">Once the attribute is written, Aura Helper can suggest the possible supported values ​​by pressing <code>Ctrl + space</code></li>
+                            <li class="liElement">To call Standard components (aura, lightning, ui ...), we only have to type <code>&lt;Namespace:ComponentName</code> and press <code>Ctrl + space</code> to get a list of the attributes of the component</li>
+                            <li class="liElement">Multiple snippets are also available to create all kinds of components and their cariants, check the <a href="#snippetsCollectionSection">Snippets</a> section</li>
+                        </ul>
+                    </p>
+                    <p>It works on both <code>.cmp</code> and <code>.js</code> files and can be activated and deactivated from the extension settings</p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/wIQzHi3.gif" width="480" />
+                        <img src="https://i.imgur.com/VQvx4Q9.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Code Completions for Get, Call and Create Components End -->
+            <!-- Code Completions for Getting Component Attributes Start -->
+            <div class="w3-container w3-margin-left" id="cmpAttributes">
+                <h4 class="subsectionHeader"><b>Getting Component Attributes</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>In the same way that you can obtain the attributes of the components to create them quickly, you can obtain these to reference them in the component.
+                        To do this, you must only type <code>v.</code> and press <code>Ctrl + space</code> to get all the attributes. Inheritance attributes will also be obtained.
+                    </p>
+                    <p>
+                        If the attribute is some SObject, you can get a list of its fields, even concatenate them with other fields in case of relationships. <code>v.sObjectType.field.field.field...</code>. To realize the full potential of this function, it is necessary to update the <a href="#refreshMetadataIndex">Object Index</a>
+                    </p>
+                    <p>It works on both <code> .cmp </code> and <code> .js </code> files and can be activated and deactivated from the extension settings</p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/ENohgPG.gif" width="480" />
+                        <img src="https://i.imgur.com/83TagGu.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Code Completions for Getting Component Attributes End -->
+            <!-- Code Completions for Getting JS Controller Functions Start -->
+            <div class="w3-container w3-margin-left" id="jsControllerFunctions">
+                <h4 class="subsectionHeader"><b>Obtener Functiones del Controlador JS</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>Aura Helper also provides other code autocomplete tools that allow you to obtain JavaScript driver methods from the components</p>
+                    <p>To make use of this feature, just type <code>c.</code> and press <code>Ctrl + space</code> to get the names of the functions. This also gets inherited functions.</p>
+                    <p>It works on both <code>.cmp</code> and <code>.js</code> files and can be activated and deactivated from the extension settings</p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/Oqv0Pvj.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Code Completions for Getting JS Controller Functions End -->
+            <!-- Code Completions for Getting JS Helper Functions Start -->
+            <div class="w3-container w3-margin-left" id="jsHelperFunctions">
+                <h4 class="subsectionHeader"><b>Obtener Functiones del Helper JS</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>As with the controller methods, Aura Helper can obtain the helper methods to facilitate coding.</p>
+                    <p>To make use of this feature, you must only type <code>helper.</code> and press <code>Ctrl + space</code> to get the names of the functions. This also gets inherited functions. For ease of use, it is recommended to identify the helper parameter with the name "helper"</p>
+                    <p>It works on both <code>.cmp</code> and <code>.js</code> files and can be activated and deactivated from the extension settings</p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/PkCytf7.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Code Completions for Getting JS Helper Functions End -->
+            <!-- Code Completions for Getting Apex Methods on JavaScript Start -->
+            <div class="w3-container w3-margin-left" id="apexMethods">
+                <h4 class="subsectionHeader"><b>Obtener Métodos Apex en JS</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>As with the controller or helper methods, Aura Helper also has tools to obtain the Apex controller methods.</p>
+                    <p>To do this, just type <code>c.</code> and press <code>Ctrl + space</code> to get the name of the methods. As in the other cases, you also get the inherited functions</p>
+                    <p>It works on both <code>.cmp</code> and <code>.js</code> files and can be activated and deactivated from the extension settings</p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/t8ApUZP.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Code Completions for Getting Apex Methods on JavaScript End -->
+            <!-- Code Completions for Queries Support Start -->
+            <div class="w3-container w3-margin-left" id="queriesSupport">
+                <h4 class="subsectionHeader"><b>Soporte en Consultas</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>Aura Helper also contains tools to help complete the queries allowing to list the fields of the object to be consulted</p>
+                    <p>Once the minimum structure of a query is written, <code>Select Id from [SObject]</code>, we can obtain the fields indicated in the object after the from by pressing <code>Ctrl + space</code> in the projection clause .
+                        This feature works for queries in both lightning components, Javascript files or Apex classes, both for queries between [] and queries between ''</p>
+                    <p>To take full advantage of this feature, you need to update the <a href="#refreshMetadataIndex">Object Index</a></p>
+                    <p>It works on both <code>.cmp</code> and <code>.js</code> and <code>.cls</code> files and can be activated and deactivated from the extension settings</p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/JdaMa06.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Code Completions for Queries Support End -->
+            <!-- Code Completions for Apex Code Start -->
+            <div class="w3-container w3-margin-left" id="apexCodeSupport">
+                <h4 class="subsectionHeader"><b>Soporte para Código Apex</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>Finally, how could it be less, Aura Helper also has multiple tools to autocomplete Apex code</p>
+                    <p>From listing all available objects, Standard or Custom, such as the classes created in the application, their fields, methods, etc. <br />
+                        It also has support for concatenating calls from different types of data or methods such as <code>className.methodName (). FieldName</code>. All operations are done with the information
+                        available in the local project. If you want to work with the latest changes it will be necessary to refresh the project.</p>
+                    <p>Another feature available is the ability to create comments on classes and methods based on a template by typing <code>/**</code></p>
+                    <p>To take full advantage of this feature, you need to update the <a href="#refreshMetadataIndex">Object Index</a></p>
+                    <p>It works in <code>.cls</code> files, can be activated and deactivated from the extension configuration and has support for custom and standard classes and objects</p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/bXytdW5.gif" width="480" />
+                        <img src="https://i.imgur.com/yXla8YK.gif" width="480" />
+                    </p>
+                    <p class="w3-center">
+                        <img src="https://i.imgur.com/eiae45B.gif" width="480" />
+                        <img src="https://i.imgur.com/TYP5IoY.gif" width="480" />
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Code Completions for Apex Code End -->
+        </div>
+        <!-- Code Completion Tools Section End -->
+        <!-- Templates Section Start -->
+        <div class="w3-container" id="templatesSection">
+            <h2 class="sectionHeader"><b>Documentation (Templates)</b></h2>
+            <p>Aura Helper has tools to create different elements based on user-defined templates. All templates used by Aura Helper are JSON format <br />
+                Below is the structure of each template</p>
+            <!-- Aura Documentation Template Start -->
+            <div class="w3-container w3-margin-left" id="auraDocTemplate">
+                <h4 class="subsectionHeader"><b>Aura Documentation Template</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>To facilitate the creation of the Aura component documentation, a template can be defined so that most of the documentation code is generated automatically.
+                        This allows you to create documentation faster and easier.
+                    </p>
+                    <p>The template to create the Aura Documentation automatically has the following structure:</p>
+                    <pre>
+                            <code class="darkGrey codeColor">
+                        {
+                            "documentbody": [
+                                "Line 1 Content",
+                                "Line 2 Content",
+                                "Line 3 Content",
+                                "...",
+                                "Line N Content"
+                            ],
+                            "methodBody": [
+                                "Line 1 Content",
+                                "Line 2 Content",
+                                "Line 3 Content",
+                                "...",
+                                "Line N Content"
+                            ],
+                            "paramBody": [
+                                "Line 1 Content",
+                                "Line 2 Content",
+                                "Line 3 Content",
+                                "...",
+                                "Line N Content"
+                            ]
+                        }
+                            </code>
+                        </pre>
+                    <p>Different <b>Keywords</b> can be used to complete the documentation template.</p>
+                    <ul>
+                        <li class="liElement">
+                            <b>descriptionBody:</b>
+                            <p>Main lines of the body. It is the basic skeleton for the Aura Documentation file. In this section you can use the following <b>Keywords:</b></p>
+                            <ul>
+                                <li class="liElement">{!controllerMethods}</li>
+                                <li class="liElement">{!helperMethods}</li>
+                            </ul>
+                            <p>The rest of <b>Keywords</b> will have no effect on this section of the template</p>
+                        </li>
+                        <li class="liElement">
+                            <b>methodBody:</b>
+                            <p>These lines represent the structure of each method in the documentation. When Aura Helper generates the documentation file, it copies the information of each method with the structure
+                                defined in this template and then replace the <b>Keywords</b> {! controllerMethods} or {! helperMethods} with the generated content.
+                                In this section you can use the following <b>Keywords:</b>
+                            </p>
+                            <ul>
+                                <li class="liElement">{!method.description}</li>
+                                <li class="liElement">{!method.auraSignature}</li>
+                                <li class="liElement">{!method.signature}</li>
+                                <li class="liElement">{!method.name}</li>
+                                <li class="liElement">{!method.params}</li>
+                            </ul>
+                            <p>The rest of <b>Keywords</b> will have no effect on this section of the template</p>
+                        </li>
+                        <li class="liElement">
+                            <b>paramBody:</b>
+                            <p>These lines, finally, represent the structure of each parameter of the methods. As in the "methodBody" section, Aura Helper copies the information of each parameter following this template, and replaces
+                                the <b>Keyword</b> {! method.params} with the generated content. In this section you can use the following <b>Keywords:</b>
+                            </p>
+                            <ul>
+                                <li class="liElement">{!param.description}</li>
+                                <li class="liElement">{!param.name}</li>
+                                <li class="liElement">{!param.type}</li>
+                            </ul>
+                            <p>The rest of <b>Keywords</b> will have no effect on this section of the template</p>
+                        </li>
+                    </ul>
+                    <p>Ejemplo: </p>
+                    <pre>
+                                <code class="darkGrey codeColor">
+        {
+            "documentbody": [
+                "&lt;aura:documentation&gt;",
+                "\t&lt;aura:description&gt;",
+                "\t\t&lt;h6&gt;&lt;b&gt;Short description&lt;/b&gt; of the component&lt;/h6&gt;",
+                "\t\t&lt;p&gt;",
+                "\t\t\tHelper methods:",
+                "\t\t\t&lt;ul&gt;",
+                "\t\t\t\t{!helperMethods}",
+                "\t\t\t&lt;/ul&gt;",
+                "\t\t&lt;/p&gt;\n",
+                "\t&lt;/aura:description&gt;",
+                "\t&lt;aura:example name=\"ExampleName\" ref=\"ExampleComponent\" label=\"ExampleLabel\"&gt;",
+                "\t\t",
+                "\t&lt;/aura:example&gt;",
+                "&lt;/aura:documentation&gt;"
+            ],
+            "methodBody": [
+                "&lt;li&gt;",
+                "\t&lt;b&gt;{!method.signature}: &lt;/b&gt; {!method.description}",
+                "\t&lt;ul&gt;",
+                "\t\t{!method.params}",
+                "\t&lt;/ul&gt;",
+                "&lt;/li&gt;"
+            ],
+            "paramBody": [
+                "&lt;li&gt;&lt;i&gt;{!param.name} ({!param.type}): &lt;/li&gt; {!param.description}"
+            ]
+        }
+                                </code>
+                            </pre>
+                    <p></p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Aura Documentation Template End -->
+            <!-- Apex Comment Template Start -->
+            <div class="w3-container w3-margin-left" id="apexCommentTemplate">
+                <h4 class="subsectionHeader"><b>Apex Comment Template</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>To facilitate the documentation of the Apex classes, Aura Helper also has a template that can be defined by the user to establish a comment scheme, both
+                        for class comments as well as methods.
+                    </p>
+                    <p>The template for creating Apex Comments automatically has the following structure:</p>
+                    <pre>
+                        <code class="darkGrey codeColor">
+                    {
+                        "methodComment": [
+                            "commentBody": [
+                                "Line 1 Content",
+                                "Line 2 Content",
+                                "Line 3 Content",
+                                "...",
+                                "Line N Content"
+                            ],
+                            "paramsBody": "Only One Line",
+                            "returnBody": "Only One Line"
+
+                        ],
+                        "classComment": [
+                            "commentBody": [
+                                "Line 1 Content",
+                                "Line 2 Content",
+                                "Line 3 Content",
+                                "...",
+                                "Line N Content"
+                            ]
+                        ]
+                    }
+                        </code>
+                    </pre>
+                    <p>Different <b>Keywords</b> can be used to complete the documentation template.</p>
+                    <ul>
+                        <li class="liElement">
+                            <b>methodComment:</b>
+                            <p>
+                                Section to create the structure of the comments of the Apex methods:
+                            </p>
+                            <ul>
+                                <li class="liElement">
+                                    <b>commentBody:</b>
+                                    <p>Main lines of the comment. Represents the basic skeleton of the Apex comments for the methods. In this section you can use the following <b>Keywords:</b>
+
+                                    </p>
+                                    <ul>
+                                        <li class="liElement">{!method.description}</li>
+                                        <li class="liElement">{!method.params}</li>
+                                        <li class="liElement">{!method.return}</li>
+                                    </ul>
+                                    <p>The rest of <b>Keywords</b> will have no effect on this section of the template</p>
+                                </li>
+                                <li class="liElement">
+                                    <b>paramBody:</b>
+                                    <p>These lines represent the basic scheme for each parameter of the methods in the comment. When generating the comment, Aura Helper copies the information of each parameter of the methods
+                                        following the defined structure and and replaces the <b> Keyword </b> {! method.params} with the generated content. In this section you can use the following <b>Keywords:</b>
+                                    </p>
+                                    <ul>
+                                        <li class="liElement">{!param.name}</li>
+                                        <li class="liElement">{!param.type}</li>
+                                        <li class="liElement">{!param.description}</li>
+                                    </ul>
+                                    <p>The rest of <b>Keywords</b> will have no effect on this section of the template</p>
+                                </li>
+                                <li class="liElement">
+                                    <b>returnBody:</b>
+                                    <p>The lines defined in this section represent the basic structure of the information returned by the method. As with the parameters, Aura Helper copies the corresponding information
+                                        using the indicated structure and replace the <b> Keyword </b> {! method.return} with the generated content. In this section you can use the following <b>Keywords:</b>
+                                    </p>
+                                    <ul>
+                                        <li class="liElement">{!return.type}</li>
+                                        <li class="liElement">{!return.description}</li>
+                                    </ul>
+                                    <p>The rest of <b>Keywords</b> will have no effect on this section of the template</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="liElement">
+                            <b>classComment:</b>
+                            <p>Section to create the structure of the comments of the Apex classes:</p>
+                            <ul>
+                                <li class="liElement">
+                                    <b>commentBody:</b>
+                                    <p>Main lines of the comment. Represents the basic skeleton of the Apex comments for the methods. In this section you can use the following <b>Keywords:</b></p>
+                                    <ul>
+                                        <li class="liElement">{!class.description}</li>
+                                        <li class="liElement">{!class.name}</li>
+                                    </ul>
+                                    <p>The rest of <b>Keywords</b> will have no effect on this section of the template</p>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Example: </p>
+                    <pre>
+                        <code class="darkGrey codeColor">
+            {
+                "methodComment": {
+                    "paramBody": "## {!param.name} ({!param.type}): {!param.description}",
+                    "returnBody": "@@ Return {!return.type}: {!return.description}",
+                    "commentBody": [
+                        "/**",
+                        " * {!method.description}",
+                        " *",
+                        " * {!method.params}",
+                        " * {!method.return}",
+                        " */"
+                    ]
+                },
+                "classComment": {
+                    "commentBody": [
+                        "/**",
+                        " * {!class.description}",
+                        " *",
+                        " */"
+                    ]
+                }
+            }
+                        </code>
+                    </pre>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Apex Comment Template End -->
+        </div>
+        <!-- Templates Section End -->
+        <!-- Snippets Collection Section Start -->
+        <div class="w3-container" id="snippetsCollectionSection">
+            <h2 class="sectionHeader"><b>Snippets Collection</b></h2>
+            <div id="snippetsContent">
+
+            </div>
+        </div>
+        <!-- Snippets Collection Section End -->
+    </div>
+    <!-- Help Body End -->
+</div>

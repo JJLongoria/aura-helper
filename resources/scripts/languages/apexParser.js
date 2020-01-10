@@ -1141,7 +1141,7 @@ class ApexParser {
         let returnIndexEnd = 0;
         let tokens = Tokenizer.tokenize(content);
         let index = 0;
-        let isClass = content.toLowerCase().indexOf(' class ') !== -1;
+        let isClass = content.toLowerCase().split(' ').includes('class');
         let endLoop = false;
         while (!endLoop) {
             let token = tokens[index];

@@ -89,19 +89,20 @@ function getApexControllerFunctions(componentStructure, position) {
             };
             items.push(item);
         }
+        /*
         if (method.params && method.params.length) {
-            let itemParams = new CompletionItem(method.name + '.params', CompletionItemKind.Variable);
+            let itemParams = new CompletionItem('c.' + method.name + '.params', CompletionItemKind.Variable);
             itemParams.detail = "Get method parameters on json object";
             itemParams.preselect = true;
             itemParams.documentation = "Return JSON Object with method params";
-            itemParams.insertText = method.name + '.params';
+            itemParams.insertText = '';
             itemParams.command = {
                 title: 'Apex Controller Params',
                 command: 'aurahelper.completion.aura',
                 arguments: [position, 'params', method]
             };
             items.push(itemParams);
-        }
+        }*/
     }
     return items;
 }
