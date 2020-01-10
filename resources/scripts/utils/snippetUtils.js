@@ -194,11 +194,11 @@ function getSVGFileSnippet() {
 }
 
 function getControllerHelperFileSnippet(firstMethodName) {
-    let content = "({";
-    if (firstMethodName.indexOf('Controller') !== -1)
-        content += firstMethodName + " : function (component, event, helper) {\n\t\n}";
+    let content = "({\n";
+    if (firstMethodName === 'controllerMethod')
+        content += '\t' + firstMethodName + " : function (component, event, helper) {\n\t\t\n\t}\n";
     else
-        content += firstMethodName + " : function (component) {\n\t\n}";
+        content += '\t' + firstMethodName + " : function (component) {\n\t\t\n\t}\n";
     content += "})";
     return content;
 }
@@ -274,12 +274,12 @@ function getJSApexParamsSnippet(data, lineData) {
     let snippetNum = 2;
     for (const param of data.params) {
         if (data.params.length === 1)
-            content += "\t" + param.name + ": \${" + snippetNum + ":value} // " + param.type + '\n';
+            content += "\t" + param.name + ": \${" + snippetNum + ":value} \n";
         else {
             if (cont === data.params.length - 1)
-                content += "\t" + param.name + ": \${" + snippetNum + ":value} // " + param.type + '\n';
+                content += "\t" + param.name + ": \${" + snippetNum + ":value} \n";
             else
-                content += "\t" + param.name + ": \${" + snippetNum + ":value}, // " + param.type + '\n';
+                content += "\t" + param.name + ": \${" + snippetNum + ":value}, \n";
         }
         snippetNum++;
         cont++;

@@ -1248,7 +1248,7 @@ class CustomObjectUtils {
             xmlLines = xmlLines.concat(CustomObjectUtils.getPicklistXMLLines(nameField.picklist, initIndent + 1));
         if (nameField.summaryFilterItems !== undefined)
             xmlLines = xmlLines.concat(Utils.getXMLBlock('summaryFilterItems', nameField.summaryFilterItems, true, initIndent + 1));
-        xmlLines.push(Utils.getTabs(initIndent) + '<nameField>');
+        xmlLines.push(Utils.getTabs(initIndent) + '</nameField>');
         return xmlLines;
     }
 

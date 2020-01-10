@@ -100,7 +100,7 @@ class ReportTypeUtils {
                 xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('masterLabel', section.masterLabel));
             if (section.columns)
                 xmlLines = xmlLines.concat(Utils.getXMLBlock('columns', section.columns, true, initIndent + 1));
-            xmlLines.push(Utils.getTabs(initIndent) + '<sections>');
+            xmlLines.push(Utils.getTabs(initIndent) + '</sections>');
         }
         return xmlLines;
     }

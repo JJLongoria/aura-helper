@@ -1,0 +1,43 @@
+<form>
+    <!-- METADATA CONTAINER START -->
+    <div class="w3-container" id="metadataContainer" style="display: none; width:80%; height: 600px; margin:auto; padding-top: 10px;">
+        <div class="w3-row-padding">
+            <div class="w3-third">
+                <div class="w3-row">
+                    <div class="w3-col" style="width: 10%;">
+                        <div class="w3-dropdown-hover" style="background-color: #ffffff00;">
+                            <a href="#" class="w3-bar-item"><i class="material-icons md-18 md-light">list</i></a>
+                            <div class="w3-dropdown-content w3-bar-block w3-card" style="background-color: #161616; width: 150px; color: #D4D4D4;">
+                                <a href="#" id="selectAll" class="w3-bar-item menu" style="width: 150px; text-decoration: none;" onclick="selectAll()">All</a>
+                                <a href="#" class="w3-bar-item menu" style="width: 150px; text-decoration: none;" onclick="selectFromPackage()">From Package</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-col" style="width: 90%;">
+                        <div class="w3-center" style="white-space: nowrap; margin: auto;" id="metadataTypesTitle">Metadata Types</div>
+                    </div>
+                </div>
+                <br />
+                <div id="metadataTypesContainer" style="height: 580px; overflow: scroll; border-style: solid; border-width: 2px; border-color: #4747479c;">
+
+                </div><br />
+                <input style="width:90%" id="filterMetadataType" oninput="onChangeMetadataTypeFilter()" onpaste="onChangeMetadataTypeFilter()" onkeypress="onChangeMetadataTypeFilter()" class="w3-input inputText" value="" type="text" placeholder="Filter by Name...">
+            </div>
+            <div class="w3-third">
+                <div class="w3-center" style="white-space: nowrap;" id="metadataObjectsTitle">Objects</div><br />
+                <div id="metadataObjectsContainer" style="height: 580px; overflow: scroll; border-style: solid; border-width: 2px; border-color: #4747479c;">
+
+                </div><br />
+                <input style="width:90%" id="filterMetadataObject" oninput="onChangeMetadataObjectFilter()" onpaste="onChangeMetadataObjectFilter()" onkeypress="onChangeMetadataObjectFilter()" class="w3-input inputText" value="" type="text" placeholder="Filter by Name...">
+            </div>
+            <div class="w3-third">
+                <div class="w3-center" style="white-space: nowrap;" id="metadataItemsTitle">Items</div><br />
+                <div id="metadataItemsContainer" style="height: 580px; overflow: scroll; border-style: solid; border-width: 2px; border-color: #4747479c;">
+
+                </div><br />
+                <input style="width:90%" id="filterMetadataItem" oninput="onChangeMetadataItemFilter()" onpaste="onChangeMetadataItemFilter()" onkeypress="onChangeMetadataItemFilter()" class="w3-input inputText" value="" type="text" placeholder="Filter by Name...">
+            </div>
+        </div>
+    </div>
+    <!-- METADATA CONTAINER END -->
+</form>

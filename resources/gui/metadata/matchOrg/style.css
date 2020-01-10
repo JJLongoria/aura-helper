@@ -1,0 +1,35 @@
+.metadataList {
+    list-style: none;
+    padding: 0;
+    background-color: #1b1b1b00;
+}
+
+.metadataListElement {
+    padding: 5px 10px;
+    border: 1px solid #1b1b1baf;
+    white-space: nowrap;
+    background-color: #1b1b1b00;
+}
+
+.metadataListElement:hover {
+    color: #2391d1;
+    cursor: pointer;
+}
+
+.retrieveDeploy {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #9CDCFE;
+}
+
+.retrieveDeploy:hover {
+    color: #9CDCFE;
+}
+
+.createPackage:hover {
+    color: #4CAF50;
+}
+
+.loadBtn:hover {
+    color: #2391d1;
+}

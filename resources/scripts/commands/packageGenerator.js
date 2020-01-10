@@ -4,43 +4,39 @@ const fileSystem = require('../fileSystem');
 const languages = require('../languages');
 const Config = require('../main/config');
 const Metadata = require('../metadata');
+const GUIEngine = require('../guiEngine');
 const AuraParser = languages.AuraParser;
 const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
 const Paths = fileSystem.Paths;
-const ViewColumn = vscode.ViewColumn;
 const window = vscode.window;
 const MetadataConnection = Metadata.Connection;
 const MetadataFactory = Metadata.Factory;
 const MetadataUtils = Metadata.Utils;
 const PackageGenerator = Metadata.PackageGenerator;
 const ProgressLocation = vscode.ProgressLocation;
+const Engine = GUIEngine.Engine;
+const Routing = GUIEngine.Routing;
 
-let panel;
+let view;
 let downloadedMetadata;
+
+
 
 exports.run = function () {
     try {
-        panel = window.createWebviewPanel('PackageGenerator', 'Package Generator', ViewColumn.One, { enableScripts: true, retainContextWhenHidden: true });
-        panel.webview.html = getPackageGeneratorPage();
-        setTimeout(() => {
-            panel.webview.postMessage({ command: "open" });
-        }, 1500);
-        
-        panel.webview.onDidReceiveMessage(
-            message => {
-                onReceiveMessage(message);
-            },
-            undefined,
-            []
-        );
+        let viewOptions = Engine.getViewOptions();
+        viewOptions.title = 'Package Generator';
+        viewOptions.actions.push(Engine.createButtonAction('createForRetriveBtn', 'Create for Retrieve', ["w3-btn", "w3-border", "w3-border-green", "createPackage"], "createPackage('forRetrieve')"));
+        viewOptions.actions.push(Engine.createButtonAction('createForDeployBtn', 'Create For Deploy', ["w3-btn", "w3-border", "w3-border-green", "createPackage"], "createPackage('forDeploy')"));
+        view = Engine.createView(Routing.PackageGenerator, viewOptions);
+        view.render(function (resolve) {
+            resolve();
+        });
+        view.onReceiveMessage(onReceiveMessage);
     } catch (error) {
         window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
     }
-}
-
-function getPackageGeneratorPage() {
-    return FileReader.readFileSync(Paths.getPackageGeneratorPage());
 }
 
 function onReceiveMessage(message) {
@@ -57,7 +53,6 @@ function onReceiveMessage(message) {
         case 'selectFromPackage':
             selectFromPackage();
             break;
-
         default:
             break;
     }
@@ -72,7 +67,7 @@ function loadMetadata(loadFrom) {
             loadFromFileSystem();
             break;
         default:
-            panel.webview.postMessage({ command: "metadataLoaded", metadata: {} });
+            view.postMessage({ command: "metadataLoaded", metadata: {} });
             break;
     }
 }
@@ -107,7 +102,7 @@ function loadMetadataFromOrg() {
                     function (metadata) {
                         downloadedMetadata = metadata;
                         Logger.output("Metadata Loaded");
-                        panel.webview.postMessage({ command: "metadataLoaded", metadata: downloadedMetadata });
+                        view.postMessage({ command: "metadataLoaded", metadata: downloadedMetadata });
                         Logger.output("Metadata Loaded Succesfully");
                         resolve();
                     }
@@ -127,29 +122,30 @@ function loadFromFileSystem() {
         metadata = MetadataFactory.getMetadataObjectsFromFileSystem(folderMetadataMap);
         Logger.output("Metadata Loaded Succesfully");
     }
-    panel.webview.postMessage({ command: "metadataLoaded", metadata: metadata });
+    view.postMessage({ command: "metadataLoaded", metadata: metadata });
 }
 
 function createPackage(metadata, createFor, saveOn) {
     let version = Config.getOrgVersion();
     let packageContent = PackageGenerator.createPackage(metadata, version, createFor === 'forRetrieve');
-    try { 
+    try {
         if (saveOn === 'saveOnProject') {
             let packagePath = Paths.getManifestPath() + '/package.xml';
             FileWriter.createFileSync(packagePath, packageContent);
-            panel.dispose();
+            view.close();
             window.showInformationMessage("Package created succesfully");
-        } else { 
+        } else {
             window.showOpenDialog({
-                canSelectFiles: false,
-                canSelectFolders: true,
+                canSelectFiles: true,
+                canSelectFolders: false,
                 canSelectMany: false,
                 openLabel: "Save Package",
+                filters: { 'XML files': ['xml'] }
             }).then(function (uri) {
                 if (uri && uri.length > 0) {
                     let packagePath = uri[0].fsPath + '/package.xml';
                     FileWriter.createFileSync(packagePath, packageContent);
-                    panel.dispose();
+                    view.close();
                     window.showInformationMessage("Package created succesfully");
                 }
             });
@@ -164,24 +160,24 @@ function selectFromPackage() {
         canSelectFiles: true,
         canSelectMany: false,
         canSelectFolders: false,
-        filters: {
-            'Package': ['xml']
-        }
+        openLabel: "Open Package",
+        filters: { 'XML files': ['xml'] }
     }).then(function (uri) {
         if (uri && uri.length > 0) {
             try {
                 let packageXML = AuraParser.parseXML(FileReader.readFileSync(uri[0].fsPath));
                 if (packageXML.Package) {
                     let packageProcessed = PackageGenerator.createPackageFromXMLPackage(packageXML);
-                    panel.webview.postMessage({ command: "selectFromPackageOk", package: packageProcessed });
+                    view.postMessage({ command: "selectFromPackageOk", package: packageProcessed });
                 } else {
-                    panel.webview.postMessage({ command: "selectFromPackageError" });
+                    view.postMessage({ command: "selectFromPackageError" });
                     window.showErrorMessage("Please, select a correct package file");
                 }
             } catch (error) {
-                panel.webview.postMessage({ command: "selectFromPackageError" });
+                view.postMessage({ command: "selectFromPackageError" });
                 window.showErrorMessage("Please, select a correct package file");
             }
         }
     });
 }
+

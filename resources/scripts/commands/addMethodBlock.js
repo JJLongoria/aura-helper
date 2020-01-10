@@ -52,13 +52,13 @@ function addMethodBlock(editor) {
 
 function processFileSelected(fileSelected, controller, helper, editor) {
     let funcNames = [];
-    if (fileSelected == "Controller Methods") {
+    if (fileSelected == "Controller Functions") {
         for (let i = 0; i < controller.functions.length; i++) {
             const method = controller.functions[i];
             funcNames.push(method.signature);
         }
     }
-    else if (fileSelected == "Helper Methods") {
+    else if (fileSelected == "Helper Functions") {
         for (let i = 0; i < helper.functions.length; i++) {
             const method = helper.functions[i];
             funcNames.push(method.signature);
@@ -74,10 +74,10 @@ function processFileSelected(fileSelected, controller, helper, editor) {
 function processFunctionSelected(fileSelected, funcSelected, controller, helper, editor) {
     let docTemplateContent = FileReader.readFileSync(Paths.getAuraDocumentUserTemplatePath());
     var methods = [];
-    if (fileSelected == "Controller Methods") {
+    if (fileSelected == "Controller Functions") {
         methods = controller.functions;
     }
-    else if (fileSelected == "Helper Methods") {
+    else if (fileSelected == "Helper Functions") {
         methods = helper.functions;
     }
     for (let i = 0; i < methods.length; i++) {

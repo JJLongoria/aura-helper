@@ -54,11 +54,11 @@ function processJSApexParamsCompletion(position, data, editor) {
     let toReplace = 'c.' + data.name + '.params';
     let lineEditor = editor.document.lineAt(position.line);
     let lineData = JavaScriptParser.analizeForPutApexParams(lineEditor.text);
-    let startPosition = new Position(position.line, lineData.startIndex);
-    let endPosition = new Position(position.line, lineData.startIndex + toReplace.length);
+    let startPosition = new Position(position.line, lineData.startColumn);
+    let endPosition = new Position(position.line, (lineData.startColumn + toReplace.length));
     let content = snippetUtils.getJSApexParamsSnippet(data, lineData);
-    FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), "");
-    editor.insertSnippet(new SnippetString(`${content}`), startPosition);
+    FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), content);
+    //editor.insertSnippet(new SnippetString(`${content}`), startPosition);
 }
 
 function processComponentAttributesCompletion(position, data, editor) {

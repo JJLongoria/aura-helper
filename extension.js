@@ -20,7 +20,7 @@ function activate(context) {
 	// The commandId parameter must match the command field in package.json
 	commands.initialization(context);
 	// prepare and register commands
-	let addApexMethodComment = vscode.commands.registerCommand('aurahelper.completion.apex.comment.command', commands.addApexComment);
+	//let addApexMethodComment = vscode.commands.registerCommand('aurahelper.completion.apex.comment.command', commands.addApexComment);
 	let addJSFunction = vscode.commands.registerCommand('aurahelper.completion.js.function', commands.addJSFunction);
 	let addMethodBlock = vscode.commands.registerCommand('aurahelper.completion.documentation.method', commands.addMethodBlock);
 	let editApexCommentTemplate = vscode.commands.registerCommand('aurahelper.template.apex.comment', commands.editApexCommentTemplate);
@@ -62,7 +62,7 @@ function activate(context) {
 	// context.subscriptions.push(vscode.languages.registerOnTypeFormattingEditProvider('apex', providers.onTypeFormattingProvider, ';', '}'));
 	context.subscriptions.push(genAuraDoc);
 	context.subscriptions.push(addMethodBlock);
-	context.subscriptions.push(addApexMethodComment);
+	//context.subscriptions.push(addApexMethodComment);
 	context.subscriptions.push(addJSFunction);
 	context.subscriptions.push(newAuraFile);
 	context.subscriptions.push(editAuraDocBaseTemplate);

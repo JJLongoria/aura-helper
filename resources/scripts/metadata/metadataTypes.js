@@ -4,6 +4,9 @@ const APEX_PAGE = "ApexPage";
 const APEX_TRIGGER = "ApexTrigger";
 const APPROVAL_PROCESSES = "ApprovalProcess";
 const ASSIGNMENT_RULES = "AssignmentRules";
+const ASSIGNMENT_RULE = "AssignmentRule";
+const AUTORESPONSE_RULES = "AutoResponseRules";
+const AUTORESPONSE_RULE = "AutoResponseRule";
 const BUSINESS_PROCESS = "BusinessProcess";
 const COMPACT_LAYOUT = "CompactLayout";
 const CONNECTED_APP = "ConnectedApp";
@@ -13,25 +16,33 @@ const CUSTOM_FIELDS = "CustomField";
 const CUSTOM_LABEL = "CustomLabel";
 const CUSTOM_LABELS = "CustomLabels";
 const CUSTOM_OBJECT = "CustomObject";
+const CUSTOM_METADATA = "CustomMetadata";
+const DUPLICATE_RULE = "DuplicateRule";
 const CUSTOM_OBJECT_TRANSLATIONS = "CustomObjectTranslation";
 const TAB = "CustomTab";
 const DASHBOARD = "Dashboard";
 const DOCUMENT = "Document";
 const EMAIL_TEMPLATE = "EmailTemplate";
+const ESCALATION_RULES = "EscalationRules";
+const ESCALATION_RULE = "EscalationRule";
 const FLOWS = "Flow";
 const HOME_COMPONENT = "HomePageComponent";
 const HOME_LAYOUT = "HomePageLayout";
 const LAYOUT = "Layout";
 const LISTVIEW = "ListView";
+const MATCHING_RULES = "MatchingRules";
+const MATCHING_RULE = "MatchingRule";
 const PERMISSION_SET = "PermissionSet";
 const PROFILE = "Profile";
 const QUEUE = "Queue";
-const ACTION = "QuickAction";
+const QUICK_ACTION = "QuickAction";
 const RECORD_TYPE = "RecordType";
 const REMOTE_SITE = "RemoteSiteSetting";
 const REPORTS = "Report";
 const ROLE = "Role";
 const SHARING_RULE = "SharingRules";
+const SHARING_CRITERIA_RULE = "SharingCriteriaRule";
+const SHARING_OWNER_RULE = "SharingOwnerRule";
 const STATIC_RESOURCE = "StaticResource";
 const TANSLATION = "Translations";
 const VALIDATION_RULE = "ValidationRule";
@@ -53,6 +64,9 @@ module.exports = {
      APEX_TRIGGER,
      APPROVAL_PROCESSES,
      ASSIGNMENT_RULES,
+     ASSIGNMENT_RULE,
+     AUTORESPONSE_RULES,
+     AUTORESPONSE_RULE,
      BUSINESS_PROCESS,
      COMPACT_LAYOUT,
      CONNECTED_APP,
@@ -63,24 +77,31 @@ module.exports = {
      CUSTOM_LABELS,
      CUSTOM_OBJECT,
      CUSTOM_OBJECT_TRANSLATIONS,
+     CUSTOM_METADATA,
      TAB,
      DASHBOARD,
      DOCUMENT,
      EMAIL_TEMPLATE,
+     ESCALATION_RULES,
+     ESCALATION_RULE,
      FLOWS,
      HOME_COMPONENT,
      HOME_LAYOUT,
      LAYOUT,
      LISTVIEW,
+     MATCHING_RULES,
+     MATCHING_RULE,
      PERMISSION_SET,
      PROFILE,
      QUEUE,
-     ACTION,
+     QUICK_ACTION,
      RECORD_TYPE,
      REMOTE_SITE,
      REPORTS,
      ROLE,
      SHARING_RULE,
+     SHARING_OWNER_RULE,
+     SHARING_CRITERIA_RULE,
      STATIC_RESOURCE,
      TANSLATION,
      VALIDATION_RULE,
@@ -93,5 +114,6 @@ module.exports = {
      WORKFLOW_SEND,
      WORKFLOW_OUTBOUND_MESSAGE,
      WORKFLOW_KNOWLEDGE_PUBLISH,
-     FLOW_DEFINITION
+     FLOW_DEFINITION,
+     DUPLICATE_RULE
 }

@@ -176,7 +176,7 @@ class JavaScriptParser {
             index++;
         }
         return {
-            startColumn: startColumn,
+            startColumn: startColumn - 2,
             close: close,
             complete: complete
         };

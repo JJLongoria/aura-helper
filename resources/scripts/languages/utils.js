@@ -61,10 +61,10 @@ class Utils {
                 let token = lineTokens[index];
                 let lastToken = Utils.getLastToken(lineTokens, index);
                 let nextToken = Utils.getNextToken(lineTokens, index);
-                if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'select') {
+                if (token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'select') {
                     isSelect = true;
                     selectLine = line;
-                } else if ((token.tokenType === TokenType.RBRACKET || token.tokenType === TokenType.SEMICOLON || token.tokenType === TokenType.LBRACKET) && (line != initLine || (line === initLine && index !== lineTokens.length - 1))) {
+                } else if (token && (token.tokenType === TokenType.RBRACKET || token.tokenType === TokenType.SEMICOLON || token.tokenType === TokenType.LBRACKET) && (line != initLine || (line === initLine && index !== lineTokens.length - 1))) {
                     endLoop = true;
                     endInnerLoop = true;
                 }
@@ -164,7 +164,7 @@ class Utils {
 
     static isOnPosition(position, lastToken, token, nextToken) {
         if (position && token.line == position.line) {
-            if (token.relativeStartColumn <= position.character && position.character <= nextToken.relativeStartColumn)
+            if (token.relativeStartColumn <= position.character && nextToken && position.character <= nextToken.relativeStartColumn)
                 return true;
         } else if (position && lastToken && lastToken.line < position.line && nextToken && position.line < nextToken.line) {
             return true;
