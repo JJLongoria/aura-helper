@@ -195,7 +195,7 @@ class Utils {
                 activation = token.content + activation;
             } else if (token && token.tokenType === TokenType.LPAREN && !isOnParams) {
                 endLoop = true;
-            } else if (token && (token.tokenType === TokenType.DOT || token.tokenType === TokenType.IDENTIFIER || isOnParams)) {
+            } else if (token && (token.tokenType === TokenType.DOT || token.tokenType === TokenType.IDENTIFIER || token.tokenType === TokenType.COLON || isOnParams)) {
                 if (!isOnParams) {
                     if (lastToken && lastToken.endColumn != token.startColumn) {
                         endLoop = true;

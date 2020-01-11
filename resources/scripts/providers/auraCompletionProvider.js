@@ -83,7 +83,7 @@ function provideAuraComponentCompletion(document, position) {
                 return Promise.resolve(undefined);
             items = getControllerFunctionsCompletionItems(componentStructure, position, componentTagData);
         }
-    } else if (activationOption1 === 'c:' && activationOption2 !== '<c:') {
+    } else if (activationOption1 === 'c:') {
         if (!config.getConfig().activeComponentSuggest)
             return Promise.resolve(undefined);
         // Code for completions when user types c:
