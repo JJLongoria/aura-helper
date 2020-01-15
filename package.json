@@ -243,6 +243,10 @@
 			{
 				"command": "aurahelper.metadata.customlabels.open",
 				"title": "AuraHelper: Open Custom Labels on UI"
+			},
+			{
+				"command": "test",
+				"title": "AuraHelper: Test Command"
 			}
 		],
 		"languages": [
