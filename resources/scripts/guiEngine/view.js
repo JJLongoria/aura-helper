@@ -30,9 +30,9 @@ class View {
     }
 
     loadContent() {
-        /*let templateContent = FileReader.readFileSync(Paths.getResourcesPath() + '/gui/template/page_v2.html');
-        let mainStyleContent = FileReader.readFileSync(Paths.getResourcesPath() + '/gui/template/style.css');*/
-        /*let pageContent = FileReader.readFileSync(this.page);
+        let templateContent = FileReader.readFileSync(Paths.getResourcesPath() + '/gui/template/page.html');
+        let mainStyleContent = FileReader.readFileSync(Paths.getResourcesPath() + '/gui/template/style.css');
+        let pageContent = FileReader.readFileSync(this.page);
         let controllerContent = (this.controller !== undefined && this.controller.length > 0) ? FileReader.readFileSync(this.controller) : '';
         if (this.options.params !== undefined && this.options.params.length > 0) {
             for (const param of this.options.params) {
@@ -54,17 +54,7 @@ class View {
             this.content = StrUtils.replace(this.content, '{!footer}', footer);
         } else {
             this.content = StrUtils.replace(this.content, '{!footer}', '');
-        }*/
-        let viewData = Factory.createViewData();
-        viewData.template = Paths.getResourcesPath() + '/gui/template/page_v2.html';
-        viewData.style = Paths.getResourcesPath() + '/gui/template/style.css';
-        viewData.controller = Paths.getResourcesPath() + '/gui/template/controller.css';
-        viewData.pageStyle = this.style;
-        viewData.pageContent = this.page;
-        viewData.pageController = this.controller;
-        viewData.actions = this.options.actions;
-        viewData.showActionBar = this.options.showActionBar;
-        let view = Factory.createView(viewData);
+        }
     }
 
     static translate(content, language) {
