@@ -10,6 +10,7 @@ Some of the functions are:
 - Ability to list all objects, custom and standard available in the application. It works in the Apex classes
 - List the fields of the objects, including information such as label, picklist values, length ... It works in both Apex classes and Lightning components
 - Show all application classes, including system classes (System, Database...). It works in the Apex classes
+- Autocomplete support for Custom Labels. It is necessary to have them downloaded in the project. Work in Apex, Lightning and Javascript
 - Obtain and list the variables and methods of all classes, including system classes. It works in the Apex classes
 - Ability to create class and method comments quickly through a user-defined template
 - Ability to list the above information concatenated (class.method (). Method ()...). It works in both Apex classes and Lightning components
@@ -33,6 +34,13 @@ Another of the main features that Aura Helper implements, is the support of an a
 Through the graphical interface, Aura Helper provides a tool to create <code>package.xml</code> files quickly, both of the local metadata, and of all the metadata of the organization.
 
 Another feature implemented through the interface is the ability to manage metadata files as if it were Salesforce. Add similar validations and behavior, taking into account the context and possibilities offered by VSCode.
+
+The currently available Views are:
+- View to view and edit profiles
+- View to view and edit permission sets
+- Package Generator
+- View to view, create and edit Custom Labels
+- Help
 
 Examples: 
 

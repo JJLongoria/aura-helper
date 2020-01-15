@@ -2,8 +2,11 @@ const vscode = require('vscode');
 const Logger = require('../main/logger');
 const StrUtils = require('../utils/strUtils');
 const fileSystem = require('../fileSystem');
+const languages = require('../languages');
+const Config = require('../main/config');
 const FileReader = fileSystem.FileReader;
 const Paths = fileSystem.Paths;
+const AuraParser = languages.AuraParser;
 
 class View {
 
@@ -14,7 +17,6 @@ class View {
         this.style = style;
         this.options = options;
         this.content = '';
-        this.loadContent();
     }
 
     footer() {
@@ -55,7 +57,35 @@ class View {
         }
     }
 
+    static translate(content, language) {
+        if (!language)
+            language = 'en';
+        if (language === 'English')
+            language = 'en';
+        if (language === 'Spanish')
+            language = 'es';
+        language = language + '.json';
+        let languageFolder = Paths.getResourcesPath() + '/gui/languages';
+        let languages = FileReader.readDirSync(languageFolder);
+        let languageFile;
+        for (const lang of languages) {
+            if (language === lang)
+                languageFile = lang;
+        }
+        let languageContent = JSON.parse(FileReader.readFileSync(languageFolder + '/' + languageFile));
+        Object.keys(languageContent).forEach(function (labelKey) {
+            let label = '{!label.' + labelKey + '}';
+            let labelContent = languageContent[labelKey];
+            labelContent = StrUtils.replace(labelContent, "'", "\\'");
+            if (content.indexOf(label) !== -1)
+                content = StrUtils.replace(content, label, labelContent);
+        });
+        return content;
+    }
+
     render(callback) {
+        this.loadContent();
+        this.content = View.translate(this.content, ((this.options.lang && this.options.lang.length > 0) ? this.options.lang : Config.getConfig().defaultGUILanguage));
         let thisPanel = this.panel;
         thisPanel.webview.html = this.content;
         setTimeout(() => {

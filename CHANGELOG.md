@@ -1,5 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [1.8.0 - 2020-XX-XX]
+### Added
+- Autocomplete support for Custom Labels. It is necessary to have them downloaded in the project. Functiona in Apex, Lightning and Javascript
+- Added new GUI on Advance Graphic Interface for manage Custom Labels on VSCode
+- Multilanguage Support for the Advanced Graphic Interface (English and Spanish). Select It from Aura Helper's Configuration
+
+### Fixed
+- Fixed bugs with Apex Method Params autocompletion tool on Javascript code
+
 ## [1.7.0 - 2020-01-10]
 ### Added
 - Compress XML Files for better git management and performance

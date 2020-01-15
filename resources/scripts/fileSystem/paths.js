@@ -63,10 +63,13 @@ class Paths {
         return applicationContext.context.asAbsolutePath("./resources/assets/apex/classes");
     }
     static getSFDXFolderPath() { 
-        return vscode.workspace.rootPath + '/.sfdx';
+        return Paths.getWorkspaceFolder() + '/.sfdx';
     }
     static getManifestPath() { 
-        return vscode.workspace.rootPath + '/manifest';
+        return Paths.getWorkspaceFolder() + '/manifest';
+    }
+    static getWorkspaceFolder() { 
+        return vscode.workspace.workspaceFolders[0].uri.fsPath;
     }
     static getBasename(filePath) {
         return path.basename(filePath);
@@ -81,7 +84,7 @@ class Paths {
         return applicationContext.context.storagePath + "\\" + "download\\metadata\\destructivePackage";
     }
     static getMetadataRootFolder() { 
-        return vscode.workspace.rootPath + '/force-app/main/default';
+        return Paths.getWorkspaceFolder() + '/force-app/main/default';
     }
     static getBundleHelperPath(filePath) {
         return filePath.replace('.cmp', '').replace('.auradoc', '').replace('.svg', '').replace('.css', '').replace('.design', '').replace('.app', '').replace('.app', 'Renderer.js').replace('.app', 'Controller.js') + 'Helper.js';

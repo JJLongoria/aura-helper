@@ -417,10 +417,6 @@ function deleteMetadata() {
     vscode.postMessage({ command: 'delete', model: {metadataOnOrg: metadata, metadataOnLocal: metadataOnLocal }  });
 }
 
-function cancel() { 
-    vscode.postMessage({ command: 'cancel' });
-}
-
 function selectAll() {
     let component = document.getElementById('selectAll');
     let selectAll = (component.innerHTML === 'All') ? true : false;

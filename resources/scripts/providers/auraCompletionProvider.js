@@ -40,16 +40,13 @@ function provideAuraComponentCompletion(document, position) {
     let activationOption2 = line.substring(position.character - 3, position.character);
     let similarAuraSnippetsNs = getSimilarSnippetsNS(applicationContext.auraSnippets, activationTokens[0]);
     let similarSldsSnippetsNs = getSimilarSnippetsNS(applicationContext.sldsSnippets, activationTokens[0]);
-    let similarJSSnippetsNs = getSimilarSnippetsNS(applicationContext.jsSnippets, activationTokens[0]);
     let componentStructure = BundleAnalizer.getComponentStructure(document.fileName);
     let queryData = langUtils.getQueryData(document, position);
     let snippets;
     if (FileChecker.isAuraComponent(document.uri.fsPath) && applicationContext.auraSnippets[activationTokens[0]] && applicationContext.auraSnippets[activationTokens[0]].length > 0) {
         snippets = applicationContext.auraSnippets[activationTokens[0]];
     } else if (FileChecker.isAuraComponent(document.uri.fsPath) && applicationContext.sldsSnippets[activationTokens[0]] && applicationContext.sldsSnippets[activationTokens[0]].length > 0) {
-        snippets = applicationContext.auraSnippets[activationTokens[0]];
-    } else if (FileChecker.isJavaScript(document.uri.fsPath) && applicationContext.jsSnippets[activationTokens[0]] && applicationContext.jsSnippets[activationTokens[0]].length > 0) {
-        snippets = applicationContext.jsSnippets[activationTokens[0]];
+        snippets = applicationContext.sldsSnippets[activationTokens[0]];
     }
     if (queryData) {
         // Code for support completion on queries
@@ -63,9 +60,8 @@ function provideAuraComponentCompletion(document, position) {
     } else if (similarSldsSnippetsNs.length > 0 && FileChecker.isAuraComponent(document.uri.fsPath)) {
         // Code for completions when user types a similar words of snippets activations (sl (slds.) ...)
         items = getSimilarCompletionItems(position, similarSldsSnippetsNs);
-    } else if (similarJSSnippetsNs.length > 0 && FileChecker.isJavaScript(document.uri.fsPath)) {
-        // Code for completions when user types a similar words of snippets activations (au (aura.) ...)
-        items = getSimilarCompletionItems(position, similarJSSnippetsNs);
+    } else if (activationTokens.length > 0 && activationTokens[0].toLowerCase() === 'label') { 
+        items = getLabelsCompletionItems(activationTokens, position);
     } else if ((activationTokens[0] === 'v' || activationTokens[0] === 'c')) {
         if (activationTokens[0] === 'v' && activationTokens.length > 1) {
             // Code for completions when user types v.
@@ -127,6 +123,27 @@ function provideAuraComponentCompletion(document, position) {
         // Code for completions when position is on empty line or withot components
         //items = Utils.provideSObjetsCompletion(document, position, 'aurahelper.completion.aura');
 
+    }
+    return items;
+}
+
+function getLabelsCompletionItems(activationTokens, position) {
+    let items = [];
+    let orgNamespace = config.getOrgNamespace();
+    if (!orgNamespace || orgNamespace.length == 0)
+        orgNamespace = 'c';
+    if (activationTokens.length == 2) {
+        let labels = Utils.getCustomLabels();
+        for (const label of labels) {
+            let doc = 'Name: ' + label.fullName + '\n';
+            doc += 'Value: ' + label.value + '\n';
+            doc += 'Category: ' + label.categories + '\n';
+            doc += 'Language: ' + label.language + '\n';
+            doc += 'Protected: ' + label.protected;
+            let options = Utils.getCompletionItemOptions(label.shortDescription, doc, label.fullName, true, CompletionItemKind.Field);
+            let command = Utils.getCommand('CustomLabelAura', 'aurahelper.completion.aura', [position, 'CustomLabelAura', { label: label, orgNamespace: orgNamespace }]);
+            items.push(Utils.createItemForCompletion(label.fullName, options, command));
+        }
     }
     return items;
 }

@@ -8,6 +8,8 @@ class ProfileUtils {
         if (profile) {
             result = ProfileUtils.createProfile();
             result = Utils.prepareXML(profile, result);
+            if (!result.loginHours)
+                result.loginHours = {};
             if (result.loginHours) {
                 if (!result.loginHours.mondayStart)
                     result.loginHours.mondayStart = -1;

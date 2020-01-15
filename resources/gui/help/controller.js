@@ -70,7 +70,7 @@ function createSnippets(auraSnippets, jsSnippets, sldsSnippets) {
             snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<pre>");
             snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t\t<code class=\"darkGrey codeColor\">");
             for (let bodyLine of snippet.snippet.body) {
-                let line = bodyLine.replace(new RegExp(/</, 'g'), "&lt;").replace(new RegExp(/</, 'g'), "&gt;").replace(new RegExp(/\\/, 'g'), "").replace(new RegExp(/!/, 'g'), "").replace(new RegExp(/{/, 'g'), "").replace(new RegExp(/}/, 'g'), "").replace(new RegExp(/\$/, 'g'), "").replace(new RegExp(/[0-9]:/, 'g'), "");
+                let line = bodyLine.replace(new RegExp(/</, 'g'), "&lt;").replace(new RegExp(/</, 'g'), "&gt;").replace(new RegExp(/\\/, 'g'), "").replace(new RegExp(/!/, 'g'), "").replace(new RegExp(/{/, 'g'), "").replace(new RegExp(/}/, 'g'), "").replace(new RegExp(/\$/, 'g'), "").replace(new RegExp(/[0-9]:/, 'g'), "").replace(new RegExp(/\t/, 'g'), "  ");
                 snippetSectionContent.push(line);
             }
             snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t\t</code>");
@@ -111,7 +111,7 @@ function createSnippets(auraSnippets, jsSnippets, sldsSnippets) {
             snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t<pre>");
             snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t\t<code class=\"darkGrey codeColor\">");
             for (let bodyLine of snippet.snippet.body) {
-                let line = bodyLine.replace(new RegExp(/</, 'g'), "&lt;").replace(new RegExp(/</, 'g'), "&gt;").replace(new RegExp(/\\/, 'g'), "").replace(new RegExp(/!/, 'g'), "").replace(new RegExp(/{/, 'g'), "").replace(new RegExp(/}/, 'g'), "").replace(new RegExp(/\$/, 'g'), "").replace(new RegExp(/[0-9]:/, 'g'), "");
+                let line = bodyLine.replace(new RegExp(/</, 'g'), "&lt;").replace(new RegExp(/</, 'g'), "&gt;").replace(new RegExp(/\\/, 'g'), "").replace(new RegExp(/!/, 'g'), "").replace(new RegExp(/{/, 'g'), "").replace(new RegExp(/}/, 'g'), "").replace(new RegExp(/\$/, 'g'), "").replace(new RegExp(/[0-9]:/, 'g'), "").replace(new RegExp(/\t/, 'g'), "  ");
                 snippetSectionContent.push(line);
             }
             snippetSectionContent.push("\t\t\t\t\t\t\t\t\t\t\t</code>");
@@ -154,7 +154,7 @@ function createSnippets(auraSnippets, jsSnippets, sldsSnippets) {
             let func = false;
             let lineNumber = 0;
             for (let bodyLine of snippet.snippet.body) {
-                let line = bodyLine.replace(new RegExp(/</, 'g'), "&lt;").replace(new RegExp(/</, 'g'), "&gt;").replace(new RegExp(/\\/, 'g'), "").replace(new RegExp(/!/, 'g'), "").replace(new RegExp(/{/, 'g'), "").replace(new RegExp(/}/, 'g'), "").replace(new RegExp(/\$/, 'g'), "").replace(new RegExp(/[0-9]:/, 'g'), "").replace(new RegExp(/[0-9]/, 'g'), "");
+                let line = bodyLine.replace(new RegExp(/</, 'g'), "&lt;").replace(new RegExp(/</, 'g'), "&gt;").replace(new RegExp(/\\/, 'g'), "").replace(new RegExp(/!/, 'g'), "").replace(new RegExp(/{/, 'g'), "").replace(new RegExp(/}/, 'g'), "").replace(new RegExp(/\$/, 'g'), "").replace(new RegExp(/[0-9]:/, 'g'), "").replace(new RegExp(/[0-9]/, 'g'), "").replace(new RegExp(/\t/, 'g'), "  ");
                 if (line.indexOf('function') !== -1) {
                     line = line.replace(')', '){');
                     func = true;

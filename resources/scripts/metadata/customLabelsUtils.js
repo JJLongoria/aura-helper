@@ -35,8 +35,10 @@ class CustomLabelsUtils {
                 xmlLines.push('<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">');
                 if (customLabels.fullName !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('fullName', customLabels.fullName));
-                if (customLabels.labels !== undefined)
+                if (customLabels.labels !== undefined) {
+                    Utils.sort(customLabels.labels, ["fullName"]);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('labels', customLabels.labels, true, 1));
+                }
                 xmlLines.push('</CustomLabels>');
             } else {
                 return AuraParser.toXML(customLabels);

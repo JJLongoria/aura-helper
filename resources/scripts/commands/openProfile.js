@@ -8,8 +8,7 @@ const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
-const ViewColumn = vscode.ViewColumn;
-const window = vscode.window;
+const Window = vscode.window;
 const ProfileUtils = Metadata.ProfileUtils;
 const MetadataUtils = Metadata.Utils;
 const Engine = GUIEngine.Engine;
@@ -22,18 +21,21 @@ exports.run = function (fileUri) {
         if (fileUri) {
             filePath = fileUri.fsPath;
         } else {
-            let editor = window.activeTextEditor;
+            let editor = Window.activeTextEditor;
             if (editor)
                 filePath = editor.document.uri.fsPath;
         }
         let profileName = Paths.getBasename(filePath).replace('.profile-meta.xml', '').replace('.permissionset-meta.xml', '');
         let isPermissionSet = FileChecker.isPermissionSet(filePath);
         let viewOptions = Engine.getViewOptions();
-        viewOptions.title = 'Profile: ' + profileName;
+        if (isPermissionSet)
+            viewOptions.title = profileName;
+        else
+            viewOptions.title = profileName;
         viewOptions.showActionBar = true;
-        viewOptions.actions.push(Engine.createButtonAction('saveBtn', 'Save', ["w3-btn w3-border w3-border-green save"], "save()"));
-        viewOptions.actions.push(Engine.createButtonAction('saveCompressBtn', 'Compress & Save', ["w3-btn w3-border w3-border-light-green saveCompress"], "compressAndSave()"));
-        viewOptions.actions.push(Engine.createButtonAction('cancelBtn', 'Cancel', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
+        viewOptions.actions.push(Engine.createButtonAction('saveBtn', '{!label.save}', ["w3-btn w3-border w3-border-green save"], "save()"));
+        viewOptions.actions.push(Engine.createButtonAction('saveCompressBtn', '{!label.compress_and_save}', ["w3-btn w3-border w3-border-light-green saveCompress"], "compressAndSave()"));
+        viewOptions.actions.push(Engine.createButtonAction('cancelBtn', '{!label.cancel}', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
         view = Engine.createView(Routing.Profile, viewOptions);
         view.render(function (resolve) {
             let storageMetadata = MetadataUtils.getMetadataFromFileSystem();
@@ -64,7 +66,7 @@ exports.run = function (fileUri) {
             }
         });
     } catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        Window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
     }
 }
 

@@ -26,9 +26,10 @@ let downloadedMetadata;
 exports.run = function () {
     try {
         let viewOptions = Engine.getViewOptions();
-        viewOptions.title = 'Package Generator';
-        viewOptions.actions.push(Engine.createButtonAction('createForRetriveBtn', 'Create for Retrieve', ["w3-btn", "w3-border", "w3-border-green", "createPackage"], "createPackage('forRetrieve')"));
-        viewOptions.actions.push(Engine.createButtonAction('createForDeployBtn', 'Create For Deploy', ["w3-btn", "w3-border", "w3-border-green", "createPackage"], "createPackage('forDeploy')"));
+        viewOptions.title = '{!label.package_generator}';
+        viewOptions.actions.push(Engine.createButtonAction('createForRetriveBtn', '{!label.create_for_retrieve}', ["w3-btn", "w3-border", "w3-border-green", "createPackage"], "createPackage('forRetrieve')"));
+        viewOptions.actions.push(Engine.createButtonAction('createForDeployBtn', '{!label.create_for_deploy}', ["w3-btn", "w3-border", "w3-border-green", "createPackage"], "createPackage('forDeploy')"));
+        viewOptions.actions.push(Engine.createButtonAction('cancelBtn', '{!label.cancel}', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
         view = Engine.createView(Routing.PackageGenerator, viewOptions);
         view.render(function (resolve) {
             resolve();
@@ -52,6 +53,9 @@ function onReceiveMessage(message) {
             break;
         case 'selectFromPackage':
             selectFromPackage();
+            break;
+        case 'cancel':
+            view.close();
             break;
         default:
             break;
@@ -132,7 +136,6 @@ function createPackage(metadata, createFor, saveOn) {
         if (saveOn === 'saveOnProject') {
             let packagePath = Paths.getManifestPath() + '/package.xml';
             FileWriter.createFileSync(packagePath, packageContent);
-            view.close();
             window.showInformationMessage("Package created succesfully");
         } else {
             window.showOpenDialog({
@@ -145,7 +148,6 @@ function createPackage(metadata, createFor, saveOn) {
                 if (uri && uri.length > 0) {
                     let packagePath = uri[0].fsPath + '/package.xml';
                     FileWriter.createFileSync(packagePath, packageContent);
-                    view.close();
                     window.showInformationMessage("Package created succesfully");
                 }
             });

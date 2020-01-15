@@ -431,16 +431,16 @@ function createPackage(createFor) {
             if (metadata[key].childs && Object.keys(metadata[key].childs).length > 0) {
                 Object.keys(metadata[key].childs).forEach(function (childKey) {
                     if (metadata[key].childs[childKey].childs && Object.keys(metadata[key].childs[childKey].childs).length > 0) {
-                        if (!anyChecked && isAnyChecked(metadata[key].childs[childKey].childs))
+                        if (isAnyChecked(metadata[key].childs[childKey].childs)  || isAllChecked(metadata[key].childs[childKey].childs))
                             anyChecked = true;
                     } else {
-                        if (!anyChecked && isAnyChecked(metadata[key].childs))
+                        if (isAnyChecked(metadata[key].childs)  || isAllChecked(metadata[key].childs))
                             anyChecked = true;
                     }
                 });
             }
         });
-        if (!anyChecked && isAnyChecked(metadata))
+        if (isAnyChecked(metadata) || isAllChecked(metadata))
             anyChecked = true;
     }
     if (anyChecked)

@@ -13,12 +13,12 @@ function getAuthUsername() {
 }
 
 function getOrgVersion() { 
-    return JSON.parse(FileReader.readFileSync(vscode.workspace.rootPath + '/sfdx-project.json')).sourceApiVersion;
+    return JSON.parse(FileReader.readFileSync(Paths.getWorkspaceFolder() + '/sfdx-project.json')).sourceApiVersion;
 }
 
 function getOrgNamespace() {
     let authUser = getAuthUsername();
-    return JSON.parse(FileReader.readFileSync(vscode.workspace.rootPath + '/.sfdx/orgs/' + authUser + '/metadata/metadataTypes.json')).result.organizationNamespace;
+    return JSON.parse(FileReader.readFileSync(Paths.getWorkspaceFolder() + '/.sfdx/orgs/' + authUser + '/metadata/metadataTypes.json')).result.organizationNamespace;
 }
 
 module.exports = {

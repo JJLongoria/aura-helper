@@ -8,34 +8,47 @@
                         <div class="w3-dropdown-hover" style="background-color: #ffffff00;">
                             <a href="#" class="w3-bar-item"><i class="material-icons md-18 md-light">list</i></a>
                             <div class="w3-dropdown-content w3-bar-block w3-card" style="background-color: #161616; width: 150px; color: #D4D4D4;">
-                                <a href="#" id="selectAll" class="w3-bar-item menu" style="width: 150px; text-decoration: none;" onclick="selectAll()">All</a>
-                                <a href="#" class="w3-bar-item menu" style="width: 150px; text-decoration: none;" onclick="selectFromPackage()">From Package</a>
+                                <a href="#" id="selectAll" class="w3-bar-item menu" style="width: 150px; text-decoration: none;" onclick="selectAll()">{!label.all}</a>
+                                <a href="#" class="w3-bar-item menu" style="width: 150px; text-decoration: none;" onclick="selectFromPackage()">{!label.form_package}</a>
                             </div>
                         </div>
                     </div>
                     <div class="w3-col" style="width: 90%;">
-                        <div class="w3-center" style="white-space: nowrap; margin: auto;" id="metadataTypesTitle">Metadata Types</div>
+                        <div class="w3-center" style="white-space: nowrap; margin: auto;" id="metadataTypesTitle">{!label.metadata_types}</div>
                     </div>
                 </div>
                 <br />
                 <div id="metadataTypesContainer" style="height: 580px; overflow: scroll; border-style: solid; border-width: 2px; border-color: #4747479c;">
 
                 </div><br />
-                <input style="width:90%" id="filterMetadataType" oninput="onChangeMetadataTypeFilter()" onpaste="onChangeMetadataTypeFilter()" onkeypress="onChangeMetadataTypeFilter()" class="w3-input inputText" value="" type="text" placeholder="Filter by Name...">
+                <div class="searchBox">
+                    <input id="filterMetadataType" oninput="onChangeMetadataTypeFilter()" onpaste="onChangeMetadataTypeFilter()" onkeypress="onChangeMetadataTypeFilter()" class="searchInput" value="" type="text" placeholder="{!label.filter_by_name}..."/>
+                    <button class="searchButton" href="#"><i class="material-icons">search</i></button>
+                </div>
             </div>
             <div class="w3-third">
-                <div class="w3-center" style="white-space: nowrap;" id="metadataObjectsTitle">Objects</div><br />
+                <div class="w3-center" style="white-space: nowrap;" id="metadataObjectsTitle">{!label.objects}</div><br />
                 <div id="metadataObjectsContainer" style="height: 580px; overflow: scroll; border-style: solid; border-width: 2px; border-color: #4747479c;">
 
                 </div><br />
-                <input style="width:90%" id="filterMetadataObject" oninput="onChangeMetadataObjectFilter()" onpaste="onChangeMetadataObjectFilter()" onkeypress="onChangeMetadataObjectFilter()" class="w3-input inputText" value="" type="text" placeholder="Filter by Name...">
+                <div class="searchBox">
+                    <input id="filterMetadataObject" oninput="onChangeMetadataObjectFilter()" onpaste="onChangeMetadataObjectFilter()" onkeypress="onChangeMetadataObjectFilter()" class="searchInput" value="" type="text" placeholder="{!label.filter_by_name}..."/>
+                    <button class="searchButton" href="#"><i class="material-icons">search</i></button>
+                </div>
             </div>
             <div class="w3-third">
-                <div class="w3-center" style="white-space: nowrap;" id="metadataItemsTitle">Items</div><br />
-                <div id="metadataItemsContainer" style="height: 580px; overflow: scroll; border-style: solid; border-width: 2px; border-color: #4747479c;">
+                <div class="w3-row">
+                    <div class="w3-center" style="white-space: nowrap;" id="metadataItemsTitle">{!label.items}</div><br />
+                    <div id="metadataItemsContainer" style="height: 580px; overflow: scroll; border-style: solid; border-width: 2px; border-color: #4747479c;">
 
-                </div><br />
-                <input style="width:90%" id="filterMetadataItem" oninput="onChangeMetadataItemFilter()" onpaste="onChangeMetadataItemFilter()" onkeypress="onChangeMetadataItemFilter()" class="w3-input inputText" value="" type="text" placeholder="Filter by Name...">
+                    </div><br />
+                </div>
+                <div class="w3-row">
+                    <div class="searchBox">
+                        <input id="filterMetadataItem" oninput="onChangeMetadataItemFilter()" onpaste="onChangeMetadataItemFilter()" onkeypress="onChangeMetadataItemFilter()" class="searchInput" value="" type="text" placeholder="{!label.filter_by_name}..."/>
+                        <button class="searchButton" href="#"><i class="material-icons">search</i></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -48,10 +61,10 @@
     <div class="w3-container" style="margin-top: 40px;">
         <div class="w3-row-padding" style="width: 620px; margin: auto">
             <div class="w3-half">
-                <button class="w3-btn w3-border w3-border-blue loadBtn" style="margin-left: 10px;" onclick="loadMetadata('fromFS')">Load Metadata From File System</button>
+                <button class="w3-btn w3-border w3-border-blue loadBtn" style="margin-left: 10px;" onclick="loadMetadata('fromFS')">{!label.load_metadata_from_filesystem}</button>
             </div>
             <div class="w3-half">
-                <button class="w3-btn w3-border w3-border-blue loadBtn" onclick="loadMetadata('fromOrg')">Load Metadata From Auth Org</button>
+                <button class="w3-btn w3-border w3-border-blue loadBtn" onclick="loadMetadata('fromOrg')">{!label.load_metadata_from_auth_org}</button>
             </div>
             <br />
             <br />
@@ -59,13 +72,13 @@
             <div class="w3-half">
                 <div class="w3-row-padding">
                     <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="saveOnProjectPackage" type="radio" name="saveOn" value="saveOnProject" checked onclick="onChangeSaveOn('saveOnProjectPackage')"><span class="checkbox-custom"></span></label></div>
-                    <div class="w3-col w3-center" style="width: 90%;">Overwrite Project Package</div>
+                    <div class="w3-col w3-center" style="width: 90%;">{!label.overwrite_project_package}</div>
                 </div>
             </div>
             <div class="w3-half">
                 <div class="w3-row-padding">
                     <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="saveOnCustomFolder" type="radio" name="saveOn" value="saveOnCustom" onclick="onChangeSaveOn('saveOnCustomFolder')"><span class="checkbox-custom"></span></label></div>
-                    <div class="w3-col w3-center" style="width: 90%;">Choose Directory to Save</div>
+                    <div class="w3-col w3-center" style="width: 90%;">{!label.choose_directory_to_save}</div>
                 </div>
             </div>
         </div>

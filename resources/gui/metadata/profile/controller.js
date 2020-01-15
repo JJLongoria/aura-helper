@@ -1,5 +1,5 @@
 var profile;
-var isPermissionSet = '{!isPermissionSet}';
+var isPermissionSet = false;
 // @ts-ignore
 const vscode = acquireVsCodeApi();
 
@@ -62,8 +62,9 @@ function setNavigationContent(profile) {
 }
 
 function setProfileMainData(profile) {
-    // @ts-ignore
-    document.getElementById("mainData_Description").value = profile.description;
+    if (profile.description !== undefined)
+        // @ts-ignore
+        document.getElementById("mainData_Description").value = profile.description;
     if (isPermissionSet) {
         document.getElementById("licenseColumn").style.display = 'none';
         document.getElementById("customColumn").style.display = 'none';
@@ -149,11 +150,11 @@ function setFieldPermissionsData(profile) {
     contentLines.push('\t\t\t\t\t\t\t<div class="w3-container" style="padding-left: 15px;">');
     Object.keys(fieldByObject).forEach(function (key) {
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-row">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col subsectionHeader" style="width: 80%">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col subsectionHeader" onclick="openCloseSection(\'' + key + '_fieldPermisionContainer\', \'' + key + '_fieldPermisionContainerCollapseBtn\')" style="width: 80%; cursor: pointer;">');
         contentLines.push('\t\t\t\t\t\t\t\t\t\t<h4>' + key + '</h4>');
         contentLines.push('\t\t\t\t\t\t\t\t\t</div>');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 20%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t\t<button onclick="openCloseAccordion(\'' + key + '_fieldPermisionContainer\', \'' + key + '_fieldPermisionContainerCollapseBtn\')" id="' + key + '_fieldPermisionContainerCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapseSubSection">Show Fields</button>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 20%; cursor: pointer;">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t\t<div onclick="openCloseSection(\'' + key + '_fieldPermisionContainer\', \'' + key + '_fieldPermisionContainerCollapseBtn\')" style="cursor: pointer; "><i id="' + key + '_fieldPermisionContainerCollapseBtn" class="material-icons md-32 md-light w3-right">expand_more</i></div>');
         contentLines.push('\t\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t</div">');
         contentLines.push('\t\t\t\t\t\t\t\t<div id="' + key + '_fieldPermisionContainer" class="w3-container w3-hide">');
@@ -216,11 +217,11 @@ function setLayoutAssignmentData(profile) {
     contentLines.push('\t\t\t\t\t\t\t<div class="w3-container" style="padding-left: 15px;">');
     Object.keys(layoutsByObject).forEach(function (key) {
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-row">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col subsectionHeader" style="width: 80%">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col subsectionHeader" onclick="openCloseSection(\'' + key + '_layoutAssignmentContainer\', \'' + key + '_layoutAssignmentCollapseBtn\')" style="width: 80%; cursor: pointer;">');
         contentLines.push('\t\t\t\t\t\t\t\t\t\t<h4>' + key + '</h4>');
         contentLines.push('\t\t\t\t\t\t\t\t\t</div>');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 20%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t\t<button onclick="openCloseAccordion(\'' + key + '_layoutAssignmentContainer\', \'' + key + '_layoutAssignmentCollapseBtn\')" id="' + key + '_layoutAssignmentCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapseSubSection">Show Layouts</button>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 20%; cursor: pointer;">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t\t<div onclick="openCloseSection(\'' + key + '_layoutAssignmentContainer\', \'' + key + '_layoutAssignmentCollapseBtn\')"><i id="' + key + '_layoutAssignmentCollapseBtn" class="material-icons md-32 md-light w3-right">expand_more</i></div>');
         contentLines.push('\t\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t</div">');
         contentLines.push('\t\t\t\t\t\t\t\t<div id="' + key + '_layoutAssignmentContainer" class="w3-container w3-hide">');
@@ -256,7 +257,7 @@ function setLoginHoursData(profile) {
             if (!daysProcessed.includes(dayName)) {
                 contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
                 contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
-                contentLines.push('\t\t\t\t\t\t\t\t\t<h5>' + dayName + '</h5>');
+                contentLines.push('\t\t\t\t\t\t\t\t\t' + dayName);
                 contentLines.push('\t\t\t\t\t\t\t\t</div>');
                 contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-third">');
                 contentLines.push(getHoursSelect(key, profile.loginHours[dayName.toLowerCase() + 'Start']));
@@ -284,7 +285,7 @@ function setLoginIpRangesData(profile) {
         index++;
     }
     contentLines.push('\t\t\t\t\t\t\t<div class="w3-row w3-left">');
-    contentLines.push('\t\t\t\t\t\t\t<button onclick="addLoginIpRange()" style="margin-top:12px" class="w3-btn w3-right add">Add IP Range</button>');
+    contentLines.push('\t\t\t\t\t\t\t<button onclick="addLoginIpRange()" style="margin-top:12px" class="w3-btn w3-right add">{!label.add_ip_range}</button>');
     contentLines.push('\t\t\t\t\t\t\t</div>');
     document.getElementById("loginIpRangesBody").innerHTML = contentLines.join('\n');
 }
@@ -332,11 +333,11 @@ function setRecordTypeVisibilitiesData(profile) {
     contentLines.push('\t\t\t\t\t\t\t<div class="w3-container" style="padding-left: 15px;">');
     Object.keys(recordtypesByObject).forEach(function (key) {
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-row">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col subsectionHeader" style="width: 80%">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col subsectionHeader" onclick="openCloseSection(\'' + key + '_recordtypeVisibilityContainer\', \'' + key + '_recordtypeVisibilityCollapseBtn\')" style="width: 80%; cursor: pointer;">');
         contentLines.push('\t\t\t\t\t\t\t\t\t\t<h4>' + key + '</h4>');
         contentLines.push('\t\t\t\t\t\t\t\t\t</div>');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 20%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t\t<button onclick="openCloseAccordion(\'' + key + '_recordtypeVisibilityContainer\', \'' + key + '_recordtypeVisibilityCollapseBtn\')" id="' + key + '_recordtypeVisibilityCollapseBtn" style="margin-top:12px" class="w3-btn w3-right w3-tiny collapseSubSection">Show Record Types</button>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 20%; cursor: pointer;">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t\t<div onclick="openCloseSection(\'' + key + '_recordtypeVisibilityContainer\', \'' + key + '_recordtypeVisibilityCollapseBtn\')"><i id="' + key + '_recordtypeVisibilityCollapseBtn" class="material-icons md-32 md-light w3-right">expand_more</i></div>');
         contentLines.push('\t\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t</div">');
         contentLines.push('\t\t\t\t\t\t\t\t<div id="' + key + '_recordtypeVisibilityContainer" class="w3-container w3-hide">');
@@ -378,7 +379,7 @@ function getAppVisibilitySectionElement(appVisibility) {
     if (appVisibility) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:70%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + appVisibility.application + '" type="text" placeholder="Application Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + appVisibility.application);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
         if (appVisibility.visible)
@@ -396,13 +397,13 @@ function getAppVisibilitySectionElement(appVisibility) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:70%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>App Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.app_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Visible</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.visible}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Default</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.default}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -414,7 +415,7 @@ function getClassAccessSectionElement(classAccess) {
     if (classAccess) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + classAccess.apexClass + '" type="text" placeholder="Class Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + classAccess.apexClass);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
         if (classAccess.enabled)
@@ -426,10 +427,10 @@ function getClassAccessSectionElement(classAccess) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Class Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.class_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Enabled</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.enabled}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -441,7 +442,7 @@ function getCustomMetadataAccessSectionElement(customMetadataAccess) {
     if (customMetadataAccess) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + customMetadataAccess.name + '" type="text" placeholder="Custom Metadata Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + customMetadataAccess.name);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
         if (customMetadataAccess.enabled)
@@ -453,10 +454,10 @@ function getCustomMetadataAccessSectionElement(customMetadataAccess) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Custom Metadata Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.custom_metadata_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Enabled</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.enabled}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -468,7 +469,7 @@ function getCustomPermissionSectionElement(customPermission) {
     if (customPermission) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + customPermission.name + '" type="text" placeholder="Permission Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + customPermission.name);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
         if (customPermission.enabled)
@@ -480,10 +481,10 @@ function getCustomPermissionSectionElement(customPermission) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Permission Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.permission_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Enabled</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.enabled}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -495,7 +496,7 @@ function getCustomSettingAccessSectionElement(customSettingAccess) {
     if (customSettingAccess) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + customSettingAccess.name + '" type="text" placeholder="Custom Setting Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + customSettingAccess.name);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
         if (customSettingAccess.enabled)
@@ -507,10 +508,10 @@ function getCustomSettingAccessSectionElement(customSettingAccess) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Custom Setting Object Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.custom_setting_object_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Enabled</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.enabled}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -522,7 +523,7 @@ function getFieldPermissionsSectionElement(obj, field) {
     if (field) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:70%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + field.name + '" type="text" placeholder="Field Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + field.name);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
         if (field.readable)
@@ -540,13 +541,13 @@ function getFieldPermissionsSectionElement(obj, field) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:70%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Field Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.field_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Readable</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.readable}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Editable</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.editable}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -558,7 +559,7 @@ function getFlowAccessesSectionElement(flowAccess) {
     if (flowAccess) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + flowAccess.flow + '" type="text" placeholder="Flow Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + flowAccess.flow);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
         if (flowAccess.enabled)
@@ -570,10 +571,10 @@ function getFlowAccessesSectionElement(flowAccess) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Flow Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.flow_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Enabled</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.enabled}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -585,7 +586,7 @@ function getLayoutAssignmentSectionElement(obj, layoutAssignment, recordtypes) {
     if (layoutAssignment) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:70%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + layoutAssignment.name + '" type="text" placeholder="Layout Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + layoutAssignment.name);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:30%">');
         contentLines.push(getRecordTypesSelect(obj, layoutAssignment, recordtypes));
@@ -594,10 +595,10 @@ function getLayoutAssignmentSectionElement(obj, layoutAssignment, recordtypes) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:70%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Layout Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.layout_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:30%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Assigned Record Type</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.assigned_record_type}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -609,13 +610,13 @@ function getLoginIpRangeSectionElement(index, loginIpRange) {
     if (loginIpRange) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 30%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" id="ip_startAddress_' + index + '" class="w3-input inputText" value="' + loginIpRange.startAddress + '" type="text" placeholder="Start Address...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" id="ip_startAddress_' + index + '" class="w3-input inputText" value="' + loginIpRange.startAddress + '" type="text" placeholder="{!label.start_address}...">');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 30%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" id="ip_endAddress_' + index + '" class="w3-input inputText" value="' + loginIpRange.endAddress + '" type="text" placeholder="End Address...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" id="ip_endAddress_' + index + '" class="w3-input inputText" value="' + loginIpRange.endAddress + '" type="text" placeholder="{!label.end_address}...">');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 30%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" id="ip_description_' + index + '" class="w3-input inputText" value="' + loginIpRange.description + '" type="text" placeholder="Description...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" id="ip_description_' + index + '" class="w3-input inputText" value="' + loginIpRange.description + '" type="text" placeholder="{!label.description}...">');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width: 10%">');
         contentLines.push('\t\t\t\t\t\t\t\t\t<a class="material-icons" style="margin-top:12px; width:5px; cursor: pointer;" onclick="deleteLoginIpRange(' + index + ')">delete</a></button>');
@@ -624,16 +625,16 @@ function getLoginIpRangeSectionElement(index, loginIpRange) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 30%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Start Address</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.start_address}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 30%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>End Address</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.end_address}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 30%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Description</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.description}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width: 10%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Actions</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.actions}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -645,7 +646,7 @@ function getObjectPermissionSectionElement(objectPermission) {
     if (objectPermission) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:40%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + objectPermission.object + '" type="text" placeholder="Object Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + objectPermission.object);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:10%">');
         if (objectPermission.allowRead)
@@ -687,25 +688,25 @@ function getObjectPermissionSectionElement(objectPermission) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:40%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Object Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.object_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:10%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Allow Read</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.allow_read}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:10%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Allow Create</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.allow_create}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:10%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Allow Edit</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.allow_edit}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:10%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Allow Delete</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.allow_delete}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:10%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>View All Records</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.view_all_records}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:10%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Modify All Records</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.modify_all_records}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -717,7 +718,7 @@ function getPageAccessSectionElement(pageAccess) {
     if (pageAccess) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + pageAccess.apexPage + '" type="text" placeholder="Class Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + pageAccess.apexPage);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
         if (pageAccess.enabled)
@@ -729,10 +730,10 @@ function getPageAccessSectionElement(pageAccess) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Class Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.page_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Enabled</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.enabled}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -744,7 +745,7 @@ function getRecordTypeVisibilitySectionElement(obj, recordtypeVisibility) {
     if (recordtypeVisibility) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:70%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + recordtypeVisibility.name + '" type="text" placeholder="Field Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + recordtypeVisibility.name);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
         if (recordtypeVisibility.visible)
@@ -762,13 +763,13 @@ function getRecordTypeVisibilitySectionElement(obj, recordtypeVisibility) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:70%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Record Type Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.record_Type_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Visible</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.visible}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Default</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.default}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -780,7 +781,7 @@ function getTabVisibilitySectionElement(tabVisibility) {
     if (tabVisibility) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + tabVisibility.tab + '" type="text" placeholder="Tab Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + tabVisibility.tab);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:15%">');
         contentLines.push(getTabVisibilitySelect(tabVisibility.tab, tabVisibility.visibility));
@@ -789,10 +790,10 @@ function getTabVisibilitySectionElement(tabVisibility) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Tab Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.tab_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Visibility</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.visibility}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -804,7 +805,7 @@ function getUserPermissionSectionElement(userPermission) {
     if (userPermission) {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row sectionRow">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<input style="width:90%" class="w3-input inputText" readonly value="' + userPermission.name + '" type="text" placeholder="User Permission Name...">');
+        contentLines.push('\t\t\t\t\t\t\t\t\t' + userPermission.name);
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
         if (userPermission.enabled)
@@ -816,10 +817,10 @@ function getUserPermissionSectionElement(userPermission) {
     } else {
         contentLines.push('\t\t\t\t\t\t\t<div class="w3-row">');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col" style="width:85%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>User Permission Name</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.user_permission_name}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-col w3-center" style="width:15%">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>Enabled</h5>');
+        contentLines.push('\t\t\t\t\t\t\t\t\t<h5>{!label.enabled}</h5>');
         contentLines.push('\t\t\t\t\t\t\t\t</div>');
         contentLines.push('\t\t\t\t\t\t\t</div>');
     }
@@ -1119,29 +1120,15 @@ function onSelectRecordType(obj, layoutName, recordtype) {
     }
 }
 
-function openCloseAccordion(id, btnId) {
+function openCloseSection(id, btnId) {
     var x = document.getElementById(id);
-    let btn = document.getElementById(btnId);
-    if (btn.innerHTML === 'Show' || btn.innerHTML === 'Show Fields' || btn.innerHTML === 'Show Record Types' || btn.innerHTML === 'Show Layouts') {
+    let icon = document.getElementById(btnId);
+    if (icon.innerHTML === 'expand_more') {
         x.className = x.className.replace(" w3-hide", " w3-show");
-        if (btn.innerHTML === 'Show')
-            btn.innerHTML = 'Collapse';
-        if (btn.innerHTML === 'Show Fields')
-            btn.innerHTML = 'Hide Fields';
-        if (btn.innerHTML === 'Show Record Types')
-            btn.innerHTML = 'Hide Record Types';
-        if (btn.innerHTML === 'Show Layouts')
-            btn.innerHTML = 'Hide Layouts';
-    } else if (btn.innerHTML === 'Collapse' || btn.innerHTML === 'Hide Fields' || btn.innerHTML === 'Hide Record Types' || btn.innerHTML === 'Hide Layouts') {
+        icon.innerHTML = 'expand_less';
+    } else if (icon.innerHTML === 'expand_less') {
         x.className = x.className.replace(" w3-show", " w3-hide");
-        if (btn.innerHTML === 'Collapse')
-            btn.innerHTML = 'Show';
-        if (btn.innerHTML === 'Hide Fields')
-            btn.innerHTML = 'Show Fields';
-        if (btn.innerHTML === 'Hide Record Types')
-            btn.innerHTML = 'Show Record Types';
-        if (btn.innerHTML === 'Hide Layouts')
-            btn.innerHTML = 'Show Layouts';
+        icon.innerHTML = 'expand_more';
     }
 }
 
@@ -1196,31 +1183,27 @@ function compressAndSave() {
     vscode.postMessage({ command: 'compressAndSave', profile: profile });
 }
 
-function cancel() {
-    vscode.postMessage({ command: 'cancel' });
-}
-
 function getProfileSectionName(profileSection) {
     let profileSectionNames = {
-        applicationVisibilities: "Application Visibilities",
-        categoryGroupVisibilities: "Category Group Visibilities",
-        classAccesses: "Class Accesses",
-        customMetadataTypeAccesses: "Custom Metadata Type Accesses",
-        customPermissions: "Custom Permissions",
-        customSettingAccesses: "Custom Setting Accesses",
-        externalDataSourceAccesses: "External Data Source Accesses",
-        fieldPermissions: "Field Permissions",
-        fieldLevelSecurities: "Field Level Security",
-        flowAccesses: "Flow Accesses",
-        layoutAssignments: "Layout Assignments",
-        loginHours: "Login Hours",
-        loginIpRanges: "Login IP Ranges",
-        objectPermissions: "Object Permissions",
-        pageAccesses: "Page Accesses",
-        profileActionOverrides: "Profile Action Overrides",
-        recordTypeVisibilities: "Record Type Visibilities",
-        tabVisibilities: "Tab Visibilities",
-        userPermissions: "User Permissions"
+        applicationVisibilities: "{!label.application_visibilities}",
+        categoryGroupVisibilities: "{!label.category_group_visibilities}",
+        classAccesses: "{!label.class_accesses}",
+        customMetadataTypeAccesses: "{!label.custom_metadata_type_accesses}",
+        customPermissions: "{!label.custom_permissions}",
+        customSettingAccesses: "{!label.custom_setting_accesses}",
+        externalDataSourceAccesses: "{!label.external_data_source_accesses}",
+        fieldPermissions: "{!label.field_permissions}",
+        fieldLevelSecurities: "{!label.field_level_securities}",
+        flowAccesses: "{!label.flow_accesses}",
+        layoutAssignments: "{!label.layout_assignments}",
+        loginHours: "{!label.login_hours}",
+        loginIpRanges: "{!label.login_ip_ranges}",
+        objectPermissions: "{!label.object_permissions}",
+        pageAccesses: "{!label.page_accesses}",
+        profileActionOverrides: "{!label.profile_action_overrides}",
+        recordTypeVisibilities: "{!label.record_type_visibilities}",
+        tabVisibilities: "{!label.tab_visibilities}",
+        userPermissions: "{!label.user_permissions}"
     };
     return profileSectionNames[profileSection];
 }

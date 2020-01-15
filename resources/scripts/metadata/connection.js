@@ -28,7 +28,7 @@ class Connection {
 
     static async getAllMetadataFromOrg(user, orgNamespace, progressCallback, finishCallback) {
         let metadataObjectsData = Connection.getMetadataObjectsListFromOrg(user);
-        let metadata = Connection.getMetadataFromOrg(user, metadataObjectsData, orgNamespace, progressCallback);
+        let metadata = Connection.getMetadataFromOrg(user, metadataObjectsData, orgNamespace);
         if (finishCallback)
             finishCallback.call(this, metadata);
     }
@@ -63,24 +63,15 @@ class Connection {
         return metadataObjects;
     }
 
-    static getMetadataFromOrg(user, metadataObjects, orgNamespace, progress, cancelToken) {
+    static getMetadataFromOrg(user, metadataObjects, orgNamespace) {
         let metadata = {};
         let counter = 1;
         for (const metadataObject of metadataObjects) {
-            if (progress)
-                progress.report({ message: "Downloading " + metadataObject.xmlName + " (" + counter + "/)" });
             let metadataType = Connection.getMetadataObjectsFromOrg(user, metadataObject.xmlName, orgNamespace);
             if (metadataType) {
                 metadata[metadataObject.xmlName] = metadataType;
-                if (progress)
-                    progress.report({ message: "Downloading " + metadataObject.xmlName + " (" + counter + "/" + metadataObjects.length + ")", increment: (counter / metadataObjects.length) });
             }
             counter++;
-            if (cancelToken) {
-                cancelToken.onCancellationRequested(function (event) {
-                    abort = true;
-                });
-            }
             if (abort) {
                 abort = false;
                 return metadata;
