@@ -68,7 +68,7 @@ class Utils {
                     endLoop = true;
                     endInnerLoop = true;
                 }
-                if (isSelect && (line === selectLine || line === selectLine - 1) && (token.tokenType === TokenType.LSQBRACKET || token.tokenType === TokenType.SQUOTTE || token.tokenType === TokenType.QUOTTE)) {
+                if (isSelect && (line === selectLine || line === selectLine - 1) && token && (token.tokenType === TokenType.LSQBRACKET || token.tokenType === TokenType.SQUOTTE || token.tokenType === TokenType.QUOTTE)) {
                     startQueryLine = line;
                     startQueryIndex = index;
                     startQueryColumn = token.relativeStartColumn;
@@ -103,14 +103,14 @@ class Utils {
                     let token = lineTokens[index];
                     let lastToken = Utils.getLastToken(lineTokens, index);
                     let nextToken = Utils.getNextToken(lineTokens, index);
-                    if (token.tokenType === TokenType.RSQBRACKET || ((token.tokenType === TokenType.SQUOTTE || token.tokenType === TokenType.QUOTTE) && lastToken && lastToken.tokenType !== TokenType.BACKSLASH)) {
+                    if (token && (token.tokenType === TokenType.RSQBRACKET || ((token.tokenType === TokenType.SQUOTTE || token.tokenType === TokenType.QUOTTE) && lastToken && lastToken.tokenType !== TokenType.BACKSLASH))) {
                         endLoop = true;
                         endQueryLine = line;
                         endQueryIndex = token.index;
                         endQueryColumn = token.relativeStartColumn;
                     }
                     if (!endLoop) {
-                        if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "from") {
+                        if (token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "from") {
                             from = nextToken.content;
                             if (field && field.length > 0)
                                 queryFields.push(field);
@@ -126,7 +126,7 @@ class Utils {
                                 field += token.content;
                             }
                         }
-                        if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "select") {
+                        if (token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === "select") {
                             startFields = true;
                         }
                     }
