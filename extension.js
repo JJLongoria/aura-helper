@@ -38,6 +38,7 @@ function activate(context) {
 	let retrieveFullPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.retrieve', commands.retrieveFullProfile);
 	let packageGenerator = vscode.commands.registerCommand('aurahelper.metadata.package.generate', commands.packageGenerator);
 	let matchOrgWithLocal = vscode.commands.registerCommand('aurahelper.metadata.org.match', commands.matchOrgWithLocal);
+	let openCustomLabelsGUI = vscode.commands.registerCommand('aurahelper.metadata.customlabels.open', commands.openCustomLabelsGUI);
 
 	vscode.commands.registerCommand('aurahelper.completion.apex', commands.apexCodeCompletion);
 	vscode.commands.registerCommand('aurahelper.completion.aura', commands.auraCodeCompletion);
@@ -78,6 +79,7 @@ function activate(context) {
 	context.subscriptions.push(retrieveFullPermissionSet);
 	context.subscriptions.push(packageGenerator);
 	context.subscriptions.push(matchOrgWithLocal);
+	context.subscriptions.push(openCustomLabelsGUI);
 }
 exports.activate = activate;
 

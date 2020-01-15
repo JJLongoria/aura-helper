@@ -1,0 +1,82 @@
+<form>
+    <div class="w3-bar">
+        <div class="w3-bar-item" style="width: 500px;">
+            <div class="searchBox">
+                <input id="searchCustomLabel" oninput="onSearchCustomLabel()" onpaste="onSearchCustomLabel()" onkeypress="onSearchCustomLabel()" class="searchInput" type="text" name="" placeholder="{!label.filter}">
+                <button class="searchButton" href="#"><i class="material-icons">search</i></button>
+            </div>
+        </div>
+        <div class="w3-bar-item w3-right" style="width: 350px;">
+            <div class="w3-right">
+                <label>{!label.category}</label>
+                <select onchange="onChangeCategory()" id="selectCategories" style="width: 70%" class="w3-select w3-input inputText">
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="customLabelsContent" class="w3-container" style="width: 100%; overflow:scroll">
+
+    </div>
+    <div id="labelModal" class="w3-modal modal" style="display: none;">
+        <div id="labelModalBody" class="w3-modal-content w3-card-4 w3-animate-opacity">
+            <header class="w3-container modalHeader">
+                <h2 id="labelModalTitle">Modal Header</h2>
+            </header>
+            <div id="labelModalContent" class="w3-container modalContent">
+                <div class="w3-row w3-padding-16">
+                    <div class="w3-col">
+                        <label>{!label.name}</label>
+                        <input required class="w3-input inputText" type="text" placeholder="{!label.name}..." id="labelNameInput" />
+                    </div>
+                </div>
+                <div class="w3-row w3-padding-16">
+                    <div class="w3-col">
+                        <label>{!label.description}</label>
+                        <textarea required class="w3-input inputText" type="text" placeholder="{!label.description}..." id="labelDescriptionInput"></textarea>
+                    </div>
+                </div>
+                <div class="w3-row w3-padding-16">
+                    <div class="w3-col">
+                        <label>{!label.value}</label>
+                        <textarea required class="w3-input inputText" type="text" placeholder="{!label.value}..." id="labelValueInput"></textarea>
+                    </div>
+                </div>
+                <div class="w3-row w3-padding-16">
+                    <div class="w3-col">
+                        <div id="newLabelCategoryContent" style="display:none">
+                            <label>{!label.category}</label>
+                            <input class="w3-input inputText" type="text" placeholder="{!label.category}..." id="labelCategoryInput" />
+                        </div>
+                        <div id="existingLabelCategoryContent">
+                            <label>{!label.category}</label>
+                            <select id="labelCategoryInputSelect" style="width: 70%" class="w3-select w3-input inputText">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row w3-right">
+                    <div class="w3-col">
+                        <label>{!label.new_category}</label>
+                        <input id="onClickNewCategoryInput" class="w3-check inputCheckbox" type="checkbox" onclick="onClickNewCategory()" />
+                    </div>
+                </div>
+                <div class="w3-row w3-padding-16">
+                    <div class="w3-col">
+                        <label>{!label.language}</label>
+                        <select id="labelLanguageInputSelect" style="width: 70%" class="w3-select w3-input inputText">
+
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <br />
+            </div>
+            <footer class="w3-container modalFooter w3-bar" style="height: 50px; padding-top:7px">
+                <button id="cancelBtn" style="margin-left: 10px;" class="w3-btn w3-border w3-border-red cancel w3-right" onclick="closeLabelModal()">{!label.cancel}</button>
+                <button id="saveLabelBtn" class="w3-btn w3-border w3-border-green save w3-right" onclick="save()">{!label.save}</button>
+            </footer>
+        </div>
+    </div>
+</form>

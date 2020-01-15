@@ -18,6 +18,11 @@ const Routing = {
         name: "Match Org Metadata With Local",
         type: "MatchOrg",
         path: "/gui/metadata/matchOrg"
+    },
+    CustomLabels: {
+        name: "Custom Labels",
+        type: "CustomLabels",
+        path: "/gui/metadata/customLabels"
     }
 };
 module.exports = Routing;

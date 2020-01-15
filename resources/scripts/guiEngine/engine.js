@@ -41,17 +41,14 @@ class Engine {
         let page = '';
         for (const file of files) {
             if (file.endsWith('.html')) {
-                if (options.lang == undefined)
-                    page = mainPath + '/' + file;
-                else if (file.indexOf('_' + options.lang) !== -1)
-                    page = mainPath + '/' + file;
+                page = mainPath + '/' + file;
             } else if (file.endsWith('.css')) {
                 style = mainPath + '/' + file;
             } else if (file.endsWith('.js')) {
                 controller = mainPath + '/' + file;
             }
         }
-        let panel = Window.createWebviewPanel(route.type, options.title, ViewColumn.One, {
+        let panel = Window.createWebviewPanel(route.type, View.translate(options.title, options.lang), ViewColumn.One, {
             enableScripts: options.enableScripts,
             retainContextWhenHidden: options.retainContextWhenHidden,
         });

@@ -2,10 +2,13 @@ const fileSystem = require('../fileSystem');
 const logger = require('../main/logger');
 const Utils = require('./utils').Utils;
 const languages = require('../languages');
+const vscode = require('vscode');
 const FileChecker = fileSystem.FileChecker;
 const FileReader = fileSystem.FileReader;
 const langUtils = languages.Utils;
 const ApexParser = languages.ApexParser;
+const CompletionItemKind = vscode.CompletionItemKind;
+
 exports.provider = {
     provideCompletionItems(document, position) {
         let items;
@@ -31,10 +34,30 @@ function provideApexCompletion(document, position) {
         let sObjects = Utils.getObjectsFromMetadataIndex();
         if (queryData) {
             items = Utils.getQueryCompletionItems(activationTokens, queryData, position, 'aurahelper.completion.apex');
+        } else if (activationTokens.length > 0 && activationTokens[0].toLowerCase() === 'label') {
+            items = getLabelsCompletionItems(activationTokens, position);
         } else if (activationTokens.length > 1) {
             items = Utils.getApexCompletionItems(document, position, activationTokens, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects);
         } else {
             items = Utils.getAllAvailableCompletionItems(position, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects);
+        }
+    }
+    return items;
+}
+
+function getLabelsCompletionItems(activationTokens, position) {
+    let items = [];
+    if (activationTokens.length == 2) {
+        let labels = Utils.getCustomLabels();
+        for (const label of labels) {
+            let doc = 'Name: ' + label.fullName + '\n';
+            doc += 'Value: ' + label.value + '\n';
+            doc += 'Category: ' + label.categories + '\n';
+            doc += 'Language: ' + label.language + '\n';
+            doc += 'Protected: ' + label.protected;
+            let options = Utils.getCompletionItemOptions(label.shortDescription, doc, label.fullName, true, CompletionItemKind.Field);
+            let command = Utils.getCommand('CustomLabel', 'aurahelper.completion.apex', [position, 'CustomLabel', label.fullName]);
+            items.push(Utils.createItemForCompletion(label.fullName, options, command));
         }
     }
     return items;

@@ -123,6 +123,19 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for Apex Code (variables, fields, methods...)"
+				},
+				"aurahelper.defaultGUILanguage": {
+					"type": "string",
+					"default": "English",
+					"description": "Select the default language for the Aura Helper's Advance User Interface",
+					"enum": [
+						"English",
+						"Spanish"
+					],
+					"enumDescriptions": [
+						"Open English GUI by default",
+						"Open Spanish GUI by default"
+					]
 				}
 			}
 		},
@@ -226,6 +239,10 @@
 			{
 				"command": "aurahelper.metadata.org.match",
 				"title": "AuraHelper: Match Org with Local"
+			},
+			{
+				"command": "aurahelper.metadata.customlabels.open",
+				"title": "AuraHelper: Open Custom Labels on UI"
 			}
 		],
 		"languages": [

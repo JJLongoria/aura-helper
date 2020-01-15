@@ -35,13 +35,13 @@ exports.run = function () {
                 if (metadataObjects) {
                     let folderMetadataMap = MetadataUtils.createFolderMetadataMap(metadataObjects);
                     let metadataFromFileSystem = MetadataFactory.getMetadataObjectsFromFileSystem(folderMetadataMap);
-                    let metadataFromOrg = MetadataConnection.getMetadataFromOrg(user, metadataObjects, orgNamespace, progress, token);
+                    let metadataFromOrg = MetadataConnection.getMetadataFromOrg(user, metadataObjects, orgNamespace);
                     let metadataToMatch = getMetadataForMatchOrgAndLocal(metadataFromFileSystem, metadataFromOrg);
                     let viewOptions = Engine.getViewOptions();
                     viewOptions.title = 'Match Org Metadata with Local';
                     viewOptions.showActionBar = true;
-                    viewOptions.actions.push(Engine.createButtonAction('deleteBtn', 'Delete', ["w3-btn w3-border w3-border-light-green save"], "deleteMetadata()"));
-                    viewOptions.actions.push(Engine.createButtonAction('cancelBtn', 'Cancel', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
+                    viewOptions.actions.push(Engine.createButtonAction('deleteBtn', '{!label.delete}', ["w3-btn w3-border w3-border-light-green save"], "deleteMetadata()"));
+                    viewOptions.actions.push(Engine.createButtonAction('cancelBtn', '{!label.cancel}', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
                     view = Engine.createView(Routing.MatchOrg, viewOptions);
                     view.render(function (resolve) {
                         resolve(metadataToMatch, undefined);

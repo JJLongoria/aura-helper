@@ -201,7 +201,31 @@ class AuraParser {
             if (token.tokenType === TokenType.RBRACKET && token.startColumn <= position.character) {
                 openBracket = false;
             }
-            if (token.content === 'v' && nextToken && nextToken.tokenType === TokenType.DOT)
+            if (token.content.toLowerCase() === 'v' && nextToken && nextToken.tokenType === TokenType.DOT)
+                startColumn = token.startColumn;
+            index++;
+        }
+        return {
+            openBracket: openBracket,
+            startColumn: startColumn
+        };
+    }
+
+    static parseForPutLabels(content, position) {
+        let tokens = Tokenizer.tokenize(content);
+        let index = 0;
+        let openBracket = false;
+        let startColumn = 0;
+        while (index < tokens.length) {
+            let token = tokens[index];
+            let nextToken = utils.getNextToken(tokens, index);
+            if (token.tokenType === TokenType.LBRACKET && token.startColumn <= position.character) {
+                openBracket = true;
+            }
+            if (token.tokenType === TokenType.RBRACKET && token.startColumn <= position.character) {
+                openBracket = false;
+            }
+            if (token.content.toLowerCase() === 'label' && nextToken && nextToken.tokenType === TokenType.DOT)
                 startColumn = token.startColumn;
             index++;
         }

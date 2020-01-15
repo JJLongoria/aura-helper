@@ -14,6 +14,7 @@ const TokenType = language.TokenType;
 const BundleAnalizer = language.BundleAnalizer;
 const langUtils = language.Utils;
 const ApexParser = language.ApexParser;
+const AuraParser = language.AuraParser;
 
 class Utils {
 
@@ -205,6 +206,10 @@ class Utils {
                 } else {
                     activation = token.content + activation;
                 }
+            } else if (!isOnParams && token && (token.tokenType === TokenType.COMMA || token.tokenType === TokenType.QUOTTE || token.tokenType === TokenType.SQUOTTE) && activation.length > 0) {
+                endLoop = true;
+            } else if (token.tokenType == TokenType.LBRACKET) { 
+                endLoop = true;
             }
             tokenPos--
             if (tokenPos < 0)
@@ -787,7 +792,7 @@ class Utils {
         if (options && options.insertText)
             item.insertText = options.insertText;
         if (command)
-            item.command = options.command;
+            item.command = command;
         return item;
     }
 
@@ -844,6 +849,21 @@ class Utils {
             }
         }
         return items;
+    }
+
+    static getCustomLabels() {
+        let labels = [];
+        let labelsFile = Paths.getMetadataRootFolder() + '/labels/CustomLabels.labels-meta.xml';
+        if (FileChecker.isExists(labelsFile)) {
+            let root = AuraParser.parseXML(FileReader.readFileSync(labelsFile));
+            if (root.CustomLabels) {
+                if (Array.isArray(root.CustomLabels.labels))
+                    labels = root.CustomLabels.labels;
+                else
+                    labels.push(root.CustomLabels.labels);
+            }
+        }
+        return labels;
     }
 }
 exports.Utils = Utils;

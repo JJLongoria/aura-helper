@@ -11,7 +11,7 @@ const SnippetString = vscode.SnippetString;
 const JavaScriptParser = languages.JavaScriptParser;
 const AuraParser = languages.AuraParser;
 
-exports.run = function(position, selected, data, componentTagData) {
+exports.run = function (position, selected, data, componentTagData) {
     try {
         var editor = window.activeTextEditor;
         if (!editor)
@@ -28,14 +28,42 @@ function processAuraCodeCompletion(position, selected, data, componentTagData) {
         processJSApexParamsCompletion(position, data, editor);
     } else if (selected === 'attribute') {
         processComponentAttributesCompletion(position, data, editor);
-    } else if(selected === "snippet"){
+    } else if (selected === "snippet") {
         processSnippetsCompletion(position, data, editor);
+    } else if (selected === "CustomLabelJS") {
+        processCustomLabelCompletionInJS(position, data, editor);
+    }  else if (selected === "CustomLabelAura") {
+        processCustomLabelCompletionInAura(position, data, editor);
     }
 }
 
-function processSnippetsCompletion(position, data, editor){
+function processCustomLabelCompletionInJS(position, data, editor) {
+    if (!FileChecker.isJavaScript(editor.document.uri.fsPath))
+        return;
+    let lineEditor = editor.document.lineAt(position.line);
+    let lineData = AuraParser.parseForPutLabels(lineEditor.text, position);
+    let toReplace = 'label.' + data.label.fullName;
+    let startPosition = new Position(position.line, lineData.startColumn);
+    let endPosition = new Position(position.line, startPosition.character + toReplace.length);
+    let content = "$A.get(\"$Label." + data.orgNamespace + "." + data.label.fullName + "\")";
+    FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), content);
+}
+
+function processCustomLabelCompletionInAura(position, data, editor) {
+    if (!FileChecker.isAuraComponent(editor.document.uri.fsPath))
+        return;
+    let lineEditor = editor.document.lineAt(position.line);
+    let lineData = AuraParser.parseForPutLabels(lineEditor.text, position);
+    let toReplace = 'label.' + data.label.fullName;
+    let startPosition = new Position(position.line, lineData.startColumn);
+    let endPosition = new Position(position.line, startPosition.character + toReplace.length);
+    let content = "{!$Label." + data.orgNamespace + "." + data.label.fullName + "}";
+    FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), content);
+}
+
+function processSnippetsCompletion(position, data, editor) {
     let activation = data.prefix.split('.')[0];
-    if(FileChecker.isJavaScript(editor.document.uri.fsPath)){
+    if (FileChecker.isJavaScript(editor.document.uri.fsPath)) {
         let data = JavaScriptParser.analizeForPutSnippets(editor.document.lineAt(position.line).text, activation);
         let startPosition = new Position(position.line, data.startColumn);
         let endPosition = new Position(position.line, data.endColum);
@@ -55,10 +83,10 @@ function processJSApexParamsCompletion(position, data, editor) {
     let lineEditor = editor.document.lineAt(position.line);
     let lineData = JavaScriptParser.analizeForPutApexParams(lineEditor.text);
     let startPosition = new Position(position.line, lineData.startColumn);
-    let endPosition = new Position(position.line, (lineData.startColumn + toReplace.length));
+    let endPosition = new Position(position.line, startPosition.character + toReplace.length);
     let content = snippetUtils.getJSApexParamsSnippet(data, lineData);
-    FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), content);
-    //editor.insertSnippet(new SnippetString(`${content}`), startPosition);
+    FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), "");
+    editor.insertSnippet(new SnippetString(`${content}`), startPosition);
 }
 
 function processComponentAttributesCompletion(position, data, editor) {
