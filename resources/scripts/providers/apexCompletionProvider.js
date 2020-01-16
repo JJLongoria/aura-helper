@@ -8,6 +8,7 @@ const FileReader = fileSystem.FileReader;
 const langUtils = languages.Utils;
 const ApexParser = languages.ApexParser;
 const CompletionItemKind = vscode.CompletionItemKind;
+const config = require('../main/config');
 
 exports.provider = {
     provideCompletionItems(document, position) {
@@ -19,12 +20,12 @@ exports.provider = {
     }
 }
 
-
 function provideApexCompletion(document, position) {
     let items;
     const line = document.lineAt(position.line).text;
     if (!line.trim().startsWith('/**')) {
-        let activation = Utils.getActivation(document, position);
+        let activationInfo = Utils.getActivation(document, position);
+        let activation = activationInfo.activation;
         let activationTokens = getActivationTokens(activation);
         let queryData = langUtils.getQueryData(document, position);
         let fileStructure = ApexParser.parse(FileReader.readDocument(document), position);
@@ -37,7 +38,7 @@ function provideApexCompletion(document, position) {
         } else if (activationTokens.length > 0 && activationTokens[0].toLowerCase() === 'label') {
             items = getLabelsCompletionItems(activationTokens, position);
         } else if (activationTokens.length > 1) {
-            items = Utils.getApexCompletionItems(document, position, activationTokens, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects);
+            items = Utils.getApexCompletionItems(document, position, activationTokens, activationInfo, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects);
         } else {
             items = Utils.getAllAvailableCompletionItems(position, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects);
         }

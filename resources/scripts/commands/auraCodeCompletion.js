@@ -32,9 +32,33 @@ function processAuraCodeCompletion(position, selected, data, componentTagData) {
         processSnippetsCompletion(position, data, editor);
     } else if (selected === "CustomLabelJS") {
         processCustomLabelCompletionInJS(position, data, editor);
-    }  else if (selected === "CustomLabelAura") {
+    } else if (selected === "CustomLabelAura") {
         processCustomLabelCompletionInAura(position, data, editor);
+    } else if (selected === "sObjectPickVal")
+        processPicklistValue(position, editor, data);
+}
+
+function processPicklistValue(position, editor, data) {
+    let firstWord = data.activations[0];
+    let activationInfo = data.activationInfo;
+    let field = data.field;
+    let pickVal = data.value;
+    let lineEditor = editor.document.lineAt(position.line);
+    let lineData = AuraParser.parseForPutPickVals(lineEditor.text, position);
+    let toReplace = firstWord + '.' + field.name + '.' + pickVal.value;
+    let startPosition = new Position(position.line, activationInfo.startColumn);
+    let endPosition = new Position(position.line, startPosition.character + toReplace.length);
+    let content = '';
+    if (FileChecker.isAuraComponent(editor.document.uri.fsPath)) {
+        content = pickVal.value;
+    } else if (FileChecker.isJavaScript(editor.document.uri.fsPath)) {
+        if (lineData.isOnText)
+            content = pickVal.value;
+        else
+            content = "'" + pickVal.value + "'";
+
     }
+    FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), content);
 }
 
 function processCustomLabelCompletionInJS(position, data, editor) {

@@ -33,6 +33,8 @@
     "get_apex_methods_on_js":"Obtener Métodos Apex en JS",
     "support_on_queries":"Soporte en Consultas",
     "apex_code_support":"Soporte para Código Apex",
+    "custom_labels_support": "Seporte para Etiquetas Personalizadas",
+    "picklist_values_support": "Soporte para Valores de Listas de Selección",
     "documentation_templates":"Documentación (Plantillas)",
     "aura_doc_template":"Plantilla de Documentacion Aura",
     "apex_comment_template":"Plantilla de Comentarios Apex",
@@ -56,6 +58,7 @@
     "code_completion_feature_explanation_feature_11":"Soporte para facilitar la construcción de consultas mostrando los campos del objeto indicado en la clausula \"from\"",
     "code_completion_feature_explanation_feature_12":"Más de 100 Snippets de código para facilitar la creación de componentes lightning. Para más detalle ver la sección de",
     "code_completion_feature_explanation_feature_13":"Soporte de Autocompletado para las Custom Labels. Es necesario tenerlas descargadas en el proyecto. Funciona en Apex, Lightning y Javascript",
+    "code_completion_feature_explanation_feature_14":"Soporte para el autocompletado de los valores de las picklist. Aura Helper muestra todos los valores disponibles de los campos de un objeto y permite seleccionarlo para sustituir el valor (Ejemplo: Account.picklistfield.picklistValue -> 'picklistValue')",
     "advance_gui_feature_explanation_paragraph_1":"Otra de las principales características que implementa Aura Helper, es el soporte de una interfaz gráfica avanzada para implementar características más potentes que faciliten el mantenimiento de metadatos o sirvan de soporte para otras tareas.",
     "advance_gui_feature_explanation_paragraph_2":"A través de la interfaz gráfica, Aura Helper provee de una herramienta para crear archivos <code>package.xml</code> de forma rápida, tanto de los metadatos que existen en local, como de todos los metadatos de la organización.",
     "advance_gui_feature_explanation_paragraph_3":"Otra característica implementada a través de la interfaz, es la capacidad para gestionar los ficheros de metadatos como si de Salesforce se tratase. Añade validaciones y comportamiento similares, teniendo en cuenta el contexto y las posibilidades que ofrece VSCode.",
@@ -168,6 +171,8 @@
     "apex_comment_template_tool_paragraph_7":"Las líneas definidas en esta sección representan la estructura básica de la información devuelta por el método. Como con los parámetros, Aura Helper copia la información correspondiente usando la estructura indicada y reemplaza la <b>Palabra Clave</b> {!method.return} por el contenido generado. En esta sección se pueden usar las siguientes <b>Palabras Clave:</b>",
     "apex_comment_template_tool_paragraph_8":"Sección para crear la estructura de los comentarios de las clases Apex:",
     "apex_comment_template_tool_paragraph_9":"Líneas principales del comentario. Representa el esqueleto básico de los comentarios Apex para los métodos. En esta sección se pueden usar las siguientes <b>Palabras Clave:</b>",
+    "custom_labels_support_tool_paragraph_1": "Otra útil herramienta de autocompletado de código es el soporte para etiquetas personalizadas. Para poder hacer uso de esta característica es necesario tener las etiquetas descargadas en el proyecto local.",
+    "custom_labels_support_tool_paragraph_2": "Funciona tanto en Apex, Componentes Aura y ficheros Javascript. Para usar esta característica, únicamente debemos escribir <code>Label.</code> y presionar <code>ctrl + space</code> para obtener una lista con todas las etiquetas y poder seleccionar la que deseemos. Aura Helper sustituira el valor correcto dependiendo del tipo de archivo.",
     "main_data":"Información Principal",
     "show": "Mostrar",
     "application_visibilities": "Visibilidad de Aplicaciones",
@@ -268,5 +273,8 @@
     "description_required": "La Descripción es Obligatoria",
     "create_custom_label_error": "No se puede crear la Etiqueta:",
     "edit_custom_label_error": "No se puede editar la Etiqueta:",
-    "duplicate_label_error": "No se pueden crear dos Etiquetas con el mismo Nombre"
+    "duplicate_label_error": "No se pueden crear dos Etiquetas con el mismo Nombre",
+    "important": "¡Importante!",
+    "custom_label_introduction": "Cuando se elimina una etiqueta, se elimina tanto del fichero local como de la organización. Por el contrario, cuando se crea o edita una etiqueta, sólo se incluye en el fichero, siendo necesario desplegar las etiquetas locales para subir las etiquetas creadas o editadas"
+    
 }

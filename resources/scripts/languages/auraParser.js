@@ -191,10 +191,18 @@ class AuraParser {
         let tokens = Tokenizer.tokenize(content);
         let index = 0;
         let openBracket = false;
+        let isOnText = false;
         let startColumn = 0;
         while (index < tokens.length) {
             let token = tokens[index];
             let nextToken = utils.getNextToken(tokens, index);
+            let lastToken = utils.getLastToken(tokens, index);
+            if ((token && token.tokenType === TokenType.SQUOTTE && lastToken && lastToken.tokenType !== TokenType.BACKSLASH) && token.startColumn <= position.character) {
+                isOnText = !isOnText;
+            }
+            if (!isOnText && (token && token.tokenType === TokenType.QUOTTE && lastToken && lastToken.tokenType !== TokenType.BACKSLASH) && token.startColumn <= position.character) {
+                isOnText = !isOnText;
+            }
             if (token.tokenType === TokenType.LBRACKET && token.startColumn <= position.character) {
                 openBracket = true;
             }
@@ -207,7 +215,8 @@ class AuraParser {
         }
         return {
             openBracket: openBracket,
-            startColumn: startColumn
+            startColumn: startColumn,
+            isOnText: isOnText
         };
     }
 
@@ -231,6 +240,32 @@ class AuraParser {
         }
         return {
             openBracket: openBracket,
+            startColumn: startColumn
+        };
+    }
+
+    static parseForPutPickVals(content, position, firstWord) {
+        let tokens = Tokenizer.tokenize(content);
+        let index = 0;
+        let isSQuotteText = false;
+        let isQuotteText = false;
+        let startColumn = 0;
+        while (index < tokens.length) {
+            let token = tokens[index];
+            let nextToken = utils.getNextToken(tokens, index);
+            let lastToken = utils.getLastToken(tokens, index);
+            if (!isQuotteText && (token && token.tokenType === TokenType.SQUOTTE && lastToken && lastToken.tokenType !== TokenType.BACKSLASH) && token.startColumn <= position.character) {
+                isSQuotteText = !isSQuotteText;
+            }
+            if (!isSQuotteText && (token && token.tokenType === TokenType.QUOTTE && lastToken && lastToken.tokenType !== TokenType.BACKSLASH) && token.startColumn <= position.character) {
+                isQuotteText = !isQuotteText;
+            }
+            if (token.content.toLowerCase() === firstWord && nextToken && nextToken.tokenType === TokenType.DOT)
+                startColumn = token.startColumn;
+            index++;
+        }
+        return {
+            isOnText: isSQuotteText || isQuotteText,
             startColumn: startColumn
         };
     }

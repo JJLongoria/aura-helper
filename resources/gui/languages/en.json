@@ -33,6 +33,8 @@
     "get_apex_methods_on_js": "Getting Apex Methods on JavaScript",
     "support_on_queries": "Queries Support",
     "apex_code_support": "Apex Code Support",
+    "custom_labels_support": "Custom Labels Support",
+    "picklist_values_support": "Picklist Values Support",
     "documentation_templates": "Documentation (Templates)",
     "aura_doc_template": "Aura Documentation Template",
     "apex_comment_template": "Apex Comment Template",
@@ -56,6 +58,7 @@
     "code_completion_feature_explanation_feature_11": "Support to facilitate the construction of queries showing the fields of the object indicated in the \"from\" clause",
     "code_completion_feature_explanation_feature_12": "More than 100 code snippets to facilitate the creation of lightning components. For more details see the",
     "code_completion_feature_explanation_feature_13": "Autocomplete support for Custom Labels. It is necessary to have them downloaded in the project. Work in Apex, Lightning and Javascript",
+    "code_completion_feature_explanation_feature_14": "Autocomplete tools for Picklist values. Aura Helper list all available picklist values for each field object, and can select it for pick the value (Example: Account.picklistfield.picklistValue -> 'picklistValue')",
     "advance_gui_feature_explanation_paragraph_1": "Another of the main features that Aura Helper implements, is the support of an advanced graphical interface to implement more powerful features that facilitate the maintenance of metadata or serve as support for other tasks.",
     "advance_gui_feature_explanation_paragraph_2": "Through the graphical interface, Aura Helper provides a tool to create <code>package.xml</code> files quickly, both of the local metadata, and of all the metadata of the organization.",
     "advance_gui_feature_explanation_paragraph_3": "Another feature implemented through the interface is the ability to manage metadata files as if it were Salesforce. Add similar validations and behavior, taking into account the context and possibilities offered by VSCode.",
@@ -168,6 +171,8 @@
     "apex_comment_template_tool_paragraph_7": "The lines defined in this section represent the basic structure of the information returned by the method. As with the parameters, Aura Helper copies the corresponding information using the indicated structure and replace the <b> Keyword </b> {! method.return} with the generated content. In this section you can use the following <b>Keywords:</b>",
     "apex_comment_template_tool_paragraph_8": "Section to create the structure of the comments of the Apex classes:",
     "apex_comment_template_tool_paragraph_9": "Main lines of the comment. Represents the basic skeleton of the Apex comments for the methods. In this section you can use the following <b>Keywords:</b>",
+    "custom_labels_support_tool_paragraph_1": "Another useful code autocomplete tool is support for custom labels. In order to make use of this feature it is necessary to have the labels downloaded in the local project.",
+    "custom_labels_support_tool_paragraph_2": "It works on both Apex, Aura Components and Javascript files. To use this feature, we just have to type <code>Label.</code> and press <code>ctrl + space</code> to get a list of all the labels and select the one we want. Aura Helper will replace the correct value depending on the type of file.",
     "main_data": "Main Data",
     "show": "Show",
     "application_visibilities": "Application Visibilities",
@@ -268,5 +273,7 @@
     "description_required": "The Description is Required",
     "create_custom_label_error": "Can't create new custom label:",
     "edit_custom_label_error": "Can't edit custom label:",
-    "duplicate_label_error": "Can't create two labels with the same name"
+    "duplicate_label_error": "Can't create two labels with the same name",
+    "important": "Important!",
+    "custom_label_introduction": "When a label is deleted, it is deleted from both the local file and the organization. On the contrary, when a label is created or edited, it is only included in the file, being necessary to deploy the local labels to upload the created or edited labels"
 }
