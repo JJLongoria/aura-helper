@@ -6,6 +6,7 @@ const fileSystem = require('../fileSystem');
 const FileReader = fileSystem.FileReader;
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
+const utils = require('./utils').Utils;
 
 const apexKeywords = [
     "abstract",
@@ -157,6 +158,28 @@ class ApexParser {
             posData: undefined,
             parentEnum: undefined,
             parentClass: undefined
+        };
+    }
+
+    static parseLineData(content, position, fistActivation) {
+        let tokens = Tokenizer.tokenize(content);
+        let isOnText = false;
+        let startColumn;
+        let index = 0;
+        while (index < tokens.length) {
+            let token = tokens[index];
+            let nextToken = utils.getNextToken(tokens, index);
+            let lastToken = utils.getLastToken(tokens, index);
+            if ((token && token.tokenType === TokenType.SQUOTTE && lastToken && lastToken.tokenType !== TokenType.BACKSLASH) && token.startColumn <= position.character) {
+                isOnText = !isOnText;
+            }
+            if (token.content.toLowerCase() === fistActivation && nextToken && nextToken.tokenType === TokenType.DOT)
+                startColumn = token.startColumn;
+            index++;
+        }
+        return {
+            isOnText: isOnText,
+            startColumn: startColumn
         };
     }
 

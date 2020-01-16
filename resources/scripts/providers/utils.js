@@ -169,14 +169,18 @@ class Utils {
         let line = document.lineAt(position.line);
         let lineText = line.text;
         if (line.isEmptyOrWhitespace)
-            return activation;
+            return {
+                activation: activation,
+                startColumn: 0
+            };
         let lineTokens = Tokenizer.tokenize(lineText);
         let index = 0;
         let tokenPos = 0;
         let token;
+        let startColumn;
         while (index < lineTokens.length) {
             token = lineTokens[index];
-            if (position.character >= token.relativeStartColumn) {
+            if (position.character > token.relativeStartColumn) {
                 tokenPos = index;
             }
             index++;
@@ -191,9 +195,11 @@ class Utils {
             if (token && token.tokenType === TokenType.RPAREN && !isOnParams) {
                 isOnParams = true;
                 activation = token.content + activation;
+                startColumn = token.startColumn;
             } else if (token && token.tokenType === TokenType.LPAREN && isOnParams) {
                 isOnParams = false;
                 activation = token.content + activation;
+                startColumn = token.startColumn;
             } else if (token && token.tokenType === TokenType.LPAREN && !isOnParams) {
                 endLoop = true;
             } else if (token && (token.tokenType === TokenType.DOT || token.tokenType === TokenType.IDENTIFIER || token.tokenType === TokenType.COLON || isOnParams)) {
@@ -201,21 +207,28 @@ class Utils {
                     if (lastToken && lastToken.endColumn != token.startColumn) {
                         endLoop = true;
                         activation = token.content + activation;
-                    } else
+                        startColumn = token.startColumn;
+                    } else {
                         activation = token.content + activation;
+                        startColumn = token.startColumn;
+                    }
                 } else {
                     activation = token.content + activation;
+                    startColumn = token.startColumn;
                 }
             } else if (!isOnParams && token && (token.tokenType === TokenType.COMMA || token.tokenType === TokenType.QUOTTE || token.tokenType === TokenType.SQUOTTE) && activation.length > 0) {
                 endLoop = true;
-            } else if (token.tokenType == TokenType.LBRACKET) { 
+            } else if (token.tokenType == TokenType.LBRACKET) {
                 endLoop = true;
             }
             tokenPos--
             if (tokenPos < 0)
                 endLoop = true;
         }
-        return activation;
+        return {
+            activation: activation,
+            startColumn: startColumn
+        };
     }
 
     static getSObjectsCompletionItems(position, similarSobjects, sObjectsMap, command) {
@@ -235,8 +248,9 @@ class Utils {
         return items;
     }
 
-    static getSobjectsFieldsCompletionItems(position, sObject, command) {
+    static getSobjectsFieldsCompletionItems(position, sObject, command, activations, activationInfo) {
         let items = [];
+        let picklistItems = [];
         if (sObject) {
             for (const field of sObject.fields) {
                 let item = new CompletionItem(field.name, CompletionItemKind.Field);
@@ -263,9 +277,26 @@ class Utils {
                     }
                 }
                 if (field.picklistValues.length > 0) {
+                    picklistItems = [];
                     item.documentation += "Picklist Values: \n";
-                    for (const pickVal of field.picklistValues) {
-                        item.documentation += pickVal.value + " (" + pickVal.label + ") \n";
+                    if (activations[0] === sObject.name) {
+                        for (const pickVal of field.picklistValues) {
+                            let picklistItem = new CompletionItem(field.name + '.' + pickVal.value, CompletionItemKind.Value);
+                            picklistItem.detail = field.name + ' Picklist Value';
+                            picklistItem.documentation = "Value: " + pickVal.value + '\n';
+                            picklistItem.documentation = "Label: " + pickVal.label + '\n';
+                            picklistItem.documentation = "Active: " + pickVal.active + '\n';
+                            picklistItem.documentation = "Is Default: " + pickVal.defaultValue;
+                            picklistItem.insertText = field.name + '.' + pickVal.value;
+                            picklistItem.preselect = true;
+                            picklistItem.command = {
+                                title: 'sObject',
+                                command: command,
+                                arguments: [position, 'sObjectPickVal', { field: field, value: pickVal, activations: activations, activationInfo: activationInfo }]
+                            };
+                            picklistItems.push(picklistItem);
+                            item.documentation += pickVal.value + " (" + pickVal.label + ") \n";
+                        }
                     }
                 }
                 item.insertText = field.name;
@@ -278,12 +309,16 @@ class Utils {
                 items.push(item);
                 if (itemRel)
                     items.push(itemRel);
+                if (picklistItems.length > 0) {
+                    items = items.concat(picklistItems);
+                    picklistItems = [];
+                }
             }
         }
         return items;
     }
 
-    static getQueryCompletionItems(activationTokens, queryData, position, command) {
+    static getQueryCompletionItems(activationTokens, activationInfo, queryData, position, command) {
         if (!config.getConfig().activeQuerySuggestion)
             return Promise.resolve(undefined);
         let sObjects = Utils.getObjectsFromMetadataIndex();
@@ -291,7 +326,7 @@ class Utils {
         if (sObjects.sObjectsToLower.includes(queryData.from.toLowerCase())) {
             let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[queryData.from.toLowerCase()]);
             if (activationTokens.length === 0) {
-                items = Utils.getSobjectsFieldsCompletionItems(position, sObject, command);
+                items = Utils.getSobjectsFieldsCompletionItems(position, sObject, command, activationTokens, activationInfo);
             } else {
                 let lastObject = sObject;
                 for (const activationToken of activationTokens) {
@@ -307,7 +342,7 @@ class Utils {
                         }
                     }
                 }
-                items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, command);
+                items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, command, activationTokens, activationInfo);
             }
         }
         return items;
@@ -437,7 +472,7 @@ class Utils {
         return false;
     }
 
-    static getApexCompletionItems(document, position, activationTokens, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects) {
+    static getApexCompletionItems(document, position, activationTokens, activationInfo, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects) {
         let items = [];
         let sObject;
         let lastClass = fileStructure;
@@ -635,7 +670,7 @@ class Utils {
         if (lastClass && config.getConfig().activeApexSuggestion) {
             items = Utils.getApexClassCompletionItems(position, lastClass);
         } else if (sObject && config.getConfig().activeSobjectFieldsSuggestion) {
-            items = Utils.getSobjectsFieldsCompletionItems(position, sObject, 'aurahelper.completion.apex');
+            items = Utils.getSobjectsFieldsCompletionItems(position, sObject, 'aurahelper.completion.apex', activationTokens, activationInfo);
         }
         return items;
     }

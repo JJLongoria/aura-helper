@@ -1,4 +1,12 @@
 <form>
+    <div class="w3-row">
+        <div class="w3-col">
+            <b>{!label.important}</b>
+            <p>
+                {!label.custom_label_introduction}
+            </p>
+        </div>
+    </div>
     <div class="w3-bar">
         <div class="w3-bar-item" style="width: 500px;">
             <div class="searchBox">
@@ -9,7 +17,7 @@
         <div class="w3-bar-item w3-right" style="width: 350px;">
             <div class="w3-right">
                 <label>{!label.category}</label>
-                <select onchange="onChangeCategory()" id="selectCategories" style="width: 70%" class="w3-select w3-input inputText">
+                <select onchange="onChangeCategory()" id="selectCategories" style="width: 100%" class="w3-select w3-input inputText">
 
                 </select>
             </div>

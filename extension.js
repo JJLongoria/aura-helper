@@ -60,7 +60,6 @@ function activate(context) {
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('html', providers.auraCompletionProvider, '.'));
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('javascript', providers.javascriptCompletionProvider, '.'));
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider('apex', providers.apexFormatterProvider));
-	// context.subscriptions.push(vscode.languages.registerOnTypeFormattingEditProvider('apex', providers.onTypeFormattingProvider, ';', '}'));
 	context.subscriptions.push(genAuraDoc);
 	context.subscriptions.push(addMethodBlock);
 	//context.subscriptions.push(addApexMethodComment);

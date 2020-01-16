@@ -40,5 +40,3 @@ const matchOrgWithLocal = require('./matchOrgWithLocal');
 exports.matchOrgWithLocal = matchOrgWithLocal.run;
 const openCustomLabelsGUI = require('./openCustomLabelsGUI');
 exports.openCustomLabelsGUI = openCustomLabelsGUI.run;
-const test = require('./test');
-exports.test = test.run;

@@ -19,7 +19,8 @@ Some of the functions are:
 - Suggest the possible values ​​of the attributes of the elements of the lightning components, such as variants, sizes... 
 - Ability to display the functions of the Apex, Javascript or Helper files in the files of any Lightning Bundle
 - Support to facilitate the construction of queries showing the fields of the object indicated in the "from" clause
-- More than 100 code snippets to facilitate the creation of lightning components. For more details see the <a href="#snippetsCollectionSection">Snippets</a> section on Aura Helper's Help
+- More than 100 code snippets to facilitate the creation of lightning components. For more details see the <a href="#snippetsCollectionSection">Snippets</a> section on Aura 
+- Autocomplete tools for Picklist values. Aura Helper list all available picklist values for each field object, and can select it for pick the value (Example: Account.picklistfield.picklistValue => \'picklistValue\')Helper's Help
 
 Examples: 
 

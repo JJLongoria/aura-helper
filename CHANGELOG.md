@@ -3,11 +3,13 @@ All notable changes to this project will be documented in this file.
 ## [1.8.0 - 2020-XX-XX]
 ### Added
 - Autocomplete support for Custom Labels. It is necessary to have them downloaded in the project. Functiona in Apex, Lightning and Javascript
+- Autocomplete tools for Picklist values. Aura Helper list all available picklist values for each field object, and can select it for pick the value (Example => Account.picklistfield.picklistValue => 'picklistValue')
 - Added new GUI on Advance Graphic Interface for manage Custom Labels on VSCode
 - Multilanguage Support for the Advanced Graphic Interface (English and Spanish). Select It from Aura Helper's Configuration
 
 ### Fixed
 - Fixed bugs with Apex Method Params autocompletion tool on Javascript code
+- Fixed little bugs with code completion on Aura Components
 
 ## [1.7.0 - 2020-01-10]
 ### Added
