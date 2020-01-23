@@ -136,7 +136,7 @@ function processPromise(user, objName, cancelToken) {
                     break;
                 case ProcessEvent.END:
                     if (buffer.length > 0) {
-                        let metadataIndex = MetadataFactory.createMetadataFromJSONSchema(buffer);
+                        let metadataIndex = MetadataFactory.createMetadataFromJSONSchema(buffer.toString());
                         FileWriter.createFileSync(Paths.getMetadataIndexPath() + "/" + objName + ".json", JSON.stringify(metadataIndex, null, 2));
                         resolve();
                     }
