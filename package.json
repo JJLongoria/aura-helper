@@ -2,8 +2,8 @@
 	"name": "aura-helper",
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
-	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. From code autocomplete tools, to an advanced graphical interface that allows you to perform more powerful tasks, through formatting Apex code or offering views for file structure. Aura Helper is undoubtedly one of the necessary applications for any Salaesforce developer.",
-	"version": "1.7.0",
+	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Code autocomplete tools, Advanced Graphical Interface for powerful tasks, Formatting Apex Code, Views and too much. Aura Helper is one of the necessary applications for Salaesforce developers.",
+	"version": "1.8.0",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
@@ -136,6 +136,17 @@
 						"Open English GUI by default",
 						"Open Spanish GUI by default"
 					]
+				},
+				"aurahelper.useCustomAPIVersion": {
+					"type": "boolean",
+					"default": false,
+					"description": "Aura Helper use the SFDX CLI Command Version as Salesforce API Version for download metadata from Org by default. Check this field for use custom API Version"
+				},
+				"aurahelper.CustomAPIVersion":{
+					"type":"integer",
+					"default": 0,
+					"description": "Salesforce API Version for use if you select Use Custom API Version setting.",
+					"minimum": 0
 				}
 			}
 		},
@@ -315,6 +326,11 @@
 					"group": "auraHelper@1"
 				},
 				{
+					"when": "resource =~ /./labels/ && resourceExtname == .xml",
+					"command": "aurahelper.metadata.customlabels.open",
+					"group": "auraHelper@1"
+				},
+				{
 					"when": "resource =~ /./profiles/",
 					"command": "aurahelper.metadata.profile.retrieve",
 					"group": "auraHelper@1"
@@ -344,6 +360,11 @@
 				{
 					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
 					"command": "aurahelper.metadata.profile.open",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./labels/ && resourceExtname == .xml",
+					"command": "aurahelper.metadata.customlabels.open",
 					"group": "auraHelper@1"
 				},
 				{

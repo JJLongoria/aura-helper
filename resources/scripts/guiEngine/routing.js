@@ -14,6 +14,11 @@ const Routing = {
         type: "Profile",
         path: '/gui/metadata/profile',
     },
+    PermissionSet: {
+        name: "PermissionSet",
+        type: "PermissionSet",
+        path: '/gui/metadata/permissionSet',
+    },
     MatchOrg: {
         name: "Match Org Metadata With Local",
         type: "MatchOrg",
@@ -23,6 +28,11 @@ const Routing = {
         name: "Custom Labels",
         type: "CustomLabels",
         path: "/gui/metadata/customLabels"
+    },
+    CustomObjects: {
+        name: "Custom Objects",
+        type: "CustomObjects",
+        path: "/gui/metadata/customObjects"
     }
 };
 module.exports = Routing;

@@ -101,5 +101,8 @@ class Paths {
     static getImagesPath(){
         return applicationContext.context.asAbsolutePath("./resources/images");
     }
+    static getAbsolutePath(path) { 
+        return StrUtils.replace(applicationContext.context.asAbsolutePath(path), '\\', '/');
+    }
 }
 exports.Paths = Paths;

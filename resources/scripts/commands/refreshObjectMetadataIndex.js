@@ -1,9 +1,14 @@
-const processes = require('../processes');
+const ProcessManager = require('../processes').ProcessManager;
+const ProcessEvent = require('../processes').ProcessEvent;
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
+const Config = require('../main/config');
+const Metadata = require('../metadata');
+const MetadataFactory = Metadata.Factory;
 const window = vscode.window;
 const ProgressLocation = vscode.ProgressLocation;
-const Config = require('../main/config');
+const Paths = fileSystem.Paths;
+const FileWriter = fileSystem.FileWriter;
 
 exports.run = function () {
 	try {
@@ -13,48 +18,90 @@ exports.run = function () {
 	}
 }
 
-function onButtonClick(selected) {
-	let user = Config.getAuthUsername();
+async function onButtonClick(selected) {
+	let user = await Config.getAuthUsername();
 	if (selected === 'Ok') {
 		window.withProgress({
 			location: ProgressLocation.Notification,
 			title: "Loading available Metadata for refresh",
-			cancellable: false
-		}, (progress, token) => {
+			cancellable: true
+		}, (progress, cancelToken) => {
 			return new Promise(resolve => {
-				setTimeout(() => {
-					processes.listMetadata.run(user, function (result) {
-						resolve();
-						if (result.successData) {
-							window.showQuickPick(result.successData.data.objects).then((selected) => {
-								if (selected) {
-									window.withProgress({
-										location: ProgressLocation.Notification,
-										title: "Refreshing Index for " + selected,
-										cancellable: false
-									}, (objProgress, objCancel) => {
-										return new Promise(resolve => {
-											setTimeout(() => {
-												processes.refreshObjectMetadataIndex.run(user, selected, function (result) {
-													resolve();
-													if (result.successData) {
-														window.showInformationMessage(result.successData.message + ". Total: " + result.successData.data.processed);
-													} else {
-														window.showErrorMessage(result.errorData.message + ". Error: " + result.errorData.data);
-													}
-												});
-											}, 100);
-										});
-									});
-								}
-							});
-						}
-						else {
-							window.showErrorMessage(result.errorData.message + ". Error: " + result.errorData.data);
-						}
-					});
-				}, 100);
+				let buffer = [];
+				let bufferError = [];
+				ProcessManager.describeMetadata(user, 'CustomObject', undefined, cancelToken, function (event, data) {
+					switch (event) {
+						case ProcessEvent.STD_OUT:
+							buffer = buffer.concat(data);
+							break;
+						case ProcessEvent.END:
+							processCustomObjectsOut(user, buffer.toString());
+							resolve();
+							break;
+						default:
+							break;
+					}
+				});
 			});
 		});
 	}
+}
+
+function processCustomObjectsOut(user, stdOut) {
+	if (stdOut) {
+		let data = JSON.parse(stdOut);
+		if (data.status === 0) {
+			let objNames = [];
+			let dataList = [];
+			if (Array.isArray(data.result))
+				dataList = data.result
+			else
+				dataList.push(data.result);
+			for (const data of dataList) {
+				objNames.push(data.fullName);
+			}
+			window.showQuickPick(objNames).then((selected) => {
+				if (objNames.includes(selected)) {
+					refreshObjectMetadataIndex(selected, user);
+				}
+			});
+		}
+	}
+}
+
+function refreshObjectMetadataIndex(object, user) {
+	window.withProgress({
+		location: ProgressLocation.Notification,
+		title: "Refreshing Index for " + object,
+		cancellable: false
+	}, (objProgress, cancelToken) => {
+		return new Promise(resolve => {
+			let buffer = [];
+			let bufferError = [];
+			ProcessManager.describeSchemaMetadata(user, object, cancelToken, function (event, data) {
+				switch (event) {
+					case ProcessEvent.STD_OUT:
+						buffer = buffer.concat(data);
+						break;
+					case ProcessEvent.ERR_OUT:
+					case ProcessEvent.ERROR:
+						bufferError = bufferError.concat(data);
+						break;
+					case ProcessEvent.END:
+						if (buffer.length > 0) {
+							let metadataIndex = MetadataFactory.createMetadataFromJSONSchema(buffer.toString());
+							FileWriter.createFileSync(Paths.getMetadataIndexPath() + "/" + object + ".json", JSON.stringify(metadataIndex, null, 2));
+							window.showInformationMessage("Metadata Index for " + object + " refreshed Succesfully");
+							resolve();
+						} else {
+							window.showErrorMessage("Error refreshing index for object " + object + ". Error: " + bufferError.toString());
+							resolve();
+						}
+						break;
+					default:
+						break;
+				}
+			});
+		});
+	});
 }

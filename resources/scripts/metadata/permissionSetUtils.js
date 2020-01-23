@@ -13,11 +13,10 @@ class PermissionSetUtils {
                 classAccesses: [],
                 customMetadataTypeAccesses: [],
                 customPermissions: [],
+                customSettingAccesses: [],
                 description: undefined,
                 externalDataSourceAccesses: [],
                 fieldPermissions: [],
-                fieldLevelSecurities: [],
-                flowAccesses: [],
                 hasActivationRequired: undefined,
                 label: undefined,
                 license: undefined,
@@ -30,6 +29,222 @@ class PermissionSetUtils {
             };
         }
         return newPermissionSet;
+    }
+
+    static mergePermissionSetWithLocalData(permissionSet, storageMetadata) {
+        if (permissionSet) {
+            Object.keys(permissionSet).forEach(function (key) {
+                let profileElement = permissionSet[key];
+                if (key === 'applicationVisibilities') {
+                    for (const application of storageMetadata.applications) {
+                        let found = false;
+                        for (const appVisibility of profileElement) {
+                            if (appVisibility.application === application) {
+                                found = true;;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            profileElement.push(PermissionSetUtils.createPermissionSetApplicationVisibility(application, false, false));
+                        }
+                    }
+                    profileElement.sort(function (a, b) {
+                        return a.application.toLowerCase().localeCompare(b.application.toLowerCase());
+                    });
+                    permissionSet[key] = profileElement;
+                } else if (key === 'classAccesses') {
+                    for (const apexClass of storageMetadata.classes) {
+                        let found = false;
+                        for (const classOnProfile of profileElement) {
+                            if (classOnProfile.apexClass === apexClass) {
+                                found = true;;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            profileElement.push(PermissionSetUtils.createPermissionSetApexClassAccess(apexClass, false));
+                        }
+                    }
+                    profileElement.sort(function (a, b) {
+                        return a.apexClass.toLowerCase().localeCompare(b.apexClass.toLowerCase());
+                    });
+                    permissionSet[key] = profileElement;
+                } else if (key === 'customMetadataTypeAccesses') {
+                    for (const storageCustomMetadata of storageMetadata.objects) {
+                        if (storageCustomMetadata.isCustomMetadata) {
+                            let found = false;
+                            for (const customMetadata of profileElement) {
+                                if (customMetadata.name === storageCustomMetadata) {
+                                    found = true;;
+                                    break;
+                                }
+                            }
+                            if (!found) {
+                                profileElement.push(PermissionSetUtils.createPermissionSetCustomMetadataTypeAccess(storageCustomMetadata.name, false));
+                            }
+                        }
+                    }
+                    profileElement.sort(function (a, b) {
+                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+                    });
+                    permissionSet[key] = profileElement;
+                } else if (key === 'customPermissions') {
+                    for (const customPermission of storageMetadata.customPermissions) {
+                        let found = false;
+                        for (const permission of profileElement) {
+                            if (permission.name === customPermission) {
+                                found = true;;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            profileElement.push(PermissionSetUtils.createPermissionSetCustomPermissions(customPermission, false));
+                        }
+                    }
+                    profileElement.sort(function (a, b) {
+                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+                    });
+                    permissionSet[key] = profileElement;
+                } else if (key === 'customSettingAccesses') {
+                    for (const obj of storageMetadata.objects) {
+                        if (obj.isCustomSetting) {
+                            let found = false;
+                            for (const customSetting of profileElement) {
+                                if (customSetting.name === obj.name) {
+                                    found = true;;
+                                    break;
+                                }
+                            }
+                            if (!found) {
+                                profileElement.push(PermissionSetUtils.createPermissionSetCustomSettingAccesses(obj.name, false));
+                            }
+                        }
+                    }
+                    profileElement.sort(function (a, b) {
+                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+                    });
+                    permissionSet[key] = profileElement;
+                } else if (key === 'externalDataSourceAccesses') {
+
+                } else if (key === 'fieldPermissions') {
+                    for (const storageObj of storageMetadata.objects) {
+                        if (!storageObj.isCustomSetting && !storageObj.isCustomMetadata) {
+                            for (const storageField of storageObj.fields) {
+                                let found = false;
+                                for (const field of profileElement) {
+                                    if (field.field === storageObj.name + '.' + storageField) {
+                                        found = true;;
+                                        break;
+                                    }
+                                }
+                                if (!found) {
+                                    profileElement.push(PermissionSetUtils.createPermissionSetFieldPermissions(storageObj.name + '.' + storageField, false, false));
+                                }
+                            }
+                        }
+                    }
+                    profileElement.sort(function (a, b) {
+                        return a.field.toLowerCase().localeCompare(b.field.toLowerCase());
+                    });
+                    permissionSet[key] = profileElement;
+                } else if (key === 'objectPermissions') {
+                    for (const storageObj of storageMetadata.objects) {
+                        if (!storageObj.isCustomSetting && !storageObj.isCustomMetadata) {
+                            let found = false;
+                            for (const object of profileElement) {
+                                if (object.object === storageObj.name) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) {
+                                profileElement.push(PermissionSetUtils.createPermissionSetObjectPermissions(storageObj.name, false, false, false, false, false, false));
+                            }
+                        }
+                    }
+                    profileElement.sort(function (a, b) {
+                        return a.object.toLowerCase().localeCompare(b.object.toLowerCase());
+                    });
+                    permissionSet[key] = profileElement;
+                } else if (key === 'pageAccesses') {
+                    for (const storagePage of storageMetadata.pages) {
+                        let found = false;
+                        for (const page of profileElement) {
+                            if (page.apexPage === storagePage) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            profileElement.push(PermissionSetUtils.createPermissionSetApexPageAccess(storagePage, false));
+                        }
+
+                    }
+                    profileElement.sort(function (a, b) {
+                        return a.apexPage.toLowerCase().localeCompare(b.apexPage.toLowerCase());
+                    });
+                    permissionSet[key] = profileElement;
+                } else if (key === 'recordTypeVisibilities') {
+                    for (const storageObj of storageMetadata.objects) {
+                        if (!storageObj.isCustomSetting && !storageObj.isCustomMetadata) {
+                            if (storageObj.recordTypes) {
+                                for (const storageRecordType of storageObj.recordTypes) {
+                                    let found = false;
+                                    for (const recordType of profileElement) {
+                                        if (recordType.recordType === storageObj.name + '.' + storageRecordType) {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!found) {
+                                        profileElement.push(PermissionSetUtils.createPermissionSetRecordTypeVisibility(storageObj.name + '.' + storageRecordType, false));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    profileElement.sort(function (a, b) {
+                        return a.recordType.toLowerCase().localeCompare(b.recordType.toLowerCase());
+                    });
+                    permissionSet[key] = profileElement;
+                } else if (key === 'tabSettings') {
+                    for (const storageTabs of storageMetadata.tabs) {
+                        let found = false;
+                        for (const tab of profileElement) {
+                            if (tab.tab === storageTabs) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            profileElement.push(PermissionSetUtils.createPermissionSetTabSetting(storageTabs, 'DefaultOff'));
+                        }
+                    }
+                    profileElement.sort(function (a, b) {
+                        return a.tab.toLowerCase().localeCompare(b.tab.toLowerCase());
+                    });
+                    permissionSet[key] = profileElement;
+                } else if (key === 'userPermissions') {
+                    for (const storagePermission of PermissionSetUtils.getAllUserPermissions()) {
+                        let found = false;
+                        for (const userPermission of profileElement) {
+                            if (userPermission.name === storagePermission) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            profileElement.push(PermissionSetUtils.createPermissionSetUserPermission(storagePermission, false));
+                        }
+                    }
+                    profileElement.sort(function (a, b) {
+                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+                    });
+                    permissionSet[key] = profileElement;
+                }
+            });
+        }
+        return permissionSet;
     }
 
     static createPermissionSetApplicationVisibility(application, visible, def) {
@@ -48,6 +263,13 @@ class PermissionSetUtils {
     }
 
     static createPermissionSetCustomMetadataTypeAccess(name, enabled) {
+        return {
+            name: name,
+            enabled: enabled
+        };
+    }
+
+    static createPermissionSetCustomSettingAccesses(name, enabled) { 
         return {
             name: name,
             enabled: enabled
@@ -116,69 +338,69 @@ class PermissionSetUtils {
         }
     }
 
-    static toXML(profile, compress) {
+    static toXML(permissionSet, compress) {
         let xmlLines = [];
-        if (profile) {
+        if (permissionSet) {
             if (compress) {
                 xmlLines.push('<?xml version="1.0" encoding="UTF-8"?>');
                 xmlLines.push('<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">');
-                if (profile.label)
-                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('description', profile.label));
-                if (profile.description)
-                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('description', profile.description));
-                if (profile.userLicense)
-                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('userLicense', profile.userLicense));
-                if (profile.license)
-                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('license', profile.license));
-                if (profile.hasActivationRequired !== undefined)
-                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('hasActivationRequired', profile.hasActivationRequired));
-                if (profile.applicationVisibilities) {
-                    Utils.sort(profile.applicationVisibilities, ['application']);
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('applicationVisibilities', profile.applicationVisibilities, true, 1));
+                if (permissionSet.label)
+                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('label', permissionSet.label));
+                if (permissionSet.description)
+                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('description', permissionSet.description));
+                if (permissionSet.userLicense)
+                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('userLicense', permissionSet.userLicense));
+                if (permissionSet.license)
+                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('license', permissionSet.license));
+                if (permissionSet.hasActivationRequired !== undefined)
+                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('hasActivationRequired', permissionSet.hasActivationRequired));
+                if (permissionSet.applicationVisibilities) {
+                    Utils.sort(permissionSet.applicationVisibilities, ['application']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('applicationVisibilities', permissionSet.applicationVisibilities, true, 1));
                 }
-                if (profile.classAccesses) {
-                    Utils.sort(profile.classAccesses, ['apexClass']);
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('classAccesses', profile.classAccesses, true, 1));
+                if (permissionSet.classAccesses) {
+                    Utils.sort(permissionSet.classAccesses, ['apexClass']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('classAccesses', permissionSet.classAccesses, true, 1));
                 }
-                if (profile.customMetadataTypeAccesses) {
-                    Utils.sort(profile.customMetadataTypeAccesses, ['name']);
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('customMetadataTypeAccesses', profile.customMetadataTypeAccesses, true, 1));
+                if (permissionSet.customMetadataTypeAccesses) {
+                    Utils.sort(permissionSet.customMetadataTypeAccesses, ['name']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('customMetadataTypeAccesses', permissionSet.customMetadataTypeAccesses, true, 1));
                 }
-                if (profile.customPermissions) {
-                    Utils.sort(profile.customPermissions, ['name']);
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('customPermissions', profile.customPermissions, true, 1));
+                if (permissionSet.customPermissions) {
+                    Utils.sort(permissionSet.customPermissions, ['name']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('customPermissions', permissionSet.customPermissions, true, 1));
                 }
-                if (profile.externalDataSourceAccesses) {
-                    Utils.sort(profile.externalDataSourceAccesses, ['externalDataSource']);
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('externalDataSourceAccesses', profile.externalDataSourceAccesses, true, 1));
+                if (permissionSet.externalDataSourceAccesses) {
+                    Utils.sort(permissionSet.externalDataSourceAccesses, ['externalDataSource']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('externalDataSourceAccesses', permissionSet.externalDataSourceAccesses, true, 1));
                 }
-                if (profile.fieldPermissions) {
-                    Utils.sort(profile.fieldPermissions, ['field']);
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('fieldPermissions', profile.fieldPermissions, true, 1));
+                if (permissionSet.fieldPermissions) {
+                    Utils.sort(permissionSet.fieldPermissions, ['field']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('fieldPermissions', permissionSet.fieldPermissions, true, 1));
                 }
-                if (profile.objectPermissions) {
-                    Utils.sort(profile.objectPermissions, ['object']);
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('objectPermissions', profile.objectPermissions, true, 1));
+                if (permissionSet.objectPermissions) {
+                    Utils.sort(permissionSet.objectPermissions, ['object']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('objectPermissions', permissionSet.objectPermissions, true, 1));
                 }
-                if (profile.pageAccesses) {
-                    Utils.sort(profile.pageAccesses, ['apexPage']);
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('pageAccesses', profile.pageAccesses, true, 1));
+                if (permissionSet.pageAccesses) {
+                    Utils.sort(permissionSet.pageAccesses, ['apexPage']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('pageAccesses', permissionSet.pageAccesses, true, 1));
                 }
-                if (profile.recordTypeVisibilities) {
-                    Utils.sort(profile.recordTypeVisibilities, ['recordType']);
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('recordTypeVisibilities', profile.recordTypeVisibilities, true, 1));
+                if (permissionSet.recordTypeVisibilities) {
+                    Utils.sort(permissionSet.recordTypeVisibilities, ['recordType']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('recordTypeVisibilities', permissionSet.recordTypeVisibilities, true, 1));
                 }
-                if (profile.tabSettings) {
-                    Utils.sort(profile.tabVisibilities, ['tab']);
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('tabSettings', profile.tabSettings, true, 1));
+                if (permissionSet.tabSettings) {
+                    Utils.sort(permissionSet.tabVisibilities, ['tab']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('tabSettings', permissionSet.tabSettings, true, 1));
                 }
-                if (profile.userPermissions) {
-                    Utils.sort(profile.userPermissions, ['name']);
-                    xmlLines = xmlLines.concat(Utils.getXMLBlock('userPermissions', profile.userPermissions, true, 1));
+                if (permissionSet.userPermissions) {
+                    Utils.sort(permissionSet.userPermissions, ['name']);
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('userPermissions', permissionSet.userPermissions, true, 1));
                 }
                 xmlLines.push('</PermissionSet>');
             } else {
-                return AuraParser.toXML(profile);
+                return AuraParser.toXML(permissionSet);
             }
 
         }

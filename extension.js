@@ -32,13 +32,14 @@ function activate(context) {
 	let refreshMetadataIndexForObject = vscode.commands.registerCommand('aurahelper.metadata.refresh.object', commands.refreshObjectMetadataIndex);
 	let compressXML = vscode.commands.registerCommand('aurahelper.metadata.compress.xml', commands.compressXML);
 	let compressAllXML = vscode.commands.registerCommand('aurahelper.metadata.compress.xml.all', commands.compressAllXML);
-	let openProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.open', commands.openProfile);
-	let openPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.open', commands.openProfile);
+	let openProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.open', commands.openProfilePermSetGUI);
+	let openPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.open', commands.openProfilePermSetGUI);
 	let retrieveFullProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.retrieve', commands.retrieveFullProfile);
 	let retrieveFullPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.retrieve', commands.retrieveFullProfile);
 	let packageGenerator = vscode.commands.registerCommand('aurahelper.metadata.package.generate', commands.packageGenerator);
 	let matchOrgWithLocal = vscode.commands.registerCommand('aurahelper.metadata.org.match', commands.matchOrgWithLocal);
 	let openCustomLabelsGUI = vscode.commands.registerCommand('aurahelper.metadata.customlabels.open', commands.openCustomLabelsGUI);
+	//let openCustomObjectsGUI = vscode.commands.registerCommand('aurahelper.metadata.customobjects.open', commands.openCustomObjectsGUI);
 
 	vscode.commands.registerCommand('aurahelper.completion.apex', commands.apexCodeCompletion);
 	vscode.commands.registerCommand('aurahelper.completion.aura', commands.auraCodeCompletion);
@@ -79,6 +80,7 @@ function activate(context) {
 	context.subscriptions.push(packageGenerator);
 	context.subscriptions.push(matchOrgWithLocal);
 	context.subscriptions.push(openCustomLabelsGUI);
+	//context.subscriptions.push(openCustomObjectsGUI);
 }
 exports.activate = activate;
 

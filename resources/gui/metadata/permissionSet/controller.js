@@ -1,12 +1,13 @@
 var permissionSet;
+var isPermissionSet = false;
 var elementsFiltered = {};
 // @ts-ignore
 const vscode = acquireVsCodeApi();
 
 window.addEventListener('message', event => {
-    let profileData = event.data
-    permissionSet = profileData.model;
-    let profileName = profileData.extraData.name;
+    let permSetData = event.data
+    permissionSet = permSetData.model;
+    let profileName = permSetData.extraData.name;
     setProfileName(profileName);
     setNavigationContent(permissionSet);
     setProfileMainData(permissionSet);
@@ -16,10 +17,6 @@ window.addEventListener('message', event => {
     setCustomPermissionsData(permissionSet);
     setCustomSettingAccessesData(permissionSet);
     setFieldPermissionsData(permissionSet);
-    setFlowAccessesData(permissionSet);
-    setLayoutAssignmentData(permissionSet);
-    setLoginHoursData(permissionSet);
-    setLoginIpRangesData(permissionSet);
     setObjectPermissionsData(permissionSet);
     setPageAccessesData(permissionSet);
     setRecordTypeVisibilitiesData(permissionSet);
@@ -33,11 +30,11 @@ function setProfileName(profileName) {
     document.getElementById("profileName").innerHTML = profileName;
 }
 
-function setNavigationContent(profile) {
+function setNavigationContent(permissionSet) {
     let htmlContent = [];
     htmlContent.push('\t\t\t\t\t\t<a href="#mainDataContainer" class="w3-bar-item w3-border-bottom menu">{!label.main_data}</a>');
-    Object.keys(profile).forEach(function (key) {
-        if (key != 'description' && key != 'userLicense' && key != 'custom' && key != 'profileActionOverrides' && key != 'categoryGroupVisibilities' && key != 'externalDataSourceAccesses' && key != 'fieldLevelSecurities') {
+    Object.keys(permissionSet).forEach(function (key) {
+        if (key != 'description' && key != 'userLicense' && key != 'hasActivationRequired' && key != 'label' && key != 'license' && key != 'externalDataSourceAccesses' && key != 'fieldLevelSecurities' && key != 'fieldLevelSecurities' && key != 'fieldLevelSecurities') {
             htmlContent.push('\t\t\t\t\t\t<a href="#' + key + 'Container" class="w3-bar-item w3-border-bottom menu">' + getPermissionSetSectionName(key) + '</a>');
         }
     });
@@ -45,71 +42,74 @@ function setNavigationContent(profile) {
     document.getElementById("navBar").innerHTML = htmlContent.join('\n');
 }
 
-function setProfileMainData(profile) {
-    if (profile.description !== undefined)
+function setProfileMainData(permissionSet) {
+    if (permissionSet.description !== undefined)
         // @ts-ignore
-        document.getElementById("mainData_Description").value = profile.description;
+        document.getElementById("mainData_Description").value = permissionSet.description;
+    if (permissionSet.label !== undefined)
+        // @ts-ignore
+        document.getElementById("mainData_Label").value = permissionSet.label;
     // @ts-ignore
-    document.getElementById("mainData_License").value = profile.userLicense;
+    document.getElementById("mainData_License").value = permissionSet.userLicense || permissionSet.license;
     // @ts-ignore
-    document.getElementById("mainData_Custom").checked = profile.custom;
+    document.getElementById("mainData_ActivationRequired").checked = permissionSet.hasActivationRequired;
 }
 
-function setAppVisibilityData(profile) {
+function setAppVisibilityData(permissionSet) {
     document.getElementById("applicationVisibilitiesTitle").innerHTML = getPermissionSetSectionName('applicationVisibilities');
     let contentLines = [];
     contentLines = contentLines.concat(getAppVisibilitySectionElement())
-    for (const appVisibility of profile.applicationVisibilities) {
+    for (const appVisibility of permissionSet.applicationVisibilities) {
         contentLines = contentLines.concat(getAppVisibilitySectionElement(appVisibility));
     }
     document.getElementById("applicationVisibilitiesBody").innerHTML = contentLines.join('\n');
 }
 
-function setClassAccessesData(profile) {
+function setClassAccessesData(permissionSet) {
     document.getElementById("classAccessesTitle").innerHTML = getPermissionSetSectionName('classAccesses');
     let contentLines = [];
     contentLines = contentLines.concat(getClassAccessSectionElement())
-    for (const classAccess of profile.classAccesses) {
+    for (const classAccess of permissionSet.classAccesses) {
         contentLines = contentLines.concat(getClassAccessSectionElement(classAccess));
     }
     document.getElementById("classAccessesBody").innerHTML = contentLines.join('\n');
 }
 
-function setCustomMetadataAccessesData(profile) {
+function setCustomMetadataAccessesData(permissionSet) {
     document.getElementById("customMetadataTypeAccessesTitle").innerHTML = getPermissionSetSectionName('customMetadataTypeAccesses');
     let contentLines = [];
     contentLines = contentLines.concat(getCustomMetadataAccessSectionElement())
-    for (const customMetadataAccess of profile.customMetadataTypeAccesses) {
+    for (const customMetadataAccess of permissionSet.customMetadataTypeAccesses) {
         contentLines = contentLines.concat(getCustomMetadataAccessSectionElement(customMetadataAccess));
     }
     document.getElementById("customMetadataTypeAccessesBody").innerHTML = contentLines.join('\n');
 }
 
-function setCustomPermissionsData(profile) {
+function setCustomPermissionsData(permissionSet) {
     document.getElementById("customPermissionsTitle").innerHTML = getPermissionSetSectionName('customPermissions');
     let contentLines = [];
     contentLines = contentLines.concat(getCustomPermissionSectionElement())
-    for (const customPermission of profile.customPermissions) {
+    for (const customPermission of permissionSet.customPermissions) {
         contentLines = contentLines.concat(getCustomPermissionSectionElement(customPermission));
     }
     document.getElementById("customPermissionsBody").innerHTML = contentLines.join('\n');
 }
 
-function setCustomSettingAccessesData(profile) {
+function setCustomSettingAccessesData(permissionSet) {
     document.getElementById("customSettingAccessesTitle").innerHTML = getPermissionSetSectionName('customSettingAccesses');
     let contentLines = [];
     contentLines = contentLines.concat(getCustomSettingAccessSectionElement())
-    for (const customSettingAccess of profile.customSettingAccesses) {
+    for (const customSettingAccess of permissionSet.customSettingAccesses) {
         contentLines = contentLines.concat(getCustomSettingAccessSectionElement(customSettingAccess));
     }
     document.getElementById("customSettingAccessesBody").innerHTML = contentLines.join('\n');
 }
 
-function setFieldPermissionsData(profile) {
+function setFieldPermissionsData(permissionSet) {
     document.getElementById("fieldPermissionsTitle").innerHTML = getPermissionSetSectionName('fieldPermissions');
     let contentLines = [];
     let fieldByObject = {};
-    for (const fieldPermission of profile.fieldPermissions) {
+    for (const fieldPermission of permissionSet.fieldPermissions) {
         let splits = fieldPermission.field.split('.');
         let objName = splits[0];
         let fieldName = splits[1];
@@ -186,202 +186,31 @@ function redrawFieldPermissionsForObject(obj) {
     document.getElementById(obj + '_fieldsContainer').innerHTML = contentLines.join('\n');
 }
 
-function setFlowAccessesData(profile) {
-    document.getElementById("flowAccessesTitle").innerHTML = getPermissionSetSectionName('flowAccesses');
-    let contentLines = [];
-    contentLines = contentLines.concat(getFlowAccessesSectionElement())
-    for (const flowAccess of profile.flowAccesses) {
-        contentLines = contentLines.concat(getFlowAccessesSectionElement(flowAccess));
-    }
-    document.getElementById("flowAccessesBody").innerHTML = contentLines.join('\n');
-}
-
-function setLayoutAssignmentData(profile) {
-    document.getElementById("layoutAssignmentsTitle").innerHTML = getPermissionSetSectionName('layoutAssignments');
-    let contentLines = [];
-    let layoutsByObject = {};
-    for (const layoutAssignment of profile.layoutAssignments) {
-        let splits = layoutAssignment.layout.split('-');
-        let objName = splits[0];
-        let layoutName = splits[1];
-        if (!layoutsByObject[objName]) {
-            layoutsByObject[objName] = {
-                name: objName,
-                layouts: []
-            };
-        }
-        layoutsByObject[objName].layouts.push({
-            name: layoutName,
-            recordType: layoutAssignment.recordType,
-        });
-    }
-    let recordtypesByObject = {};
-    for (const recordTypeVisibility of profile.recordTypeVisibilities) {
-        let splits = recordTypeVisibility.recordType.split('.');
-        let objName = splits[0];
-        let recordTypeName = splits[1];
-        if (!recordtypesByObject[objName]) {
-            recordtypesByObject[objName] = {
-                name: objName,
-                recordtypes: []
-            };
-        }
-        recordtypesByObject[objName].recordtypes.push({
-            name: recordTypeName,
-            visible: recordTypeVisibility.visible,
-            default: recordTypeVisibility.default,
-        });
-    }
-    contentLines.push('\t\t\t\t\t\t\t<div class="w3-container" style="padding-left: 15px;">');
-    Object.keys(layoutsByObject).forEach(function (key) {
-        contentLines.push('\t\t\t\t\t\t\t\t<div class="w3-row">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col subsectionHeader" onclick="openCloseSection(\'' + key + '_layoutAssignmentContainer\', \'' + key + '_layoutAssignmentCollapseBtn\')" style="width: 80%; cursor: pointer;">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t\t<h4>' + key + '</h4>');
-        contentLines.push('\t\t\t\t\t\t\t\t\t</div>');
-        contentLines.push('\t\t\t\t\t\t\t\t\t<div class="w3-col" style="width: 20%; cursor: pointer;">');
-        contentLines.push('\t\t\t\t\t\t\t\t\t\t<div onclick="openCloseSection(\'' + key + '_layoutAssignmentContainer\', \'' + key + '_layoutAssignmentCollapseBtn\')"><i id="' + key + '_layoutAssignmentCollapseBtn" class="material-icons md-32 md-light w3-right">expand_more</i></div>');
-        contentLines.push('\t\t\t\t\t\t\t\t\t</div>');
-        contentLines.push('\t\t\t\t\t\t\t\t</div>');
-        contentLines.push('\t\t\t\t\t\t\t\t<div id="' + key + '_layoutAssignmentContainer" class="w3-container w3-hide" style="overflow: scroll;">');
-        contentLines.push('<div class="w3-bar">');
-        contentLines.push('<div class="w3-bar-item" style="width: 500px;">');
-        contentLines.push('<div class="searchBox">');
-        contentLines.push('<input id="' + key + '_layoursFilter" oninput="onFilterElement(\'' + key + '_layoursFilter\', \'layoutAssignments.' + key + '\')" onpaste="onFilterElement(\'' + key + '_layoursFilter\', \'layoutAssignments.' + key + '\')" onkeypress="onFilterElement(\'' + key + '_layoursFilter\', \'layoutAssignments.' + key + '\')" class="searchInput" type="text" name="" placeholder="{!label.filter}">');
-        contentLines.push('<button class="searchButton" href="#"><i class="material-icons">search</i></button>');
-        contentLines.push('</div>');
-        contentLines.push('</div>');
-        contentLines.push('</div>');
-        contentLines.push('<div class="w3-row" id="' + key + '_layoutsContainer">');
-        contentLines.push('<table class="w3-table table">');
-        contentLines = contentLines.concat(getLayoutAssignmentSectionElement());
-        for (const layoutAssignment of layoutsByObject[key].layouts) {
-            let recordtypes = (recordtypesByObject[key]) ? recordtypesByObject[key].recordtypes : [];
-            contentLines = contentLines.concat(getLayoutAssignmentSectionElement(key, layoutAssignment, recordtypes));
-        }
-        contentLines.push('</table>');
-        contentLines.push('</div>');
-        contentLines.push('\t\t\t\t\t\t\t\t</div>');
-    });
-    contentLines.push('\t\t\t\t\t\t\t</div>');
-    document.getElementById("layoutAssignmentsBody").innerHTML = contentLines.join('\n');
-}
-
-function redrawLayoutAssignmentForObject(obj) {
-    let contentLines = [];
-    let layoutsByObject = {};
-    for (const layoutAssignment of permissionSet.layoutAssignments) {
-        let splits = layoutAssignment.layout.split('-');
-        let objName = splits[0];
-        let layoutName = splits[1];
-        if (!layoutsByObject[objName]) {
-            layoutsByObject[objName] = {
-                name: objName,
-                layouts: []
-            };
-        }
-        layoutsByObject[objName].layouts.push({
-            name: layoutName,
-            recordType: layoutAssignment.recordType,
-        });
-    }
-    let recordtypesByObject = {};
-    for (const recordTypeVisibility of permissionSet.recordTypeVisibilities) {
-        let splits = recordTypeVisibility.recordType.split('.');
-        let objName = splits[0];
-        let recordTypeName = splits[1];
-        if (!recordtypesByObject[objName]) {
-            recordtypesByObject[objName] = {
-                name: objName,
-                recordtypes: []
-            };
-        }
-        recordtypesByObject[objName].recordtypes.push({
-            name: recordTypeName,
-            visible: recordTypeVisibility.visible,
-            default: recordTypeVisibility.default,
-        });
-    }
-    contentLines.push('<table class="w3-table table">');
-    contentLines = contentLines.concat(getLayoutAssignmentSectionElement());
-    for (const layoutAssignment of layoutsByObject[obj].layouts) {
-        let recordtypes = (recordtypesByObject[obj]) ? recordtypesByObject[obj].recordtypes : [];
-        contentLines = contentLines.concat(getLayoutAssignmentSectionElement(obj, layoutAssignment, recordtypes));
-    }
-    contentLines.push('</table>');
-    document.getElementById(obj + '_layoutsContainer').innerHTML = contentLines.join('\n');
-}
-
-function setLoginHoursData(profile) {
-    if (profile.loginHours) {
-        document.getElementById("loginHoursTitle").innerHTML = getPermissionSetSectionName('loginHours');
-        let contentLines = [];
-        contentLines.push('<table class="w3-table table">');
-        contentLines.push('<tr class="tableHeaderRow">');
-        contentLines.push('<th class="tableHeaderCell">{!label.day}</th>');
-        contentLines.push('<th class="tableHeaderCell">{!label.start_time}</th>');
-        contentLines.push('<th class="tableHeaderCell">{!label.end_time}</th>');
-        contentLines.push('</tr>');
-        let daysProcessed = [];
-        Object.keys(profile.loginHours).forEach(function (key) {
-            let dayName = key.substring(0, 1).toUpperCase() + key.substring(1).replace('End', '').replace('Start', '');
-            if (!daysProcessed.includes(dayName)) {
-                contentLines.push('<tr class="tableRow">');
-                contentLines.push('<td class="tableCell">' + dayName + '</td>');
-                contentLines.push('<td class="tableCell">' + getHoursSelect(key, profile.loginHours[dayName.toLowerCase() + 'Start']) + '</td>');
-                contentLines.push('<td class="tableCell">' + getHoursSelect(key, profile.loginHours[dayName.toLowerCase() + 'End']) + '</td>');
-                contentLines.push('</tr>');
-                daysProcessed.push(dayName);
-            }
-        });
-        contentLines.push('</table>');
-        document.getElementById("loginHoursBody").innerHTML = contentLines.join('\n');
-    } else {
-        document.getElementById("loginHoursContainer").style.display = 'none';
-    }
-}
-
-function setLoginIpRangesData(profile) {
-    document.getElementById("loginIpRangesTitle").innerHTML = getPermissionSetSectionName('loginIpRanges');
-    let contentLines = [];
-    contentLines.push('<table class="w3-table table">');
-    contentLines = contentLines.concat(getLoginIpRangeSectionElement())
-    let index = 0;
-    for (const loginIpRange of profile.loginIpRanges) {
-        contentLines = contentLines.concat(getLoginIpRangeSectionElement(index, loginIpRange))
-        index++;
-    }
-    contentLines.push('</table>');
-    contentLines.push('\t\t\t\t\t\t\t<div class="w3-row w3-left">');
-    contentLines.push('\t\t\t\t\t\t\t<button onclick="addLoginIpRange()" style="margin-top:12px" class="w3-btn w3-right add">{!label.add_ip_range}</button>');
-    contentLines.push('\t\t\t\t\t\t\t</div>');
-    document.getElementById("loginIpRangesBody").innerHTML = contentLines.join('\n');
-}
-
-function setObjectPermissionsData(profile) {
+function setObjectPermissionsData(permissionSet) {
     document.getElementById("objectPermissionsTitle").innerHTML = getPermissionSetSectionName('objectPermissions');
     let contentLines = [];
     contentLines = contentLines.concat(getObjectPermissionSectionElement())
-    for (const objectPermission of profile.objectPermissions) {
+    for (const objectPermission of permissionSet.objectPermissions) {
         contentLines = contentLines.concat(getObjectPermissionSectionElement(objectPermission));
     }
     document.getElementById("objectPermissionsBody").innerHTML = contentLines.join('\n');
 }
 
-function setPageAccessesData(profile) {
+function setPageAccessesData(permissionSet) {
     document.getElementById("pageAccessesTitle").innerHTML = getPermissionSetSectionName('pageAccesses');
     let contentLines = [];
     contentLines = contentLines.concat(getPageAccessSectionElement())
-    for (const pageAccess of profile.pageAccesses) {
+    for (const pageAccess of permissionSet.pageAccesses) {
         contentLines = contentLines.concat(getPageAccessSectionElement(pageAccess));
     }
     document.getElementById("pageAccessesBody").innerHTML = contentLines.join('\n');
 }
 
-function setRecordTypeVisibilitiesData(profile) {
+function setRecordTypeVisibilitiesData(permissionSet) {
     document.getElementById("recordTypeVisibilitiesTitle").innerHTML = getPermissionSetSectionName('recordTypeVisibilities');
     let contentLines = [];
     let recordtypesByObject = {};
-    for (const recordTypeVisibility of profile.recordTypeVisibilities) {
+    for (const recordTypeVisibility of permissionSet.recordTypeVisibilities) {
         let splits = recordTypeVisibility.recordType.split('.');
         let objName = splits[0];
         let recordTypeName = splits[1];
@@ -458,21 +287,21 @@ function redrawRecordTypeVisibilities(obj) {
     document.getElementById(obj + '_recordTypesContainer').innerHTML = contentLines.join('\n');
 }
 
-function setTabVisibilitiesData(profile) {
-    document.getElementById("tabVisibilitiesTitle").innerHTML = getPermissionSetSectionName('tabVisibilities');
+function setTabVisibilitiesData(permissionSet) {
+    document.getElementById("tabVisibilitiesTitle").innerHTML = getPermissionSetSectionName('tabSettings');
     let contentLines = [];
     contentLines = contentLines.concat(getTabVisibilitySectionElement())
-    for (const tabVisibility of profile.tabVisibilities) {
+    for (const tabVisibility of permissionSet.tabSettings) {
         contentLines = contentLines.concat(getTabVisibilitySectionElement(tabVisibility));
     }
     document.getElementById("tabVisibilitiesBody").innerHTML = contentLines.join('\n');
 }
 
-function setUserPermissionsData(profile) {
+function setUserPermissionsData(permissionSet) {
     document.getElementById("userPermissionsTitle").innerHTML = getPermissionSetSectionName('userPermissions');
     let contentLines = [];
     contentLines = contentLines.concat(getUserPermissionSectionElement())
-    for (const userPermission of profile.userPermissions) {
+    for (const userPermission of permissionSet.userPermissions) {
         contentLines = contentLines.concat(getUserPermissionSectionElement(userPermission));
     }
     document.getElementById("userPermissionsBody").innerHTML = contentLines.join('\n');
@@ -596,64 +425,6 @@ function getFieldPermissionsSectionElement(obj, field) {
     return contentLines;
 }
 
-function getFlowAccessesSectionElement(flowAccess) {
-    let contentLines = [];
-    if (flowAccess) {
-        let filter = elementsFiltered['flowAccesses'];
-        if (!filter || flowAccess.flow.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
-            contentLines.push('<tr class="tableRow">');
-            contentLines.push('<td class="tableCell">' + flowAccess.flow + '</td>');
-            contentLines.push('<td class="tableCell">' + getCheckbox('flowAccess_' + flowAccess.flow + '_enabled', 'clickOnElementCheck(\'flowAccesses\', \'' + flowAccess.flow + '\', \'enabled\')', flowAccess.enabled) + '</td>');
-            contentLines.push('</tr>');
-        }
-    } else {
-        contentLines.push('<tr class="tableHeaderRow">');
-        contentLines.push('<th class="tableHeaderCell">{!label.flow_name}</th>');
-        contentLines.push('<th class="tableHeaderCell">{!label.enabled}</th>');
-        contentLines.push('</tr>');
-    }
-    return contentLines;
-}
-
-function getLayoutAssignmentSectionElement(obj, layoutAssignment, recordtypes) {
-    let contentLines = [];
-    if (layoutAssignment) {
-        let filter = elementsFiltered['layoutAssignments'];
-        if (!filter || layoutAssignment.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
-            contentLines.push('<tr class="tableRow">');
-            contentLines.push('<td class="tableCell">' + layoutAssignment.name + '</td>');
-            contentLines.push('<td class="tableCell">' + getRecordTypesSelect(obj, layoutAssignment, recordtypes) + '</td>');
-            contentLines.push('</tr>');
-        }
-    } else {
-        contentLines.push('<tr class="tableHeaderRow">');
-        contentLines.push('<th class="tableHeaderCell">{!label.layout_name}</th>');
-        contentLines.push('<th class="tableHeaderCell">{!label.assigned_record_type}</th>');
-        contentLines.push('</tr>');
-    }
-    return contentLines;
-}
-
-function getLoginIpRangeSectionElement(index, loginIpRange) {
-    let contentLines = [];
-    if (loginIpRange) {
-        contentLines.push('<tr class="tableRow">');
-        contentLines.push('<td class="tableCell"><input style="width:90%" id="ip_startAddress_' + index + '" class="w3-input inputText" value="' + loginIpRange.startAddress + '" type="text" placeholder="{!label.start_address}..."></td>');
-        contentLines.push('<td class="tableCell"><input style="width:90%" id="ip_endAddress_' + index + '" class="w3-input inputText" value="' + loginIpRange.endAddress + '" type="text" placeholder="{!label.end_address}..."></td>');
-        contentLines.push('<td class="tableCell"><input style="width:90%" id="ip_description_' + index + '" class="w3-input inputText" value="' + loginIpRange.description + '" type="text" placeholder="{!label.description}..."></td>');
-        contentLines.push('<td class="tableCell"><a class="material-icons" style="margin-top:12px; width:5px; cursor: pointer;" onclick="deleteLoginIpRange(' + index + ')">delete</a></td>');
-        contentLines.push('</tr>');
-    } else {
-        contentLines.push('<tr class="tableHeaderRow">');
-        contentLines.push('<th class="tableHeaderCell">{!label.start_address}</th>');
-        contentLines.push('<th class="tableHeaderCell">{!label.end_address}</th>');
-        contentLines.push('<th class="tableHeaderCell">{!label.description}</th>');
-        contentLines.push('<th class="tableHeaderCell">{!label.actions}</th>');
-        contentLines.push('</tr>');
-    }
-    return contentLines;
-}
-
 function getObjectPermissionSectionElement(objectPermission) {
     let contentLines = [];
     if (objectPermission) {
@@ -710,14 +481,12 @@ function getRecordTypeVisibilitySectionElement(obj, recordtypeVisibility) {
             contentLines.push('<tr class="tableRow">');
             contentLines.push('<td class="tableCell">' + recordtypeVisibility.name + '</td>');
             contentLines.push('<td class="tableCell">' + getCheckbox('recordtype_' + obj + '.' + recordtypeVisibility.name + '_visible', 'clickOnElementCheck(\'recordTypeVisibilities\', \'' + obj + '.' + recordtypeVisibility.name + '\', \'visible\')', recordtypeVisibility.visible) + '</td>');
-            contentLines.push('<td class="tableCell">' + getRadio('recordtype_' + obj + '.' + recordtypeVisibility.name + '_default', obj + '_rtDefault', 'clickOnElementCheck(\'recordTypeVisibilities\', \'' + recordtypeVisibility.name + '\', \'default\')', recordtypeVisibility.default) + '</td>');
             contentLines.push('</tr>');
         }
     } else {
         contentLines.push('<tr class="tableHeaderRow">');
         contentLines.push('<th class="tableHeaderCell">{!label.record_Type_name}</th>');
         contentLines.push('<th class="tableHeaderCell">{!label.visible}</th>');
-        contentLines.push('<th class="tableHeaderCell">{!label.default}</th>');
         contentLines.push('</tr>');
     }
     return contentLines;
@@ -726,7 +495,7 @@ function getRecordTypeVisibilitySectionElement(obj, recordtypeVisibility) {
 function getTabVisibilitySectionElement(tabVisibility) {
     let contentLines = [];
     if (tabVisibility) {
-        let filter = elementsFiltered['tabVisibilities'];
+        let filter = elementsFiltered['tabSettings'];
         if (!filter || tabVisibility.tab.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
             contentLines.push('<tr class="tableRow">');
             contentLines.push('<td class="tableCell">' + tabVisibility.tab + '</td>');
@@ -761,41 +530,6 @@ function getUserPermissionSectionElement(userPermission) {
     return contentLines;
 }
 
-
-
-function getHoursSelect(moment, selectedValue) {
-    let contentLines = [];
-    contentLines.push('\t\t\t\t\t\t\t<select style="width:90%" id="" class="w3-select w3-input inputText" id="' + moment + '_loginHours" name="' + moment + '_loginHours" onchange="onSelectHour(\'' + moment + '\')">');
-    if (selectedValue === -1)
-        contentLines.push('\t\t\t\t\t\t\t\t<option value="-1" selected>--None--</option>');
-    else
-        contentLines.push('\t\t\t\t\t\t\t\t<option value="-1">--None--</option>');
-    if (selectedValue === 0)
-        contentLines.push('\t\t\t\t\t\t\t\t<option value="0" selected>12:00 AM</option>');
-    else
-        contentLines.push('\t\t\t\t\t\t\t\t<option value="0">12:00 AM</option>');
-    for (let i = 1; i <= 23; i++) {
-        let value = i * 60;
-        if (selectedValue === value) {
-            if (i < 12)
-                contentLines.push('\t\t\t\t\t\t\t\t<option value="' + value + '" selected>' + i + ':00 AM</option>');
-            else
-                contentLines.push('\t\t\t\t\t\t\t\t<option value="' + value + '" selected>' + i + ':00 PM</option>');
-        } else {
-            if (i < 12)
-                contentLines.push('\t\t\t\t\t\t\t\t<option value="' + value + '">' + i + ':00 AM</option>');
-            else
-                contentLines.push('\t\t\t\t\t\t\t\t<option value="' + value + '">' + i + ':00 PM</option>');
-        }
-    }
-    if (selectedValue === 1440)
-        contentLines.push('\t\t\t\t\t\t\t\t<option value="1440" selected>End of Day</option>');
-    else
-        contentLines.push('\t\t\t\t\t\t\t\t<option value="1440">End of Day</option>');
-    contentLines.push('\t\t\t\t\t\t\t</select>');
-    return contentLines.join('\n');
-}
-
 function getTabVisibilitySelect(tab, selectedValue) {
     let contentLines = [];
     contentLines.push('\t\t\t\t\t\t\t<select style="width:90%" id="" class="w3-select w3-input inputText" id="' + tab + '_visibility" name="' + tab + '_visibility" onchange="onSelectVisibility(\'' + tab + '\')">');
@@ -814,27 +548,6 @@ function getTabVisibilitySelect(tab, selectedValue) {
     contentLines.push('\t\t\t\t\t\t\t</select>');
     return contentLines.join('\n');
 }
-
-function getRecordTypesSelect(obj, layout, recordtypes) {
-    let contentLines = [];
-    let recordType = (layout.recordType) ? layout.recordType : 'Master';
-    contentLines.push('\t\t\t\t\t\t\t<select style="width:90%" id="" class="w3-select w3-input inputText" id="' + obj + '-' + layout.name + '-' + recordType + '_assignment" name="' + obj + '-' + layout.name + '-' + recordType + '_assignment" onchange="onSelectRecordType("' + obj + '", "' + layout.name + '", "' + recordType + '")">');
-    if (recordType === 'Master')
-        contentLines.push('\t\t\t\t\t\t\t\t<option value="Master" selected>Master</option>');
-    else
-        contentLines.push('\t\t\t\t\t\t\t\t<option value="Master">Master</option>');
-    if (recordtypes) {
-        for (let rt of recordtypes) {
-            if (obj + '.' + rt.name === recordType)
-                contentLines.push('\t\t\t\t\t\t\t\t<option value="' + rt.name + '" selected>' + rt.name + '</option>');
-            else
-                contentLines.push('\t\t\t\t\t\t\t\t<option value="' + rt.name + '">' + rt.name + '</option>');
-        }
-    }
-    contentLines.push('\t\t\t\t\t\t\t</select>');
-    return contentLines.join('\n');
-}
-
 
 function clickOnElementCheck(section, elementName, elementCheckField) {
     console.log('clickOnElementCheck');
@@ -1018,39 +731,13 @@ function clickOnElementCheck(section, elementName, elementCheckField) {
     }
 }
 
-function addLoginIpRange() {
-    // @ts-ignore
-    permissionSet.loginIpRanges.push({ startAddress: '', endAddress: '', description: '' });
-    setLoginIpRangesData(permissionSet);
-}
-
-function onSelectHour(moment) {
-    // @ts-ignore
-    permissionSet.loginHours[moment] = document.getElementById(moment + '_loginHours').value;
-}
-
 function onSelectVisibility(tabName) {
     // @ts-ignore
     let value = document.getElementById(tabName + '_visibility').value;
     // @ts-ignore
-    for (let tabVisibility of permissionSet.tabVisibilities) {
+    for (let tabVisibility of permissionSet.tabSettings) {
         if (tabVisibility.tab === tabName)
             tabVisibility.visibility = value;
-    }
-}
-
-function onSelectRecordType(obj, layoutName, recordtype) {
-    // @ts-ignore
-    // @ts-ignore
-    let value = document.getElementById(obj + '-' + layoutName + '-' + recordType + '_assignment').value;
-    // @ts-ignore
-    for (let layoutAssignment of permissionSet.layoutAssignments) {
-        if (layoutAssignment.layout === obj + '-' + layoutName) {
-            if (recordtype === 'Master')
-                layoutAssignment.recordType = undefined;
-            else
-                layoutAssignment.recordType = recordtype;
-        }
     }
 }
 
@@ -1066,54 +753,19 @@ function openCloseSection(id, btnId) {
     }
 }
 
-function deleteLoginIpRange(index) {
-    // @ts-ignore
-    if (permissionSet.loginIpRanges) {
-        // @ts-ignore
-        if (permissionSet.loginIpRanges.length - 1 >= index)
-            // @ts-ignore
-            permissionSet.loginIpRanges.splice(index, 1);
-    }
-    setLoginIpRangesData(permissionSet);
-}
-
 function save() {
     // @ts-ignore
-    if (permissionSet.loginIpRanges && permissionSet.loginIpRanges.length > 0) {
-        let index = 0;
-        // @ts-ignore
-        for (let loginIp of permissionSet.loginIpRanges) {
-            // @ts-ignore
-            loginIp.startAddress = document.getElementById('ip_startAddress_' + index).value;
-            // @ts-ignore
-            loginIp.endAddress = document.getElementById('ip_endAddress_' + index).value;
-            // @ts-ignore
-            loginIp.description = document.getElementById('ip_description_' + index).value;
-            index++;
-        }
-    }
-    // @ts-ignore
     permissionSet.description = document.getElementById('mainData_Description').value;
+    // @ts-ignore
+    permissionSet.label = document.getElementById('mainData_Label').value;
     vscode.postMessage({ command: 'save', profile: permissionSet });
 }
 
 function compressAndSave() {
     // @ts-ignore
-    if (permissionSet.loginIpRanges && permissionSet.loginIpRanges.length > 0) {
-        let index = 0;
-        // @ts-ignore
-        for (let loginIp of permissionSet.loginIpRanges) {
-            // @ts-ignore
-            loginIp.startAddress = document.getElementById('ip_startAddress_' + index).value;
-            // @ts-ignore
-            loginIp.endAddress = document.getElementById('ip_endAddress_' + index).value;
-            // @ts-ignore
-            loginIp.description = document.getElementById('ip_description_' + index).value;
-            index++;
-        }
-    }
-    // @ts-ignore
     permissionSet.description = document.getElementById('mainData_Description').value;
+    // @ts-ignore
+    permissionSet.label = document.getElementById('mainData_Label').value;
     vscode.postMessage({ command: 'compressAndSave', profile: permissionSet });
 }
 
@@ -1128,15 +780,11 @@ function getPermissionSetSectionName(profileSection) {
         externalDataSourceAccesses: "{!label.external_data_source_accesses}",
         fieldPermissions: "{!label.field_permissions}",
         fieldLevelSecurities: "{!label.field_level_securities}",
-        flowAccesses: "{!label.flow_accesses}",
-        layoutAssignments: "{!label.layout_assignments}",
-        loginHours: "{!label.login_hours}",
-        loginIpRanges: "{!label.login_ip_ranges}",
         objectPermissions: "{!label.object_permissions}",
         pageAccesses: "{!label.page_accesses}",
         profileActionOverrides: "{!label.profile_action_overrides}",
         recordTypeVisibilities: "{!label.record_type_visibilities}",
-        tabVisibilities: "{!label.tab_visibilities}",
+        tabSettings: "{!label.tab_visibilities}",
         userPermissions: "{!label.user_permissions}"
     };
     return profileSectionNames[profileSection];
@@ -1174,12 +822,6 @@ function onFilterElement(inputId, filterElement) {
         case 'fieldPermissions':
             redrawFieldPermissionsForObject(filterItem);
             break;
-        case 'flowAccesses':
-            setFlowAccessesData(permissionSet);
-            break;
-        case 'layoutAssignments':
-            redrawLayoutAssignmentForObject(filterItem);
-            break;
         case 'objectPermissions':
             setObjectPermissionsData(permissionSet);
             break;
@@ -1189,7 +831,7 @@ function onFilterElement(inputId, filterElement) {
         case 'recordTypeVisibilities':
             redrawRecordTypeVisibilities(filterItem);
             break;
-        case 'tabVisibilities':
+        case 'tabSettings':
             setTabVisibilitiesData(permissionSet);
             break;
         case 'userPermissions':

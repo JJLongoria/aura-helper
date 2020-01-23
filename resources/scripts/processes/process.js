@@ -1,43 +1,68 @@
-const process = require('child_process');
+const childProcess = require('child_process');
+const Logger = require('../main/logger');
+const ProcessEvent = require('./processEvent');
 
-const BUFFER_SIZE = 1024 * 500000;
 
-class Process { 
+class Process {
 
-    static listMetadata(user) { 
-        return process.execSync('sfdx force:mdapi:describemetadata --json -u ' + user, { maxBuffer: BUFFER_SIZE });
+    constructor(command, args, options, cancellationToken) {
+        this.command = command || '';
+        this.args = args || [];
+        this.options = options || {};
+        this.cancellationToken = cancellationToken || undefined;
     }
 
-    static async listMetadataAsync(user, callback) { 
-        let out = process.execSync('sfdx force:mdapi:describemetadata --json -u ' + user, { maxBuffer: BUFFER_SIZE });
-        callback.call(this, out);
+    run(callback) {
+        Logger.log('run command: ' + this.command + ' ' + this.args.join(' '));
+        let thisCancelToken = this.cancellationToken;
+        if (thisCancelToken) {
+            thisCancelToken.onCancellationRequested(() => {
+                this.process.kill();
+                if (callback)
+                    callback.call(this, ProcessEvent.KILLED);
+            });
+        }
+        this.process = childProcess.spawn(this.command, this.args, this.options);
+        this.process.stdout.on('data', (data) => {
+            let dataStr = data.toString();
+            Logger.log(dataStr);
+            if (thisCancelToken && thisCancelToken.isCancellationRequested)
+                this.process.kill();
+            if (callback)
+                callback.call(this, ProcessEvent.STD_OUT, data);
+        });
+        this.process.stderr.on('data', (data) => {
+            let dataStr = data.toString();
+            Logger.error(dataStr);
+            if (thisCancelToken && thisCancelToken.isCancellationRequested)
+                this.process.kill();
+            if (callback)
+                callback.call(this, ProcessEvent.ERR_OUT, data);
+        });
+        this.process.on('error', (data) => {
+            Logger.error('ERROR: ' + data);
+            if (thisCancelToken && thisCancelToken.isCancellationRequested)
+                this.process.kill();
+            if (callback)
+                callback.call(this, ProcessEvent.ERROR, data);
+        });
+        this.process.on('close', (code) => {
+            Logger.log(`child process exited with code ${code}`);
+            if (this.process.killed) {
+                Logger.log(this.command + ' KILLED');
+                if (callback)
+                    callback.call(this, ProcessEvent.KILLED);
+            } else {
+                if (callback)
+                    callback.call(this, ProcessEvent.END, code);
+            }
+
+        });
     }
 
-    static describeMetadata(user, metadata) { 
-        return process.execSync('sfdx force:mdapi:listmetadata --json -m ' + metadata + ' -u ' + user, { maxBuffer: BUFFER_SIZE });
-    }
-
-    static async describeMetadataAsync(user, metadata, callback) { 
-        let out = process.execSync('sfdx force:mdapi:listmetadata --json -m ' + metadata + ' -u ' + user, { maxBuffer: BUFFER_SIZE });
-        callback.call(this, out);
-    }
-
-    static retrieve(user, packageFolder, packageFile) { 
-        return process.execSync('sfdx force:mdapi:retrieve --json -s -r "' + packageFolder + '" -k "' + packageFile + '" -u ' + user, { maxBuffer: BUFFER_SIZE });
-    }
-
-    static async retrieveAsync(user, packageFolder, packageFile, callback) { 
-        let out = process.execSync('sfdx force:mdapi:retrieve --json -s -r "' + packageFolder + '" -k "' + packageFile + '" -u ' + user, { maxBuffer: BUFFER_SIZE });
-        callback.call(this, out);
-    }
-
-    static destructiveChanges(user, destructiveFolder) { 
-        return process.execSync('sfdx force:mdapi:deploy --json -d "' + destructiveFolder + '" -u ' + user, { maxBuffer: BUFFER_SIZE });
-    }
-
-    static async destructiveChangesAsync(user, destructiveFolder, callback) { 
-        let out = process.execSync('sfdx force:mdapi:deploy --json -d "' + destructiveFolder + '" -u ' + user, { maxBuffer: BUFFER_SIZE });
-        callback.call(this, out);
+    kill() {
+        if (this.process)
+            this.process.kill();
     }
 
 }

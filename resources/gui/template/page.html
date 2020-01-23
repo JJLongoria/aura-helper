@@ -67,6 +67,11 @@
             </div>
             <!-- HEADER END -->
             <div id="pageContent" style="height: 85%;">
+                <div class="info" id="pageInfo" style="display: none;"></div>
+                <div class="success" id="pageSuccess" style="display: none;"></div>
+                <div class="warning" id="pageWarning" style="display: none;"></div>
+                <div class="validation" id="pageValidation" style="display: none;"></div>
+                <div class="error" id="pageError" style="display: none;"></div>
                 {!pageContent}
             </div>
             {!footer}
@@ -97,6 +102,15 @@
             vscode.postMessage({ command: 'cancel' });
         }
 
+        function formatStr(str, ocurrences) {
+            let index = 0;
+            for (let ocurrence of ocurrences) {
+                str = str.split('{' + index + '}').join(ocurrence);
+                index++;
+            }
+            return str;
+        }
+
         function showToast(message, millis) {
             console.log('showToast method');
             if (!millis)
@@ -109,6 +123,76 @@
                 toast.className = "toast"
             }, millis);
         }
+
+        function showPageMessage(type, message) {
+            if (type === 'error') {
+                document.getElementById('pageError').innerHTML = message;
+                document.getElementById('pageError').style.display = 'block';
+            } else if (type === 'validation') {
+                document.getElementById('pageValidation').innerHTML = message;
+                document.getElementById('pageValidation').style.display = 'block';
+            } else if (type === 'success') {
+                document.getElementById('pageSuccess').innerHTML = message;
+                document.getElementById('pageSuccess').style.display = 'block';
+            } else if (type === 'warning') {
+                document.getElementById('pageWarning').innerHTML = message;
+                document.getElementById('pageWarning').style.display = 'block';
+            } else if (type === 'info') {
+                document.getElementById('pageInfo').innerHTML = message;
+                document.getElementById('pageInfo').style.display = 'block';
+            }
+        }
+
+        function closePageMessage(type) {
+            if (type === 'error') {
+                document.getElementById('pageError').innerHTML = '';
+                document.getElementById('pageError').style.display = 'none';
+            } else if (type === 'validation') {
+                document.getElementById('pageValidation').innerHTML = '';
+                document.getElementById('pageValidation').style.display = 'none';
+            } else if (type === 'success') {
+                document.getElementById('pageSuccess').innerHTML = '';
+                document.getElementById('pageSuccess').style.display = 'none';
+            } else if (type === 'warning') {
+                document.getElementById('pageWarning').innerHTML = '';
+                document.getElementById('pageWarning').style.display = 'none';
+            } else if (type === 'info') {
+                document.getElementById('pageInfo').innerHTML = '';
+                document.getElementById('pageInfo').style.display = 'none';
+            }
+        }
+
+
+        function closeAllPageMessages() {
+            document.getElementById('pageError').innerHTML = '';
+            document.getElementById('pageError').style.display = 'none';
+            document.getElementById('pageValidation').innerHTML = '';
+            document.getElementById('pageValidation').style.display = 'none';
+            document.getElementById('pageSuccess').innerHTML = '';
+            document.getElementById('pageSuccess').style.display = 'none';
+            document.getElementById('pageWarning').innerHTML = '';
+            document.getElementById('pageWarning').style.display = 'none';
+            document.getElementById('pageInfo').innerHTML = '';
+            document.getElementById('pageInfo').style.display = 'none';
+        }
+
+        function wrongInput(inputId) {
+            let element = document.getElementById(inputId);
+            let className = element.className;
+            if (className.indexOf('wrongInput') === -1) {
+                className += " wrongInput"
+                element.className = className;
+            }
+        }
+        
+        function correctInput(inputId) {
+            let element = document.getElementById(inputId);
+            let className = element.className;
+            if (className.indexOf('wrongInput') !== -1) {
+                className = className.replace(" wrongInput", "");
+                element.className = className;
+            }
+        }        
 
         function controller();
     </script>

@@ -1,13 +1,38 @@
 const vscode = require('vscode');
-const Processes = require('../processes');
-const process = require('child_process');
+const ProcessManager = require('../processes').ProcessManager;
+const ProcessEvent = require('../processes').ProcessEvent;
 const fileSystem = require('../fileSystem');
+const Metadata = require('../metadata');
+const Config = require('../main/config');
+const languages = require('../languages');
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
+const FileWriter = fileSystem.FileWriter;
 const window = vscode.window;
-const Config = require('../main/config');
 const ProgressLocation = vscode.ProgressLocation;
+const MetadataConnection = Metadata.Connection;
+const MetadataFactory = Metadata.Factory;
+const PackageGenerator = Metadata.PackageGenerator;
+const AuraParser = languages.AuraParser;
+const ProfileUtils = Metadata.ProfileUtils;
+const PermissionSetUtils = Metadata.PermissionSetUtils;
+
+const PACKAGE_FILE_NAME = "package.xml";
+
+const metadataForGetPermissions = [
+    "CustomApplication",
+    "ApexClass",
+    "ApexPage",
+    "CustomMetadata",
+    "CustomObject",
+    "CustomField",
+    "CustomPermission",
+    "CustomTab",
+    "Flow",
+    "Layout",
+    "RecordType",
+];
 
 exports.run = function (uriOrNames) {
     let profileNames = [];
@@ -60,9 +85,9 @@ exports.run = function (uriOrNames) {
                     options.push("All Local Profiles");
                     options.push("All Profiles from Org");
                 }
-                window.showQuickPick(options, { placeHolder: "Select an Options for Retrieve" }).then((selected) => retrieveProfiles(profileNames, selected, isPermissionSets));
+                window.showQuickPick(options, { placeHolder: "Select an Options for Retrieve" }).then((selected) => showProfiles(profileNames, selected, isPermissionSets));
             } else {
-                retrieveProfiles(profileNames, 'Selected', isPermissionSets)
+                showProfiles(profileNames, 'Selected', isPermissionSets)
             }
         } else {
             window.showErrorMessage('The selected file is not a Profile or Permission set File or Folder');
@@ -72,7 +97,7 @@ exports.run = function (uriOrNames) {
     }
 }
 
-function retrieveProfiles(profileNames, selectedProfile, isPermissionSets) {
+function showProfiles(profileNames, selectedProfile, isPermissionSets) {
     if (selectedProfile === 'Single Local Profile' || selectedProfile === 'Single Local Permission Set') {
         let options = [];
         let files;
@@ -86,19 +111,20 @@ function retrieveProfiles(profileNames, selectedProfile, isPermissionSets) {
         let placeHolder = (isPermissionSets) ? 'Select one Permission Set for Retrieve' : 'Select one Profile for Retrieve';
         window.showQuickPick(options, { placeHolder: placeHolder }).then((selected) => retrieve([selected], isPermissionSets));
     } else if (selectedProfile === 'Single Profile from Org' || selectedProfile === 'Single Permission Set from Org') {
-        let options = [];
         window.withProgress({
             location: ProgressLocation.Notification,
             title: (isPermissionSets) ? "Loading Permission Sets from Org" : "Loading Profiles from Org",
             cancellable: false
         }, (progress, token) => {
             return new Promise(resolve => {
-                setTimeout(() => {
-                    options = listProfilesFromOrg(isPermissionSets, token);
+                listProfilesFromOrg(isPermissionSets, token, function (profileNames) {
                     resolve();
-                    let placeHolder = (isPermissionSets) ? 'Select one Permission Set for Retrieve' : 'Select one Profile for Retrieve';
-                    window.showQuickPick(options, { placeHolder: placeHolder }).then((selected) => retrieve([selected], isPermissionSets));
-                }, 100);
+                    if (profileNames) {
+                        resolve();
+                        let placeHolder = (isPermissionSets) ? 'Select one Permission Set for Retrieve' : 'Select one Profile for Retrieve';
+                        window.showQuickPick(profileNames, { placeHolder: placeHolder }).then((selected) => retrieve([selected], isPermissionSets));
+                    }
+                });
             });
         });
     } else if (selectedProfile === 'All Local Profiles' || selectedProfile === 'All Local Permission Sets') {
@@ -120,44 +146,47 @@ function retrieveProfiles(profileNames, selectedProfile, isPermissionSets) {
             cancellable: false
         }, (progress, token) => {
             return new Promise(resolve => {
-                setTimeout(() => {
-                    profileNames = listProfilesFromOrg(isPermissionSets, token);
+                listProfilesFromOrg(isPermissionSets, token, function (profileNames) {
                     resolve();
                     if (profileNames) {
                         retrieve(profileNames, isPermissionSets);
                     }
-                }, 100);
+                });
             });
         });
-    } else if(selectedProfile === 'Selected'){
+    } else if (selectedProfile === 'Selected') {
         retrieve(profileNames, isPermissionSets)
     }
 }
 
-function listProfilesFromOrg(isPermissionSets, token) {
+async function listProfilesFromOrg(isPermissionSets, token, callback) {
     let profileNames = [];
-    let user = Config.getAuthUsername();
-    let stdOut;
-    let abort = false;
+    let user = await Config.getAuthUsername();
+    let buffer = [];
+    let bufferError = [];
+    let object = '';
     if (isPermissionSets)
-        stdOut = Processes.Process.describeMetadata(user, 'PermissionSet');
+        object = 'PermissionSet';
     else
-        stdOut = Processes.Process.describeMetadata(user, 'Profile');
-    token.onCancellationRequested(() => {
-        abort = true;
-    });
-    if (!abort) {
-        if (stdOut) {
-            let data = JSON.parse(stdOut.toString());
-            let result = (Array.isArray(data.result)) ? data.result : [data.result];
-            for (const profile of result) {
-                profileNames.push(profile.fullName);
-            }
+        object = 'Profile';
+    ProcessManager.describeMetadata(user, object, token, function (event, data) {
+        switch (event) {
+            case ProcessEvent.STD_OUT:
+                buffer = buffer.concat(data);
+                break;
+            case ProcessEvent.END:
+                let outJson = JSON.parse(buffer.toString());
+                let profiles = (Array.isArray(outJson.result)) ? outJson.result : [outJson.result];
+                for (const profile of profiles) {
+                    profileNames.push(profile.fullName);
+                }
+                if (callback)
+                    callback.call(this, profileNames);
+                break;
+            default:
+                break;
         }
-        return profileNames;
-    } else {
-        return undefined;
-    }
+    });
 }
 
 function retrieve(profileNames, isPermissionSets) {
@@ -166,15 +195,100 @@ function retrieve(profileNames, isPermissionSets) {
             location: ProgressLocation.Notification,
             title: (isPermissionSets) ? "Retrieving Permission Sets from Org" : "Retrieving Profiles from Org",
             cancellable: true
-        }, (progress, token) => {
+        }, (progress, canceltoken) => {
             return new Promise(resolve => {
-                setTimeout(() => {
-                    Processes.refreshFullProfile.run(profileNames, isPermissionSets, selected !== 'No', function () {
-                        resolve();
-                        window.showInformationMessage((isPermissionSets) ? "Permission Retrieved Succesfully" : "Profiles Retrieved Succesfully");
-                    }, token);
-                }, 100);
+                retrieveProfiles(profileNames, isPermissionSets, selected === 'Yes', canceltoken, function () {
+                    resolve();
+                    window.showInformationMessage((isPermissionSets) ? "Permission Retrieved Succesfully" : "Profiles Retrieved Succesfully");
+                });
             });
         });
+    });
+}
+
+async function retrieveProfiles(profileNames, isPermissionSets, compress, cancelToken, callback) {
+    let user = await Config.getAuthUsername();
+    let orgNamespace = Config.getOrgNamespace(user);
+    MetadataConnection.getMetadataFromOrg(user, metadataForGetPermissions, orgNamespace, false, undefined, cancelToken, function (metadata) {
+        let profileMetadata;
+        if (isPermissionSets)
+            profileMetadata = MetadataFactory.createMetadataType('PermissionSet', true);
+        else
+            profileMetadata = MetadataFactory.createMetadataType('Profile', true);
+        for (const profile of profileNames) {
+            profileMetadata.childs[profile] = MetadataFactory.createMetadataObject(profile, true);
+        }
+        if (metadata && metadata.length > 0) {
+            if (isPermissionSets)
+                metadata['PermissionSet'] = profileMetadata;
+            else
+                metadata['Profile'] = profileMetadata;
+            retrieveMetadata(user, metadata, isPermissionSets, cancelToken, callback);
+        }
+    });
+}
+
+function retrieveMetadata(user, metadata, compress, isPermissionSets, cancelToken, callback) {
+    let packageContent = PackageGenerator.createPackage(metadata, Config.getOrgVersion());
+    let packageFolder = Paths.getPackageFolder();
+    let packageFile = packageFolder + '\\' + PACKAGE_FILE_NAME;
+    if (FileChecker.isExists(packageFolder))
+        FileWriter.delete(packageFolder);
+    FileWriter.createFolderSync(packageFolder);
+    FileWriter.createFileSync(packageFile, packageContent);
+    let buffer = [];
+    let bufferError = [];
+    ProcessManager.retrieve(user, packageFolder, packageFile, cancelToken, function (event, data) {
+        switch (event) {
+            case ProcessEvent.STD_OUT:
+                buffer = buffer.concat(data);
+                break;
+            case ProcessEvent.END:
+                let outJson = JSON.parse(buffer.toString());
+                if (outJson.status === 0) {
+                    FileWriter.unzip(packageFolder + '\\unpackaged.zip', packageFolder, function () {
+                        if (isPermissionSets) {
+                            let profiles = FileReader.readDirSync(packageFolder + '\\permissionsets');
+                            if (!FileChecker.isExists(Paths.getMetadataRootFolder() + '\\permissionsets'))
+                                FileWriter.createFolderSync(Paths.getMetadataRootFolder() + '\\permissionsets');
+                            for (const profile of profiles) {
+                                let targetFile = Paths.getMetadataRootFolder() + '\\permissionsets\\' + profile + '-meta.xml';
+                                let sourceFile = packageFolder + '\\permissionsets\\' + profile;
+                                if (compress) {
+                                    let root = AuraParser.parseXML(FileReader.readFileSync(sourceFile));
+                                    let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
+                                    if (profileRaw) {
+                                        let profile = PermissionSetUtils.createPermissionSet(profileRaw);
+                                        FileWriter.createFileSync(sourceFile, PermissionSetUtils.toXML(profile, true));
+                                    }
+                                }
+                                FileWriter.copyFileSync(sourceFile, targetFile);
+                            }
+                        } else {
+                            let profiles = FileReader.readDirSync(packageFolder + '\\profiles');
+                            if (!FileChecker.isExists(Paths.getMetadataRootFolder() + '\\profiles'))
+                                FileWriter.createFolderSync(Paths.getMetadataRootFolder() + '\\profiles');
+                            for (const profile of profiles) {
+                                let targetFile = Paths.getMetadataRootFolder() + '\\profiles\\' + profile + '-meta.xml';
+                                let sourceFile = packageFolder + '\\profiles\\' + profile;
+                                if (compress) {
+                                    let root = AuraParser.parseXML(FileReader.readFileSync(sourceFile));
+                                    let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
+                                    if (profileRaw) {
+                                        let profile = ProfileUtils.createProfile(profileRaw);
+                                        FileWriter.createFileSync(sourceFile, ProfileUtils.toXML(profile, true));
+                                    }
+                                }
+                                FileWriter.copyFileSync(sourceFile, targetFile);
+                            }
+                        }
+                        if (callback)
+                            callback.call(this);
+                    });
+                }
+                break;
+            default:
+                break;
+        }
     });
 }

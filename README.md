@@ -64,7 +64,7 @@ Some of the tools are:
 - Graphical interface to manage files more simply and without leaving VSCode
 - Possibility of updating the files that are created at runtime during the deployments depending on the content, such as profiles or permission sets, including all system information and without the need to update the other elements
 - Ability to check what elements exist in the environment and not locally, to be able to eliminate them and match the environment with the local content
-- If we want to perform metadata deployments or retrieves, we can use the Package Generator tools and the SFDX Deploy and Retrieve options
+- If we want to perform metadata deployments or retrieves, we can use the Package Generator tools and the SFDX Deploy and Retrieve options. The Package Generator tool can list your stored metadata (on local and org) and allow to select them manally, from other package or from Git, for better metadata control (See the Package Generator Section).
 
 Examples: 
 
