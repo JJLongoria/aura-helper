@@ -1,5 +1,5 @@
 const appContext = require('./applicationContext');
-const DEBUG = true;
+const DEBUG = false;
 
 class Logger {
     static log(textOrParamName, paramValue) {
