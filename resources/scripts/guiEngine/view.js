@@ -17,6 +17,7 @@ class View {
         this.style = style;
         this.options = options;
         this.content = '';
+        this.closed = false;
     }
 
     footer() {
@@ -57,7 +58,7 @@ class View {
         }
     }
 
-    static translate(content, language) {
+    static translate(content, language, scapeQuottes) {
         if (!language)
             language = 'en';
         if (language === 'English')
@@ -76,7 +77,8 @@ class View {
         Object.keys(languageContent).forEach(function (labelKey) {
             let label = '{!label.' + labelKey + '}';
             let labelContent = languageContent[labelKey];
-            labelContent = StrUtils.replace(labelContent, "'", "\\'");
+            if (scapeQuottes)
+                labelContent = StrUtils.replace(labelContent, "'", "&apos;");
             if (content.indexOf(label) !== -1)
                 content = StrUtils.replace(content, label, labelContent);
         });
@@ -84,8 +86,12 @@ class View {
     }
 
     render(callback) {
+        if (this.closed) { 
+            callback.call(this);
+            return;
+        }
         this.loadContent();
-        this.content = View.translate(this.content, ((this.options.lang && this.options.lang.length > 0) ? this.options.lang : Config.getConfig().defaultGUILanguage));
+        this.content = View.translate(this.content, ((this.options.lang && this.options.lang.length > 0) ? this.options.lang : Config.getConfig().defaultGUILanguage), true);
         let thisPanel = this.panel;
         thisPanel.webview.html = this.content;
         setTimeout(() => {
@@ -97,6 +103,8 @@ class View {
     }
 
     onReceiveMessage(onReceiveMessage) {
+        if (this.closed)
+            return;
         this.panel.webview.onDidReceiveMessage(
             message => {
                 if (onReceiveMessage)
@@ -107,11 +115,26 @@ class View {
         );
     }
 
+    onClose(onClose) {
+        if (this.closed)
+            return;
+        this.panel.onDidDispose(() => {
+            this.closed = true;
+            if (onClose)
+                onClose();
+        });
+
+    }
+
     postMessage(message) {
+        if (this.closed)
+            return;
         this.panel.webview.postMessage(message);
     }
 
     close() {
+        if (!this.panel.visible)
+            return;
         this.panel.dispose();
     }
 

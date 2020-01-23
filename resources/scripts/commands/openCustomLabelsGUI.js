@@ -5,7 +5,9 @@ const GUIEngine = require('../guiEngine');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
 const metadata = require('../metadata');
-const Process = require('../processes').Process;
+const ProcessManager = require('../processes').ProcessManager;
+const ProcessEvent = require('../processes').ProcessEvent;
+const StrUtils = require('../utils/strUtils');
 const Window = vscode.window;
 const Engine = GUIEngine.Engine;
 const Routing = GUIEngine.Routing;
@@ -22,17 +24,18 @@ const ProgressLocation = vscode.ProgressLocation;
 let view;
 let CustomLabels;
 let filePath;
+let deployJobId;
+let labelIndex;
+let interval;
+let labelToDelete;
+let labelDelete;
 exports.run = function (fileUri) {
     try {
-        /*if (fileUri) {
+        if (fileUri) {
             filePath = fileUri.fsPath;
-        } else {
-            let editor = Window.activeTextEditor;
-            if (editor)
-                filePath = editor.document.uri.fsPath;
-        }*/
+        }
         if (!filePath)
-            filePath = Paths.getMetadataRootFolder() + '/labels/CustomLabels.labels-meta.xml'
+            filePath = Paths.getMetadataRootFolder() + '/labels/CustomLabels.labels-meta.xml';
         if (FileChecker.isExists(filePath)) {
             let customLabelsRoot = AuraParser.parseXML(FileReader.readFileSync(filePath));
             CustomLabels = customLabelsRoot.CustomLabels;
@@ -68,73 +71,166 @@ exports.run = function (fileUri) {
     }
 }
 
-function deleteLabel(labels, index) {
-    let labelToDelete = labels[index];
-    Window.showQuickPick(['Yes', 'No'], {
-        placeHolder: "Delete " + labelToDelete.fullName + " label. Are you sure?"
-    }).then(selected => {
-        if (selected === 'Yes') {
-            let metadataTypes = {
-                "CustomLabel": MetadataFactory.createMetadataType("CustomLabel", true)
-            };
-            metadataTypes["CustomLabel"].childs[labelToDelete.fullName] = MetadataFactory.createMetadataObject(labelToDelete.fullName, true);
-            let version = Config.getOrgVersion();
-            let user = Config.getAuthUsername();
-            let packageContent = PackageGenerator.createPackage({}, version, true);
-            let destructivePackageContent = PackageGenerator.createPackage(metadataTypes, version, true);
-            let folder = Paths.getDestructivePackageFolder();
-            if (FileChecker.isExists(folder))
-                FileWriter.delete(folder);
-            FileWriter.createFolderSync(folder);
-            FileWriter.createFileSync(folder + '/package.xml', packageContent);
-            FileWriter.createFileSync(folder + '/destructiveChanges.xml', destructivePackageContent);
-            Window.withProgress({
-                location: ProgressLocation.Notification,
-                title: "Deleting Custom Label from Org",
-                cancellable: true
-            }, (progress, token) => {
-                return new Promise(promiseResolve => {
-                    setTimeout(() => {
-                        try {
-                            Process.destructiveChanges(user, folder);
-                            labels.splice(index, 1);
-                            CustomLabels.labels = labels;
-                            FileWriter.createFileSync(filePath, CustomLabelsUtils.toXML(CustomLabelsUtils.createCustomLabels(CustomLabels), true));
-                            view.postMessage({ command: "deleted", model: CustomLabels.labels });
-                            Window.showInformationMessage("Label " + labelToDelete.fullName + " deleted succesfully");
-                        } catch (error) {
-                            Window.showErrorMessage("An error ocurred while deleting Custom Label: " + error);
-                        }
-                        promiseResolve();
-                    }, 100);
+async function deleteLabel(labels, index) {
+    CustomLabels = labels;
+    labelIndex = index;
+    labelToDelete = CustomLabels[index];
+    let metadataTypes = {
+        "CustomLabel": MetadataFactory.createMetadataType("CustomLabel", true)
+    };
+    metadataTypes["CustomLabel"].childs[labelToDelete.fullName] = MetadataFactory.createMetadataObject(labelToDelete.fullName, true);
+    let version = Config.getOrgVersion();
+    let user = await Config.getAuthUsername();
+    let packageContent = PackageGenerator.createPackage({}, version, true);
+    let destructivePackageContent = PackageGenerator.createPackage(metadataTypes, version, true);
+    let folder = Paths.getDestructivePackageFolder();
+    if (FileChecker.isExists(folder))
+        FileWriter.delete(folder);
+    FileWriter.createFolderSync(folder);
+    FileWriter.createFileSync(folder + '\\package.xml', packageContent);
+    FileWriter.createFileSync(folder + '\\destructiveChanges.xml', destructivePackageContent);
+    Window.withProgress({
+        location: ProgressLocation.Notification,
+        title: "Deleting Custom Label " + labelToDelete.fullName + " from Org",
+        cancellable: true
+    }, (progress, cancelToken) => {
+        return new Promise(promiseResolve => {
+            try {
+                let buffer = [];
+                let bufferError = [];
+                ProcessManager.destructiveChanges(user, folder, cancelToken, function (event, data) {
+                    switch (event) {
+                        case ProcessEvent.ERR_OUT:
+                        case ProcessEvent.ERROR:
+                            bufferError = bufferError.concat(data);
+                            break;
+                        case ProcessEvent.STD_OUT:
+                            buffer = buffer.concat(data);
+                            break;
+                        case ProcessEvent.END:
+                            if (bufferError.length > 0) {
+                                view.postMessage({ command: "deletedError", model: CustomLabels, error: bufferError.toString() });
+                                promiseResolve();
+                            } else {
+                                processResponse(user, buffer.toString(), cancelToken, promiseResolve);
+                            }
+                            break;
+                        case ProcessEvent.KILLED:
+                            view.postMessage({ command: 'processKilled' });
+                            break;
+                        default:
+                            break;
+                    }
                 });
-            });
+            } catch (error) {
+                view.postMessage({ command: "deletedError", error: error });
+            }
+        });
+    });
+}
+
+function processResponse(user, stdOut, cancelToken, promiseResolve) {
+    let jsonOut = JSON.parse(stdOut);
+    if (jsonOut.status === 0) {
+        deployJobId = jsonOut.result.id;
+        interval = setInterval(() => {
+            monitorizeDeploy(user, deployJobId, cancelToken, promiseResolve);
+        }, 1000);
+    }
+}
+
+function monitorizeDeploy(user, deployJobId, cancelToken, promiseResolve) {
+    let buffer = [];
+    let bufferError = [];
+    ProcessManager.deployReport(user, deployJobId, cancelToken, function (event, data) {
+        switch (event) {
+            case ProcessEvent.ERR_OUT:
+            case ProcessEvent.ERROR:
+                bufferError = bufferError.concat(data);
+                break;
+            case ProcessEvent.END:
+                if (buffer.length > 0) {
+                    let jsonOut = JSON.parse(buffer.toString());
+                    if (jsonOut.status === 0) {
+                        if (jsonOut.result.done) {
+                            if (!labelDelete) {
+                                let label = CustomLabels[labelIndex];
+                                CustomLabels.splice(labelIndex, 1);
+                                let root = {
+                                    labels: CustomLabels
+                                }
+                                labelDelete = true;
+                                FileWriter.createFileSync(filePath, CustomLabelsUtils.toXML(CustomLabelsUtils.createCustomLabels(root), true));
+                                view.postMessage({ command: "deleted", model: CustomLabels, extraData: { label: label } });
+                            }
+                        }
+                    }
+                    clearInterval(interval);
+                    promiseResolve();
+                }
+                break;
+            case ProcessEvent.KILLED:
+                view.postMessage({ command: 'processKilled' });
+                promiseResolve();
+                clearInterval(interval);
+                cancelDeploy();
+                break;
+            case ProcessEvent.STD_OUT:
+                buffer = buffer.concat(data);
+                break;
+            default:
+                break;
         }
     });
 }
 
+function cancelDeploy(user, deployJobId) {
+    Window.withProgress({
+        location: ProgressLocation.Notification,
+        title: "Canceling Destructive Deploy Job with Id: " + deployJobId,
+        cancellable: false
+    }, (progress, cancelToken) => {
+        return new Promise(promiseResolve => {
+            try {
+                let buffer = [];
+                let bufferError = [];
+                ProcessManager.cancelDeploy(user, deployJobId, undefined, function (event, data) {
+                    switch (event) {
+                        case ProcessEvent.ERR_OUT:
+                        case ProcessEvent.ERROR:
+                            bufferError = bufferError.concat(data);
+                            break;
+                        case ProcessEvent.END:
+                            promiseResolve();
+                            view.postMessage({ command: 'processKilled' });
+                            break;
+                        case ProcessEvent.KILLED:
+                            view.postMessage({ command: 'processKilled' });
+                            break;
+                        case ProcessEvent.STD_OUT:
+                            buffer = buffer.concat(data);
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            } catch (error) {
+                view.postMessage({ command: 'metadataDeletedError', data: { error: error } });
+            }
+        });
+    });
+}
+
 function newLabel(labels, newLabel) {
-    let exists = false;
-    for (const existingLabel of labels) {
-        if (existingLabel.fullName === newLabel.fullName) {
-            exists = true;
-            break;
-        }
-    }
-    if (exists)
-        Window.showErrorMessage("Can't create two labels with the same Name");
-    else {
-        labels.push(newLabel);
-        CustomLabels.labels = labels;
-        FileWriter.createFileSync(filePath, CustomLabelsUtils.toXML(CustomLabelsUtils.createCustomLabels(CustomLabels), true));
-        view.postMessage({ command: "created", model: CustomLabels.labels });
-        Window.showInformationMessage("Label " + newLabel.fullName + " created succesfully");
-    }
+    labels.push(newLabel);
+    CustomLabels.labels = labels;
+    FileWriter.createFileSync(filePath, CustomLabelsUtils.toXML(CustomLabelsUtils.createCustomLabels(CustomLabels), true));
+    view.postMessage({ command: "created", model: CustomLabels.labels, extraData: { label: newLabel } });
 }
 
 function editLabel(labels, editLabel) {
     let index = 0;
-    let labelIndex = 0;
+    labelIndex = 0;
     for (const label of labels) {
         if (editLabel.fullName === label.fullName)
             labelIndex = index;
@@ -143,6 +239,5 @@ function editLabel(labels, editLabel) {
     labels[labelIndex] = editLabel;
     CustomLabels.labels = labels;
     FileWriter.createFileSync(filePath, CustomLabelsUtils.toXML(CustomLabelsUtils.createCustomLabels(CustomLabels), true));
-    view.postMessage({ command: "edited", model: CustomLabels.labels });
-    Window.showInformationMessage("Label " + editLabel.fullName + " edited succesfully");
+    view.postMessage({ command: "edited", model: CustomLabels.labels, extraData: { label: editLabel } });
 }

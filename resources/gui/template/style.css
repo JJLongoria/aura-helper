@@ -1,3 +1,26 @@
+:root {
+    --light-blue: #9CDCFE;
+    --blue: #2391d1;
+    --dark-blue: #0067FF;
+    --blue-grey: #2f3640;
+    --vscode-grey: #1E1E1E;
+    --dark-grey: #141414ab;
+    --black-grey: #141414;
+    --dark-grey-transparent: #1a1a1a46;
+    --transparent: #14141400;
+    --light-yellow: #DCDCAA;
+    --grey: #464646bd;
+    --medium-grey: #4444447a;
+    --light-grey: #808080bd;
+    --very-light-grey: #D4D4D4;
+    --green: #4CAF50;
+    --bright-green: #77db34;
+    --light-green: #8BC34A;
+    --red: #F44336;
+    --orange: #ce723b;
+    --purple: #7c34db;
+}
+
 /*****************
  * HTML ELEMENTS *
  *****************/
@@ -15,11 +38,11 @@ ul {
 }
 
 b {
-    color: #2391d1;
+    color: var(--blue);
 }
 
 a {
-    color: #2391d1;
+    color: var(--blue);
     text-decoration: none;
 }
 
@@ -36,7 +59,7 @@ code {
 }
 
 option {
-    background-color: #1E1E1E;
+    background-color: var(--vscode-grey);
 }
 
 /***********
@@ -44,54 +67,61 @@ option {
  ***********/
 
 .header {
-    background-color: #1E1E1E;
+    background-color: var(--vscode-grey);
 }
 
 .footer {
-    background-color: #1E1E1E;
+    background-color: var(--vscode-grey);
 }
 
 .sectionHeader {
-    color: #2391d1;
+    color: var(--blue);
     text-decoration: none;
 }
 
 .subsectionHeader {
-    color: #9CDCFE;
+    color: var(--light-blue);
 }
 
 .inputText {
-    color: #DCDCAA;
+    color: var(--light-yellow);
     border: none;
-    background-color: #141414ab;
+    background-color: var(--dark-grey);
     outline: none;
     padding: 10px;
     border-radius: 40px;
     margin-bottom: 3px;
 }
 
+.wrongInput {
+    border-color: var(--red);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 40px;
+}
+
 .menu {
-    color: #9CDCFE;
-    background-color: #ffffff00;
+    color: var(--light-blue);
+    background-color: var(--transparent);
     text-decoration: none;
 }
 
 .menu:hover {
-    color: #2391d1;
+    color: var(--blue);
     text-decoration: none;
     cursor: pointer;
 }
 
 .darkGrey {
-    background-color: #141414ab;
+    background-color: var(--dark-grey);
 }
 
 .grey {
-    background-color: #464646bd;
+    background-color: var(--grey);
 }
 
 .lightGrey {
-    background-color: #808080bd;
+    background-color: var(--light-grey);
 }
 
 #codeStyler {
@@ -102,60 +132,98 @@ option {
 }
 
 .codeColor {
-    background-color: #14141400;
+    background-color: var(--transparent);
+}
+
+.save {
+    color: var(--very-light-grey);
+    border-color: var(--green);
+    border-style: solid;
+    border-width: 1px;
 }
 
 .save:hover {
-    color: #4CAF50;
+    color: var(--green);
 }
 
-.saveCompress:hover {
-    color: #8BC34A;
+.altSave {
+    color: var(--very-light-grey);
+    border-color: var(--light-green);
+    border-style: solid;
+    border-width: 1px;
+}
+
+.altSave:hover {
+    color: var(--light-green);
+}
+
+.warningBtn {
+    color: var(--very-light-grey);
+    border-color: var(--orange);
+    border-style: solid;
+    border-width: 1px;
+}
+
+.warningBtn:hover {
+    color: var(--orange);
+}
+
+.cancel {
+    color: var(--very-light-grey);
+    border-color: var(--red);
+    border-style: solid;
+    border-width: 1px;
 }
 
 .cancel:hover {
-    color: #F44336;
+    color: var(--red);
 }
 
 .collapse:hover {
-    color: #2391d1;
+    color: var(--blue);
+}
+
+.border-black-grey {
+    border-color: var(--black-grey);
+    border-width: 1px;
+    border-style: solid;
 }
 
 .add {
-    color: #D4D4D4;
-    border-color: #DCDCAA;
+    color: var(--very-light-grey);
+    border-color: var(--light-yellow);
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
 }
 
 .add:hover {
-    color: #DCDCAA;
+    color: var(--light-yellow);
 }
 
 .collapse {
-    color: #D4D4D4;
-    border-color: #2391d1;
+    color: var(--very-light-grey);
+    border-color: var(--blue);
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
 }
 
 .collapseSubSection:hover {
-    color: #9CDCFE;
+    color: var(--light-blue);
 }
 
 .collapseSubSection {
-    color: #D4D4D4;
-    border-color: #9CDCFE;
+    color: var(--very-light-grey);
+    border-color: var(--light-blue);
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
 }
 
 .sectionRow:hover {
-    background-color: #161616;
+    background-color: var(--medium-grey);
 }
 
 .material-icons.md-light {
-    color: #D4D4D4;
+    color: var(--very-light-grey);
 }
 
 .material-icons.md-48 {
@@ -195,59 +263,148 @@ option {
 }
 
 .table {
-    border-color: #141414ab;
+    border-color: var(--dark-grey);
     margin-left: auto;
     margin-right: auto;
     width: 100%;
 }
 
 .tableRow {
-    border-color: #141414ab;
+    border-color: var(--dark-grey);
     border-style: solid;
     border-width: 1px;
 }
 
 .tableRow:hover {
-    background-color: #141414ab;
+    background-color: var(--dark-grey);
 }
 
 .tableHeaderRow {
-    background-color: #141414ab;
+    background-color: var(--dark-grey);
 }
 
 .tableHeaderCell {
-    border-color: #141414ab;
+    border-color: var(--dark-grey);
     border-style: solid;
     border-width: 1px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.tableHeaderCell:hover {
+    color: var(--blue);
 }
 
 .tableCell {
-    border-color: #141414ab;
+    border-color: var(--dark-grey);
 }
 
 .modal {
-    background-color: #1a1a1a46;
+    background-color: var(--dark-grey-transparent);
     z-index: 0.9;
 }
 
 .modalHeader {
-    background-color: #141414;
+    background-color: var(--black-grey);
 }
 
 .modalFooter {
-    background-color: #141414;
+    background-color: var(--black-grey);
 }
 
 .modalContent {
-    background-color: #1E1E1E;
+    background-color: var(--vscode-grey);
+}
+
+.info, .success, .warning, .error, .validation {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding: 15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    white-space: pre-wrap;
+}
+
+.info {
+    color: #00529B;
+    background-color: #BDE5F8;
+    background-image: url('https://i.imgur.com/ilgqWuX.png');
+}
+
+.success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    background-image: url('https://i.imgur.com/Q9BGTuy.png');
+}
+
+.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    background-image: url('https://i.imgur.com/Z8q7ww7.png');
+}
+
+.error {
+    color: #D8000C;
+    background-color: #FFBABA;
+    background-image: url('https://i.imgur.com/GnyDvKN.png');
+}
+
+.validation {
+    color: #D63301;
+    background-color: #FFCCBA;
+    background-image: url('https://i.imgur.com/GnyDvKN.png');
+}
+
+.metadataList {
+    list-style: none;
+    padding: 0;
+}
+
+.metadataListElement {
+    height: 37px;
+    padding: 5px 10px;
+    border: 1px solid var(--dark-grey-transparent);
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.metadataListElement:hover {
+    color: var(--blue);
+    background-color: var(--black-grey);
+}
+
+.metadataListElement:hover>.metadataContentColor {
+    color: var(--blue);
+    background-color: var(--black-grey);
+}
+
+.metadataListElement:hover>.metadataContentSelected {
+    color: var(--blue);
+    background-color: var(--black-grey);
+}
+
+.metadataContentSelected {
+    color: var(--green);
+}
+
+.metadataContentSelected:hover {
+    color: var(--blue);
+}
+
+.metadataContentColor {
+    color: var(--very-light-grey);
+}
+
+.metadataContentColor:hover {
+    color: var(--blue);
 }
 
 /* SPINNER START */
 
 .loader1 {
-    border: 5px solid #4444447a;
+    border: 5px solid var(--medium-grey);
     border-radius: 50%;
-    border-bottom: 5px solid #2391d1;
+    border-bottom: 5px solid var(--blue);
     width: 100px;
     height: 100px;
     -webkit-animation: spin 2s linear infinite;
@@ -256,12 +413,13 @@ option {
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
+    z-index: 1;
 }
 
 .loader2 {
-    border: 5px solid #4444447a;
+    border: 5px solid var(--medium-grey);
     border-radius: 50%;
-    border-right: 5px solid #7c34db;
+    border-right: 5px solid var(--purple);
     width: 80px;
     height: 80px;
     -webkit-animation: spin 1.5s linear infinite;
@@ -270,12 +428,13 @@ option {
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
+    z-index: 1;
 }
 
 .loader3 {
-    border: 5px solid #4444447a;
+    border: 5px solid var(--medium-grey);
     border-radius: 50%;
-    border-left: 5px solid #77db34;
+    border-left: 5px solid var(--bright-green);
     width: 60px;
     height: 60px;
     -webkit-animation: spin 1s linear infinite;
@@ -284,12 +443,13 @@ option {
     margin-left: auto;
     margin-right: auto;
     margin-top: 30px;
+    z-index: 1;
 }
 
 .loader4 {
-    border: 5px solid #4444447a;
+    border: 5px solid var(--medium-grey);
     border-radius: 50%;
-    border-top: 5px solid #db3434;
+    border-top: 5px solid var(--red);
     width: 40px;
     height: 40px;
     -webkit-animation: spin 0.5s linear infinite;
@@ -298,6 +458,7 @@ option {
     margin-left: auto;
     margin-right: auto;
     margin-top: 40px;
+    z-index: 1;
 }
 
 @keyframes spin {
@@ -373,7 +534,7 @@ option {
     height: 0px;
     width: 0px;
     border-radius: 5px;
-    border: solid #009BFF;
+    border: solid var(--blue);
     border-width: 0 3px 3px 0;
     -webkit-transform: rotate(0deg) scale(0);
     -ms-transform: rotate(0deg) scale(0);
@@ -395,7 +556,7 @@ option {
     top: 3px;
     width: 6px;
     height: 12px;
-    border: solid #009BFF;
+    border: solid var(--blue);
     border-width: 0 2px 2px 0;
     background-color: transparent;
     border-radius: 0;
@@ -411,7 +572,7 @@ option {
     width: 0px;
     height: 0px;
     border-radius: 5px;
-    border: 2px solid #FFFFFF;
+    border: 2px solid white;
     -webkit-transform: scale(0);
     -ms-transform: scale(0);
     transform: scale(0);
@@ -437,17 +598,17 @@ option {
 
 .checkbox-label .checkbox-custom.circular {
     border-radius: 50%;
-    border: 2px solid #FFFFFF;
+    border: 2px solid white;
 }
 
 .checkbox-label input:checked~.checkbox-custom.circular {
-    background-color: #FFFFFF;
+    background-color: white;
     border-radius: 50%;
-    border: 2px solid #FFFFFF;
+    border: 2px solid white;
 }
 
 .checkbox-label input:checked~.checkbox-custom.circular::after {
-    border: solid #0067FF;
+    border: solid var(--dark-blue);
     border-width: 0 2px 2px 0;
 }
 
@@ -457,7 +618,7 @@ option {
 
 .checkbox-label .checkbox-custom.circular::before {
     border-radius: 50%;
-    border: 2px solid #FFFFFF;
+    border: 2px solid white;
 }
 
 .checkbox-label input:checked~.checkbox-custom.circular::before {
@@ -491,7 +652,7 @@ option {
 
 .searchBox:hover>.searchButton {
     background: white;
-    color: #2f3640;
+    color: var(--blue-grey);
 }
 
 .searchButton {
@@ -500,7 +661,7 @@ option {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #2f3640;
+    background: var(--blue-grey);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -509,7 +670,7 @@ option {
 
 .searchInput {
     border: none;
-    background-color: #141414ab;
+    background-color: var(--dark-grey);
     outline: none;
     float: left;
     padding: 0;
@@ -519,6 +680,11 @@ option {
     line-height: 40px;
     width: 0px;
     border-radius: 40px;
+}
+
+.searchInput:not(:placeholder-shown)~.searchButton {
+    background: white;
+    color: var(--blue-grey);
 }
 
 @media screen and (max-width: 620px) {
@@ -533,50 +699,90 @@ option {
 /* TOAST START */
 
 .toast {
-    visibility: hidden; /* Hidden by default. Visible on click */
-    min-width: 250px; /* Set a default minimum width */
-    margin-left: -125px; /* Divide value of min-width by 2 */
-    background-color: #333; /* Black background color */
-    color: #fff; /* White text color */
-    text-align: center; /* Centered text */
-    border-radius: 2px; /* Rounded borders */
-    padding: 16px; /* Padding */
-    position: absolute; /* Sit on top of the screen */
-    z-index: 1; /* Add a z-index if needed */
-    left: 50%; /* Center the snackbar */
-    bottom: 30px; /* 30px from the bottom */
+    visibility: hidden;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    margin-left: -125px;
+    /* Divide value of min-width by 2 */
+    background-color: var(--dark-grey);
+    /* Black background color */
+    color: white;
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: absolute;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    left: 50%;
+    /* Center the snackbar */
+    bottom: 30px;
+    /* 30px from the bottom */
     white-space: pre-wrap;
-  }
-  
-  /* Show the snackbar when clicking on a button (class added with JavaScript) */
-  .showToast {
-    visibility: visible; /* Show the snackbar */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+
+.showToast {
+    visibility: visible;
+    /* Show the snackbar */
     /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
     However, delay the fade out process for 2.5 seconds */
-    z-index: 1; /* Add a z-index if needed */
+    z-index: 1;
+    /* Add a z-index if needed */
     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  }
-  
-  /* Animations to fade the snackbar in and out */
-  @-webkit-keyframes fadein {
-    from {top: 0; opacity: 0;}
-    to {top: 60px; opacity: 1;}
-  }
-  
-  @keyframes fadein {
-    from {top: 0; opacity: 0;}
-    to {top: 60px; opacity: 1;}
-  }
-  
-  @-webkit-keyframes fadeout {
-    from {bottom: 60px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
-  }
-  
-  @keyframes fadeout {
-    from {bottom: 60px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
-  }
+}
+
+/* Animations to fade the snackbar in and out */
+
+@-webkit-keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+    to {
+        top: 60px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+    to {
+        top: 60px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 60px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 60px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
 
 /* TOAST END */

@@ -2,6 +2,7 @@ const Logger = require('../main/logger');
 const fileSystem = require('../fileSystem');
 const FileReader = fileSystem.FileReader;
 const Paths = fileSystem.Paths;
+const MetadataType = require('./metadataTypes');
 
 class Utils {
 
@@ -71,7 +72,29 @@ class Utils {
     static createFolderMetadataMap(dataFromOrg) {
         let folderMetadataMap = {};
         for (const metadataType of dataFromOrg) {
-            folderMetadataMap[metadataType.directoryName] = metadataType;
+            if (metadataType.xmlName === MetadataType.CUSTOM_FIELDS) {
+                folderMetadataMap[metadataType.directoryName + '/fields'] = metadataType;
+            } else if (metadataType.xmlName === MetadataType.INDEX) {
+                folderMetadataMap[metadataType.directoryName + '/indexes'] = metadataType;
+            } else if (metadataType.xmlName === MetadataType.BUSINESS_PROCESS) {
+                folderMetadataMap[metadataType.directoryName + '/businessProcesses'] = metadataType;
+            } else if (metadataType.xmlName === MetadataType.COMPACT_LAYOUT) {
+                folderMetadataMap[metadataType.directoryName + '/compactLayouts'] = metadataType;
+            } else if (metadataType.xmlName === MetadataType.RECORD_TYPE) {
+                folderMetadataMap[metadataType.directoryName + '/recordTypes'] = metadataType;
+            } else if (metadataType.xmlName === MetadataType.BUTTON_OR_LINK) {
+                folderMetadataMap[metadataType.directoryName + '/webLinks'] = metadataType;
+            } else if (metadataType.xmlName === MetadataType.VALIDATION_RULE) {
+                folderMetadataMap[metadataType.directoryName + '/validationRules'] = metadataType;
+            } else if (metadataType.xmlName === MetadataType.SHARING_REASON) {
+                folderMetadataMap[metadataType.directoryName + '/sharingReasons'] = metadataType;
+            } else if (metadataType.xmlName === MetadataType.LISTVIEW) {
+                folderMetadataMap[metadataType.directoryName + '/listViews'] = metadataType;
+            } else if (metadataType.xmlName === MetadataType.FIELD_SET) {
+                folderMetadataMap[metadataType.directoryName + '/fieldSets'] = metadataType;
+            } else if(!folderMetadataMap[metadataType.directoryName]){
+                folderMetadataMap[metadataType.directoryName] = metadataType;
+            }
         }
         return folderMetadataMap;
     }
@@ -145,6 +168,45 @@ class Utils {
                 objects[key].checked = false;
             });
         }
+    }
+
+    static combineMetadata(metadataTarget, metadataSource) {
+        Object.keys(metadataSource).forEach(function (key) {
+            let metadataTypeSource = metadataSource[key];
+            let metadataTypeTarget = metadataTarget[key];
+            if (metadataTypeTarget) {
+                let childKeys = Object.keys(metadataTypeSource.childs);
+                if (childKeys.length > 0) {
+                    Object.keys(metadataTypeSource.childs).forEach(function (childKey) {
+                        let metadataObjectSource = metadataTypeSource.childs[childKey];
+                        let metadataObjectTarget = metadataTypeTarget.childs[childKey];
+                        if (metadataObjectTarget) {
+                            let grandChildKeys = Object.keys(metadataObjectSource.childs);
+                            if (grandChildKeys.length > 0) {
+                                Object.keys(metadataObjectSource.childs).forEach(function (grandChildKey) {
+                                    let metadataItemSource = metadataObjectSource.childs[grandChildKey];
+                                    let metadataItemTarget = metadataObjectTarget.childs[grandChildKey];
+                                    if (metadataItemTarget && metadataItemSource.checked)
+                                    metadataTarget[key].childs[childKey].childs[grandChildKey].checked = true;
+                                    else
+                                        metadataTarget[key].childs[childKey].childs[grandChildKey] = metadataItemSource;
+                                });
+                                metadataTarget[key].childs[childKey].checked = Utils.isAllChecked(metadataTarget[key].childs[childKey].childs);
+                            } else {
+                                metadataTarget[key].childs[childKey].checked = metadataObjectSource.checked;                            }
+                        } else {
+                            metadataTarget[key].childs[childKey] = metadataObjectSource;
+                        }
+                    });
+                    metadataTarget[key].checked = Utils.isAllChecked(metadataTarget[key].childs);
+                } else {
+                    metadataTarget[key].checked = metadataTypeSource.checked;
+                }
+            } else {
+                metadataTarget[key] = metadataSource;
+            }
+        });
+        return metadataTarget;
     }
 
     static getXMLTag(tagName, xmlValue) {

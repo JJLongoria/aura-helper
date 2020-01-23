@@ -2,6 +2,7 @@ const languages = require('../languages');
 const snippetUtils = require('../utils/snippetUtils');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
+const Config = require('../main/config');
 const FileChecker = fileSystem.FileChecker;
 const FileWriter = fileSystem.FileWriter;
 const window = vscode.window;
@@ -61,27 +62,35 @@ function processPicklistValue(position, editor, data) {
     FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), content);
 }
 
-function processCustomLabelCompletionInJS(position, data, editor) {
+async function processCustomLabelCompletionInJS(position, data, editor) {
     if (!FileChecker.isJavaScript(editor.document.uri.fsPath))
         return;
+    let user = await Config.getAuthUsername();
+    let orgNamespace = Config.getOrgNamespace(user);
+    if (!orgNamespace || orgNamespace.length === 0)
+        orgNamespace = 'c';
     let lineEditor = editor.document.lineAt(position.line);
     let lineData = AuraParser.parseForPutLabels(lineEditor.text, position);
     let toReplace = 'label.' + data.label.fullName;
     let startPosition = new Position(position.line, lineData.startColumn);
     let endPosition = new Position(position.line, startPosition.character + toReplace.length);
-    let content = "$A.get(\"$Label." + data.orgNamespace + "." + data.label.fullName + "\")";
+    let content = "$A.get(\"$Label." + orgNamespace + "." + data.label.fullName + "\")";
     FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), content);
 }
 
-function processCustomLabelCompletionInAura(position, data, editor) {
+async function processCustomLabelCompletionInAura(position, data, editor) {
     if (!FileChecker.isAuraComponent(editor.document.uri.fsPath))
         return;
+    let user = await Config.getAuthUsername();
+    let orgNamespace = Config.getOrgNamespace(user);
+    if (!orgNamespace || orgNamespace.length === 0)
+        orgNamespace = 'c';
     let lineEditor = editor.document.lineAt(position.line);
     let lineData = AuraParser.parseForPutLabels(lineEditor.text, position);
     let toReplace = 'label.' + data.label.fullName;
     let startPosition = new Position(position.line, lineData.startColumn);
     let endPosition = new Position(position.line, startPosition.character + toReplace.length);
-    let content = "{!$Label." + data.orgNamespace + "." + data.label.fullName + "}";
+    let content = "{!$Label." + orgNamespace + "." + data.label.fullName + "}";
     FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), content);
 }
 

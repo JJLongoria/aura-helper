@@ -10,11 +10,13 @@ const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
 const Window = vscode.window;
 const ProfileUtils = Metadata.ProfileUtils;
+const PermissionSetUtils = Metadata.PermissionSetUtils;
 const MetadataUtils = Metadata.Utils;
 const Engine = GUIEngine.Engine;
 const Routing = GUIEngine.Routing;
 
 let view;
+let isPermissionSet;
 exports.run = function (fileUri) {
     try {
         let filePath;
@@ -26,32 +28,35 @@ exports.run = function (fileUri) {
                 filePath = editor.document.uri.fsPath;
         }
         let profileName = Paths.getBasename(filePath).replace('.profile-meta.xml', '').replace('.permissionset-meta.xml', '');
-        let isPermissionSet = FileChecker.isPermissionSet(filePath);
+        isPermissionSet = FileChecker.isPermissionSet(filePath);
+        let storageMetadata = MetadataUtils.getMetadataFromFileSystem();
+        let root = readProfile(filePath);
+        let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
         let viewOptions = Engine.getViewOptions();
-        if (isPermissionSet)
-            viewOptions.title = profileName;
-        else
-            viewOptions.title = profileName;
+        viewOptions.title = profileName;
         viewOptions.showActionBar = true;
         viewOptions.actions.push(Engine.createButtonAction('saveBtn', '{!label.save}', ["w3-btn w3-border w3-border-green save"], "save()"));
-        viewOptions.actions.push(Engine.createButtonAction('saveCompressBtn', '{!label.compress_and_save}', ["w3-btn w3-border w3-border-light-green saveCompress"], "compressAndSave()"));
+        viewOptions.actions.push(Engine.createButtonAction('saveCompressBtn', '{!label.compress_and_save}', ["w3-btn altSave"], "compressAndSave()"));
         viewOptions.actions.push(Engine.createButtonAction('cancelBtn', '{!label.cancel}', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
-        view = Engine.createView(Routing.Profile, viewOptions);
+        view = Engine.createView((isPermissionSet) ? Routing.PermissionSet : Routing.Profile, viewOptions);
         view.render(function (resolve) {
-            let storageMetadata = MetadataUtils.getMetadataFromFileSystem();
-            let root = readProfile(filePath);
-            let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
             if (profileRaw) {
-                let profile = ProfileUtils.createProfile(profileRaw);
-                profile = ProfileUtils.mergeProfileWithLocalData(profile, storageMetadata);
-                resolve(profile, {
-                    name: profileName,
-                    isPermissionSet: isPermissionSet
-                });
+                if (isPermissionSet) {
+                    let permSet = PermissionSetUtils.createPermissionSet(profileRaw);
+                    permSet = PermissionSetUtils.mergePermissionSetWithLocalData(permSet, storageMetadata);
+                    resolve(permSet, {
+                        name: profileName,
+                    });
+                } else {
+                    let profile = ProfileUtils.createProfile(profileRaw);
+                    profile = ProfileUtils.mergeProfileWithLocalData(profile, storageMetadata);
+                    resolve(profile, {
+                        name: profileName,
+                    });
+                }
             } else {
                 resolve(undefined, {
                     name: profileName,
-                    isPermissionSet: isPermissionSet
                 });
             }
 
@@ -60,9 +65,15 @@ exports.run = function (fileUri) {
             if (message.command == 'cancel') {
                 view.close();
             } else {
-                let xmlContent = ProfileUtils.toXML(message.profile, message.command == 'compressAndSave');
-                FileWriter.createFileSync(filePath, xmlContent);
-                view.close();
+                if (isPermissionSet) {
+                    let xmlContent = PermissionSetUtils.toXML(message.permSet, message.command == 'compressAndSave');
+                    FileWriter.createFileSync(filePath, xmlContent);
+                    view.close();
+                } else { 
+                    let xmlContent = ProfileUtils.toXML(message.profile, message.command == 'compressAndSave');
+                    FileWriter.createFileSync(filePath, xmlContent);
+                    view.close();
+                }
             }
         });
     } catch (error) {

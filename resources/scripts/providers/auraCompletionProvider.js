@@ -138,9 +138,6 @@ function provideAuraComponentCompletion(document, position) {
 
 function getLabelsCompletionItems(activationTokens, position) {
     let items = [];
-    let orgNamespace = config.getOrgNamespace();
-    if (!orgNamespace || orgNamespace.length == 0)
-        orgNamespace = 'c';
     if (activationTokens.length == 2) {
         let labels = Utils.getCustomLabels();
         for (const label of labels) {
@@ -150,7 +147,7 @@ function getLabelsCompletionItems(activationTokens, position) {
             doc += 'Language: ' + label.language + '\n';
             doc += 'Protected: ' + label.protected;
             let options = Utils.getCompletionItemOptions(label.shortDescription, doc, label.fullName, true, CompletionItemKind.Field);
-            let command = Utils.getCommand('CustomLabelAura', 'aurahelper.completion.aura', [position, 'CustomLabelAura', { label: label, orgNamespace: orgNamespace }]);
+            let command = Utils.getCommand('CustomLabelAura', 'aurahelper.completion.aura', [position, 'CustomLabelAura', { label: label }]);
             items.push(Utils.createItemForCompletion(label.fullName, options, command));
         }
     }

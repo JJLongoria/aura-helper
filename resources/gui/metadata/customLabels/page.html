@@ -1,7 +1,7 @@
 <form>
-    <div class="w3-row">
-        <div class="w3-col">
-            <b>{!label.important}</b>
+    <div class="w3-row" style="margin-top: 15px;">
+        <div class="w3-container" style="margin:auto; width:700px; text-justify: auto;">
+            <b style="font-size: large;">{!label.important}</b>
             <p>
                 {!label.custom_label_introduction}
             </p>
@@ -32,22 +32,23 @@
                 <h2 id="labelModalTitle">Modal Header</h2>
             </header>
             <div id="labelModalContent" class="w3-container modalContent">
+                <div class="validation" id="labelValidation" style="display: none;"></div>
                 <div class="w3-row w3-padding-16">
                     <div class="w3-col">
                         <label>{!label.name}</label>
-                        <input required class="w3-input inputText" type="text" placeholder="{!label.name}..." id="labelNameInput" />
+                        <input class="w3-input inputText" type="text" placeholder="{!label.name}..." id="labelNameInput" />
                     </div>
                 </div>
                 <div class="w3-row w3-padding-16">
                     <div class="w3-col">
                         <label>{!label.description}</label>
-                        <textarea required class="w3-input inputText" type="text" placeholder="{!label.description}..." id="labelDescriptionInput"></textarea>
+                        <textarea class="w3-input inputText" type="text" placeholder="{!label.description}..." id="labelDescriptionInput"></textarea>
                     </div>
                 </div>
                 <div class="w3-row w3-padding-16">
                     <div class="w3-col">
                         <label>{!label.value}</label>
-                        <textarea required class="w3-input inputText" type="text" placeholder="{!label.value}..." id="labelValueInput"></textarea>
+                        <textarea class="w3-input inputText" type="text" placeholder="{!label.value}..." id="labelValueInput"></textarea>
                     </div>
                 </div>
                 <div class="w3-row w3-padding-16">
@@ -84,6 +85,20 @@
             <footer class="w3-container modalFooter w3-bar" style="height: 50px; padding-top:7px">
                 <button id="cancelBtn" style="margin-left: 10px;" class="w3-btn w3-border w3-border-red cancel w3-right" onclick="closeLabelModal()">{!label.cancel}</button>
                 <button id="saveLabelBtn" class="w3-btn w3-border w3-border-green save w3-right" onclick="save()">{!label.save}</button>
+            </footer>
+        </div>
+    </div>
+    <div id="confirmationModal" class="w3-modal modal" style="display: none;">
+        <div id="labelModalBody" class="w3-modal-content w3-card-4 w3-animate-opacity" style="width: 500px;">
+            <header class="w3-container modalHeader">
+                <h2 id="confirmationModalTitle">Modal Header</h2>
+            </header>
+            <div id="confirmationModalContent" class="w3-container modalContent" style="font-size: medium; padding-left: 15px; padding-right: 15px; padding-bottom: 30px; padding-top: 30px;">
+                
+            </div>
+            <footer class="w3-container modalFooter w3-bar" style="height: 50px; padding-top:7px">
+                <button id="cancelConfirmBtn" style="margin-left: 10px;" class="w3-btn w3-border w3-border-red cancel w3-right" onclick="cancelConfirmation()">{!label.cancel}</button>
+                <button id="saveConfirmBtn" class="w3-btn w3-border w3-border-green save w3-right" onclick="okConfirmation()">{!label.accept}</button>
             </footer>
         </div>
     </div>

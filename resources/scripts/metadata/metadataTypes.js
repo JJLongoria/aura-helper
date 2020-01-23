@@ -56,8 +56,18 @@ const WORKFLOW_TASK = "WorkflowTask";
 const WORKFLOW_SEND = "WorkflowSend";
 const WORKFLOW_OUTBOUND_MESSAGE = "WorkflowOutboundMessage";
 const FLOW_DEFINITION = "FlowDefinition";
+const INDEX = 'Index';
+const SHARING_REASON = 'SharingReason';
+const FIELD_SET = 'FieldSet';
+const AURA = 'AuraDefinitionBundle';
+const LWC = 'LightningComponentBundle';
 
 module.exports = {
+     LWC,
+     AURA,
+     FIELD_SET,
+     SHARING_REASON,
+     INDEX,
      APEX_CLASS,
      APEX_COMPONENT,
      APEX_PAGE,

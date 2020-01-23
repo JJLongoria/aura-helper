@@ -1,7 +1,9 @@
 const fileSystem = require('../fileSystem');
 const MetadataTypes = require('./metadataTypes');
 const Utils = require('./utils');
+const StrUtils = require('../utils/strUtils');
 const languages = require('../languages');
+const Logger = require('../main/logger');
 const FileReader = fileSystem.FileReader;
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
@@ -407,7 +409,7 @@ class MetadataFactory {
                if (name.indexOf('-') !== -1) {
                     flow = name.substring(0, name.indexOf('-')).trim();
                     version = name.substring(name.indexOf('-') + 1).trim();
-               } else { 
+               } else {
                     flow = name.trim();
                }
                if (!metadataObjects[flow])
@@ -601,5 +603,826 @@ class MetadataFactory {
           return items;
      }
 
+     static getMetadataFromGitDiffs(diffs, folderMetadataMap) {
+          let metadataRootFolder = Paths.getMetadataRootFolder();
+          let metadataForDeploy = {};
+          let metadataForDelete = {};
+          for (const diff of diffs) {
+               let baseFolder = Paths.getFolderPath(Paths.getWorkspaceFolder() + '/' + diff.path);
+               let fileNameWithExt = Paths.getBasename(diff.path);
+               let fileName = fileNameWithExt.substring(0, fileNameWithExt.indexOf('.'));
+               baseFolder = baseFolder.replace(metadataRootFolder + '/', '');
+               let baseFolderSplits = baseFolder.split('/');
+               let fistPartBaseFolder = baseFolderSplits[0];
+               let lastPartFolder = baseFolderSplits[baseFolderSplits.length - 1];
+               let metadataType;
+               if (fistPartBaseFolder === 'lwc' && (fileNameWithExt === '.eslintrc.json' || fileNameWithExt === '.jsconfig.eslintrc.json'))
+                    continue;
+               if (fistPartBaseFolder === 'objects') {
+                    metadataType = folderMetadataMap[fistPartBaseFolder + '/' + lastPartFolder];
+               } else {
+                    metadataType = folderMetadataMap[baseFolder];
+               }
+               if (!metadataType)
+                    metadataType = folderMetadataMap[fistPartBaseFolder];
+               if (metadataType) {
+                    if (diff.mode === 'new file') {
+                         let metadata = MetadataFactory.createMetadataType(metadataType.xmlName, true);
+                         let childs = MetadataFactory.getMetadataObjectsFromGitDiff(metadataType, baseFolderSplits, fileName);
+                         if (!metadataForDeploy[metadata.name])
+                              metadataForDeploy[metadata.name] = metadata;
+                         Object.keys(childs).forEach(function (childKey) {
+                              if (!metadataForDeploy[metadata.name].childs[childKey])
+                                   metadataForDeploy[metadata.name].childs[childKey] = childs[childKey];
+                              if (childs[childKey].childs && Object.keys(childs[childKey].childs).length > 0) {
+                                   Object.keys(childs[childKey].childs).forEach(function (grandChildKey) {
+                                        if (!metadataForDeploy[metadata.name].childs[childKey].childs[grandChildKey])
+                                             metadataForDeploy[metadata.name].childs[childKey].childs[grandChildKey] = childs[childKey].childs[grandChildKey];
+                                   });
+                              }
+                         });
+                    } else if (diff.mode === 'deleted file') {
+                         let metadata = MetadataFactory.createMetadataType(metadataType.xmlName, true);
+                         let childs = MetadataFactory.getMetadataObjectsFromGitDiff(metadataType, baseFolderSplits, fileName);
+                         if (metadataType.xmlName !== MetadataTypes.CUSTOM_OBJECT_TRANSLATIONS) {
+                              if ((metadataType.xmlName === MetadataTypes.AURA && !fileNameWithExt.endsWith('.cmp') && !fileNameWithExt.endsWith('.evt') && !fileNameWithExt.endsWith('.app')) || (metadataType.xmlName === MetadataTypes.LWC && !fileNameWithExt.endsWith('.html'))) {
+                                   if (!metadataForDeploy[metadata.name])
+                                        metadataForDeploy[metadata.name] = metadata;
+                                   Object.keys(childs).forEach(function (childKey) {
+                                        if (!metadataForDeploy[metadata.name].childs[childKey])
+                                             metadataForDeploy[metadata.name].childs[childKey] = childs[childKey];
+                                        if (childs[childKey].childs && Object.keys(childs[childKey].childs).length > 0) {
+                                             Object.keys(childs[childKey].childs).forEach(function (grandChildKey) {
+                                                  if (!metadataForDeploy[metadata.name].childs[childKey].childs[grandChildKey])
+                                                       metadataForDeploy[metadata.name].childs[childKey].childs[grandChildKey] = childs[childKey].childs[grandChildKey];
+                                             });
+                                        }
+                                   });
+                              } else {
+                                   if (!metadataForDelete[metadata.name])
+                                        metadataForDelete[metadata.name] = metadata;
+                                   Object.keys(childs).forEach(function (childKey) {
+                                        if (!metadataForDelete[metadata.name].childs[childKey])
+                                             metadataForDelete[metadata.name].childs[childKey] = childs[childKey];
+                                        if (childs[childKey].childs && Object.keys(childs[childKey].childs).length > 0) {
+                                             Object.keys(childs[childKey].childs).forEach(function (grandChildKey) {
+                                                  if (!metadataForDelete[metadata.name].childs[childKey].childs[grandChildKey])
+                                                       metadataForDelete[metadata.name].childs[childKey].childs[grandChildKey] = childs[childKey].childs[grandChildKey];
+                                             });
+                                        }
+                                   });
+                              }
+                         }
+                    } else if (diff.mode === 'edit file') {
+                         if (baseFolder.toLowerCase() === 'workflows') {
+                              MetadataFactory.getWorkflowsFromDiff(diff, metadataForDeploy, metadataForDelete, fileName)
+                         } if (baseFolder.toLowerCase() === 'assignmentRules') {
+                              MetadataFactory.getAssignmentRulesFromDiff(diff, metadataForDeploy, metadataForDelete, fileName)
+                         } if (baseFolder.toLowerCase() === 'autoResponseRules') {
+                              MetadataFactory.getAutoresponseRulesFromDiff(diff, metadataForDeploy, metadataForDelete, fileName)
+                         } if (baseFolder.toLowerCase() === 'labels') {
+                              MetadataFactory.getCustomLabelsFromDiff(diff, metadataForDeploy, metadataForDelete, fileName)
+                         } if (baseFolder.toLowerCase() === 'sharingRules') {
+                              MetadataFactory.getSharingRulesFromDiff(diff, metadataForDeploy, metadataForDelete, fileName)
+                         } else {
+                              let metadata = MetadataFactory.createMetadataType(metadataType.xmlName, true);
+                              let childs = MetadataFactory.getMetadataObjectsFromGitDiff(metadataType, baseFolderSplits, fileName);
+                              if (!metadataForDeploy[metadata.name])
+                                   metadataForDeploy[metadata.name] = metadata;
+                              Object.keys(childs).forEach(function (childKey) {
+                                   if (!metadataForDeploy[metadata.name].childs[childKey])
+                                        metadataForDeploy[metadata.name].childs[childKey] = childs[childKey];
+                                   if (childs[childKey].childs && Object.keys(childs[childKey].childs).length > 0) {
+                                        Object.keys(childs[childKey].childs).forEach(function (grandChildKey) {
+                                             if (!metadataForDeploy[metadata.name].childs[childKey].childs[grandChildKey])
+                                                  metadataForDeploy[metadata.name].childs[childKey].childs[grandChildKey] = childs[childKey].childs[grandChildKey];
+                                        });
+                                   }
+                              });
+                         }
+                    }
+               }
+          }
+          if (metadataForDelete[MetadataTypes.AURA]) {
+               Object.keys(metadataForDelete[MetadataTypes.AURA].childs).forEach(function (childKey) {
+                    if (metadataForDeploy[MetadataTypes.AURA] && metadataForDeploy[MetadataTypes.AURA].childs[childKey])
+                         delete metadataForDeploy[MetadataTypes.AURA].childs[childKey];
+               });
+               if (metadataForDeploy[MetadataTypes.AURA] && Object.keys(metadataForDeploy[MetadataTypes.AURA].childs).length === 0)
+                    delete metadataForDeploy[MetadataTypes.AURA];
+
+          }
+          if (metadataForDelete[MetadataTypes.LWC]) {
+               Object.keys(metadataForDelete[MetadataTypes.LWC].childs).forEach(function (childKey) {
+                    if (metadataForDeploy[MetadataTypes.LWC] && metadataForDeploy[MetadataTypes.LWC].childs[childKey])
+                         delete metadataForDeploy[MetadataTypes.LWC].childs[childKey];
+               });
+               if (metadataForDeploy[MetadataTypes.LWC] && Object.keys(metadataForDeploy[MetadataTypes.LWC].childs).length === 0)
+                    delete metadataForDeploy[MetadataTypes.LWC];
+          }
+          if (metadataForDelete[MetadataTypes.WORKFLOW]) {
+               Object.keys(metadataForDelete[MetadataTypes.WORKFLOW].childs).forEach(function (childKey) {
+                    if (metadataForDeploy[MetadataTypes.WORKFLOW] && metadataForDeploy[MetadataTypes.WORKFLOW].childs[childKey])
+                         delete metadataForDeploy[MetadataTypes.WORKFLOW].childs[childKey];
+               });
+               if (metadataForDeploy[MetadataTypes.WORKFLOW] && Object.keys(metadataForDeploy[MetadataTypes.WORKFLOW].childs).length === 0)
+                    delete metadataForDeploy[MetadataTypes.WORKFLOW];
+          }
+
+          return {
+               metadataForDeploy: metadataForDeploy,
+               metadataForDelete: metadataForDelete
+          }
+     }
+
+     static getMetadataObjectsFromGitDiff(metadataType, baseFolderSplits, fileName) {
+          let especialTypes = [MetadataTypes.CUSTOM_METADATA, MetadataTypes.APPROVAL_PROCESSES, MetadataTypes.DUPLICATE_RULE,
+          MetadataTypes.QUICK_ACTION, MetadataTypes.LAYOUT, MetadataTypes.AURA, MetadataTypes.LWC, MetadataTypes.ASSIGNMENT_RULES, MetadataTypes.AUTORESPONSE_RULES,
+          MetadataTypes.WORKFLOW, MetadataTypes.CUSTOM_LABELS, MetadataTypes.SHARING_RULE, MetadataTypes.FLOWS];
+          let objects = {};
+          let fistPartBaseFolder = baseFolderSplits[0];
+          if (baseFolderSplits.length > 1 && !especialTypes.includes(metadataType.xmlName)) {
+               let metadataObjectFolderName = baseFolderSplits[1];
+               if (!objects[metadataObjectFolderName])
+                    objects[metadataObjectFolderName] = MetadataFactory.createMetadataObject(metadataObjectFolderName, true);
+               if (fistPartBaseFolder === 'objects' && baseFolderSplits.length > 2) {
+                    objects[metadataObjectFolderName].childs[fileName] = MetadataFactory.createMetadataItem(fileName, true);
+               } else if (baseFolderSplits.length > 1) {
+                    objects[metadataObjectFolderName].childs[fileName] = MetadataFactory.createMetadataItem(fileName, true);
+               }
+          } else if (metadataType.xmlName === MetadataTypes.CUSTOM_METADATA || metadataType.xmlName === MetadataTypes.APPROVAL_PROCESSES || metadataType.xmlName === MetadataTypes.DUPLICATE_RULE || metadataType.xmlName === MetadataTypes.QUICK_ACTION) {
+               let fileNameParts = fileName.split('.');
+               let sobj = fileNameParts[0].trim();
+               let item = fileNameParts[1].trim();
+               if (!objects[sobj])
+                    objects[sobj] = MetadataFactory.createMetadataObject(sobj, true);
+               if (!objects[sobj].childs[item])
+                    objects[sobj].childs[item] = MetadataFactory.createMetadataItem(item, true);
+          } else if (metadataType.xmlName === MetadataTypes.LAYOUT) {
+               let sobj = fileName.substring(0, fileName.indexOf('-')).trim();
+               let item = fileName.substring(fileName.indexOf('-') + 1).trim();
+               if (!objects[sobj])
+                    objects[sobj] = MetadataFactory.createMetadataObject(sobj, true);
+               if (!objects[sobj].childs[item])
+                    objects[sobj].childs[item] = MetadataFactory.createMetadataItem(item, true);
+          } else if (metadataType.xmlName === MetadataTypes.CUSTOM_OBJECT_TRANSLATIONS) {
+               let folderName = baseFolderSplits[0];
+               let sobj = folderName.substring(0, folderName.indexOf('-')).trim();
+               let item = folderName.substring(folderName.indexOf('-') + 1).trim();
+               if (!objects[sobj])
+                    objects[sobj] = MetadataFactory.createMetadataObject(sobj, true);
+               if (!objects[sobj].childs[item])
+                    objects[sobj].childs[item] = MetadataFactory.createMetadataItem(item, true);
+          } else if (metadataType.xmlName === MetadataTypes.STATIC_RESOURCE) {
+               if (baseFolderSplits.length === 1) {
+                    if (!objects[fileName])
+                         objects[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+               } else {
+                    if (!objects[baseFolderSplits[1]])
+                         objects[baseFolderSplits[1]] = MetadataFactory.createMetadataObject(baseFolderSplits[1], true);
+               }
+          } else if (metadataType.xmlName === MetadataTypes.FLOW) {
+               if (fileName.indexOf('-') !== -1) {
+                    let sobj = fileName.substring(0, fileName.indexOf('-')).trim();
+                    let item = fileName.substring(fileName.indexOf('-') + 1).trim();
+                    if (!objects[sobj])
+                         objects[sobj] = MetadataFactory.createMetadataObject(sobj, true);
+                    if (!objects[sobj].childs[item])
+                         objects[sobj].childs[item] = MetadataFactory.createMetadataItem(item, true);
+               } else {
+                    if (!objects[fileName])
+                         objects[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+               }
+          } else if (metadataType.xmlName === MetadataTypes.AURA || metadataType.xmlName === MetadataTypes.LWC) {
+               if (baseFolderSplits[1] && !objects[baseFolderSplits[1]])
+                    objects[baseFolderSplits[1]] = MetadataFactory.createMetadataObject(baseFolderSplits[1], true);
+          } else {
+               if (!objects[fileName])
+                    objects[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+          }
+          return objects;
+     }
+
+     static getAssignmentRulesFromDiff(diff, metadataForDeploy, metadataForDelete, fileName) {
+          if (!metadataForDeploy[MetadataTypes.ASSIGNMENT_RULES])
+               metadataForDeploy[MetadataTypes.ASSIGNMENT_RULES] = MetadataFactory.createMetadataType(MetadataTypes.ASSIGNMENT_RULES, true);
+          if (!metadataForDeploy[MetadataTypes.ASSIGNMENT_RULES].childs[fileName])
+               metadataForDeploy[MetadataTypes.ASSIGNMENT_RULES].childs[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+          let nameTag = 'fullName';
+          if (diff.removeChanges.length > 0) {
+               let startSubtipe = false;
+               let onMember = false;
+               let fullNameContent = '';
+               for (const changedLine of diff.removeChanges) {
+                    let parentTagOpen = MetadataFactory.startXMLTag(changedLine, 'assignmentRule');
+                    let parentTagClose = MetadataFactory.endXMLTag(changedLine, 'assignmentRule');
+                    if (parentTagOpen !== undefined) {
+                         startSubtipe = true;
+                    }
+                    if (startSubtipe) {
+                         let startNameTag = MetadataFactory.startXMLTag(changedLine, nameTag);
+                         let endNameTag = MetadataFactory.endXMLTag(changedLine, nameTag);
+                         if (startNameTag !== undefined && endNameTag !== undefined) {
+                              let startTagIndex = changedLine.indexOf('<' + nameTag + '>');
+                              let endTagIndex = changedLine.indexOf('</' + nameTag + '>');
+                              fullNameContent = changedLine.substring(startTagIndex, endTagIndex);
+                              fullNameContent = fullNameContent.substring(fullNameContent.indexOf('>') + 1);
+                         }
+                         else if (startNameTag !== undefined) {
+                              onMember = true;
+                              fullNameContent += changedLine;
+                         } else if (onMember) {
+                              fullNameContent += changedLine;
+                         } else if (endNameTag !== undefined) {
+                              onMember = false;
+                              fullNameContent += changedLine;
+                         }
+                    }
+                    if (parentTagClose !== undefined) {
+                         Logger.log('fullNameContent', fullNameContent);
+                         startSubtipe = false;
+                         fullNameContent = fullNameContent.trim();
+                         if (fullNameContent.length > 0) {
+                              let type = MetadataTypes.ASSIGNMENT_RULE;
+                              if (!metadataForDelete[type])
+                                   metadataForDelete[type] = MetadataFactory.createMetadataType(type, true);
+                              if (!metadataForDelete[type].childs[fileName])
+                                   metadataForDelete[type].childs[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+                              metadataForDelete[type].childs[fileName].childs[fullNameContent] = MetadataFactory.createMetadataItem(fullNameContent, true);
+                              fullNameContent = '';
+                         }
+                    }
+               }
+          }
+     }
+
+     static getAutoresponseRulesFromDiff(diff, metadataForDeploy, metadataForDelete, fileName) {
+          if (!metadataForDeploy[MetadataTypes.AUTORESPONSE_RULES])
+               metadataForDeploy[MetadataTypes.AUTORESPONSE_RULES] = MetadataFactory.createMetadataType(MetadataTypes.AUTORESPONSE_RULES, true);
+          if (!metadataForDeploy[MetadataTypes.AUTORESPONSE_RULES].childs[fileName])
+               metadataForDeploy[MetadataTypes.AUTORESPONSE_RULES].childs[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+          let nameTag = 'fullName';
+          if (diff.removeChanges.length > 0) {
+               let startSubtipe = false;
+               let onMember = false;
+               let fullNameContent = '';
+               for (const changedLine of diff.removeChanges) {
+                    let parentTagOpen = MetadataFactory.startXMLTag(changedLine, 'autoResponseRule');
+                    let parentTagClose = MetadataFactory.endXMLTag(changedLine, 'autoResponseRule');
+                    if (parentTagOpen !== undefined) {
+                         startSubtipe = true;
+                    }
+                    if (startSubtipe) {
+                         let startNameTag = MetadataFactory.startXMLTag(changedLine, nameTag);
+                         let endNameTag = MetadataFactory.endXMLTag(changedLine, nameTag);
+                         if (startNameTag !== undefined && endNameTag !== undefined) {
+                              let startTagIndex = changedLine.indexOf('<' + nameTag + '>');
+                              let endTagIndex = changedLine.indexOf('</' + nameTag + '>');
+                              fullNameContent = changedLine.substring(startTagIndex, endTagIndex);
+                              fullNameContent = fullNameContent.substring(fullNameContent.indexOf('>') + 1);
+                         }
+                         else if (startNameTag !== undefined) {
+                              onMember = true;
+                              fullNameContent += changedLine;
+                         } else if (onMember) {
+                              fullNameContent += changedLine;
+                         } else if (endNameTag !== undefined) {
+                              onMember = false;
+                              fullNameContent += changedLine;
+                         }
+                    }
+                    if (parentTagClose !== undefined) {
+                         Logger.log('fullNameContent', fullNameContent);
+                         startSubtipe = false;
+                         fullNameContent = fullNameContent.trim();
+                         if (fullNameContent.length > 0) {
+                              let type = MetadataTypes.AUTORESPONSE_RULE;
+                              if (!metadataForDelete[type])
+                                   metadataForDelete[type] = MetadataFactory.createMetadataType(type, true);
+                              if (!metadataForDelete[type].childs[fileName])
+                                   metadataForDelete[type].childs[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+                              metadataForDelete[type].childs[fileName].childs[fullNameContent] = MetadataFactory.createMetadataItem(fullNameContent, true);
+                              fullNameContent = '';
+                         }
+                    }
+               }
+          }
+     }
+
+     static getCustomLabelsFromDiff(diff, metadataForDeploy, metadataForDelete, fileName) {
+          if (!metadataForDeploy[MetadataTypes.CUSTOM_LABELS])
+               metadataForDeploy[MetadataTypes.CUSTOM_LABELS] = MetadataFactory.createMetadataType(MetadataTypes.CUSTOM_LABELS, true);
+          if (!metadataForDeploy[MetadataTypes.CUSTOM_LABELS].childs[fileName])
+               metadataForDeploy[MetadataTypes.CUSTOM_LABELS].childs[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+          let nameTag = 'fullName';
+          if (diff.removeChanges.length > 0) {
+               let startSubtipe = false;
+               let onMember = false;
+               let fullNameContent = '';
+               for (const changedLine of diff.removeChanges) {
+                    let parentTagOpen = MetadataFactory.startXMLTag(changedLine, 'labels');
+                    let parentTagClose = MetadataFactory.endXMLTag(changedLine, 'labels');
+                    if (parentTagOpen !== undefined) {
+                         startSubtipe = true;
+                    }
+                    if (startSubtipe) {
+                         let startNameTag = MetadataFactory.startXMLTag(changedLine, nameTag);
+                         let endNameTag = MetadataFactory.endXMLTag(changedLine, nameTag);
+                         if (startNameTag !== undefined && endNameTag !== undefined) {
+                              let startTagIndex = changedLine.indexOf('<' + nameTag + '>');
+                              let endTagIndex = changedLine.indexOf('</' + nameTag + '>');
+                              fullNameContent = changedLine.substring(startTagIndex, endTagIndex);
+                              fullNameContent = fullNameContent.substring(fullNameContent.indexOf('>') + 1);
+                         }
+                         else if (startNameTag !== undefined) {
+                              onMember = true;
+                              fullNameContent += changedLine;
+                         } else if (onMember) {
+                              fullNameContent += changedLine;
+                         } else if (endNameTag !== undefined) {
+                              onMember = false;
+                              fullNameContent += changedLine;
+                         }
+                    }
+                    if (parentTagClose !== undefined) {
+                         Logger.log('fullNameContent', fullNameContent);
+                         startSubtipe = false;
+                         fullNameContent = fullNameContent.trim();
+                         if (fullNameContent.length > 0) {
+                              let type = MetadataTypes.CUSTOM_LABEL;
+                              if (!metadataForDelete[type])
+                                   metadataForDelete[type] = MetadataFactory.createMetadataType(type, true);
+                              if (!metadataForDelete[type].childs[fileName])
+                                   metadataForDelete[type].childs[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+                              metadataForDelete[type].childs[fileName].childs[fullNameContent] = MetadataFactory.createMetadataItem(fullNameContent, true);
+                              fullNameContent = '';
+                         }
+                    }
+               }
+          }
+     }
+
+     static getSharingRulesFromDiff(diff, metadataForDeploy, metadataForDelete, fileName) {
+          if (!metadataForDeploy[MetadataTypes.SHARING_RULE])
+               metadataForDeploy[MetadataTypes.SHARING_RULE] = MetadataFactory.createMetadataType(MetadataTypes.SHARING_RULE, true);
+          if (!metadataForDeploy[MetadataTypes.SHARING_RULE].childs[fileName])
+               metadataForDeploy[MetadataTypes.SHARING_RULE].childs[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+          let nameTag = 'fullName';
+          if (diff.removeChanges.length > 0) {
+               let startSubtipe = false;
+               let onMember = false;
+               let fullNameContent = '';
+               for (const changedLine of diff.removeChanges) {
+                    let parentTagOpen = MetadataFactory.isSharingRuleSubtypeStartTag(changedLine);
+                    let parentTagClose = MetadataFactory.isSharingRuleSubtypeStartTag(changedLine);
+                    if (parentTagOpen !== undefined) {
+                         startSubtipe = true;
+                    }
+                    if (startSubtipe) {
+                         let startNameTag = MetadataFactory.startXMLTag(changedLine, nameTag);
+                         let endNameTag = MetadataFactory.endXMLTag(changedLine, nameTag);
+                         if (startNameTag !== undefined && endNameTag !== undefined) {
+                              let startTagIndex = changedLine.indexOf('<' + nameTag + '>');
+                              let endTagIndex = changedLine.indexOf('</' + nameTag + '>');
+                              fullNameContent = changedLine.substring(startTagIndex, endTagIndex);
+                              fullNameContent = fullNameContent.substring(fullNameContent.indexOf('>') + 1);
+                         }
+                         else if (startNameTag !== undefined) {
+                              onMember = true;
+                              fullNameContent += changedLine;
+                         } else if (onMember) {
+                              fullNameContent += changedLine;
+                         } else if (endNameTag !== undefined) {
+                              onMember = false;
+                              fullNameContent += changedLine;
+                         }
+                    }
+                    if (parentTagClose !== undefined) {
+                         Logger.log('fullNameContent', fullNameContent);
+                         startSubtipe = false;
+                         fullNameContent = fullNameContent.trim();
+                         if (fullNameContent.length > 0) {
+                              let type = MetadataFactory.getSharingRulesChildsByTag()[parentTagClose];
+                              if (!metadataForDelete[type])
+                                   metadataForDelete[type] = MetadataFactory.createMetadataType(type, true);
+                              if (!metadataForDelete[type].childs[fileName])
+                                   metadataForDelete[type].childs[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+                              metadataForDelete[type].childs[fileName].childs[fullNameContent] = MetadataFactory.createMetadataItem(fullNameContent, true);
+                              fullNameContent = '';
+                         }
+                    }
+               }
+          }
+     }
+
+     static getWorkflowsFromDiff(diff, metadataForDeploy, metadataForDelete, fileName) {
+          if (!metadataForDeploy[MetadataTypes.WORKFLOW])
+               metadataForDeploy[MetadataTypes.WORKFLOW] = MetadataFactory.createMetadataType(MetadataTypes.WORKFLOW, true);
+          if (!metadataForDeploy[MetadataTypes.WORKFLOW].childs[fileName])
+               metadataForDeploy[MetadataTypes.WORKFLOW].childs[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+          let nameTag = 'fullName';
+          if (diff.removeChanges.length > 0) {
+               let startSubtipe = false;
+               let onMember = false;
+               let fullNameContent = '';
+               for (const changedLine of diff.removeChanges) {
+                    let parentTagOpen = MetadataFactory.isWorkflowSubtypeStartTag(changedLine);
+                    let parentTagClose = MetadataFactory.isWorkflowSubtypeEndTag(changedLine);
+                    if (parentTagOpen !== undefined) {
+                         startSubtipe = true;
+                    }
+                    if (startSubtipe) {
+                         let startNameTag = MetadataFactory.startXMLTag(changedLine, nameTag);
+                         let endNameTag = MetadataFactory.endXMLTag(changedLine, nameTag);
+                         if (startNameTag !== undefined && endNameTag !== undefined) {
+                              let startTagIndex = changedLine.indexOf('<' + nameTag + '>');
+                              let endTagIndex = changedLine.indexOf('</' + nameTag + '>');
+                              fullNameContent = changedLine.substring(startTagIndex, endTagIndex);
+                              fullNameContent = fullNameContent.substring(fullNameContent.indexOf('>') + 1);
+                         }
+                         else if (startNameTag !== undefined) {
+                              onMember = true;
+                              fullNameContent += changedLine;
+                         } else if (onMember) {
+                              fullNameContent += changedLine;
+                         } else if (endNameTag !== undefined) {
+                              onMember = false;
+                              fullNameContent += changedLine;
+                         }
+                    }
+                    if (parentTagClose !== undefined) {
+                         Logger.log('fullNameContent', fullNameContent);
+                         startSubtipe = false;
+                         fullNameContent = fullNameContent.trim();
+                         if (fullNameContent.length > 0) {
+                              let type = MetadataFactory.getWorkflowChildsByTag()[parentTagClose];
+                              if (!metadataForDelete[type])
+                                   metadataForDelete[type] = MetadataFactory.createMetadataType(type, true);
+                              if (!metadataForDelete[type].childs[fileName])
+                                   metadataForDelete[type].childs[fileName] = MetadataFactory.createMetadataObject(fileName, true);
+                              metadataForDelete[type].childs[fileName].childs[fullNameContent] = MetadataFactory.createMetadataItem(fullNameContent, true);
+                              fullNameContent = '';
+                         }
+                    }
+               }
+          }
+     }
+
+     static getWorkflowChildsByTag() {
+          return {
+               alerts: MetadataTypes.WORKFLOW_ALERT,
+               fieldUpdates: MetadataTypes.WORKFLOW_FIELD_UPDATE,
+               knowledgePublishes: MetadataTypes.WORKFLOW_KNOWLEDGE_PUBLISH,
+               outboundMessages: MetadataTypes.WORKFLOW_OUTBOUND_MESSAGE,
+               rules: MetadataTypes.WORKFLOW_RULE,
+               tasks: MetadataTypes.WORKFLOW_TASK
+          };
+     }
+
+     static getSharingRulesChildsByTag() {
+          return {
+               sharingCriteriaRules: MetadataTypes.SHARING_CRITERIA_RULE,
+               sharingOwnerRules: MetadataTypes.SHARING_OWNER_RULE,
+          };
+     }
+
+     static startXMLTag(content, tag) {
+          if (content.indexOf('<' + tag + '>') !== -1)
+               return tag;
+          return undefined;
+     }
+
+     static endXMLTag(content, tag) {
+          if (content.indexOf('</' + tag + '>') !== -1)
+               return tag;
+          return undefined;
+     }
+
+     static isWorkflowSubtypeStartTag(changedLine) {
+          for (const subtype of Object.keys(MetadataFactory.getWorkflowChildsByTag())) {
+               let tag = MetadataFactory.startXMLTag(changedLine, subtype);
+               if (tag !== undefined)
+                    return tag;
+          }
+          return undefined;
+     }
+
+     static isWorkflowSubtypeEndTag(changedLine) {
+          for (const subtype of Object.keys(MetadataFactory.getWorkflowChildsByTag())) {
+               let tag = MetadataFactory.endXMLTag(changedLine, subtype);
+               if (tag !== undefined)
+                    return tag;
+          }
+          return undefined;
+     }
+
+     static isSharingRuleSubtypeStartTag(changedLine) {
+          for (const subtype of Object.keys(MetadataFactory.getSharingRulesChildsByTag())) {
+               let tag = MetadataFactory.startXMLTag(changedLine, subtype);
+               if (tag !== undefined)
+                    return tag;
+          }
+          return undefined;
+     }
+
+     static isSharingRuleSubtypeEndTag(changedLine) {
+          for (const subtype of Object.keys(MetadataFactory.getSharingRulesChildsByTag())) {
+               let tag = MetadataFactory.endXMLTag(changedLine, subtype);
+               if (tag !== undefined)
+                    return tag;
+          }
+          return undefined;
+     }
+
+     static createMetadataFromJSONSchema(strJson) {
+          let isOnFields = false;
+          let isOnRts = false;
+          let isOnReference = false;
+          let isOnPicklistVal = false;
+          let bracketIndent = 0;
+          let metadataIndex = {
+               name: undefined,
+               label: undefined,
+               labelPlural: undefined,
+               keyPrefix: undefined,
+               queryable: undefined,
+               fields: [],
+               recordTypes: []
+          };
+          let field = {
+               name: undefined,
+               label: undefined,
+               length: undefined,
+               type: undefined,
+               custom: undefined,
+               relationshipName: undefined,
+               picklistValues: [],
+               referenceTo: []
+          };
+          let pickVal = {
+               active: undefined,
+               defaultValue: undefined,
+               label: undefined,
+               value: undefined
+          };
+          let rt = {
+               devName: undefined,
+               name: undefined,
+               default: undefined
+          };
+          for (let line of strJson.split('\n')) {
+               line = line.trim();
+               if (line.indexOf('{') !== -1)
+                    bracketIndent++;
+               else if (line.indexOf('}') !== -1) {
+                    bracketIndent--;
+                    if (isOnRts) {
+                         if (rt.name)
+                              metadataIndex.recordTypes.push(rt);
+                         rt = {
+                              devName: undefined,
+                              name: undefined,
+                              default: undefined
+                         };
+                    }
+                    if (isOnPicklistVal) {
+                         if (pickVal.value)
+                              field.picklistValues.push(pickVal);
+                         pickVal = {
+                              active: undefined,
+                              defaultValue: undefined,
+                              label: undefined,
+                              value: undefined
+                         };
+                    }
+                    else if (isOnFields) {
+                         if (field.name)
+                              metadataIndex.fields.push(field);
+                         field = {
+                              name: undefined,
+                              label: undefined,
+                              length: undefined,
+                              type: undefined,
+                              custom: undefined,
+                              relationshipName: undefined,
+                              picklistValues: [],
+                              referenceTo: []
+                         };
+                    }
+               }
+               if (bracketIndent === 2) {
+                    if (line.indexOf('fields') !== -1 && line.indexOf(':') !== -1 && line.indexOf('[') !== -1)
+                         isOnFields = true;
+                    if (isOnFields && line.indexOf(']') !== -1 && line.indexOf('[') === -1) {
+                         isOnFields = false;
+                         isOnReference = false;
+                         isOnPicklistVal = false;
+                         if (field.name)
+                              metadataIndex.fields.push(field);
+                         field = {
+                              name: undefined,
+                              label: undefined,
+                              length: undefined,
+                              type: undefined,
+                              custom: undefined,
+                              relationshipName: undefined,
+                              picklistValues: [],
+                              referenceTo: []
+                         };
+                    }
+
+                    if (line.indexOf('recordTypeInfos') !== -1 && line.indexOf(':') !== -1 && line.indexOf('[') !== -1)
+                         isOnRts = true;
+                    if (isOnRts && line.indexOf(']') !== -1 && line.indexOf('[') === -1) {
+                         isOnRts = false;
+                         if (rt.name)
+                              metadataIndex.recordTypes.push(rt);
+                         rt = {
+                              devName: undefined,
+                              name: undefined,
+                              default: undefined
+                         };
+                    }
+               }
+               if (isOnReference && line.indexOf(']') !== -1) {
+                    isOnReference = false;
+               }
+               if (isOnPicklistVal && line.indexOf(']') !== -1) {
+                    isOnPicklistVal = false;
+               }
+               if (bracketIndent === 2 && !isOnFields && !isOnRts) {
+                    let keyValue = MetadataFactory.getJSONNameValuePair(line);
+                    if (keyValue.name === 'name')
+                         metadataIndex.name = keyValue.value;
+                    if (keyValue.name === 'label')
+                         metadataIndex.label = keyValue.value;
+                    if (keyValue.name === 'labelPlural')
+                         metadataIndex.labelPlural = keyValue.value;
+                    if (keyValue.name === 'keyPrefix')
+                         metadataIndex.keyPrefix = keyValue.value;
+                    if (keyValue.name === 'queryable')
+                         metadataIndex.queryable = keyValue.value;
+               } else if (isOnReference && line.indexOf('[') === -1) {
+                    field.referenceTo.push(line.replace(new RegExp('"', 'g'), "").trim());
+               } else if (isOnPicklistVal && line.indexOf('[') === -1) {
+                    let keyValue = MetadataFactory.getJSONNameValuePair(line);
+                    if (keyValue.name === 'active')
+                         pickVal.active = keyValue.value;
+                    if (keyValue.name === 'defaultValue')
+                         pickVal.defaultValue = keyValue.value;
+                    if (keyValue.name === 'label')
+                         pickVal.label = keyValue.value;
+                    if (keyValue.name === 'value')
+                         pickVal.value = keyValue.value;
+               } else if (isOnFields && !isOnPicklistVal && !isOnReference) {
+                    if (bracketIndent === 3) {
+                         let keyValue = MetadataFactory.getJSONNameValuePair(line);
+                         if (keyValue.name === 'name')
+                              field.name = keyValue.value;
+                         if (keyValue.name === 'label')
+                              field.label = keyValue.value;
+                         if (keyValue.name === 'type')
+                              field.type = keyValue.value;
+                         if (keyValue.name === 'length')
+                              field.length = keyValue.value;
+                         if (keyValue.name === 'custom')
+                              field.custom = keyValue.value;
+                         if (keyValue.name === 'relationshipName' && keyValue.value != 'null')
+                              field.relationshipName = keyValue.value;
+                         if (keyValue.name === "referenceTo" && line.indexOf(']') === -1) {
+                              isOnReference = true;
+                              isOnPicklistVal = false;
+                         }
+                         if (keyValue.name === "picklistValues" && line.indexOf(']') === -1) {
+                              isOnPicklistVal = true;
+                              isOnReference = false;
+                         }
+                    }
+               } else if (isOnRts) {
+                    if (bracketIndent === 3) {
+                         let keyValue = MetadataFactory.getJSONNameValuePair(line);
+                         if (keyValue.name === 'name')
+                              rt.name = keyValue.value;
+                         if (keyValue.name === 'developerName')
+                              rt.developerName = keyValue.value;
+                         if (keyValue.name === 'defaultRecordTypeMapping')
+                              rt.default = keyValue.value;
+                    }
+               }
+          }
+          return metadataIndex;
+     }
+
+     static getJSONNameValuePair(line) {
+          let tmpLine = line.replace('{', "").replace("}", "");
+          if (tmpLine.indexOf('[') !== -1 && tmpLine.indexOf(']') === -1)
+               tmpLine = tmpLine.replace("[", "");
+          let splits = tmpLine.split(':');
+          let fieldName;
+          let fieldValue;
+          if (splits.length >= 0 && splits[0])
+               fieldName = splits[0].trim().replace(new RegExp('"', "g"), "").replace(new RegExp("'", "g"), "");
+          if (splits.length >= 1 && splits[1]) {
+               fieldValue = splits[1].trim().replace(new RegExp('"', "g"), "").replace(new RegExp("'", "g"), "");
+               if (fieldValue.endsWith(","))
+                    fieldValue = fieldValue.substring(0, fieldValue.length - 1);
+               else
+                    fieldValue = fieldValue.substring(0, fieldValue.length);
+          }
+          return {
+               name: fieldName,
+               value: fieldValue
+          };
+     }
+
+     static isSObject(objectName) {
+          let startsWith = [
+               "Apex",
+               "Topic",
+               "Web",
+               "Work",
+               "Forecasting",
+               "Process",
+               "Lightning",
+               "Live",
+               "Permission",
+               "Category",
+               "Chatter",
+               "Collaboration",
+               "Content",
+               "Auth",
+               "Brand",
+               "Business",
+               "App",
+               "Async",
+               "Aura",
+               "User",
+               "Email",
+               "Secur",
+               "Search",
+               "Scontrol",
+               "Platform",
+               "List",
+               "Idea",
+               "Flow",
+               "Field",
+               "External",
+               "Expression",
+               "Event",
+               "Entity",
+               "Duplicate",
+               "Data",
+               "Dash",
+               "Custom",
+               "Case",
+               "Cal",
+               "Ass",
+               "Action",
+               "Task",
+               "Stamp",
+               "Lo",
+               "Embed",
+               "Domain",
+               "Csp",
+               "Color",
+               "AcceptedEventRelation",
+               "Sol",
+               "Skill",
+               "Site",
+               "Setup",
+               "Session",
+               "Saml",
+               "Relation",
+               "Recommendation",
+               "RecentlyViewed",
+               "Quote"
+          ];
+
+          let containsTokens = [
+               "Share",
+               "History",
+               "ChangeEvent",
+               "Feed",
+          ];
+          let starts = false;
+          let contains = false;
+          for (const sw of startsWith) {
+               if (objectName.startsWith(sw) && !objectName.endsWith('__c')) {
+                    if (objectName != 'Quote' && objectName != 'Test' && objectName != 'Task' && objectName != 'Asset' && objectName != 'User' && objectName != 'EmailMessage' && objectName != 'EmailTemplate' && objectName != 'Event' && objectName != 'Case' && objectName != 'CaseComment') {
+                         starts = true;
+                         break;
+                    }
+               }
+          }
+          if (!starts) {
+               for (const cont of containsTokens) {
+                    if (objectName.indexOf(cont) !== -1) {
+                         contains = true;
+                         break;
+                    }
+               }
+          }
+          return !starts && !contains;
+     }
 }
 module.exports = MetadataFactory;

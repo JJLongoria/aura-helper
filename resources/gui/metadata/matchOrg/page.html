@@ -1,4 +1,12 @@
 <form>
+    <div class="w3-row" style="margin-top: 15px;">
+        <div class="w3-container" style="margin:auto; width:700px; text-justify: auto;">
+            <b style="font-size: large;">{!label.important}</b>
+            <p>
+                {!label.match_org_introduction}
+            </p>
+        </div>
+    </div>
     <!-- METADATA CONTAINER START -->
     <div class="w3-container" id="metadataContainer" style="display: none; width:80%; height: 600px; margin:auto; padding-top: 10px;">
         <div class="w3-row-padding">
@@ -9,7 +17,6 @@
                             <a href="#" class="w3-bar-item"><i class="material-icons md-18 md-light">list</i></a>
                             <div class="w3-dropdown-content w3-bar-block w3-card" style="background-color: #161616; width: 150px; color: #D4D4D4;">
                                 <a href="#" id="selectAll" class="w3-bar-item menu" style="width: 150px; text-decoration: none;" onclick="selectAll()">{!label.all}</a>
-                                <a href="#" class="w3-bar-item menu" style="width: 150px; text-decoration: none;" onclick="selectFromPackage()">{!label.form_package}</a>
                             </div>
                         </div>
                     </div>

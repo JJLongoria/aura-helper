@@ -10,6 +10,7 @@
                             <div class="w3-dropdown-content w3-bar-block w3-card" style="background-color: #161616; width: 150px; color: #D4D4D4;">
                                 <a href="#" id="selectAll" class="w3-bar-item menu" style="width: 150px; text-decoration: none;" onclick="selectAll()">{!label.all}</a>
                                 <a href="#" class="w3-bar-item menu" style="width: 150px; text-decoration: none;" onclick="selectFromPackage()">{!label.form_package}</a>
+                                <a href="#" class="w3-bar-item menu" style="width: 150px; text-decoration: none;" onclick="openSelectForGitOptions()">{!label.from_git}</a>
                             </div>
                         </div>
                     </div>
@@ -22,7 +23,7 @@
 
                 </div><br />
                 <div class="searchBox">
-                    <input id="filterMetadataType" oninput="onChangeMetadataTypeFilter()" onpaste="onChangeMetadataTypeFilter()" onkeypress="onChangeMetadataTypeFilter()" class="searchInput" value="" type="text" placeholder="{!label.filter_by_name}..."/>
+                    <input id="filterMetadataType" oninput="onChangeMetadataTypeFilter()" onpaste="onChangeMetadataTypeFilter()" onkeypress="onChangeMetadataTypeFilter()" class="searchInput" value="" type="text" placeholder="{!label.filter_by_name}..." />
                     <button class="searchButton" href="#"><i class="material-icons">search</i></button>
                 </div>
             </div>
@@ -32,7 +33,7 @@
 
                 </div><br />
                 <div class="searchBox">
-                    <input id="filterMetadataObject" oninput="onChangeMetadataObjectFilter()" onpaste="onChangeMetadataObjectFilter()" onkeypress="onChangeMetadataObjectFilter()" class="searchInput" value="" type="text" placeholder="{!label.filter_by_name}..."/>
+                    <input id="filterMetadataObject" oninput="onChangeMetadataObjectFilter()" onpaste="onChangeMetadataObjectFilter()" onkeypress="onChangeMetadataObjectFilter()" class="searchInput" value="" type="text" placeholder="{!label.filter_by_name}..." />
                     <button class="searchButton" href="#"><i class="material-icons">search</i></button>
                 </div>
             </div>
@@ -45,7 +46,7 @@
                 </div>
                 <div class="w3-row">
                     <div class="searchBox">
-                        <input id="filterMetadataItem" oninput="onChangeMetadataItemFilter()" onpaste="onChangeMetadataItemFilter()" onkeypress="onChangeMetadataItemFilter()" class="searchInput" value="" type="text" placeholder="{!label.filter_by_name}..."/>
+                        <input id="filterMetadataItem" oninput="onChangeMetadataItemFilter()" onpaste="onChangeMetadataItemFilter()" onkeypress="onChangeMetadataItemFilter()" class="searchInput" value="" type="text" placeholder="{!label.filter_by_name}..." />
                         <button class="searchButton" href="#"><i class="material-icons">search</i></button>
                     </div>
                 </div>
@@ -54,34 +55,145 @@
     </div>
     <!-- METADATA CONTAINER END -->
     <!-- PACKAGE OPTIONS START -->
-    <br />
-    <br />
-    <br />
-    <br />
-    <div class="w3-container" style="margin-top: 40px;">
-        <div class="w3-row-padding" style="width: 620px; margin: auto">
-            <div class="w3-half">
-                <button class="w3-btn w3-border w3-border-blue loadBtn" style="margin-left: 10px;" onclick="loadMetadata('fromFS')">{!label.load_metadata_from_filesystem}</button>
-            </div>
-            <div class="w3-half">
-                <button class="w3-btn w3-border w3-border-blue loadBtn" onclick="loadMetadata('fromOrg')">{!label.load_metadata_from_auth_org}</button>
-            </div>
-            <br />
-            <br />
-            <br />
-            <div class="w3-half">
-                <div class="w3-row-padding">
-                    <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="saveOnProjectPackage" type="radio" name="saveOn" value="saveOnProject" checked onclick="onChangeSaveOn('saveOnProjectPackage')"><span class="checkbox-custom"></span></label></div>
-                    <div class="w3-col w3-center" style="width: 90%;">{!label.overwrite_project_package}</div>
+    <div class="w3-container">
+        <div class="w3-row-padding" style="width: 900px; margin-left: auto; margin-right: auto; margin-top: 40px;">
+            <table class="w3-table table">
+                <tr>
+                    <th class="w3-center">{!label.download_metadata_options}</th>
+                    <th class="w3-center">{!label.select_metadata_for}</th>
+                    <th class="w3-center">{!label.create_package_options}</th>
+                    <th class="w3-center">{!label.save_package_options}</th>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="downloadOwnerMetadataInput" value="owned" type="radio" name="downloadOptions" checked onclick="changeDownloadMetadataOptions('downloadOwnerMetadataInput')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col w3-center" style="width: 90%;">{!label.download_owned_metadata}</div>
+                    </td>
+                    <td>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="selectFromDeployInput" value="deploy" type="radio" name="selectMetadata" checked onclick="changeMetadataForSelect('selectFromDeployInput')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col w3-center" style="width: 90%;">{!label.select_for_deploy}</div>
+                    </td>
+                    <td>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="creteForRetrieveInput" type="radio" name="createFor" value="forRetrieve" checked onclick="changeCreateFor('creteForRetrieveInput')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col w3-center" style="width: 90%;">{!label.create_for_retrieve}</div>
+                    </td>
+                    <td>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="saveOnProjectPackage" type="radio" name="saveOn" value="saveOnProject" checked onclick="onChangeSaveOn('saveOnProjectPackage')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col w3-center" style="width: 90%;">{!label.overwrite_project_package}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="downloadAllMetadataInput" value="all" type="radio" name="downloadOptions" onclick="changeDownloadMetadataOptions('downloadAllMetadataInput')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col w3-center" style="width: 90%;">{!label.download_all_metadata}</div>
+                    </td>
+                    <td>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="selectForDeleteInput" value="delete" type="radio" name="selectMetadata" onclick="changeMetadataForSelect('selectForDeleteInput')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col w3-center" style="width: 90%;">{!label.select_for_delete}</div>
+                    </td>
+                    <td>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="createForDeployInput" type="radio" name="createFor" value="forDeploy" onclick="changeCreateFor('createForDeployInput')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col w3-center" style="width: 90%;">{!label.create_for_deploy}</div>
+                    </td>
+                    <td>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="saveOnCustomFolder" type="radio" name="saveOn" value="saveOnCustom" onclick="onChangeSaveOn('saveOnCustomFolder')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col w3-center" style="width: 90%;">{!label.choose_directory_to_save}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- PACKAGE OPTIONS END -->
+        <!-- PACKAGE ACTIONS START -->
+        <div class="w3-container">
+            <div class="w3-row-padding" style="width: 620px; margin-left: auto; margin-right: auto; margin-top: 20px;">
+                <div class="w3-half">
+                    <button class="w3-btn collapse" style="margin-left: 10px;" onclick="loadMetadata('fromFS')">{!label.load_metadata_from_filesystem}</button>
                 </div>
-            </div>
-            <div class="w3-half">
-                <div class="w3-row-padding">
-                    <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="saveOnCustomFolder" type="radio" name="saveOn" value="saveOnCustom" onclick="onChangeSaveOn('saveOnCustomFolder')"><span class="checkbox-custom"></span></label></div>
-                    <div class="w3-col w3-center" style="width: 90%;">{!label.choose_directory_to_save}</div>
+                <div class="w3-half">
+                    <button class="w3-btn collapse" onclick="loadMetadata('fromOrg')">{!label.load_metadata_from_auth_org}</button>
                 </div>
             </div>
         </div>
-        <!-- PACKAGE OPTIONS END -->
+        <!-- PACKAGE ACTIONS END -->
+    </div>
+    <div id="gitModal" class="w3-modal modal" style="display: none;">
+        <div id="gitModalBody" class="w3-modal-content w3-card-4 w3-animate-opacity">
+            <header class="w3-container modalHeader">
+                <h2 id="gitModalTitle">{!label.select_from_git}</h2>
+            </header>
+            <div id="gitModalContent" class="w3-container modalContent">
+                <table class="w3-table" style="width: 70%; margin-right: 18%; margin-left: 12%;">
+                    <tr>
+                        <td style="width: 40%; text-align: right;">{!label.from_last_two_commits}</td>
+                        <td style="width: 10%;"><label class="checkbox-label"><input id="fromLastTwoCommitsInput" checked type="radio" name="selectFromGitRadio" value="twoLastCommits" onclick="onClickChangeFromGit('fromLastTwoCommitsInput')"><span class="checkbox-custom circular"></span></label></td>
+                        <td style="width: 40%; text-align: right;">{!label.from_specific_commits}</td>
+                        <td style="width: 10%;"><label class="checkbox-label"><input id="fromSpecificCommitsInput" type="radio" name="selectFromGitRadio" value="specificCommits" onclick="onClickChangeFromGit('fromSpecificCommitsInput')"><span class="checkbox-custom circular"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 40%;  text-align: right;">{!label.from_other_brach}</td>
+                        <td style="width: 10%;"><label class="checkbox-label"><input id="fromOtherBranchInput" type="radio" name="selectFromGitRadio" value="otherBranch" onclick="onClickChangeFromGit('fromOtherBranchInput')"><span class="checkbox-custom circular"></span></label></td>
+                        <td style="width: 40%;  text-align: right;">{!label.from_two_branches}</td>
+                        <td style="width: 10%;"><label class="checkbox-label"><input id="fromOtherTwoBranchesInput" type="radio" name="selectFromGitRadio" value="twoBranches" onclick="onClickChangeFromGit('fromOtherTwoBranchesInput')"><span class="checkbox-custom circular"></span></label></td>
+                    </tr>
+                </table>
+                <div class="validation" id="gitValidationMessage" style="display: none;"></div>
+                <div id="fromSpecificTwoCommitsBody" style="display: none;">
+                    <div id="commitsListContent" class="border-black-grey" style="height: 300px; overflow: auto;">
+
+                    </div>
+                    <br />
+                    <br />
+                    <table class="w3-table">
+                        <tr>
+                            <td>
+                                <label>{!label.first_commit}</label>
+                                <input class="w3-input inputText" type="text" placeholder="{!label.first_commit}..." id="firstCommitInput" />
+                            </td>
+                            <td>
+                                <label>{!label.second_commit}</label>
+                                <input class="w3-input inputText" type="text" placeholder="{!label.second_commit}..." id="secondCommitInput" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="fromOtherBranchBody" style="display: none;">
+                    <div id="branchListForOneBranchContent" class="border-black-grey" style="height: 300px; overflow: auto;">
+
+                    </div>
+                    <br />
+                    <br />
+                    <table class="w3-table">
+                        <tr>
+                            <td>
+                                <label>{!label.branch}</label>
+                                <input class="w3-input inputText" type="text" placeholder="{!label.branch}..." id="branchInput" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="fromOtherTwoBranchesBody" style="display: none;">
+                    <div id="branchListForTwoBranchesContent" class="border-black-grey" style="height: 300px; overflow: auto;">
+
+                    </div>
+                    <table class="w3-table">
+                        <tr>
+                            <td>
+                                <label>{!label.first_branch}</label>
+                                <input class="w3-input inputText" type="text" placeholder="{!label.first_branch}..." id="firstBranchInput" />
+                            </td>
+                            <td>
+                                <label>{!label.second_branch}</label>
+                                <input class="w3-input inputText" type="text" placeholder="{!label.second_branch}..." id="secondBranchInput" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <footer class="w3-container modalFooter w3-bar" style="height: 50px; padding-top:7px">
+                <button id="fetchBtn" class="w3-btn collapse" onclick="gitFetch()">{!label.git_fetch}</button>
+                <button id="cancelBtn" style="margin-left: 10px;" class="w3-btn w3-border w3-border-red cancel w3-right" onclick="closeGitModal()">{!label.cancel}</button>
+                <button id="selectFromGitBtn" class="w3-btn w3-border w3-border-green save w3-right" onclick="selectFromGit()">{!label.select}</button>
+            </footer>
+        </div>
     </div>
 </form>

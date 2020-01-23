@@ -72,7 +72,6 @@ class ProfileUtils {
 
     static mergeProfileWithLocalData(profile, storageMetadata) {
         if (profile) {
-            profile = ProfileUtils.createProfile(profile);
             Object.keys(profile).forEach(function (key) {
                 let profileElement = profile[key];
                 if (key === 'applicationVisibilities') {
@@ -263,8 +262,8 @@ class ProfileUtils {
                 } else if (key === 'recordTypeVisibilities') {
                     for (const storageObj of storageMetadata.objects) {
                         if (!storageObj.isCustomSetting && !storageObj.isCustomMetadata) {
-                            if (storageMetadata.objects.recordTypes) {
-                                for (const storageRecordType of storageMetadata.objects.recordTypes) {
+                            if (storageObj.recordTypes) {
+                                for (const storageRecordType of storageObj.recordTypes) {
                                     let found = false;
                                     for (const recordType of profileElement) {
                                         if (recordType.recordType === storageObj.name + '.' + storageRecordType) {
@@ -293,7 +292,7 @@ class ProfileUtils {
                             }
                         }
                         if (!found) {
-                            profileElement.push(ProfileUtils.getTabVisibilityObject(storageTabs, 'Default Off'));
+                            profileElement.push(ProfileUtils.getTabVisibilityObject(storageTabs, 'DefaultOff'));
                         }
                     }
                     profileElement.sort(function (a, b) {
