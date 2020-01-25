@@ -22,6 +22,7 @@ exports.provider = {
         let items;
         if (FileChecker.isAuraComponent(document.uri.fsPath)) {
             items = provideAuraComponentCompletion(document, position);
+            items.sort();
         }
         return Promise.resolve(items);
     }

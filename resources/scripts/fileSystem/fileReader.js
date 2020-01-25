@@ -9,11 +9,44 @@ class FileReader {
         }
         return lines.join('\n');
     }
+    
     static readFileSync(filePath) {
         return fs.readFileSync(filePath, 'utf8');
     }
-    static readDirSync(folderPath) {
-        return fs.readdirSync(folderPath);
+
+    static readFile(filePath, callback) { 
+        fs.readFile(filePath, callback);
+    }
+
+    static readDirSync(folderPath, filters) {
+        let folderContent = fs.readdirSync(folderPath);
+        if (filters) {
+            let result = [];
+            for (const contentPath of folderContent) {
+                if (filters.onlyFolders && fs.lstatSync(folderPath + '\\' + contentPath).isDirectory()) {
+                    result.push(contentPath);
+                } else if (filters.onlyFiles) {
+                    if (fs.lstatSync(folderPath + '\\' + contentPath).isFile()) {
+                        if (filters.extensions && filters.extensions.length > 0) {
+                            if (filters.extensions.includes(path.extname(contentPath)))
+                                result.push(contentPath);
+                        } else {
+                            result.push(contentPath);
+                        }
+                    }
+                } else {
+                    if (filters.extensions && filters.extensions.length > 0) {
+                        if (filters.extensions.includes(path.extname(contentPath)))
+                            result.push(contentPath);
+                    } else {
+                        result.push(contentPath);
+                    }
+                }
+            }
+            return result;
+        } else {
+            return folderContent;
+        }
     }
 
 

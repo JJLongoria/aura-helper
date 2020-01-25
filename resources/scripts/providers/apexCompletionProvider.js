@@ -15,6 +15,7 @@ exports.provider = {
         let items;
         if (FileChecker.isApexClass(document.uri.fsPath) || FileChecker.isApexTrigger(document.uri.fsPath)) {
             items = provideApexCompletion(document, position);
+            items.sort();
         }
         return Promise.resolve(items);
     }
@@ -28,7 +29,8 @@ function provideApexCompletion(document, position) {
         let activation = activationInfo.activation;
         let activationTokens = getActivationTokens(activation);
         let queryData = langUtils.getQueryData(document, position);
-        let fileStructure = ApexParser.parse(FileReader.readDocument(document), position);
+        // let fileStructure = ApexParser.parse(FileReader.readDocument(document), position);
+        let fileStructure = ApexParser.getFileStructure(FileReader.readDocument(document), position);
         let classes = Utils.getClassesFromClassFolder(document);
         let systemMetadata = Utils.getNamespaceMetadataFile('System');
         let namespacesMetadata = Utils.getNamespacesMetadataFile();

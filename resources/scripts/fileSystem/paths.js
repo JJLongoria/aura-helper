@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const applicationContext = require('../main/applicationContext');
+const StrUtils = require('../utils/strUtils');
 const path = require('path');
 class Paths {
     static getResourcesPath() { 
@@ -103,6 +104,9 @@ class Paths {
     }
     static getAbsolutePath(path) { 
         return StrUtils.replace(applicationContext.context.asAbsolutePath(path), '\\', '/');
+    }
+    static getCompiledClassesPath() {
+        return applicationContext.context.storagePath + "\\" + "classesInfo";
     }
 }
 exports.Paths = Paths;

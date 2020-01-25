@@ -17,6 +17,7 @@ exports.provider = {
         let items;
         if (FileChecker.isJavaScript(document.uri.fsPath)) {
             items = provideJSCompletion(document, position);
+            items.sort();
         }
         return Promise.resolve(items);
     }

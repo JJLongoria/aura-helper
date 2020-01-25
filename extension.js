@@ -40,6 +40,7 @@ function activate(context) {
 	let matchOrgWithLocal = vscode.commands.registerCommand('aurahelper.metadata.org.match', commands.matchOrgWithLocal);
 	let openCustomLabelsGUI = vscode.commands.registerCommand('aurahelper.metadata.customlabels.open', commands.openCustomLabelsGUI);
 	//let openCustomObjectsGUI = vscode.commands.registerCommand('aurahelper.metadata.customobjects.open', commands.openCustomObjectsGUI);
+	let createProjectDocumentation = vscode.commands.registerCommand('aurahelper.documentation.project.create', commands.createProjectDocumentation);
 
 	vscode.commands.registerCommand('aurahelper.completion.apex', commands.apexCodeCompletion);
 	vscode.commands.registerCommand('aurahelper.completion.aura', commands.auraCodeCompletion);
@@ -52,7 +53,7 @@ function activate(context) {
 	vscode.commands.registerCommand('aurahelper.fileExplorer.sort.name.asc', () => fileStructureProvider.sortElements('nameASC'));
 	vscode.commands.registerCommand('aurahelper.fileExplorer.sort.name.desc', () => fileStructureProvider.sortElements('nameDESC'));
 	vscode.commands.registerCommand('aurahelper.fileExplorer.gotoMember', commands.gotoFileMember);
-	
+
 	// Add commands to subscriptions
 	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(refreshTreeView));
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider('apex', providers.apexCommentProvider, '*'));
@@ -81,6 +82,7 @@ function activate(context) {
 	context.subscriptions.push(matchOrgWithLocal);
 	context.subscriptions.push(openCustomLabelsGUI);
 	//context.subscriptions.push(openCustomObjectsGUI);
+	context.subscriptions.push(createProjectDocumentation);
 }
 exports.activate = activate;
 

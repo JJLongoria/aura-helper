@@ -5,6 +5,37 @@ const vscode = require('vscode');
 const Position = vscode.Position;
 
 class Utils {
+
+    static transformTokensToText(tokens) {
+        let text = '';
+        let index = 0;
+        let newLine = false;
+        while (index < tokens.length) {
+            let lastToken = Utils.getLastToken(tokens, index);
+            let token = tokens[index];
+            let nextToken = Utils.getNextToken(tokens, index);
+            newLine = (lastToken && lastToken.line < token.line) || !lastToken;
+            if (newLine)
+                text += Utils.getWhitespaces(token.startColumn);
+
+            text += token.content;
+            if (nextToken && token.line === nextToken.line)
+                text += Utils.getWhitespaces(nextToken.startColumn - token.endColumn);
+            if (nextToken && token.line < nextToken.line)
+                text += Utils.getNewLines(nextToken.line - token.line);
+            index++;
+        }
+        return text;
+    }
+
+    static getNewLines(number) {
+        let newLines = '';
+        for (let index = 0; index < number; index++) {
+            newLines += '\n';
+        }
+        return newLines;
+    }
+
     static getWhitespaces(number) {
         let whitespace = '';
         for (let index = 0; index < number; index++) {
@@ -139,14 +170,14 @@ class Utils {
         }
         if (startQueryLine <= position.line && position.line <= endQueryLine) {
             if (startQueryLine === position.line && endQueryLine === position.line) {
-                if(startQueryColumn + 1 > position.character || position.character > endQueryColumn)
+                if (startQueryColumn + 1 > position.character || position.character > endQueryColumn)
                     outsideQuery = true;
 
             } else if (startQueryLine === position.line) {
-                if(startQueryColumn + 1 > position.character)
+                if (startQueryColumn + 1 > position.character)
                     outsideQuery = true;
             } else if (endQueryLine === position.line) {
-                if(position.character > endQueryColumn)
+                if (position.character > endQueryColumn)
                     outsideQuery = true;
             }
         } else {

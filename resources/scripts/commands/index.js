@@ -42,3 +42,5 @@ const openCustomLabelsGUI = require('./openCustomLabelsGUI');
 exports.openCustomLabelsGUI = openCustomLabelsGUI.run;
 const openCustomObjectsGUI = require('./openCustomObjectsGUI');
 exports.openCustomObjectsGUI = openCustomObjectsGUI.run;
+const createProjectDocumentation = require('./createProjectDocumentation');
+exports.createProjectDocumentation = createProjectDocumentation.run;
