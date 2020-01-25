@@ -2,31 +2,50 @@ const https = require('https');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const Metadata = require('../metadata');
+const languages = require('../languages');
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
 const PackageGenerator = Metadata.PackageGenerator;
+const ApexParser = languages.ApexParser;
 
 const applicationContext = require('../main/applicationContext');
+let batches;
 
 exports.run = function (context) {
+    // Register File Watcher
+    var watcher = vscode.workspace.createFileSystemWatcher("**/*.cls");
+    watcher.onDidChange(async function (uri) {
+        ApexParser.compileClass(uri.fsPath, Paths.getCompiledClassesPath());
+    });
+    watcher.onDidCreate(async function (uri) {
+        ApexParser.compileClass(uri.fsPath, Paths.getCompiledClassesPath());
+    });
+    watcher.onDidDelete(async function (uri) {
+        let fileName = Paths.getBasename(uri.fsPath);
+        let className = fileName.substring(0, fileName.indexOf('.'));
+        FileWriter.delete(Paths.getCompiledClassesPath() + '/' + className + '.json');
+    });
     applicationContext.context = context;
     applicationContext.outputChannel = vscode.window.createOutputChannel("Aura Helper");
     applicationContext.outputChannel.appendLine('Aura Helper Extension is now active');
     applicationContext.outputChannel.appendLine('Start loading init files');
-    init(context, function () {
-        applicationContext.outputChannel.appendLine('Files loading succesfully');
+    init(context).then(function () {
+        applicationContext.outputChannel.appendLine('Files loaded succesfully');
     });
 }
 
 async function init(context, callback) {
-    setTimeout(() => {
+    return new Promise(async function (resolve) {
         applicationContext.componentsDetail = JSON.parse(FileReader.readFileSync(Paths.getBaseComponentsDetailPath()));
+        applicationContext.outputChannel.appendLine('Loading Snippets');
         let loadedSnippets = loadSnippets();
+        applicationContext.outputChannel.appendLine('Snippets Loaded');
         applicationContext.auraSnippets = loadedSnippets.auraSnippets;
         applicationContext.jsSnippets = loadedSnippets.jsSnippets;
         applicationContext.sldsSnippets = loadedSnippets.sldsSnippets;
+        applicationContext.outputChannel.appendLine('Prepare Environment');
         if (!FileChecker.isExists(context.storagePath))
             FileWriter.createFolderSync(context.storagePath);
         if (!FileChecker.isExists(Paths.getUserTemplatesPath()))
@@ -41,10 +60,18 @@ async function init(context, callback) {
             FileWriter.copyFileSync(Paths.getOldApexCommentTemplatePath(), Paths.getApexCommentUserTemplatePath());
         if (FileChecker.isExists(Paths.getOldAuraDocumentUserTemplatePath()) && !FileChecker.isExists(Paths.getAuraDocumentUserTemplatePath()))
             FileWriter.copyFileSync(Paths.getOldAuraDocumentUserTemplatePath(), Paths.getAuraDocumentUserTemplatePath());
-        if (callback)
-            callback.call(this);
-    }, 50);
+        applicationContext.outputChannel.appendLine('Environment Prepared');
+        applicationContext.outputChannel.appendLine('Getting Apex Classes Info');
+        ApexParser.compileAllApexClasses(function () {
+            applicationContext.outputChannel.appendLine('Getting Apex Classes Info Finished');
+            if (callback)
+                callback.call(this)
+            resolve();
+        });
+    });
 }
+
+
 
 function mergePackages(context) {
     console.log("Mergin Packages started");

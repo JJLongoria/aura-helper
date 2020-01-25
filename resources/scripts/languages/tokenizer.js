@@ -8,6 +8,7 @@ let symbols = [
     "‘",
     "·",
     "╔",
+    ""
 ];
 
 class Tokenizer {

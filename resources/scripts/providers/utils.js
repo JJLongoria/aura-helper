@@ -131,7 +131,7 @@ class Utils {
         let userClassPath = Paths.getFolderPath(document.uri.fsPath) + "/" + className + ".cls";
         let systemClassPath = Paths.getSystemClassesPath() + "/" + ns + '/' + className + ".json";
         if (FileChecker.isExists(userClassPath))
-            classStructure = ApexParser.parse(FileReader.readFileSync(userClassPath));
+            classStructure = ApexParser.getFileStructure(FileReader.readFileSync(userClassPath));
         else if (FileChecker.isExists(systemClassPath))
             classStructure = JSON.parse(FileReader.readFileSync(systemClassPath));
         return classStructure;
@@ -790,6 +790,18 @@ class Utils {
                     let command = Utils.getCommand('InnerEnum', 'aurahelper.completion.apex', [position, 'InnerEnum', innerEnum]);
                     items.push(Utils.createItemForCompletion(innerEnum.name, options, command));
                 });
+                if (apexClass.extends) { 
+                    let parentClasss = apexClass;
+                    while (!parentClasss.extends) { 
+                        items = items.concat(Utils.getApexClassCompletionItems(position, parentClasss));
+                        parentClasss = parentClasss.extends;
+                    }
+                }
+                if (apexClass.implements.length > 0) { 
+                    for (const imp of apexClass.implements) {
+                        items = items.concat(Utils.getApexClassCompletionItems(position, imp));
+                    }
+                }
             }
         }
         return items;

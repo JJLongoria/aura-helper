@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [1.8.0 - 2020-XX-XX]
+## [1.9.0 - 2020-XX-XX]
+### Added
+
+
+### Changed
+
+
+### Fixed
+- Fixed some bugs with autocompletions tools that not shown inherited elements for apex classes.
+
+## [1.8.0 - 2020-01-23]
 ### Added
 - Autocomplete support for Custom Labels. It is necessary to have them downloaded in the project. Work in Apex, Lightning and Javascript
 - Autocomplete tools for Picklist values. Aura Helper list all available picklist values for each field object, and can select it for pick the value (Example => Account.picklistfield.picklistValue => 'picklistValue')

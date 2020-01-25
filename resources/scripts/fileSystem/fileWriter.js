@@ -28,17 +28,21 @@ class FileWriter {
     static copyFileSync(sourcePath, targetPath) {
         fs.copyFileSync(sourcePath, targetPath);
     }
-    static delete(folderPath) {
-        if (fs.existsSync(folderPath)) {
-            fs.readdirSync(folderPath).forEach(function (entry) {
-                var entry_path = path.join(folderPath, entry);
-                if (fs.lstatSync(entry_path).isDirectory()) {
-                    FileWriter.delete(entry_path);
-                } else {
-                    fs.unlinkSync(entry_path);
-                }
-            });
-            fs.rmdirSync(folderPath);
+    static delete(pathToDelete) {
+        if (fs.existsSync(pathToDelete)) {
+            if (fs.lstatSync(pathToDelete).isDirectory()) {
+                fs.readdirSync(pathToDelete).forEach(function (entry) {
+                    var entry_path = path.join(pathToDelete, entry);
+                    if (fs.lstatSync(entry_path).isDirectory()) {
+                        FileWriter.delete(entry_path);
+                    } else {
+                        fs.unlinkSync(entry_path);
+                    }
+                });
+                fs.rmdirSync(pathToDelete);
+            } else {
+                fs.unlinkSync(pathToDelete);
+            }
         }
     }
     static async unzip(zipFile, targetPath, callback) {
