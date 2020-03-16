@@ -1,0 +1,27 @@
+{
+  "name": "DashboardComponent​SnapshotCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "dashboardComponent​Snapshot",
+      "description": "The dashboard component snapshot.",
+      "datatype": "ConnectApi.​DashboardComponent​Snapshot",
+      "signature": "public ConnectApi.​DashboardComponent​Snapshot dashboardComponent​Snapshot"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has a dashboard component snapshot. A snapshot is a static image of a dashboard component at a specific point in time.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_dashboard_capability.htm"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "RecommendationExplanation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.AbstractRecommendationExplanation",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "detailsUrl",
+      "description": "URL to explanation details or null if the Chatter recommendation doesn’t have a detailed",
+      "datatype": "String",
+      "signature": "public String detailsUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Explanation for a Chatter recommendation.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_rec_explanation_summary.htm"
+}

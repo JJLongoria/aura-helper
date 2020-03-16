@@ -1,0 +1,33 @@
+{
+  "name": "Message​Segment",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "text",
+      "description": "Text-only rendition of this segment. If a client encounters an unknown message segment type,",
+      "datatype": "String",
+      "signature": "public String text"
+    },
+    {
+      "name": "type",
+      "description": "The message segment type. One of these values:",
+      "datatype": "ConnectApi.​MessageSegment​Type Enum",
+      "signature": "public ConnectApi.​MessageSegment​Type Enum type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_msg_seg.htm"
+}

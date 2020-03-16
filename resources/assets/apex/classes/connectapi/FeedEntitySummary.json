@@ -1,0 +1,75 @@
+{
+  "name": "FeedEntitySummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "actor",
+      "description": "Entity that created the feed entity.",
+      "datatype": "ConnectApi.Actor",
+      "signature": "public ConnectApi.Actor actor"
+    },
+    {
+      "name": "body",
+      "description": "Information about the feed entity.",
+      "datatype": "ConnectApi.​FeedBody",
+      "signature": "public ConnectApi.​FeedBody body"
+    },
+    {
+      "name": "createdDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "feedElementType",
+      "description": "",
+      "datatype": "ConnectApi.​FeedElementType",
+      "signature": "public ConnectApi.​FeedElementType feedElementType"
+    },
+    {
+      "name": "id",
+      "description": "18-character ID of the feed entity.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "isEntityAvailable",
+      "description": "Specifies whether the entity is available. If",
+      "datatype": "Boolean",
+      "signature": "public Boolean isEntityAvailable"
+    },
+    {
+      "name": "parent",
+      "description": "Parent of the feed entity.",
+      "datatype": "ConnectApi.​ActorWithId",
+      "signature": "public ConnectApi.​ActorWithId parent"
+    },
+    {
+      "name": "relativeCreatedDate",
+      "description": "Relative created date, for example, “2h",
+      "datatype": "String",
+      "signature": "public String relativeCreatedDate"
+    },
+    {
+      "name": "url",
+      "description": "URL to the feed entity.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The summary of a feed entity that is shared with a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_entity_summary.htm"
+}

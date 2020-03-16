@@ -1,0 +1,27 @@
+{
+  "name": "​CommentsCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "page",
+      "description": "",
+      "datatype": "ConnectApi.​Comment​Page",
+      "signature": "public ConnectApi.​Comment​Page page"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element or comment has this capability, the context user can add a comment to it.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_comments_capability.htm"
+}

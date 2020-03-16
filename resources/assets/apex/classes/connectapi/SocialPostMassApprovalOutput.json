@@ -1,0 +1,27 @@
+{
+  "name": "SocialPostMassApprovalOutput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isApproved",
+      "description": "Specifies whether the social posts were approved",
+      "datatype": "Boolean",
+      "signature": "public Boolean isApproved"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Approval or rejection of a large number of social posts.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_social_post_mass_approval.htm"
+}

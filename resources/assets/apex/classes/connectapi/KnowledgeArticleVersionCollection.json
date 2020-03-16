@@ -1,0 +1,27 @@
+{
+  "name": "KnowledgeArticleVersionCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "items",
+      "description": "A collection of knowledge article versions.",
+      "datatype": "List<ConnectApi.​KnowledgeArticle​Version>",
+      "signature": "public List<ConnectApi.​KnowledgeArticle​Version> items"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of knowledge article versions.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_knowledge_article_version_collection.htm"
+}

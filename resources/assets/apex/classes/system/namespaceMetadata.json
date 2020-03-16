@@ -11,7 +11,7 @@
       "UPSERTABLE"
     ],
     "description": "Specifies the access check type for the fields of an sObject.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_System_AccessType.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_System_AccessType.htm",
     "classes": [],
     "enums": []
   },
@@ -22,7 +22,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for accessing the component fields of address compound fields.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Address.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Address.htm",
     "classes": [],
     "enums": []
   },
@@ -33,7 +33,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents zone answers.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_answers.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_answers.htm",
     "classes": [],
     "enums": []
   },
@@ -44,7 +44,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use ApexPages to add and check for messages associated with the current page, as well as to reference the current page.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_apexpages.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_apexpages.htm",
     "classes": [],
     "enums": []
   },
@@ -55,7 +55,29 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for processing approval requests and setting approval-process locks and unlocks on records.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_approval.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_approval.htm",
+    "classes": [],
+    "enums": []
+  },
+  "asyncexception": {
+    "name": "AsyncException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with an asynchronous operation, such as failing to enqueue an asynchronous call.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
+    "classes": [],
+    "enums": []
+  },
+  "bigobjectexception": {
+    "name": "BigObjectException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with big object records, such as connection timeouts during attempts to access or insert big object records.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -66,7 +88,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the Blob primitive data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_blob.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_blob.htm",
     "classes": [],
     "enums": []
   },
@@ -77,7 +99,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the Boolean primitive data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_boolean.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_boolean.htm",
     "classes": [],
     "enums": []
   },
@@ -86,7 +108,7 @@
     "namespace": "System",
     "isInterface": false,
     "description": "Use the BusinessHours methods to set the business hours at which your customer support",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_businesshours.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_businesshours.htm",
     "classes": [],
     "enums": []
   },
@@ -95,7 +117,18 @@
     "namespace": "System",
     "isInterface": true,
     "description": "Use the BusinessHours methods to set the business hours at which your customer support",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_callable.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_callable.htm",
+    "classes": [],
+    "enums": []
+  },
+  "calloutexception": {
+    "name": "CalloutException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with a Web service operation, such as failing to make a callout to an external system.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -104,7 +137,7 @@
     "namespace": "System",
     "isInterface": true,
     "description": "Adds sorting support for Lists that contain non-primitive",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_comparable.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_comparable.htm",
     "classes": [],
     "enums": []
   },
@@ -115,7 +148,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the Continuation class to make callouts asynchronously to a SOAP or REST Web service.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Continuation.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Continuation.htm",
     "classes": [],
     "enums": []
   },
@@ -126,7 +159,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "The Cookie class lets you access cookies for your Salesforce site using Apex.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_sites_cookie.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_sites_cookie.htm",
     "classes": [],
     "enums": []
   },
@@ -137,7 +170,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Provides methods for creating digests, message authentication codes, and signatures, as well as encrypting and decrypting information.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_crypto.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_crypto.htm",
     "classes": [],
     "enums": []
   },
@@ -148,7 +181,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for creating and manipulating data.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_database.htm",
     "classes": [],
     "enums": []
   },
@@ -159,7 +192,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the Date primitive data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_date.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_date.htm",
     "classes": [],
     "enums": []
   },
@@ -170,7 +203,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the Datetime primitive data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_datetime.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_datetime.htm",
     "classes": [],
     "enums": []
   },
@@ -181,7 +214,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the Decimal primitive data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_decimal.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_decimal.htm",
+    "classes": [],
+    "enums": []
+  },
+  "dmlexception": {
+    "name": "DmlException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with a DML statement, such as an insert statement missing a required field on a record.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -192,7 +236,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the Double primitive data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_double.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_double.htm",
+    "classes": [],
+    "enums": []
+  },
+  "emailexception": {
+    "name": "EmailException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with email, such as failure to deliver. For more information, see Outbound Email.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -203,7 +258,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the methods in the EncodingUtil class to encode and decode URL strings, and convert strings to hexadecimal format.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_encodingUtil.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_encodingUtil.htm",
     "classes": [],
     "enums": []
   },
@@ -214,7 +269,29 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for publishing platform events.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_eventbus.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_eventbus.htm",
+    "classes": [],
+    "enums": []
+  },
+  "exception": {
+    "name": "Exception",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "An exception denotes an error that disrupts the normal flow of code execution. You can use Apex built-in exceptions or create custom exceptions. All exceptions have common methods.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
+    "classes": [],
+    "enums": []
+  },
+  "externalobjectexception": {
+    "name": "ExternalObjectException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with external object records, such as connection timeouts during attempts to access the data that’s stored on external systems.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -225,7 +302,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the methods in the System.FeatureManagement class to check and modify the values of feature parameters, and to show or hide custom objects and custom permissions in your subscribers’ orgs.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FeatureManagement.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FeatureManagement.htm",
     "classes": [],
     "enums": []
   },
@@ -236,7 +313,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods that reorder batch jobs in the Apex flex queue.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FlexQueue.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FlexQueue.htm",
     "classes": [],
     "enums": []
   },
@@ -247,7 +324,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the recalculateFormulas method that updates (recalculates) all formula fields on the input SObjects",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Formula.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Formula.htm",
     "classes": [],
     "enums": []
   },
@@ -258,7 +335,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "The return type of the FormulaRecalcResult.getErrors method.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FormulaRecalcFieldError.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FormulaRecalcFieldError.htm",
     "classes": [],
     "enums": []
   },
@@ -269,7 +346,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "The return type of the Formula.recalculateFormulas method.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FormulaRecalcResult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_FormulaRecalcResult.htm",
     "classes": [],
     "enums": []
   },
@@ -280,7 +357,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the Http class to initiate an HTTP request and response.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_http.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_http.htm",
     "classes": [],
     "enums": []
   },
@@ -291,7 +368,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Enables sending fake responses when testing HTTP callouts.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_httpcalloutmock.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_httpcalloutmock.htm",
     "classes": [],
     "enums": []
   },
@@ -302,7 +379,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the HttpRequest class to programmatically create HTTP requests like GET, POST, PUT, and DELETE.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_httprequest.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_httprequest.htm",
     "classes": [],
     "enums": []
   },
@@ -313,7 +390,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the HttpResponse class to handle the HTTP response returned by the Http class.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_httpresponse.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_restful_http_httpresponse.htm",
     "classes": [],
     "enums": []
   },
@@ -324,7 +401,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the ID primitive data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_id.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_id.htm",
     "classes": [],
     "enums": []
   },
@@ -335,7 +412,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents zone ideas.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_ideas.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_ideas.htm",
     "classes": [],
     "enums": []
   },
@@ -346,7 +423,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents zone ideas.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_ideas.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_ideas.htm",
+    "classes": [],
+    "enums": []
+  },
+  "illegalargumentexception": {
+    "name": "IllegalArgumentException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "An illegal argument was provided to a method call. For example, a method that requires a non-null argument throws this exception if a null value is passed into the method.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -357,7 +445,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Enables custom code to run after a managed package installation or upgrade.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_install_handler.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_install_handler.htm",
     "classes": [],
     "enums": []
   },
@@ -368,7 +456,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the Integer primitive data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_integer.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_integer.htm",
+    "classes": [],
+    "enums": []
+  },
+  "invalidparametervalueexception": {
+    "name": "InvalidParameterValueException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "An invalid parameter was supplied for a method or any problem with a URL used with Visualforce pages. For more information on Visualforce, see the Visualforce Developer's Guide.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -379,7 +478,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for serializing Apex objects into JSON format and deserializing JSON content that was serialized using the serialize method in this class.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Json.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Json.htm",
+    "classes": [],
+    "enums": []
+  },
+  "jsonexception": {
+    "name": "JSONException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with JSON serialization and deserialization operations. For more information, see the methods of System.JSON, System.JSONParser, and System.JSONGenerator.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -390,7 +500,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods used to serialize objects into JSON content using the standard JSON encoding.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_JsonGenerator.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_JsonGenerator.htm",
     "classes": [],
     "enums": []
   },
@@ -401,7 +511,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a parser for JSON-encoded content.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_JsonParser.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_JsonParser.htm",
     "classes": [],
     "enums": []
   },
@@ -426,7 +536,18 @@
       "VALUE_TRUE"
     ],
     "description": "Contains all token values used for parsing JSON content.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_System_JsonToken.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_System_JsonToken.htm",
+    "classes": [],
+    "enums": []
+  },
+  "limitexception": {
+    "name": "LimitException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "A governor limit has been exceeded. This exception can’t be caught.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -437,7 +558,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods that return limit information for specific resources.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_limits.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_limits.htm",
     "classes": [],
     "enums": []
   },
@@ -448,7 +569,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the List collection type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_list.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_list.htm",
+    "classes": [],
+    "enums": []
+  },
+  "listexception": {
+    "name": "ListException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with a list, such as attempting to access an index that is out of bounds.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -459,7 +591,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for accessing the component fields of geolocation compound fields.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Location.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_Location.htm",
     "classes": [],
     "enums": []
   },
@@ -470,7 +602,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the Long primitive data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_long.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_long.htm",
     "classes": [],
     "enums": []
   },
@@ -481,7 +613,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the Map collection type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_map.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_map.htm",
     "classes": [],
     "enums": []
   },
@@ -492,7 +624,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Matchers use Patterns to perform match operations on a character string.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_pattern_and_matcher_matcher_methods.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_pattern_and_matcher_matcher_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -503,7 +635,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for mathematical operations.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_math.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_math.htm",
+    "classes": [],
+    "enums": []
+  },
+  "mathexception": {
+    "name": "MathException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with a mathematical operation, such as dividing by zero.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -514,7 +657,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains messaging methods used when sending a single or mass email.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_messaging.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_email_outbound_messaging.htm",
     "classes": [],
     "enums": []
   },
@@ -525,7 +668,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Utility class used to specify a fake response using multiple resources for testing HTTP callouts.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_multistaticresourcecalloutmock.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_multistaticresourcecalloutmock.htm",
     "classes": [],
     "enums": []
   },
@@ -536,7 +679,51 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a community.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_network.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_network.htm",
+    "classes": [],
+    "enums": []
+  },
+  "noaccessexception": {
+    "name": "NoAccessException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with unauthorized access, such as trying to access an sObject that the current user does not have access to. This exception is used with Visualforce pages. For more information on Visualforce, see the Visualforce Developer's Guide.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
+    "classes": [],
+    "enums": []
+  },
+  "nodatafoundexception": {
+    "name": "NoDataFoundException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with data that does not exist, such as trying to access an sObject that has been deleted. This exception is used with Visualforce pages. For more information on Visualforce, see the Visualforce Developer's Guide.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
+    "classes": [],
+    "enums": []
+  },
+  "nosuchelementexception": {
+    "name": "NoSuchElementException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "This exception is thrown if you try to access items that are outside the bounds of a list. This exception is used by the Iterator next method",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
+    "classes": [],
+    "enums": []
+  },
+  "nullpointerexception": {
+    "name": "NullPointerException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with dereferencing null",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -547,7 +734,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods that provide the name, maximum value, and current value of an org limit.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_OrgLimit.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_OrgLimit.htm",
     "classes": [],
     "enums": []
   },
@@ -558,7 +745,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods that provide a list or map of all OrgLimit instances for Salesforce your org, such as SOAP API requests, Bulk API requests, and Streaming API limits.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_OrgLimits.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_OrgLimits.htm",
     "classes": [],
     "enums": []
   },
@@ -569,7 +756,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "A PageReference is a reference to an instantiation of a page. Among other attributes, PageReferences consist of a URL and a set of query parameter names and values.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_system_pagereference.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_system_pagereference.htm",
     "classes": [],
     "enums": []
   },
@@ -580,7 +767,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a compiled representation of a regular expression.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_pattern_and_matcher_pattern_methods.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_pattern_and_matcher_pattern_methods.htm",
+    "classes": [],
+    "enums": []
+  },
+  "queryexception": {
+    "name": "QueryException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with SOQL queries, such as assigning a query that returns no records or more than one record to a singleton sObject variable.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -591,7 +789,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Enables the asynchronous execution of Apex jobs that can be monitored.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Queueable.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Queueable.htm",
     "classes": [],
     "enums": []
   },
@@ -602,7 +800,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Represents the parameter type of the execute() method in a class that implements the Queueable interface and contains the job ID. This interface is implemented internally by Apex.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_queueablecontext.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_queueablecontext.htm",
     "classes": [],
     "enums": []
   },
@@ -613,7 +811,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use Apex to request and process actions on objects that allow custom fields, on objects that appear in a Chatter feed, or on objects that are available globally.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_quickaction.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_quickaction.htm",
     "classes": [],
     "enums": []
   },
@@ -624,7 +822,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use RemoteObjectController to access the standard Visualforce Remote Objects operations in your Remote Objects override methods.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_remoteobjectcontroller.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_system_remoteobjectcontroller.htm",
+    "classes": [],
+    "enums": []
+  },
+  "requiredfeaturemissing": {
+    "name": "RequiredFeatureMissing",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "A Chatter feature is required for code that has been deployed to an organization that does not have Chatter enabled.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -635,7 +844,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents the result of a password reset.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_ResetPasswordResult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_ResetPasswordResult.htm",
     "classes": [],
     "enums": []
   },
@@ -646,7 +855,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the RestRequest and RestResponse objects.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_restcontext.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_restcontext.htm",
     "classes": [],
     "enums": []
   },
@@ -657,7 +866,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents an object used to pass data from an HTTP request to an Apex RESTful Web service method.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_restrequest.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_restrequest.htm",
     "classes": [],
     "enums": []
   },
@@ -668,7 +877,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents an object used to pass data from an Apex RESTful Web service method to an HTTP response.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_restresponse.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_restresponse.htm",
     "classes": [],
     "enums": []
   },
@@ -679,7 +888,18 @@
     "isInterface": true,
     "enumValues": [],
     "description": "To make your sandbox environment business ready, automate data manipulation or business logic tasks. Extend this interface and add methods to perform post-copy tasks, then specify the class during sandbox creation.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_System_SandboxPostCopy.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_System_SandboxPostCopy.htm",
+    "classes": [],
+    "enums": []
+  },
+  "savepoint": {
+    "name": "Savepoint",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": true,
+    "enumValues": [],
+    "description": "Only when all the Apex code has finished running and the Visualforce page has finished running, are the changes committed to the database. If the request does not complete successfully, all database changes are rolled back.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/langCon_apex_transaction_control.htm",
     "classes": [],
     "enums": []
   },
@@ -690,7 +910,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "The class that implements this interface can be scheduled to run at different intervals.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_schedulable.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_schedulable.htm",
     "classes": [],
     "enums": []
   },
@@ -701,7 +921,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Represents the parameter type of a method in a class that implements the Schedulable interface and contains the scheduled job ID. This interface is implemented internally by Apex.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_schedulablecontext.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_system_schedulablecontext.htm",
     "classes": [],
     "enums": []
   },
@@ -712,7 +932,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for obtaining schema describe information.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_schema.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_schema.htm",
     "classes": [],
     "enums": []
   },
@@ -723,7 +943,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the methods of the Search class to perform dynamic SOSL queries.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_search.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_search.htm",
+    "classes": [],
+    "enums": []
+  },
+  "searchexception": {
+    "name": "SearchException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with SOSL queries executed with SOAP API search() call, for example, when the searchString parameter contains fewer than two characters. For more information, see the SOAP API Developer Guide.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -734,7 +965,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods to securely implement Apex applications.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Security.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Security.htm",
+    "classes": [],
+    "enums": []
+  },
+  "securityexception": {
+    "name": "SecurityException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with static methods in the Crypto utility class. For more information, see Crypto Class.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -745,7 +987,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "A SelectOption object specifies one of the possible values for a Visualforce selectCheckboxes, selectList, or selectRadio component.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_selectoption.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_selectoption.htm",
+    "classes": [],
+    "enums": []
+  },
+  "serializationexception": {
+    "name": "SerializationException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with the serialization of data. This exception is used with Visualforce pages. For more information on Visualforce, see the Visualforce Developer's Guide.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -756,7 +1009,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a collection of unique elements with no duplicate values.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_set.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_set.htm",
     "classes": [],
     "enums": []
   },
@@ -767,7 +1020,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the Site Class to manage your Lightning Platform sites.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_sites.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_sites.htm",
     "classes": [],
     "enums": []
   },
@@ -778,7 +1031,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the sObject data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_sobject.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_sobject.htm",
     "classes": [],
     "enums": []
   },
@@ -789,7 +1042,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the results of a call to the Security.stripInaccessible method and methods to retrieve those results.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_SObjectAccessDecision.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_SObjectAccessDecision.htm",
+    "classes": [],
+    "enums": []
+  },
+  "sobjectexception": {
+    "name": "SObjectException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with sObject records, such as attempting to change a field in an update statement that can only be changed during insert.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -800,7 +1064,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Utility class used to specify a fake response for testing HTTP callouts.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_staticresourcecalloutmock.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_staticresourcecalloutmock.htm",
     "classes": [],
     "enums": []
   },
@@ -811,7 +1075,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the String primitive data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_string.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_string.htm",
+    "classes": [],
+    "enums": []
+  },
+  "stringexception": {
+    "name": "StringException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with Strings, such as a String that is exceeding your heap size.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -822,7 +1097,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "StubProvider is a callback interface that you can use as part of the Apex stub API to implement a mocking framework. Use this interface with the Test.createStub() method to create stubbed Apex objects for testing.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_System_StubProvider.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_System_StubProvider.htm",
     "classes": [],
     "enums": []
   },
@@ -833,7 +1108,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for system operations, such as writing debug messages and scheduling jobs.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_system.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_system.htm",
     "classes": [],
     "enums": []
   },
@@ -844,7 +1119,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods related to Apex tests.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_test.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_test.htm",
     "classes": [],
     "enums": []
   },
@@ -855,7 +1130,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for the Time primitive data type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_time.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_time.htm",
     "classes": [],
     "enums": []
   },
@@ -866,7 +1141,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a time zone. Contains methods for creating a new time zone and obtaining time zone properties, such as the time zone ID, offset, and display name.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_timezone.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_timezone.htm",
     "classes": [],
     "enums": []
   },
@@ -877,7 +1152,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the Trigger class to access run-time context information in a trigger, such as the type of trigger or the list of sObject records that the trigger operates on.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Trigger.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Trigger.htm",
     "classes": [],
     "enums": []
   },
@@ -896,7 +1171,7 @@
       "BEFORE_UPDATE"
     ],
     "description": "System.TriggerOperation enum values are associated with trigger events.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_System_TriggerOperation.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_System_TriggerOperation.htm",
     "classes": [],
     "enums": []
   },
@@ -907,7 +1182,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for getting the Apex type that corresponds to an Apex class and for instantiating new types.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_type.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_type.htm",
+    "classes": [],
+    "enums": []
+  },
+  "typeexception": {
+    "name": "TypeException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with type conversions, such as attempting to convert the String 'a' to an Integer using the valueOf method.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -918,7 +1204,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Enables custom code to run after a managed package is uninstalled.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_uninstall_handler.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_uninstall_handler.htm",
     "classes": [],
     "enums": []
   },
@@ -929,7 +1215,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a uniform resource locator (URL) and provides access to parts of the URL. Enables access to the Salesforce instance URL.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_url.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_url.htm",
     "classes": [],
     "enums": []
   },
@@ -940,7 +1226,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for obtaining information about the context user.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_userinfo.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_userinfo.htm",
     "classes": [],
     "enums": []
   },
@@ -951,7 +1237,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods to manage end users, for example, to register their verification methods, verify their identity, or remove their personal information.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_UserManagement.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_UserManagement.htm",
     "classes": [],
     "enums": []
   },
@@ -962,7 +1248,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the Version methods to get the version of a managed package of a subscriber and to compare package versions.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_version.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_version.htm",
+    "classes": [],
+    "enums": []
+  },
+  "visualforceexception": {
+    "name": "VisualforceException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with a Visualforce page. For more information on Visualforce, see the Visualforce Developer's Guide.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -973,7 +1270,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Enables making callouts to SOAP operations on an external Web service. This class is used in the Apex stub class that is auto-generated from a WSDL.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_WebServiceCallout.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_WebServiceCallout.htm",
     "classes": [],
     "enums": []
   },
@@ -984,7 +1281,18 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Enables sending fake responses when testing Web service callouts of a class auto-generated from a WSDL.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_webservicemock.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_webservicemock.htm",
+    "classes": [],
+    "enums": []
+  },
+  "xmlexception": {
+    "name": "XmlException",
+    "namespace": "System",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Any problem with the XmlStream classes, such as failing to read or write XML.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm",
     "classes": [],
     "enums": []
   },
@@ -995,7 +1303,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "The XmlStreamReader class provides methods for forward, read-only access to XML data. You can pull data from XML or skip unwanted events. You can parse nested XML content that’s up to 50 nodes deep.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_XmlStream_reader.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_XmlStream_reader.htm",
     "classes": [],
     "enums": []
   },
@@ -1006,7 +1314,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "The XmlStreamWriter class provides methods for writing XML data.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_XmlStream_writer.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_XmlStream_writer.htm",
     "classes": [],
     "enums": []
   }

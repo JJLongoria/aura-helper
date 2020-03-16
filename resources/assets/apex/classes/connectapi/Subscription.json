@@ -1,0 +1,51 @@
+{
+  "name": "Subscription",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "community",
+      "description": "Information about the community in which the subscription exists",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference community"
+    },
+    {
+      "name": "id",
+      "description": "Subscription’s 18–character ID",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "subject",
+      "description": "Information about the parent, that is, the thing or person",
+      "datatype": "ConnectApi.Actor",
+      "signature": "public ConnectApi.Actor subject"
+    },
+    {
+      "name": "subscriber",
+      "description": "Information about the subscriber, that is, the person following",
+      "datatype": "ConnectApi.Actor",
+      "signature": "public ConnectApi.Actor subscriber"
+    },
+    {
+      "name": "url",
+      "description": "Chatter REST API URL to this specific subscription",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_subscription.htm"
+}

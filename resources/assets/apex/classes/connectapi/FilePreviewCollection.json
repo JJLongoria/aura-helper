@@ -1,0 +1,45 @@
+{
+  "name": "FilePreviewCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "fileId",
+      "description": "ID of the file.",
+      "datatype": "String",
+      "signature": "public String fileId"
+    },
+    {
+      "name": "previews",
+      "description": "Previews supported for the file.",
+      "datatype": "List<ConnectApi.​FilePreview>",
+      "signature": "public List<ConnectApi.​FilePreview> previews"
+    },
+    {
+      "name": "url",
+      "description": "URL to the current page of file previews.",
+      "datatype": "String",
+      "signature": "public String url"
+    },
+    {
+      "name": "versionNumber",
+      "description": "Version number of the file.",
+      "datatype": "String",
+      "signature": "public String versionNumber"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of file previews.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_file_preview_collection.htm"
+}

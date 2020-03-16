@@ -41,7 +41,7 @@ class ProcessManager {
     }
 
     static destructiveChanges(user, destructiveFolder, cancelToken, callback) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:deploy', '--json', '-u', user, '-d', '' + destructiveFolder + ''], { maxBuffer: BUFFER_SIZE }, cancelToken);
+        let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:deploy', '--json', '-u', user, '-d', '' + destructiveFolder + '', '-w', '-1'], { maxBuffer: BUFFER_SIZE }, cancelToken);
         process.run(callback);
         return process;
     }

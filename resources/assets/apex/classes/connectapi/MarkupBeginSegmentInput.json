@@ -1,0 +1,39 @@
+{
+  "name": "MarkupBeginSegmentInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.Message​Segment​Input",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "altText",
+      "description": "Alternative text for the Hyperlink segment.",
+      "datatype": "String",
+      "signature": "public String altText"
+    },
+    {
+      "name": "markupType",
+      "description": "Type of rich text markup.",
+      "datatype": "ConnectApi.​MarkupType",
+      "signature": "public ConnectApi.​MarkupType markupType"
+    },
+    {
+      "name": "url",
+      "description": "URL for the Hyperlink",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The beginning tag for rich text markup.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_markup_begin_segment.htm"
+}

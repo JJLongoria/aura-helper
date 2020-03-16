@@ -126,7 +126,7 @@ class ApprovalProcessUtils {
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('enableMobileDeviceAccess', approvalProcess.enableMobileDeviceAccess));
                 if (approvalProcess.finalApprovalRecordLock !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('finalApprovalRecordLock', approvalProcess.finalApprovalRecordLock));
-                if (approvalProcess.finalApprovalRecordLock !== undefined)
+                if (approvalProcess.showApprovalHistory !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('showApprovalHistory', approvalProcess.showApprovalHistory));
                 if (approvalProcess.nextAutomatedApprover !== undefined)
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('nextAutomatedApprover', approvalProcess.nextAutomatedApprover, true, 1));
@@ -141,10 +141,10 @@ class ApprovalProcessUtils {
                     xmlLines.push(Utils.getTabs(1) + '</approvalPageFields>');
                 }
                 if (approvalProcess.approvalStep) {
-                    xmlLines = xmlLines.concat(ApprovalProcessUtils.getApprovalStepXMLLines(approvalProcess.approvalStep, 2));
+                    xmlLines = xmlLines.concat(ApprovalProcessUtils.getApprovalStepXMLLines(approvalProcess.approvalStep, 1));
                 }
                 if (approvalProcess.entryCriteria) {
-                    xmlLines = xmlLines.concat(ApprovalProcessUtils.getEntryCriteriaXMLLines(approvalProcess.entryCriteria, 2));
+                    xmlLines = xmlLines.concat(ApprovalProcessUtils.getEntryCriteriaXMLLines(approvalProcess.entryCriteria, 1));
                 }
                 if (approvalProcess.initialSubmissionActions && approvalProcess.initialSubmissionActions.action) {
                     xmlLines.push('\t<initialSubmissionActions>');
@@ -217,7 +217,7 @@ class ApprovalProcessUtils {
         xmlLines.push(Utils.getTabs(initIndent) + '<assignedApprover>');
         xmlLines = xmlLines.concat(Utils.getXMLBlock('approver', assignedApprover.approver, true, initIndent + 1));
         if (assignedApprover.whenMultipleApprovers !== undefined)
-            xmlLines.push(Utils.getTabs(initIndent + 1) + + Utils.getXMLTag('whenMultipleApprovers', assignedApprover.whenMultipleApprovers));
+            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('whenMultipleApprovers', assignedApprover.whenMultipleApprovers));
         xmlLines.push(Utils.getTabs(initIndent) + '</assignedApprover>');
         return xmlLines;
     }

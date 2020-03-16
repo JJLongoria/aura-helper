@@ -1,0 +1,20 @@
+{
+  "name": "GatewayResponse",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Generic payment gateway response interface. It can be referred, but gateway adapters shouldn’t implement this interface.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_commercepayments_GatewayResponse.htm#apex_interface_commerce_payments_GatewayResponse"
+}

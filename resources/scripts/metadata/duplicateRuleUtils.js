@@ -109,7 +109,7 @@ class DuplicateRuleUtils {
         let attributes = Utils.getAttributes(duplicateRuleFilter);
         let keys = Object.keys(duplicateRuleFilter);
         let onlyAttrs = false;
-        if (keys.length == 1 && keys.includes('attrs'))
+        if (keys.length == 1 && keys.includes('@attrs'))
             onlyAttrs = true;
         if (!onlyAttrs) {
             if (attributes.length > 0)
@@ -147,14 +147,29 @@ class DuplicateRuleUtils {
 
     static getObjectMappingXMLLines(objectMapping, initIndent) {
         let xmlLines = [];
-        xmlLines.push(Utils.getTabs(initIndent) + '<objectMapping>');
-        if (objectMapping.inputObject !== undefined)
-            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('inputObject', objectMapping.inputObject));
-        if (objectMapping.outputObject !== undefined)
-            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('outputObject', objectMapping.outputObject));
-        if (objectMapping.mappingFields !== undefined)
-            xmlLines = xmlLines.concat(Utils.getXMLBlock('mappingFields', objectMapping.mappingFields, true, initIndent + 1));
-        xmlLines.push(Utils.getTabs(initIndent) + '</objectMapping>');
+        let attributes = Utils.getAttributes(objectMapping);
+        let keys = Object.keys(objectMapping);
+        let onlyAttrs = false;
+        if (keys.length == 1 && keys.includes('@attrs'))
+            onlyAttrs = true;
+        if (!onlyAttrs) {
+            if (attributes.length > 0)
+                xmlLines.push(Utils.getTabs(initIndent) + '<objectMapping ' + attributes.join(' ') + '>');
+            else
+                xmlLines.push(Utils.getTabs(initIndent) + '<objectMapping>');
+            if (objectMapping.inputObject !== undefined)
+                xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('inputObject', objectMapping.inputObject));
+            if (objectMapping.outputObject !== undefined)
+                xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('outputObject', objectMapping.outputObject));
+            if (objectMapping.mappingFields !== undefined)
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('mappingFields', objectMapping.mappingFields, true, initIndent + 1));
+            xmlLines.push(Utils.getTabs(initIndent) + '</objectMapping>');
+        } else {
+            if (attributes.length > 0)
+                xmlLines.push(Utils.getTabs(initIndent) + '<objectMapping ' + attributes.join(' ') + '/>');
+            else
+                xmlLines.push(Utils.getTabs(initIndent) + '<objectMapping/>');
+        }
         return xmlLines;
     }
 

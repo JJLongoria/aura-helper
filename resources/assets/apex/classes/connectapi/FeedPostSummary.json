@@ -1,0 +1,27 @@
+{
+  "name": "FeedPostSummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.UserActivitySummary",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "feedItemId",
+      "description": "ID of the post.",
+      "datatype": "String",
+      "signature": "public String feedItemId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Summary of the post.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_post_summary.htm"
+}

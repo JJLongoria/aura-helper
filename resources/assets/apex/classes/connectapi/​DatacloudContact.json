@@ -1,0 +1,105 @@
+{
+  "name": "​DatacloudContact",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "address",
+      "description": "The contact’s business address.",
+      "datatype": "ConnectApi.Address",
+      "signature": "public ConnectApi.Address address"
+    },
+    {
+      "name": "companyId",
+      "description": "A unique numerical identifier for the company where the contact works.",
+      "datatype": "String",
+      "signature": "public String companyId"
+    },
+    {
+      "name": "companyName",
+      "description": "The company name where the contact works.",
+      "datatype": "String",
+      "signature": "public String companyName"
+    },
+    {
+      "name": "contactId",
+      "description": "A unique numerical identifier for the contact. This",
+      "datatype": "String",
+      "signature": "public String contactId"
+    },
+    {
+      "name": "department",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String department"
+    },
+    {
+      "name": "email",
+      "description": "The most current business email address for the contact.",
+      "datatype": "String",
+      "signature": "public String email"
+    },
+    {
+      "name": "firstName",
+      "description": "The first name of the contact.",
+      "datatype": "String",
+      "signature": "public String firstName"
+    },
+    {
+      "name": "isInactive",
+      "description": "Whether this contact is active (true) or not (false). Inactive contacts",
+      "datatype": "Boolean",
+      "signature": "public Boolean isInactive"
+    },
+    {
+      "name": "isOwned",
+      "description": "Whether this contact is owned (true) or not (false).",
+      "datatype": "Boolean",
+      "signature": "public Boolean isOwned"
+    },
+    {
+      "name": "lastName",
+      "description": "The last name of the contact.",
+      "datatype": "String",
+      "signature": "public String lastName"
+    },
+    {
+      "name": "level",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String level"
+    },
+    {
+      "name": "phoneNumbers",
+      "description": "Telephone numbers for the contact, which can include direct-dial",
+      "datatype": "ConnectApi.PhoneNumber",
+      "signature": "public ConnectApi.PhoneNumber phoneNumbers"
+    },
+    {
+      "name": "title",
+      "description": "The title of the contact, such as CEO or Vice President.",
+      "datatype": "String",
+      "signature": "public String title"
+    },
+    {
+      "name": "updatedDate",
+      "description": "The date of the most recent change to this contact’s",
+      "datatype": "Datetime",
+      "signature": "public Datetime updatedDate"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Information about a Data.com contact.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_datacloud_contact.htm"
+}

@@ -1,0 +1,138 @@
+{
+  "name": "AbstractResponse",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [
+    {
+      "name": "setAmount",
+      "signature": "global void setAmount(Double amount)",
+      "description": "Sets the transaction amount. Must be a non-negative value.",
+      "params": [
+        {
+          "name": "amount",
+          "datatype": "Double",
+          "description": "The amount to be debited or captured."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayAvsCode",
+      "signature": "global void setGatewayAvsCode(String gatewayAvsCode)",
+      "description": "Sets the AVS (address verification system) result code information that the gateway returned. Maximum length of 64 characters.",
+      "params": [
+        {
+          "name": "gatewayAvsCode",
+          "datatype": "String",
+          "description": "Code sent by gateways that use an address verification system."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayDate",
+      "signature": "global void setGatewayDate(Datetime gatewayDate)",
+      "description": "Sets the date that the transaction occurred. Some gateways don’t send this value.",
+      "params": [
+        {
+          "name": "gatewayDate",
+          "datatype": "Datetime",
+          "description": "Date and time of the gateway communication."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayMessage",
+      "signature": "global void setGatewayMessage(String gatewayMessage)",
+      "description": "Sets error messages that the gateway returned for the payment request. Maximum length of 255 characters.",
+      "params": [
+        {
+          "name": "gatewayMessage",
+          "datatype": "String",
+          "description": "Information on error messages sent from the gateway."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayReferenceDetails",
+      "signature": "global void setGatewayReferenceDetails(String gatewayReferenceDetails)",
+      "description": "Sets additional data that you can use for subsequent transactions. You can use any data that isn’t normalized in financial entities. This field has a maximum length of 1000 characters and can store data as JSON or XML.",
+      "params": [
+        {
+          "name": "gatewayReferenceDetails",
+          "datatype": "String",
+          "description": ""
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayReferenceNumber",
+      "signature": "global void setGatewayReferenceNumber(String gatewayReferenceNumber)",
+      "description": "Sets the unique gateway reference number for the transaction that the gateway returned. Maximum length of 255 characters.",
+      "params": [
+        {
+          "name": "gatewayReferenceNumber",
+          "datatype": "String",
+          "description": "Unique transaction ID created by the payment gateway."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayResultCode",
+      "signature": "global void setGatewayResultCode(String gatewayResultCode)",
+      "description": "Sets a gateway-specific result code. The code may be mapped to a Salesforce-specific result code. Maximum length of 64 characters.",
+      "params": [
+        {
+          "name": "gatewayResultCode",
+          "datatype": "String",
+          "description": "Gateway-specific result code. Must be used to map a Salesforce-specific result code."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayResultCodeDescription",
+      "signature": "global void setGatewayResultCodeDescription(String gatewayResultCodeDescription)",
+      "description": "Sets a description of the gateway-specific result code that a payment gateway returned. Maximum length of 1000 characters.",
+      "params": [
+        {
+          "name": "gatewayResultCodeDescription",
+          "datatype": "String",
+          "description": "Description of the gateway’s result code. Use this field to learn more about why the gateway returned a certain result code."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setSalesforceResultCodeInfo",
+      "signature": "global void setSalesforceResultCodeInfo(commercepayments.SalesforceResultCodeInfo salesforceResultCodeInfo)",
+      "description": "Sets the Salesforce-specific result code information. Payment gateways have many response codes for payment calls. Salesforce uses the result code information to map payment gateway codes to a predefined set of standard Salesforce result codes.",
+      "params": [
+        {
+          "name": "salesforceResultCodeInfo",
+          "datatype": "commercepayments.SalesforceResultCodeInfo",
+          "description": "Description of the Salesforce result code value."
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Contains the normalized response fields from payment gateways that are common to all the other gateway responses. This class can’t be instantiated on its own. This class implements the GatewayResponse class. Other GatewayResponse classes extend this class to inherit common properties.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_AbstractResponse.htm"
+}

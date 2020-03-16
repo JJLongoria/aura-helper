@@ -1,0 +1,105 @@
+{
+  "name": "PlatformAction",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "actionUrl",
+      "description": "For action links of subtype",
+      "datatype": "String",
+      "signature": "public String actionUrl"
+    },
+    {
+      "name": "apiName",
+      "description": "The API name. The value may be null.",
+      "datatype": "String",
+      "signature": "public String apiName"
+    },
+    {
+      "name": "confirmation​Message",
+      "description": "If this action requires a confirmation and has a",
+      "datatype": "String",
+      "signature": "public String confirmation​Message"
+    },
+    {
+      "name": "executingUser",
+      "description": "The user who initiated execution of this platform action.",
+      "datatype": "ConnectApi.​User​Summary Class",
+      "signature": "public ConnectApi.​User​Summary Class executingUser"
+    },
+    {
+      "name": "groupDefault",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean groupDefault"
+    },
+    {
+      "name": "iconUrl",
+      "description": "The URL of the icon for the platform action. This value may be",
+      "datatype": "String",
+      "signature": "public String iconUrl"
+    },
+    {
+      "name": "id",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "label",
+      "description": "The localized label for this platform action.",
+      "datatype": "String",
+      "signature": "public String label"
+    },
+    {
+      "name": "modifiedDate",
+      "description": "An ISO 8601 format date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime modifiedDate"
+    },
+    {
+      "name": "platformAction​Group",
+      "description": "A reference to the platform action group",
+      "datatype": "ConnectApi.​​Reference Class",
+      "signature": "public ConnectApi.​​Reference Class platformAction​Group"
+    },
+    {
+      "name": "status",
+      "description": "The execution status of the platform action. Values are:",
+      "datatype": "ConnectApi.​PlatformAction​Status",
+      "signature": "public ConnectApi.​PlatformAction​Status status"
+    },
+    {
+      "name": "subtype",
+      "description": "The subtype of a platform action or null. If the type property is ActionLink, possible values are:",
+      "datatype": "String",
+      "signature": "public String subtype"
+    },
+    {
+      "name": "type",
+      "description": "The type of platform action. Values are:",
+      "datatype": "ConnectApi.​PlatformActionType",
+      "signature": "public ConnectApi.​PlatformActionType type"
+    },
+    {
+      "name": "url",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A platform action instance with state information for the context user.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_platform_action.htm"
+}

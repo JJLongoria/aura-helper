@@ -1,0 +1,56 @@
+{
+  "name": "ReferencedRefundRequest",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "PaymentId",
+      "signature": "",
+      "description": "References a payment object.",
+      "params": [],
+      "datatype": "void"
+    },
+    {
+      "name": "accountId",
+      "signature": "",
+      "description": "References an account.",
+      "params": [],
+      "datatype": "void"
+    },
+    {
+      "name": "amount",
+      "signature": "",
+      "description": "References an amount.",
+      "params": [],
+      "datatype": "void"
+    }
+  ],
+  "constructors": [
+    {
+      "name": "ReferencedRefundRequest",
+      "signature": "",
+      "description": "Use only for testing.",
+      "params": [
+        {
+          "name": "paymentId",
+          "datatype": "String",
+          "description": "The amount to be debited or captured. The payment record."
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [],
+  "description": "Access information about the referenced refund requests. Extends RefundRequest.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_ReferencedRefundRequest.htm#apex_class_commerce_payments_ReferencedRefundRequest"
+}

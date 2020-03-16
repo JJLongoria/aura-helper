@@ -1,0 +1,39 @@
+{
+  "name": "TargetUpdateInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "audienceId",
+      "description": "ID of the audience to assign to the target.",
+      "datatype": "String",
+      "signature": "public String audienceId"
+    },
+    {
+      "name": "priority",
+      "description": "Priority of the target. Within a group, priority determines which target is",
+      "datatype": "Integer",
+      "signature": "public Integer priority"
+    },
+    {
+      "name": "targetId",
+      "description": "ID of the target to update.",
+      "datatype": "String",
+      "signature": "public String targetId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Target to update.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_target_update.htm"
+}

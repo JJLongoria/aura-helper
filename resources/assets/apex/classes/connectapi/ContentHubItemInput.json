@@ -1,0 +1,27 @@
+{
+  "name": "ContentHubItemInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "itemTypeId",
+      "description": "ID of the item type.",
+      "datatype": "String",
+      "signature": "public String itemTypeId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The item type ID and fields of the item type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_content_hub_item.htm"
+}

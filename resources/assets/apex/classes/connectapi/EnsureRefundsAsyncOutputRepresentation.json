@@ -1,0 +1,27 @@
+{
+  "name": "EnsureRefundsAsyncOutputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.BaseOutputRepresentation",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "background​OperationId",
+      "description": "ID of the background operation.",
+      "datatype": "String",
+      "signature": "public String background​OperationId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "ID of the background operation that interacts with the payment provider.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_ensure_refunds_async_output.htm"
+}

@@ -1,0 +1,138 @@
+{
+  "name": "ReferencedRefundResponse",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [
+    {
+      "name": "setAmount",
+      "signature": "global void setAmount(Double amount)",
+      "description": "Sets the transaction amount. The value must be a postive number.",
+      "params": [
+        {
+          "name": "amount",
+          "datatype": "Double",
+          "description": "The amount to be debited or captured."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayAvsCode",
+      "signature": "global void setGatewayAvsCode(String gatewayAvsCode)",
+      "description": "Sets the payment gateway’s address verification system (AVS) code.",
+      "params": [
+        {
+          "name": "gatewayAvsCode",
+          "datatype": "String",
+          "description": "Code sent by gateways that use an address verification system."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayDate",
+      "signature": "global void setGatewayDate(Datetime gatewayDate)",
+      "description": "Sets the payment gateway’s date.",
+      "params": [
+        {
+          "name": "gatewayDate",
+          "datatype": "Datetime",
+          "description": "Date and time of the gateway communication."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayMessage",
+      "signature": "global void setGatewayMessage(String gatewayMessage)",
+      "description": "Sets information or messages that the gateway returned.",
+      "params": [
+        {
+          "name": "gatewayMessage",
+          "datatype": "String",
+          "description": "Information or error messages returned by the gateway."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayReferenceDetails",
+      "signature": "global void setGatewayReferenceDetails(String gatewayReferenceDetails)",
+      "description": "Sets the payment gateway’s reference details.",
+      "params": [
+        {
+          "name": "gatewayReferenceDetails",
+          "datatype": "String",
+          "description": "Information about the gateway communication."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayReferenceNumber",
+      "signature": "global void setGatewayReferenceNumber(String gatewayReferenceNumber)",
+      "description": "Sets the payment gateway’s reference number.",
+      "params": [
+        {
+          "name": "gatewayReferenceNumber",
+          "datatype": "String",
+          "description": "Unique transaction ID created by the payment gateway."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayResultCode",
+      "signature": "global void setGatewayResultCode(String gatewayResultCode)",
+      "description": "Sets the payment gateway’s result code.",
+      "params": [
+        {
+          "name": "gatewayResultCode",
+          "datatype": "String",
+          "description": "The gateway result code. Must be mapped to a Salesforce result code."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setGatewayResultCodeDescription",
+      "signature": "global void setGatewayResultCodeDescription(String gatewayResultCodeDescription)",
+      "description": "Sets the payment gateway’s result code description.",
+      "params": [
+        {
+          "name": "gatewayResultCodeDescription",
+          "datatype": "String",
+          "description": "Description of the GatewayResultCode. Provides more information about the result code returned by the gateway."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "setSalesforceResultCodeInfo",
+      "signature": "global void setSalesforceResultCodeInfo(commercepayments.SalesforceResultCodeInfo salesforceResultCodeInfo)",
+      "description": "Set the Salesforce result code info.",
+      "params": [
+        {
+          "name": "salesforceResultCodeInfo",
+          "datatype": "commercepayments.SalesforceResultCodeInfo",
+          "description": "Describes the Salesforce result code value."
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "The payment gateway adapter sends this response for the ReferencedRefund request type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_ReferencedRefundResponse.htm#apex_class_commerce_payments_ReferencedRefundResponse"
+}

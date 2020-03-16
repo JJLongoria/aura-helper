@@ -23,14 +23,14 @@
       "datatype": "String"
     },
     {
-      "name": "",
+      "name": "getProcessDefinitionNameOrId",
       "signature": "public String getProcessDefinitionNameOrId()",
       "description": "Returns the developer name or ID of the process definition.",
       "params": [],
       "datatype": "String"
     },
     {
-      "name": "",
+      "name": "getSkipEntryCriteria",
       "signature": "public Boolean getSkipEntryCriteria()",
       "description": "If getProcessDefinitionNameOrId() returns a value other than null, getSkipEntryCriteria() determines whether to evaluate the entry criteria for the process (true) or not (false).",
       "params": [],

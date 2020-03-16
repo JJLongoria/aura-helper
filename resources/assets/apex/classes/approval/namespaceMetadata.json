@@ -6,7 +6,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "The result of a record lock returned by a System.Approval.lock() method.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Approval_LockResult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Approval_LockResult.htm",
     "classes": [],
     "enums": []
   },
@@ -17,7 +17,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "The ProcessRequest class is the parent class for the ProcessSubmitRequest and ProcessWorkitemRequest classes. Use the ProcessRequest class to write generic Apex that can process objects from either class.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessRequest.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessRequest.htm",
     "classes": [],
     "enums": []
   },
@@ -28,7 +28,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "After you submit a record for approval, use the ProcessResult class to process the results of an approval process.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessResult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessResult.htm",
     "classes": [],
     "enums": []
   },
@@ -39,7 +39,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the ProcessSubmitRequest class to submit a record for approval.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessSubmitRequest.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessSubmitRequest.htm",
     "classes": [],
     "enums": []
   },
@@ -50,7 +50,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the ProcessWorkitemRequest class for processing an approval request after it is submitted.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessWorkitemRequest.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ProcessWorkitemRequest.htm",
     "classes": [],
     "enums": []
   },
@@ -61,7 +61,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "The result of a record unlock, returned by a System.Approval.unlock() method.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Approval_UnlockResult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Approval_UnlockResult.htm",
     "classes": [],
     "enums": []
   }

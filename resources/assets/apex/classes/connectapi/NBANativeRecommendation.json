@@ -1,0 +1,39 @@
+{
+  "name": "NBANativeRecommendation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.AbstractNBATarget",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "ID of the recommendation.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "name",
+      "description": "Name of the recommendation.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "url",
+      "description": "URL to the recommendation.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A record the user is recommended to take action on.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_n_b_a_proposition_recommendation.htm"
+}

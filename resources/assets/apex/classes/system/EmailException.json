@@ -1,0 +1,119 @@
+{
+    "name": "EmailException",
+    "namespace": "System",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "Exception",
+    "isInterface": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [
+        {
+            "name": "getDmlFieldNames",
+            "signature": "public String[] getDmlFieldNames(Integer index)",
+            "description": "Returns the names of the field or fields that caused the error described by the ith failed row.",
+            "params": [
+                {
+                    "name": "index",
+                    "datatype": "Integer",
+                    "description": "Index of the failed record"
+                }
+            ],
+            "datatype": "String[]"
+        },
+        {
+            "name": "getDmlFields",
+            "signature": "public Schema.sObjectField[] getDmlFields(Integer index)",
+            "description": "Returns the field token or tokens for the field or fields that caused the error described by the ith failed row. For more information on field tokens, see Dynamic Apex.",
+            "params": [
+                {
+                    "name": "index",
+                    "datatype": "Integer",
+                    "description": "Index of the failed record"
+                }
+            ],
+            "datatype": "Schema.sObjectField[]"
+        },
+        {
+            "name": "getDmlId",
+            "signature": "public String getDmlId(Integer index)",
+            "description": "Returns the ID of the failed record that caused the error described by the ith failed row.",
+            "params": [
+                {
+                    "name": "index",
+                    "datatype": "Integer",
+                    "description": "Index of the failed record"
+                }
+            ],
+            "datatype": "String"
+        },
+        {
+            "name": "getDmlIndex",
+            "signature": "public Integer getDmlIndex(Integer index)",
+            "description": "Returns the original row position of the ith failed row.",
+            "params": [
+                {
+                    "name": "index",
+                    "datatype": "Integer",
+                    "description": "Index of the failed record"
+                }
+            ],
+            "datatype": "Integer"
+        },
+        {
+            "name": "getDmlMessage",
+            "signature": "public String getDmlMessage(Integer index)",
+            "description": "Returns the user message for the ith failed row.",
+            "params": [
+                {
+                    "name": "index",
+                    "datatype": "Integer",
+                    "description": "Index of the failed record"
+                }
+            ],
+            "datatype": "String"
+        },
+        {
+            "name": "getDmlStatusCode",
+            "signature": "public String getDmlStatusCode(Integer index)",
+            "description": "Deprecated. Use getDmlType instead. Returns the Apex failure code for the ith failed row.",
+            "params": [
+                {
+                    "name": "index",
+                    "datatype": "Integer",
+                    "description": "Index of the failed record"
+                }
+            ],
+            "datatype": "String"
+        },
+        {
+            "name": "getDmlType",
+            "signature": "public System.StatusCode getDmlType(Integer index)",
+            "description": "Returns the value of the System.StatusCode enum.",
+            "params": [
+                {
+                    "name": "index",
+                    "datatype": "Integer",
+                    "description": "Index of the failed record"
+                }
+            ],
+            "datatype": "System.StatusCode"
+        },
+        {
+            "name": "getNumDml",
+            "signature": "public Integer getNumDml()",
+            "description": "Returns the number of failed rows for DML exceptions.",
+            "params": [],
+            "datatype": "Integer"
+        }
+    ],
+    "description": "Any problem with email, such as failure to deliver. For more information, see Outbound Email.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm"
+}

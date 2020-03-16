@@ -1,0 +1,46 @@
+{
+  "name": "​Feed​Poll​Choice",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "description": "Poll choice ID",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "The location in the poll where this poll choice exists. The",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Label text associated with the poll choice",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Total number of votes for this poll choice",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "The ratio of total number of votes for this poll choice to",
+      "datatype": "",
+      "signature": "public  undefined"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_FeedPollChoice.htm"
+}

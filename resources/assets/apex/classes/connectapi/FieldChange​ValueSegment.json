@@ -1,0 +1,33 @@
+{
+  "name": "FieldChange​ValueSegment",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​​Message​Segment",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "valueType",
+      "description": "Value type of a field change.",
+      "datatype": "ConnectApi.​FieldChange​ValueType Enum",
+      "signature": "public ConnectApi.​FieldChange​ValueType Enum valueType"
+    },
+    {
+      "name": "url",
+      "description": "URL value if the field change is to a URL field (such as a",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_FieldChgValueMsgSeg.htm"
+}

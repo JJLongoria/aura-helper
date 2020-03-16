@@ -1,0 +1,207 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200&display=swap" rel="stylesheet">
+    </head>
+    <style>
+        :root {
+            --light-blue: #9CDCFE;
+            --blue: #2391d1;
+            --dark-blue: #0067FF;
+            --blue-grey: #2f3640;
+            --vscode-grey: #1E1E1E;
+            --dark-grey: #141414ab;
+            --black-grey: #141414;
+            --dark-grey-transparent: #1a1a1a46;
+            --transparent: #14141400;
+            --light-yellow: #DCDCAA;
+            --grey: #464646bd;
+            --medium-grey: #4444447a;
+            --light-grey: #808080bd;
+            --very-light-grey: #D4D4D4;
+            --green: #4CAF50;
+            --bright-green: #77db34;
+            --light-green: #8BC34A;
+            --red: #F44336;
+            --orange: #ce723b;
+            --purple: #7c34db;
+        }
+
+        .avatar {
+            vertical-align: middle;
+            width: 90px;
+            height: 90px;
+            border-radius: 25%;
+        }
+
+        .menu {
+            color: #048ec6;
+            background-color: var(--transparent);
+            text-decoration: none;
+        }
+
+        .menu:hover {
+            color: var(--blue);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .searchBox {
+            height: 40px;
+            padding: 10px;
+            width: 60px;
+            transition: 0.4s;
+        }
+
+        .searchInput:hover>.searchBox {
+            width: 100%;
+            transition: 0.4s;
+        }
+
+        .searchBox:hover {
+            width: 100%;
+        }
+
+        .searchBox:hover>.searchInput {
+            width: 80%;
+            padding: 0 6px;
+        }
+
+        .searchBox:hover>.searchButton {
+            background: white;
+            color: var(--blue-grey);
+        }
+
+        .searchButton {
+            color: white;
+            float: left;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--blue-grey);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.4s;
+        }
+
+        .searchInput {
+            border: none;
+            background-color: var(--light-grey);
+            outline: none;
+            float: left;
+            padding: 0;
+            color: white;
+            font-size: 16px;
+            transition: 0.4s;
+            line-height: 40px;
+            width: 0px;
+            border-radius: 40px;
+        }
+
+        .searchInput:not(:placeholder-shown)~.searchButton {
+            background: white;
+            color: var(--blue-grey);
+        }
+
+        @media screen and (max-width: 620px) {
+            .searchBox:hover>.searchInput {
+                width: 80%;
+                padding: 0 6px;
+            }
+        }
+
+        .sectionTitle {
+            color: #01344e;
+            background-color: var(--transparent);
+            text-decoration: none;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            text-decoration: none;
+        }
+
+
+
+        .code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            font-weight: normal;
+            text-decoration: none;
+        }
+
+        .keyword {
+            color: rgb(105, 0, 97);
+            font-weight: bolder;
+            text-decoration: none;
+        }
+
+        .datatype a {
+            color: rgb(0, 90, 23);
+            font-weight: normal;
+            text-decoration: none;
+        }
+
+        .identifier a {
+            color: rgb(0, 79, 116);
+            font-weight: normal;
+            text-decoration: none;
+        }
+
+        .sobject a {
+            color: rgb(0, 156, 184);
+            font-weight: normal;
+            text-decoration: none;
+        }
+
+        .primitive a {
+            color: rgb(67, 0, 105);
+            font-weight: normal;
+            text-decoration: none;
+        }
+
+        .goToEnvironment {
+            background-color: #048ec6;
+            color: white
+        }
+
+        .goToEnvironment:hover {
+            background-color: rgb(0, 79, 116);
+            color: white
+        }
+    </style>
+
+    <body>
+        <div style="width: 65%; margin-left: auto; margin-right: auto; margin-top: 80px;">
+            <div class="w3-card-4">
+
+                <header class="w3-container">
+                    <h3 class="sectionTitle">{!homeTitle}</h3>
+                </header>
+
+                <div class="w3-container">
+                    <img width="90px" src="resources/aurahelper.png" alt="Aura Helper Icon" class="w3-left avatar" style="margin-top: 6px; margin-right: 10px;" />
+                    <p style="margin-left: 10px;">
+                        Documentation generated automatically through the Aura Helper extension for VSCode. The content of the documentation depends on the classes
+                        stored in the local project. Comments on methods, classes and / or variables must follow the format specified in the template for a
+                        correct display
+                    </p>
+                    </br>
+                    <hr style="margin-top: 5px;">
+                    <p>
+                        The documentation is generated with the following structure:
+                        {!docStructure}
+                    </p>
+                </div>
+
+                <a class="w3-btn w3-block goToEnvironment" target="_blank" href="{!goToEnvironment}"><b>Go to Org</b></a>
+
+            </div>
+        </div>
+    </body>
+
+</html>

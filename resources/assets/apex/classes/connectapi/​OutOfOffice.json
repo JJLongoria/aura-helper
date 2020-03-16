@@ -1,0 +1,27 @@
+{
+  "name": "​OutOfOffice",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "message",
+      "description": "Out-of-office message for the user.",
+      "datatype": "String",
+      "signature": "public String message"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "User's out-of-office message.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_out_of_office.htm"
+}

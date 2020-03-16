@@ -6,7 +6,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "A callback class that the Database.deleteAsync method references. Salesforce calls this class after the remote deleteAsync operation is completed. This class provides the compensating transaction in the completion context of the delete operation. Extend this class to define the actions to execute after the remote delete operation finishes execution.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_AsyncDeleteCallback.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_AsyncDeleteCallback.htm",
     "classes": [],
     "enums": []
   },
@@ -17,7 +17,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "A callback class that the Database.insertAsync or Database.updateAsync method references. Salesforce calls this class after the remote operation is completed. This class provides the compensating transaction in the completion context of the insert or update operation. Extend this class to define the actions to execute after the remote insert or update operation finishes execution.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_AsyncSaveCallback.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_AsyncSaveCallback.htm",
     "classes": [],
     "enums": []
   },
@@ -33,7 +33,7 @@
       "OAUTH"
     ],
     "description": "Specifies the types of authentication that can be used to access the external system.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_AuthenticationCapability.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_AuthenticationCapability.htm",
     "classes": [],
     "enums": []
   },
@@ -48,7 +48,7 @@
       "PASSWORD"
     ],
     "description": "Determines what type of credentials are used to authenticate to the external system.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_AuthenticationProtocol.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_AuthenticationProtocol.htm",
     "classes": [],
     "enums": []
   },
@@ -69,7 +69,7 @@
       "SEARCH"
     ],
     "description": "Declares which functional operations the external system supports. Also specifies required endpoint settings for the external data source definition.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_Capability.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_Capability.htm",
     "classes": [],
     "enums": []
   },
@@ -80,7 +80,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Describes a column on a DataSource.Table. This class extends the DataSourceUtil class and inherits its methods.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Column.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Column.htm",
     "classes": [],
     "enums": []
   },
@@ -91,7 +91,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Identifies the list of columns to return during a query or search.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ColumnSelection.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ColumnSelection.htm",
     "classes": [],
     "enums": []
   },
@@ -102,7 +102,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Extend this class to enable your Salesforce org to sync the external system’s schema and to handle queries, searches, and write operations (upsert and delete) of the external data. This class extends the DataSourceUtil class and inherits its methods.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Connection.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Connection.htm",
     "classes": [],
     "enums": []
   },
@@ -113,7 +113,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the credentials for authenticating to the external system.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ConnectionParams.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ConnectionParams.htm",
     "classes": [],
     "enums": []
   },
@@ -124,7 +124,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Parent class for the DataSource.Provider, DataSource.Connection, DataSource.Table, and DataSource.Column classes.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_DataSourceUtil.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_DataSourceUtil.htm",
     "classes": [],
     "enums": []
   },
@@ -145,7 +145,7 @@
       "URL_TYPE"
     ],
     "description": "Specifies the data types that are supported by the Apex Connector Framework.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_DataType.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_DataType.htm",
     "classes": [],
     "enums": []
   },
@@ -156,7 +156,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "An instance of DeleteContext is passed to the deleteRows() method on your Database.Connection class. The class provides context information about the delete request to the implementor of deleteRows().",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_DeleteContext.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_DeleteContext.htm",
     "classes": [],
     "enums": []
   },
@@ -167,7 +167,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents the result of a delete operation on an sObject record. The result is returned by the DataSource.deleteRows method of the DataSource.Connection class.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_DeleteResult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_DeleteResult.htm",
     "classes": [],
     "enums": []
   },
@@ -178,7 +178,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a WHERE clause in a SOSL or SOQL query.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Filter.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Filter.htm",
     "classes": [],
     "enums": []
   },
@@ -203,7 +203,7 @@
       "STARTS_WITH"
     ],
     "description": "Referenced by the type property on a DataSource.Filter.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_FilterType.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_FilterType.htm",
     "classes": [],
     "enums": []
   },
@@ -218,7 +218,18 @@
       "PER_USER"
     ],
     "description": "Determines which set of credentials is used to authenticate to the external system.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_IdentityType.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_IdentityType.htm",
+    "classes": [],
+    "enums": []
+  },
+  "oauthtokenexpiredexception": {
+    "name": "OAuthTokenExpiredException",
+    "namespace": "DataSource",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Throw this exception to indicate that an OAuth token has expired. The system then attempts to refresh the token automatically and restart the query, search, or sync operation.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_DataSource_exceptions.htm",
     "classes": [],
     "enums": []
   },
@@ -229,7 +240,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains details about how to sort the rows in the result set. Equivalent to an ORDER BY statement in a SOQL query.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Order.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Order.htm",
     "classes": [],
     "enums": []
   },
@@ -243,7 +254,7 @@
       "DESCENDING"
     ],
     "description": "Specifies the direction for sorting rows based on column values.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_OrderDirection.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_OrderDirection.htm",
     "classes": [],
     "enums": []
   },
@@ -254,7 +265,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Extend this base class to create a custom adapter for Salesforce Connect. The class informs Salesforce of the functional and authentication capabilities that are supported by or required to connect to the external system. This class extends the DataSourceUtil class and inherits its methods.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Provider.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Provider.htm",
     "classes": [],
     "enums": []
   },
@@ -272,7 +283,7 @@
       "SUM"
     ],
     "description": "Specifies how to aggregate a column in a query.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_QueryAggregation.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_DataSource_QueryAggregation.htm",
     "classes": [],
     "enums": []
   },
@@ -283,7 +294,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "An instance of QueryContext is provided to the query method on your DataSource.Connection class. The instance corresponds to a SOQL request.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_QueryContext.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_QueryContext.htm",
     "classes": [],
     "enums": []
   },
@@ -294,7 +305,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains helper methods to locally filter, sort, and apply limit and offset clauses to data rows. This helper class is provided for your convenience during early development and tests, but it isn’t supported for use in production environments.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_QueryUtils.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_QueryUtils.htm",
     "classes": [],
     "enums": []
   },
@@ -305,7 +316,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Abstract base class for the QueryContext and SearchContext classes.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ReadContext.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_ReadContext.htm",
     "classes": [],
     "enums": []
   },
@@ -316,7 +327,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "An instance of SearchContext is provided to the search method on your DataSource.Connection class. The instance corresponds to a search or SOSL request.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_SearchContext.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_SearchContext.htm",
     "classes": [],
     "enums": []
   },
@@ -327,7 +338,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Helper class for implementing search on a custom adapter for Salesforce Connect.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_SearchUtils.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_SearchUtils.htm",
     "classes": [],
     "enums": []
   },
@@ -338,7 +349,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Describes a table on an external system that the Salesforce Connect custom adapter connects to. This class extends the DataSourceUtil class and inherits its methods.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Table.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_Table.htm",
     "classes": [],
     "enums": []
   },
@@ -349,7 +360,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the results of a search or query.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_TableResult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_TableResult.htm",
     "classes": [],
     "enums": []
   },
@@ -360,7 +371,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains a breakdown of the SOQL or SOSL query. Its properties represent the FROM, ORDER BY, SELECT, and WHERE clauses in the query.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_TableSelection.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_TableSelection.htm",
     "classes": [],
     "enums": []
   },
@@ -371,7 +382,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "An instance of UpsertContext is passed to the upsertRows() method on your Datasource.Connection class. This class provides context information about the upsert request to the implementor of upsertRows().",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_UpsertContext.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_UpsertContext.htm",
     "classes": [],
     "enums": []
   },
@@ -382,7 +393,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents the result of an upsert operation on an external object record. The result is returned by the upsertRows method of the DataSource.Connection class.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_UpsertResult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_DataSource_UpsertResult.htm",
+    "classes": [],
+    "enums": []
+  },
+  "​datasource​exception": {
+    "name": "​DataSource​Exception",
+    "namespace": "DataSource",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Throw this exception to indicate that an error occurred while communicating with an external data source.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_DataSource_exceptions.htm",
     "classes": [],
     "enums": []
   }

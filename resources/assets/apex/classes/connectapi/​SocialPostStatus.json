@@ -1,0 +1,33 @@
+{
+  "name": "​SocialPostStatus",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "message",
+      "description": "Status message.",
+      "datatype": "String",
+      "signature": "public String message"
+    },
+    {
+      "name": "type",
+      "description": "",
+      "datatype": "ConnectApi.​SocialPostStatusType",
+      "signature": "public ConnectApi.​SocialPostStatusType type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The status of a social post.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_social_post_status.htm"
+}

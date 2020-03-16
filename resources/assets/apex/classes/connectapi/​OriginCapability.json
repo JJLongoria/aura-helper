@@ -1,0 +1,33 @@
+{
+  "name": "​OriginCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "actor",
+      "description": "The user who executed the feed action.",
+      "datatype": "ConnectApi.​User​Summary Class",
+      "signature": "public ConnectApi.​User​Summary Class actor"
+    },
+    {
+      "name": "originRecord",
+      "description": "A reference to the feed element containing the feed action.",
+      "datatype": "ConnectApi.​​Reference Class",
+      "signature": "public ConnectApi.​​Reference Class originRecord"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it was created by a feed action.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_origin_capability.htm"
+}

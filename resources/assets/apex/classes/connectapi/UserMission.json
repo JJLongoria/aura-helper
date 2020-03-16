@@ -1,0 +1,33 @@
+{
+  "name": "UserMission",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.AbstractUserMissionActivity",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "missionName",
+      "description": "Name of the mission.",
+      "datatype": "String",
+      "signature": "public String missionName"
+    },
+    {
+      "name": "missionThreshold",
+      "description": "Threshold of the mission. When a user reaches this",
+      "datatype": "Integer",
+      "signature": "public Integer missionThreshold"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Mission details for a user.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_user_mission.htm"
+}

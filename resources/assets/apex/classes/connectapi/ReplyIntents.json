@@ -1,0 +1,27 @@
+{
+  "name": "ReplyIntents",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "replies",
+      "description": "List of reply intents for the social post.",
+      "datatype": "List<ConnectApi.​ReplyIntent>",
+      "signature": "public List<ConnectApi.​ReplyIntent> replies"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "List of reply intents for a social post.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_reply_social_post_intents_output.htm"
+}

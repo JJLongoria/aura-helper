@@ -1,0 +1,27 @@
+{
+  "name": "RelatedFeedPosts",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "relatedFeedPosts",
+      "description": "Collection of related feed posts.",
+      "datatype": "List<ConnectApi.​RelatedFeedPost>",
+      "signature": "public List<ConnectApi.​RelatedFeedPost> relatedFeedPosts"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of related feed posts.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_related_feed_post_collection.htm"
+}

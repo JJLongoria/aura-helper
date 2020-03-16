@@ -1,0 +1,45 @@
+{
+  "name": "UserMissionActivityCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "community",
+      "description": "Community in which the user performed",
+      "datatype": "ConnectApi.​CommunitySummary",
+      "signature": "public ConnectApi.​CommunitySummary community"
+    },
+    {
+      "name": "userId",
+      "description": "ID of the user.",
+      "datatype": "String",
+      "signature": "public String userId"
+    },
+    {
+      "name": "userMission​Activities",
+      "description": "List of mission activities performed by the",
+      "datatype": "List<ConnectApi.​AbstractUser​MissionActivity>",
+      "signature": "public List<ConnectApi.​AbstractUser​MissionActivity> userMission​Activities"
+    },
+    {
+      "name": "userName",
+      "description": "Name of the user.",
+      "datatype": "String",
+      "signature": "public String userName"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "List of mission activities for a user.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_user_mission_activity_collection.htm"
+}

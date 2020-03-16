@@ -1,0 +1,33 @@
+{
+  "name": "​EntityLinkSegment",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​​Message​Segment",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "motif",
+      "description": "A set of small, medium, and large icons that indicate whether",
+      "datatype": "ConnectApi.​Motif Class",
+      "signature": "public ConnectApi.​Motif Class motif"
+    },
+    {
+      "name": "reference",
+      "description": "A reference to the link object if applicable, otherwise, null.",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference reference"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_entityLinkSeg.htm"
+}

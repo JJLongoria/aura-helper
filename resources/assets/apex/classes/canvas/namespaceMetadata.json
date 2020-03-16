@@ -1,0 +1,83 @@
+{
+  "applicationcontext": {
+    "name": "ApplicationContext",
+    "namespace": "Canvas",
+    "isEnum": false,
+    "isInterface": true,
+    "enumValues": [],
+    "description": "Use this interface to retrieve application context information, such as the application version or URL.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_canvas_ApplicationContext.htm",
+    "classes": [],
+    "enums": []
+  },
+  "canvaslifecyclehandler": {
+    "name": "CanvasLifecycleHandler",
+    "namespace": "Canvas",
+    "isEnum": false,
+    "isInterface": true,
+    "enumValues": [],
+    "description": "Implement this interface to control context information and add custom behavior during the application render phase.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_canvas_CanvasLifecycleHandler.htm",
+    "classes": [],
+    "enums": []
+  },
+  "canvasrenderexception": {
+    "name": "CanvasRenderException",
+    "namespace": "Canvas",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Use this class in your implementation of Canvas.CanvasLifecycleHandler.onRender(renderContext).",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_exceptions_canvas.htm",
+    "classes": [],
+    "enums": []
+  },
+  "contexttypeenum": {
+    "name": "ContextTypeEnum",
+    "namespace": "Canvas",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "ORGANIZATION",
+      "RECORD_DETAIL",
+      "USER"
+    ],
+    "description": "Describes context data that can be excluded from canvas app context data. You specify which context types to exclude in the excludeContextTypes() method in your CanvasLifecycleHandler implementation",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_canvas_ContextTypeEnum.htm",
+    "classes": [],
+    "enums": []
+  },
+  "environmentcontext": {
+    "name": "EnvironmentContext",
+    "namespace": "Canvas",
+    "isEnum": false,
+    "isInterface": true,
+    "enumValues": [],
+    "description": "Use this interface to retrieve environment context information, such as the app display location or the configuration parameters.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_canvas_EnvironmentContext.htm",
+    "classes": [],
+    "enums": []
+  },
+  "rendercontext": {
+    "name": "RenderContext",
+    "namespace": "Canvas",
+    "isEnum": false,
+    "isInterface": true,
+    "enumValues": [],
+    "description": "A wrapper interface that is used to retrieve application and environment context information.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_canvas_RenderContext.htm",
+    "classes": [],
+    "enums": []
+  },
+  "test": {
+    "name": "Test",
+    "namespace": "Canvas",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Contains methods for automated testing of your Canvas classes.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_canvas_Test.htm",
+    "classes": [],
+    "enums": []
+  }
+}

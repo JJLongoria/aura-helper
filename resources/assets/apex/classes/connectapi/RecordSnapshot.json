@@ -1,0 +1,33 @@
+{
+  "name": "RecordSnapshot",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "ID of the record.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "nameAtSnapshot",
+      "description": "Name of the record when the ID was",
+      "datatype": "String",
+      "signature": "public String nameAtSnapshot"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A record snapshot in a recommendation reaction.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_record_snapshot.htm"
+}

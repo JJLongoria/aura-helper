@@ -1,0 +1,51 @@
+{
+  "name": "GroupRecordPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "current​PageUrl",
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "String",
+      "signature": "public String current​PageUrl"
+    },
+    {
+      "name": "next​PageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String next​PageUrl"
+    },
+    {
+      "name": "previous​PageUrl",
+      "description": "Chatter REST API URL identifying the previous page, or null if there isn’t a previous",
+      "datatype": "String",
+      "signature": "public String previous​PageUrl"
+    },
+    {
+      "name": "records",
+      "description": "List of records on the current page.",
+      "datatype": "List<ConnectApi.​GroupRecord>",
+      "signature": "public List<ConnectApi.​GroupRecord> records"
+    },
+    {
+      "name": "total​Record​Count",
+      "description": "Total number of records associated with the group.",
+      "datatype": "Integer",
+      "signature": "public Integer total​Record​Count"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A paginated list of ConnectApi.GroupRecord objects.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_GroupRecordPage.htm"
+}

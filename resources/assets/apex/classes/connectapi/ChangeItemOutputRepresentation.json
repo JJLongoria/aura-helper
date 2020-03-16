@@ -1,0 +1,87 @@
+{
+  "name": "ChangeItemOutputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "grandTotal​Amount",
+      "description": "Change to the GrandTotalAmount field.",
+      "datatype": "Double",
+      "signature": "public Double grandTotal​Amount"
+    },
+    {
+      "name": "totalAdjusted​DeliveryAmount",
+      "description": "Change to the TotalAdjustedDeliveryAmount",
+      "datatype": "Double",
+      "signature": "public Double totalAdjusted​DeliveryAmount"
+    },
+    {
+      "name": "totalAdjusted​DeliveryTaxAmount",
+      "description": "Change to the",
+      "datatype": "Double",
+      "signature": "public Double totalAdjusted​DeliveryTaxAmount"
+    },
+    {
+      "name": "totalAdjusted​ProductAmount",
+      "description": "Change to the TotalAdjustedProductAmount",
+      "datatype": "Double",
+      "signature": "public Double totalAdjusted​ProductAmount"
+    },
+    {
+      "name": "totalAdjusted​ProductTaxAmount",
+      "description": "Change to the",
+      "datatype": "Double",
+      "signature": "public Double totalAdjusted​ProductTaxAmount"
+    },
+    {
+      "name": "totalAdjustment​DistributedAmount",
+      "description": "Change to the",
+      "datatype": "Double",
+      "signature": "public Double totalAdjustment​DistributedAmount"
+    },
+    {
+      "name": "totalAdjustment​DistributedTaxAmount",
+      "description": "Change to the",
+      "datatype": "Double",
+      "signature": "public Double totalAdjustment​DistributedTaxAmount"
+    },
+    {
+      "name": "totalAmount",
+      "description": "Change to the TotalAmount field.",
+      "datatype": "Double",
+      "signature": "public Double totalAmount"
+    },
+    {
+      "name": "totalExcess​FundsAmount",
+      "description": "Change to the TotalExcessFundsAmount",
+      "datatype": "Double",
+      "signature": "public Double totalExcess​FundsAmount"
+    },
+    {
+      "name": "totalRefundable​Amount",
+      "description": "Change to the TotalRefundableAmount",
+      "datatype": "Double",
+      "signature": "public Double totalRefundable​Amount"
+    },
+    {
+      "name": "totalTaxAmount",
+      "description": "Change to the TotalTaxAmount field.",
+      "datatype": "Double",
+      "signature": "public Double totalTaxAmount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Financial information on a change order. The values represent the deltas of the values on the associated OrderSummary.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_change_item_output.htm"
+}

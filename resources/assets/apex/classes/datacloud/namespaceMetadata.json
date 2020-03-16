@@ -6,7 +6,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents other information, if any, about matched records.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_AdditionalInformationMap.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_AdditionalInformationMap.htm",
     "classes": [],
     "enums": []
   },
@@ -17,7 +17,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents the details of a duplicate rule that detected duplicate records and information about those duplicate records.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_DuplicateResult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_DuplicateResult.htm",
     "classes": [],
     "enums": []
   },
@@ -28,7 +28,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents the name of a matching rule field and how the values of the field compare for the duplicate and its matching record.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FieldDiff.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FieldDiff.htm",
     "classes": [],
     "enums": []
   },
@@ -39,7 +39,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Performs rule-based searches for duplicate records. The input is an array of sObjects. Each sObject represents a record you want to find duplicates of. The output identifies the detected duplicates for each input sObject based on active duplicate rules for the given object.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FindDuplicates.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FindDuplicates.htm",
     "classes": [],
     "enums": []
   },
@@ -50,7 +50,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Performs rule-based searches for duplicate records. The input is an array of IDs. Each ID specifies records to search for duplicates among. The duplicates are detected based on the active duplicate rules applicable to the object type corresponding to the input IDs.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FindDuplicatesByIds.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FindDuplicatesByIds.htm",
     "classes": [],
     "enums": []
   },
@@ -61,7 +61,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Output for rule-based searches for duplicate records. FindDuplicatesResult contains results of detecting duplicates using instances of FindDuplicates or FindDuplicatesByIds classes.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FindDuplicatesResult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_FindDuplicatesResult.htm",
     "classes": [],
     "enums": []
   },
@@ -72,7 +72,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a duplicate record detected by a matching rule.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_MatchRecord.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_MatchRecord.htm",
     "classes": [],
     "enums": []
   },
@@ -83,7 +83,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents the duplicate results for a matching rule.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_MatchResult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_Datacloud_MatchResult.htm",
     "classes": [],
     "enums": []
   }

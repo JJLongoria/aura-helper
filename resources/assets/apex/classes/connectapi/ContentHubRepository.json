@@ -1,0 +1,57 @@
+{
+  "name": "ContentHubRepository",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​ActorWithId",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "authentication",
+      "description": "Repository authentication information.",
+      "datatype": "ConnectApi.​ContentHub​Repository​Authentication",
+      "signature": "public ConnectApi.​ContentHub​Repository​Authentication authentication"
+    },
+    {
+      "name": "features",
+      "description": "Repository features.",
+      "datatype": "ConnectApi.​ContentHub​RepositoryFeatures",
+      "signature": "public ConnectApi.​ContentHub​RepositoryFeatures features"
+    },
+    {
+      "name": "label",
+      "description": "Repository label.",
+      "datatype": "String",
+      "signature": "public String label"
+    },
+    {
+      "name": "name",
+      "description": "Repository name.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "providerType",
+      "description": "Repository provider type.",
+      "datatype": "ConnectApi.​ContentHub​ProviderType",
+      "signature": "public ConnectApi.​ContentHub​ProviderType providerType"
+    },
+    {
+      "name": "rootFolderItemsUrl",
+      "description": "URL to the list of items in the repository root",
+      "datatype": "String",
+      "signature": "public String rootFolderItemsUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A repository.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_content_hub_repository.htm"
+}

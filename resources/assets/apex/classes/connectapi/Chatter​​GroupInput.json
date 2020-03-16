@@ -1,0 +1,75 @@
+{
+  "name": "Chatter​​GroupInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "announcement",
+      "description": "The 18-character ID of an announcement. An announcement displays in a designated location in the Salesforce",
+      "datatype": "String",
+      "signature": "public String announcement"
+    },
+    {
+      "name": "canHave​ChatterGuests",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean canHave​ChatterGuests"
+    },
+    {
+      "name": "description",
+      "description": "The “Description”",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "information",
+      "description": "The “Information” section of a group. If the group is private, this section is",
+      "datatype": "ConnectApi.​Group​Information​Input",
+      "signature": "public ConnectApi.​Group​Information​Input information"
+    },
+    {
+      "name": "isArchived",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isArchived"
+    },
+    {
+      "name": "isAuto​ArchiveDisabled",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isAuto​ArchiveDisabled"
+    },
+    {
+      "name": "name",
+      "description": "The name of the group.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "owner",
+      "description": "The ID of the group owner. This property is",
+      "datatype": "String",
+      "signature": "public String owner"
+    },
+    {
+      "name": "visibility",
+      "description": "Group visibility type.",
+      "datatype": "ConnectApi.​GroupVisibilityType",
+      "signature": "public ConnectApi.​GroupVisibilityType visibility"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_chattergroupinput.htm"
+}

@@ -1,0 +1,39 @@
+{
+  "name": "Reputation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "reputationLevel",
+      "description": "User’s reputation level.",
+      "datatype": "ConnectApi.​ReputationLevel",
+      "signature": "public ConnectApi.​ReputationLevel reputationLevel"
+    },
+    {
+      "name": "reputationPoints",
+      "description": "User's reputation points, which can be earned by performing",
+      "datatype": "Double",
+      "signature": "public Double reputationPoints"
+    },
+    {
+      "name": "url",
+      "description": "A Chatter REST API URL to the reputation.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Reputation for a user.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_reputation.htm"
+}

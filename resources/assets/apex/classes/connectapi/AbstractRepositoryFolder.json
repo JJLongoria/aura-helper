@@ -1,0 +1,39 @@
+{
+  "name": "AbstractRepositoryFolder",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.AbstractRepositoryItem",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "externalFolderUrl",
+      "description": "URL of this folder in the external",
+      "datatype": "String",
+      "signature": "public String externalFolderUrl"
+    },
+    {
+      "name": "folderItemsUrl",
+      "description": "URL that lists the files and folders in this",
+      "datatype": "String",
+      "signature": "public String folderItemsUrl"
+    },
+    {
+      "name": "path",
+      "description": "Absolute path of the folder in the external system.",
+      "datatype": "String",
+      "signature": "public String path"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A repository folder.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_repository_folder.htm"
+}

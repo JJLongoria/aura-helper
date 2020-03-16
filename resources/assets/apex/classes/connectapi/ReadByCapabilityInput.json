@@ -1,0 +1,33 @@
+{
+  "name": "ReadByCapabilityInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isReadByMe",
+      "description": "Specifies to mark the feed element",
+      "datatype": "Boolean",
+      "signature": "public Boolean isReadByMe"
+    },
+    {
+      "name": "lastReadDateByMe",
+      "description": "Specifies the last date, in ISO 8601 format, when the feed",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastReadDateByMe"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Mark feed elements as read by the context user.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_read_by_capability.htm"
+}

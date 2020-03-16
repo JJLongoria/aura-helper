@@ -1,0 +1,27 @@
+{
+  "name": "AbstractExtensionInformation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "extension​InformationType",
+      "description": "Information type of the extension.",
+      "datatype": "ConnectApi.​ExtensionInformation​Type",
+      "signature": "public ConnectApi.​ExtensionInformation​Type extension​InformationType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Extension information.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_extension_information.htm"
+}

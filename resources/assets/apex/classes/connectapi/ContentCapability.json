@@ -1,0 +1,126 @@
+{
+  "name": "ContentCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "description": "MD5 checksum for the file.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "URL of the content for links and Google",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Description of the attachment.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "URL to the content.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Extension of the file.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Size of the file in bytes. If size cannot be",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Type of file.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "true if the file has a PDF preview available,",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "18-character ID of the content.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "MIME type of the file.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "URL to the rendition resource for the file.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "URL to the 240x180 size rendition",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "URL to the 720x480 size rendition",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Sharing option of the file. Values are:",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Text preview of the file if available,",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "The status of the rendering",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "The status of the rendering",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "The status of the rendering",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Title of the file.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Version ID of the file.",
+      "datatype": "",
+      "signature": "public  undefined"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a comment has this capability, it has a file attachment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_content_capability.htm"
+}

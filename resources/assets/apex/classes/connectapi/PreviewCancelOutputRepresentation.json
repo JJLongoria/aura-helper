@@ -1,0 +1,33 @@
+{
+  "name": "PreviewCancelOutputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.BaseOutputRepresentation",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "changeBalances",
+      "description": "Expected change order financial values for the return",
+      "datatype": "ConnectApi.​ChangeItem​OutputRepresentation",
+      "signature": "public ConnectApi.​ChangeItem​OutputRepresentation changeBalances"
+    },
+    {
+      "name": "orderSummaryId",
+      "description": "ID of the OrderSummary.",
+      "datatype": "String",
+      "signature": "public String orderSummaryId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Expected change order financial values for a proposed return action.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_preview_cancel_output.htm"
+}

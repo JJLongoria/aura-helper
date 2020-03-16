@@ -1,0 +1,31 @@
+{
+  "name": "MarkupType",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "Bold",
+    "Code",
+    "Hyperlink",
+    "Italic",
+    "ListItem",
+    "OrderedList",
+    "Paragraph",
+    "Strikethrough",
+    "Underline",
+    "UnorderedList"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Type of rich text markup.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_enums.htm"
+}

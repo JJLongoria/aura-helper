@@ -1,0 +1,75 @@
+{
+  "name": "​FeedElement​Page",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageToken",
+      "description": "Token identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageToken"
+    },
+    {
+      "name": "currentPageUrl",
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "elements",
+      "description": "Collection of feed elements.",
+      "datatype": "List<ConnectApi.​FeedElement Class>",
+      "signature": "public List<ConnectApi.​FeedElement Class> elements"
+    },
+    {
+      "name": "isModifiedToken",
+      "description": "An opaque polling token to use in the since",
+      "datatype": "String",
+      "signature": "public String isModifiedToken"
+    },
+    {
+      "name": "isModifiedUrl",
+      "description": "A Chatter REST API URL with a since request",
+      "datatype": "String",
+      "signature": "public String isModifiedUrl"
+    },
+    {
+      "name": "nextPageToken",
+      "description": "Token identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageToken"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "updatesToken",
+      "description": "A token to use in a request to the ConnectApi.ChatterFeeds.getFeedElementsUpdatedSince method.",
+      "datatype": "String",
+      "signature": "public String updatesToken"
+    },
+    {
+      "name": "updatesUrl",
+      "description": "A Chatter REST API feed resource containing the feed elements that",
+      "datatype": "String",
+      "signature": "public String updatesUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A paged collection of ConnectApi.FeedElement objects.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_element_page.htm"
+}

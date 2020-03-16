@@ -45,9 +45,40 @@ function getAuthUsername() {
     });
 }
 
+function getServerInstance(username) {
+    return new Promise(function (resolve) {
+        let buffer = [];
+        let bufferError = [];
+        ProcessManager.listAuthOurgs(function (event, data) {
+            switch (event) {
+                case ProcessEvent.STD_OUT:
+                    buffer = buffer.concat(data);
+                    break;
+                case ProcessEvent.END:
+                    let listOrgsResult = JSON.parse(buffer.toString());
+                    if (listOrgsResult.status === 0) {
+                        for (const org of listOrgsResult.result) {
+                            if (org.username === username) { 
+                                resolve(org.instanceUrl);
+                            }
+                        }
+                    }
+                    resolve(undefined);
+                    break;
+                default:
+                    break;
+            }
+        });
+    });
+}
+
+function getOrgAlias() { 
+    return JSON.parse(FileReader.readFileSync(Paths.getSFDXFolderPath() + '/sfdx-config.json')).defaultusername;
+}
+
 function getOrgVersion() {
-    if (getConfig().useCustomAPIVersion) { 
-        return (getConfig().CustomAPIVersion).toString() + '.0';
+    if (getConfig().metadata.useCustomAPIVersion) {
+        return (getConfig().metadata.CustomAPIVersion).toString() + '.0';
     }
     return JSON.parse(FileReader.readFileSync(Paths.getWorkspaceFolder() + '/sfdx-project.json')).sourceApiVersion;
 }
@@ -60,5 +91,7 @@ module.exports = {
     getConfig,
     getAuthUsername,
     getOrgVersion,
-    getOrgNamespace
+    getOrgNamespace,
+    getServerInstance,
+    getOrgAlias
 }

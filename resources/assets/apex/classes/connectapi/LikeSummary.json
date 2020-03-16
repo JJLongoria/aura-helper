@@ -1,0 +1,27 @@
+{
+  "name": "LikeSummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.UserFeedEntityActivitySummary",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "likeId",
+      "description": "ID of the like.",
+      "datatype": "String",
+      "signature": "public String likeId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Summary of a like.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_like_summary.htm"
+}

@@ -1,0 +1,75 @@
+{
+  "name": "ActionLinkGroupDefinition",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "actionLinks",
+      "description": "A collection of action link definitions that make up the action link group.",
+      "datatype": "List<ConnectApi.​ActionLinkDefinition>",
+      "signature": "public List<ConnectApi.​ActionLinkDefinition> actionLinks"
+    },
+    {
+      "name": "category",
+      "description": "Indicates the priority and location of the action links. Values are:",
+      "datatype": "ConnectApi.​PlatformAction​GroupCategory",
+      "signature": "public ConnectApi.​PlatformAction​GroupCategory category"
+    },
+    {
+      "name": "createdDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "executions​Allowed",
+      "description": "Defines the number of times an action link can be executed. Values are:",
+      "datatype": "ConnectApi.​ActionLink​ExecutionsAllowed",
+      "signature": "public ConnectApi.​ActionLink​ExecutionsAllowed executions​Allowed"
+    },
+    {
+      "name": "expirationDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime expirationDate"
+    },
+    {
+      "name": "id",
+      "description": "18-character ID of the action link group definition.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "modifiedDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime modifiedDate"
+    },
+    {
+      "name": "templateId",
+      "description": "The ID of the action link group template from which to",
+      "datatype": "String",
+      "signature": "public String templateId"
+    },
+    {
+      "name": "url",
+      "description": "The URL for this action link group definition.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The definition of an action link group. Information in the action link group definition can be sensitive to a third party (for example, OAuth bearer token headers). For this reason, only calls made from the Apex namespace that created the action link group definition can read, modify, or delete the definition. In addition, the user making the call must have created the definition or have View All Data permission.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_action_link_group_definition.htm"
+}

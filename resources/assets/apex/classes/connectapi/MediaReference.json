@@ -1,0 +1,33 @@
+{
+  "name": "MediaReference",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "mediaUrl",
+      "description": "URL to stream or download the media.",
+      "datatype": "String",
+      "signature": "public String mediaUrl"
+    },
+    {
+      "name": "thumbnailUrl",
+      "description": "URL of the media’s thumbnail, if one exists.",
+      "datatype": "String",
+      "signature": "public String thumbnailUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A media reference.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_media_reference.htm"
+}

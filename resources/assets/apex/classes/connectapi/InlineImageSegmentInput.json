@@ -1,0 +1,33 @@
+{
+  "name": "InlineImageSegmentInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.Message​Segment​Input",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "altText",
+      "description": "Alt text for the inline image.",
+      "datatype": "String",
+      "signature": "public String altText"
+    },
+    {
+      "name": "fileId",
+      "description": "ID of the inline image file.",
+      "datatype": "String",
+      "signature": "public String fileId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An inline image segment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_inline_image_segment.htm"
+}

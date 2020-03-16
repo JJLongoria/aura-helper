@@ -1,0 +1,57 @@
+{
+  "name": "NBARecommendations",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "debug",
+      "description": "Runtime debug information recorded during recommendation",
+      "datatype": "String",
+      "signature": "public String debug"
+    },
+    {
+      "name": "errors",
+      "description": "Runtime errors that occurred during recommendation strategy",
+      "datatype": "String",
+      "signature": "public String errors"
+    },
+    {
+      "name": "executionId",
+      "description": "ID of the recommendation strategy execution.",
+      "datatype": "String",
+      "signature": "public String executionId"
+    },
+    {
+      "name": "onBehalfOfId",
+      "description": "ID of the user or entity for which the recommendation",
+      "datatype": "String",
+      "signature": "public String onBehalfOfId"
+    },
+    {
+      "name": "recommendations",
+      "description": "List of recommendations returned by a recommendation",
+      "datatype": "List<ConnectApi.​NBARecommendation>",
+      "signature": "public List<ConnectApi.​NBARecommendation> recommendations"
+    },
+    {
+      "name": "trace",
+      "description": "Trace information for the recommendation strategy execution, if",
+      "datatype": "ConnectApi.​StrategyTrace",
+      "signature": "public ConnectApi.​StrategyTrace trace"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Recommendations returned by a recommendation strategy.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_n_b_a_recommendations.htm"
+}

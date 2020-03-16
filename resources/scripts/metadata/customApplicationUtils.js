@@ -193,7 +193,7 @@ class CustomApplicationUtils {
                 if (customApplication.description)
                     xmlLines.push('\t' + Utils.getXMLTag('description', customApplication.description));
                 if (customApplication.navType)
-                    xmlLines.push('\t' + Utils.getXMLTag('logo', customApplication.navType));
+                    xmlLines.push('\t' + Utils.getXMLTag('navType', customApplication.navType));
                 if (customApplication.defaultLandingTab)
                     xmlLines.push('\t' + Utils.getXMLTag('defaultLandingTab', customApplication.defaultLandingTab));
                 if (customApplication.setupExperience)
@@ -203,7 +203,7 @@ class CustomApplicationUtils {
                 if (customApplication.utilityBar)
                     xmlLines.push('\t' + Utils.getXMLTag('utilityBar', customApplication.utilityBar));
                 if (customApplication.formFactors)
-                    xmlLines.push('\t' + Utils.getXMLTag('defaultLandingTab', customApplication.formFactors));
+                    xmlLines = xmlLines.concat(Utils.getXMLBlock('formFactors', customApplication.formFactors, compress, 1));
                 if (customApplication.isNavAutoTempTabsDisabled != undefined)
                     xmlLines.push('\t' + Utils.getXMLTag('isNavAutoTempTabsDisabled', customApplication.isNavAutoTempTabsDisabled));
                 if (customApplication.isNavPersonalizationDisabled != undefined)
@@ -253,7 +253,7 @@ class CustomApplicationUtils {
                     }
                     if (customApplication.consoleConfig.keyboardShortcuts) {
                         Utils.sort(customApplication.consoleConfig.keyboardShortcuts.customShortcuts, ['action']);
-                        Utils.sort(customApplication.consoleConfig.keyboardShortcuts.defaultShortcuts ['action']);
+                        Utils.sort(customApplication.consoleConfig.keyboardShortcuts.defaultShortcuts['action']);
                         xmlLines.push('\t\t<keyboardShortcuts>');
                         xmlLines = xmlLines.concat(Utils.getXMLBlock('customShortcuts', customApplication.consoleConfig.keyboardShortcuts.customShortcuts, compress, 3));
                         xmlLines = xmlLines.concat(Utils.getXMLBlock('defaultShortcuts', customApplication.consoleConfig.keyboardShortcuts.defaultShortcuts, compress, 3));
@@ -299,7 +299,7 @@ class CustomApplicationUtils {
                     xmlLines.push('\t</workspaceConfig>');
                 }
                 xmlLines.push('</CustomApplication>');
-            } else { 
+            } else {
                 return AuraParser.toXML(customApplication);
             }
         }

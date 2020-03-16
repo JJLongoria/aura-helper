@@ -1,0 +1,27 @@
+{
+  "name": "ComplexSegment",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​​Message​Segment",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "segments",
+      "description": "List of message segments.",
+      "datatype": "List<ConnectApi.​​Message​Segment>",
+      "signature": "public List<ConnectApi.​​Message​Segment> segments"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_complex_msg_seg.htm"
+}

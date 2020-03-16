@@ -1,0 +1,39 @@
+{
+  "name": "ManagedContentType",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "label",
+      "description": "Label of the managed content type.",
+      "datatype": "String",
+      "signature": "public String label"
+    },
+    {
+      "name": "name",
+      "description": "Developer name of the managed content type.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "nodeTypes",
+      "description": "Map of node types for the managed content type.",
+      "datatype": "Map<String, ConnectApi.​ManagedContent​NodeType>",
+      "signature": "public Map<String, ConnectApi.​ManagedContent​NodeType> nodeTypes"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Managed content type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_content_type.htm"
+}

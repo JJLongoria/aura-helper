@@ -223,21 +223,13 @@ class Utils {
         }
         let keys = Object.keys(xmlValue);
         let onlyAttrs = false;
-        if (keys.length == 1 && keys.includes('attrs'))
+        if (keys.length == 1 && keys.includes('@attrs'))
             onlyAttrs = true;
         if (xmlValue !== undefined && xmlValue !== '' && !onlyAttrs) {
             if (typeof xmlValue === 'string' && !isJSONValue) {
-                xmlValue = xmlValue.split('«!--').join('<!--');
-                xmlValue = xmlValue.split('--»').join('-->');
-                xmlValue = xmlValue.split('&').join('&amp;');
-                xmlValue = xmlValue.split('"').join('&quot;');
-                xmlValue = xmlValue.split('\'').join('&apos;');
-                if (xmlValue.indexOf('<!') === -1) {
-                    xmlValue = xmlValue.split('<').join('&lt;');
-                    xmlValue = xmlValue.split('>').join('&gt;');
-                }
+                xmlValue = Utils.escapeChars(xmlValue);
             }
-            if (attributes.length > 0)
+            if (attributes.length > 0 && !onlyAttrs)
                 return '<' + tagName.trim() + ' ' + attributes.join(' ') + '>' + xmlValue + '</' + tagName.trim() + '>';
             else
                 return '<' + tagName.trim() + '>' + xmlValue + '</' + tagName.trim() + '>';
@@ -247,6 +239,25 @@ class Utils {
             return '<' + tagName.trim() + ' ' + attributes.join(' ') + '/>';
         else
             return '<' + tagName.trim() + '/>';
+    }
+
+    static escapeChars(value) { 
+        value = value.split('&amp;').join('&');
+        value = value.split('&quot;').join('"');
+        value = value.split('&apos;').join('\'');
+        value = value.split('&lt;').join('<');
+        value = value.split('&gt;').join('>');
+
+        value = value.split('«!--').join('<!--');
+        value = value.split('--»').join('-->');
+        value = value.split('&').join('&amp;');
+        value = value.split('"').join('&quot;');
+        value = value.split('\'').join('&apos;');
+        if (value.indexOf('<!') === -1) {
+            value = value.split('<').join('&lt;');
+            value = value.split('>').join('&gt;');
+        }
+        return value;
     }
 
     static getXMLBlock(blockName, data, compress, initIndent) {
@@ -295,6 +306,7 @@ class Utils {
                     return a.toLowerCase().localeCompare(b.toLowerCase());
                 });
                 if (text !== undefined) {
+                    text = Utils.escapeChars(text);
                     lineData.push(text);
                 } else {
                     for (const key of orderedKeys) {

@@ -1,0 +1,34 @@
+{
+  "name": "PaymentGatewayAdapter",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [
+    {
+      "name": "processRequest",
+      "signature": "global commercepayments.GatewayResponse processRequest(commercepayments.PaymentGatewayContext var1)",
+      "description": "The entry point for processing payment requests. Returns the response from the payment gateway.",
+      "params": [
+        {
+          "name": "var1",
+          "datatype": "commercepayments.PaymentGatewayContext",
+          "description": "You can retrieve the request type and the request from the Context object."
+        }
+      ],
+      "datatype": "commercepayments.GatewayResponse"
+    }
+  ],
+  "description": "PaymentGatewayAdapters can implement this interface in order to process requests.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_commercepayments_PaymentGatewayAdapter.htm#apex_interface_commerce_payments_PaymentGatewayAdapter"
+}

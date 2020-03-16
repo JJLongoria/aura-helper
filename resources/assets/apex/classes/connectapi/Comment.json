@@ -1,0 +1,121 @@
+{
+  "name": "Comment",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "description": "If the comment contains an attachment, property value is ContentAttachment. If the comment does not contain",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Body of the comment.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Capabilities associated with the comment, such as any file attachments.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Information about the connected app used to",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Feed element on which the comment is posted.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Feed item on which the comment is posted.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Comment’s 18–character ID.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "If this property is true, the context",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "The first page of likes for the comment.This property has no",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "A message body that describes who likes the comment.This property is null for",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Information about the moderation flags on a comment. If ConnectApi.Features.communityModeration is false, this property is null.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "If the context user liked the comment, this property is a reference to the",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Information about the parent feed-item for this comment.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "The created date formatted as a relative,",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Level of nesting for a comment. 0 indicates a standard",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "ID of the parent comment for a threaded comment.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Type of comment.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Chatter REST API URL to this comment.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Information about the comment author.",
+      "datatype": "",
+      "signature": "public  undefined"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_comment.htm"
+}

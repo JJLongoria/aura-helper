@@ -1,0 +1,27 @@
+{
+  "name": "RecordSummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​AbstractRecordView",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "entityLabel",
+      "description": "Label of the record’s entity.",
+      "datatype": "ConnectApi.​EntityLabel",
+      "signature": "public ConnectApi.​EntityLabel entityLabel"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_rec_sum.htm"
+}

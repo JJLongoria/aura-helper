@@ -1,0 +1,33 @@
+{
+  "name": "LikeSocialPostIntent",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "socialAccountId",
+      "description": "ID of the social account that likes the social",
+      "datatype": "String",
+      "signature": "public String socialAccountId"
+    },
+    {
+      "name": "socialPostId",
+      "description": "ID of the social post to like.",
+      "datatype": "String",
+      "signature": "public String socialPostId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Like intent on a social post.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_like_social_post_intent_output.htm"
+}

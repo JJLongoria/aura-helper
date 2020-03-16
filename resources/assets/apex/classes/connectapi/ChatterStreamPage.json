@@ -1,0 +1,45 @@
+{
+  "name": "ChatterStreamPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageUrl",
+      "description": "URL to the current page of streams.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "items",
+      "description": "List of streams.",
+      "datatype": "List<ConnectApi.​ChatterStream>",
+      "signature": "public List<ConnectApi.​ChatterStream> items"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "total",
+      "description": "Total number of streams in the collection.",
+      "datatype": "Integer",
+      "signature": "public Integer total"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of Chatter feed streams.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_stream_collection.htm"
+}

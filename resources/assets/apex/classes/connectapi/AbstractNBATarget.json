@@ -1,0 +1,27 @@
+{
+  "name": "AbstractNBATarget",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "type",
+      "description": "Type of target.",
+      "datatype": "ConnectApi.​NBATargetType",
+      "signature": "public ConnectApi.​NBATargetType type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A recommendation target of a recommendation strategy.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_n_b_a_target.htm"
+}

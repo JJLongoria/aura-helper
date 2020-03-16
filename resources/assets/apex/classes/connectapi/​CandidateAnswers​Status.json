@@ -1,0 +1,39 @@
+{
+  "name": "​CandidateAnswers​Status",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "hasCandidate​Answers",
+      "description": "Indicates whether candidate answers are available for a",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasCandidate​Answers"
+    },
+    {
+      "name": "hasCandidate​AnswersPublished",
+      "description": "Indicates whether any candidate answers are",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasCandidate​AnswersPublished"
+    },
+    {
+      "name": "hasCandidate​AnswersRated",
+      "description": "Indicates whether any candidate answers are",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasCandidate​AnswersRated"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The status of candidate answers on a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_candidate_answers_status.htm"
+}

@@ -1,0 +1,41 @@
+{
+    "name": "CanvasLifecycleHandler",
+    "namespace": "Canvas",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "",
+    "isInterface": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [
+      {
+        "name": "excludeContextTypes",
+        "signature": "public Set<Canvas.ContextTypeEnum> excludeContextTypes()",
+        "description": "Lets the implementation exclude parts of the CanvasRequest context, if the application does not need it.",
+        "params": [],
+        "datatype": "Set<Canvas.ContextTypeEnum>"
+      },
+      {
+        "name": "onRender",
+        "signature": "public void onRender(Canvas.RenderContext renderContext)",
+        "description": "Invoked when a canvas app is rendered. Provides the ability to set and retrieve canvas application and environment context information during the application render phase.",
+        "params": [
+            {
+                "name": "renderContext",
+                "datatype": "Canvas.RenderContext",
+                "description": ""
+              }
+        ],
+        "datatype": "void"
+      }
+    ],
+    "description": "Implement this interface to control context information and add custom behavior during the application render phase.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_canvas_CanvasLifecycleHandler.htm"
+  }

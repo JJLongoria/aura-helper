@@ -1,0 +1,51 @@
+{
+  "name": "Chatter​ConversationSummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "The ID for the conversation summary",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "latestMessage",
+      "description": "The contents of the latest message",
+      "datatype": "ConnectApi.​Chatter​Message",
+      "signature": "public ConnectApi.​Chatter​Message latestMessage"
+    },
+    {
+      "name": "members",
+      "description": "List of members in the conversation",
+      "datatype": "List<ConnectApi.​User​Summary>",
+      "signature": "public List<ConnectApi.​User​Summary> members"
+    },
+    {
+      "name": "read",
+      "description": "Specifies if the conversation is read (true) or not read (false)",
+      "datatype": "Boolean",
+      "signature": "public Boolean read"
+    },
+    {
+      "name": "url",
+      "description": "Chatter REST API URL to the conversation summary",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_ChatterConversationSummary.htm"
+}

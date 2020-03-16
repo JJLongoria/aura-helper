@@ -1,0 +1,33 @@
+{
+  "name": "BannerCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "motif",
+      "description": "A banner motif.",
+      "datatype": "ConnectApi.Motif",
+      "signature": "public ConnectApi.Motif motif"
+    },
+    {
+      "name": "style",
+      "description": "Decorates a feed item with a color and set of",
+      "datatype": "ConnectApi.BannerStyle",
+      "signature": "public ConnectApi.BannerStyle style"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has a banner motif and style.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_banner_capability.htm"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "TopicImages",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "coverImageUrl",
+      "description": "URL to a topic’s cover image, which appears on the topic page.",
+      "datatype": "String",
+      "signature": "public String coverImageUrl"
+    },
+    {
+      "name": "featuredImageUrl",
+      "description": "URL to a managed topic’s featured image, which appears wherever",
+      "datatype": "String",
+      "signature": "public String featuredImageUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Images associated with a topic.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_topic_images.htm"
+}

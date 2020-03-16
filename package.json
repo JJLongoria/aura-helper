@@ -2,10 +2,11 @@
 	"name": "aura-helper",
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
-	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Code autocomplete tools, Advanced Graphical Interface for powerful tasks, Formatting Apex Code, Views and too much. Aura Helper is one of the necessary applications for Salaesforce developers.",
-	"version": "1.8.0",
+	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions for work with salesforce and is one of the necessary applications for Salaesforce developers.",
+	"version": "1.9.0",
 	"engines": {
-		"vscode": "^1.37.0"
+		"vscode": "^1.37.0",
+		"node": ">=12.0.0"
 	},
 	"icon": "resources/images/icon.png",
 	"repository": {
@@ -16,7 +17,8 @@
 		"Programming Languages",
 		"Snippets",
 		"Formatters",
-		"Other"
+		"Other",
+		"Linters"
 	],
 	"keywords": [
 		"aura",
@@ -37,7 +39,17 @@
 		"metadata management",
 		"local metadata management",
 		"graphic interface",
-		"compress files"
+		"compress files",
+		"git",
+		"version control",
+		"code completion",
+		"completion",
+		"autocomplete",
+		"complete code",
+		"gui",
+		"ui",
+		"metadata",
+		"local metadata"
 	],
 	"activationEvents": [
 		"*"
@@ -64,67 +76,70 @@
 		"configuration": {
 			"title": "Aura Helper",
 			"properties": {
-				"aurahelper.activeAttributeSuggest": {
+				"aurahelper.autoCompletion.activeAttributeSuggest": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for component attributes (v.)"
 				},
-				"aurahelper.activeControllerFunctionsSuggest": {
+				"aurahelper.autoCompletion.activeControllerFunctionsSuggest": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for JavaScript Controller Functions (c.)"
 				},
-				"aurahelper.activeHelperFunctionsSuggest": {
+				"aurahelper.autoCompletion.activeHelperFunctionsSuggest": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for JavaScript Helper Functions (helper.)"
 				},
-				"aurahelper.activeControllerMethodsSuggest": {
+				"aurahelper.autoCompletion.activeControllerMethodsSuggest": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for Apex Controller Methods (c.) on javascript files"
 				},
-				"aurahelper.activeComponentSuggest": {
+				"aurahelper.autoCompletion.activeComponentSuggest": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for show custom components"
 				},
-				"aurahelper.activeComponentCallSuggest": {
+				"aurahelper.autoCompletion.activeComponentCallSuggest": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for show available attributes for standard components when are called"
 				},
-				"aurahelper.activeCustomComponentCallSuggest": {
+				"aurahelper.autoCompletion.activeCustomComponentCallSuggest": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for show available attributes for custom components when are called"
 				},
-				"aurahelper.activeApexCommentSuggestion": {
+				"aurahelper.autoCompletion.activeApexCommentSuggestion": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for create a method or class comment on Apex"
 				},
-				"aurahelper.activeSObjectSuggestion": {
+				"aurahelper.autoCompletion.activeSObjectSuggestion": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for list all Sobjects on your org"
 				},
-				"aurahelper.activeSobjectFieldsSuggestion": {
+				"aurahelper.autoCompletion.activeSobjectFieldsSuggestion": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for the fields of an SObject"
 				},
-				"aurahelper.activeQuerySuggestion": {
+				"aurahelper.autoCompletion.activeQuerySuggestion": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools on queries"
 				},
-				"aurahelper.activeApexSuggestion": {
+				"aurahelper.autoCompletion.activeApexSuggestion": {
 					"type": "boolean",
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for Apex Code (variables, fields, methods...)"
 				},
-				"aurahelper.defaultGUILanguage": {
+
+
+				
+				"aurahelper.graphicUserInterface.defaultGUILanguage": {
 					"type": "string",
 					"default": "English",
 					"description": "Select the default language for the Aura Helper's Advance User Interface",
@@ -137,16 +152,140 @@
 						"Open Spanish GUI by default"
 					]
 				},
-				"aurahelper.useCustomAPIVersion": {
+
+
+				"aurahelper.metadata.compressXMLFilesOnChange": {
+					"type": "boolean",
+					"default": false,
+					"description": "Compres XML Files Automatically when the file has any change (manually or by download)"
+				},
+				"aurahelper.metadata.useCustomAPIVersion": {
 					"type": "boolean",
 					"default": false,
 					"description": "Aura Helper use the SFDX CLI Command Version as Salesforce API Version for download metadata from Org by default. Check this field for use custom API Version"
 				},
-				"aurahelper.CustomAPIVersion":{
-					"type":"integer",
+				"aurahelper.metadata.CustomAPIVersion": {
+					"type": "integer",
 					"default": 0,
 					"description": "Salesforce API Version for use if you select Use Custom API Version setting.",
 					"minimum": 0
+				},
+				"aurahelper.metadata.mergeLocalDataPermissions": {
+					"type": "boolean",
+					"default": false,
+					"description": "When you open a permission set or profile on GUI, Aura Helper can merge your local data with your permissions files for add the metadata that not exists on the file for modify permissions"
+				},
+
+
+
+
+				"aurahelper.apexFormat.punctuation.openCurlyBracketOnNewLine": {
+					"type": "boolean",
+					"default": false,
+					"description": "Add the { symbol on a new line (Not affect to List, Set or Map explicit value declaration)."
+				},
+				"aurahelper.apexFormat.punctuation.addNewLineAfterCloseCurlyBracket": {
+					"type": "boolean",
+					"default": false,
+					"description": "Add new line after { symbol. Only affects on flow control structures (if, else if, for, foreach, while, do...while, catch)."
+				},
+				"aurahelper.apexFormat.punctuation.addWhitespaceAfterCloseCurlyBracket": {
+					"type": "boolean",
+					"default": true,
+					"description": "Add white space after { symbol if 'Add New Line After Close Curly Bracket' is set to false"
+				},
+				"aurahelper.apexFormat.punctuation.addWhitespaceBeforeOpenCurlyBracket": {
+					"type": "boolean",
+					"default": false,
+					"description": "Add a white space before { symbol (Not affect to List, Set or Map explicit value declaration). Only apply if Open Curly Bracket On New Line is set to false"
+				},
+				"aurahelper.apexFormat.punctuation.addWhitespaceBeforeOpenGuardParenthesis": {
+					"type": "boolean",
+					"default": true,
+					"description": "Add a white space before ( symbol for flow control structures (if, else if, for, foreach, while, do...while, catch)"
+				},
+				"aurahelper.apexFormat.punctuation.addWhitespaceAfterOpenGuardParenthesis": {
+					"type": "boolean",
+					"default": false,
+					"description": "Add a white space after ( symbol for flow control structures (if, else if, for, foreach, while, do...while, catch)"
+				},
+				"aurahelper.apexFormat.punctuation.addWhitespaceBeforeCloseGuardParenthesis": {
+					"type": "boolean",
+					"default": false,
+					"description": "Add a white space before ) symbol for flow structures (if, else if, for, foreach, while, do...while, catch)"
+				},
+				"aurahelper.apexFormat.punctuation.addWhiteSpaceAfterComma": {
+					"type": "boolean",
+					"default": true,
+					"description": "Add a white space after , symbol"
+				},
+				"aurahelper.apexFormat.punctuation.addWhitespaceBeforeOpenTriggerEvents": {
+					"type": "boolean",
+					"default": true,
+					"description": "Add a white space before ( symbol on trigger events declaration"
+				},
+				"aurahelper.apexFormat.operator.addWhitespaceBeforeOperator": {
+					"type": "boolean",
+					"default": true,
+					"description": "Add a white space before any arithmetic, logic, assignment or bitwise operators"
+				},
+				"aurahelper.apexFormat.operator.addWhitespaceAfterOperator": {
+					"type": "boolean",
+					"default": true,
+					"description": "Add a white space after any arithmetic, logic, assignment or bitwise operator"
+				},
+				"aurahelper.apexFormat.operator.addWhitespaceAfterOpenParenthesisOperator": {
+					"type": "boolean",
+					"default": false,
+					"description": "Add a white space after ( priority operator"
+				},
+				"aurahelper.apexFormat.operator.addWhitespaceBeforeCloseParenthesisOperator": {
+					"type": "boolean",
+					"default": false,
+					"description": "Add a white space before ) priority operator"
+				},
+				"aurahelper.apexFormat.classMembers.newLinesBetweenCodeBlockMembers": {
+					"type": "integer",
+					"default": 1,
+					"description": "Add the specified new lines between method, enums, inner classes, properties or other code block declaration on classes and interfaces",
+					"minimum": 0
+				},
+				"aurahelper.apexFormat.classMembers.newLinesBetweenGetterAndSetterAccessor": {
+					"type": "integer",
+					"default": 1,
+					"description": "Add the specified new lines between getter and setter accessor on properties declaration",
+					"minimum": 0
+				},
+				"aurahelper.apexFormat.classMembers.newLinesBetweenClassFields": {
+					"type": "integer",
+					"default": 0,
+					"description": "Add the specified new lines between class fields or constants",
+					"minimum": 0
+				},
+				"aurahelper.apexFormat.comment.holdBeforeWhitespacesOnLineComment": {
+					"type": "boolean",
+					"default": true,
+					"description": "Keep the before whitespaces when start comments if not are on new line"
+				},
+				"aurahelper.apexFormat.comment.holdAfterWhitespacesOnLineComment": {
+					"type": "boolean",
+					"default": true,
+					"description": "Keep the after whitespaces when end comments if have any code"
+				},
+				"aurahelper.apexFormat.query.oneClausePerLine": {
+					"type": "boolean",
+					"default": true,
+					"description": "Set every query clause on a new line"
+				},
+				"aurahelper.apexFormat.query.oneProjectionFieldPerLine": {
+					"type": "boolean",
+					"default": true,
+					"description": "Set every query projection field on a new line"
+				},
+				"aurahelper.apexFormat.formatOnSave": {
+					"type": "boolean",
+					"default": true,
+					"description": "Format apex classes on save"
 				}
 			}
 		},
@@ -254,6 +393,18 @@
 			{
 				"command": "aurahelper.metadata.customlabels.open",
 				"title": "AuraHelper: Open Custom Labels on UI"
+			},
+			{
+				"command": "aurahelper.documentation.project.create",
+				"title": "AuraHelper: Create Project Documentation"
+			},
+			{
+				"command": "aurahelper.completion.apex.implement.interface",
+				"title": "AuraHelper: Implement Interfaces"
+			},
+			{
+				"command": "aurahelper.completion.apex.implement.extend",
+				"title": "AuraHelper: Implement Extended Methods"
 			}
 		],
 		"languages": [
@@ -376,6 +527,16 @@
 					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
 					"command": "aurahelper.metadata.permissionset.open",
 					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./classes/ && resourceExtname == .cls",
+					"command": "aurahelper.completion.apex.implement.interface",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./classes/ && resourceExtname == .cls",
+					"command": "aurahelper.completion.apex.implement.extend",
+					"group": "auraHelper@1"
 				}
 			],
 			"view/title": [
@@ -412,24 +573,20 @@
 	},
 	"dependencies": {
 		"fast-xml-parser": "^3.15.0",
-		"unzipper": "^0.10.5",
+		"he": "1.2.0",
 		"unzip": "^0.1.11",
-		"he": "1.2.0"
+		"unzipper": "^0.10.5"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^5.2.6",
-		"@types/node": "^10.12.21",
+		"@types/node": "^12.0.0",
 		"@types/vscode": "^1.37.0",
 		"eslint": "^5.13.0",
 		"glob": "^7.1.4",
 		"mocha": "^6.1.4",
 		"typescript": "^3.3.1",
-		"vscode-test": "^1.0.2",
-		"fast-xml-parser": "^3.15.0",
-		"unzipper": "^0.10.5",
-		"unzip": "^0.1.11",
-		"he": "1.2.0"
+		"vscode-test": "^1.0.2"
 	},
 	"extensionDependencies": [
 		"salesforce.salesforcedx-vscode"

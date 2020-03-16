@@ -1,0 +1,33 @@
+{
+  "name": "UserActivityType",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "Bookmark",
+    "ChatterActivity",
+    "ChatterLike",
+    "Comment",
+    "CompanyVerify",
+    "DownVote",
+    "FeedEntityRead",
+    "FeedRead",
+    "Mute",
+    "Post",
+    "TopicEndorsement",
+    "UpVote"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Type of user activity.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_enums.htm"
+}

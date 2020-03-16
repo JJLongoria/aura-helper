@@ -1,0 +1,27 @@
+{
+  "name": "​DirectMessage​CapabilityInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "subject",
+      "description": "Subject of the direct message.",
+      "datatype": "String",
+      "signature": "public String subject"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Create or update the members of a direct message.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_direct_message_capability.htm"
+}

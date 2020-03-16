@@ -7,8 +7,8 @@ const FileReader = fileSystem.FileReader;
 const FileChecker = fileSystem.FileChecker;
 const FileWriter = fileSystem.FileWriter;
 const Paths = fileSystem.Paths;
-const utils = require('./utils').Utils;
 const applicationContext = require('../main/applicationContext');
+const StrUtils = require('../utils/strUtils');
 
 let batches;
 
@@ -171,17 +171,20 @@ class ApexParser {
             isInterface: false,
             isEnum: false,
             enumValues: [],
-            comment: "",
+            comment: undefined,
             classes: {},
             enums: {},
             fields: [],
             methods: [],
             constructors: [],
+            queries: [],
             posData: undefined,
             parentEnum: undefined,
             parentClass: undefined,
             valueType: undefined,
             keyType: undefined,
+            annotation: undefined,
+            lastToken: undefined,
         };
     }
 
@@ -192,8 +195,8 @@ class ApexParser {
         let index = 0;
         while (index < tokens.length) {
             let token = tokens[index];
-            let nextToken = utils.getNextToken(tokens, index);
-            let lastToken = utils.getLastToken(tokens, index);
+            let nextToken = Utils.getNextToken(tokens, index);
+            let lastToken = Utils.getLastToken(tokens, index);
             if ((token && token.tokenType === TokenType.SQUOTTE && lastToken && lastToken.tokenType !== TokenType.BACKSLASH) && token.startColumn <= position.character) {
                 isOnText = !isOnText;
             }
@@ -207,43 +210,139 @@ class ApexParser {
         };
     }
 
-    static getFileStructure(content, position) {
+    static getFileStructure(content, position, classes, systemMetadata, namespacesMetadata) {
+        classes = classes || applicationContext.userClasses;
+        systemMetadata = systemMetadata || applicationContext.namespacesMetadata['system'];
+        namespacesMetadata = namespacesMetadata || applicationContext.allNamespaces;
         let fileStructure = ApexParser.parse(content, position);
         if (fileStructure.extendsType)
-            fileStructure.extends = ApexParser.processExtends(fileStructure.extendsType);
+            fileStructure.extends = ApexParser.processExtends(fileStructure.extendsType, classes, systemMetadata, namespacesMetadata);
         if (fileStructure.implementTypes && fileStructure.implementTypes.length > 0)
-            fileStructure.implements = ApexParser.processImplements(fileStructure.implementTypes);
+            fileStructure.implements = ApexParser.processImplements(fileStructure.implementTypes, classes, systemMetadata, namespacesMetadata);
         return fileStructure;
     }
 
-    static processExtends(extendType) {
-        let compiledClassesFolder = Paths.getCompiledClassesPath();
-        let file = compiledClassesFolder + '/' + extendType + '.json';
+    static processExtends(extendType, classes, systemMetadata, namespacesMetadata) {
         let struct;
-        if (FileChecker.isExists(file)) {
-            struct = JSON.parse(FileReader.readFileSync(file));
+        let className;
+        if (extendType.indexOf('<') !== -1)
+            extendType = extendType.split('<')[0];
+        if (extendType.indexOf('[') !== -1 && extendType.indexOf(']') !== -1)
+            extendType = "List";
+        if (extendType.indexOf('.') !== -1) {
+            let splits = extendType.split('.');
+            if (splits.length === 2) {
+                let parentClassOrNs = splits[0];
+                className = splits[1];
+                if (classes[parentClassOrNs.toLowerCase()]) {
+                    struct = classes[parentClassOrNs.toLowerCase()]
+                } else if (namespacesMetadata[parentClassOrNs.toLowerCase()]) {
+                    let namespaceMetadata = applicationContext.namespacesMetadata[parentClassOrNs.toLowerCase()];
+                    if (namespaceMetadata[className.toLowerCase()])
+                        struct = namespaceMetadata[className.toLowerCase()];
+                }
+                if (!struct && systemMetadata[parentClassOrNs.toLowerCase()]) {
+                    struct = systemMetadata[parentClassOrNs.toLowerCase()];
+                }
+            } else if (splits.length > 2) {
+                let nsName = splits[0];
+                let parentClassName = splits[1];
+                className = splits[2];
+                if (classes[parentClassName.toLowerCase()]) {
+                    struct = classes[parentClassName.toLowerCase()];
+                } else if (namespacesMetadata[nsName.toLowerCase()]) {
+                    let namespaceMetadata = applicationContext.namespacesMetadata[nsName.toLowerCase()];
+                    if (namespaceMetadata[parentClassName.toLowerCase()])
+                        struct = namespaceMetadata[parentClassName.toLowerCase()];
+                }
+                if (!struct && systemMetadata[className.toLowerCase()]) {
+                    struct = systemMetadata[className.toLowerCase()];
+                }
+            }
+        } else {
+            if (classes[extendType.toLowerCase()]) {
+                struct = classes[extendType.toLowerCase()];
+            } else if (systemMetadata[extendType.toLowerCase()]) {
+                struct = systemMetadata[extendType.toLowerCase()];
+            }
+        }
+        if (struct && className) {
+            Object.keys(struct.classes).forEach(function (key) {
+                let innerClass = struct.classes[key];
+                if (innerClass.name.toLowerCase() === className.toLowerCase()) {
+                    struct = innerClass;
+                }
+            });
+        }
+        if (struct) {
             if (struct.extendsType)
-                struct.extends = ApexParser.processExtends(struct.extendsType);
+                struct.extends = ApexParser.processExtends(struct.extendsType, classes, systemMetadata, namespacesMetadata);
             if (struct.implementTypes && struct.implementTypes.length > 0)
-                struct.implements = ApexParser.processImplements(struct.implementTypes);
+                struct.implements = ApexParser.processImplements(struct.implementTypes, classes, systemMetadata, namespacesMetadata);
         }
         return struct
     }
 
-    static processImplements(implementTypes) {
+    static processImplements(implementTypes, classes, systemMetadata, namespacesMetadata) {
         let implementObjects = [];
-        let compiledClassesFolder = Paths.getCompiledClassesPath();
-        for (const impType of implementTypes) {
-            let file = compiledClassesFolder + '/' + impType + '.json';
+        for (let impType of implementTypes) {
             let struct;
-            if (FileChecker.isExists(file)) {
-                struct = JSON.parse(FileReader.readFileSync(file));
+            let className;
+            if (impType.indexOf('<') !== -1)
+                impType = impType.split('<')[0];
+            if (impType.indexOf('[') !== -1 && impType.indexOf(']') !== -1)
+                impType = "List";
+            if (impType.indexOf('.') !== -1) {
+                let splits = impType.split('.');
+                if (splits.length === 2) {
+                    let parentClassOrNs = splits[0];
+                    className = splits[1];
+                    if (classes[parentClassOrNs.toLowerCase()]) {
+                        struct = classes[parentClassOrNs.toLowerCase()];
+                    } else if (namespacesMetadata[parentClassOrNs.toLowerCase()]) {
+                        let namespaceMetadata = applicationContext.namespacesMetadata[parentClassOrNs.toLowerCase()];
+                        if (namespaceMetadata[className.toLowerCase()])
+                            struct = namespaceMetadata[className.toLowerCase()];
+                    }
+                    if (!struct && systemMetadata[parentClassOrNs.toLowerCase()]) {
+                        struct = systemMetadata[parentClassOrNs.toLowerCase()];
+                    }
+                } else if (splits.length > 2) {
+                    let nsName = splits[0];
+                    let parentClassName = splits[1];
+                    className = splits[2];
+                    if (classes[parentClassName.toLowerCase()]) {
+                        struct = classes[parentClassName.toLowerCase()];
+                    } else if (namespacesMetadata[nsName.toLowerCase()]) {
+                        let namespaceMetadata = applicationContext.namespacesMetadata[nsName.toLowerCase()];
+                        if (namespaceMetadata[parentClassName.toLowerCase()])
+                            struct = namespaceMetadata[parentClassName.toLowerCase()]
+                    }
+                    if (!struct && systemMetadata[parentClassName.toLowerCase()]) {
+                        struct = systemMetadata[parentClassName.toLowerCase()]
+                    }
+                }
+            } else {
+                if (classes[impType.toLowerCase()]) {
+                    struct = classes[impType.toLowerCase()];
+                } else if (systemMetadata[impType.toLowerCase()]) {
+                    struct = systemMetadata[impType.toLowerCase()];
+                }
+            }
+            if (struct && className) {
+                Object.keys(struct.classes).forEach(function (key) {
+                    let innerClass = struct.classes[key];
+                    if (innerClass.name.toLowerCase() === className.toLowerCase()) {
+                        struct = innerClass;
+                    }
+                });
+            }
+            if (struct) {
                 implementObjects.push(struct);
                 if (struct.extendsType)
-                    implementObjects.push(ApexParser.processExtends(struct.extendsType));
+                    implementObjects.push(ApexParser.processExtends(struct.extendsType, classes, systemMetadata, namespacesMetadata));
                 if (struct.implementTypes && struct.implementTypes.length > 0)
-                    implementObjects = implementObjects.concat(ApexParser.processImplements(struct.implementTypes));
-
+                    implementObjects = implementObjects.concat(ApexParser.processImplements(struct.implementTypes, classes, systemMetadata, namespacesMetadata));
             }
         }
         return implementObjects;
@@ -269,20 +368,35 @@ class ApexParser {
         let dataTypeIndexEnd;
         let activeClassName = "";
         let activeEnumName = "";
+        let activeClassNameToLower = "";
+        let activeEnumNameToLower = "";
         let testMethod;
         let transient;
         let positionData;
+        let newLinesFromComment = 0;
         while (index < tokens.length) {
             let lastToken = Utils.getLastToken(tokens, index);
             let token = tokens[index];
             let nextToken = Utils.getNextToken(tokens, index);
             let twoNextToken = Utils.getTwoNextToken(tokens, index);
+            let newLine = lastToken && token && lastToken.line < token.line;
+            if (commentTokens.length > 0 && newLine) {
+                newLinesFromComment++;
+            }
+            if (newLinesFromComment > 1) {
+                newLinesFromComment = 0;
+                commentTokens = [];
+            }
             if (token.tokenType === TokenType.LBRACKET) {
                 bracketIndent++;
             } else if (token.tokenType === TokenType.RBRACKET) {
                 bracketIndent--;
-                if (bracketIndent === 1)
+                if (bracketIndent === 1) {
                     activeClassName = fileStructure.name;
+                    activeClassNameToLower.toLowerCase();
+                }
+                if (bracketIndent === 0)
+                    fileStructure.lastToken = token;
             }
             if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
@@ -316,6 +430,8 @@ class ApexParser {
                 dataTypeIndexStart = index;
             } else if (this.isOnAnnotation(token, nextToken, bracketIndent)) {
                 let data = this.getAnnotation(tokens, index, position);
+                if (commentTokens.length > 0 && newLine)
+                    newLinesFromComment--;
                 index = data.index;
                 annotation = data.annotation;
                 if (data.positionData) {
@@ -426,6 +542,7 @@ class ApexParser {
                 }
             } else if (this.isEnum(token, nextToken)) {
                 activeEnumName = nextToken.content;
+                activeEnumNameToLower = activeEnumName.toLowerCase();
                 let data = this.getEnumValues(tokens, index, position);
                 if (data.positionData)
                     positionData = data.positionData;
@@ -437,7 +554,7 @@ class ApexParser {
                     fileStructure.definitionModifier = definitionModifier;
                     fileStructure.withSharing = withSharing && !inheritedSharing;
                     fileStructure.inheritedSharing = !withSharing && inheritedSharing;
-                    fileStructure.comment = Utils.transformTokensToText(commentTokens);
+                    fileStructure.comment = ApexParser.extractDataFromClassComment(Utils.transformTokensToText(commentTokens));
                     fileStructure.annotation = annotation;
                     fileStructure.line = token.line;
                     fileStructure.column = token.startColumn;
@@ -448,22 +565,36 @@ class ApexParser {
                     fileStructure.parentEnum = undefined;
                     fileStructure.parentClass = undefined;
                 } else if (bracketIndent === 1 && activeClassName && activeClassName === fileStructure.name) {
-                    fileStructure.enums[activeEnumName] = this.getClassBaseStructure();
-                    fileStructure.enums[activeEnumName].name = activeEnumName;
-                    fileStructure.enums[activeEnumName].isEnum = true;
-                    fileStructure.enums[activeEnumName].enumValues = data.enumValues;
-                    fileStructure.enums[activeEnumName].parentEnum = fileStructure.name;
-                    fileStructure.enums[activeEnumName].parentClass = undefined;
-                } else if (bracketIndent === 2 && fileStructure.classes[activeClassName]) {
-                    fileStructure.classes[activeClassName].enums[activeEnumName] = this.getClassBaseStructure();
-                    fileStructure.classes[activeClassName].enums[activeEnumName].name = activeEnumName;
-                    fileStructure.classes[activeClassName].enums[activeEnumName].isEnum = true;
-                    fileStructure.classes[activeClassName].enums[activeEnumName].enumValues = data.enumValues;
-                    fileStructure.classes[activeClassName].enums[activeEnumName].parentEnum = fileStructure.name;
-                    fileStructure.classes[activeClassName].enums[activeEnumName].parentClass = activeClassName;
+                    fileStructure.enums[activeEnumNameToLower] = this.getClassBaseStructure();
+                    fileStructure.enums[activeEnumNameToLower].name = activeEnumName;
+                    fileStructure.enums[activeEnumNameToLower].isEnum = true;
+                    fileStructure.enums[activeEnumNameToLower].enumValues = data.enumValues;
+                    fileStructure.enums[activeEnumNameToLower].parentEnum = fileStructure.name;
+                    fileStructure.enums[activeEnumNameToLower].parentClass = undefined;
+                } else if (bracketIndent === 2 && fileStructure.classes[activeClassNameToLower]) {
+                    fileStructure.classes[activeClassNameToLower].enums[activeEnumNameToLower] = this.getClassBaseStructure();
+                    fileStructure.classes[activeClassNameToLower].enums[activeEnumNameToLower].name = activeEnumName;
+                    fileStructure.classes[activeClassNameToLower].enums[activeEnumNameToLower].isEnum = true;
+                    fileStructure.classes[activeClassNameToLower].enums[activeEnumNameToLower].enumValues = data.enumValues;
+                    fileStructure.classes[activeClassNameToLower].enums[activeEnumNameToLower].parentEnum = fileStructure.name;
+                    fileStructure.classes[activeClassNameToLower].enums[activeEnumNameToLower].parentClass = activeClassName;
                 }
+                commentTokens = [];
+                accessModifier = undefined;
+                definitionModifier = undefined;
+                withSharing = true;
+                inheritedSharing = false;
+                isStatic = undefined;
+                isFinal = undefined;
+                isAbstract = false;
+                isVirtual = false;
+                annotation = undefined;
+                override = undefined;
+                testMethod = undefined;
+                transient = false;
             } else if (this.isClass(token, nextToken) || this.isInterface(token, nextToken)) {
                 activeClassName = nextToken.content;
+                activeClassNameToLower = activeClassName.toLowerCase();
                 if (bracketIndent === 0) {
                     fileStructure.name = activeClassName;
                     fileStructure.isInterface = this.isInterface(token, nextToken);
@@ -471,7 +602,7 @@ class ApexParser {
                     fileStructure.definitionModifier = definitionModifier;
                     fileStructure.withSharing = withSharing && !inheritedSharing;
                     fileStructure.inheritedSharing = !withSharing && inheritedSharing;
-                    fileStructure.comment = Utils.transformTokensToText(commentTokens);
+                    fileStructure.comment = ApexParser.extractDataFromClassComment(Utils.transformTokensToText(commentTokens));
                     fileStructure.annotation = annotation;
                     fileStructure.line = token.line;
                     fileStructure.column = token.startColumn;
@@ -480,21 +611,21 @@ class ApexParser {
                     fileStructure.parentEnum = undefined;
                     fileStructure.parentClass = undefined;
                 } else if (bracketIndent === 1 && !this.isEnum(token, nextToken)) {
-                    fileStructure.classes[activeClassName] = this.getClassBaseStructure();
-                    fileStructure.classes[activeClassName].name = activeClassName;
-                    fileStructure.classes[activeClassName].accessModifier = accessModifier;
-                    fileStructure.classes[activeClassName].definitionModifier = definitionModifier;
-                    fileStructure.classes[activeClassName].withSharing = withSharing && !inheritedSharing;
-                    fileStructure.classes[activeClassName].inheritedSharing = !withSharing && inheritedSharing;
-                    fileStructure.classes[activeClassName].annotation = annotation;
-                    fileStructure.classes[activeClassName].isInterface = this.isInterface(token, nextToken);
-                    fileStructure.classes[activeClassName].comment = Utils.transformTokensToText(commentTokens);
-                    fileStructure.classes[activeClassName].line = token.line;
-                    fileStructure.classes[activeClassName].column = token.startColumn;
-                    fileStructure.classes[activeClassName].abstract = isAbstract;
-                    fileStructure.classes[activeClassName].virtual = token.isVirtual;
-                    fileStructure.classes[activeClassName].parentEnum = undefined;
-                    fileStructure.classes[activeClassName].parentClass = fileStructure.name;
+                    fileStructure.classes[activeClassNameToLower] = this.getClassBaseStructure();
+                    fileStructure.classes[activeClassNameToLower].name = activeClassName;
+                    fileStructure.classes[activeClassNameToLower].accessModifier = accessModifier;
+                    fileStructure.classes[activeClassNameToLower].definitionModifier = definitionModifier;
+                    fileStructure.classes[activeClassNameToLower].withSharing = withSharing && !inheritedSharing;
+                    fileStructure.classes[activeClassNameToLower].inheritedSharing = !withSharing && inheritedSharing;
+                    fileStructure.classes[activeClassNameToLower].annotation = annotation;
+                    fileStructure.classes[activeClassNameToLower].isInterface = this.isInterface(token, nextToken);
+                    fileStructure.classes[activeClassNameToLower].comment = ApexParser.extractDataFromClassComment(Utils.transformTokensToText(commentTokens));
+                    fileStructure.classes[activeClassNameToLower].line = token.line;
+                    fileStructure.classes[activeClassNameToLower].column = token.startColumn;
+                    fileStructure.classes[activeClassNameToLower].abstract = isAbstract;
+                    fileStructure.classes[activeClassNameToLower].virtual = token.isVirtual;
+                    fileStructure.classes[activeClassNameToLower].parentEnum = undefined;
+                    fileStructure.classes[activeClassNameToLower].parentClass = fileStructure.name;
                 }
                 if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
@@ -525,7 +656,7 @@ class ApexParser {
                 if (bracketIndent === 0) {
                     fileStructure.implementTypes = data.interfaces;
                 } else {
-                    fileStructure.classes[activeClassName].implementTypes = data.interfaces;
+                    fileStructure.classes[activeClassNameToLower].implementTypes = data.interfaces;
                 }
             } else if (this.isOnExtends(token)) {
                 let data = this.getExtends(tokens, index, position);
@@ -537,7 +668,7 @@ class ApexParser {
                 if (bracketIndent === 0) {
                     fileStructure.extendsType = data.extendsName;
                 } else {
-                    fileStructure.classes[activeClassName].extendsType = data.extendsName;
+                    fileStructure.classes[activeClassNameToLower].extendsType = data.extendsName;
                 }
             } else if (this.isOnVariableDeclaration(lastToken, token, nextToken, twoNextToken)) {
                 dataTypeIndexEnd = index;
@@ -548,14 +679,15 @@ class ApexParser {
                     column: token.startColumn,
                     accessModifier: accessModifier,
                     definitionModifier: definitionModifier,
-                    isStatic: isStatic,
-                    isFinal: isFinal,
+                    static: isStatic,
+                    final: isFinal,
                     transient: transient,
+                    comment: ApexParser.extractDataFromVarComment(Utils.transformTokensToText(commentTokens))
                 };
                 if (bracketIndent === 1) {
                     fileStructure.fields.push(variable);
-                } else if (bracketIndent === 2 && fileStructure.classes[activeClassName]) {
-                    fileStructure.classes[activeClassName].fields.push(variable);
+                } else if (bracketIndent === 2 && fileStructure.classes[activeClassNameToLower]) {
+                    fileStructure.classes[activeClassNameToLower].fields.push(variable);
                 }
                 if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                     positionData = this.getPositionData(position, token, nextToken);
@@ -577,14 +709,15 @@ class ApexParser {
                                 column: token.startColumn,
                                 accessModifier: accessModifier,
                                 definitionModifier: definitionModifier,
-                                isStatic: isStatic,
-                                isFinal: isFinal,
+                                static: isStatic,
+                                final: isFinal,
                                 transient: transient,
+                                comment: ApexParser.extractDataFromVarComment(Utils.transformTokensToText(commentTokens))
                             };
                             if (bracketIndent === 1) {
                                 fileStructure.fields.push(variable);
-                            } else if (bracketIndent === 2 && fileStructure.classes[activeClassName]) {
-                                fileStructure.classes[activeClassName].fields.push(variable);
+                            } else if (bracketIndent === 2 && fileStructure.classes[activeClassNameToLower]) {
+                                fileStructure.classes[activeClassNameToLower].fields.push(variable);
                             }
                         }
                         if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
@@ -612,15 +745,16 @@ class ApexParser {
 
             } else if (this.isOnConstructorDeclaration(lastToken, token, nextToken, activeClassName)) {
                 let data = this.getMethodData(tokens, undefined, index, position);
-                data.method.comment = Utils.transformTokensToText(commentTokens);
                 data.method.annotation = annotation;
-                data.method.accesssModifier = accessModifier;
+                data.method.accessModifier = accessModifier;
                 data.method.definitionModifier = definitionModifier;
                 data.method.override = override;
                 data.method.testMethod = testMethod;
                 data.method.abstract = isAbstract;
+                data.method.static = isStatic;
                 data.method.virtual = isVirtual;
                 data.method.signature = this.getMethodSignature(data.method);
+                data.method.comment = ApexParser.extractDataFromMethodComment(Utils.transformTokensToText(commentTokens), data.method);
                 if (data.positionData) {
                     positionData = data.positionData;
                     positionData.methodSignature = data.method.signature;
@@ -629,7 +763,7 @@ class ApexParser {
                 if (bracketIndent === 1) {
                     fileStructure.constructors.push(data.method);
                 } else {
-                    fileStructure.classes[activeClassName].constructors.push(data.method);
+                    fileStructure.classes[activeClassNameToLower].constructors.push(data.method);
                 }
                 commentTokens = [];
                 accessModifier = undefined;
@@ -647,15 +781,17 @@ class ApexParser {
             } else if (this.isOnMethodDeclaration(lastToken, token, nextToken)) {
                 dataTypeIndexEnd = index;
                 let data = this.getMethodData(tokens, this.getDataType(dataTypeIndexStart + 1, dataTypeIndexEnd, tokens), index, position);
-                data.method.comment = Utils.transformTokensToText(commentTokens);
                 data.method.annotation = annotation;
-                data.method.accesssModifier = accessModifier;
+                data.method.accessModifier = accessModifier;
                 data.method.definitionModifier = definitionModifier;
                 data.method.override = override;
                 data.method.testMethod = testMethod;
                 data.method.abstract = isAbstract;
+                data.method.static = isStatic;
                 data.method.virtual = isVirtual;
                 data.method.signature = this.getMethodSignature(data.method);
+                data.method.overrideSignature = this.getMethodSignature(data.method, true);
+                data.method.comment = ApexParser.extractDataFromMethodComment(Utils.transformTokensToText(commentTokens), data.method);
                 if (data.positionData) {
                     positionData = data.positionData;
                     positionData.methodSignature = data.method.signature;
@@ -664,7 +800,7 @@ class ApexParser {
                 if (bracketIndent === 1) {
                     fileStructure.methods.push(data.method);
                 } else {
-                    fileStructure.classes[activeClassName].methods.push(data.method);
+                    fileStructure.classes[activeClassNameToLower].methods.push(data.method);
                 }
                 commentTokens = [];
                 accessModifier = undefined;
@@ -679,6 +815,28 @@ class ApexParser {
                 override = undefined;
                 testMethod = undefined;
                 transient = false;
+            } else if (ApexParser.isQuery(token, nextToken)) {
+                let data = ApexParser.getQuery(tokens, index, position);
+                index = data.index;
+                if (bracketIndent === 1) {
+                    fileStructure.queries.push({
+                        query: Utils.transformTokensToText(data.queryTokens).trim(),
+                        line: nextToken.line,
+                        isOnLoop: data.isOnLoop
+                    });
+                } else if (bracketIndent === 2 && activeClassName && fileStructure[activeClassNameToLower]) {
+                    fileStructure[activeClassNameToLower].queries.push({
+                        query: Utils.transformTokensToText(data.queryTokens).trim(),
+                        line: nextToken.line,
+                        isOnLoop: data.isOnLoop
+                    });
+                } else {
+                    fileStructure.queries.push({
+                        query: Utils.transformTokensToText(data.queryTokens).trim(),
+                        line: nextToken.line,
+                        isOnLoop: data.isOnLoop
+                    });
+                }
             }
             index++;
         }
@@ -766,18 +924,22 @@ class ApexParser {
             datatype: datatype,
             params: [],
             declaredVariables: [],
-            bodyTokens: [],
-            comment: "",
+            body: undefined,
+            comment: undefined,
             isConstructor: (datatype === undefined),
             line: token.line,
-            column: token.startColumn
+            column: token.startColumn,
+            queries: [],
+            lastToken: undefined
         };
         let bracketIndent = 0;
         let parenIndent = 0;
+        let aParenIndent = 0;
         let startDatatypeIndex;
         let endDataTypeIndex;
         let endLoop = false;
         let positionData;
+        let bodyTokens = [];
         while (!endLoop) {
             let lastToken = Utils.getLastToken(tokens, index);
             token = tokens[index];
@@ -787,14 +949,20 @@ class ApexParser {
                 bracketIndent++;
             else if (token.tokenType === TokenType.RBRACKET)
                 bracketIndent--;
-            if (bracketIndent === 0)
-                method.bodyTokens.push(token);
+            if (bracketIndent === 0) {
+                bodyTokens.push(token);
+                method.lastToken = token;
+            }
             if (token.tokenType === TokenType.LBRACKET || token.tokenType === TokenType.SEMICOLON || token.tokenType === TokenType.LPAREN)
                 startDatatypeIndex = index;
             if (token.tokenType === TokenType.LPAREN)
                 parenIndent++;
             else if (token.tokenType === TokenType.RPAREN)
                 parenIndent--;
+            if (token.tokenType === TokenType.LABRACKET)
+                aParenIndent++;
+            else if (token.tokenType === TokenType.RABRACKET)
+                aParenIndent--;
 
             if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
@@ -814,10 +982,10 @@ class ApexParser {
                         positionData.isOnMethodParams = true;
                     }
                 }
-                if (token.tokenType === TokenType.COMMA) {
+                if (token.tokenType === TokenType.COMMA && aParenIndent === 0) {
                     startDatatypeIndex = index;
                 }
-                else if (this.isOnMethodParam(token, nextToken)) {
+                else if (this.isOnMethodParam(token, nextToken) && aParenIndent === 0) {
                     endDataTypeIndex = index;
                     let param = {
                         name: token.content,
@@ -835,10 +1003,7 @@ class ApexParser {
                         positionData = data.positionData;
                         positionData.isOnMethod = true;
                     }
-                    let textTokens = data.textTokens;
-                    for (const textToken of textTokens) {
-                        method.bodyTokens.push(textToken);
-                    }
+                    bodyTokens = bodyTokens.concat(data.textTokens);
                 } else if (this.isOnCommentLine(token, nextToken)) {
                     let data = this.getCommentLine(tokens, index, position);
                     index = data.index;
@@ -847,10 +1012,7 @@ class ApexParser {
                         positionData = data.positionData;
                         positionData.isOnMethod = true;
                     }
-                    let commentTokens = data.commenTokens;
-                    for (const commentToken of commentTokens) {
-                        method.bodyTokens.push(commentToken);
-                    }
+                    bodyTokens = bodyTokens.concat(data.commenTokens);
                 } else if (this.isOnCommentBlock(token, nextToken)) {
                     let data = this.getCommentBlock(tokens, index, position);
                     index = data.index;
@@ -859,10 +1021,7 @@ class ApexParser {
                         positionData = data.positionData;
                         positionData.isOnMethod = true;
                     }
-                    let commentTokens = data.commenTokens;
-                    for (const commentToken of commentTokens) {
-                        method.bodyTokens.push(commentToken);
-                    }
+                    bodyTokens = bodyTokens.concat(data.commenTokens);
                 } else if (this.isOnVariableDeclaration(lastToken, token, nextToken, twoNextToken)) {
                     endDataTypeIndex = index;
                     let variable = {
@@ -875,7 +1034,7 @@ class ApexParser {
                     if (nextToken.tokenType === TokenType.COMMA) {
                         index++;
                         token = tokens[index];
-                        while (token.tokenType !== TokenType.SEMICOLON) {
+                        while (token.tokenType !== TokenType.EQUAL && token.tokenType !== TokenType.SEMICOLON) {
                             token = tokens[index];
                             if (token.tokenType === TokenType.IDENTIFIER) {
                                 let variable = {
@@ -887,7 +1046,7 @@ class ApexParser {
                                 method.declaredVariables.push(variable);
                             }
                             index++;
-                            method.bodyTokens.push(token);
+                            bodyTokens.push(token);
                             if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                                 positionData = this.getPositionData(position, token, nextToken);
                                 if (positionData) {
@@ -896,7 +1055,7 @@ class ApexParser {
                             }
                         }
                     } else {
-                        method.bodyTokens.push(token);
+                        bodyTokens.push(token);
                         if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                             positionData = this.getPositionData(position, token, nextToken);
                             if (positionData) {
@@ -904,8 +1063,17 @@ class ApexParser {
                             }
                         }
                     }
+                } else if (ApexParser.isQuery(token, nextToken)) {
+                    let data = ApexParser.getQuery(tokens, index, position);
+                    index = data.index;
+                    method.queries.push({
+                        query: Utils.transformTokensToText(data.queryTokens).trim(),
+                        line: nextToken.line,
+                        isOnLoop: data.isOnLoop
+                    });
+                    bodyTokens = bodyTokens.concat(data.queryTokens);
                 } else {
-                    method.bodyTokens.push(token);
+                    bodyTokens.push(token);
                     if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                         positionData = this.getPositionData(position, token, nextToken);
                         if (positionData) {
@@ -919,6 +1087,8 @@ class ApexParser {
             if (!endLoop)
                 index++;
         }
+        method.body = Utils.transformTokensToText(bodyTokens);
+        method.body = method.body.substring(method.body.indexOf('{'));
         //index--;
         return {
             index: index,
@@ -949,6 +1119,31 @@ class ApexParser {
             index: index,
             positionData: positionData
         };
+    }
+
+    static getQuery(tokens, index, position) {
+        let queryTokens = [];
+        let positionData;
+        let finish = false;
+        while (!finish) {
+            let lastToken = Utils.getLastToken(tokens, index);
+            let token = tokens[index];
+            let nextToken = Utils.getNextToken(tokens, index);
+            queryTokens.push(token);
+            if (token && token.tokenType === TokenType.RSQBRACKET)
+                finish = true;
+            if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
+                positionData = ApexParser.getPositionData(position, token, nextToken);
+            }
+            if (!finish)
+                index++;
+        }
+        return {
+            queryTokens: queryTokens,
+            index: index,
+            positionData: positionData,
+            isOnLoop: false
+        }
     }
 
     static getCommentLine(tokens, index, position) {
@@ -1025,12 +1220,12 @@ class ApexParser {
         let firstAsteriskToken;
         while (!endComment) {
             let token = tokens[index];
-            let nextToken = Utils.getNextToken(tokens, index);
+            nextToken = Utils.getNextToken(tokens, index);
             let lastToken = Utils.getLastToken(tokens, index);
-            if (token.tokenType === TokenType.OPERATOR && token.content === '*' && !firstAsteriskToken)
+            if (token && token.tokenType === TokenType.OPERATOR && token.content === '*' && !firstAsteriskToken)
                 firstAsteriskToken = token;
             commenTokens.push(token);
-            endComment = !ApexParser.isSameToken(firstAsteriskToken, token) && token.tokenType === TokenType.OPERATOR && token.content === '*' && nextToken && nextToken.tokenType === TokenType.OPERATOR && nextToken.content === '/' && token.endColumn === nextToken.startColumn;;
+            endComment = !ApexParser.isSameToken(firstAsteriskToken, token) && token.tokenType === TokenType.OPERATOR && token.content === '*' && nextToken && nextToken.tokenType === TokenType.OPERATOR && nextToken.content === '/' && token.endColumn === nextToken.startColumn;
             if (Utils.isOnPosition(position, lastToken, token, nextToken)) {
                 positionData = this.getPositionData(position, token, nextToken);
             }
@@ -1226,6 +1421,10 @@ class ApexParser {
         return token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'interface' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER;
     }
 
+    static isQuery(token, nextToken) {
+        return token.tokenType === TokenType.LSQBRACKET && nextToken && nextToken.content.toLowerCase() === 'select';
+    }
+
     static parseForComment(content) {
         var data = {
             classData: {
@@ -1416,126 +1615,21 @@ class ApexParser {
         return returnType;
     }
 
-    static getParentData(classStructure, parentClass, filePath) {
-        if (parentClass.extendsType && parentClass.extendsType.length > 0) {
-            let extendsType = parentClass.extendsType;
-            if (extendsType.indexOf('<') !== -1)
-                extendsType = extendsType.split('<')[0];
-            if (extendsType.indexOf('[') !== -1)
-                extendsType = extendsType.split('[')[0];
-            let className = extendsType + ".cls";
-            let systemClassName = extendsType + ".json";
-            let userClassPath = Paths.getBasename(filePath) + "/" + className;
-            let systemClassPath = Paths.getSystemClassesPath() + "/" + systemClassName;
-            if (FileChecker.isExists(userClassPath)) {
-                parentClass = ApexParser.parse(FileReader.readFileSync(userClassPath));
-            } else if (FileChecker.isExists(systemClassPath)) {
-                parentClass = JSON.parse(FileReader.readFileSync(systemClassPath));
-            }
-            classStructure = this.getParentData(classStructure, parentClass, filePath);
-        } else if (parentClass.implements.length > 0) {
-            for (let implement of parentClass.implements) {
-                if (implement.indexOf('<') !== -1)
-                    implement = implement.split('<')[0];
-                if (implement.indexOf('[') !== -1)
-                    implement = implement.split('[')[0];
-                let className = implement + ".cls";
-                let systemClassName = implement + ".json";
-                let userClassPath = Paths.getBasename(filePath) + "/" + className;
-                let systemClassPath = Paths.getSystemClassesPath() + "/" + systemClassName;
-                if (FileChecker.isExists(userClassPath)) {
-                    parentClass = ApexParser.parse(FileReader.readFileSync(userClassPath));
-                } else if (FileChecker.isExists(systemClassPath)) {
-                    parentClass = JSON.parse(FileReader.readFileSync(systemClassPath));
-                }
-                classStructure = this.getParentData(classStructure, parentClass, filePath);
-            }
-        } else {
-            if (parentClass && parentClass.name !== classStructure.name) {
-                if (parentClass.fields && parentClass.fields.length > 0) {
-                    for (const field of parentClass.fields) {
-                        let exists = false;
-                        for (const existingField of classStructure.fields) {
-                            if (field.name.toLowerCase() === existingField.name.toLowerCase()) {
-                                exists = true;
-                                break;
-                            }
-                        }
-                        classStructure.inheritedFields.push(field);
-                        if (!exists)
-                            classStructure.fields.push(field);
-                    }
-                }
-                if (parentClass.methods && parentClass.methods.length > 0) {
-                    for (const method of parentClass.methods) {
-                        let exists = false;
-                        for (const existingMethod of classStructure.methods) {
-                            if (method.signature.toLowerCase() === existingMethod.signature.toLowerCase()) {
-                                exists = true;
-                                break;
-                            }
-                        }
-                        classStructure.inheritedMethods.push(method);
-                        if (!exists)
-                            classStructure.methods.push(method);
-                    }
-                }
-                if (parentClass.constuctors && parentClass.constuctors.length > 0) {
-                    for (const constructor of parentClass.constuctors) {
-                        let exists = false;
-                        for (const existingConstructor of classStructure.constuctors) {
-                            if (constructor.signature.toLowerCase() === existingConstructor.signature.toLowerCase()) {
-                                exists = true;
-                                break;
-                            }
-                        }
-                        classStructure.inheritedConstructors.push(constructor);
-                        if (!exists)
-                            classStructure.constuctors.push(constructor);
-                    }
-                }
-                if (parentClass.classes && parentClass.classes.length > 0) {
-                    Object.keys(parentClass.classes).forEach(function (key) {
-                        let exists = false;
-                        Object.keys(classStructure.classes).forEach(function (existingKey) {
-                            if (key.toLowerCase() === existingKey.toLowerCase())
-                                exists = true;
-                        });
-                        classStructure.inheritedClasses[key] = parentClass.classes[key];
-                        if (!exists)
-                            classStructure.classes[key] = parentClass.classes[key];
-                    });
-                }
-                if (parentClass.enums && parentClass.enums.length > 0) {
-                    Object.keys(parentClass.enums).forEach(function (key) {
-                        let exists = false;
-                        Object.keys(classStructure.enums).forEach(function (existingKey) {
-                            if (key.toLowerCase() === existingKey.toLowerCase())
-                                exists = true;
-                        });
-                        classStructure.inheritedEnums[key] = parentClass.enums[key];
-                        if (!exists)
-                            classStructure.enums[key] = parentClass.enums[key];
-                    });
-                }
-            }
-        }
-        return classStructure;
-    }
-
-    static getMethodSignature(method) {
+    static getMethodSignature(method, override) {
         let signature = "";
         if (method.accessModifier)
             signature += method.accessModifier.toLowerCase() + " ";
         else
             signature += "public ";
+        if (method.definitionModifier)
+            signature += method.definitionModifier.toLowerCase() + " ";
         if (method.isStatic)
             signature += "static ";
         if (method.abstract)
             signature += "abstract ";
         if (method.virtual)
             signature += "virtual ";
-        if (method.override)
+        if (method.override || override)
             signature += "override ";
         if (method.datatype)
             signature += method.datatype + " ";
@@ -1545,7 +1639,7 @@ class ApexParser {
             params.push(param.datatype + " " + param.name);
         }
         signature += params.join(", ");
-        signature += method.name + ")"
+        signature += ")"
         return signature;
     }
 
@@ -1576,7 +1670,9 @@ class ApexParser {
         }
         if (batch)
             batches.push(batch);
-        //await compileClass(classesFolder + '/a_ServiceTriggerHandler.cls', Paths.getCompiledClassesPath());
+        /*await ApexParser.compileClass(classesFolder + '/a_AccountTriggerHandler.cls', Paths.getCompiledClassesPath());
+        if (callback)
+            callback.call(this);*/
         console.time('compileClasses');
         for (const batchToProcess of batches) {
             await ApexParser.compileAllClasses(batchToProcess.records).then(function () {
@@ -1594,7 +1690,7 @@ class ApexParser {
             }).catch(function (error) {
                 applicationContext.outputChannel.appendLine('Error When Getting Apex Classes Info: \n' + error);
                 if (callback)
-                    callback.call(this);
+                    callback.call(this, error);
             });
         }
     }
@@ -1624,12 +1720,12 @@ class ApexParser {
                         reject(errorRead);
                     } else {
                         try {
-                            let fileStructure = ApexParser.parse(data.toString());
+                            let fileStructure = ApexParser.getFileStructure(data.toString());
                             FileWriter.createFile(targetFolder + '\\' + fileStructure.name + '.json', JSON.stringify(fileStructure, null, 2), function (path, errorWrite) {
                                 if (errorWrite)
                                     reject(errorWrite);
                                 else
-                                    resolve();
+                                    resolve(fileStructure);
                             });
                         } catch (errorParse) {
                             reject(errorParse);
@@ -1640,6 +1736,477 @@ class ApexParser {
                 reject(error);
             }
         });
+    }
+
+    static extractDataFromVarComment(comment) {
+        let commentLines = comment.split('\n');
+        let linesTmp = [];
+        for (let lineTmp of commentLines) {
+            lineTmp = lineTmp.trim();
+            if (lineTmp.indexOf('/**') !== -1)
+                lineTmp = StrUtils.replace(lineTmp, '/**', '');
+            if (lineTmp.indexOf('*/') !== -1)
+                lineTmp = StrUtils.replace(lineTmp, '*/', '');
+            if (lineTmp.startsWith('*'))
+                lineTmp = lineTmp.substring(1);
+            if (lineTmp.startsWith('//'))
+                lineTmp = lineTmp.substring(2);
+            linesTmp.push(lineTmp.trim());
+        }
+        return linesTmp.join('\n');
+    }
+
+    static extractDataFromClassComment(comment) {
+        let commentLines = comment.split('\n');
+        let linesTmp = [];
+        for (let lineTmp of commentLines) {
+            lineTmp = lineTmp.trim();
+            if (lineTmp.indexOf('/**') !== -1)
+                lineTmp = StrUtils.replace(lineTmp, '/**', '');
+            if (lineTmp.indexOf('*/') !== -1)
+                lineTmp = StrUtils.replace(lineTmp, '*/', '');
+            if (lineTmp.startsWith('*'))
+                lineTmp = lineTmp.substring(1);
+            linesTmp.push(lineTmp.trim());
+        }
+        return linesTmp.join('\n');
+    }
+
+    static extractDataFromMethodComment(comment, methodData) {
+        let commentData = {
+            description: "",
+            params: undefined,
+            return: undefined,
+        };
+        let linesTmp = [];
+        let commentLines = comment.split('\n');
+        for (let lineTmp of commentLines) {
+            lineTmp = lineTmp.trim();
+            if (lineTmp.indexOf('/**') !== -1)
+                lineTmp = StrUtils.replace(lineTmp, '/**', '');
+            if (lineTmp.indexOf('*/') !== -1)
+                lineTmp = StrUtils.replace(lineTmp, '*/', '');
+            if (lineTmp.startsWith('*'))
+                lineTmp = lineTmp.substring(1);
+            linesTmp.push(lineTmp.trim());
+        }
+        commentLines = linesTmp;
+        let apexCommentTemplate = JSON.parse(FileReader.readFileSync(Paths.getApexCommentUserTemplatePath()));
+        let paramRegexp = ApexParser.getParamRegexp(apexCommentTemplate.methodComment.paramBody);
+        let returnRegexp = ApexParser.getReturnRegexp(apexCommentTemplate.methodComment.returnBody);
+        let params = [];
+        let returnData = '';
+        let description = '';
+        let startReturn = false;
+        let startParams = false;
+        let param;
+        for (const line of commentLines) {
+            let paramMatch = paramRegexp.exec(line);
+            let returnMatch = returnRegexp.exec(line);
+            if (paramMatch) {
+                if (param) {
+                    params.push(param.trim());
+                    param = undefined;
+                }
+                param = paramMatch[0].trim();
+                startParams = true;
+                startReturn = false;
+            } else if (returnMatch) {
+                if (param) {
+                    params.push(param.trim());
+                    param = undefined;
+                }
+                returnData = returnMatch[0].trim();
+                startReturn = true;
+                startParams = false;
+            } else {
+                if (startReturn && line.trim().length > 0) {
+                    if (returnData.length > 0)
+                        returnData += '\n' + line.trim();
+                    else
+                        returnData += line.trim();
+                } else if (startParams && line.trim().length > 0) {
+                    if (param.length > 0)
+                        param += '\n' + line.trim();
+                    else
+                        param += line.trim();
+                } else if (line.trim().length > 0) {
+                    if (description.length > 0)
+                        description += '\n' + line.trim();
+                }
+            }
+        }
+        if (param) {
+            params.push(param.trim());
+            param = undefined;
+        }
+        commentData.description = description.trim();
+        let processedParams = ApexParser.processParams(params, apexCommentTemplate.methodComment.paramBody);
+        let processedReturn = ApexParser.processParams(params, apexCommentTemplate.methodComment.paramBody);
+        if (processedParams) {
+            commentData.params = ApexParser.mapParamsWithCommentData(processedParams, methodData.params);
+        }
+        if (processedReturn) {
+            commentData.return = ApexParser.mapReturnWithCommentData(processedReturn, methodData.datatype);
+        }
+        return commentData;
+    }
+
+    static mapParamsWithCommentData(processedParams, methodParams) {
+        let commentParams = {};
+        for (const processedParam of processedParams) {
+            let methodParam;
+            if (processedParam['{!param.name}']) {
+                methodParam = ApexParser.findParam(processedParam['{!param.name}'], methodParams);
+            } else {
+                methodParam = methodParams[0];
+            }
+            if (methodParam) {
+                commentParams[methodParam.name] = {
+                    name: methodParam.name,
+                    type: methodParam.datatype,
+                    description: processedParam['{!param.description}']
+                };
+            }
+        }
+        return commentParams;
+    }
+
+    static findParam(paramName, methodParams) {
+        for (const param of methodParams) {
+            if (param.name === paramName)
+                return param;
+        }
+        return undefined;
+    }
+
+    static mapReturnWithCommentData(processedReturn, returnDataType) {
+        let returnData = {
+            type: returnDataType,
+            description: processedReturn['{!return.description}']
+        };
+        return returnData;
+    }
+
+    static processParams(params, paramTemplate) {
+        if (params.length === 0)
+            return undefined;
+        let returnParams = [];
+        let templateSplits = paramTemplate.split(/({!param.name}|{!param.type}|{!param.description})+/);
+        let partsWithoutData = [];
+        for (let split of templateSplits) {
+            if (split !== '{!param.name}' && split !== '{!param.type}' && split !== '{!param.description}' && split.length > 0) {
+                split = StrUtils.replace(split, '(', '\\(');
+                split = StrUtils.replace(split, ')', '\\)');
+                split = StrUtils.replace(split, '/', '\\/');
+                split = StrUtils.replace(split, ':', '\\:');
+                partsWithoutData.push(split);
+            }
+        }
+        for (const param of params) {
+            let paramSplits = param.split(new RegExp('(' + partsWithoutData.join('|') + ')+'));
+            let filterData = paramSplits.filter(n => !templateSplits.includes(n) && n.length > 0);
+            let filterTemplates = templateSplits.filter(n => !paramSplits.includes(n) && n.length > 0);
+            let commentData = {};
+            let index = 0;
+            for (const filterTemp of filterTemplates) {
+                commentData[filterTemp] = filterData[index];
+                index++;
+            }
+            returnParams.push(commentData);
+        }
+        return returnParams;
+    }
+
+    static processReturn(returnData, returnTemplate) {
+        if (!returnData || returnData.length === 0)
+            return undefined;
+        let templateSplits = returnTemplate.split(/({!return.type}|{!return.description})+/);
+        let partsWithoutData = [];
+        for (let split of templateSplits) {
+            if (split !== '{!return.type}' && split !== '{!return.description}' && split.length > 0) {
+                split = StrUtils.replace(split, '(', '\\(');
+                split = StrUtils.replace(split, ')', '\\)');
+                split = StrUtils.replace(split, '/', '\\/');
+                split = StrUtils.replace(split, ':', '\\:');
+                partsWithoutData.push(split);
+            }
+        }
+        let paramSplits = returnData.split(new RegExp('(' + partsWithoutData.join('|') + ')+'));
+        let filterData = paramSplits.filter(n => !templateSplits.includes(n));
+        let filterTemplates = templateSplits.filter(n => !paramSplits.includes(n) && n.length > 0);
+        let returnedData = {};
+        let index = 0;
+        for (const filterTemp of filterTemplates) {
+            returnedData[filterTemp] = filterData[index];
+            index++;
+        }
+        return filterData;
+    }
+
+    static getParamRegexp(paramBody) {
+        let paramRegexp = StrUtils.replace(paramBody, '(', '\\(');
+        paramRegexp = StrUtils.replace(paramRegexp, ')', '\\)');
+        paramRegexp = StrUtils.replace(paramRegexp, '/', '\\/');
+        paramRegexp = StrUtils.replace(paramRegexp, ':', '\\:');
+        paramRegexp = StrUtils.replace(paramRegexp, '{!param.name}', '([a-zA-Z0-9À-ÿ]|_|–|\\[|\\]|<|>|\\.)+');
+        paramRegexp = StrUtils.replace(paramRegexp, '{!param.type}', '([a-zA-Z0-9À-ÿ]|_|–|\\[|\\]|<|>|\\.|\\s*|\\,)+');
+        paramRegexp = StrUtils.replace(paramRegexp, '{!param.description}', '([a-zA-Z0-9À-ÿ]|_|–|\\[|\\]|<|>|\\.|\\s*|.*)*');
+        return new RegExp(paramRegexp, "gmi");
+    }
+
+    static getReturnRegexp(paramBody) {
+        let paramRegexp = StrUtils.replace(paramBody, '(', '\\(');
+        paramRegexp = StrUtils.replace(paramRegexp, ')', '\\)');
+        paramRegexp = StrUtils.replace(paramRegexp, '/', '\\/');
+        paramRegexp = StrUtils.replace(paramRegexp, ':', '\\:');
+        paramRegexp = StrUtils.replace(paramRegexp, '{!return.type}', '([a-zA-Z0-9À-ÿ]|_|–|\\[|\\]|<|>|\\.|\\s*|\\,)+');
+        paramRegexp = StrUtils.replace(paramRegexp, '{!return.description}', '([a-zA-Z0-9À-ÿ]|_|–|\\[|\\]|<|>|\\.|\\s*|.*)*');
+        return new RegExp(paramRegexp, "gmi");
+    }
+
+    static availableCommentTags() {
+        return [
+            '{!method.description}',
+            '{!method.params}',
+            '{!method.return}',
+            '{!class.description}',
+            '{!param.name}',
+            '{!param.type}',
+            '{!param.description}',
+            '{!return.type}',
+            '{!return.description}'
+        ];
+    }
+/*
+    static analizeMethod(method) {
+        let bracketIndent = 0;
+        let parenIndent = 0;
+        let aParenIndent = 0;
+        let node = new Node(method.name, 'method');
+        node.setStartLine(method.line);
+        node.setStartColumn(method.startColumn);
+        let nodesMap = {};
+        nodesMap[node.getId()] = node;
+        if (method.body && method.body.length > 0) {
+            let tokens = Tokenizer.tokenize(method.body);
+            let index = 0;
+            while (index < tokens.length) {
+                let lastToken = Utils.getLastToken(tokens, index);
+                let token = tokens[index];
+                let nextToken = Utils.getNextToken(tokens, index);
+                let twoNextToken = Utils.getTwoNextToken(tokens, index);
+                let newLine = token && lastToken && token.line > lastToken.line;
+                if (token.tokenType === TokenType.SEMICOLON) {
+                    if (node.isOneLineBlock && node.type === 'block') {
+                        node = nodesMap[node.getParentId()];
+                    }
+                }
+                if (token.tokenType === TokenType.LBRACKET) {
+                    node.isOneLineBlock = false;
+                    bracketIndent++;
+                } else if (token.tokenType === TokenType.RBRACKET) {
+                    if (node.getParentId() !== undefined)
+                        node = nodesMap[node.getParentId()];
+                    bracketIndent--;
+                }
+                if (token.tokenType === TokenType.LPAREN) {
+                    parenIndent++;
+                } else if (token.tokenType === TokenType.RPAREN) {
+                    parenIndent--;
+                }
+                if (token.tokenType === TokenType.LABRACKET) {
+                    aParenIndent++;
+                } else if (token.tokenType === TokenType.RABRACKET) {
+                    aParenIndent--;
+                }
+                if (this.isOnText(lastToken, token, nextToken)) {
+                    let data = this.getText(tokens, index);
+                    index = data.index;
+                } else if (this.isOnCommentLine(token, nextToken)) {
+                    let data = this.getCommentLine(tokens, index);
+                    index = data.index;
+                } else if (this.isOnCommentBlock(token, nextToken)) {
+                    let data = this.getCommentBlock(tokens, index);
+                    index = data.index;
+                } else if (this.isOnVariableDeclaration(lastToken, token, nextToken, twoNextToken)) {
+                    let newNode = new Node(token.content.toLowerCase(), 'varDeclaration');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    node.addChild(newNode);
+                    nodesMap[newNode.getId()] = newNode;
+                    if (nextToken.tokenType === TokenType.COMMA) {
+                        index++;
+                        token = tokens[index];
+                        while (token.tokenType !== TokenType.EQUAL && token.tokenType !== TokenType.SEMICOLON) {
+                            token = tokens[index];
+                            if (token.tokenType === TokenType.IDENTIFIER) {
+                                let newNode = new Node(token.content.toLowerCase(), 'varDeclaration');
+                                newNode.setStartColumn(token.startColumn);
+                                newNode.setStartLine(token.line);
+                                newNode.setParentId(node.getId());
+                                node.addChild(newNode);
+                                nodesMap[newNode.getId()] = newNode;
+                            }
+                            index++;
+                        }
+                    }
+                } else if (this.isAssignation(token, nextToken)) {
+                    let newNode = new Node(token.content.toLowerCase(), 'assign');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    newNode.setLeftOperandNode(node.getLastChildId());
+                    node.addChild(newNode);
+                    nodesMap[newNode.getId()] = newNode;
+                    node = newNode;
+                } else if (ApexParser.isQuery(token, nextToken)) {
+                    let data = ApexParser.getQuery(tokens, index);
+                    index = data.index;
+                    let newNode = new Node('query', 'query');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    node.addChild(newNode);
+                    nodesMap[newNode.getId()] = newNode;
+                }  else if (ApexParser.isLoop(token, nextToken) && !(token.content.toLowerCase() === 'while' && node.name === 'do')) {
+                    let newNode = new Node(token.content.toLowerCase(), 'loop');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    node.addChild(newNode);
+                    node = newNode;
+                    nodesMap[node.getId()] = node;
+                } else if (ApexParser.isIfStatement(token, nextToken)) {
+                    let newNode = new Node(token.content.toLowerCase(), 'block');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    node.addChild(newNode);
+                    node = newNode;
+                    nodesMap[node.getId()] = node;
+                } else if (ApexParser.isIfStatement(token, nextToken)) {
+                    let newNode = new Node(token.content.toLowerCase(), 'block');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    node.addChild(newNode);
+                    node = newNode;
+                    nodesMap[node.getId()] = node;
+                } else if (ApexParser.isElseIfStatement(token, nextToken)) {
+                    let newNode = new Node('elseif', 'block');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    newNode.setMasterNode(node.getLastChildId());
+                    node.addChild(newNode);
+                    node = newNode;
+                    nodesMap[node.getId()] = node;
+                } else if (ApexParser.isElseStatement(token, nextToken)) {
+                    let newNode = new Node(token.content.toLowerCase(), 'block');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    newNode.setMasterNode(node.getLastChildId());
+                    node.addChild(newNode);
+                    node = newNode;
+                    nodesMap[node.getId()] = node;
+                } else if (ApexParser.isTryStatement(token, nextToken)) {
+                    let newNode = new Node(token.content.toLowerCase(), 'block');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    node.addChild(newNode);
+                    node = newNode;
+                    nodesMap[node.getId()] = node;
+                } else if (ApexParser.isCatchStatement(token, nextToken)) {
+                    let newNode = new Node(token.content.toLowerCase(), 'block');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    newNode.setMasterNode(node.getLastChildId());
+                    node.addChild(newNode);
+                    node = newNode;
+                    nodesMap[node.getId()] = node;
+                } else if (ApexParser.isFinallyStatement(token, nextToken)) {
+                    let newNode = new Node(token.content.toLowerCase(), 'block');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    node.addChild(newNode);
+                    node = newNode;
+                    nodesMap[node.getId()] = node;
+                } else if (ApexParser.isThrow(token, nextToken)) {
+                    let newNode = new Node(token.content.toLowerCase(), 'statement');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    node.addChild(newNode);
+                    nodesMap[node.getId()] = node;
+                } else if (ApexParser.isBreak(token, nextToken)) {
+                    let newNode = new Node(token.content.toLowerCase(), 'break');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    node.addChild(newNode);
+                    nodesMap[newNode.getId()] = newNode;
+                } else if (ApexParser.isContinue(token, nextToken)) {
+                    let newNode = new Node(token.content.toLowerCase(), 'continue');
+                    newNode.setStartColumn(token.startColumn);
+                    newNode.setStartLine(token.line);
+                    newNode.setParentId(node.getId());
+                    node.addChild(newNode);
+                    nodesMap[newNode.getId()] = newNode;
+                }
+                index++;
+            }
+        }
+        logger.logJSON('mainNode', node);
+    }*/
+
+    static isLoop(token, nextToken) {
+        return token && ((token.tokenType === TokenType.IDENTIFIER && (token.content.toLowerCase() === 'for' || token.content.toLowerCase() === 'while') && nextToken && nextToken.tokenType === TokenType.LPAREN) || (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'do' && nextToken && nextToken.tokenType === TokenType.LBRACKET))
+    }
+
+    static isIfStatement(token, nextToken) {
+        return token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'if' && nextToken && nextToken.tokenType === TokenType.LPAREN;
+    }
+
+    static isElseIfStatement(token, nextToken) {
+        return token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'else' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER && nextToken.content.toLowerCase() === 'if';
+    }
+
+    static isElseStatement(token, nextToken) {
+        return token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'else' && nextToken && nextToken.content.toLowerCase() !== 'if';
+    }
+
+    static isTryStatement(token, nextToken) {
+        return token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'try' && nextToken && nextToken.tokenType === TokenType.LBRACKET;
+    }
+
+    static isCatchStatement(token, nextToken) {
+        return token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'catch' && nextToken && nextToken.tokenType === TokenType.LPAREN;
+    }
+
+    static isFinallyStatement(token, nextToken) {
+        return token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'finally' && nextToken && nextToken.tokenType === TokenType.LBRACKET;
+    }
+
+    static isThrow(token, nextToken) {
+        return token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'throw' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER;
+    }
+
+    static isBreak(token, nextToken) {
+        return token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'break' && nextToken && nextToken.tokenType === TokenType.SEMICOLON;
+    }
+
+    static isContinue(token, nextToken) {
+        return token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'continue' && nextToken && nextToken.tokenType === TokenType.SEMICOLON;
+    }
+
+    static isAssignation(token, nextToken) {
+        return token && token.tokenType === TokenType.EQUAL && nextToken && nextToken.tokenType !== TokenType.EQUAL;
     }
 }
 exports.ApexParser = ApexParser;

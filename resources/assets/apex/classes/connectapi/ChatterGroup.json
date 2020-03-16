@@ -1,0 +1,135 @@
+{
+  "name": "ChatterGroup",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​ActorWithId",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "additional​Label",
+      "description": "An extra label for the group, for example, “Archived,”",
+      "datatype": "String",
+      "signature": "public String additional​Label"
+    },
+    {
+      "name": "announcement",
+      "description": "",
+      "datatype": "ConnectApi.​Announcement",
+      "signature": "public ConnectApi.​Announcement announcement"
+    },
+    {
+      "name": "bannerPhoto",
+      "description": "The banner photo for the group.",
+      "datatype": "ConnectApi.​BannerPhoto",
+      "signature": "public ConnectApi.​BannerPhoto bannerPhoto"
+    },
+    {
+      "name": "canHave​ChatterGuests",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean canHave​ChatterGuests"
+    },
+    {
+      "name": "community",
+      "description": "Information about the community the group is in.",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference community"
+    },
+    {
+      "name": "description",
+      "description": "Group’s description.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "emailTo​ChatterAddress",
+      "description": "Group’s email address for posting to",
+      "datatype": "String",
+      "signature": "public String emailTo​ChatterAddress"
+    },
+    {
+      "name": "isArchived",
+      "description": "Specifies whether the group is archived",
+      "datatype": "Boolean",
+      "signature": "public Boolean isArchived"
+    },
+    {
+      "name": "isAuto​ArchiveDisabled",
+      "description": "Specifies whether automatic",
+      "datatype": "Boolean",
+      "signature": "public Boolean isAuto​ArchiveDisabled"
+    },
+    {
+      "name": "isBroadcast",
+      "description": "Specifies whether the group is a broadcast group",
+      "datatype": "Boolean",
+      "signature": "public Boolean isBroadcast"
+    },
+    {
+      "name": "lastFeedElement​PostDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastFeedElement​PostDate"
+    },
+    {
+      "name": "lastFeedItem​PostDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastFeedItem​PostDate"
+    },
+    {
+      "name": "memberCount",
+      "description": "Total number of group members.",
+      "datatype": "Integer",
+      "signature": "public Integer memberCount"
+    },
+    {
+      "name": "myRole",
+      "description": "Type of membership the user has with the",
+      "datatype": "ConnectApi.​GroupMembership​Type\r          Enum",
+      "signature": "public ConnectApi.​GroupMembership​Type\r          Enum myRole"
+    },
+    {
+      "name": "mySubscription",
+      "description": "If the context user is a member of this group, contains information about that",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference mySubscription"
+    },
+    {
+      "name": "name",
+      "description": "Name of the group.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "owner",
+      "description": "Information about the owner of the group.",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary owner"
+    },
+    {
+      "name": "photo",
+      "description": "Information about the group photo.",
+      "datatype": "ConnectApi.Photo",
+      "signature": "public ConnectApi.Photo photo"
+    },
+    {
+      "name": "visibility",
+      "description": "Group visibility type. Valid values are:",
+      "datatype": "ConnectApi.​GroupVisibility​Type\r          Enum",
+      "signature": "public ConnectApi.​GroupVisibility​Type\r          Enum visibility"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_chatter_group.htm"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "FeedEntityShare​CapabilityInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "feedEntityId",
+      "description": "ID of the feed entity to share with the feed post or comment.",
+      "datatype": "String",
+      "signature": "public String feedEntityId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Share a feed entity with a feed post or comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_feed_entity_share_capability.htm"
+}

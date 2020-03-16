@@ -1,0 +1,51 @@
+{
+  "name": "DatacloudOrder",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "entityUrl",
+      "description": "URL to a list of contacts or companies that were purchased with this",
+      "datatype": "String",
+      "signature": "public String entityUrl"
+    },
+    {
+      "name": "id",
+      "description": "Unique number that’s used to track your order information.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "purchaseCount",
+      "description": "Number of contacts or companies that were purchased for this",
+      "datatype": "Integer",
+      "signature": "public Integer purchaseCount"
+    },
+    {
+      "name": "purchaseDate",
+      "description": "Purchase date for this order.",
+      "datatype": "Datetime",
+      "signature": "public Datetime purchaseDate"
+    },
+    {
+      "name": "url",
+      "description": "GET request URL for this order.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Represents a Datacloud order.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_datacloud_order.htm"
+}

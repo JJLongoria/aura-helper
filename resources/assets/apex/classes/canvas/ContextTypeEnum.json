@@ -1,0 +1,24 @@
+{
+    "name": "ContextTypeEnum",
+    "namespace": "Canvas",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": true,
+    "enumValues": [
+      "ORGANIZATION",
+      "RECORD_DETAIL",
+      "USER"
+    ],
+    "extendsType": "",
+    "isInterface": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [],
+    "description": "Describes context data that can be excluded from canvas app context data. You specify which context types to exclude in the excludeContextTypes() method in your CanvasLifecycleHandler implementation",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_canvas_ContextTypeEnum.htm"
+  }

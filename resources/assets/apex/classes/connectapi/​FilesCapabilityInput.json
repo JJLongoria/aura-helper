@@ -1,0 +1,27 @@
+{
+  "name": "​FilesCapabilityInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "items",
+      "description": "List of file IDs and operations to be carried out on those files.",
+      "datatype": "List<ConnectApi.​FileIdInput>",
+      "signature": "public List<ConnectApi.​FileIdInput> items"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Attach up to 10 files that have already been uploaded or remove one or more files from a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_multiple_content_capability.htm"
+}

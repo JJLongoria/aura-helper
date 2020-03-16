@@ -1,0 +1,39 @@
+{
+  "name": "​BannerPhoto",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "bannerPhotoUrl",
+      "description": "URL to the banner photo in a large format. This URL is available",
+      "datatype": "String",
+      "signature": "public String bannerPhotoUrl"
+    },
+    {
+      "name": "bannerPhoto​VersionId",
+      "description": "18-character version ID of the banner photo.",
+      "datatype": "String",
+      "signature": "public String bannerPhoto​VersionId"
+    },
+    {
+      "name": "url",
+      "description": "URL to the banner photo.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A banner photo.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_banner_photo.htm"
+}

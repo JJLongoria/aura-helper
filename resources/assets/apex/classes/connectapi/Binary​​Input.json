@@ -1,0 +1,39 @@
+{
+  "name": "Binary​​Input",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "blob",
+      "description": "Contents of the file to be used for input",
+      "datatype": "Blob",
+      "signature": "public Blob blob"
+    },
+    {
+      "name": "contentType",
+      "description": "MIME type description of the content, such as image/jpg",
+      "datatype": "String",
+      "signature": "public String contentType"
+    },
+    {
+      "name": "filename",
+      "description": "File name with the file extension, such as UserPhoto.jpg",
+      "datatype": "String",
+      "signature": "public String filename"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_binary.htm"
+}

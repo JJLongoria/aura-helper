@@ -1,0 +1,39 @@
+{
+  "name": "AudienceTarget",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "audienceName",
+      "description": "Name of the audience assigned to the target.",
+      "datatype": "String",
+      "signature": "public String audienceName"
+    },
+    {
+      "name": "id",
+      "description": "ID of the audience assigned to the target.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "url",
+      "description": "URL to the audience assigned to the target.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Personalization audience assigned to a target.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_audience_target.htm"
+}

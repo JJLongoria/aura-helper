@@ -1,0 +1,39 @@
+{
+  "name": "FeedModifiedInfo",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isModified",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isModified"
+    },
+    {
+      "name": "isModifiedToken",
+      "description": "An opaque polling token to use in the since",
+      "datatype": "String",
+      "signature": "public String isModifiedToken"
+    },
+    {
+      "name": "nextPollUrl",
+      "description": "A Chatter REST API URL with a since request",
+      "datatype": "String",
+      "signature": "public String nextPollUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_modified_info.htm"
+}

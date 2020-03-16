@@ -1,0 +1,51 @@
+{
+  "name": "PhotoInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "cropSize",
+      "description": "The length, in pixels, of any edge of the crop square.",
+      "datatype": "Integer",
+      "signature": "public Integer cropSize"
+    },
+    {
+      "name": "cropX",
+      "description": "The position X, in pixels, from the left edge of the image",
+      "datatype": "Integer",
+      "signature": "public Integer cropX"
+    },
+    {
+      "name": "cropY",
+      "description": "The position Y, in pixels, from the top edge of the image to",
+      "datatype": "Integer",
+      "signature": "public Integer cropY"
+    },
+    {
+      "name": "fileId",
+      "description": "18 character ID of an existing file. The key prefix must be 069 and the file size must be",
+      "datatype": "String",
+      "signature": "public String fileId"
+    },
+    {
+      "name": "versionNumber",
+      "description": "Version number of the existing content. If not provided, the",
+      "datatype": "Integer",
+      "signature": "public Integer versionNumber"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_PhotoInput.htm"
+}

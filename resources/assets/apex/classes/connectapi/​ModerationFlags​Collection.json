@@ -1,0 +1,57 @@
+{
+  "name": "​ModerationFlags​Collection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageToken",
+      "description": "Token identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageToken"
+    },
+    {
+      "name": "currentPageUrl",
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "flags",
+      "description": "List of flag details.",
+      "datatype": "List<ConnectApi.​ModerationFlag​ItemDetail>",
+      "signature": "public List<ConnectApi.​ModerationFlag​ItemDetail> flags"
+    },
+    {
+      "name": "nextPageToken",
+      "description": "Token identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageToken"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "pageSize",
+      "description": "Number of items per page.",
+      "datatype": "Integer",
+      "signature": "public Integer pageSize"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of flags on a feed item, comment, or file.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_moderation_flags_collection.htm"
+}

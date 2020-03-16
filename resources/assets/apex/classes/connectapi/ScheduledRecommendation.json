@@ -1,0 +1,63 @@
+{
+  "name": "ScheduledRecommendation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "channel",
+      "description": "A way to tie custom recommendations",
+      "datatype": "ConnectApi.​Recommendation​Channel",
+      "signature": "public ConnectApi.​Recommendation​Channel channel"
+    },
+    {
+      "name": "enabled",
+      "description": "Indicates whether scheduling is enabled. If true, the custom recommendation is enabled and",
+      "datatype": "Boolean",
+      "signature": "public Boolean enabled"
+    },
+    {
+      "name": "id",
+      "description": "18-character ID of the scheduled custom",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "rank",
+      "description": "The rank determining the order of this scheduled custom",
+      "datatype": "Integer",
+      "signature": "public Integer rank"
+    },
+    {
+      "name": "recommendation​AudienceId",
+      "description": "ID of the audience for the scheduled custom recommendation.",
+      "datatype": "String",
+      "signature": "public String recommendation​AudienceId"
+    },
+    {
+      "name": "recommendation​Definition​Representation",
+      "description": "Custom recommendation definition that this scheduled",
+      "datatype": "ConnectApi.​Recommendation​Definition",
+      "signature": "public ConnectApi.​Recommendation​Definition recommendation​Definition​Representation"
+    },
+    {
+      "name": "url",
+      "description": "URL to the Chatter REST API resource for the scheduled custom",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Represents a scheduled custom recommendation.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_scheduled_recommendation.htm"
+}

@@ -1,0 +1,57 @@
+{
+  "name": "FeedDirectoryItem",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "feedElementsUrl",
+      "description": "Chatter REST API resource URL for the feed elements.",
+      "datatype": "String",
+      "signature": "public String feedElementsUrl"
+    },
+    {
+      "name": "feedItemsUrl",
+      "description": "Chatter REST API resource URL for the feed items of a specific feed.",
+      "datatype": "String",
+      "signature": "public String feedItemsUrl"
+    },
+    {
+      "name": "feedType",
+      "description": "The feed type. One of these values:",
+      "datatype": "ConnectApi​.FeedType Enum",
+      "signature": "public ConnectApi​.FeedType Enum feedType"
+    },
+    {
+      "name": "feedUrl",
+      "description": "Chatter REST API resource URL for a specific feed",
+      "datatype": "String",
+      "signature": "public String feedUrl"
+    },
+    {
+      "name": "keyPrefix",
+      "description": "A key prefix is the first three characters of a record ID,",
+      "datatype": "String",
+      "signature": "public String keyPrefix"
+    },
+    {
+      "name": "label",
+      "description": "Localized label of the feed",
+      "datatype": "String",
+      "signature": "public String label"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_Feed_directory_item.htm"
+}

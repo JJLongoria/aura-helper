@@ -1,0 +1,45 @@
+{
+  "name": "​ContentCapability​Input",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "content​DocumentId",
+      "description": "ID of the existing content.",
+      "datatype": "String",
+      "signature": "public String content​DocumentId"
+    },
+    {
+      "name": "description",
+      "description": "Description of the file to be uploaded.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "sharingOption",
+      "description": "Sharing option of the file. Values are: Allowed—Resharing of the file is allowed. Restricted—Resharing of the file is restricted.",
+      "datatype": "ConnectApi.​FileSharing​Option",
+      "signature": "public ConnectApi.​FileSharing​Option sharingOption"
+    },
+    {
+      "name": "title",
+      "description": "Title of the file. This value is used as the file name for new content. For example, if the title is My Title, and the file is a .txt file, the file name is My Title.txt.",
+      "datatype": "String",
+      "signature": "public String title"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Attach or update a file on a comment. Use this class to attach a new file or update a file that has already been uploaded to Salesforce.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_content_capability.htm"
+}

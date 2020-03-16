@@ -1,0 +1,81 @@
+{
+  "name": "FeedElement",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "body",
+      "description": "Information about the feed element.",
+      "datatype": "ConnectApi.​FeedBody",
+      "signature": "public ConnectApi.​FeedBody body"
+    },
+    {
+      "name": "capabilities",
+      "description": "A container for all capabilities that",
+      "datatype": "ConnectApi.​FeedElement​Capabilities\rClass",
+      "signature": "public ConnectApi.​FeedElement​Capabilities\rClass capabilities"
+    },
+    {
+      "name": "createdDate",
+      "description": "An ISO 8601 format date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "feedElementType",
+      "description": "Feed elements are the top-level objects that",
+      "datatype": "ConnectApi.​FeedElementType",
+      "signature": "public ConnectApi.​FeedElementType feedElementType"
+    },
+    {
+      "name": "header",
+      "description": "The header is the title of the post. This property contains",
+      "datatype": "ConnectApi.​MessageBody",
+      "signature": "public ConnectApi.​MessageBody header"
+    },
+    {
+      "name": "id",
+      "description": "18-character ID of the feed element.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "modifiedDate",
+      "description": "An ISO 8601 format date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime modifiedDate"
+    },
+    {
+      "name": "parent",
+      "description": "Feed element’s parent",
+      "datatype": "ConnectApi.​ActorWithId",
+      "signature": "public ConnectApi.​ActorWithId parent"
+    },
+    {
+      "name": "relativeCreated​Date",
+      "description": "The created date formatted as a relative, localized string, for example,",
+      "datatype": "String",
+      "signature": "public String relativeCreated​Date"
+    },
+    {
+      "name": "url",
+      "description": "Chatter REST API URL to this feed element.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Feed elements are the top-level items that a feed contains. Feeds are feed element containers.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_element.htm"
+}

@@ -41,6 +41,8 @@ function activate(context) {
 	let openCustomLabelsGUI = vscode.commands.registerCommand('aurahelper.metadata.customlabels.open', commands.openCustomLabelsGUI);
 	//let openCustomObjectsGUI = vscode.commands.registerCommand('aurahelper.metadata.customobjects.open', commands.openCustomObjectsGUI);
 	let createProjectDocumentation = vscode.commands.registerCommand('aurahelper.documentation.project.create', commands.createProjectDocumentation);
+	let implementInterfaces = vscode.commands.registerCommand('aurahelper.completion.apex.implement.interface', commands.implementInterfaces);
+	let implementExtendedClasses = vscode.commands.registerCommand('aurahelper.completion.apex.implement.extend', commands.implementExtendedClasses);
 
 	vscode.commands.registerCommand('aurahelper.completion.apex', commands.apexCodeCompletion);
 	vscode.commands.registerCommand('aurahelper.completion.aura', commands.auraCodeCompletion);
@@ -83,6 +85,8 @@ function activate(context) {
 	context.subscriptions.push(openCustomLabelsGUI);
 	//context.subscriptions.push(openCustomObjectsGUI);
 	context.subscriptions.push(createProjectDocumentation);
+	context.subscriptions.push(implementInterfaces);
+	context.subscriptions.push(implementExtendedClasses);
 }
 exports.activate = activate;
 

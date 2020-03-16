@@ -6,7 +6,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains describe metadata information for a quick action that is available for a specified parent.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describeavailablequickactionresult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describeavailablequickactionresult.htm",
     "classes": [],
     "enums": []
   },
@@ -17,7 +17,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents the smallest unit in a layout—a field or a separator.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutcomponent.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutcomponent.htm",
     "classes": [],
     "enums": []
   },
@@ -28,7 +28,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents an individual item in a QuickAction.DescribeLayoutRow.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutitem.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutitem.htm",
     "classes": [],
     "enums": []
   },
@@ -39,7 +39,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a row in a QuickAction.DescribeLayoutSection.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutrow.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutrow.htm",
     "classes": [],
     "enums": []
   },
@@ -50,7 +50,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a section of a layout and consists of one or more columns and one or more rows (an array of QuickAction.DescribeLayoutRow).",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutsection.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describelayoutsection.htm",
     "classes": [],
     "enums": []
   },
@@ -61,7 +61,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Returns a default value for a quick action.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describequickactiondefaultvalue.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describequickactiondefaultvalue.htm",
     "classes": [],
     "enums": []
   },
@@ -72,7 +72,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains describe metadata information for a quick action.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describequickactionresult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_describequickactionresult.htm",
     "classes": [],
     "enums": []
   },
@@ -83,7 +83,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents an abstract Apex class that provides the context for running the standard Email Action on Case Feed and the container of the Email Message fields for the action payload.  You can override the target fields before the standard Email Action is rendered.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_QuickAction_QuickActionDefaults.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_QuickAction_QuickActionDefaults.htm",
     "classes": [],
     "enums": []
   },
@@ -94,7 +94,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "The QuickAction.QuickActionDefaultsHandler interface lets you specify the default values for the standard Email and Send Email actions in the case feed. You can use this interface to specify the From address, CC address, BCC address, subject, and email body for the Email action in the case feed. You can use the interface to pre-populate these fields based on the context where the action is displayed, such as the case origin (for example, country) and subject.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_QuickAction_QuickActionDefaultsHandler.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_QuickAction_QuickActionDefaultsHandler.htm",
     "classes": [],
     "enums": []
   },
@@ -105,7 +105,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the QuickAction.QuickActionRequest class for providing action information for quick actions to be performed by QuickAction class methods. Action information includes the action name, context record ID, and record.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_quickactionrequest.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_quickactionrequest.htm",
     "classes": [],
     "enums": []
   },
@@ -116,7 +116,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "After you initiate a quick action with the QuickAction class, use the QuickActionResult class for processing action results.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_quickactionresult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_quickaction_quickactionresult.htm",
     "classes": [],
     "enums": []
   },
@@ -127,7 +127,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents an Apex class that provides: the From address list; the original email’s email message ID, provided that the reply action was invoked on the email message feed item; and methods to specify related settings on templates. You can override these fields before the standard Email Action is rendered.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_QuickAction_SendEmailQuickActionDefaults.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_QuickAction_SendEmailQuickActionDefaults.htm",
     "classes": [],
     "enums": []
   }

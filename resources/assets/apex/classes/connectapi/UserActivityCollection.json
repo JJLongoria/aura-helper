@@ -1,0 +1,33 @@
+{
+  "name": "UserActivityCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "activityType",
+      "description": "Type of user activity.",
+      "datatype": "String",
+      "signature": "public String activityType"
+    },
+    {
+      "name": "userActivities",
+      "description": "Collection of user activities.",
+      "datatype": "List<ConnectApi.​UserActivity​Summary>",
+      "signature": "public List<ConnectApi.​UserActivity​Summary> userActivities"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "User activity collection.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_user_activity_collection.htm"
+}

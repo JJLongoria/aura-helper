@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+const Config = require('../main/config');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
 const Metadata = require('../metadata');
@@ -43,13 +44,15 @@ exports.run = function (fileUri) {
             if (profileRaw) {
                 if (isPermissionSet) {
                     let permSet = PermissionSetUtils.createPermissionSet(profileRaw);
-                    permSet = PermissionSetUtils.mergePermissionSetWithLocalData(permSet, storageMetadata);
+                    if (Config.getConfig().metadata.mergeLocalDataPermissions)
+                        permSet = PermissionSetUtils.mergePermissionSetWithLocalData(permSet, storageMetadata);
                     resolve(permSet, {
                         name: profileName,
                     });
                 } else {
                     let profile = ProfileUtils.createProfile(profileRaw);
-                    profile = ProfileUtils.mergeProfileWithLocalData(profile, storageMetadata);
+                    if (Config.getConfig().metadata.mergeLocalDataPermissions)
+                        profile = ProfileUtils.mergeProfileWithLocalData(profile, storageMetadata);
                     resolve(profile, {
                         name: profileName,
                     });
@@ -69,7 +72,7 @@ exports.run = function (fileUri) {
                     let xmlContent = PermissionSetUtils.toXML(message.permSet, message.command == 'compressAndSave');
                     FileWriter.createFileSync(filePath, xmlContent);
                     view.close();
-                } else { 
+                } else {
                     let xmlContent = ProfileUtils.toXML(message.profile, message.command == 'compressAndSave');
                     FileWriter.createFileSync(filePath, xmlContent);
                     view.close();

@@ -1,0 +1,27 @@
+{
+  "name": "MarkupEndSegmentInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.Message​Segment​Input",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "markupType",
+      "description": "Type of rich text markup.",
+      "datatype": "ConnectApi.​MarkupType",
+      "signature": "public ConnectApi.​MarkupType markupType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The end tag for rich text markup.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_markup_end_segment.htm"
+}

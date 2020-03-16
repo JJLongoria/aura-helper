@@ -1,0 +1,33 @@
+{
+  "name": "​LabeledRecord​Field",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​​Abstract​RecordField",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "label",
+      "description": "A localized string describing the record field.",
+      "datatype": "String",
+      "signature": "public String label"
+    },
+    {
+      "name": "text",
+      "description": "The text value of the record field. All record fields have a",
+      "datatype": "String",
+      "signature": "public String text"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_labeledRecordField.htm"
+}

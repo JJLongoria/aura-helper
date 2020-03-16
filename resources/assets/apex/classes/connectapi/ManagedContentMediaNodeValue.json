@@ -1,0 +1,75 @@
+{
+  "name": "ManagedContentMediaNodeValue",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.ManagedContentNodeValue",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "altText",
+      "description": "Alternative text for the managed content node.",
+      "datatype": "String",
+      "signature": "public String altText"
+    },
+    {
+      "name": "altUrl",
+      "description": "Alternative URL for the managed content node.",
+      "datatype": "String",
+      "signature": "public String altUrl"
+    },
+    {
+      "name": "fileName",
+      "description": "File name of the managed content node.",
+      "datatype": "String",
+      "signature": "public String fileName"
+    },
+    {
+      "name": "mediaType",
+      "description": "Type of managed content",
+      "datatype": "ConnectApi.​ManagedContent​MediaType",
+      "signature": "public ConnectApi.​ManagedContent​MediaType mediaType"
+    },
+    {
+      "name": "mimeType",
+      "description": "MIME type of the managed content node.",
+      "datatype": "String",
+      "signature": "public String mimeType"
+    },
+    {
+      "name": "resourceUrl",
+      "description": "Resource URL of the asset file.",
+      "datatype": "String",
+      "signature": "public String resourceUrl"
+    },
+    {
+      "name": "title",
+      "description": "Title of the managed content node.",
+      "datatype": "String",
+      "signature": "public String title"
+    },
+    {
+      "name": "unauthenticatedUrl",
+      "description": "Unauthenticated URL of the asset file or null if the asset file isn’t visible to external",
+      "datatype": "String",
+      "signature": "public String unauthenticatedUrl"
+    },
+    {
+      "name": "url",
+      "description": "URL of the asset file.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Managed content node of media type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_content_media_node_value.htm"
+}

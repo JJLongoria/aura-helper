@@ -1,0 +1,27 @@
+{
+  "name": "AssociatedActions​CapabilityInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "actionLink​GroupIds",
+      "description": "The action link group IDs",
+      "datatype": "List<String>",
+      "signature": "public List<String> actionLink​GroupIds"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A list of action link groups to associate with a feed element. To associate an action link group with a feed element, the call must be made from the Apex namespace that created the action link definition. In addition, the user making the call must have created the definition or have View All Data permission.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_associated_actions_capability.htm"
+}
