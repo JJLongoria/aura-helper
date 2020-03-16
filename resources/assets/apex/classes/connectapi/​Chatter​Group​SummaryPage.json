@@ -1,0 +1,41 @@
+{
+  "name": "​Chatter​Group​SummaryPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "List of group summary objects",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Chatter REST API URL identifying the previous page, or null if there isn’t a previous",
+      "datatype": "",
+      "signature": "public  undefined"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_GroupSummaryPage.htm"
+}

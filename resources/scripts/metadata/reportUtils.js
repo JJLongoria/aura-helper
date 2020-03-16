@@ -463,14 +463,14 @@ class ReportUtils {
         let xmlLines = [];
         let summaries = Utils.forceArray(chartSummaries);
         for (const summary of summaries) {
-            xmlLines.push(Utils.getTabs(initIndent) + '<chart>');
+            xmlLines.push(Utils.getTabs(initIndent) + '<chartSummaries>');
             if (summary.aggregate)
                 xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('aggregate', summary.aggregate));
             if (summary.column)
                 xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('column', summary.column));
             if (summary.axisBinding)
                 xmlLines = xmlLines.concat(Utils.getXMLBlock('axisBinding', summary.axisBinding, true, initIndent + 1));
-            xmlLines.push(Utils.getTabs(initIndent) + '</chart>');
+            xmlLines.push(Utils.getTabs(initIndent) + '</chartSummaries>');
         }
         return xmlLines;
     }

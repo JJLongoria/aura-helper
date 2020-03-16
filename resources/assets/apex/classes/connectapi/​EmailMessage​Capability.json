@@ -1,0 +1,105 @@
+{
+  "name": "​EmailMessage​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "attachments",
+      "description": "Attachments in the email message.",
+      "datatype": "List<ConnectApi.​EmailAttachment>",
+      "signature": "public List<ConnectApi.​EmailAttachment> attachments"
+    },
+    {
+      "name": "bccAddresses",
+      "description": "BCC addresses for the email message.",
+      "datatype": "List<ConnectApi.​EmailAddress>",
+      "signature": "public List<ConnectApi.​EmailAddress> bccAddresses"
+    },
+    {
+      "name": "body",
+      "description": "Body of the email message.",
+      "datatype": "String",
+      "signature": "public String body"
+    },
+    {
+      "name": "ccAddresses",
+      "description": "CC addresses for the email message.",
+      "datatype": "List<ConnectApi.​EmailAddress>",
+      "signature": "public List<ConnectApi.​EmailAddress> ccAddresses"
+    },
+    {
+      "name": "direction",
+      "description": "",
+      "datatype": "ConnectApi.​EmailMessageDirection",
+      "signature": "public ConnectApi.​EmailMessageDirection direction"
+    },
+    {
+      "name": "emailMessageId",
+      "description": "ID of the email message.",
+      "datatype": "String",
+      "signature": "public String emailMessageId"
+    },
+    {
+      "name": "fromAddress",
+      "description": "From address for the email message.",
+      "datatype": "ConnectApi.​EmailAddress",
+      "signature": "public ConnectApi.​EmailAddress fromAddress"
+    },
+    {
+      "name": "htmlExpand​EmailThread",
+      "description": "Start location of previous email",
+      "datatype": "Integer",
+      "signature": "public Integer htmlExpand​EmailThread"
+    },
+    {
+      "name": "isRichText",
+      "description": "Indicates whether the body of the email message is in",
+      "datatype": "Boolean",
+      "signature": "public Boolean isRichText"
+    },
+    {
+      "name": "status",
+      "description": "Status of an email message on a",
+      "datatype": "ConnectApi.​EmailMessageStatus",
+      "signature": "public ConnectApi.​EmailMessageStatus status"
+    },
+    {
+      "name": "subject",
+      "description": "Subject of the email message.",
+      "datatype": "String",
+      "signature": "public String subject"
+    },
+    {
+      "name": "textBody",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String textBody"
+    },
+    {
+      "name": "toAddresses",
+      "description": "To addresses of the email message.",
+      "datatype": "List<ConnectApi.​EmailAddress>",
+      "signature": "public List<ConnectApi.​EmailAddress> toAddresses"
+    },
+    {
+      "name": "totalAttachments",
+      "description": "Total number of attachments in the email",
+      "datatype": "Integer",
+      "signature": "public Integer totalAttachments"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has an email message from a case.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_email_message_capability.htm"
+}

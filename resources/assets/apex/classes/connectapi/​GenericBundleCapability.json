@@ -1,0 +1,20 @@
+{
+  "name": "​GenericBundleCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.BundleCapability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, the feed element has a group of other feed elements condensed into one feed element. This group is called a bundle.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_generic_bundle_capability.htm"
+}

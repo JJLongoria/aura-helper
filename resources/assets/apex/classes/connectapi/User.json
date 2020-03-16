@@ -1,0 +1,105 @@
+{
+  "name": "User",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​ActorWithId",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "additional​Label",
+      "description": "An extra label for the user, for example, “Customer,”",
+      "datatype": "String",
+      "signature": "public String additional​Label"
+    },
+    {
+      "name": "communityNickname",
+      "description": "User’s nickname in the",
+      "datatype": "String",
+      "signature": "public String communityNickname"
+    },
+    {
+      "name": "companyName",
+      "description": "Name of the company.If your community allows access without",
+      "datatype": "String",
+      "signature": "public String companyName"
+    },
+    {
+      "name": "displayName",
+      "description": "User’s name that is displayed in the community. If",
+      "datatype": "String",
+      "signature": "public String displayName"
+    },
+    {
+      "name": "firstName",
+      "description": "User's first name. In version 39.0 and later, if nicknames",
+      "datatype": "String",
+      "signature": "public String firstName"
+    },
+    {
+      "name": "isChatterGuest",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isChatterGuest"
+    },
+    {
+      "name": "isInThisCommunity",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isInThisCommunity"
+    },
+    {
+      "name": "lastName",
+      "description": "User's last name. In version 39.0 and later, if nicknames are",
+      "datatype": "String",
+      "signature": "public String lastName"
+    },
+    {
+      "name": "outOfOffice",
+      "description": "Extra out-of-office message, if one exists, for the",
+      "datatype": "ConnectApi.​OutOfOffice",
+      "signature": "public ConnectApi.​OutOfOffice outOfOffice"
+    },
+    {
+      "name": "photo",
+      "description": "Information about the user's photos.",
+      "datatype": "ConnectApi.Photo",
+      "signature": "public ConnectApi.Photo photo"
+    },
+    {
+      "name": "reputation",
+      "description": "Reputation of the user.",
+      "datatype": "ConnectApi.Reputation Class",
+      "signature": "public ConnectApi.Reputation Class reputation"
+    },
+    {
+      "name": "stamps",
+      "description": "",
+      "datatype": "List<ConnectApi.Stamp>",
+      "signature": "public List<ConnectApi.Stamp> stamps"
+    },
+    {
+      "name": "title",
+      "description": "User’s title.If your community allows access without",
+      "datatype": "String",
+      "signature": "public String title"
+    },
+    {
+      "name": "userType",
+      "description": "Type of user.",
+      "datatype": "ConnectApi.​UserType\r          Enum",
+      "signature": "public ConnectApi.​UserType\r          Enum userType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_User.htm"
+}

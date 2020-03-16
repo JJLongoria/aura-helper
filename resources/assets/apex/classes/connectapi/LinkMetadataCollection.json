@@ -1,0 +1,27 @@
+{
+  "name": "LinkMetadataCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "linkMetadataList",
+      "description": "List of metadata for links.",
+      "datatype": "List<ConnectApi.​LinkMetadata>",
+      "signature": "public List<ConnectApi.​LinkMetadata> linkMetadataList"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Collection of link metadata.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_link_metadata_collection.htm"
+}

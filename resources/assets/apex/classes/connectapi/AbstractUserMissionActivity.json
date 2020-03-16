@@ -1,0 +1,33 @@
+{
+  "name": "AbstractUserMissionActivity",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "activityCount",
+      "description": "Number of mission activities of the specified type for",
+      "datatype": "Integer",
+      "signature": "public Integer activityCount"
+    },
+    {
+      "name": "activityType",
+      "description": "Type of mission activity for a",
+      "datatype": "String",
+      "signature": "public String activityType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "User activity associated with missions.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_user_mission_activity.htm"
+}

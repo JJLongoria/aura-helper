@@ -1,0 +1,123 @@
+{
+  "name": "​SocialPostCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capabilities",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "author",
+      "description": "Social account that authored the social post.",
+      "datatype": "ConnectApi.​SocialAccount",
+      "signature": "public ConnectApi.​SocialAccount author"
+    },
+    {
+      "name": "content",
+      "description": "Content body of the social post.",
+      "datatype": "String",
+      "signature": "public String content"
+    },
+    {
+      "name": "deletedBy",
+      "description": "User who deleted the social post.",
+      "datatype": "ConnectApi.​User​Summary Class",
+      "signature": "public ConnectApi.​User​Summary Class deletedBy"
+    },
+    {
+      "name": "hiddenBy",
+      "description": "User who hid the social post.",
+      "datatype": "ConnectApi.​User​Summary Class",
+      "signature": "public ConnectApi.​User​Summary Class hiddenBy"
+    },
+    {
+      "name": "icon",
+      "description": "Icon of the social network.",
+      "datatype": "ConnectApi.Icon Class",
+      "signature": "public ConnectApi.Icon Class icon"
+    },
+    {
+      "name": "id",
+      "description": "ID associated with the social post Salesforce record.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "isOutbound",
+      "description": "If true, the social",
+      "datatype": "Boolean",
+      "signature": "public Boolean isOutbound"
+    },
+    {
+      "name": "likedBy",
+      "description": "External social account who liked the social",
+      "datatype": "String",
+      "signature": "public String likedBy"
+    },
+    {
+      "name": "messageType",
+      "description": "",
+      "datatype": "ConnectApi.​SocialPost​MessageType",
+      "signature": "public ConnectApi.​SocialPost​MessageType messageType"
+    },
+    {
+      "name": "name",
+      "description": "Title or heading of the social post.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "postUrl",
+      "description": "External URL to the social post on the social",
+      "datatype": "String",
+      "signature": "public String postUrl"
+    },
+    {
+      "name": "provider",
+      "description": "",
+      "datatype": "ConnectApi.​SocialNetwork​Provider",
+      "signature": "public ConnectApi.​SocialNetwork​Provider provider"
+    },
+    {
+      "name": "recipient",
+      "description": "Social account that is the recipient of the social",
+      "datatype": "ConnectApi.​SocialAccount",
+      "signature": "public ConnectApi.​SocialAccount recipient"
+    },
+    {
+      "name": "recipientId",
+      "description": "ID of the recipient of the social post.",
+      "datatype": "String",
+      "signature": "public String recipientId"
+    },
+    {
+      "name": "reviewScale",
+      "description": "Review scale of the social post.",
+      "datatype": "Double",
+      "signature": "public Double reviewScale"
+    },
+    {
+      "name": "reviewScore",
+      "description": "Review score of the social post.",
+      "datatype": "Double",
+      "signature": "public Double reviewScore"
+    },
+    {
+      "name": "status",
+      "description": "Status of the social post.",
+      "datatype": "ConnectApi.​SocialPostStatus",
+      "signature": "public ConnectApi.​SocialPostStatus status"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it can interact with a social post on a social network.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_social_post_capability.htm"
+}

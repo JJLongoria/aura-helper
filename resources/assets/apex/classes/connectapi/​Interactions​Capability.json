@@ -1,0 +1,27 @@
+{
+  "name": "​Interactions​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "count",
+      "description": "The number of individual views, likes, and comments on a feed",
+      "datatype": "Long",
+      "signature": "public Long count"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has information about user interactions.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_interactions_capability.htm"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "​StatusCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "feedEntityStatus",
+      "description": "Status of the feed post or comment. Values are:",
+      "datatype": "ConnectApi.​FeedEntityStatus",
+      "signature": "public ConnectApi.​FeedEntityStatus feedEntityStatus"
+    },
+    {
+      "name": "isApprovable​ByMe",
+      "description": "Specifies whether the context user can change the",
+      "datatype": "Boolean",
+      "signature": "public Boolean isApprovable​ByMe"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed post or comment has this capability, it has a status that determines its visibility.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_status_capability.htm"
+}

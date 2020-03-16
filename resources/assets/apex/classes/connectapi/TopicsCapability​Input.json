@@ -1,0 +1,33 @@
+{
+  "name": "TopicsCapability​Input",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "contextTopic​Name",
+      "description": "Name of the parent topic in the community to which the feed element",
+      "datatype": "String",
+      "signature": "public String contextTopic​Name"
+    },
+    {
+      "name": "topics",
+      "description": "List of topics to assign to the feed element.",
+      "datatype": "List<String>",
+      "signature": "public List<String> topics"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Assign topics to a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_topics_capability.htm"
+}

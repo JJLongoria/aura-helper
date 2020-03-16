@@ -1,0 +1,33 @@
+{
+  "name": "FulfillmentOrderInputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "orderDelivery​GroupSummaryId",
+      "description": "ID of the OrderDeliveryGroupSummary.",
+      "datatype": "String",
+      "signature": "public String orderDelivery​GroupSummaryId"
+    },
+    {
+      "name": "orderSummaryId",
+      "description": "ID of the OrderSummary.",
+      "datatype": "String",
+      "signature": "public String orderSummaryId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An OrderDeliveryGroupSummary that defines a delivery method and recipient, and a list of fulfillment groups to assign to FulfillmentOrders. Each fulfillment group is a set of OrderItemSummaries that match the OrderDeliveryGroupSummary and share the same fulfillment location. The method creates a FulfillmentOrder for each fulfillment group and a FulfillmentOrderLineItem for each OrderItemSummary.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_fulfillment_order.htm"
+}

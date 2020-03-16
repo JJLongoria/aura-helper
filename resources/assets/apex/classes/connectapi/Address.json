@@ -1,0 +1,57 @@
+{
+  "name": "Address",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "city",
+      "description": "Name of the city",
+      "datatype": "String",
+      "signature": "public String city"
+    },
+    {
+      "name": "country",
+      "description": "Name of the country",
+      "datatype": "String",
+      "signature": "public String country"
+    },
+    {
+      "name": "formattedAddress",
+      "description": "Formatted address per the locale of the context user",
+      "datatype": "String",
+      "signature": "public String formattedAddress"
+    },
+    {
+      "name": "state",
+      "description": "Name of the state, province, or so on",
+      "datatype": "String",
+      "signature": "public String state"
+    },
+    {
+      "name": "street",
+      "description": "Street number",
+      "datatype": "String",
+      "signature": "public String street"
+    },
+    {
+      "name": "zip",
+      "description": "Zip or postal code",
+      "datatype": "String",
+      "signature": "public String zip"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_address.htm"
+}

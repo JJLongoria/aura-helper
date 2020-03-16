@@ -1,0 +1,27 @@
+{
+  "name": "OrderSummaryInputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "orderId",
+      "description": "ID of the original order.",
+      "datatype": "String",
+      "signature": "public String orderId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An order from which to create an OrderSummary.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_order_summary.htm"
+}

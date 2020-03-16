@@ -1,0 +1,20 @@
+{
+  "name": "GatewayErrorResponse",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Use to respond with an Error following high-level errors from the PaymentGateway adapter, such as request-forbidden responses, custom validation errors, or expired API tokens.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_GatewayErrorResponse.htm#apex_class_commerce_payments_GatewayErrorResponse"
+}

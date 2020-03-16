@@ -1,0 +1,39 @@
+{
+  "name": "​AudienceCriteria​Input",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "criterionNumber",
+      "description": "Number associated with the audience criterion in a formula. For example, (1 AND 2) OR 3. If unspecified, criteria are assigned numbers in the order that they’re added.",
+      "datatype": "Integer",
+      "signature": "public Integer criterionNumber"
+    },
+    {
+      "name": "criterionOperator",
+      "description": "Operator used in the personalization audience criterion. Values are: Contains Equal GreaterThan GreaterThanOrEqual Includes LessThan LessThanOrEqual NotEqual NotIncludes StartsWith",
+      "datatype": "ConnectApi.​AudienceCriteria​Operator",
+      "signature": "public ConnectApi.​AudienceCriteria​Operator criterionOperator"
+    },
+    {
+      "name": "criterionType",
+      "description": "Type of personalization audience criterion. Values are: Default—Audience has no criteria. Domain—Audience criterion is based on domain. FieldBased—Audience criterion is based on object fields. GeoLocation—Audience criterion is based on location. Permission—Audience criterion is based on standard or custom permissions. Profile—Audience criterion is based on profile.",
+      "datatype": "ConnectApi.​AudienceCriteria​Type",
+      "signature": "public ConnectApi.​AudienceCriteria​Type criterionType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Personalization audience criterion.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_audience_criteria.htm"
+}

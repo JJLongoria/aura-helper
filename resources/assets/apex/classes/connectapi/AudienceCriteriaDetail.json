@@ -1,0 +1,45 @@
+{
+  "name": "AudienceCriteriaDetail",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "criterion",
+      "description": "List of mappings of audience criteria fields and",
+      "datatype": "List<ConnectApi.​AudienceCriterion​Detail>",
+      "signature": "public List<ConnectApi.​AudienceCriterion​Detail> criterion"
+    },
+    {
+      "name": "criterionNumber",
+      "description": "Number associated with the audience criterion in",
+      "datatype": "Integer",
+      "signature": "public Integer criterionNumber"
+    },
+    {
+      "name": "criterionOperator",
+      "description": "Operator used in the personalization",
+      "datatype": "ConnectApi.​AudienceCriteria​Operator",
+      "signature": "public ConnectApi.​AudienceCriteria​Operator criterionOperator"
+    },
+    {
+      "name": "criterionType",
+      "description": "Type of personalization audience",
+      "datatype": "ConnectApi.​AudienceCriteria​Type",
+      "signature": "public ConnectApi.​AudienceCriteria​Type criterionType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Personalization audience criteria.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_audience_criteria_details.htm"
+}

@@ -1,0 +1,45 @@
+{
+  "name": "RepositoryFolderItemsCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageUrl",
+      "description": "URL to the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "items",
+      "description": "Collection of items in a repository folder.",
+      "datatype": "List<ConnectApi.​Repository​FolderItem>",
+      "signature": "public List<ConnectApi.​Repository​FolderItem> items"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "URL to the next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "previousPageUrl",
+      "description": "URL to the previous page.",
+      "datatype": "String",
+      "signature": "public String previousPageUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of repository folder items.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_repository_folder_items_collection.htm"
+}

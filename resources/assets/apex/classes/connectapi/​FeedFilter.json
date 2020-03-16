@@ -1,0 +1,31 @@
+{
+  "name": "​FeedFilter",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "AllQuestions",
+    "AuthoredBy",
+    "QuestionsWithCandidateAnswers",
+    "QuestionsWithCandidateAnswers​ReviewedPublished",
+    "Read",
+    "SolvedQuestions",
+    "UnansweredQuestions",
+    "UnansweredQuestionsWithCandidate​Answers",
+    "Unread",
+    "UnsolvedQuestions"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Filter value for a feed.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_enums.htm"
+}

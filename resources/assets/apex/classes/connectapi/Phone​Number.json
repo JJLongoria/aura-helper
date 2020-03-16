@@ -1,0 +1,45 @@
+{
+  "name": "Phone​Number",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "label",
+      "description": "A localized string indicating the phone type",
+      "datatype": "String",
+      "signature": "public String label"
+    },
+    {
+      "name": "phoneNumber",
+      "description": "Phone number",
+      "datatype": "String",
+      "signature": "public String phoneNumber"
+    },
+    {
+      "name": "phoneType",
+      "description": "Phone type. Values are:",
+      "datatype": "String",
+      "signature": "public String phoneType"
+    },
+    {
+      "name": "type",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_phone_Num.htm"
+}

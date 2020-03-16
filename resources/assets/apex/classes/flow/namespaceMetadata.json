@@ -6,7 +6,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "The Flow.Interview class provides advanced controller access to flows and the ability to start a flow.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/flow_interview_class.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/flow_interview_class.htm",
     "classes": [],
     "enums": []
   }

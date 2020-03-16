@@ -6,7 +6,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the Document class to process XML content. You can parse nested XML content that’s up to 50 nodes deep.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_dom_document.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_dom_document.htm",
     "classes": [],
     "enums": []
   },
@@ -17,7 +17,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use the XmlNode class to work with a node in an XML document.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_dom_xmlnode.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_xml_dom_xmlnode.htm",
     "classes": [],
     "enums": []
   }

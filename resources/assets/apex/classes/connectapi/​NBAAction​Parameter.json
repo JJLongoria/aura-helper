@@ -1,0 +1,39 @@
+{
+  "name": "​NBAAction​Parameter",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "name",
+      "description": "Name of the parameter.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "type",
+      "description": "Type of the parameter.",
+      "datatype": "String",
+      "signature": "public String type"
+    },
+    {
+      "name": "value",
+      "description": "Value of the parameter.",
+      "datatype": "String",
+      "signature": "public String value"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A parameter for an action.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_n_b_a_action_paramete.htm"
+}

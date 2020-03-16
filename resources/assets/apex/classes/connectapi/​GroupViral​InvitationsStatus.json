@@ -1,0 +1,28 @@
+{
+  "name": "​GroupViral​InvitationsStatus",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "ActedUponUser",
+    "Invited",
+    "MaxedOutUsers",
+    "MultipleError",
+    "NoActionNeededUser",
+    "NotVisibleToExternalInviter",
+    "Unhandled"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Status of an invitation to join a group.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_enums.htm"
+}

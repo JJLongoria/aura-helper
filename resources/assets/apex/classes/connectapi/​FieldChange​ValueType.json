@@ -1,0 +1,23 @@
+{
+  "name": "​FieldChange​ValueType",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "NewValue",
+    "OldValue"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Value type of a field change.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_enums.htm"
+}

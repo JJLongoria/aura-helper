@@ -1,0 +1,31 @@
+{
+  "name": "CloseCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "description": "Specifies whether the context user has",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Specifies whether the feed element is closed (true) or not (false).",
+      "datatype": "",
+      "signature": "public  undefined"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, users with permission can close it.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_close_capability.htm"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "​EmailMessage​Status",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "DraftStatus",
+    "ForwardedStatus",
+    "NewStatus",
+    "ReadStatus",
+    "RepliedStatus",
+    "SentStatus"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Status of an email message on a",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_enums.htm"
+}

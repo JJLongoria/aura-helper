@@ -1,16 +1,5 @@
 const TokenType = require('./tokenTypes');
 
-let symbols = [
-    "€",
-    "º",
-    "~",
-    "¬",
-    "‘",
-    "·",
-    "╔",
-    ""
-];
-
 class Tokenizer {
     static tokenize(str) {
         const NUM_FORMAT = /[0-9]/;
@@ -28,258 +17,320 @@ class Tokenizer {
             if (char === ",") {
                 token.tokenType = TokenType.COMMA;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (OPERATORS.test(char)) {
                 token.tokenType = TokenType.OPERATOR;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === '\\') {
                 token.tokenType = TokenType.BACKSLASH;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "(") {
                 token.tokenType = TokenType.LPAREN;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === ")") {
                 token.tokenType = TokenType.RPAREN;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "{") {
                 token.tokenType = TokenType.LBRACKET;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "}") {
                 token.tokenType = TokenType.RBRACKET;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "[") {
                 token.tokenType = TokenType.LSQBRACKET;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "]") {
                 token.tokenType = TokenType.RSQBRACKET;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === ".") {
                 token.tokenType = TokenType.DOT;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === ":") {
                 token.tokenType = TokenType.COLON;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === ";") {
                 token.tokenType = TokenType.SEMICOLON;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "<") {
                 token.tokenType = TokenType.LABRACKET;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === ">") {
                 token.tokenType = TokenType.RABRACKET;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "&") {
                 token.tokenType = TokenType.AND;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "|") {
                 token.tokenType = TokenType.OR;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "'") {
                 token.tokenType = TokenType.SQUOTTE;
                 token.content = char;
+                token.contentToLower = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "\"") {
                 token.tokenType = TokenType.QUOTTE;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "!") {
                 token.tokenType = TokenType.EXMARK;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "?") {
                 token.tokenType = TokenType.QMARK;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "¡") {
                 token.tokenType = TokenType.OPEN_EXMARK;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "¿") {
                 token.tokenType = TokenType.OPEN_QMARK;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "@") {
                 token.tokenType = TokenType.AT;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "#") {
                 token.tokenType = TokenType.SHARP;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "=") {
                 token.tokenType = TokenType.EQUAL;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "$") {
                 token.tokenType = TokenType.DOLLAR;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "%") {
                 token.tokenType = TokenType.PERCENT;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "`") {
                 token.tokenType = TokenType.BSLQUOTTE;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (char === "´") {
                 token.tokenType = TokenType.SLQUOTTE;
                 token.content = char;
+                token.contentToLower = char;
                 token.line = lineNumber;
                 token.startColumn = column;
                 token.endColumn = column + char.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
-            } else if (symbols.includes(char) || SYMBOLS_FORMAT.test(char)) {
-                token.tokenType = TokenType.SYMBOL;
-                token.content = char;
-                token.line = lineNumber;
-                token.startColumn = column;
-                token.endColumn = column + char.length;
-                token.relativeStartColumn = relativeStartColumn;
-                token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
             } else if (NUM_FORMAT.test(char)) {
                 var content = '';
                 token.startColumn = column;
-                while (NUM_FORMAT.test(char)) {
+                while (NUM_FORMAT.test(char) || char === '.' || char === ':' || char === '+' || char === '-' || char.toLowerCase() === 't' || char.toLowerCase() === 'z') {
                     content += char;
                     char = str.charAt(++charIndex);
                 }
-                column =  column + content.length;
+                column = column + content.length;
                 relativeStartColumn = relativeStartColumn + content.length;
-                token.tokenType = TokenType.NUMBER;
+                if (content.indexOf(':') !== -1 && content.indexOf('-') !== -1)
+                    token.tokenType = TokenType.DATETIME;
+                else if (content.indexOf('-') !== -1)
+                    token.tokenType = TokenType.DATE;
+                else if (content.indexOf(':') !== -1)
+                    token.tokenType = TokenType.TIME;
+                else if (content.indexOf('.') !== -1)
+                    token.tokenType = TokenType.DECIMAL;
+                else
+                    token.tokenType = TokenType.NUMBER;
                 token.content = content;
+                token.contentToLower = content.toLowerCase();
                 token.line = lineNumber;
                 token.endColumn = token.startColumn + token.content.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
                 tokens.push(token);
                 continue;
             } else if (ID_FORMAT.test(char)) {
@@ -289,14 +340,16 @@ class Tokenizer {
                     content += char;
                     char = str.charAt(++charIndex);
                 }
-                column =  column + content.length;
+                column = column + content.length;
                 relativeStartColumn = relativeStartColumn + content.length;
                 token.tokenType = TokenType.IDENTIFIER;
                 token.content = content;
+                token.contentToLower = content.toLowerCase();
                 token.line = lineNumber;
                 token.endColumn = token.startColumn + token.content.length;
                 token.relativeStartColumn = relativeStartColumn;
                 token.relativeEndColumn = relativeStartColumn + token.content.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
                 tokens.push(token);
                 continue;
             } else if (char === "\n") {
@@ -304,8 +357,16 @@ class Tokenizer {
                 column = 0;
                 relativeStartColumn = 0;
             } else if (char !== "\t" && char !== "\r" && char !== " " && char.trim().length != 0) {
-                throw new Error('Character not recognized: <<' + char + '>> at line: ' + lineNumber + '; Start Column: ' + column + '; End Column: ' + (column + char.length));
-            } else if(char === "\t"){
+                token.tokenType = TokenType.SYMBOL;
+                token.content = char;
+                token.contentToLower = char;
+                token.line = lineNumber;
+                token.startColumn = column;
+                token.endColumn = column + char.length;
+                token.relativeStartColumn = relativeStartColumn;
+                token.relativeEndColumn = relativeStartColumn + char.length;
+                token.id = '' + token.content + token.line + token.startColumn + token.endColumn;
+            } else if (char === "\t") {
                 column = column + 3;
             }
             if (token.tokenType) {

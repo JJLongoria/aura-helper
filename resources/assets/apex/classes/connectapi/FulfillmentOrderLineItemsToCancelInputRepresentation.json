@@ -1,0 +1,27 @@
+{
+  "name": "FulfillmentOrderLineItemsToCancelInputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "fulfillment​OrderLine​ItemsToCancel",
+      "description": "List of FulfillmentOrderLineItems and quantities.",
+      "datatype": "List<ConnectApi.​FulfillmentOrder​LineItemInput​Representation>",
+      "signature": "public List<ConnectApi.​FulfillmentOrder​LineItemInput​Representation> fulfillment​OrderLine​ItemsToCancel"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A list of FulfillmentOrderLineItems and quantities to cancel.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_fulfillment_order_line_items_to_cancel.htm"
+}

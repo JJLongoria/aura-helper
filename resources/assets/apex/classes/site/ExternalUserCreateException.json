@@ -1,0 +1,28 @@
+{
+    "name": "FeatureNotSupportedException",
+    "namespace": "Site",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "Exception",
+    "isInterface": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [
+        {
+            "name": " getDisplayMessages",
+            "signature": "public List<String>  getDisplayMessages()",
+            "description": "to get a list of errors displayed to the end user..",
+            "params": [],
+            "datatype": "List<String>"
+        }
+    ],
+    "description": "Unable to create external user. This exception can’t be subclassed or thrown in code",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Site_exceptions.htm"
+}

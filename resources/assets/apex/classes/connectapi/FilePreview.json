@@ -1,0 +1,51 @@
+{
+  "name": "FilePreview",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "format",
+      "description": "The format of the preview. Values are:",
+      "datatype": "ConnectApi.​FilePreviewFormat",
+      "signature": "public ConnectApi.​FilePreviewFormat format"
+    },
+    {
+      "name": "previewUrlCount",
+      "description": "The total number of preview URLs for this preview format.",
+      "datatype": "Integer",
+      "signature": "public Integer previewUrlCount"
+    },
+    {
+      "name": "previewUrls",
+      "description": "A list of file preview URLs.",
+      "datatype": "List<ConnectApi.​FilePreviewUrl>",
+      "signature": "public List<ConnectApi.​FilePreviewUrl> previewUrls"
+    },
+    {
+      "name": "status",
+      "description": "The availability status of the preview. Values are:",
+      "datatype": "ConnectApi.​FilePreviewStatus",
+      "signature": "public ConnectApi.​FilePreviewStatus status"
+    },
+    {
+      "name": "url",
+      "description": "The URL for the file preview.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A file preview.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_file_preview.htm"
+}

@@ -1,0 +1,51 @@
+{
+  "name": "ArticleItem",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "Id of the article.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "rating",
+      "description": "The rating of the article.",
+      "datatype": "Double",
+      "signature": "public Double rating"
+    },
+    {
+      "name": "title",
+      "description": "Title of the article.",
+      "datatype": "String",
+      "signature": "public String title"
+    },
+    {
+      "name": "urlLink",
+      "description": "Link URL of the article.",
+      "datatype": "String",
+      "signature": "public String urlLink"
+    },
+    {
+      "name": "viewCount",
+      "description": "Number of votes given to the article.",
+      "datatype": "Integer",
+      "signature": "public Integer viewCount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Article item in question and answers suggestions.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_article_item.htm"
+}

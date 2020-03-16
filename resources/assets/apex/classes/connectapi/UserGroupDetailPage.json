@@ -1,0 +1,51 @@
+{
+  "name": "UserGroupDetailPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageUrl",
+      "description": "URL to the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "groups",
+      "description": "Collection of groups that the user is a member of.",
+      "datatype": "List<ConnectApi.​ChatterGroupDetail>",
+      "signature": "public List<ConnectApi.​ChatterGroupDetail> groups"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "URL to the next page, or null if",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "previousPageUrl",
+      "description": "URL to the previous page, or null if there is no previous page.",
+      "datatype": "String",
+      "signature": "public String previousPageUrl"
+    },
+    {
+      "name": "total",
+      "description": "Total number of groups that the user is a member of.",
+      "datatype": "Integer",
+      "signature": "public Integer total"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A page of groups that a user is a member of.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_user_group_detail_collection.htm"
+}

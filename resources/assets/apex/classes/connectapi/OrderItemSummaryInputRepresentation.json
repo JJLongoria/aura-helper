@@ -1,0 +1,33 @@
+{
+  "name": "OrderItemSummaryInputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "orderItem​SummaryId",
+      "description": "ID of the OrderItemSummary.",
+      "datatype": "String",
+      "signature": "public String orderItem​SummaryId"
+    },
+    {
+      "name": "quantity",
+      "description": "Quantity to include.",
+      "datatype": "Double",
+      "signature": "public Double quantity"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An OrderItemSummary and quantity.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_order_item_summary.htm"
+}

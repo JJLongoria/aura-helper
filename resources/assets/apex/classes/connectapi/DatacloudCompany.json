@@ -1,0 +1,159 @@
+{
+  "name": "DatacloudCompany",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "activeContacts",
+      "description": "The number of active Data.com contacts who",
+      "datatype": "Integer",
+      "signature": "public Integer activeContacts"
+    },
+    {
+      "name": "address",
+      "description": "The postal address for the company. This is typically a physical address",
+      "datatype": "ConnectApi.Address",
+      "signature": "public ConnectApi.Address address"
+    },
+    {
+      "name": "annualRevenue",
+      "description": "The amount of money that the company makes in one year. Annual revenue",
+      "datatype": "Double",
+      "signature": "public Double annualRevenue"
+    },
+    {
+      "name": "companyId",
+      "description": "A unique numerical identifier for the company. This is the Data.com identifier for a",
+      "datatype": "String",
+      "signature": "public String companyId"
+    },
+    {
+      "name": "description",
+      "description": "A brief synopsis of the company that provides a general overview of the",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "dunsNumber",
+      "description": "A randomly generated nine-digit number that’s assigned by Dun &amp;",
+      "datatype": "String",
+      "signature": "public String dunsNumber"
+    },
+    {
+      "name": "industry",
+      "description": "A description of the type of industry such as “Telecommunications,”",
+      "datatype": "String",
+      "signature": "public String industry"
+    },
+    {
+      "name": "isInactive",
+      "description": "Indicates whether this company is active (true) or not (false). Inactive",
+      "datatype": "Boolean",
+      "signature": "public Boolean isInactive"
+    },
+    {
+      "name": "isOwned",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isOwned"
+    },
+    {
+      "name": "naicsCode",
+      "description": "North American Industry Classification System (NAICS) codes were created",
+      "datatype": "String",
+      "signature": "public String naicsCode"
+    },
+    {
+      "name": "naicsDescription",
+      "description": "A description of the NAICS classification.",
+      "datatype": "String",
+      "signature": "public String naicsDescription"
+    },
+    {
+      "name": "name",
+      "description": "The name of the company.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "numberOf​Employees",
+      "description": "The number of employees who are working for the",
+      "datatype": "Integer",
+      "signature": "public Integer numberOf​Employees"
+    },
+    {
+      "name": "ownership",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String ownership"
+    },
+    {
+      "name": "phoneNumbers",
+      "description": "",
+      "datatype": "ConnectApi.PhoneNumber",
+      "signature": "public ConnectApi.PhoneNumber phoneNumbers"
+    },
+    {
+      "name": "sic",
+      "description": "Standard Industrial Codes (SIC) is a numbering convention that indicates what",
+      "datatype": "String",
+      "signature": "public String sic"
+    },
+    {
+      "name": "sicDescription",
+      "description": "A description of the SIC classification.",
+      "datatype": "String",
+      "signature": "public String sicDescription"
+    },
+    {
+      "name": "site",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String site"
+    },
+    {
+      "name": "tickerSymbol",
+      "description": "The symbol that uniquely identifies companies that are traded on public",
+      "datatype": "String",
+      "signature": "public String tickerSymbol"
+    },
+    {
+      "name": "tradeStyle",
+      "description": "A legal name under which a company conducts business.",
+      "datatype": "String",
+      "signature": "public String tradeStyle"
+    },
+    {
+      "name": "updatedDate",
+      "description": "The date of the most recent change to this company’s",
+      "datatype": "Datetime",
+      "signature": "public Datetime updatedDate"
+    },
+    {
+      "name": "website",
+      "description": "The standard URL for the company’s home page.",
+      "datatype": "String",
+      "signature": "public String website"
+    },
+    {
+      "name": "yearStarted",
+      "description": "The year when the company was founded.",
+      "datatype": "String",
+      "signature": "public String yearStarted"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Information about a Data.com company.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_datacloud_company.htm"
+}

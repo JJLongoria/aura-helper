@@ -1,0 +1,33 @@
+{
+  "name": "StrategyTrace",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "messages",
+      "description": "Messages and errors from the strategy execution.",
+      "datatype": "List<String>",
+      "signature": "public List<String> messages"
+    },
+    {
+      "name": "nodes",
+      "description": "Nodes of the strategy execution used for debugging.",
+      "datatype": "List<ConnectApi.​StrategyTraceNode>",
+      "signature": "public List<ConnectApi.​StrategyTraceNode> nodes"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Messages and trace nodes for a recommendation strategy execution.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_strategy_trace.htm"
+}

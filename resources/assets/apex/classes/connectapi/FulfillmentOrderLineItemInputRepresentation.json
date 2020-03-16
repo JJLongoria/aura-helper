@@ -1,0 +1,33 @@
+{
+  "name": "FulfillmentOrderLineItemInputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "fulfillmentOrder​LineItemId",
+      "description": "ID of the FulfillmentOrderLineItem.",
+      "datatype": "String",
+      "signature": "public String fulfillmentOrder​LineItemId"
+    },
+    {
+      "name": "quantity",
+      "description": "Quantity to cancel.",
+      "datatype": "Double",
+      "signature": "public Double quantity"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A FulfillmentOrderLineItem and quantity to cancel. You can cancel less than the full quantity, in which case you reallocate the canceled quantity to a different FulfillmentOrder.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_fulfillment_order_line_item.htm"
+}

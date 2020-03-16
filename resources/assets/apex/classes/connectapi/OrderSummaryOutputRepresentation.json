@@ -1,0 +1,27 @@
+{
+  "name": "OrderSummaryOutputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.BaseOutputRepresentation",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "orderSummaryId",
+      "description": "ID of the Order Summary.",
+      "datatype": "String",
+      "signature": "public String orderSummaryId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "ID of the created Order Summary.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_order_summary_output.htm"
+}

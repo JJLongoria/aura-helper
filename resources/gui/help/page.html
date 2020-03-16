@@ -9,10 +9,17 @@
                 <a href="#codeFormatFeature" class="w3-bar-item w3-border-bottom w3-small menu">{!label.apex_code_formatter}</a>
                 <a href="#versionControlAndMetadataFeature" class="w3-bar-item w3-border-bottom w3-small menu">{!label.version_control_and_metadata}</a>
                 <a href="#documentationFeature" class="w3-bar-item w3-border-bottom w3-small menu">{!label.documentation}</a>
+                <a href="#settingsFeature" class="w3-bar-item w3-border-bottom w3-small menu">{!label.settings}</a>
+            </div>
+            <a href="#settingsSection" class="w3-bar-item w3-border-bottom menu" onclick="openCloseAccordion('settings')">{!label.settings}</a>
+            <div id="settings" class="w3-hide w3-margin-left">
+                <a href="#apexFormatterSettings" class="w3-bar-item w3-border-bottom w3-small menu">{!label.apex_formatter_settings}</a>
+                <a href="#metadataSettings" class="w3-bar-item w3-border-bottom w3-small menu">{!label.metadata_settings}</a>
+                <a href="#GUISettings" class="w3-bar-item w3-border-bottom w3-small menu">{!label.GUI_settings}</a>
+                <a href="#codeCompletionSettings" class="w3-bar-item w3-border-bottom w3-small menu">{!label.code_completion_settings}</a>
             </div>
             <a href="#commandSection" class="w3-bar-item w3-border-bottom menu" onclick="openCloseAccordion('commands')">{!label.commands}</a>
             <div id="commands" class="w3-hide w3-margin-left">
-                <!-- Commands Menu Items -->
                 <a href="#addJsFunction" class="w3-bar-item w3-border-bottom w3-small menu">{!label.add_javascript_aura_function}</a>
                 <a href="#addMethodBlockCommand" class="w3-bar-item w3-border-bottom w3-small menu">{!label.add_method_block_aura_documentation}</a>
                 <a href="#compressXMLFile" class="w3-bar-item w3-border-bottom w3-small menu">{!label.compress_xml_file}</a>
@@ -177,8 +184,11 @@
                     <p>{!label.documentation_feature_explanation_paragraph_1}</p>
                     <p>
                         {!label.documentation_feature_explanation_paragraph_2}
-                        <li class="liElement">{!label.documentation_feature_explanation_feature_1}</li>
-                        <li class="liElement">{!label.documentation_feature_explanation_feature_2}</li>
+                        <ul>
+                            <li class="liElement">{!label.documentation_feature_explanation_feature_1}</li>
+                            <li class="liElement">{!label.documentation_feature_explanation_feature_2}</li>
+                            <li class="liElement">{!label.documentation_feature_explanation_feature_3}</li>
+                        </ul>
                     </p>
                     <p>{!label.examples}: </p>
                     <p class="w3-center">
@@ -190,8 +200,85 @@
                 </div>
             </div>
             <!-- Documentation Feature End -->
+            <!-- Settings Feature Start -->
+            <div class="w3-container w3-margin-left" id="settingsFeature">
+                <h4 class="subsectionHeader"><b>{!label.settings}</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>{!label.settings_feature_explanation_paragraph_1}</p>
+                    <p>
+                        {!label.settings_feature_explanation_paragraph_2}
+                        <ul>
+                            <li class="liElement">{!label.settings_feature_explanation_feature_1}</li>
+                            <li class="liElement">{!label.settings_feature_explanation_feature_2}</li>
+                            <li class="liElement">{!label.settings_feature_explanation_feature_3}</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+            <!-- Settings Feature End -->
         </div>
         <!-- Feature Summary End -->
+        <!-- Settings Section Start -->
+        <div class="w3-container" id="settingsSection">
+            <h2 class="sectionHeader"><b>{!label.settings}</b></h2>
+            <!-- Apex Formatter Settings Start -->
+            <div class="w3-container w3-margin-left" id="apexFormatterSettings">
+                <h4 class="subsectionHeader"><b>{!label.apex_formatter_settings}</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        {!label.apex_formatter_settings_paragraph_1}
+                        <ul>
+                            <li class="liElement">{!label.apex_formatter_settings_class_members}</li>
+                            <li class="liElement">{!label.apex_formatter_settings_comments}</li>
+                            <li class="liElement">{!label.apex_formatter_settings_operators}</li>
+                            <li class="liElement">{!label.apex_formatter_settings_punctuation}</li>
+                            <li class="liElement">{!label.apex_formatter_settings_queries}</li>
+                            <li class="liElement">{!label.apex_formatter_settings_format_on_save}</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Apex Formatter Settings End -->
+            <!-- Metadata Settings Start -->
+            <div class="w3-container w3-margin-left" id="metadataSettings">
+                <h4 class="subsectionHeader"><b>{!label.metadata_settings}</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        {!label.metadata_settings_paragraph_1}
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Metadata Settings End -->
+            <!-- GUI Settings Start -->
+            <div class="w3-container w3-margin-left" id="GUISettings">
+                <h4 class="subsectionHeader"><b>{!label.GUI_settings}</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        {!label.GUI_settings_paragraph_1}
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- GUI Settings End -->
+            <!-- Autocompletion Settings Start -->
+            <div class="w3-container w3-margin-left" id="codeCompletionSettings">
+                <h4 class="subsectionHeader"><b>{!label.code_completion_settings}</b></h4>
+                <div class="w3-container darkGrey w3-margin-left">
+                    <p>
+                        {!label.code_completion_settings_paragraph_1}
+                    </p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Autocompletion Settings End -->
+        </div>
+        <!-- Settings Section End -->
         <!-- Commands Section Start -->
         <div class="w3-container" id="commandSection">
             <h2 class="sectionHeader"><b>{!label.commands}</b></h2>

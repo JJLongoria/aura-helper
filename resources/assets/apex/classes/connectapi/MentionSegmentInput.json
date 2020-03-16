@@ -1,0 +1,33 @@
+{
+  "name": "MentionSegmentInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.Message​Segment​Input",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "ID of the user or group to mention.To mention a user,",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "username",
+      "description": "User name of the user to mention.To mention a user,",
+      "datatype": "String",
+      "signature": "public String username"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Include an @mention of a user or group in a feed post or comment. When creating a feed post or comment, you can include up to 25 mentions.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_mentionMsgSeg.htm"
+}

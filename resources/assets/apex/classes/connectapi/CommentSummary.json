@@ -1,0 +1,27 @@
+{
+  "name": "CommentSummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.UserActivitySummary",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "commentId",
+      "description": "ID of the comment.",
+      "datatype": "String",
+      "signature": "public String commentId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Summary of the comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_comment_summary.htm"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "​MediaReference​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "media",
+      "description": "Collection of media references.",
+      "datatype": "List<ConnectApi.​MediaReference>",
+      "signature": "public List<ConnectApi.​MediaReference> media"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has one or more media references.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_media_reference_capability.htm"
+}

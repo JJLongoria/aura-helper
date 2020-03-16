@@ -1,0 +1,50 @@
+{
+  "name": "AuditParamsRequest",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "email",
+      "signature": "AuditParamsRequest Properties   The following are properties for AuditParamsRequest.",
+      "description": "Email of the client that initiated the request.",
+      "params": [],
+      "datatype": "void"
+    },
+    {
+      "name": "ipAddress",
+      "signature": "",
+      "description": "The customer’s IP address. Gateways often use this data in risk checks.",
+      "params": [],
+      "datatype": "void"
+    },
+    {
+      "name": "macAddress",
+      "signature": "",
+      "description": "Mac address of the customer’s device. Gateways often use this data in risk checks.",
+      "params": [],
+      "datatype": "void"
+    }
+  ],
+  "constructors": [
+    {
+      "name": "AuditParamsRequest",
+      "signature": "AuditParamsRequest(String email, String macAddress, String ipAddress, String phone)    Parameters   email  Type: String   Email of the client that initiated the request.    macAddress  Type: String   Mac address of the customer’s device. Gateways often use this data in risk checks.    ipAddress  Type: String   The customer’s IP address. Gateways often use this data in risk checks.    phone  Type: String   Phone number of the client that initiated the request.",
+      "description": "Use only for testing purposes.",
+      "params": [],
+      "datatype": "void"
+    }
+  ],
+  "methods": [],
+  "description": "AuditParamsRequest is used for audit parameters in a transaction request. This is an abstract request class that is extended by the BaseRequest class.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_AuditParamsRequest.htm#apex_class_commerce_payments_AuditParamsRequest"
+}

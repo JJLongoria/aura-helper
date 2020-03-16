@@ -1,0 +1,69 @@
+{
+  "name": "ReadByPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageToken",
+      "description": "Token identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageToken"
+    },
+    {
+      "name": "currentPageUrl",
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "items",
+      "description": "Collection of read-by information, including users and when they last read",
+      "datatype": "List<ConnectApi.​ReadBy>",
+      "signature": "public List<ConnectApi.​ReadBy> items"
+    },
+    {
+      "name": "nextPageToken",
+      "description": "Token identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageToken"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "previousPageToken",
+      "description": "Reserved for future use.",
+      "datatype": "String",
+      "signature": "public String previousPageToken"
+    },
+    {
+      "name": "previousPageUrl",
+      "description": "Reserved for future use.",
+      "datatype": "String",
+      "signature": "public String previousPageUrl"
+    },
+    {
+      "name": "total",
+      "description": "Total number of users who read the feed element.",
+      "datatype": "Integer",
+      "signature": "public Integer total"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of information about who read the feed element and when.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_read_by_collection.htm"
+}

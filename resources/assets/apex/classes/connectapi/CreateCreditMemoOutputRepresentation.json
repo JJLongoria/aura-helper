@@ -1,0 +1,27 @@
+{
+  "name": "CreateCreditMemoOutputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.BaseOutputRepresentation",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "creditMemoId",
+      "description": "ID of the created Credit Memo.",
+      "datatype": "String",
+      "signature": "public String creditMemoId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "ID of a created Credit Memo.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_create_credit_memo_output.htm"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "TopicSuggestion",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "existingTopic",
+      "description": "Topic that already exists or null for a new topic",
+      "datatype": "ConnectApi.​Topic",
+      "signature": "public ConnectApi.​Topic existingTopic"
+    },
+    {
+      "name": "name",
+      "description": "Topic name",
+      "datatype": "String",
+      "signature": "public String name"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_topicSuggestion.htm"
+}

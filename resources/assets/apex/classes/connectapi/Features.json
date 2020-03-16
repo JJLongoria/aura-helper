@@ -1,0 +1,291 @@
+{
+  "name": "Features",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "activityReminder​Notifications​Enabled",
+      "description": "Reserved for future use.",
+      "datatype": "Boolean",
+      "signature": "public Boolean activityReminder​Notifications​Enabled"
+    },
+    {
+      "name": "chatter",
+      "description": "Specifies whether Chatter is enabled.",
+      "datatype": "Boolean",
+      "signature": "public Boolean chatter"
+    },
+    {
+      "name": "chatterActivity",
+      "description": "Specifies whether user details include information about",
+      "datatype": "Boolean",
+      "signature": "public Boolean chatterActivity"
+    },
+    {
+      "name": "chatterAnswers",
+      "description": "Specifies whether Chatter Answers is enabled.",
+      "datatype": "Boolean",
+      "signature": "public Boolean chatterAnswers"
+    },
+    {
+      "name": "chatter​GlobalInfluence",
+      "description": "Specifies whether user details include global",
+      "datatype": "Boolean",
+      "signature": "public Boolean chatter​GlobalInfluence"
+    },
+    {
+      "name": "chatterGroup​Records",
+      "description": "Specifies whether Chatter groups can have records",
+      "datatype": "Boolean",
+      "signature": "public Boolean chatterGroup​Records"
+    },
+    {
+      "name": "chatterGroup​RecordSharing",
+      "description": "Specifies whether Chatter records are",
+      "datatype": "Boolean",
+      "signature": "public Boolean chatterGroup​RecordSharing"
+    },
+    {
+      "name": "chatter​Messages",
+      "description": "Specifies whether Chatter messages are",
+      "datatype": "Boolean",
+      "signature": "public Boolean chatter​Messages"
+    },
+    {
+      "name": "chatter​Topics",
+      "description": "Specifies whether topics are enabled.",
+      "datatype": "Boolean",
+      "signature": "public Boolean chatter​Topics"
+    },
+    {
+      "name": "communities​Enabled",
+      "description": "Specifies whether Salesforce Communities is",
+      "datatype": "Boolean",
+      "signature": "public Boolean communities​Enabled"
+    },
+    {
+      "name": "community​​Moderation",
+      "description": "Specifies whether community moderation is",
+      "datatype": "Boolean",
+      "signature": "public Boolean community​​Moderation"
+    },
+    {
+      "name": "community​​Reputation",
+      "description": "Specifies whether reputation is enabled for",
+      "datatype": "Boolean",
+      "signature": "public Boolean community​​Reputation"
+    },
+    {
+      "name": "dashboard​​Component​Snapshots",
+      "description": "Specifies whether the user can post",
+      "datatype": "Boolean",
+      "signature": "public Boolean dashboard​​Component​Snapshots"
+    },
+    {
+      "name": "default​Currency​IsoCode",
+      "description": "ISO code of the default currency. Applicable only",
+      "datatype": "String",
+      "signature": "public String default​Currency​IsoCode"
+    },
+    {
+      "name": "einstein​VoiceEnabled",
+      "description": "Reserved for future use.",
+      "datatype": "Boolean",
+      "signature": "public Boolean einstein​VoiceEnabled"
+    },
+    {
+      "name": "einstein​VoiceInPilot​Enabled",
+      "description": "Reserved for future use.",
+      "datatype": "Boolean",
+      "signature": "public Boolean einstein​VoiceInPilot​Enabled"
+    },
+    {
+      "name": "einstein​VoiceLogging​Enabled",
+      "description": "Reserved for future use.",
+      "datatype": "Boolean",
+      "signature": "public Boolean einstein​VoiceLogging​Enabled"
+    },
+    {
+      "name": "einstein​VoiceProviderId",
+      "description": "Reserved for future use.",
+      "datatype": "Integer",
+      "signature": "public Integer einstein​VoiceProviderId"
+    },
+    {
+      "name": "favorites​Enabled",
+      "description": "Specifies whether favorites in Lightning are",
+      "datatype": "Boolean",
+      "signature": "public Boolean favorites​Enabled"
+    },
+    {
+      "name": "feedPolling",
+      "description": "Reserved for future use.",
+      "datatype": "Boolean",
+      "signature": "public Boolean feedPolling"
+    },
+    {
+      "name": "feedStream​Enabled",
+      "description": "Specifies whether Chatter feed streams are enabled for",
+      "datatype": "Boolean",
+      "signature": "public Boolean feedStream​Enabled"
+    },
+    {
+      "name": "files",
+      "description": "Specifies whether files can act as resources for Chatter REST",
+      "datatype": "Boolean",
+      "signature": "public Boolean files"
+    },
+    {
+      "name": "filesOnComments",
+      "description": "Specifies whether files can be attached to",
+      "datatype": "Boolean",
+      "signature": "public Boolean filesOnComments"
+    },
+    {
+      "name": "forecasting3​Aggregated​Enabled",
+      "description": "Specifies whether aggregated forecasting is enabled for",
+      "datatype": "Boolean",
+      "signature": "public Boolean forecasting3​Aggregated​Enabled"
+    },
+    {
+      "name": "forecasting​Enabled",
+      "description": "Specifies whether forecasting is",
+      "datatype": "Boolean",
+      "signature": "public Boolean forecasting​Enabled"
+    },
+    {
+      "name": "forecasting​PeriodRange",
+      "description": "Range of the forecasting period.",
+      "datatype": "Integer",
+      "signature": "public Integer forecasting​PeriodRange"
+    },
+    {
+      "name": "forecasting​PeriodStart",
+      "description": "Start index for the forecasting",
+      "datatype": "Integer",
+      "signature": "public Integer forecasting​PeriodStart"
+    },
+    {
+      "name": "forecasting​PeriodType",
+      "description": "Time period used for forecasting.",
+      "datatype": "ConnectApi.​PeriodType",
+      "signature": "public ConnectApi.​PeriodType forecasting​PeriodType"
+    },
+    {
+      "name": "groupsCanFollow",
+      "description": "Reserved for future use.",
+      "datatype": "Boolean",
+      "signature": "public Boolean groupsCanFollow"
+    },
+    {
+      "name": "ideas",
+      "description": "Specifies whether Ideas is enabled.",
+      "datatype": "Boolean",
+      "signature": "public Boolean ideas"
+    },
+    {
+      "name": "liveAgent​HostName",
+      "description": "Live Agent host name configured for the",
+      "datatype": "String",
+      "signature": "public String liveAgent​HostName"
+    },
+    {
+      "name": "managedTopics​Enabled",
+      "description": "Specifies whether managed topics are",
+      "datatype": "Boolean",
+      "signature": "public Boolean managedTopics​Enabled"
+    },
+    {
+      "name": "maxEntity​Subscriptions​PerStream",
+      "description": "Specifies the maximum number of",
+      "datatype": "Integer",
+      "signature": "public Integer maxEntity​Subscriptions​PerStream"
+    },
+    {
+      "name": "maxFiles​PerFeedItem",
+      "description": "Specifies the maximum number of files that can",
+      "datatype": "Integer",
+      "signature": "public Integer maxFiles​PerFeedItem"
+    },
+    {
+      "name": "maxStreams​PerPerson",
+      "description": "Specifies the maximum number of Chatter streams that",
+      "datatype": "Integer",
+      "signature": "public Integer maxStreams​PerPerson"
+    },
+    {
+      "name": "mobile​Notifications​Enabled",
+      "description": "Reserved for future use.",
+      "datatype": "Boolean",
+      "signature": "public Boolean mobile​Notifications​Enabled"
+    },
+    {
+      "name": "multiCurrency",
+      "description": "Specifies whether the org uses multiple currencies",
+      "datatype": "Boolean",
+      "signature": "public Boolean multiCurrency"
+    },
+    {
+      "name": "offlineEdit​Enabled",
+      "description": "Specifies whether the offline object permissions are",
+      "datatype": "Boolean",
+      "signature": "public Boolean offlineEdit​Enabled"
+    },
+    {
+      "name": "publisherActions",
+      "description": "Specifies whether actions in the publisher are",
+      "datatype": "Boolean",
+      "signature": "public Boolean publisherActions"
+    },
+    {
+      "name": "storeData​OnDevices​Enabled",
+      "description": "Specifies whether the Salesforce for Android",
+      "datatype": "Boolean",
+      "signature": "public Boolean storeData​OnDevices​Enabled"
+    },
+    {
+      "name": "thanksAllowed",
+      "description": "Reserved for future use.",
+      "datatype": "Boolean",
+      "signature": "public Boolean thanksAllowed"
+    },
+    {
+      "name": "trendingTopics",
+      "description": "Specifies whether trending topics are",
+      "datatype": "Boolean",
+      "signature": "public Boolean trendingTopics"
+    },
+    {
+      "name": "userNav​ItemsEnabled",
+      "description": "Specifies whether users can customize the navigation",
+      "datatype": "Boolean",
+      "signature": "public Boolean userNav​ItemsEnabled"
+    },
+    {
+      "name": "viralInvites​Allowed",
+      "description": "Specifies whether existing Chatter users can invite",
+      "datatype": "Boolean",
+      "signature": "public Boolean viralInvites​Allowed"
+    },
+    {
+      "name": "wave",
+      "description": "Specifies whether Einstein Analytics (formerly known as Wave) is",
+      "datatype": "Boolean",
+      "signature": "public Boolean wave"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Features available to the context user in the org.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_features.htm"
+}

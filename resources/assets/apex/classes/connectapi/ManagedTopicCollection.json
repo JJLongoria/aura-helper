@@ -1,0 +1,39 @@
+{
+  "name": "ManagedTopicCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageUrl",
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "managedTopics",
+      "description": "List of managed topics.",
+      "datatype": "List<ConnectApi.​ManagedTopic>",
+      "signature": "public List<ConnectApi.​ManagedTopic> managedTopics"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of managed topics.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_topic_collection.htm"
+}

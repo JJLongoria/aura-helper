@@ -1,0 +1,20 @@
+{
+    "name": "Savepoint",
+    "namespace": "System",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "",
+    "isInterface": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [],
+    "description": "Only when all the Apex code has finished running and the Visualforce page has finished running, are the changes committed to the database. If the request does not complete successfully, all database changes are rolled back.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/langCon_apex_transaction_control.htm"
+  }

@@ -1,0 +1,63 @@
+{
+  "name": "Photo",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "fullEmailPhotoUrl",
+      "description": "A temporary URL to the large profile picture. The URL expires after 30 days and",
+      "datatype": "String",
+      "signature": "public String fullEmailPhotoUrl"
+    },
+    {
+      "name": "largePhotoUrl",
+      "description": "URL to the large profile picture. The default width is 200 pixels, and the",
+      "datatype": "String",
+      "signature": "public String largePhotoUrl"
+    },
+    {
+      "name": "mediumPhotoUrl",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String mediumPhotoUrl"
+    },
+    {
+      "name": "photoVersionId",
+      "description": "18–character ID to that version of the photo",
+      "datatype": "String",
+      "signature": "public String photoVersionId"
+    },
+    {
+      "name": "smallPhotoUrl",
+      "description": "URL to the small profile picture. The default size is 64x64 pixels.If a user hasn’t uploaded a photo, this URL points to a",
+      "datatype": "String",
+      "signature": "public String smallPhotoUrl"
+    },
+    {
+      "name": "standardEmail​PhotoUrl",
+      "description": "A temporary URL to the small profile. The URL expires after 30 days and is",
+      "datatype": "String",
+      "signature": "public String standardEmail​PhotoUrl"
+    },
+    {
+      "name": "url",
+      "description": "A resource that returns a Photo object: for example, /services/data/v48.0/chatter/users/005D0000001LL8OIAW/photo.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_photo.htm"
+}

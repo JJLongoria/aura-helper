@@ -1,0 +1,27 @@
+{
+  "name": "NewUserAudienceCriteria",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​AudienceCriteria",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "maxDaysInCommunity",
+      "description": "The maximum number of days since a user became a",
+      "datatype": "Double",
+      "signature": "public Double maxDaysInCommunity"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Criteria for the new members type of custom recommendation audience.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_new_user_audience_criteria.htm"
+}

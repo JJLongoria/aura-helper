@@ -1,0 +1,51 @@
+{
+  "name": "DatacloudContacts",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "contacts",
+      "description": "",
+      "datatype": "List<ConnectApi.​DatacloudContact>",
+      "signature": "public List<ConnectApi.​DatacloudContact> contacts"
+    },
+    {
+      "name": "currentPageUrl",
+      "description": "URL to the current page of contacts.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "previousPageUrl",
+      "description": "URL to the previous page of contacts. This value is null if there is",
+      "datatype": "String",
+      "signature": "public String previousPageUrl"
+    },
+    {
+      "name": "total",
+      "description": "Number of contacts that are associated with this order. Can be greater than",
+      "datatype": "Integer",
+      "signature": "public Integer total"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Lists all contacts that were purchased in the specific order, page URLs, and the number of contacts in the order.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_datacloud_contact_collection.htm"
+}

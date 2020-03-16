@@ -1,0 +1,57 @@
+{
+  "name": "OrganizationSettings",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "accessTimeout",
+      "description": "Amount of time after which the system prompts users who",
+      "datatype": "Integer",
+      "signature": "public Integer accessTimeout"
+    },
+    {
+      "name": "features",
+      "description": "Information about features available in the",
+      "datatype": "ConnectApi.Features",
+      "signature": "public ConnectApi.Features features"
+    },
+    {
+      "name": "maintenanceInfo",
+      "description": "Information about a list of upcoming scheduled maintenances",
+      "datatype": "List<ConnectApi.​MaintenanceInfo>",
+      "signature": "public List<ConnectApi.​MaintenanceInfo> maintenanceInfo"
+    },
+    {
+      "name": "name",
+      "description": "Organization name",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "orgId",
+      "description": "18-character ID for the organization",
+      "datatype": "String",
+      "signature": "public String orgId"
+    },
+    {
+      "name": "userSettings",
+      "description": "Information about the organization",
+      "datatype": "ConnectApi.UserSettings",
+      "signature": "public ConnectApi.UserSettings userSettings"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_organization.htm"
+}

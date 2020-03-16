@@ -190,26 +190,31 @@ async function listProfilesFromOrg(isPermissionSets, token, callback) {
 }
 
 function retrieve(profileNames, isPermissionSets) {
-    window.showQuickPick(['Yes', 'No'], { placeHolder: "Do you want to save compressed?" }).then((selected) => {
-        window.withProgress({
-            location: ProgressLocation.Notification,
-            title: (isPermissionSets) ? "Retrieving Permission Sets from Org" : "Retrieving Profiles from Org",
-            cancellable: true
-        }, (progress, canceltoken) => {
-            return new Promise(resolve => {
-                retrieveProfiles(profileNames, isPermissionSets, selected === 'Yes', canceltoken, function () {
-                    resolve();
-                    window.showInformationMessage((isPermissionSets) ? "Permission Retrieved Succesfully" : "Profiles Retrieved Succesfully");
+    window.showQuickPick(['Only Org Namespace', 'All'], { placeHolder: "Choose for retrieve all permissions or only from org namespaces" }).then((selectedToDownload) => {
+        if (selectedToDownload) {
+            let downloadAll = selectedToDownload === 'All';
+            window.showQuickPick(['Yes', 'No'], { placeHolder: "Do you want to save compressed?" }).then((selected) => {
+                window.withProgress({
+                    location: ProgressLocation.Notification,
+                    title: (isPermissionSets) ? "Retrieving Permission Sets from Org" : "Retrieving Profiles from Org",
+                    cancellable: true
+                }, (progress, canceltoken) => {
+                    return new Promise(resolve => {
+                        retrieveProfiles(profileNames, isPermissionSets, downloadAll, selected === 'Yes', canceltoken, function () {
+                            resolve();
+                            window.showInformationMessage((isPermissionSets) ? "Permission Retrieved Succesfully" : "Profiles Retrieved Succesfully");
+                        });
+                    });
                 });
             });
-        });
+        }
     });
 }
 
-async function retrieveProfiles(profileNames, isPermissionSets, compress, cancelToken, callback) {
+async function retrieveProfiles(profileNames, isPermissionSets, downloadAll, compress, cancelToken, callback) {
     let user = await Config.getAuthUsername();
     let orgNamespace = Config.getOrgNamespace(user);
-    MetadataConnection.getMetadataFromOrg(user, metadataForGetPermissions, orgNamespace, false, undefined, cancelToken, function (metadata) {
+    MetadataConnection.getMetadataFromOrg(user, metadataForGetPermissions, orgNamespace, downloadAll, undefined, cancelToken, function (metadata) {
         let profileMetadata;
         if (isPermissionSets)
             profileMetadata = MetadataFactory.createMetadataType('PermissionSet', true);

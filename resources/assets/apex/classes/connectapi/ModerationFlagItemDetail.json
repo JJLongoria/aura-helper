@@ -1,0 +1,57 @@
+{
+  "name": "ModerationFlagItemDetail",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "createdBy",
+      "description": "ID of the user who flagged the item.",
+      "datatype": "String",
+      "signature": "public String createdBy"
+    },
+    {
+      "name": "createdDate",
+      "description": "Date when the item was flagged.",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "id",
+      "description": "ID of the moderation flag.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "moderationType",
+      "description": "Type of moderation flag. Values are:",
+      "datatype": "ConnectApi.​CommunityFlagType",
+      "signature": "public ConnectApi.​CommunityFlagType moderationType"
+    },
+    {
+      "name": "note",
+      "description": "Note from user who flagged the item.",
+      "datatype": "String",
+      "signature": "public String note"
+    },
+    {
+      "name": "visibility",
+      "description": "Visibility behavior of a flag for",
+      "datatype": "ConnectApi.​CommunityFlag​Visibility",
+      "signature": "public ConnectApi.​CommunityFlag​Visibility visibility"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Flag details on a feed item, comment, or file.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_moderation_flag_item.htm"
+}

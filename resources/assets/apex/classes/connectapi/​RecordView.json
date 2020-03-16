@@ -1,0 +1,27 @@
+{
+  "name": "​RecordView",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​AbstractRecordView",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "sections",
+      "description": "A list of record view sections.",
+      "datatype": "List<ConnectApi.​RecordView​Section>",
+      "signature": "public List<ConnectApi.​RecordView​Section> sections"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_recordView.htm"
+}

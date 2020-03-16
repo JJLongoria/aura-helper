@@ -1,0 +1,33 @@
+{
+  "name": "UserMissionActivityStatus",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "message",
+      "description": "Success or error message.",
+      "datatype": "String",
+      "signature": "public String message"
+    },
+    {
+      "name": "status",
+      "description": "Status of mission activity for a user.",
+      "datatype": "String",
+      "signature": "public String status"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Status of mission activity for a user.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_user_mission_activity_output.htm"
+}

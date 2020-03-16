@@ -1,0 +1,57 @@
+{
+  "name": "Group​​MemberPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageUrl",
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "members",
+      "description": "List of group members",
+      "datatype": "List<ConnectApi.​GroupMember>",
+      "signature": "public List<ConnectApi.​GroupMember> members"
+    },
+    {
+      "name": "myMembership",
+      "description": "If the context user is a member of this group, returns information",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference myMembership"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "previousPageUrl",
+      "description": "Chatter REST API URL identifying the previous page, or null if there isn’t a previous",
+      "datatype": "String",
+      "signature": "public String previousPageUrl"
+    },
+    {
+      "name": "totalMemberCount",
+      "description": "Total number of group members across all pages",
+      "datatype": "Integer",
+      "signature": "public Integer totalMemberCount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_groupMemberPage.htm"
+}

@@ -53,6 +53,8 @@ function addApexComment(editor, position) {
         }
         const apexClassOrMethod = ApexParser.parseForComment(methodOrClassLine);
         workspace.openTextDocument(Paths.getApexCommentUserTemplatePath()).then((template) => processTemplate(template, apexClassOrMethod, position, editor))
+    } else { 
+        
     }
 }
 

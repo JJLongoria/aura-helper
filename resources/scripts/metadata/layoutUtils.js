@@ -481,17 +481,20 @@ class LayoutUtils {
             if (column.reserved !== undefined)
                 xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('reserved', column.reserved));
             if (column.layoutItems !== undefined)
-                xmlLines = xmlLines.concat(LayoutUtils.getLayoutItemsXMLLines(column.layoutItems, initIndent + 1));
+                xmlLines = xmlLines.concat(LayoutUtils.getLayoutItemsXMLLines(column.layoutItems, initIndent + 1, false));
             xmlLines.push(Utils.getTabs(initIndent) + '</layoutColumns>');
         }
         return xmlLines;
     }
 
-    static getLayoutItemsXMLLines(layoutItems, initIndent) {
+    static getLayoutItemsXMLLines(layoutItems, initIndent, singular) {
         let xmlLines = [];
         let items = Utils.forceArray(layoutItems);
         for (const item of items) {
-            xmlLines.push(Utils.getTabs(initIndent) + '<layoutItems>');
+            if (singular)
+                xmlLines.push(Utils.getTabs(initIndent) + '<layoutItem>');
+            else
+                xmlLines.push(Utils.getTabs(initIndent) + '<layoutItems>');
             if (item.behavior !== undefined)
                 xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('behavior', item.behavior));
             if (item.canvas !== undefined)
@@ -520,7 +523,10 @@ class LayoutUtils {
                 xmlLines = xmlLines.concat(Utils.getXMLBlock('analyticsCloudComponent', item.analyticsCloudComponent, true, initIndent + 1));
             if (item.reportChartComponent !== undefined)
                 xmlLines = xmlLines.concat(Utils.getXMLBlock('reportChartComponent', item.reportChartComponent, true, initIndent + 1));
-            xmlLines.push(Utils.getTabs(initIndent) + '</layoutItems>');
+            if (singular)
+                xmlLines.push(Utils.getTabs(initIndent) + '</layoutItem>');
+            else
+                xmlLines.push(Utils.getTabs(initIndent) + '</layoutItems>');
         }
         return xmlLines;
     }
@@ -585,10 +591,10 @@ class LayoutUtils {
         let items = Utils.forceArray(relatedContent.relatedContentItems);
         xmlLines.push(Utils.getTabs(initIndent) + '<relatedContent>');
         for (const item of items) {
-            xmlLines.push(Utils.getTabs(initIndent) + '<relatedContentItems>');
+            xmlLines.push(Utils.getTabs(initIndent + 1) + '<relatedContentItems>');
             if (item.layoutItem !== undefined)
-                xmlLines = xmlLines.concat(LayoutUtils.getLayoutItemsXMLLines(item.layoutItem, initIndent + 1));
-            xmlLines.push(Utils.getTabs(initIndent) + '</relatedContentItems>');
+                xmlLines = xmlLines.concat(LayoutUtils.getLayoutItemsXMLLines(item.layoutItem, initIndent + 1, true));
+            xmlLines.push(Utils.getTabs(initIndent + 1) + '</relatedContentItems>');
         }
         xmlLines.push(Utils.getTabs(initIndent) + '</relatedContent>');
         return xmlLines;

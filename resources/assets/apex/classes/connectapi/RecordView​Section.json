@@ -1,0 +1,51 @@
+{
+  "name": "RecordView​Section",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "columnCount",
+      "description": "The number of columns to use to lay out the fields",
+      "datatype": "Integer",
+      "signature": "public Integer columnCount"
+    },
+    {
+      "name": "columnOrder",
+      "description": "The order of the fields to use in the fields property to lay out the fields in a record",
+      "datatype": "ConnectApi.​RecordColumnOrder Enum",
+      "signature": "public ConnectApi.​RecordColumnOrder Enum columnOrder"
+    },
+    {
+      "name": "fields",
+      "description": "The fields and values for the record contained in this",
+      "datatype": "ConnectApi.​​Abstract​RecordField",
+      "signature": "public ConnectApi.​​Abstract​RecordField fields"
+    },
+    {
+      "name": "heading",
+      "description": "A localized label to display when rendering this",
+      "datatype": "String",
+      "signature": "public String heading"
+    },
+    {
+      "name": "isCollapsible",
+      "description": "Indicates whether the section can be collapsed",
+      "datatype": "Boolean",
+      "signature": "public Boolean isCollapsible"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_recordViewSection.htm"
+}

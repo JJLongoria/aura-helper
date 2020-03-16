@@ -1,0 +1,27 @@
+{
+  "name": "ManagedContentNodeValue",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "nodeType",
+      "description": "Type of managed content node.",
+      "datatype": "ConnectApi.​ManagedContent​NodeType",
+      "signature": "public ConnectApi.​ManagedContent​NodeType nodeType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Managed content node.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_content_node_value.htm"
+}

@@ -1,0 +1,30 @@
+{
+  "name": "​ContentHub​VariableType",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "BooleanType",
+    "DateTimeType",
+    "DecimalType",
+    "HtmlType",
+    "IdType",
+    "IntegerType",
+    "StringType",
+    "UriType",
+    "XmlType"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Data type of the value of the",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_enums.htm"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "EmailMergeFieldInfo",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "entityToMerge​FieldsMap",
+      "description": "Map for multiple objects and their merge field",
+      "datatype": "Map<String, ConnectApi.​EmailMergeField​CollectionInfo>",
+      "signature": "public Map<String, ConnectApi.​EmailMergeField​CollectionInfo> entityToMerge​FieldsMap"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The map for objects and their merge fields.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_email_merge_field.htm"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "RecommendationDefinitionPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "recommendation​Definitions",
+      "description": "A list of custom recommendation definitions.",
+      "datatype": "List<ConnectApi.​Recommendation​Definition>",
+      "signature": "public List<ConnectApi.​Recommendation​Definition> recommendation​Definitions"
+    },
+    {
+      "name": "url",
+      "description": "URL to the Chatter REST API resource for the recommendation definition",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A list of custom recommendation definitions.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_recommendation_definition_collection.htm"
+}

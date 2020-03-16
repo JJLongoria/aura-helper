@@ -1,0 +1,33 @@
+{
+  "name": "Group​Information​Input",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.Message​Segment​Input",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "text",
+      "description": "The text in the “Information” section of a group.",
+      "datatype": "String",
+      "signature": "public String text"
+    },
+    {
+      "name": "title",
+      "description": "The title of the “Information” section of a group.",
+      "datatype": "String",
+      "signature": "public String title"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_groupinformationinput.htm"
+}

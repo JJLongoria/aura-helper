@@ -1,0 +1,33 @@
+{
+  "name": "RelatedFeedPost",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​ActorWithId",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "score",
+      "description": "Score of the related feed post that indicates how closely",
+      "datatype": "Double",
+      "signature": "public Double score"
+    },
+    {
+      "name": "title",
+      "description": "Title of the related feed post.",
+      "datatype": "String",
+      "signature": "public String title"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "This class is abstract.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_related_feed_post.htm"
+}

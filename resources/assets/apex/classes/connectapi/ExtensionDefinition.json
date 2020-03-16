@@ -1,0 +1,87 @@
+{
+  "name": "ExtensionDefinition",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "canAccess",
+      "description": "Indicates whether users can access the extension when it’s",
+      "datatype": "Boolean",
+      "signature": "public Boolean canAccess"
+    },
+    {
+      "name": "canCreate",
+      "description": "Indicates whether users can create a feed element with the",
+      "datatype": "Boolean",
+      "signature": "public Boolean canCreate"
+    },
+    {
+      "name": "createdDate",
+      "description": "Date when the extension was created.",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "description",
+      "description": "Description of the extension.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "iconUrl",
+      "description": "URL to the icon for the extension.",
+      "datatype": "String",
+      "signature": "public String iconUrl"
+    },
+    {
+      "name": "id",
+      "description": "ID of the extension.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "information​Collection",
+      "description": "Collection of extension",
+      "datatype": "List<ConnectApi.​AbstractExtension​Information>",
+      "signature": "public List<ConnectApi.​AbstractExtension​Information> information​Collection"
+    },
+    {
+      "name": "isEnabled​InCommunity",
+      "description": "Indicates whether the extension is enabled in",
+      "datatype": "Boolean",
+      "signature": "public Boolean isEnabled​InCommunity"
+    },
+    {
+      "name": "isEnabled​InLightningPublisher",
+      "description": "Indicates whether the extension is",
+      "datatype": "Boolean",
+      "signature": "public Boolean isEnabled​InLightningPublisher"
+    },
+    {
+      "name": "name",
+      "description": "Name of the extension.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "position",
+      "description": "Position in which the extension is displayed in the",
+      "datatype": "Integer",
+      "signature": "public Integer position"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An extension's definition.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_extension_definition.htm"
+}

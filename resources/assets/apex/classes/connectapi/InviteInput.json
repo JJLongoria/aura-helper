@@ -1,0 +1,27 @@
+{
+  "name": "InviteInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "message",
+      "description": "Message to include in the invitation.",
+      "datatype": "String",
+      "signature": "public String message"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An invitation.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_invite_collection.htm"
+}

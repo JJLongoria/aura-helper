@@ -1,0 +1,27 @@
+{
+  "name": "DeleteIntent",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "managedSocialAccount",
+      "description": "Managed social account that deletes the social",
+      "datatype": "ConnectApi.​ManagedSocialAccount",
+      "signature": "public ConnectApi.​ManagedSocialAccount managedSocialAccount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Delete intent for a social post.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_delete_intent_output.htm"
+}

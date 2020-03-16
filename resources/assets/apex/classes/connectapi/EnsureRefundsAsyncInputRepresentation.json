@@ -1,0 +1,27 @@
+{
+  "name": "EnsureRefundsAsyncInputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "creditMemoId",
+      "description": "ID of the credit memo.",
+      "datatype": "String",
+      "signature": "public String creditMemoId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "ID of a credit memo to ensure refunds for.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_ensure_refunds_async.htm"
+}

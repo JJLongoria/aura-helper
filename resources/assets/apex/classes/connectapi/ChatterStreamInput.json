@@ -1,0 +1,33 @@
+{
+  "name": "ChatterStreamInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "description",
+      "description": "Description of the stream, up to 1,000 characters.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "name",
+      "description": "Name of the stream, up to 120 characters.",
+      "datatype": "String",
+      "signature": "public String name"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A Chatter feed stream.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_feed_stream.htm"
+}

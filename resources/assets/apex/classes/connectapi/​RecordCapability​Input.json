@@ -1,0 +1,27 @@
+{
+  "name": "​RecordCapability​Input",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "recordId",
+      "description": "ID of the existing knowledge article to attach.",
+      "datatype": "String",
+      "signature": "public String recordId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Attach an existing knowledge article to a comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_record_capability.htm"
+}

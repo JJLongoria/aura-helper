@@ -1,0 +1,63 @@
+{
+  "name": "UserCapabilities",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "canChat",
+      "description": "Specifies if the context user can use Chatter Messenger with the subject user (true) or not (false)",
+      "datatype": "Boolean",
+      "signature": "public Boolean canChat"
+    },
+    {
+      "name": "canDirectMessage",
+      "description": "Specifies if the context user",
+      "datatype": "Boolean",
+      "signature": "public Boolean canDirectMessage"
+    },
+    {
+      "name": "canEdit",
+      "description": "Specifies if the context user can edit",
+      "datatype": "Boolean",
+      "signature": "public Boolean canEdit"
+    },
+    {
+      "name": "canFollow",
+      "description": "Specifies if the context user can follow",
+      "datatype": "Boolean",
+      "signature": "public Boolean canFollow"
+    },
+    {
+      "name": "canViewFeed",
+      "description": "Specifies if the context user can",
+      "datatype": "Boolean",
+      "signature": "public Boolean canViewFeed"
+    },
+    {
+      "name": "canViewFullProfile",
+      "description": "Specifies if the context user",
+      "datatype": "Boolean",
+      "signature": "public Boolean canViewFullProfile"
+    },
+    {
+      "name": "isModerator",
+      "description": "Specifies if the subject user",
+      "datatype": "Boolean",
+      "signature": "public Boolean isModerator"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_user_capabilities.htm"
+}

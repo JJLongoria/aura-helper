@@ -1,0 +1,51 @@
+{
+  "name": "​EnhancedLink​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "description",
+      "description": "A description with a 500 character limit.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "icon",
+      "description": "A icon.",
+      "datatype": "ConnectApi.Icon",
+      "signature": "public ConnectApi.Icon icon"
+    },
+    {
+      "name": "linkRecordId",
+      "description": "A ID associated with the link if the link URL refers to a Salesforce",
+      "datatype": "String",
+      "signature": "public String linkRecordId"
+    },
+    {
+      "name": "linkUrl",
+      "description": "A link URL to a detail page if available content can’t display",
+      "datatype": "String",
+      "signature": "public String linkUrl"
+    },
+    {
+      "name": "title",
+      "description": "A title to a detail page.",
+      "datatype": "String",
+      "signature": "public String title"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has a link that may contain supplemental information like an icon, a title, and a description.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_enhanced_link_capability.htm"
+}

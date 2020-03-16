@@ -1,0 +1,27 @@
+{
+  "name": "Message​Segment​Input",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "type",
+      "description": "The type of message segment. Values are:",
+      "datatype": "ConnectApi.​MessageSegment​Type",
+      "signature": "public ConnectApi.​MessageSegment​Type type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Used to add rich message segments to feed items and comments.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_messageSegmentInput.htm"
+}

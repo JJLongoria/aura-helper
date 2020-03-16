@@ -1,0 +1,27 @@
+{
+  "name": "TargetCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "targets",
+      "description": "List of personalization targets.",
+      "datatype": "List<ConnectApi.​Target>",
+      "signature": "public List<ConnectApi.​Target> targets"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "List of personalization targets.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_target_collection.htm"
+}

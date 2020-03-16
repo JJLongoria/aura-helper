@@ -1,0 +1,33 @@
+{
+  "name": "ArticleTopicAssignmentJobInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "operation",
+      "description": "Type of operation to perform on articles and topics. Values are: AssignTopicsToArticle—Assign topics to articles in a data category. UnassignTopicsFromArticle—Unassign topics from articles in a data category.",
+      "datatype": "ConnectApi.​ArticleTopicJobType",
+      "signature": "public ConnectApi.​ArticleTopicJobType operation"
+    },
+    {
+      "name": "topicNames",
+      "description": "List of topic names to assign to or unassign from articles.",
+      "datatype": "ConnectApi.​TopicNamesInput",
+      "signature": "public ConnectApi.​TopicNamesInput topicNames"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An article and topic assignment job.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_article_topic_assignment_job.htm"
+}

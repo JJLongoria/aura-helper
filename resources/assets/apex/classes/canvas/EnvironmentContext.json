@@ -1,0 +1,95 @@
+{
+  "name": "EnvironmentContext",
+  "namespace": "Canvas",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": true,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [
+    {
+      "name": "addEntityField",
+      "signature": "public void addEntityField(String fieldName)",
+      "description": "Adds a field to the list of object fields that are returned in the signed request Record object when the component appears on a Visualforce page that’s placed on an object.",
+      "params": [
+        {
+          "name": "fieldName",
+          "datatype": "String",
+          "description": "The object field name that you need to add to the list of returned fields., Using ‘*’ adds all fields that the user has permission to view."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "addEntityFields",
+      "signature": "public void addEntityFields(Set<String> fieldNames)",
+      "description": "Adds a set of fields to the list of object fields that are returned in the signed request Record object when the component appears on a Visualforce page that’s placed on an object.",
+      "params": [
+        {
+          "name": "fieldNames",
+          "datatype": "Set<String>",
+          "description": "The set of object field names that you need to add to the list of returned fields. If an item in the set is ‘*’, all fields that the user has permission to view are added."
+        }
+      ],
+      "datatype": "void"
+    },
+    {
+      "name": "getDisplayLocation",
+      "signature": "public String getDisplayLocation()",
+      "description": "Retrieves the display location where the canvas app is being called from. For example, a value of Visualforce page.",
+      "params": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getEntityFields",
+      "signature": "public List<String> getEntityFields()",
+      "description": "Retrieves the list of object fields that are returned in the signed request Record object when the component appears on a Visualforce page that’s placed on an object.",
+      "params": [],
+      "datatype": "List<String>"
+    },
+    {
+      "name": "getLocationUrl",
+      "signature": "public String getLocationUrl()",
+      "description": "Retrieves the location URL of the canvas app.",
+      "params": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getParametersAsJSON",
+      "signature": "public String getParametersAsJSON()",
+      "description": "Retrieves the current custom parameters for the canvas app. Parameters are returned as a JSON string.",
+      "params": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getSublocation",
+      "signature": "public String getSublocation()",
+      "description": "Retrieves the display sublocation where the canvas app is being called from.",
+      "params": [],
+      "datatype": "String"
+    },
+    {
+      "name": "setParametersAsJSON",
+      "signature": "public void setParametersAsJSON(String jsonString)",
+      "description": "Sets the custom parameters for the canvas app.",
+      "params": [
+        {
+          "name": "jsonString",
+          "datatype": "String",
+          "description": "The custom parameters that you need to set, serialized into a JSON format string."
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "description": "Use this interface to retrieve environment context information, such as the app display location or the configuration parameters.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_canvas_EnvironmentContext.htm"
+}

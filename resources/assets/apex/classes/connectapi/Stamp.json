@@ -1,0 +1,45 @@
+{
+  "name": "Stamp",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "description",
+      "description": "Description of the stamp.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "id",
+      "description": "ID of the stamp.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "imageUrl",
+      "description": "Image URL of the stamp.",
+      "datatype": "String",
+      "signature": "public String imageUrl"
+    },
+    {
+      "name": "label",
+      "description": "Label of the stamp.",
+      "datatype": "String",
+      "signature": "public String label"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A user stamp.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_stamp.htm"
+}

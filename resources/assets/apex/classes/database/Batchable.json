@@ -17,20 +17,25 @@
   "methods": [
     {
       "name": "execute",
-      "signature": "public Void execute(Database.BatchableContext jobId, List<sObject> recordList)",
+      "signature": "public void execute(Database.BatchableContext jobId, List<sObject> recordList)",
       "description": "Gets invoked when the batch job executes and operates on one batch of records. Contains or calls the main execution logic for the batch job.",
       "params": [
+        {
+          "name": "jobId",
+          "datatype": "Database.BatchableContext",
+          "description": "Contains the job ID."
+        },
         {
           "name": "recordList",
           "datatype": "List<sObject>",
           "description": "Contains the job ID. Contains the batch of records to process."
         }
       ],
-      "datatype": "Void"
+      "datatype": "void"
     },
     {
       "name": "finish",
-      "signature": "public Void finish(Database.BatchableContext jobId)",
+      "signature": "public void finish(Database.BatchableContext jobId)",
       "description": "Gets invoked when the batch job finishes. Place any clean up code in this method.",
       "params": [
         {
@@ -39,20 +44,7 @@
           "description": "Contains the job ID."
         }
       ],
-      "datatype": "Void"
-    },
-    {
-      "name": "start",
-      "signature": "public System.Iterable start(Database.BatchableContext jobId)",
-      "description": "Gets invoked when the batch job starts. Returns the record set as an iterable that will be batched for execution.",
-      "params": [
-        {
-          "name": "jobId",
-          "datatype": "Database.BatchableContext",
-          "description": "Contains the job ID."
-        }
-      ],
-      "datatype": "System.Iterable"
+      "datatype": "void"
     },
     {
       "name": "start",

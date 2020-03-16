@@ -1,0 +1,33 @@
+{
+  "name": "​RecordCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "recordId",
+      "description": "ID of the record.",
+      "datatype": "String",
+      "signature": "public String recordId"
+    },
+    {
+      "name": "url",
+      "description": "URL to the record.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a comment has this capability, it has a record attachment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_record_capability.htm"
+}

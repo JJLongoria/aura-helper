@@ -1,0 +1,75 @@
+{
+  "name": "Topic",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "createdDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "description",
+      "description": "Description of the topic",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "id",
+      "description": "18-character ID",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "images",
+      "description": "Images associated with the topic",
+      "datatype": "ConnectApi.​TopicImages",
+      "signature": "public ConnectApi.​TopicImages images"
+    },
+    {
+      "name": "isBeingDeleted",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isBeingDeleted"
+    },
+    {
+      "name": "name",
+      "description": "Name of the topic",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "nonLocalized​Name",
+      "description": "Non-localized name of the topic",
+      "datatype": "String",
+      "signature": "public String nonLocalized​Name"
+    },
+    {
+      "name": "talkingAbout",
+      "description": "Number of people talking about this topic over the last two months, based on",
+      "datatype": "Integer",
+      "signature": "public Integer talkingAbout"
+    },
+    {
+      "name": "url",
+      "description": "URL to the topic detail page",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_topic.htm"
+}

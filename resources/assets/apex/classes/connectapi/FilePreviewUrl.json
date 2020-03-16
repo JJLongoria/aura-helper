@@ -1,0 +1,33 @@
+{
+  "name": "FilePreviewUrl",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "pageNumber",
+      "description": "Preview page number starting from zero, or null for PDF files.",
+      "datatype": "Integer",
+      "signature": "public Integer pageNumber"
+    },
+    {
+      "name": "previewUrl",
+      "description": "File preview URL.",
+      "datatype": "String",
+      "signature": "public String previewUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A URL to a file preview.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_file_preview_url.htm"
+}

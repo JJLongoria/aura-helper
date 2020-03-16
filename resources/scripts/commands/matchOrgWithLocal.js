@@ -166,13 +166,20 @@ function processResponse(user, stdOut, cancelToken, promiseResolve) {
     let jsonOut = JSON.parse(stdOut);
     if (jsonOut.status === 0) {
         deployJobId = jsonOut.result.id;
-        interval = setInterval(() => {
-            monitorizeDeploy(user, deployJobId, cancelToken, promiseResolve);
-        }, 1000);
+        view.postMessage({ command: 'metadataDeleted', data: {  } });
+    } else if (jsonOut.status === 1) { 
+        let errors = '';
+        if (jsonOut.result.details && jsonOut.result.details.componentFailures && jsonOut.result.details.componentFailures.length > 0) { 
+            for (const fail of jsonOut.result.details.componentFailures) {
+                errors += '<b>' + fail.fullName + '</b>: ' + fail.problem + '\n';
+            }
+        }
+        view.postMessage({ command: 'metadataDeletedError', data: { error: errors } });
     }
+    promiseResolve();
 }
 
-function monitorizeDeploy(user, deployJobId, cancelToken, promiseResolve) {
+/*function monitorizeDeploy(user, deployJobId, cancelToken, promiseResolve) {
     let buffer = [];
     let bufferError = [];
     ProcessManager.deployReport(user, deployJobId, cancelToken, function (event, data) {
@@ -206,7 +213,7 @@ function monitorizeDeploy(user, deployJobId, cancelToken, promiseResolve) {
                 break;
         }
     });
-}
+}*/
 
 function cancelDeploy(user, deployJobId) {
     window.withProgress({

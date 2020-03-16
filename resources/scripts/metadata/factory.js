@@ -252,7 +252,7 @@ class MetadataFactory {
 
      static getApprovalProcessesMetadataFromFolder(folderPath) {
           let files = FileReader.readDirSync(folderPath);
-          let metadataType = MetadataFactory.createMetadataType(MetadataTypes.CUSTOM_METADATA, false);
+          let metadataType = MetadataFactory.createMetadataType(MetadataTypes.APPROVAL_PROCESSES, false);
           let metadataObjects = {};
           for (const file of files) {
                let fileParts = file.split('.');
@@ -351,9 +351,10 @@ class MetadataFactory {
                          metadataObjects[docFolder] = MetadataFactory.createMetadataObject(docFolder, false);
                     let docs = FileReader.readDirSync(folderPath + '/' + docFolder);
                     for (const doc of docs) {
-                         let name = doc.substring(0, doc.indexOf('.'));
-                         if (name && name.length > 0 && !metadataObjects[docFolder].childs[name])
-                              metadataObjects[docFolder].childs[name] = MetadataFactory.createMetadataItem(name, false);
+                         if (doc.indexOf('.document-meta.xml') === -1) {
+                              if (doc && doc.length > 0 && !metadataObjects[docFolder].childs[doc])
+                                   metadataObjects[docFolder].childs[doc] = MetadataFactory.createMetadataItem(doc, false);
+                         }
                     }
                }
           }
@@ -440,7 +441,7 @@ class MetadataFactory {
 
      static getCustomMetadataFromFolder(folderPath) {
           let files = FileReader.readDirSync(folderPath);
-          let metadataType = MetadataFactory.createMetadataType(MetadataTypes.CUSTOM, false);
+          let metadataType = MetadataFactory.createMetadataType(MetadataTypes.CUSTOM_METADATA, false);
           let metadataObjects = {};
           for (const file of files) {
                let fileParts = file.split('.');
@@ -523,7 +524,8 @@ class MetadataFactory {
 
      static getCustomObjectsMetadata(metadata, objectsPath) {
           let files = FileReader.readDirSync(objectsPath);
-          metadata[MetadataTypes.CUSTOM_FIELDS] = MetadataFactory.createMetadataType(MetadataTypes.CUSTOM_FIELDS, false);;
+          metadata[MetadataTypes.CUSTOM_OBJECT] = MetadataFactory.createMetadataType(MetadataTypes.CUSTOM_OBJECT, false);
+          metadata[MetadataTypes.CUSTOM_FIELDS] = MetadataFactory.createMetadataType(MetadataTypes.CUSTOM_FIELDS, false);
           metadata[MetadataTypes.RECORD_TYPE] = MetadataFactory.createMetadataType(MetadataTypes.RECORD_TYPE, false);
           metadata[MetadataTypes.LISTVIEW] = MetadataFactory.createMetadataType(MetadataTypes.LISTVIEW, false);
           metadata[MetadataTypes.BUSINESS_PROCESS] = MetadataFactory.createMetadataType(MetadataTypes.BUSINESS_PROCESS, false);
@@ -531,28 +533,44 @@ class MetadataFactory {
           metadata[MetadataTypes.VALIDATION_RULE] = MetadataFactory.createMetadataType(MetadataTypes.VALIDATION_RULE, false);
           metadata[MetadataTypes.BUTTON_OR_LINK] = MetadataFactory.createMetadataType(MetadataTypes.BUTTON_OR_LINK, false);
           for (const objFolder of files) {
+               let objs = MetadataFactory.createMetadataObject(objFolder, false);
+               metadata[MetadataTypes.CUSTOM_OBJECT].childs[objFolder] = objs;
                let objPath = objectsPath + '/' + objFolder;
-               let fields = MetadataFactory.createMetadataObject(objFolder, false);
-               fields.childs = MetadataFactory.getMetadataItems(objPath + '/fields');
-               let recordTypes = MetadataFactory.createMetadataObject(objFolder, false);
-               recordTypes.childs = MetadataFactory.getMetadataItems(objPath + '/recordTypes');
-               let listviews = MetadataFactory.createMetadataObject(objFolder, false);
-               listviews.childs = MetadataFactory.getMetadataItems(objPath + '/listViews');
-               let bussinesProcesses = MetadataFactory.createMetadataObject(objFolder, false);
-               bussinesProcesses.childs = MetadataFactory.getMetadataItems(objPath + '/businessProcesses');
-               let compactLayouts = MetadataFactory.createMetadataObject(objFolder, false);
-               compactLayouts.childs = MetadataFactory.getMetadataItems(objPath + '/compactLayouts');
-               let validationRules = MetadataFactory.createMetadataObject(objFolder, false);
-               validationRules.childs = MetadataFactory.getMetadataItems(objPath + '/validationRules');
-               let weblinks = MetadataFactory.createMetadataObject(objFolder, false);
-               weblinks.childs = MetadataFactory.getMetadataItems(objPath + '/webLinks');
-               metadata[MetadataTypes.CUSTOM_FIELDS].childs[objFolder] = fields;
-               metadata[MetadataTypes.RECORD_TYPE].childs[objFolder] = recordTypes;
-               metadata[MetadataTypes.LISTVIEW].childs[objFolder] = listviews;
-               metadata[MetadataTypes.BUSINESS_PROCESS].childs[objFolder] = bussinesProcesses;
-               metadata[MetadataTypes.COMPACT_LAYOUT].childs[objFolder] = compactLayouts;
-               metadata[MetadataTypes.VALIDATION_RULE].childs[objFolder] = validationRules;
-               metadata[MetadataTypes.BUTTON_OR_LINK].childs[objFolder] = weblinks;
+               if (FileChecker.isExists(objPath + '/fields')) {
+                    let fields = MetadataFactory.createMetadataObject(objFolder, false);
+                    fields.childs = MetadataFactory.getMetadataItems(objPath + '/fields');
+                    metadata[MetadataTypes.CUSTOM_FIELDS].childs[objFolder] = fields;
+               }
+               if (FileChecker.isExists(objPath + '/recordTypes')) {
+                    let recordTypes = MetadataFactory.createMetadataObject(objFolder, false);
+                    recordTypes.childs = MetadataFactory.getMetadataItems(objPath + '/recordTypes');
+                    metadata[MetadataTypes.RECORD_TYPE].childs[objFolder] = recordTypes;
+               }
+               if (FileChecker.isExists(objPath + '/listViews')) {
+                    let listviews = MetadataFactory.createMetadataObject(objFolder, false);
+                    listviews.childs = MetadataFactory.getMetadataItems(objPath + '/listViews');
+                    metadata[MetadataTypes.LISTVIEW].childs[objFolder] = listviews;
+               }
+               if (FileChecker.isExists(objPath + '/businessProcesses')) {
+                    let bussinesProcesses = MetadataFactory.createMetadataObject(objFolder, false);
+                    bussinesProcesses.childs = MetadataFactory.getMetadataItems(objPath + '/businessProcesses');
+                    metadata[MetadataTypes.BUSINESS_PROCESS].childs[objFolder] = bussinesProcesses;
+               }
+               if (FileChecker.isExists(objPath + '/compactLayouts')) {
+                    let compactLayouts = MetadataFactory.createMetadataObject(objFolder, false);
+                    compactLayouts.childs = MetadataFactory.getMetadataItems(objPath + '/compactLayouts');
+                    metadata[MetadataTypes.COMPACT_LAYOUT].childs[objFolder] = compactLayouts;
+               }
+               if (FileChecker.isExists(objPath + '/validationRules')) {
+                    let validationRules = MetadataFactory.createMetadataObject(objFolder, false);
+                    validationRules.childs = MetadataFactory.getMetadataItems(objPath + '/validationRules');
+                    metadata[MetadataTypes.VALIDATION_RULE].childs[objFolder] = validationRules;
+               }
+               if (FileChecker.isExists(objPath + '/webLinks')) {
+                    let weblinks = MetadataFactory.createMetadataObject(objFolder, false);
+                    weblinks.childs = MetadataFactory.getMetadataItems(objPath + '/webLinks');
+                    metadata[MetadataTypes.BUTTON_OR_LINK].childs[objFolder] = weblinks;
+               }
           }
           return metadata;
      }
@@ -1146,6 +1164,9 @@ class MetadataFactory {
                labelPlural: undefined,
                keyPrefix: undefined,
                queryable: undefined,
+               custom: false,
+               customSetting: false,
+               namespace: undefined,
                fields: [],
                recordTypes: []
           };
@@ -1156,6 +1177,7 @@ class MetadataFactory {
                type: undefined,
                custom: undefined,
                relationshipName: undefined,
+               namespace: undefined,
                picklistValues: [],
                referenceTo: []
           };
@@ -1196,8 +1218,15 @@ class MetadataFactory {
                          };
                     }
                     else if (isOnFields) {
-                         if (field.name)
+                         if (field.name) {
+                              let splits = field.name.split('__');
+                              let namespace = undefined;
+                              if (splits.length > 2) {
+                                   namespace = splits[0].trim();
+                              }
+                              field.namespace = namespace;
                               metadataIndex.fields.push(field);
+                         }
                          field = {
                               name: undefined,
                               label: undefined,
@@ -1205,6 +1234,7 @@ class MetadataFactory {
                               type: undefined,
                               custom: undefined,
                               relationshipName: undefined,
+                              namespace: undefined,
                               picklistValues: [],
                               referenceTo: []
                          };
@@ -1217,8 +1247,15 @@ class MetadataFactory {
                          isOnFields = false;
                          isOnReference = false;
                          isOnPicklistVal = false;
-                         if (field.name)
+                         if (field.name) {
+                              let splits = field.name.split('__');
+                              let namespace = undefined;
+                              if (splits.length > 2) {
+                                   namespace = splits[0].trim();
+                              }
+                              field.namespace = namespace;
                               metadataIndex.fields.push(field);
+                         }
                          field = {
                               name: undefined,
                               label: undefined,
@@ -1226,6 +1263,7 @@ class MetadataFactory {
                               type: undefined,
                               custom: undefined,
                               relationshipName: undefined,
+                              namespace: undefined,
                               picklistValues: [],
                               referenceTo: []
                          };
@@ -1252,8 +1290,15 @@ class MetadataFactory {
                }
                if (bracketIndent === 2 && !isOnFields && !isOnRts) {
                     let keyValue = MetadataFactory.getJSONNameValuePair(line);
-                    if (keyValue.name === 'name')
+                    if (keyValue.name === 'name') {
+                         let splits = keyValue.value.split('__');
+                         let namespace = undefined;
+                         if (splits.length > 2) {
+                              namespace = splits[0].trim();
+                         }
+                         metadataIndex.namespace = namespace;
                          metadataIndex.name = keyValue.value;
+                    }
                     if (keyValue.name === 'label')
                          metadataIndex.label = keyValue.value;
                     if (keyValue.name === 'labelPlural')
@@ -1262,6 +1307,10 @@ class MetadataFactory {
                          metadataIndex.keyPrefix = keyValue.value;
                     if (keyValue.name === 'queryable')
                          metadataIndex.queryable = keyValue.value;
+                    if (keyValue.name === 'custom')
+                         metadataIndex.custom = keyValue.value;
+                    if (keyValue.name === 'customSetting')
+                         metadataIndex.customSetting = keyValue.value;
                } else if (isOnReference && line.indexOf('[') === -1) {
                     field.referenceTo.push(line.replace(new RegExp('"', 'g'), "").trim());
                } else if (isOnPicklistVal && line.indexOf('[') === -1) {
@@ -1310,6 +1359,8 @@ class MetadataFactory {
                     }
                }
           }
+          if (!metadataIndex.name)
+               return undefined;
           return metadataIndex;
      }
 

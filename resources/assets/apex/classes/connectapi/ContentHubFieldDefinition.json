@@ -1,0 +1,51 @@
+{
+  "name": "ContentHubFieldDefinition",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "displayName",
+      "description": "Label or caption of this field.",
+      "datatype": "String",
+      "signature": "public String displayName"
+    },
+    {
+      "name": "isMandatory",
+      "description": "Specifies whether this field is mandatory for the item",
+      "datatype": "Boolean",
+      "signature": "public Boolean isMandatory"
+    },
+    {
+      "name": "maxLength",
+      "description": "Maximum length of the value of this field.",
+      "datatype": "Integer",
+      "signature": "public Integer maxLength"
+    },
+    {
+      "name": "name",
+      "description": "Name of the field.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "type",
+      "description": "Data type of the value of the",
+      "datatype": "ConnectApi.​ContentHub​VariableType",
+      "signature": "public ConnectApi.​ContentHub​VariableType type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A field definition.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_content_hub_field_definition.htm"
+}

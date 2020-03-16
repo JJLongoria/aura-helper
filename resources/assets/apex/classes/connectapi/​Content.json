@@ -1,0 +1,153 @@
+{
+  "name": "​Content",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "checksum",
+      "description": "MD5 checksum for the file.",
+      "datatype": "String",
+      "signature": "public String checksum"
+    },
+    {
+      "name": "contentUrl",
+      "description": "URL of the content for links.",
+      "datatype": "String",
+      "signature": "public String contentUrl"
+    },
+    {
+      "name": "description",
+      "description": "Description of the attachment.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "downloadUrl",
+      "description": "URL to the content.",
+      "datatype": "String",
+      "signature": "public String downloadUrl"
+    },
+    {
+      "name": "fileExtension",
+      "description": "Extension of the file.",
+      "datatype": "String",
+      "signature": "public String fileExtension"
+    },
+    {
+      "name": "fileSize",
+      "description": "Size of the file in bytes. If size can’t be determined,",
+      "datatype": "String",
+      "signature": "public String fileSize"
+    },
+    {
+      "name": "fileType",
+      "description": "Type of file, such as PDF.",
+      "datatype": "String",
+      "signature": "public String fileType"
+    },
+    {
+      "name": "hasPdfPreview",
+      "description": "true if the file",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasPdfPreview"
+    },
+    {
+      "name": "id",
+      "description": "18-character ID of the content.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "imageDetails",
+      "description": "Image details, or null if the file isn’t an image.",
+      "datatype": "ConnectApi.​ContentImage​FileDetails",
+      "signature": "public ConnectApi.​ContentImage​FileDetails imageDetails"
+    },
+    {
+      "name": "isInMyFileSync",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isInMyFileSync"
+    },
+    {
+      "name": "mimeType",
+      "description": "MIME type of the file.",
+      "datatype": "String",
+      "signature": "public String mimeType"
+    },
+    {
+      "name": "renditionUrl",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String renditionUrl"
+    },
+    {
+      "name": "renditionUrl​240By180",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String renditionUrl​240By180"
+    },
+    {
+      "name": "renditionUrl​720By480",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String renditionUrl​720By480"
+    },
+    {
+      "name": "sharingOption",
+      "description": "",
+      "datatype": "ConnectApi.​FileSharingOption",
+      "signature": "public ConnectApi.​FileSharingOption sharingOption"
+    },
+    {
+      "name": "textPreview",
+      "description": "Text preview of the file if available; null otherwise.",
+      "datatype": "String",
+      "signature": "public String textPreview"
+    },
+    {
+      "name": "thumb120By90​RenditionStatus",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String thumb120By90​RenditionStatus"
+    },
+    {
+      "name": "thumb240By180​RenditionStatus",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String thumb240By180​RenditionStatus"
+    },
+    {
+      "name": "thumb720By480​RenditionStatus",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String thumb720By480​RenditionStatus"
+    },
+    {
+      "name": "title",
+      "description": "Title of the file.",
+      "datatype": "String",
+      "signature": "public String title"
+    },
+    {
+      "name": "versionId",
+      "description": "Version ID of the file.",
+      "datatype": "String",
+      "signature": "public String versionId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A file attached to a feed item.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_content.htm"
+}

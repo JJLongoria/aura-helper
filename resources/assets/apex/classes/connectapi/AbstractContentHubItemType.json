@@ -1,0 +1,57 @@
+{
+  "name": "AbstractContentHubItemType",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "contentStream​Support",
+      "description": "Support for content streaming.",
+      "datatype": "ConnectApi.​ContentHub​StreamSupport",
+      "signature": "public ConnectApi.​ContentHub​StreamSupport contentStream​Support"
+    },
+    {
+      "name": "description",
+      "description": "Description of the item type.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "displayName",
+      "description": "Display name of the item type.",
+      "datatype": "String",
+      "signature": "public String displayName"
+    },
+    {
+      "name": "id",
+      "description": "ID of the item type.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "isVersionable",
+      "description": "Indicates whether the item type can have",
+      "datatype": "Boolean",
+      "signature": "public Boolean isVersionable"
+    },
+    {
+      "name": "url",
+      "description": "URL to the detailed information of the item type.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An item type associated with a repository folder.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_content_hub_item_type.htm"
+}

@@ -1,0 +1,46 @@
+{
+  "name": "​Chatter​Conversation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "description": "The ID for the conversation",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Chatter REST API URL identifying the conversation",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "List of users in the conversation",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "The content of the conversation",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Specifies if the conversation is read (true) or not read (false)",
+      "datatype": "",
+      "signature": "public  undefined"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_ChatterConversation.htm"
+}

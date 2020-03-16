@@ -1,0 +1,41 @@
+{
+  "name": "ChatterLikes​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "description": "Indicates whether the feed element is liked by the",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Likes information for this feed element.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "A message body that describes who likes the feed",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "If the context user has liked the feed element, this property is a",
+      "datatype": "",
+      "signature": "public  undefined"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, the context user can like it. Exposes information about existing likes.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_chatter_likes_capability.htm"
+}

@@ -1,0 +1,117 @@
+{
+  "name": "User​Detail",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.User",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "aboutMe",
+      "description": "Text from user's profile",
+      "datatype": "String",
+      "signature": "public String aboutMe"
+    },
+    {
+      "name": "address",
+      "description": "User’s address",
+      "datatype": "ConnectApi.​Address",
+      "signature": "public ConnectApi.​Address address"
+    },
+    {
+      "name": "bannerPhoto",
+      "description": "User’s banner photo",
+      "datatype": "ConnectApi.​BannerPhoto",
+      "signature": "public ConnectApi.​BannerPhoto bannerPhoto"
+    },
+    {
+      "name": "chatterActivity",
+      "description": "Chatter",
+      "datatype": "ConnectApi.​Chatter​Activity",
+      "signature": "public ConnectApi.​Chatter​Activity chatterActivity"
+    },
+    {
+      "name": "chatterInfluence",
+      "description": "User’s influence rank",
+      "datatype": "ConnectApi.​Global​Influence",
+      "signature": "public ConnectApi.​Global​Influence chatterInfluence"
+    },
+    {
+      "name": "email",
+      "description": "User's email address",
+      "datatype": "String",
+      "signature": "public String email"
+    },
+    {
+      "name": "followersCount",
+      "description": "Number of users following this user",
+      "datatype": "Integer",
+      "signature": "public Integer followersCount"
+    },
+    {
+      "name": "followingCounts",
+      "description": "Information about items the user is following",
+      "datatype": "ConnectApi.​Following​Counts",
+      "signature": "public ConnectApi.​Following​Counts followingCounts"
+    },
+    {
+      "name": "groupCount",
+      "description": "Number of groups user is following",
+      "datatype": "Integer",
+      "signature": "public Integer groupCount"
+    },
+    {
+      "name": "hasChatter",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasChatter"
+    },
+    {
+      "name": "isActive",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isActive"
+    },
+    {
+      "name": "managerId",
+      "description": "18-character ID of the user’s manager",
+      "datatype": "String",
+      "signature": "public String managerId"
+    },
+    {
+      "name": "managerName",
+      "description": "Locale-based concatenation of manager's first and last names",
+      "datatype": "String",
+      "signature": "public String managerName"
+    },
+    {
+      "name": "phoneNumbers",
+      "description": "Collection of user's phone numbers",
+      "datatype": "List<ConnectApi.​Phone​Number>",
+      "signature": "public List<ConnectApi.​Phone​Number> phoneNumbers"
+    },
+    {
+      "name": "thanksReceived",
+      "description": "The number of times the user has been thanked.",
+      "datatype": "Integer",
+      "signature": "public Integer thanksReceived"
+    },
+    {
+      "name": "username",
+      "description": "Username of the user, such as Admin@mycompany.com.",
+      "datatype": "String",
+      "signature": "public String username"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_user_detail.htm"
+}

@@ -1,0 +1,197 @@
+<html style="height: 100%; overflow: -moz-hidden-unscrollable;">
+
+	<head>
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito:200&display=swap" rel="stylesheet">
+	</head>
+	<style>
+		:root {
+			--light-blue: #9CDCFE;
+			--blue: #2391d1;
+			--dark-blue: #0067FF;
+			--blue-grey: #2f3640;
+			--vscode-grey: #1E1E1E;
+			--dark-grey: #141414ab;
+			--black-grey: #141414;
+			--dark-grey-transparent: #1a1a1a46;
+			--transparent: #14141400;
+			--light-yellow: #DCDCAA;
+			--grey: #464646bd;
+			--medium-grey: #4444447a;
+			--light-grey: #808080bd;
+			--very-light-grey: #D4D4D4;
+			--green: #4CAF50;
+			--bright-green: #77db34;
+			--light-green: #8BC34A;
+			--red: #F44336;
+			--orange: #ce723b;
+			--purple: #7c34db;
+			--scrollbarBG: #CFD8DC;
+			--thumbBG: #90A4AE;
+		}
+
+		.sectionTitle {
+			color: #01344e;
+			background-color: var(--transparent);
+			text-decoration: none;
+			font-family: 'Nunito', sans-serif;
+		}
+
+		body {
+			font-family: 'Nunito', sans-serif;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			margin-left: 0px;
+			margin-right: 0px;
+			padding: 0;
+		}
+
+		.menu {
+			color: #048ec6;
+			background-color: var(--transparent);
+			text-decoration: none;
+		}
+
+		.menu:hover {
+			color: #048ec6;
+			text-decoration: none;
+			cursor: pointer;
+		}
+
+		.searchBox {
+			height: 40px;
+			padding: 10px;
+			width: 100%;
+			transition: 0.4s;
+		}
+
+		.searchInput {
+			border: none;
+			background-color: var(--light-grey);
+			outline: none;
+			float: left;
+			padding-left: 10px;
+			padding-right: 10px;
+			color: white;
+			font-size: 16px;
+			transition: 0.4s;
+			line-height: 40px;
+			width: 100%;
+			border-radius: 10px;
+		}
+
+		.searchInput:not(:placeholder-shown)~.searchButton {
+			background: white;
+			color: var(--blue-grey);
+		}
+
+		@media screen and (max-width: 620px) {
+			.searchBox:hover>.searchInput {
+				width: 80%;
+				padding: 0 6px;
+			}
+		}
+
+		.code {
+			font-family: 'Courier New', Courier, monospace;
+			font-size: 14px;
+			font-weight: normal;
+			text-decoration: none;
+		}
+
+		.keyword {
+			color: rgb(105, 0, 97);
+			font-weight: bolder;
+			text-decoration: none;
+		}
+
+		.datatype {
+			color: rgb(0, 90, 23);
+			font-weight: normal;
+			text-decoration: none;
+		}
+
+		.identifier {
+			color: rgb(0, 79, 116);
+			font-weight: normal;
+			text-decoration: none;
+		}
+
+		.sobject {
+			color: rgb(0, 156, 184);
+			font-weight: normal;
+			text-decoration: none;
+		}
+
+		.primitive {
+			color: rgb(67, 0, 105);
+			font-weight: normal;
+			text-decoration: none;
+		}
+	</style>
+	<script>
+		let filterValue;
+		function openCloseAccordion(id) {
+			var element = document.getElementById(id);
+			if (element.className.indexOf("w3-show") == -1) {
+				element.className += " w3-show";
+			} else {
+				element.className = element.className.replace(" w3-show", "");
+			}
+		}
+
+		function loadPage(apexClass) {
+			console.log('Load Page for Class => ' + apexClass);
+			let content = '<object style="height: 100%; width:100%" type="text/html" data="classes/' + apexClass + '.html"></object>';
+			document.getElementById('pageContainer').innerHTML = content;
+		}
+
+		function goToHome() {
+			let content = '<object style="height: 100%; width:100%" type="text/html" data="home.html"></object>';
+			document.getElementById('pageContainer').innerHTML = content;
+		}
+
+		function onChangeFilterClasses() {
+			let filterText = document.getElementById('filterClasses').value;
+			let elements = document.getElementsByClassName('menuLink');
+			for (let i = 0; i < elements.length; i++) {
+				let element = elements[i];
+				if (filterText && filterText.length > 0) {
+					if (element.innerHTML && element.innerHTML.toLowerCase().indexOf(filterText) !== -1) {
+						element.className = element.className.replace(" w3-hide", " w3-show");
+					} else {
+						element.className = element.className.replace(" w3-show", " w3-hide");
+					}
+				} else {
+					element.className = element.className.replace(" w3-hide", " w3-show");
+				}
+			}
+		}
+
+
+	</script>
+
+	<body style="height: 100%;">
+		<div style="background-color: #92d5f0; color: #01344e; height: 60px;">
+			<div style="width:78%; margin:auto; ">
+				<h1 class="sectionTitle" style="margin-top: 0;"><b>Project Documentation</b></h1>
+			</div>
+		</div>
+		<div style="width:80%; margin:auto; margin-top:  60px;">
+			<div id="navBar" class="w3-bar-block w3-sidebar" style="width:300px; background-color:rgba(0,0,0,0);">
+				<div class="w3-row" style="margin-bottom: 15px;">
+					<div class="searchBox">
+						<input id="filterClasses" oninput="onChangeFilterClasses()" onpaste="onChangeFilterClasses()" onkeypress="onChangeFilterClasses()" class="searchInput" value="" type="text" placeholder="Filter..." />
+					</div>
+				</div>
+				{!navbar}
+			</div>
+
+			<div class="w3-container" id="pageContainer" style="margin-left:300px;">
+				<object style="height: 100%; width:100%" type="text/html" data="home.html"></object>
+			</div>
+		</div>
+	</body>
+
+</html>

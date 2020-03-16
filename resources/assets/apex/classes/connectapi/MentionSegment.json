@@ -1,0 +1,45 @@
+{
+  "name": "MentionSegment",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​​Message​Segment",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "accessible",
+      "description": "Specifies whether the mentioned user or group can see the post",
+      "datatype": "Boolean",
+      "signature": "public Boolean accessible"
+    },
+    {
+      "name": "name",
+      "description": "Name of the mentioned user or group",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "record",
+      "description": "Information about the mentioned user or group",
+      "datatype": "ConnectApi.​ActorWithId",
+      "signature": "public ConnectApi.​ActorWithId record"
+    },
+    {
+      "name": "user",
+      "description": "Information about the mentioned user",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary user"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_mention_msg_seg.htm"
+}

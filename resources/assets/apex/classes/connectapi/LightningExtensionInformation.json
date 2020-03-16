@@ -1,0 +1,45 @@
+{
+  "name": "LightningExtensionInformation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.AbstractExtensionInformation",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "compositionComponent",
+      "description": "Component to use in compose state.",
+      "datatype": "String",
+      "signature": "public String compositionComponent"
+    },
+    {
+      "name": "headerTextLabel",
+      "description": "Label for the extension’s header.",
+      "datatype": "String",
+      "signature": "public String headerTextLabel"
+    },
+    {
+      "name": "hoverTextLabel",
+      "description": "Label for hovering over the extension.",
+      "datatype": "String",
+      "signature": "public String hoverTextLabel"
+    },
+    {
+      "name": "renderComponent",
+      "description": "Component to use in render or preview",
+      "datatype": "String",
+      "signature": "public String renderComponent"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Lightning extension information.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_lightning_extension_information.htm"
+}

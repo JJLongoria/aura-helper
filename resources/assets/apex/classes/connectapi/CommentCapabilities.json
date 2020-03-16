@@ -1,0 +1,61 @@
+{
+  "name": "CommentCapabilities",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "description": "If a comment has this capability, it has threaded",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "If a comment has this capability, it has a file",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "If a comment has this capability, users who have",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "If a comment has this capability, a feed entity is",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "If a comment has this capability, it has a record",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "If a comment has this capability, it has a status that",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "If a comment has this capability, users can upvote or",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "If a comment has this capability, users with permission can mark it as",
+      "datatype": "",
+      "signature": "public  undefined"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A set of capabilities on a comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_comment_capabilities.htm"
+}

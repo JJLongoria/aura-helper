@@ -1,0 +1,45 @@
+{
+  "name": "ExtensionInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "alternative​Representation",
+      "description": "Alternative representation of the extension.",
+      "datatype": "ConnectApi.​AlternativeInput",
+      "signature": "public ConnectApi.​AlternativeInput alternative​Representation"
+    },
+    {
+      "name": "extensionId",
+      "description": "ID of the extension.",
+      "datatype": "String",
+      "signature": "public String extensionId"
+    },
+    {
+      "name": "payload",
+      "description": "Payload associated with the extension.",
+      "datatype": "String",
+      "signature": "public String payload"
+    },
+    {
+      "name": "payloadVersion",
+      "description": "Payload version that identifies the structure of the payload associated with the extension.",
+      "datatype": "String",
+      "signature": "public String payloadVersion"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An extension.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_extension.htm"
+}

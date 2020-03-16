@@ -68,43 +68,43 @@ class QuickActionUtils {
             if (compress) {
                 xmlLines.push('<?xml version="1.0" encoding="UTF-8"?>');
                 xmlLines.push('<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">');
-                if (quickAction.label)
+                if (quickAction.label !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('label', quickAction.label));
-                if (quickAction.standardLabel)
+                if (quickAction.standardLabel !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('standardLabel', quickAction.standardLabel));
-                if (quickAction.type)
+                if (quickAction.type !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('type', quickAction.type));
-                if (quickAction.description)
+                if (quickAction.description !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('description', quickAction.description));
-                if (quickAction.height)
+                if (quickAction.height !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('height', quickAction.height));
                 if (quickAction.width)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('width', quickAction.width));
-                if (quickAction.icon)
+                if (quickAction.icon !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('icon', quickAction.icon));
-                if (quickAction.targetObject)
+                if (quickAction.targetObject !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('targetObject', quickAction.targetObject));
-                if (quickAction.targetParentField)
+                if (quickAction.targetParentField !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('targetParentField', quickAction.targetParentField));
-                if (quickAction.targetRecordType)
+                if (quickAction.targetRecordType !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('targetRecordType', quickAction.targetRecordType));
-                if (quickAction.canvas)
+                if (quickAction.canvas !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('canvas', quickAction.canvas));
-                if (quickAction.flowDefinition)
+                if (quickAction.flowDefinition !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('flowDefinition', quickAction.flowDefinition));
-                if (quickAction.lightningComponent)
+                if (quickAction.lightningComponent !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('lightningComponent', quickAction.lightningComponent));
-                if (quickAction.page)
+                if (quickAction.page !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('page', quickAction.page));
-                if (quickAction.successMessage)
+                if (quickAction.successMessage !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('successMessage', quickAction.successMessage));
-                if (quickAction.isProtected)
+                if (quickAction.isProtected !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('isProtected', quickAction.isProtected));
-                if (quickAction.optionsCreateFeedItem)
+                if (quickAction.optionsCreateFeedItem !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('optionsCreateFeedItem', quickAction.optionsCreateFeedItem));
-                if (quickAction.fieldOverrides)
+                if (quickAction.fieldOverrides !== undefined)
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('fieldOverrides', quickAction.fieldOverrides, true, 1));
-                if (quickAction.quickActionLayout)
+                if (quickAction.quickActionLayout !== undefined)
                     xmlLines = xmlLines.concat(QuickActionUtils.getQuickActionLayoutXMLLines(quickAction.quickActionLayout, 1));
                 xmlLines.push('</QuickAction>');
             } else {
@@ -117,9 +117,9 @@ class QuickActionUtils {
     static getQuickActionLayoutXMLLines(quickActionLayout, initIndent) {
         let xmlLines = [];
         xmlLines.push(Utils.getTabs(initIndent) + '<quickActionLayout>');
-        if (quickActionLayout.layoutSectionStyle)
+        if (quickActionLayout.layoutSectionStyle !== undefined)
             xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('layoutSectionStyle', quickActionLayout.layoutSectionStyle));
-        if (quickActionLayout.quickActionLayoutColumns)
+        if (quickActionLayout.quickActionLayoutColumns !== undefined)
             xmlLines = xmlLines.concat(QuickActionUtils.getQuickActionLayoutColumnXMLLines(quickActionLayout.quickActionLayoutColumns, initIndent + 1));
         xmlLines.push(Utils.getTabs(initIndent) + '</quickActionLayout>');
         return xmlLines;
@@ -130,7 +130,7 @@ class QuickActionUtils {
         let columns = Utils.forceArray(quickActionLayoutColumns);
         for (const column of columns) {
             xmlLines.push(Utils.getTabs(initIndent) + '<quickActionLayoutColumns>');
-            if (column.quickActionLayoutItems)
+            if (column.quickActionLayoutItems !== undefined)
                 xmlLines = xmlLines.concat(Utils.getXMLBlock('quickActionLayoutItems', column.quickActionLayoutItems, true, initIndent + 1));
             xmlLines.push(Utils.getTabs(initIndent) + '</quickActionLayoutColumns>');
         }

@@ -1,0 +1,27 @@
+{
+  "name": "Invitations",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "invitations",
+      "description": "Collection of invitations.",
+      "datatype": "List<ConnectApi.​Invitation>",
+      "signature": "public List<ConnectApi.​Invitation> invitations"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of invitations.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_invite_collection.htm"
+}

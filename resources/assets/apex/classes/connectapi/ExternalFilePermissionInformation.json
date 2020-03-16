@@ -1,0 +1,27 @@
+{
+  "name": "ExternalFilePermissionInformation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "items",
+      "description": "List of extensions associated with the feed",
+      "datatype": "List<ConnectApi.​Extension>",
+      "signature": "public List<ConnectApi.​Extension> items"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has one or more extension attachments.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_external_file_permission_information.htm"
+}

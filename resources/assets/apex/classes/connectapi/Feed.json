@@ -1,0 +1,81 @@
+{
+  "name": "Feed",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "feedElement​PostUrl",
+      "description": "Chatter REST API URL for posting feed elements to this subject.",
+      "datatype": "String",
+      "signature": "public String feedElement​PostUrl"
+    },
+    {
+      "name": "feedElements",
+      "description": "Page of feed elements for the feed specified in redirectedFeedType. Otherwise, null.",
+      "datatype": "ConnectApi.​FeedElement​Page",
+      "signature": "public ConnectApi.​FeedElement​Page feedElements"
+    },
+    {
+      "name": "feedElementsUrl",
+      "description": "Chatter REST API URL of feed elements.",
+      "datatype": "String",
+      "signature": "public String feedElementsUrl"
+    },
+    {
+      "name": "feedItemsUrl",
+      "description": "Chatter REST API URL of feed items.",
+      "datatype": "String",
+      "signature": "public String feedItemsUrl"
+    },
+    {
+      "name": "isModifedUrl",
+      "description": "A Chatter REST API URL with a since request",
+      "datatype": "String",
+      "signature": "public String isModifedUrl"
+    },
+    {
+      "name": "pinnedFeed​ElementsUrl",
+      "description": "URL of pinned feed items.",
+      "datatype": "String",
+      "signature": "public String pinnedFeed​ElementsUrl"
+    },
+    {
+      "name": "redirected​FeedFilter",
+      "description": "Filter for the feed specified in redirectedFeedType. Otherwise, null.",
+      "datatype": "ConnectApi.​FeedFilter",
+      "signature": "public ConnectApi.​FeedFilter redirected​FeedFilter"
+    },
+    {
+      "name": "redirected​FeedSort",
+      "description": "Sort order for the feed specified in redirectedFeedType. Otherwise, null.",
+      "datatype": "ConnectApi.​FeedSort​Order",
+      "signature": "public ConnectApi.​FeedSort​Order redirected​FeedSort"
+    },
+    {
+      "name": "redirected​FeedType",
+      "description": "Specifies which feed is returned if pageSize is specified. Otherwise, null.",
+      "datatype": "ConnectApi.​FeedType",
+      "signature": "public ConnectApi.​FeedType redirected​FeedType"
+    },
+    {
+      "name": "respectsMute",
+      "description": "Indicates whether the feed respects the mute feature.",
+      "datatype": "Boolean",
+      "signature": "public Boolean respectsMute"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_Feed.htm"
+}

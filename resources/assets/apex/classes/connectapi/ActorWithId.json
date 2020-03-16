@@ -1,0 +1,45 @@
+{
+  "name": "ActorWithId",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "Actor’s 18-character ID",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "motif",
+      "description": "An icon that identifies the actor as a user, group, file, or",
+      "datatype": "ConnectApi.​Motif",
+      "signature": "public ConnectApi.​Motif motif"
+    },
+    {
+      "name": "mySubscription",
+      "description": "If the context user is following the item, this contains information",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference mySubscription"
+    },
+    {
+      "name": "url",
+      "description": "Chatter REST API URL for the resource",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_actor.htm"
+}

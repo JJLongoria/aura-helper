@@ -1,0 +1,27 @@
+{
+  "name": "User​​ChatterSettings",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "defaultGroup​EmailFrequency",
+      "description": "The default frequency with which a user receives",
+      "datatype": "ConnectApi.​GroupEmail​Frequency Enum",
+      "signature": "public ConnectApi.​GroupEmail​Frequency Enum defaultGroup​EmailFrequency"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_user_chatter_settings.htm"
+}

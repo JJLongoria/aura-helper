@@ -1,0 +1,27 @@
+{
+  "name": "​Recommendations​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "items",
+      "description": "A list of recommendations.",
+      "datatype": "List<ConnectApi.​Abstract​Recommendation>",
+      "signature": "public List<ConnectApi.​Abstract​Recommendation> items"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has a recommendation.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_recommendation_capability.htm"
+}

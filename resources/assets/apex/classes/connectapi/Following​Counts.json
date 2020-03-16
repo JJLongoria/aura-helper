@@ -1,0 +1,39 @@
+{
+  "name": "Following​Counts",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "people",
+      "description": "Number of people user is following",
+      "datatype": "Integer",
+      "signature": "public Integer people"
+    },
+    {
+      "name": "records",
+      "description": "Number of records user is followingTopics are a type of",
+      "datatype": "Integer",
+      "signature": "public Integer records"
+    },
+    {
+      "name": "total",
+      "description": "Total number of items user is following",
+      "datatype": "Integer",
+      "signature": "public Integer total"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_followingCounts.htm"
+}

@@ -1,0 +1,69 @@
+{
+  "name": "StrategyTraceNode",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "inputCount",
+      "description": "Number of items put into the node.",
+      "datatype": "Integer",
+      "signature": "public Integer inputCount"
+    },
+    {
+      "name": "messages",
+      "description": "Messages that occurred during node execution.",
+      "datatype": "List<String>",
+      "signature": "public List<String> messages"
+    },
+    {
+      "name": "nodeName",
+      "description": "Name of the node.",
+      "datatype": "String",
+      "signature": "public String nodeName"
+    },
+    {
+      "name": "nodeTime",
+      "description": "Time spent processing inside the node.",
+      "datatype": "Long",
+      "signature": "public Long nodeTime"
+    },
+    {
+      "name": "nodeType",
+      "description": "Type of node.",
+      "datatype": "String",
+      "signature": "public String nodeType"
+    },
+    {
+      "name": "outputCount",
+      "description": "Number of items returned from the node.",
+      "datatype": "Integer",
+      "signature": "public Integer outputCount"
+    },
+    {
+      "name": "outputs",
+      "description": "Recommendations that are returned from the node.",
+      "datatype": "List<String>",
+      "signature": "public List<String> outputs"
+    },
+    {
+      "name": "totalTime",
+      "description": "Total time spent processing.",
+      "datatype": "Long",
+      "signature": "public Long totalTime"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A trace node for a recommendation strategy execution.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_strategy_trace_node.htm"
+}

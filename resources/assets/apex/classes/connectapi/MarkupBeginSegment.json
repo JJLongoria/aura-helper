@@ -1,0 +1,45 @@
+{
+  "name": "MarkupBeginSegment",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​​Message​Segment",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "altText",
+      "description": "Alternative text for the segment, if",
+      "datatype": "String",
+      "signature": "public String altText"
+    },
+    {
+      "name": "htmlTag",
+      "description": "The HTML tag for this markup.",
+      "datatype": "String",
+      "signature": "public String htmlTag"
+    },
+    {
+      "name": "markupType",
+      "description": "Type of rich text markup.",
+      "datatype": "ConnectApi.​MarkupType",
+      "signature": "public ConnectApi.​MarkupType markupType"
+    },
+    {
+      "name": "url",
+      "description": "URL for the segment, if available.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The beginning of rich text markup.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_markup_begin_message_segment.htm"
+}

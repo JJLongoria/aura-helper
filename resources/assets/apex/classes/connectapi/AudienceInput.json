@@ -1,0 +1,39 @@
+{
+  "name": "AudienceInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "customFormula",
+      "description": "Custom formula for the audience criteria. For example, (1 AND 2) OR 3.",
+      "datatype": "String",
+      "signature": "public String customFormula"
+    },
+    {
+      "name": "formulaFilterType",
+      "description": "Formula filter type for the personalization audience. Values are: AllCriteriaMatch—All audience criteria are true (AND operation). AnyCriterionMatches—Any audience criterion is true (OR operation). CustomLogicMatches—Audience criteria match the custom formula (for example, (1 AND 2) OR 3).",
+      "datatype": "ConnectApi.​FormulaFilterType",
+      "signature": "public ConnectApi.​FormulaFilterType formulaFilterType"
+    },
+    {
+      "name": "name",
+      "description": "Name of the audience.",
+      "datatype": "String",
+      "signature": "public String name"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A personalization audience.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_audience.htm"
+}

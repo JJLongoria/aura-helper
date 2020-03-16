@@ -1,0 +1,34 @@
+{
+  "name": "PaymentsHttp",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [
+    {
+      "name": "send",
+      "signature": "global HttpResponse send(HttpRequest request)",
+      "description": "Sends an HttpRequest and returns the response.",
+      "params": [
+        {
+          "name": "request",
+          "datatype": "System.HttpRequest",
+          "description": ""
+        }
+      ],
+      "datatype": "System.HttpResponse"
+    }
+  ],
+  "description": "Make an HTTP request to start the interaction with the payment gateway.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_PaymentsHttp.htm"
+}

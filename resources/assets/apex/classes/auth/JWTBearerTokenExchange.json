@@ -10,7 +10,28 @@
   "extendsType": "",
   "isInterface": false,
   "implements": [],
-  "classes": {},
+  "classes": {
+    "jwtbearertokenexchangeexception​": {
+      "name": "JWTBearerTokenExchangeException​",
+      "namespace": "System",
+      "accessModifier": "global",
+      "definitionModifier": "",
+      "withSharing": false,
+      "inheritedSharing": false,
+      "isEnum": false,
+      "enumValues": [],
+      "extendsType": "Exception",
+      "isInterface": false,
+      "implements": [],
+      "classes": {},
+      "enums": {},
+      "fields": [],
+      "constructors": [],
+      "methods": [],
+      "description": "Throw this exception to indicate a problem with the response from the token endpoint in the JWTBearerTokenExchange class. This exception occurs during the OAuth 2.0 JWT bearer token flow when the HTTP response.",
+      "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Auth_exceptions.htm"
+  }
+  },
   "enums": {},
   "fields": [],
   "constructors": [

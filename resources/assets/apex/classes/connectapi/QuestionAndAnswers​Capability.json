@@ -1,0 +1,57 @@
+{
+  "name": "QuestionAndAnswers​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "bestAnswer",
+      "description": "Comment selected as the best answer for the",
+      "datatype": "ConnectApi.​Comment",
+      "signature": "public ConnectApi.​Comment bestAnswer"
+    },
+    {
+      "name": "bestAnswer​SelectedBy",
+      "description": "User who selected the best answer for the",
+      "datatype": "ConnectApi.​UserSummary",
+      "signature": "public ConnectApi.​UserSummary bestAnswer​SelectedBy"
+    },
+    {
+      "name": "canCurrentUser​SelectOrRemove​BestAnswer",
+      "description": "Indicates whether the context",
+      "datatype": "Boolean",
+      "signature": "public Boolean canCurrentUser​SelectOrRemove​BestAnswer"
+    },
+    {
+      "name": "candidateAnswers",
+      "description": "Status of candidate answers for the",
+      "datatype": "ConnectApi.​CandidateAnswers​Status",
+      "signature": "public ConnectApi.​CandidateAnswers​Status candidateAnswers"
+    },
+    {
+      "name": "escalatedCase",
+      "description": "If a question post is escalated, this is the case to which it was",
+      "datatype": "ConnectApi.​Reference",
+      "signature": "public ConnectApi.​Reference escalatedCase"
+    },
+    {
+      "name": "questionTitle",
+      "description": "Title for the question.",
+      "datatype": "String",
+      "signature": "public String questionTitle"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has a question and comments on the feed element are answers to the question.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_question_and_answers_capability.htm"
+}

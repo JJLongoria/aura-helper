@@ -1,0 +1,75 @@
+{
+  "name": "ManagedContentVersion",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "associations",
+      "description": "Content topics associated with the managed",
+      "datatype": "ConnectApi.​ManagedContent​Associations",
+      "signature": "public ConnectApi.​ManagedContent​Associations associations"
+    },
+    {
+      "name": "contentNodes",
+      "description": "Map of content nodes.",
+      "datatype": "Map<String, ConnectApi.​ManagedContent​NodeValue>",
+      "signature": "public Map<String, ConnectApi.​ManagedContent​NodeValue> contentNodes"
+    },
+    {
+      "name": "contentUrlName",
+      "description": "Content URL name of the managed content",
+      "datatype": "String",
+      "signature": "public String contentUrlName"
+    },
+    {
+      "name": "language",
+      "description": "Language of the managed content version.",
+      "datatype": "String",
+      "signature": "public String language"
+    },
+    {
+      "name": "managedContentId",
+      "description": "ID of the managed content.",
+      "datatype": "String",
+      "signature": "public String managedContentId"
+    },
+    {
+      "name": "publishedDate",
+      "description": "Date when the managed content version was last",
+      "datatype": "Datetime",
+      "signature": "public Datetime publishedDate"
+    },
+    {
+      "name": "title",
+      "description": "Title of the managed content version.",
+      "datatype": "String",
+      "signature": "public String title"
+    },
+    {
+      "name": "type",
+      "description": "Type of managed content version.",
+      "datatype": "String",
+      "signature": "public String type"
+    },
+    {
+      "name": "typeLabel",
+      "description": "Type label of the managed content type.",
+      "datatype": "String",
+      "signature": "public String typeLabel"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Managed content version.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_content_version.htm"
+}

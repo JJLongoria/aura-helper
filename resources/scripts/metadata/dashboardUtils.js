@@ -271,7 +271,7 @@ class DashboardUtils {
         for (const filter of dashboardFilters) {
             xmlLines.push(Utils.getTabs(initIndent) + '<dashboardFilters>');
             if (filter.name !== undefined)
-                xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('dashboardColorPalette', filter.name));
+                xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('name', filter.name));
             if (filter.dashboardFilterOptions !== undefined)
                 xmlLines = xmlLines.concat(DashboardUtils.getDashboardFilterOptionsXMLLines(filter.dashboardFilterOptions, initIndent + 1));
             xmlLines.push(Utils.getTabs(initIndent) + '</dashboardFilters>');
@@ -287,7 +287,7 @@ class DashboardUtils {
             if (option.operator !== undefined)
                 xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('operator', option.operator));
             if (option.values !== undefined)
-                xmlLines = xmlLines.concat(Utils.getXMLBlock('values', option.values, true, 1));
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('values', option.values, true, initIndent + 1));
             xmlLines.push(Utils.getTabs(initIndent) + '</dashboardFilterOptions>');
         }
         return xmlLines;

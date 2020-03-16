@@ -283,16 +283,18 @@ class WorkflowUtils {
 
     static getWorkflowTimeTriggerXMLLines(workflowTimeTriggers, initIndent) {
         let xmlLines = [];
-        xmlLines.push(Utils.getTabs(initIndent) + '<workflowTimeTriggers>');
-        if (workflowTimeTriggers.offsetFromField !== undefined)
-            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('offsetFromField', workflowTimeTriggers.offsetFromField));
-        if (workflowTimeTriggers.timeLength !== undefined)
-            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('timeLength', workflowTimeTriggers.timeLength));
-        if (workflowTimeTriggers.workflowTimeTriggerUnit !== undefined)
-            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('workflowTimeTriggerUnit', workflowTimeTriggers.workflowTimeTriggerUnit));
-        if (workflowTimeTriggers.actions !== undefined)
-            xmlLines = xmlLines.concat(Utils.getXMLBlock('actions', workflowTimeTriggers.actions, true, initIndent + 1));
-        xmlLines.push(Utils.getTabs(initIndent) + '</workflowTimeTriggers>');
+        for (const workflowTimeTrigger of workflowTimeTriggers) {
+            xmlLines.push(Utils.getTabs(initIndent) + '<workflowTimeTriggers>');
+            if (workflowTimeTrigger.offsetFromField !== undefined)
+                xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('offsetFromField', workflowTimeTrigger.offsetFromField));
+            if (workflowTimeTrigger.timeLength !== undefined)
+                xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('timeLength', workflowTimeTrigger.timeLength));
+            if (workflowTimeTrigger.workflowTimeTriggerUnit !== undefined)
+                xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('workflowTimeTriggerUnit', workflowTimeTrigger.workflowTimeTriggerUnit));
+            if (workflowTimeTrigger.actions !== undefined)
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('actions', workflowTimeTrigger.actions, true, initIndent + 1));
+            xmlLines.push(Utils.getTabs(initIndent) + '</workflowTimeTriggers>');
+        }
         return xmlLines;
     }
 

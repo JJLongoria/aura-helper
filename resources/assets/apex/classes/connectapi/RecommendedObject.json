@@ -1,0 +1,33 @@
+{
+  "name": "RecommendedObject",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.Actor",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "idOrEnum",
+      "description": "ID of a recommendation definition for a custom",
+      "datatype": "String",
+      "signature": "public String idOrEnum"
+    },
+    {
+      "name": "motif",
+      "description": "Motif of the recommended object.",
+      "datatype": "ConnectApi.Motif",
+      "signature": "public ConnectApi.Motif motif"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A recommended object, such as a custom or static recommendation.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_recommended_object.htm"
+}

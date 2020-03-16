@@ -63,6 +63,9 @@ class Paths {
     static getSystemClassesPath() {
         return applicationContext.context.asAbsolutePath("./resources/assets/apex/classes");
     }
+    static getAssetsPath() {
+        return applicationContext.context.asAbsolutePath("./resources/assets");
+    }
     static getSFDXFolderPath() { 
         return Paths.getWorkspaceFolder() + '/.sfdx';
     }

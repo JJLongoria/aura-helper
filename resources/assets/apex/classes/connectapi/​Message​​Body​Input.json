@@ -1,0 +1,27 @@
+{
+  "name": "​Message​​Body​Input",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "message​​Segments",
+      "description": "List of message segments contained in the body",
+      "datatype": "List<ConnectApi.​Message​Segment​Input>",
+      "signature": "public List<ConnectApi.​Message​Segment​Input> message​​Segments"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_msgBody.htm"
+}

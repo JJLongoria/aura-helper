@@ -1,0 +1,39 @@
+{
+  "name": "​Emoji",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "category",
+      "description": "Emoji category.",
+      "datatype": "String",
+      "signature": "public String category"
+    },
+    {
+      "name": "shortcut",
+      "description": "Emoji shortcut.",
+      "datatype": "String",
+      "signature": "public String shortcut"
+    },
+    {
+      "name": "unicodeCharacter",
+      "description": "Emoji’s unicode character.",
+      "datatype": "String",
+      "signature": "public String unicodeCharacter"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An emoji.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_emoji.htm"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "ScheduledRecommendationPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "scheduled​Recommendations",
+      "description": "A list of scheduled custom recommendations.",
+      "datatype": "List<ConnectApi.​Scheduled​Recommendation>",
+      "signature": "public List<ConnectApi.​Scheduled​Recommendation> scheduled​Recommendations"
+    },
+    {
+      "name": "url",
+      "description": "URL to the Chatter REST API resource for the scheduled custom recommendation",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A list of scheduled custom recommendations.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_scheduled_recommendation_collection.htm"
+}

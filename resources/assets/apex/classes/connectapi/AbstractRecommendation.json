@@ -1,0 +1,45 @@
+{
+  "name": "AbstractRecommendation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "explanation",
+      "description": "The Chatter, custom, or static",
+      "datatype": "ConnectApi.​Recommendation​Explanation",
+      "signature": "public ConnectApi.​Recommendation​Explanation explanation"
+    },
+    {
+      "name": "platformAction​Group",
+      "description": "A platform action group instance with state appropriate for the",
+      "datatype": "ConnectApi.​PlatformAction​Group",
+      "signature": "public ConnectApi.​PlatformAction​Group platformAction​Group"
+    },
+    {
+      "name": "recommendation​Type",
+      "description": "Specifies the type of record being recommended.",
+      "datatype": "ConnectApi.​RecommendationType",
+      "signature": "public ConnectApi.​RecommendationType recommendation​Type"
+    },
+    {
+      "name": "url",
+      "description": "URL for the Chatter, custom, or static",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A Chatter, custom, or static recommendation.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_recommendation.htm"
+}

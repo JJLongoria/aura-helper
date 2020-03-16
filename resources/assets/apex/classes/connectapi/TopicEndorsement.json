@@ -1,0 +1,51 @@
+{
+  "name": "TopicEndorsement",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "endorsee",
+      "description": "User being endorsed",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary endorsee"
+    },
+    {
+      "name": "endorsementId",
+      "description": "18-character ID of the endorsement record",
+      "datatype": "String",
+      "signature": "public String endorsementId"
+    },
+    {
+      "name": "endorser",
+      "description": "User performing the endorsement",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary endorser"
+    },
+    {
+      "name": "topic",
+      "description": "Topic the user is being endorsed for",
+      "datatype": "ConnectApi.​Topic",
+      "signature": "public ConnectApi.​Topic topic"
+    },
+    {
+      "name": "url",
+      "description": "URL to the resource for the endorsement record",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_topicendorsement.htm"
+}

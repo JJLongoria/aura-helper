@@ -2,31 +2,62 @@ const https = require('https');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const Metadata = require('../metadata');
+const Config = require('../main/config');
 const languages = require('../languages');
+const NotificationManager = require('../main/notificationManager');
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
 const PackageGenerator = Metadata.PackageGenerator;
+const MetadataConnection = Metadata.Connection;
 const ApexParser = languages.ApexParser;
-
+const MetadataCompressor = Metadata.MetadataCompressor;
+const ApexFormatter = languages.Apex.Formatter;
 const applicationContext = require('../main/applicationContext');
-let batches;
 
 exports.run = function (context) {
     // Register File Watcher
-    var watcher = vscode.workspace.createFileSystemWatcher("**/*.cls");
-    watcher.onDidChange(async function (uri) {
-        ApexParser.compileClass(uri.fsPath, Paths.getCompiledClassesPath());
+    var classWatcher = vscode.workspace.createFileSystemWatcher("**/*.cls");
+    classWatcher.onDidChange(async function (uri) {
+        if (Config.getConfig().apexFormat.formatOnSave) {
+            let content = ApexFormatter.formatFile(uri.fsPath);
+            FileWriter.createFileSync(uri.fsPath, content);
+        }
+        ApexParser.compileClass(uri.fsPath, Paths.getCompiledClassesPath()).then(function (apexClass) {
+            applicationContext.userClasses[apexClass.name.toLowerCase()] = apexClass;
+        });
     });
-    watcher.onDidCreate(async function (uri) {
-        ApexParser.compileClass(uri.fsPath, Paths.getCompiledClassesPath());
+    classWatcher.onDidCreate(async function (uri) {
+        if (Config.getConfig().apexFormat.formatOnSave) {
+            let content = ApexFormatter.formatFile(uri.fsPath);
+            FileWriter.createFileSync(uri.fsPath, content);
+        }
+        ApexParser.compileClass(uri.fsPath, Paths.getCompiledClassesPath()).then(function (apexClass) {
+            applicationContext.userClasses[apexClass.name.toLowerCase()] = apexClass;
+        });
     });
-    watcher.onDidDelete(async function (uri) {
+    classWatcher.onDidDelete(async function (uri) {
         let fileName = Paths.getBasename(uri.fsPath);
         let className = fileName.substring(0, fileName.indexOf('.'));
         FileWriter.delete(Paths.getCompiledClassesPath() + '/' + className + '.json');
+        delete applicationContext.userClasses[className.toLowerCase()];
     });
+    var xmlWatcher = vscode.workspace.createFileSystemWatcher("**/*.xml");
+    xmlWatcher.onDidChange(async function (uri) {
+        if (Config.getConfig().metadata.compressXMLFilesOnChange) {
+            let content = MetadataCompressor.compress(uri.fsPath);
+            FileWriter.createFileSync(uri.fsPath, content);
+        }
+    });
+    xmlWatcher.onDidCreate(async function (uri) {
+        if (Config.getConfig().metadata.compressXMLFilesOnChange) {
+            let content = MetadataCompressor.compress(uri.fsPath);
+            FileWriter.createFileSync(uri.fsPath, content);
+        }
+    });
+    let statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
+    applicationContext.statusBar = statusBar;
     applicationContext.context = context;
     applicationContext.outputChannel = vscode.window.createOutputChannel("Aura Helper");
     applicationContext.outputChannel.appendLine('Aura Helper Extension is now active');
@@ -61,17 +92,100 @@ async function init(context, callback) {
         if (FileChecker.isExists(Paths.getOldAuraDocumentUserTemplatePath()) && !FileChecker.isExists(Paths.getAuraDocumentUserTemplatePath()))
             FileWriter.copyFileSync(Paths.getOldAuraDocumentUserTemplatePath(), Paths.getAuraDocumentUserTemplatePath());
         applicationContext.outputChannel.appendLine('Environment Prepared');
+        let user = await Config.getAuthUsername();
+        MetadataConnection.getMetadataObjectsListFromOrg(user, true, undefined, undefined, function () {
+            applicationContext.outputChannel.appendLine('Metadata Types updated');
+        });
+        applicationContext.allNamespaces = getNamespacesMetadataFile();
+        applicationContext.namespacesMetadata = getNamespacesData();
+        applicationContext.sObjects = getSObjects(true);
         applicationContext.outputChannel.appendLine('Getting Apex Classes Info');
+        NotificationManager.showStatusBar('$(sync~spin) Getting Apex Classes Info...');
         ApexParser.compileAllApexClasses(function () {
             applicationContext.outputChannel.appendLine('Getting Apex Classes Info Finished');
+            applicationContext.userClasses = getClassesFromCompiledClasses();
+            NotificationManager.hideStatusBar();
             if (callback)
-                callback.call(this)
+                callback.call(this);
             resolve();
         });
     });
 }
 
+function getClassesFromCompiledClasses() {
+    let classes = {};
+    let files = FileReader.readDirSync(Paths.getCompiledClassesPath());
+    for (const file of files) {
+        let objName = file.substring(0, file.indexOf('.'));
+        classes[objName.toLowerCase()] = JSON.parse(FileReader.readFileSync(Paths.getCompiledClassesPath() + '/' + file));
+    }
+    return classes;
+}
 
+function getNamespacesMetadataFile() {
+    let nsMetadataPath = Paths.getSystemClassesPath() + '/namespacesMetadata.json';
+    return JSON.parse(FileReader.readFileSync(nsMetadataPath));
+}
+
+function getUserClasses() {
+    let classes = {};
+    let classesPath = Paths.getMetadataRootFolder() + '/classes';
+    let files = FileReader.readDirSync(classesPath);
+    if (files && files.length > 0) {
+        for (const fileName of files) {
+            let objName = fileName.substring(0, fileName.indexOf('.'));
+            classes[objName.toLowerCase()] = objName;
+        }
+    }
+    return classes;
+}
+
+function getSObjects(fromSFDX) {
+    let sObjects = {};
+    if (fromSFDX) {
+        let customObjectsFolder = Paths.getSFDXFolderPath() + '/tools/sobjects/customObjects';
+        let standardObjectsFolder = Paths.getSFDXFolderPath() + '/tools/sobjects/standardObjects';
+        let customObjectsFiles = FileReader.readDirSync(customObjectsFolder);
+        if (customObjectsFiles && customObjectsFiles.length > 0) {
+            for (const fileName of customObjectsFiles) {
+                let objName = fileName.substring(0, fileName.indexOf('.'));
+                sObjects[objName.toLowerCase()] = objName;
+            }
+        }
+        let standardObjectFiles = FileReader.readDirSync(standardObjectsFolder);
+        if (standardObjectFiles && standardObjectFiles.length > 0) {
+            for (const fileName of standardObjectFiles) {
+                let objName = fileName.substring(0, fileName.indexOf('.'));
+                sObjects[objName.toLowerCase()] = objName;
+            }
+        }
+    } else {
+        let metadataPath = Paths.getMetadataIndexPath();
+        let files = FileReader.readDirSync(metadataPath);
+        if (files && files.length > 0) {
+            for (const fileName of files) {
+                let obj = JSON.parse(FileReader.readFileSync(metadataPath + '/' + fileName));
+                sObjects[obj.name.toLowerCase()] = obj;
+            }
+        }
+    }
+
+    return sObjects;
+}
+
+function getNamespacesData() {
+    let namespaceMetadata = {};
+    Object.keys(applicationContext.allNamespaces).forEach(function (key) {
+        let nsData = getNamespaceMetadataFile(applicationContext.allNamespaces[key].name);
+        namespaceMetadata[key.toLowerCase()] = nsData;
+    });
+    return namespaceMetadata;
+}
+
+function getNamespaceMetadataFile(namespace) {
+    let nsMetadataPath = Paths.getSystemClassesPath() + '/' + namespace + "/namespaceMetadata.json";
+    return JSON.parse(FileReader.readFileSync(nsMetadataPath));
+}
 
 function mergePackages(context) {
     console.log("Mergin Packages started");
@@ -455,20 +569,199 @@ function getClassStructure(content, name, ns, isInterface, link) {
     }
 }
 
-function saveSystemClass(name, ns, isInterface, link, context) {
-    let content = FileReader.readFileSync(context.asAbsolutePath('./resources/tmp.txt'));
-    let fileStructure = getClassStructure(content, name, ns, isInterface, link);
-    if (!FileChecker.isExists(context.asAbsolutePath("./resources/assets/apex/classes/" + ns)))
-        FileWriter.createFolderSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns));
-    FileWriter.createFileSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns) + '/' + name + '.json', JSON.stringify(fileStructure, null, 2));
+function saveConnectApiClass(className, parent, url) {
+    let content = FileReader.readFileSync(Paths.getAbsolutePath('./resources/tmp.txt'));
+    let classResult = createClassStructureForConnectApi(content, className, parent, url);
+    if (!FileChecker.isExists(Paths.getAbsolutePath("./resources/assets/apex/classes/connectapi")))
+        FileWriter.createFolderSync(Paths.getAbsolutePath("./resources/assets/apex/classes/connectapi"));
+    FileWriter.createFileSync(Paths.getAbsolutePath("./resources/assets/apex/classes/connectapi") + '/' + className + '.json', JSON.stringify(classResult, null, 2));
 }
 
-function createMetadataFileForNamespaces(context, ns) {
-    let classesFromNS = FileReader.readDirSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns));
+function saveConnectApiEnums(url) {
+    let content = FileReader.readFileSync(Paths.getAbsolutePath('./resources/tmp.txt'));
+    let lines = content.split('\n');
+    let enumsToCreate = [];
+    let enumName;
+    let onDesc = false;
+    let enumDesc = '';
+    let onEnumValue = false;
+    let enumLiValue = '';
+    let enumValues = [];
+    for (const line of lines) {
+        if (line.indexOf('data-title="Enum"') !== -1) {
+            enumName = line.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+            enumName = enumName.substring(enumName.indexOf('.') + 1);
+        } else if (enumName && !onDesc && line.indexOf('data-title="Description"') !== -1) {
+            onDesc = true;
+            enumDesc = line.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+        } else if (onDesc && line.indexOf('</ul>') === -1) {
+            if (!onEnumValue && line.indexOf('<li class="li">') !== -1) {
+                onEnumValue = true;
+                enumLiValue += line;
+                if (line.indexOf('</li>') !== -1) {
+                    onEnumValue = false;
+                    let enumValue = enumLiValue.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+                    enumValue = enumValue.replace(new RegExp(/\r\s*/, 'g'), " ");
+                    if (enumValue.indexOf('—') !== -1)
+                        enumValue = enumValue.substring(0, enumValue.indexOf('—'));
+                    enumValues.push(enumValue);
+                    enumLiValue = '';
+                }
+            } else if (onEnumValue && line.indexOf('</li>') !== -1) {
+                onEnumValue = false;
+                enumLiValue += line;
+                let enumValue = enumLiValue.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+                enumValue = enumValue.replace(new RegExp(/\r\s*/, 'g'), " ");
+                if (enumValue.indexOf('—') !== -1)
+                    enumValue = enumValue.substring(0, enumValue.indexOf('—'));
+                enumValues.push(enumValue);
+                enumLiValue = '';
+            } else if (onEnumValue) {
+                enumLiValue += line;
+            }
+        } else if (onDesc && line.indexOf('</ul>') !== -1) {
+            onDesc = false;
+            enumsToCreate.push({
+                name: enumName,
+                description: enumDesc,
+                enumValues: enumValues
+            });
+            enumValues = [];
+            enumName = undefined;
+            enumDesc = '';
+        }
+    }
+    for (const enumToCreate of enumsToCreate) {
+        let enumToFile = {
+            name: enumToCreate.name,
+            namespace: 'ConnectApi',
+            accessModifier: "global",
+            definitionModifier: "",
+            withSharing: false,
+            inheritedSharing: false,
+            isEnum: true,
+            enumValues: enumToCreate.enumValues,
+            extendsType: '',
+            isInterface: false,
+            implements: [],
+            classes: {},
+            enums: {},
+            fields: [],
+            constructors: [],
+            methods: [],
+            description: enumToCreate.description,
+            docLink: url
+        };
+        FileWriter.createFileSync(Paths.getAbsolutePath("./resources/assets/apex/classes/connectapi") + '/' + enumToCreate.name + '.json', JSON.stringify(enumToFile, null, 2));
+    }
+}
+
+function createClassStructureForConnectApi(content, className, parent, url) {
+    let classDesc = '';
+    let onDesc = false;
+    let onParamDesc = false;
+    let properties = [];
+    let lines = content.split('\n');
+    let index = 0;
+    let onType = false;
+    let propertyName;
+    let propertyDesc = '';
+    let propertyDatatype = '';
+    for (const line of lines) {
+        if (!onDesc && line.indexOf('<div class="shortdesc">') !== -1) {
+            onDesc = true;
+            classDesc += line;
+        } else if (onDesc && (line.indexOf('<div class="section">') !== -1 || line.indexOf('<div class="data colSort">') !== -1)) {
+            onDesc = false;
+            classDesc = classDesc.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+            classDesc = classDesc.replace(new RegExp(/\r\s*/, 'g'), " ");
+        } else if (onDesc) {
+            classDesc += line;
+        } else if (!onParamDesc && (line.indexOf('data-title="Property"') !== -1 || line.indexOf('data-title="Argument"') !== -1 || line.indexOf('data-title="Name"') !== -1 || line.indexOf('data-title="Property Name"') !== -1)) {
+            propertyName = line.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+            propertyName = propertyName.replace(new RegExp('&lt;', 'g'), '<').replace(new RegExp('&gt;', 'g'), '>').trim();
+        } else if (!onType && propertyName && line.indexOf('data-title="Type"') !== -1) {
+            onType = true;
+            propertyDatatype += line;
+            if (line.indexOf('</td>') !== -1) {
+                onType = false;
+                propertyDatatype = propertyDatatype.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+                propertyDatatype = propertyDatatype.replace(new RegExp('&lt;', 'g'), '<').replace(new RegExp('&gt;', 'g'), '>').trim();
+            }
+        } else if (onType && propertyName && line.indexOf('</td>') !== -1) {
+            onType = false;
+            propertyDatatype += line;
+            propertyDatatype = propertyDatatype.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+            propertyDatatype = propertyDatatype.replace(new RegExp('&lt;', 'g'), '<').replace(new RegExp('&gt;', 'g'), '>').trim();
+        } else if (onType) {
+            propertyDatatype += line;
+        } else if (!onParamDesc && line.indexOf('data-title="Description"') !== -1) {
+            onParamDesc = true;
+            propertyDesc += line;
+        } else if (onParamDesc && (line.indexOf('data-title="Property"') !== -1 || line.indexOf('data-title="Argument"' || line.indexOf('data-title="Name"') !== -1 || line.indexOf('data-title="Property Name"') !== -1) || line.indexOf('data-title="Required or Optional"') !== -1 || line.indexOf(' data-title="Available Version"') !== -1 || line.indexOf(' data-title="version"') !== -1)) {
+            onParamDesc = false;
+            propertyDesc = propertyDesc.replace(new RegExp('<[^>]+>', 'g'), "").trim();
+            propertyDesc = propertyDesc.replace(new RegExp(/\r\s*/, 'g'), " ");
+            propertyDesc = propertyDesc.replace(new RegExp('&lt;', 'g'), '<').replace(new RegExp('&gt;', 'g'), '>').trim();
+            //propertyDesc = propertyDesc.substring(0, propertyDesc.indexOf('.') + 1);
+            properties.push({
+                name: propertyName,
+                description: propertyDesc,
+                datatype: propertyDatatype,
+                signature: 'public ' + propertyDatatype + ' ' + propertyName
+            });
+            propertyName = undefined;
+            propertyDatatype = '';
+            propertyDesc = '';
+        } else if (onParamDesc) {
+            propertyDesc += line;
+        }
+    }
+    return {
+        name: className,
+        namespace: 'ConnectApi',
+        accessModifier: "global",
+        definitionModifier: "",
+        withSharing: false,
+        inheritedSharing: false,
+        isEnum: false,
+        enumValues: [],
+        extendsType: parent,
+        isInterface: false,
+        implements: [],
+        classes: {},
+        enums: {},
+        fields: properties,
+        constructors: [],
+        methods: [],
+        description: classDesc,
+        docLink: url
+    }
+}
+
+function saveSystemClass(name, ns, isInterface, link, context) {
+    let content = FileReader.readFileSync(Paths.getAbsolutePath('./resources/tmp.txt'));
+    let fileStructure = getClassStructure(content, name, ns, isInterface, link);
+    if (!FileChecker.isExists(Paths.getAbsolutePath("./resources/assets/apex/classes/" + ns)))
+        FileWriter.createFolderSync(Paths.getAbsolutePath("./resources/assets/apex/classes/" + ns));
+    FileWriter.createFileSync(Paths.getAbsolutePath("./resources/assets/apex/classes/" + ns) + '/' + name + '.json', JSON.stringify(fileStructure, null, 2));
+}
+
+function createMetadataNamespaceFiles() {
+    let namespaceFolders = FileReader.readDirSync(Paths.getAbsolutePath("./resources/assets/apex/classes/"));
+    for (const namespaceFolder of namespaceFolders) {
+        if (namespaceFolder === 'namespacesMetadata.json')
+            continue;
+        createMetadataFileForNamespaces(namespaceFolder);
+    }
+}
+
+function createMetadataFileForNamespaces(ns) {
+    let classesFromNS = FileReader.readDirSync(Paths.getAbsolutePath("./resources/assets/apex/classes/" + ns));
     let metadata = {};
     for (const className of classesFromNS) {
         if (className !== 'namespaceMetadata.json') {
-            let classData = JSON.parse(FileReader.readFileSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns) + '/' + className));
+            let classData = JSON.parse(FileReader.readFileSync(Paths.getAbsolutePath("./resources/assets/apex/classes/" + ns) + '/' + className));
             let name = classData.name.replace('.json', '');
             let classes = Object.keys(classData.classes);
             let enums = Object.keys(classData.enums);
@@ -479,13 +772,13 @@ function createMetadataFileForNamespaces(context, ns) {
                 isInterface: classData.isInterface,
                 enumValues: classData.enumValues,
                 description: classData.description,
-                link: classData.docLink,
+                docLink: classData.docLink,
                 classes: classes,
                 enums: enums
             };
         }
     }
-    FileWriter.createFileSync(context.asAbsolutePath("./resources/assets/apex/classes/" + ns) + '/namespaceMetadata.json', JSON.stringify(metadata, null, 2));
+    FileWriter.createFileSync(Paths.getAbsolutePath("./resources/assets/apex/classes/" + ns) + '/namespaceMetadata.json', JSON.stringify(metadata, null, 2));
 }
 
 function loadSnippets() {

@@ -1,0 +1,27 @@
+{
+  "name": "FollowIntents",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "follows",
+      "description": "List of follow intents for the social persona.",
+      "datatype": "List<ConnectApi.​FollowSocial​PersonaIntent>",
+      "signature": "public List<ConnectApi.​FollowSocial​PersonaIntent> follows"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A list of follow intents for a social persona.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_follow_social_persona_intents_output.htm"
+}
