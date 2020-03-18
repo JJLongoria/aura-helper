@@ -1,5 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [1.9.1 - 2020-03-17]
+### Fixed
+- Fixed bugs with apex formatter
+
 ## [1.9.0 - 2020-03-16]
 
 ### Added

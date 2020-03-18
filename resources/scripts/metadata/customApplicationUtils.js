@@ -25,7 +25,7 @@ class CustomApplicationUtils {
                 profileActionOverrides: [],
                 setupExperience: undefined,
                 subscriberTabs: [],
-                tabs: undefined,
+                tabs: [],
                 uiType: undefined,
                 utilityBar: undefined,
                 workspaceConfig: undefined
@@ -300,6 +300,8 @@ class CustomApplicationUtils {
                 }
                 xmlLines.push('</CustomApplication>');
             } else {
+                if (!customApplication.CustomApplication['@attrs'])
+                    customApplication.CustomApplication['@attrs'] = { xmlns: "http://soap.sforce.com/2006/04/metadata" };
                 return AuraParser.toXML(customApplication);
             }
         }

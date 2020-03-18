@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions for work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "1.9.0",
+	"version": "1.9.1",
 	"engines": {
 		"vscode": "^1.37.0",
 		"node": ">=12.0.0"
@@ -52,7 +52,28 @@
 		"local metadata"
 	],
 	"activationEvents": [
-		"*"
+		"workspaceContains:sfdx-project.json",
+		"onCommand:aurahelper.completion.js.function",
+		"onCommand:aurahelper.completion.documentation.method",
+		"onCommand:aurahelper.template.apex.comment",
+		"onCommand:aurahelper.template.aura.documentation",
+		"onCommand:aurahelper.completion.aura.documentation",
+		"onCommand:aurahelper.help",
+		"onCommand:aurahelper.file.new.aura",
+		"onCommand:aurahelper.metadata.refresh.index",
+		"onCommand:aurahelper.metadata.refresh.object",
+		"onCommand:aurahelper.metadata.compress.xml",
+		"onCommand:aurahelper.metadata.compress.xml.all",
+		"onCommand:aurahelper.metadata.profile.open",
+		"onCommand:aurahelper.metadata.permissionset.open",
+		"onCommand:aurahelper.metadata.profile.retrieve",
+		"onCommand:aurahelper.metadata.permissionset.retrieve",
+		"onCommand:aurahelper.metadata.package.generate",
+		"onCommand:aurahelper.metadata.org.match",
+		"onCommand:aurahelper.metadata.customlabels.open",
+		"onCommand:aurahelper.documentation.project.create",
+		"onCommand:aurahelper.completion.apex.implement.interface",
+		"onCommand:aurahelper.completion.apex.implement.extend"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -272,6 +293,12 @@
 					"default": true,
 					"description": "Keep the after whitespaces when end comments if have any code"
 				},
+				"aurahelper.apexFormat.comment.newLinesBewteenComments": {
+					"type": "integer",
+					"default": 0,
+					"minimum": 0,
+					"description": "New lines between comments when have more than one comment block followed. Only apply if the comments are in different lines previous format"
+				},
 				"aurahelper.apexFormat.query.oneClausePerLine": {
 					"type": "boolean",
 					"default": true,
@@ -393,6 +420,10 @@
 			{
 				"command": "aurahelper.metadata.customlabels.open",
 				"title": "AuraHelper: Open Custom Labels on UI"
+			},
+			{
+				"command": "aurahelper.metadata.project.repair",
+				"title": "AuraHelper: Repair Project Dependencies"
 			},
 			{
 				"command": "aurahelper.documentation.project.create",

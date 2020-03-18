@@ -17,6 +17,7 @@ const CUSTOM_LABEL = "CustomLabel";
 const CUSTOM_LABELS = "CustomLabels";
 const CUSTOM_OBJECT = "CustomObject";
 const CUSTOM_METADATA = "CustomMetadata";
+const CUSTOM_PERMISSION = "CustomPermission";
 const DUPLICATE_RULE = "DuplicateRule";
 const CUSTOM_OBJECT_TRANSLATIONS = "CustomObjectTranslation";
 const TAB = "CustomTab";
@@ -125,5 +126,6 @@ module.exports = {
      WORKFLOW_OUTBOUND_MESSAGE,
      WORKFLOW_KNOWLEDGE_PUBLISH,
      FLOW_DEFINITION,
-     DUPLICATE_RULE
+     DUPLICATE_RULE,
+     CUSTOM_PERMISSION
 }

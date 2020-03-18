@@ -50,3 +50,5 @@ const implementExtendedClasses = require('./implementExtendedClasses');
 exports.implementExtendedClasses = implementExtendedClasses.run;
 const analyzeClassStatistics = require('./analyzeClassStatistics');
 exports.analyzeClassStatistics = analyzeClassStatistics.run;
+const repairProjectDependencies = require('./repairProjectDependencies');
+exports.repairProjectDependencies = repairProjectDependencies.run;
