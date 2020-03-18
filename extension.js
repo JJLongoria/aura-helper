@@ -43,7 +43,7 @@ function activate(context) {
 	let createProjectDocumentation = vscode.commands.registerCommand('aurahelper.documentation.project.create', commands.createProjectDocumentation);
 	let implementInterfaces = vscode.commands.registerCommand('aurahelper.completion.apex.implement.interface', commands.implementInterfaces);
 	let implementExtendedClasses = vscode.commands.registerCommand('aurahelper.completion.apex.implement.extend', commands.implementExtendedClasses);
-	let repairProjectDependencies = vscode.commands.registerCommand('aurahelper.metadata.project.repair', commands.repairProjectDependencies);
+	//let repairProjectDependencies = vscode.commands.registerCommand('aurahelper.metadata.project.repair', commands.repairProjectDependencies);
 
 	vscode.commands.registerCommand('aurahelper.completion.apex', commands.apexCodeCompletion);
 	vscode.commands.registerCommand('aurahelper.completion.aura', commands.auraCodeCompletion);
@@ -88,7 +88,7 @@ function activate(context) {
 	context.subscriptions.push(createProjectDocumentation);
 	context.subscriptions.push(implementInterfaces);
 	context.subscriptions.push(implementExtendedClasses); 
-	context.subscriptions.push(repairProjectDependencies);
+	//context.subscriptions.push(repairProjectDependencies);
 }
 exports.activate = activate;
 
