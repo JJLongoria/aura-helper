@@ -203,6 +203,8 @@ function formatApex(tokens) {
             afterWhitespaces = 1;
         if (token.type === TokenType.ENTITY.SOBJECT_PROJECTION_FIELD && nextToken && nextToken.type === TokenType.ENTITY.ALIAS_FIELD)
             afterWhitespaces = 1;
+        if (token.type === TokenType.QUERY.SCOPE_VALUE || token.type === TokenType.QUERY.NULLS_VALUE || token.type === TokenType.QUERY.ORDER)
+            beforeWhitespaces = 1;
         if (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR) {
             afterWhitespaces = 0;
             beforeWhitespaces = 0;

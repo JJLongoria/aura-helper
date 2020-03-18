@@ -1,5 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [1.9.2 - 2020-03-18]
+### Fixed
+- Fixed bugs with queries format
+
 ## [1.9.1 - 2020-03-17]
 ### Fixed
 - Fixed bugs with apex formatter
