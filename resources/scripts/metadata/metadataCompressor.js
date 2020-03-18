@@ -44,7 +44,6 @@ const EventSubscriptionUtils = require('./eventSubscriptionUtils');
 const ExternalDataSourceUtils = require('./externalDataSourceUtils');
 const FlexiPageUtils = require('./flexiPageUtils');
 const FlowCategoryUtils = require('./flowCategoryUtils');
-const FlowUtils = require('./flowUtils');
 const GlobalPicklistUtils = require('./globalPicklistUtils');
 const GlobalValueSetUtils = require('./globalValueSetUtils');
 const GlobalValueSetTranslationUtils = require('./globalValueSetTranslationUtils');

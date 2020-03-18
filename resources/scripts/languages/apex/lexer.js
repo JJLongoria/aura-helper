@@ -359,13 +359,22 @@ class Lexer {
                 charIndex += 3;
                 column += 3;
             } else if (threeChars.length === 3 && symbolTokens[threeChars] && aBracketsIndex.length === 0) {
-                token = new Token(symbolTokens[threeChars], threeChars, lineNumber, column);
-                charIndex += 2;
-                column += 2;
-            } else if (twoChars.length === 2 && symbolTokens[twoChars] && aBracketsIndex.length === 0) {
-                token = new Token(symbolTokens[twoChars], twoChars, lineNumber, column);
-                charIndex += 1;
-                column += 1;
+                if (aBracketsIndex.length === 0) {
+                    token = new Token(symbolTokens[threeChars], threeChars, lineNumber, column);
+                    charIndex += 2;
+                    column += 2;
+                }
+            } else if (twoChars.length === 2 && symbolTokens[twoChars]) {
+                if (isLogicalOperator(symbolTokens[twoChars])) {
+                    aBracketsIndex = [];
+                }
+                if (aBracketsIndex.length === 0) {
+                    token = new Token(symbolTokens[twoChars], twoChars, lineNumber, column);
+                    charIndex += 1;
+                    column += 1;
+                } else if (symbolTokens[char]) {
+                    token = new Token(symbolTokens[char], char, lineNumber, column);
+                }
             } else if (symbolTokens[char]) {
                 token = new Token(symbolTokens[char], char, lineNumber, column);
             } else if (NUM_FORMAT.test(char)) {
@@ -549,20 +558,20 @@ class Lexer {
                     } else if (primitiveDatatypes[token.textToLower]) {
                         if (!onQuery) {
                             token.type = primitiveDatatypes[token.textToLower];
-                            if (lastToken && isDatatypeToken(lastToken) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
+                            if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
                                 token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
                         }
                         else
                             token.type = TokenType.ENTITY.SOBJECT_PROJECTION_FIELD;
                     } else if (collectionsDatatypes[token.textToLower]) {
                         token.type = collectionsDatatypes[token.textToLower];
-                        if (lastToken && isDatatypeToken(lastToken) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
+                        if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
                             token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
                     } else if (dateLiterals[token.textToLower]) {
                         token.type = dateLiterals[token.textToLower];
-                    } else if (sObjects[token.textToLower] && (token.textToLower !== 'name')) {
+                    } else if (sObjects && sObjects[token.textToLower] && (token.textToLower !== 'name')) {
                         token.type = TokenType.DATATYPE.SOBJECT;
-                        if (lastToken && isDatatypeToken(lastToken) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
+                        if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && (!reservedKeywords[token.textToLower] || reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
                             token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
                     } else if (lastToken && lastToken.type === TokenType.KEYWORD.DECLARATION.CLASS) {
                         token.type = TokenType.DECLARATION.ENTITY.CLASS;
@@ -570,24 +579,24 @@ class Lexer {
                         token.type = TokenType.DECLARATION.ENTITY.ENUM;
                     } else if (lastToken && lastToken.type === TokenType.KEYWORD.DECLARATION.INTERFACE) {
                         token.type = TokenType.DECLARATION.ENTITY.INTERFACE;
-                    } else if (userClasses[token.textToLower]) {
+                    } else if (userClasses && userClasses[token.textToLower]) {
                         token.type = TokenType.DATATYPE.CUSTOM_CLASS;
-                        if (lastToken && isDatatypeToken(lastToken) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
+                        if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
                             token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
                     } else if (token.textToLower === 'system') {
                         token.type = TokenType.DATATYPE.SUPPORT_CLASS;
                         if (lastToken && lastToken.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR && twoLastToken && twoLastToken.type === TokenType.DATATYPE.SUPPORT_CLASS) {
                             tokens[tokens.length - 2].type = TokenType.DATATYPE.SUPPORT_NAMESPACE;
                         }
-                        if (lastToken && isDatatypeToken(lastToken) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
+                        if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
                             token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
-                    } else if (systemNamespace[token.textToLower]) {
+                    } else if (systemNamespace && systemNamespace[token.textToLower]) {
                         token.type = TokenType.DATATYPE.SUPPORT_CLASS;
-                        if (lastToken && isDatatypeToken(lastToken) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
+                        if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
                             token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
                     } else if (namespacesMetadata[token.textToLower] && token.textToLower !== 'system') {
                         token.type = TokenType.DATATYPE.SUPPORT_NAMESPACE;
-                        if (lastToken && isDatatypeToken(lastToken) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
+                        if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
                             token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
                     } else if (lastToken && lastToken.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR && twoLastToken && namespacesMetadata[twoLastToken.textToLower] && namespacesMetadata[twoLastToken.textToLower][token.textToLower] && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE)) {
                         token.type = TokenType.DATATYPE.SUPPORT_CLASS;
@@ -606,7 +615,7 @@ class Lexer {
                         token.type = TokenType.ENTITY.CLASS_MEMBER;
                     } else if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && !reservedKeywords[token.textToLower] || (reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE)) {
                         token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
-                    } else if (onQuery && isQueryField(token, lastToken, twoLastToken)) {
+                    } else if (onQuery && isQueryField(token, lastToken, twoLastToken) && !reservedKeywords[token.textToLower]) {
                         if (lastToken.type === TokenType.ENTITY.SOBJECT_PROJECTION_FIELD)
                             token.type = TokenType.ENTITY.ALIAS_FIELD;
                         else
@@ -633,6 +642,9 @@ class Lexer {
                                     let previousToken = getPreviousTokenFromComment(tokens, tokens.length - 1);
                                     if (previousToken.type === TokenType.ENTITY.ENUM_VALUE)
                                         token.type = TokenType.ENTITY.ENUM_VALUE;
+                                } else if (lastToken && lastToken.type === TokenType.ENTITY.VARIABLE) {
+                                    token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
+                                    tokens[tokens.length - 1].type = TokenType.DATATYPE.CUSTOM_CLASS;
                                 }
                             }
                         }
@@ -730,6 +742,10 @@ class Lexer {
     }
 }
 module.exports = Lexer;
+
+function isLogicalOperator(symbol) {
+    return symbol === TokenType.OPERATOR.LOGICAL.INEQUALITY || symbol === TokenType.OPERATOR.LOGICAL.EQUALITY || symbol === TokenType.OPERATOR.LOGICAL.OR || symbol === TokenType.OPERATOR.LOGICAL.OR_ASSIGN || symbol === TokenType.OPERATOR.LOGICAL.AND || symbol === TokenType.OPERATOR.LOGICAL.AND_ASSIGN;
+}
 
 function isDatatypeToken(token) {
     return token.type === TokenType.DATATYPE.SUPPORT_CLASS || token.type === TokenType.DATATYPE.SUPPORT_NAMESPACE || token.type === TokenType.DATATYPE.CUSTOM_CLASS || token.type === TokenType.DATATYPE.PRIMITIVE || token.type === TokenType.DATATYPE.COLLECTION || token.type === TokenType.DATATYPE.SOBJECT || token.type === TokenType.ENTITY.CLASS_MEMBER || token.type === TokenType.ENTITY.SUPPORT_CLASS_MEMBER;

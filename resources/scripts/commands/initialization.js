@@ -47,13 +47,17 @@ exports.run = function (context) {
     xmlWatcher.onDidChange(async function (uri) {
         if (Config.getConfig().metadata.compressXMLFilesOnChange) {
             let content = MetadataCompressor.compress(uri.fsPath);
-            FileWriter.createFileSync(uri.fsPath, content);
+            if (content) {
+                FileWriter.createFileSync(uri.fsPath, content);
+            }
         }
     });
     xmlWatcher.onDidCreate(async function (uri) {
         if (Config.getConfig().metadata.compressXMLFilesOnChange) {
             let content = MetadataCompressor.compress(uri.fsPath);
-            FileWriter.createFileSync(uri.fsPath, content);
+            if (content) {
+                FileWriter.createFileSync(uri.fsPath, content);
+            }
         }
     });
     let statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
