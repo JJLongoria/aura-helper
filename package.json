@@ -308,11 +308,6 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Set every query projection field on a new line"
-				},
-				"aurahelper.apexFormat.formatOnSave": {
-					"type": "boolean",
-					"default": true,
-					"description": "Format apex classes on save"
 				}
 			}
 		},
@@ -420,10 +415,6 @@
 			{
 				"command": "aurahelper.metadata.customlabels.open",
 				"title": "AuraHelper: Open Custom Labels on UI"
-			},
-			{
-				"command": "aurahelper.metadata.project.repair",
-				"title": "AuraHelper: Repair Project Dependencies"
 			},
 			{
 				"command": "aurahelper.documentation.project.create",
