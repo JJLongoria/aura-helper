@@ -20,19 +20,11 @@ exports.run = function (context) {
     // Register File Watcher
     var classWatcher = vscode.workspace.createFileSystemWatcher("**/*.cls");
     classWatcher.onDidChange(async function (uri) {
-        if (Config.getConfig().apexFormat.formatOnSave) {
-            let content = ApexFormatter.formatFile(uri.fsPath);
-            FileWriter.createFileSync(uri.fsPath, content);
-        }
         ApexParser.compileClass(uri.fsPath, Paths.getCompiledClassesPath()).then(function (apexClass) {
             applicationContext.userClasses[apexClass.name.toLowerCase()] = apexClass;
         });
     });
     classWatcher.onDidCreate(async function (uri) {
-        if (Config.getConfig().apexFormat.formatOnSave) {
-            let content = ApexFormatter.formatFile(uri.fsPath);
-            FileWriter.createFileSync(uri.fsPath, content);
-        }
         ApexParser.compileClass(uri.fsPath, Paths.getCompiledClassesPath()).then(function (apexClass) {
             applicationContext.userClasses[apexClass.name.toLowerCase()] = apexClass;
         });
