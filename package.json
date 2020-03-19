@@ -199,7 +199,12 @@
 
 
 
-
+				"aurahelper.apexFormat.punctuation.maxBlankLines": {
+					"type": "integer",
+					"default": 2,
+					"description": "Number of the maximum blank lines, -1 for keep the code blank lines",
+					"minimum": -1
+				},
 				"aurahelper.apexFormat.punctuation.openCurlyBracketOnNewLine": {
 					"type": "boolean",
 					"default": false,
@@ -306,8 +311,8 @@
 				},
 				"aurahelper.apexFormat.query.oneProjectionFieldPerLine": {
 					"type": "boolean",
-					"default": true,
-					"description": "Set every query projection field on a new line"
+					"default": false,
+					"description": "Set every query clause on a new line"
 				}
 			}
 		},

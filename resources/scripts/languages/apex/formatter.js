@@ -39,7 +39,7 @@ function formatApex(tokens) {
         let twoLastToken = langUtils.getTwoLastToken(tokens, index);
         let nextToken = langUtils.getNextToken(tokens, index);
         let newLines = 0;
-        let originalNewLines = (lastToken) ? lastToken.line - token.line : 0;
+        let originalNewLines = (lastToken && !token.isAux() && !lastToken.isAux()) ? token.line - lastToken.line : 0;
         if (token.type === TokenType.BRACKET.CURLY_OPEN) {
             indent++;
         } else if (token.type === TokenType.BRACKET.CURLY_CLOSE) {
@@ -213,7 +213,17 @@ function formatApex(tokens) {
             beforeWhitespaces = 0;
         if (nextToken && nextToken.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR)
             afterWhitespaces = 0;
-
+        if (indent > 0 && indent !== mainBodyIndent && token.type !== TokenType.KEYWORD.DECLARATION.PROPERTY_GETTER && token.type !== TokenType.KEYWORD.DECLARATION.PROPERTY_SETTER) {
+            if (newLines > 0 && originalNewLines > 1) {
+                if (Config.getConfig().apexFormat.punctuation.maxBlankLines === -1)
+                    newLines = originalNewLines;
+                else if (Config.getConfig().apexFormat.punctuation.maxBlankLines === 0)
+                    newLines = 1;
+                else if (Config.getConfig().apexFormat.punctuation.maxBlankLines > 0 && originalNewLines > Config.getConfig().apexFormat.punctuation.maxBlankLines) {
+                    newLines = Config.getConfig().apexFormat.punctuation.maxBlankLines + 1;
+                }
+            }
+        }
         if (isInitializer(token, lastToken)) {
             indentOffset = -1;
             beforeWhitespaces = 0;
