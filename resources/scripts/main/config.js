@@ -26,13 +26,13 @@ function getAuthUsername() {
                     if (listOrgsResult.status === 0) {
                         for (const org of listOrgsResult.result) {
                             if (defaultUsername.indexOf('@') !== -1) {
-                                if (org.username.toLowerCase().trim() === defaultUsername.toLowerCase().trim())
+                                if (org.username && org.username.toLowerCase().trim() === defaultUsername.toLowerCase().trim())
                                     username = org.username;
                             } else {
-                                if (org.alias.toLowerCase().trim() === defaultUsername.toLowerCase().trim())
+                                if (org.alias && org.alias.toLowerCase().trim() === defaultUsername.toLowerCase().trim())
                                     username = org.username;
                             }
-                            if (!username && (org.username.toLowerCase().trim() === defaultUsername.toLowerCase().trim() || org.alias.toLowerCase().trim() === defaultUsername.toLowerCase().trim()))
+                            if (!username && ((org.username && org.username.toLowerCase().trim() === defaultUsername.toLowerCase().trim()) || (org.alias && org.alias.toLowerCase().trim() === defaultUsername.toLowerCase().trim())))
                                 username = org.username;
                         }
                     }
