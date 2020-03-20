@@ -157,9 +157,6 @@
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for Apex Code (variables, fields, methods...)"
 				},
-
-
-				
 				"aurahelper.graphicUserInterface.defaultGUILanguage": {
 					"type": "string",
 					"default": "English",
@@ -173,8 +170,6 @@
 						"Open Spanish GUI by default"
 					]
 				},
-
-
 				"aurahelper.metadata.compressXMLFilesOnChange": {
 					"type": "boolean",
 					"default": false,
@@ -196,9 +191,6 @@
 					"default": false,
 					"description": "When you open a permission set or profile on GUI, Aura Helper can merge your local data with your permissions files for add the metadata that not exists on the file for modify permissions"
 				},
-
-
-
 				"aurahelper.apexFormat.punctuation.maxBlankLines": {
 					"type": "integer",
 					"default": 2,
@@ -612,6 +604,7 @@
 		"eslint": "^5.13.0",
 		"glob": "^7.1.4",
 		"mocha": "^6.1.4",
+		"sqlite3": "^4.1.1",
 		"typescript": "^3.3.1",
 		"vscode-test": "^1.0.2"
 	},
