@@ -52,3 +52,5 @@ const analyzeClassStatistics = require('./analyzeClassStatistics');
 exports.analyzeClassStatistics = analyzeClassStatistics.run;
 const repairProjectDependencies = require('./repairProjectDependencies');
 exports.repairProjectDependencies = repairProjectDependencies.run;
+const retrieveFullRecordTypes = require('./retrieveFullRecordTypes');
+exports.retrieveFullRecordTypes = retrieveFullRecordTypes.run;

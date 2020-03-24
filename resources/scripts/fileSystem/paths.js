@@ -84,6 +84,12 @@ class Paths {
     static getPackageFolder() { 
         return applicationContext.context.storagePath + "\\" + "download\\metadata\\package";
     }
+    static getConvertedProjectFolder() { 
+        return applicationContext.context.storagePath + "\\" + "download\\metadata\\converted";
+    }
+    static getTempProjectFolder() { 
+        return applicationContext.context.storagePath + "\\" + "download\\metadata\\tempProject";
+    }
     static getDestructivePackageFolder() { 
         return applicationContext.context.storagePath + "\\" + "download\\metadata\\destructivePackage";
     }
