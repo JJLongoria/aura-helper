@@ -402,6 +402,10 @@
 				"title": "AuraHelper: Retrieve Full Permission Set(s)"
 			},
 			{
+				"command": "aurahelper.metadata.recordtype.retrieve",
+				"title": "AuraHelper: Retrieve Full Record Type(s)"
+			},
+			{
 				"command": "aurahelper.metadata.package.generate",
 				"title": "AuraHelper: Package Generator"
 			},
@@ -412,6 +416,10 @@
 			{
 				"command": "aurahelper.metadata.customlabels.open",
 				"title": "AuraHelper: Open Custom Labels on UI"
+			},
+			{
+				"command": "aurahelper.metadata.project.repair",
+				"title": "AuraHelper: Repair Project Dependencies"
 			},
 			{
 				"command": "aurahelper.documentation.project.create",

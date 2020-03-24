@@ -115,16 +115,14 @@ function showProfiles(profileNames, selectedProfile, isPermissionSets) {
             location: ProgressLocation.Notification,
             title: (isPermissionSets) ? "Loading Permission Sets from Org" : "Loading Profiles from Org",
             cancellable: false
-        }, (progress, token) => {
-            return new Promise(resolve => {
-                listProfilesFromOrg(isPermissionSets, token, function (profileNames) {
+        }, (progress, cancelToken) => {
+            return new Promise(async function (resolve) {
+                let profileNames = await listProfilesFromOrg(isPermissionSets, cancelToken);
+                if (profileNames) {
                     resolve();
-                    if (profileNames) {
-                        resolve();
-                        let placeHolder = (isPermissionSets) ? 'Select one Permission Set for Retrieve' : 'Select one Profile for Retrieve';
-                        window.showQuickPick(profileNames, { placeHolder: placeHolder }).then((selected) => retrieve([selected], isPermissionSets));
-                    }
-                });
+                    let placeHolder = (isPermissionSets) ? 'Select one Permission Set for Retrieve' : 'Select one Profile for Retrieve';
+                    window.showQuickPick(profileNames, { placeHolder: placeHolder }).then((selected) => retrieve([selected], isPermissionSets));
+                }
             });
         });
     } else if (selectedProfile === 'All Local Profiles' || selectedProfile === 'All Local Permission Sets') {
@@ -144,14 +142,11 @@ function showProfiles(profileNames, selectedProfile, isPermissionSets) {
             location: ProgressLocation.Notification,
             title: (isPermissionSets) ? "Loading Permission Sets from Org" : "Loading Profiles from Org",
             cancellable: false
-        }, (progress, token) => {
-            return new Promise(resolve => {
-                listProfilesFromOrg(isPermissionSets, token, function (profileNames) {
-                    resolve();
-                    if (profileNames) {
-                        retrieve(profileNames, isPermissionSets);
-                    }
-                });
+        }, (progress, cancelToken) => {
+            return new Promise(async function (resolve) {
+                let profileNames = await listProfilesFromOrg(isPermissionSets, cancelToken);
+                retrieve(profileNames, isPermissionSets);
+                resolve();
             });
         });
     } else if (selectedProfile === 'Selected') {
@@ -159,62 +154,55 @@ function showProfiles(profileNames, selectedProfile, isPermissionSets) {
     }
 }
 
-async function listProfilesFromOrg(isPermissionSets, token, callback) {
-    let profileNames = [];
-    let user = await Config.getAuthUsername();
-    let buffer = [];
-    let bufferError = [];
-    let object = '';
-    if (isPermissionSets)
-        object = 'PermissionSet';
-    else
-        object = 'Profile';
-    ProcessManager.describeMetadata(user, object, token, function (event, data) {
-        switch (event) {
-            case ProcessEvent.STD_OUT:
-                buffer = buffer.concat(data);
-                break;
-            case ProcessEvent.END:
-                let outJson = JSON.parse(buffer.toString());
+function listProfilesFromOrg(isPermissionSets, cancelToken) {
+    return new Promise(async function (resolve) {
+        let profileNames = [];
+        let user = await Config.getAuthUsername();
+        let object = '';
+        if (isPermissionSets)
+            object = 'PermissionSet';
+        else
+            object = 'Profile';
+        let out = await ProcessManager.mdApiDescribeMetadata(user, object, undefined, cancelToken);
+        if (out) {
+            if (out.stdErr) {
+
+            } else {
+                let outJson = JSON.parse(out.stdOut);
                 let profiles = (Array.isArray(outJson.result)) ? outJson.result : [outJson.result];
                 for (const profile of profiles) {
                     profileNames.push(profile.fullName);
                 }
-                if (callback)
-                    callback.call(this, profileNames);
-                break;
-            default:
-                break;
+                resolve(profileNames);
+            }
         }
     });
 }
 
-function retrieve(profileNames, isPermissionSets) {
-    window.showQuickPick(['Only Org Namespace', 'All'], { placeHolder: "Choose for retrieve all permissions or only from org namespaces" }).then((selectedToDownload) => {
-        if (selectedToDownload) {
-            let downloadAll = selectedToDownload === 'All';
-            window.showQuickPick(['Yes', 'No'], { placeHolder: "Do you want to save compressed?" }).then((selected) => {
-                window.withProgress({
-                    location: ProgressLocation.Notification,
-                    title: (isPermissionSets) ? "Retrieving Permission Sets from Org" : "Retrieving Profiles from Org",
-                    cancellable: true
-                }, (progress, canceltoken) => {
-                    return new Promise(resolve => {
-                        retrieveProfiles(profileNames, isPermissionSets, downloadAll, selected === 'Yes', canceltoken, function () {
-                            resolve();
-                            window.showInformationMessage((isPermissionSets) ? "Permission Retrieved Succesfully" : "Profiles Retrieved Succesfully");
-                        });
-                    });
+async function retrieve(profileNames, isPermissionSets) {
+    let selectedToDownload = await window.showQuickPick(['Only Org Namespace', 'All'], { placeHolder: "Choose for retrieve all permissions or only from org namespaces" });
+    if (selectedToDownload) {
+        let downloadAll = selectedToDownload === 'All';
+        let compressOnSave = await window.showQuickPick(['Yes', 'No'], { placeHolder: "Do you want to save compressed?" });
+        window.withProgress({
+            location: ProgressLocation.Notification,
+            title: "Getting Metadata from Org",
+            cancellable: true
+        }, (progress, canceltoken) => {
+            return new Promise(resolve => {
+                retrieveProfiles(profileNames, isPermissionSets, downloadAll, compressOnSave === 'Yes', progress, canceltoken, function () {
+                    resolve();
+                    window.showInformationMessage((isPermissionSets) ? "Permission Retrieved Succesfully" : "Profiles Retrieved Succesfully");
                 });
             });
-        }
-    });
+        });
+    }
 }
 
-async function retrieveProfiles(profileNames, isPermissionSets, downloadAll, compress, cancelToken, callback) {
+async function retrieveProfiles(profileNames, isPermissionSets, downloadAll, compress, progress, cancelToken, callback) {
     let user = await Config.getAuthUsername();
     let orgNamespace = Config.getOrgNamespace(user);
-    MetadataConnection.getMetadataFromOrg(user, metadataForGetPermissions, orgNamespace, downloadAll, undefined, cancelToken, function (metadata) {
+    MetadataConnection.getMetadataFromOrg(user, metadataForGetPermissions, orgNamespace, downloadAll, progress, cancelToken, function (metadata) {
         let profileMetadata;
         if (isPermissionSets)
             profileMetadata = MetadataFactory.createMetadataType('PermissionSet', true);
@@ -223,18 +211,97 @@ async function retrieveProfiles(profileNames, isPermissionSets, downloadAll, com
         for (const profile of profileNames) {
             profileMetadata.childs[profile] = MetadataFactory.createMetadataObject(profile, true);
         }
-        if (metadata && metadata.length > 0) {
+        if (metadata && Object.keys(metadata).length > 0) {
+            progress.report({ message: "Retrieving " + ((isPermissionSets) ? "Permission Sets" : "Profiles") + " from Org" });
             if (isPermissionSets)
                 metadata['PermissionSet'] = profileMetadata;
             else
                 metadata['Profile'] = profileMetadata;
-            retrieveMetadata(user, metadata, isPermissionSets, cancelToken, callback);
+            Object.keys(metadata).forEach(function (key) {
+                metadata[key].checked = true;
+                Object.keys(metadata[key].childs).forEach(function (childKey) {
+                    if (metadata[key].childs[childKey]) {
+                        metadata[key].childs[childKey].checked = true;
+                        Object.keys(metadata[key].childs[childKey].childs).forEach(function (grandChildKey) {
+                            if (metadata[key].childs[childKey].childs[grandChildKey])
+                                metadata[key].childs[childKey].childs[grandChildKey].checked = true;
+                        });
+                    }
+                });
+            });
+            retrieveMetadata(user, metadata, compress, isPermissionSets, progress, cancelToken, callback);
+        } else {
+            if (callback)
+                callback.call(this);
         }
     });
 }
 
-function retrieveMetadata(user, metadata, compress, isPermissionSets, cancelToken, callback) {
+async function retrieveMetadata(user, metadata, compress, isPermissionSets, progress, cancelToken, callback) {
     let packageContent = PackageGenerator.createPackage(metadata, Config.getOrgVersion());
+    let buffer = [];
+    let bufferError = [];
+    let packageFolder = Paths.getPackageFolder();
+    let parent = Paths.getFolderPath(packageFolder);
+    packageFolder = parent + '/projectTemp';
+    if (FileChecker.isExists(packageFolder))
+        FileWriter.delete(packageFolder);
+    let out = await ProcessManager.createSFDXProject('projectTemp', parent, cancelToken);
+    if (out) {
+        if (out.stdErr) {
+            window.showErrorMessage("An error ocurred when converting project to SFDX: \n" + out.stdErr);
+        } else {
+            let packageFile = packageFolder + '/manifest/' + PACKAGE_FILE_NAME;
+            FileWriter.createFileSync(packageFile, packageContent);
+            let setDefaultOrgOut = await ProcessManager.setDefaultOrg('projectTemp', packageFolder, cancelToken);
+            if (setDefaultOrgOut.stdErr) {
+                window.showErrorMessage("An error ocurred when converting project to SFDX: \n" + setDefaultOrgOut.stdErr);
+            } else {
+                let retrieveOut = await ProcessManager.retrieveSFDX(user, packageFile, packageFolder, cancelToken);
+                progress.report({ message: "Copying retrieved files into your project folder" });
+                if (isPermissionSets) {
+                    let profiles = FileReader.readDirSync(packageFolder + '/force-app/main/default/permissionsets');
+                    if (!FileChecker.isExists(Paths.getMetadataRootFolder() + '/permissionsets'))
+                        FileWriter.createFolderSync(Paths.getMetadataRootFolder() + '/permissionsets');
+                    for (const profile of profiles) {
+                        let targetFile = Paths.getMetadataRootFolder() + '/permissionsets/' + profile;
+                        let sourceFile = packageFolder + '/force-app/main/default/permissionsets/' + profile;
+                        if (compress) {
+                            let root = AuraParser.parseXML(FileReader.readFileSync(sourceFile));
+                            let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
+                            if (profileRaw) {
+                                let profile = PermissionSetUtils.createPermissionSet(profileRaw);
+                                FileWriter.createFile(sourceFile, PermissionSetUtils.toXML(profile, true), function () { });
+                            }
+                        }
+                        FileWriter.copyFile(sourceFile, targetFile, function () { });
+                    }
+                } else {
+                    let profiles = FileReader.readDirSync(packageFolder + '/force-app/main/default/profiles');
+                    if (!FileChecker.isExists(Paths.getMetadataRootFolder() + '/profiles'))
+                        FileWriter.createFolderSync(Paths.getMetadataRootFolder() + '/profiles');
+                    for (const profile of profiles) {
+                        let targetFile = Paths.getMetadataRootFolder() + '/profiles/' + profile;
+                        let sourceFile = packageFolder + '/force-app/main/default/profiles/' + profile;
+                        if (compress) {
+                            let root = AuraParser.parseXML(FileReader.readFileSync(sourceFile));
+                            let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
+                            if (profileRaw) {
+                                let profile = ProfileUtils.createProfile(profileRaw);
+                                FileWriter.createFile(sourceFile, ProfileUtils.toXML(profile, true), function () { });
+                            }
+                        }
+                        FileWriter.copyFile(sourceFile, targetFile, function () { });
+                    }
+                }
+            }
+        }
+    } else {
+        window.showInformationMessage("Operation cancelled by the user");
+    }
+    if (callback)
+        callback.call(this);
+    /*let packageContent = PackageGenerator.createPackage(metadata, Config.getOrgVersion());
     let packageFolder = Paths.getPackageFolder();
     let packageFile = packageFolder + '\\' + PACKAGE_FILE_NAME;
     if (FileChecker.isExists(packageFolder))
@@ -295,5 +362,5 @@ function retrieveMetadata(user, metadata, compress, isPermissionSets, cancelToke
             default:
                 break;
         }
-    });
+    });*/
 }

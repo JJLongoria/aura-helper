@@ -166,6 +166,37 @@ class Connection {
         });
     }
 
+    // Method to replace getMetadataObjectsListFromOrg()
+    static getMetadataTypesFromOrg(user, options) {
+        if (!options) {
+            options = {
+                forceDownload: false,
+                progressReport: undefined,
+                cancelToken: undefined
+            };
+        }
+        let progressReport = options.progressReport;
+        let cancelToken = options.cancelToken;
+        let folder = Paths.getSFDXFolderPath() + '/orgs/' + user + '/metadata';
+        let file = Paths.getSFDXFolderPath() + '/orgs/' + user + '/metadata/metadataTypes.json';
+        return new Promise(async function (resolve) {
+            if (progressReport)
+                progressReport.report({ message: "Getting all available types for download" });
+            if (FileChecker.isExists(file) && !options.forceDownload) {
+                resolve(Connection.getMetadataObjectsFromSFDXMetadataTypesFile(file));
+            } else {
+                let out = await ProcessManager.listMetadataTypes(user, { forceDownload: false, processReport: progressReport, cancelToken: cancelToken });
+                if (out && out.stdOut) {
+                    if (!FileChecker.isExists(folder))
+                        FileWriter.createFolderSync(folder);
+                    FileWriter.createFileSync(file, out.stdOut.toString());
+                    resolve(Connection.getMetadataObjectsFromSFDXMetadataTypesFile(file));
+                } else {
+                    resolve();
+                }
+            }
+        });
+    }
 
     static getMetadataObjectsListFromOrg(user, forceDownload, progressReport, cancelToken, callback) {
         abort = false;

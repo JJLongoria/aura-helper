@@ -1,6 +1,7 @@
 const Process = require('./process');
 const fileSystem = require('../fileSystem');
 const Paths = fileSystem.Paths;
+const ProcessEvent = require('./processEvent');
 
 const BUFFER_SIZE = 1024 * 500000;
 
@@ -12,16 +13,43 @@ class ProcessManager {
         return process;
     }
 
+    // Method for replace listMetadata()
+    static listMetadataTypes(user, cancelToken) {
+        let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:describemetadata', '--json', '-u', user], { maxBuffer: BUFFER_SIZE }, cancelToken);
+        return new Promise(function (resolve) {
+            runProcess(process).then(function (stdOut) {
+                resolve({ stdOut: stdOut, stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
     static listMetadata(user, cancelToken, callback) {
         let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:describemetadata', '--json', '-u', user], { maxBuffer: BUFFER_SIZE }, cancelToken);
         process.run(callback);
         return process;
     }
 
-    static describeSchemaMetadata(user, metadataType, cancelToken, callback) { 
+    static describeSchemaMetadata(user, metadataType, cancelToken, callback) {
         let process = new Process('cmd', ['/c', 'sfdx', 'force:schema:sobject:describe', '--json', '-u', user, '-s', metadataType], { maxBuffer: BUFFER_SIZE }, cancelToken);
         process.run(callback);
         return process;
+    }
+
+    static mdApiDescribeMetadata(user, metadata, folderName, cancelToken) {
+        let process;
+        if (folderName)
+            process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:listmetadata', '--json', '-u', user, '-m', metadata, '--folder', folderName], { maxBuffer: BUFFER_SIZE }, cancelToken);
+        else
+            process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:listmetadata', '--json', '-u', user, '-m', metadata], { maxBuffer: BUFFER_SIZE }, cancelToken);
+        return new Promise(function (resolve) {
+            runProcess(process).then(function (stdOut) {
+                resolve({ stdOut: stdOut, stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
     }
 
     static describeMetadata(user, metadata, folderName, cancelToken, callback) {
@@ -39,6 +67,18 @@ class ProcessManager {
         process.run(callback);
         return process;
     }
+
+    static retrieveSFDX(user, packageFile, projectFolder, cancelToken) {
+        let process = new Process('cmd', ['/c', 'sfdx', 'force:source:retrieve', '--json', '-u', user, '-x', '' + packageFile + ''], { maxBuffer: BUFFER_SIZE, cwd: projectFolder }, cancelToken);
+        return new Promise(function (resolve) {
+            runProcess(process).then(function (stdOut) {
+                resolve({ stdOut: stdOut, stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
 
     static destructiveChanges(user, destructiveFolder, cancelToken, callback) {
         let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:deploy', '--json', '-u', user, '-d', '' + destructiveFolder + '', '-w', '-1'], { maxBuffer: BUFFER_SIZE }, cancelToken);
@@ -100,5 +140,62 @@ class ProcessManager {
         return process;
     }
 
+    static convertToSFDX(packageFolder, packageFile, targetFolder, callback) {
+        let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:convert', '-r', '' + packageFolder + '', '--manifest', '' + packageFile + '', '-d', '' + targetFolder + ''], { maxBuffer: BUFFER_SIZE });
+        process.run(callback);
+        return process;
+    }
+
+    static createSFDXProject(projectName, projectFolder, cancelToken) {
+        let process = new Process('cmd', ['/c', 'sfdx', 'force:project:create', '-n', projectName, '-d', '' + projectFolder + '', '--manifest', '--template', 'empty'], { maxBuffer: BUFFER_SIZE }, cancelToken);
+        return new Promise(function (resolve) {
+            runProcess(process).then(function (stdOut) {
+                resolve({ stdOut: stdOut, stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
+    static setDefaultOrg(orgAlias, cwd, cancelToken) {
+        let process = new Process('cmd', ['/c', 'sfdx', 'force:config:set', '--json', 'defaultusername=' + orgAlias], { maxBuffer: BUFFER_SIZE, cwd: cwd }, cancelToken);
+        return new Promise(function (resolve) {
+            runProcess(process).then(function (stdOut) {
+                resolve({ stdOut: stdOut, stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
 }
 module.exports = ProcessManager;
+
+function runProcess(process) {
+    let stdOut = [];
+    let stdErr = [];
+    return new Promise(function (resolve, rejected) {
+        process.run(function (event, data) {
+            switch (event) {
+                case ProcessEvent.STD_OUT:
+                    stdOut = stdOut.concat(data);
+                    break;
+                case ProcessEvent.ERR_OUT:
+                    stdErr = stdErr.concat(data);
+                    break;
+                case ProcessEvent.KILLED:
+                    resolve();
+                    break;
+                case ProcessEvent.END:
+                    if (stdErr.length > 0) {
+                        rejected(stdErr.toString());
+                    } else {
+                        resolve(stdOut.toString());
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+    });
+}
