@@ -1,0 +1,27 @@
+{
+  "name": "EntityLinkSegmentInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.Message​Segment​Input",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "entityId",
+      "description": "ID of the entity to link to.Only users with access to the entity see it. It’s hidden for users without access.",
+      "datatype": "String",
+      "signature": "public String entityId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An entity link segment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_entity_link_segment.htm"
+}

@@ -1,0 +1,51 @@
+{
+  "name": "​VerifiedCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isVerifiableByMe",
+      "description": "Specifies whether the context user has permission to",
+      "datatype": "Boolean",
+      "signature": "public Boolean isVerifiableByMe"
+    },
+    {
+      "name": "isVerified",
+      "description": "Specifies whether the comment is marked as verified",
+      "datatype": "Boolean",
+      "signature": "public Boolean isVerified"
+    },
+    {
+      "name": "isVerifiedBy​Anonymized",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isVerifiedBy​Anonymized"
+    },
+    {
+      "name": "lastVerifiedByUser",
+      "description": "User who last marked the comment as verified or",
+      "datatype": "ConnectApi.​User​Summary Class",
+      "signature": "public ConnectApi.​User​Summary Class lastVerifiedByUser"
+    },
+    {
+      "name": "lastVerifiedDate",
+      "description": "Date when the comment was last marked as verified or",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastVerifiedDate"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a comment has this capability, users with permission can mark it as verified or unverified.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_verified_capability.htm"
+}

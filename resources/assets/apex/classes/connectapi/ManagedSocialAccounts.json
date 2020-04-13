@@ -1,0 +1,27 @@
+{
+  "name": "ManagedSocialAccounts",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "managedSocial​Accounts",
+      "description": "List of managed social accounts.",
+      "datatype": "List<ConnectApi.​ManagedSocialAccount>",
+      "signature": "public List<ConnectApi.​ManagedSocialAccount> managedSocial​Accounts"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A list of managed social accounts.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_social_accounts_setup_output.htm"
+}

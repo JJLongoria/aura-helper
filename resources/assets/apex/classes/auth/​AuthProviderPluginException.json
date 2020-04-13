@@ -1,0 +1,20 @@
+{
+    "name": "​AuthProviderPluginException",
+    "namespace": "Auth",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "Exception",
+    "isInterface": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [],
+    "description": "Throw this exception to indicate that an error occurred when using the auth provider plug-in. Use to display a custom error message to the user.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Auth_exceptions.htm"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "RecordSummaryList",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "records",
+      "description": "A list of records.",
+      "datatype": "List<ConnectApi.​ActorWithId>",
+      "signature": "public List<ConnectApi.​ActorWithId> records"
+    },
+    {
+      "name": "url",
+      "description": "The URL to this list of records.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_recordSummaryList.htm"
+}

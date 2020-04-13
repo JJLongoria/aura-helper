@@ -1,0 +1,45 @@
+{
+  "name": "​DirectMessage​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "memberChanges",
+      "description": "Member activities of the direct message, with the",
+      "datatype": "ConnectApi.​DirectMessage​MemberActivityPage",
+      "signature": "public ConnectApi.​DirectMessage​MemberActivityPage memberChanges"
+    },
+    {
+      "name": "members",
+      "description": "Members included in the direct message.",
+      "datatype": "ConnectApi.​DirectMessage​MemberPage",
+      "signature": "public ConnectApi.​DirectMessage​MemberPage members"
+    },
+    {
+      "name": "originalMembers",
+      "description": "Original members of the direct message.",
+      "datatype": "ConnectApi.​DirectMessage​MemberPage",
+      "signature": "public ConnectApi.​DirectMessage​MemberPage originalMembers"
+    },
+    {
+      "name": "subject",
+      "description": "Subject of the direct message.",
+      "datatype": "String",
+      "signature": "public String subject"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it’s a direct message.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_direct_message_capability.htm"
+}

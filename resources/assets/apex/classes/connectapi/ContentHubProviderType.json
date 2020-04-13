@@ -1,0 +1,33 @@
+{
+  "name": "ContentHubProviderType",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "label",
+      "description": "Localized label of the provider type.",
+      "datatype": "String",
+      "signature": "public String label"
+    },
+    {
+      "name": "type",
+      "description": "Provider type. One of these values:",
+      "datatype": "String",
+      "signature": "public String type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The type of repository.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_content_hub_provider_type.htm"
+}

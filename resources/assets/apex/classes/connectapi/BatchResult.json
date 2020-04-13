@@ -1,0 +1,56 @@
+{
+  "name": "BatchResult",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [
+    {
+      "name": "getError",
+      "signature": "public ConnectApi.ConnectApiException getError()",
+      "description": "If an error occurred, returns a ConnectApi.ConnectApiException object providing the error code and description.",
+      "params": [],
+      "datatype": "ConnectApi.FeedFavorite"
+    },
+    {
+      "name": "getErrorMessage",
+      "signature": "public String getErrorMessage()",
+      "description": "Returns a String that contains an error message.",
+      "params": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getErrorTypeName",
+      "signature": "public String getErrorTypeName()",
+      "description": "Returns a String that contains the name of the error type.",
+      "params": [],
+      "datatype": "String"
+    },
+    {
+      "name": "getResult",
+      "signature": "public Object getResult()",
+      "description": "Returns an object that contains the results of the batch operation. The object is typed according to the batch method. For example, if you call getMembershipBatch(), a successful call to BatchResult getResult() returns a ConnectApi.GroupMembership object.",
+      "params": [],
+      "datatype": "Object"
+    },
+    {
+      "name": "isSuccess",
+      "signature": "public Boolean isSuccess()",
+      "description": "Returns a Boolean that is set to true if the batch operation was successful for this object, false otherwise.",
+      "params": [],
+      "datatype": "Boolean"
+    }
+  ],
+  "description": "The result of an operation returned by a batch method.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_batch_result.htm"
+}

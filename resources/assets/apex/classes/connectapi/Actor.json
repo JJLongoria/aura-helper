@@ -1,0 +1,33 @@
+{
+  "name": "Actor",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "name",
+      "description": "Name of the actor, such as the group name.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "type",
+      "description": "One of the following:",
+      "datatype": "String",
+      "signature": "public String type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_actor.htm"
+}

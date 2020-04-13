@@ -1,0 +1,27 @@
+{
+  "name": "FulfillmentOrderOutputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.BaseOutputRepresentation",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "fulfillment​OrderIds",
+      "description": "A list of IDs of created Fulfillment",
+      "datatype": "List<String>",
+      "signature": "public List<String> fulfillment​OrderIds"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A list of IDs of the created FulfillmentOrders.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_fulfillment_order_output.htm"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "UnreadConversationCount",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "hasMore",
+      "description": "Specifies if there are more than 50 unread messages (true) or not (false)",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasMore"
+    },
+    {
+      "name": "unreadCount",
+      "description": "The total number of unread messages",
+      "datatype": "Integer",
+      "signature": "public Integer unreadCount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_UnreadMessageCount.htm"
+}

@@ -1,0 +1,34 @@
+{
+  "name": "SalesforceResultCodeInfo",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [
+    {
+      "name": "SalesforceResultCodeInfo",
+      "signature": "global SalesforceResultCodeInfo(commercepayments.CustomMetadataTypeInfo customMetadataTypeInfo)",
+      "description": "Constructor for providing the customMetadataTypeInfo for the result of the transaction.",
+      "params": [
+        {
+          "name": "customMetadataTypeInfo",
+          "datatype": "commercepayments.CustomMetadataTypeInfo",
+          "description": ""
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [],
+  "description": "Apex object for storing Salesforce result code information from payment gateway adapters.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_SalesforceResultCodeInfo.htm#apex_class_commerce_payments_SalesforceResultCodeInfo"
+}

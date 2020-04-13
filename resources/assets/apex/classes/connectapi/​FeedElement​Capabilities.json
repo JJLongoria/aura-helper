@@ -1,0 +1,237 @@
+{
+  "name": "​FeedElement​Capabilities",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "approval",
+      "description": "If a feed element has this capability, it includes information about",
+      "datatype": "ConnectApi.​ApprovalCapability Class",
+      "signature": "public ConnectApi.​ApprovalCapability Class approval"
+    },
+    {
+      "name": "associated​Actions",
+      "description": "If a feed element has this capability, it has platform actions",
+      "datatype": "ConnectApi.​AssociatedActions​Capability",
+      "signature": "public ConnectApi.​AssociatedActions​Capability associated​Actions"
+    },
+    {
+      "name": "banner",
+      "description": "If a feed element has this capability,",
+      "datatype": "ConnectApi.​BannerCapability Class",
+      "signature": "public ConnectApi.​BannerCapability Class banner"
+    },
+    {
+      "name": "bookmarks",
+      "description": "If a feed element has this capability, the context user can bookmark",
+      "datatype": "ConnectApi.​Bookmarks​Capability\rClass",
+      "signature": "public ConnectApi.​Bookmarks​Capability\rClass bookmarks"
+    },
+    {
+      "name": "bundle",
+      "description": "If a feed element has this capability, it has a container of feed",
+      "datatype": "ConnectApi.​BundleCapability Class",
+      "signature": "public ConnectApi.​BundleCapability Class bundle"
+    },
+    {
+      "name": "canvas",
+      "description": "If a feed element has this capability, it renders a canvas",
+      "datatype": "ConnectApi.Canvas​Capability Class",
+      "signature": "public ConnectApi.Canvas​Capability Class canvas"
+    },
+    {
+      "name": "caseComment",
+      "description": "If a feed element has this capability, it has a case comment on the",
+      "datatype": "ConnectApi.Case​CommentCapability Class",
+      "signature": "public ConnectApi.Case​CommentCapability Class caseComment"
+    },
+    {
+      "name": "chatterLikes",
+      "description": "If a feed element has this capability, the context user can like it.",
+      "datatype": "ConnectApi.​ChatterLikes​Capability\rClass",
+      "signature": "public ConnectApi.​ChatterLikes​Capability\rClass chatterLikes"
+    },
+    {
+      "name": "close",
+      "description": "If a feed element has this capability, users with permission can close",
+      "datatype": "ConnectApi.​CloseCapability",
+      "signature": "public ConnectApi.​CloseCapability close"
+    },
+    {
+      "name": "comments",
+      "description": "If a feed element or comment has this capability, the context user can",
+      "datatype": "ConnectApi.​CommentsCapability",
+      "signature": "public ConnectApi.​CommentsCapability comments"
+    },
+    {
+      "name": "content",
+      "description": "If a comment has this capability, it has a file",
+      "datatype": "ConnectApi.​ContentCapability",
+      "signature": "public ConnectApi.​ContentCapability content"
+    },
+    {
+      "name": "dashboardComponent​Snapshot",
+      "description": "If a feed element has this capability, it has a dashboard component",
+      "datatype": "ConnectApi.​DashboardComponent​SnapshotCapability",
+      "signature": "public ConnectApi.​DashboardComponent​SnapshotCapability dashboardComponent​Snapshot"
+    },
+    {
+      "name": "directMessage",
+      "description": "If a feed element has this capability, it’s a direct",
+      "datatype": "ConnectApi.​DirectMessage​Capability",
+      "signature": "public ConnectApi.​DirectMessage​Capability directMessage"
+    },
+    {
+      "name": "edit",
+      "description": "If a feed element has this capability, users who have",
+      "datatype": "ConnectApi.​EditCapability",
+      "signature": "public ConnectApi.​EditCapability edit"
+    },
+    {
+      "name": "emailMessage",
+      "description": "If a feed element has this capability, it has an email message from a",
+      "datatype": "ConnectApi.​EmailMessage​Capability",
+      "signature": "public ConnectApi.​EmailMessage​Capability emailMessage"
+    },
+    {
+      "name": "enhancedLink",
+      "description": "If a feed element has this capability, it has a link that may contain",
+      "datatype": "ConnectApi.​EnhancedLink​Capability",
+      "signature": "public ConnectApi.​EnhancedLink​Capability enhancedLink"
+    },
+    {
+      "name": "extensions",
+      "description": "If a feed element has this capability, it has one or more extension",
+      "datatype": "ConnectApi.​ExtensionsCapability",
+      "signature": "public ConnectApi.​ExtensionsCapability extensions"
+    },
+    {
+      "name": "feedEntityShare",
+      "description": "If a feed element or comment has this capability, a feed entity is",
+      "datatype": "ConnectApi.​FeedEntity​ShareCapability",
+      "signature": "public ConnectApi.​FeedEntity​ShareCapability feedEntityShare"
+    },
+    {
+      "name": "files",
+      "description": "If a feed element has this capability, it has one or more file",
+      "datatype": "ConnectApi.​FilesCapability",
+      "signature": "public ConnectApi.​FilesCapability files"
+    },
+    {
+      "name": "interactions",
+      "description": "If a feed element has this capability, it has information about user",
+      "datatype": "ConnectApi.​Interactions​Capability",
+      "signature": "public ConnectApi.​Interactions​Capability interactions"
+    },
+    {
+      "name": "link",
+      "description": "If a feed element has this capability, it has a link.",
+      "datatype": "ConnectApi.​LinkCapability",
+      "signature": "public ConnectApi.​LinkCapability link"
+    },
+    {
+      "name": "mediaReferences",
+      "description": "If a feed element has this capability, it has one or more media",
+      "datatype": "ConnectApi.​MediaReference​Capability",
+      "signature": "public ConnectApi.​MediaReference​Capability mediaReferences"
+    },
+    {
+      "name": "moderation",
+      "description": "If a feed element has this capability,",
+      "datatype": "ConnectApi.​Moderation​Capability\rClass",
+      "signature": "public ConnectApi.​Moderation​Capability\rClass moderation"
+    },
+    {
+      "name": "mute",
+      "description": "If a feed element has this capability, users can mute it.",
+      "datatype": "ConnectApi.​MuteCapability",
+      "signature": "public ConnectApi.​MuteCapability mute"
+    },
+    {
+      "name": "origin",
+      "description": "If a feed element has this capability, it was created by a feed action.",
+      "datatype": "ConnectApi.​OriginCapability",
+      "signature": "public ConnectApi.​OriginCapability origin"
+    },
+    {
+      "name": "pin",
+      "description": "If a feed element has this capability, users who have permission can",
+      "datatype": "ConnectApi.​PinCapability",
+      "signature": "public ConnectApi.​PinCapability pin"
+    },
+    {
+      "name": "poll",
+      "description": "If a feed element has this capability, it includes a",
+      "datatype": "ConnectApi.​PollCapability Class",
+      "signature": "public ConnectApi.​PollCapability Class poll"
+    },
+    {
+      "name": "questionAndAnswers",
+      "description": "If a feed element has this capability, it has a question and comments",
+      "datatype": "ConnectApi.​QuestionAndAnswers​Capability\rClass",
+      "signature": "public ConnectApi.​QuestionAndAnswers​Capability\rClass questionAndAnswers"
+    },
+    {
+      "name": "readBy",
+      "description": "If a feed element has this capability, the context user can mark it as",
+      "datatype": "ConnectApi.​ReadBy​Capability",
+      "signature": "public ConnectApi.​ReadBy​Capability readBy"
+    },
+    {
+      "name": "recommendations",
+      "description": "If a feed element has this capability, it has a",
+      "datatype": "ConnectApi.​Recommendations​Capability",
+      "signature": "public ConnectApi.​Recommendations​Capability recommendations"
+    },
+    {
+      "name": "recordSnaphot",
+      "description": "If a feed element has this capability, it contains all the snapshotted",
+      "datatype": "ConnectApi.​RecordSnapshot​Capability",
+      "signature": "public ConnectApi.​RecordSnapshot​Capability recordSnaphot"
+    },
+    {
+      "name": "socialPost",
+      "description": "If a feed element has this capability, it can interact with a social",
+      "datatype": "ConnectApi.​SocialPostCapability",
+      "signature": "public ConnectApi.​SocialPostCapability socialPost"
+    },
+    {
+      "name": "status",
+      "description": "If a feed post or comment has this capability, it has a status that",
+      "datatype": "ConnectApi.​StatusCapability",
+      "signature": "public ConnectApi.​StatusCapability status"
+    },
+    {
+      "name": "topics",
+      "description": "If a feed element has this capability,",
+      "datatype": "ConnectApi.​TopicsCapability Class",
+      "signature": "public ConnectApi.​TopicsCapability Class topics"
+    },
+    {
+      "name": "trackedChanges",
+      "description": "If a feed element has this capability, it contains all changes to a",
+      "datatype": "ConnectApi.​TrackedChanges​Capability",
+      "signature": "public ConnectApi.​TrackedChanges​Capability trackedChanges"
+    },
+    {
+      "name": "upDownVote",
+      "description": "If a feed post or comment has this capability, users can upvote or",
+      "datatype": "ConnectApi.​UpDownVoteCapability",
+      "signature": "public ConnectApi.​UpDownVoteCapability upDownVote"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A container for all capabilities that can be included with a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_element_capabilities.htm"
+}

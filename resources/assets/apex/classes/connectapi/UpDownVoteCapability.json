@@ -1,0 +1,39 @@
+{
+  "name": "UpDownVoteCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "downVoteCount",
+      "description": "Number of downvotes.",
+      "datatype": "Long",
+      "signature": "public Long downVoteCount"
+    },
+    {
+      "name": "myVote",
+      "description": "",
+      "datatype": "ConnectApi.​UpDownVoteValue",
+      "signature": "public ConnectApi.​UpDownVoteValue myVote"
+    },
+    {
+      "name": "upVoteCount",
+      "description": "Number of upvotes.",
+      "datatype": "Long",
+      "signature": "public Long upVoteCount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed post or comment has this capability, users can upvote or downvote it.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_up_down_vote_capability.htm"
+}

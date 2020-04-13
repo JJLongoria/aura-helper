@@ -1,0 +1,57 @@
+{
+  "name": "​EditCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isEditRestricted",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isEditRestricted"
+    },
+    {
+      "name": "isEditable​ByMeUrl",
+      "description": "The URL to check if the context user is able to edit",
+      "datatype": "String",
+      "signature": "public String isEditable​ByMeUrl"
+    },
+    {
+      "name": "lastEditedBy",
+      "description": "Who last edited this feed element or",
+      "datatype": "ConnectApi.Actor",
+      "signature": "public ConnectApi.Actor lastEditedBy"
+    },
+    {
+      "name": "lastEditedDate",
+      "description": "The most recent edit date of this feed element or",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastEditedDate"
+    },
+    {
+      "name": "latestRevision",
+      "description": "The most recent revision of this feed element or",
+      "datatype": "Integer",
+      "signature": "public Integer latestRevision"
+    },
+    {
+      "name": "relativeLast​EditedDate",
+      "description": "Relative last edited date, for example, “2h",
+      "datatype": "String",
+      "signature": "public String relativeLast​EditedDate"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element or comment has this capability, users who have permission can edit it.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_edit_capability.htm"
+}

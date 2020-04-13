@@ -1,0 +1,45 @@
+{
+  "name": "RecommendationAudienceInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "criteria",
+      "description": "The criteria for the custom recommendation audience",
+      "datatype": "ConnectApi.​AudienceCriteria​Input",
+      "signature": "public ConnectApi.​AudienceCriteria​Input criteria"
+    },
+    {
+      "name": "memberOperation​Type",
+      "description": "",
+      "datatype": "ConnectApi.​Recommendation​AudienceMember​OperationType",
+      "signature": "public ConnectApi.​Recommendation​AudienceMember​OperationType memberOperation​Type"
+    },
+    {
+      "name": "members",
+      "description": "",
+      "datatype": "List<String>",
+      "signature": "public List<String> members"
+    },
+    {
+      "name": "name",
+      "description": "The unique name of the custom recommendation",
+      "datatype": "String",
+      "signature": "public String name"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A custom recommendation audience.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_recommendation_audience.htm"
+}

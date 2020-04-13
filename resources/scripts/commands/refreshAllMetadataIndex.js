@@ -53,7 +53,7 @@ function onButtonClick(selected) {
     }
 }
 
-function processCustomObjectsOut(user, stdOut, objProgress, cancelToken, callback) {
+function processCustomObjectsOut(user, stdOut, objProgress, cancelToken) {
     return new Promise(function (resolve) {
         let data = JSON.parse(stdOut);
         if (data.status === 0) {
@@ -89,7 +89,7 @@ function processCustomObjectsOut(user, stdOut, objProgress, cancelToken, callbac
                     }
                 }
             }
-            if(batch)
+            if (batch)
                 batches.push(batch);
             for (const batchToProcess of batches) {
                 refreshMetadataIndexForObjects(batchToProcess.records, user, objProgress, cancelToken, function () {
@@ -124,7 +124,7 @@ async function refreshMetadataIndexForObjects(objectList, user, objProgress, can
 function processPromise(user, objName, cancelToken) {
     return new Promise(function (resolve) {
         let buffer = [];
-                let bufferError = [];
+        let bufferError = [];
         ProcessManager.describeSchemaMetadata(user, objName, cancelToken, function (event, data) {
             switch (event) {
                 case ProcessEvent.STD_OUT:
@@ -137,7 +137,9 @@ function processPromise(user, objName, cancelToken) {
                 case ProcessEvent.END:
                     if (buffer.length > 0) {
                         let metadataIndex = MetadataFactory.createMetadataFromJSONSchema(buffer.toString());
-                        FileWriter.createFileSync(Paths.getMetadataIndexPath() + "/" + objName + ".json", JSON.stringify(metadataIndex, null, 2));
+                        if (metadataIndex) {
+                            FileWriter.createFileSync(Paths.getMetadataIndexPath() + "/" + objName + ".json", JSON.stringify(metadataIndex, null, 2));
+                        }
                         resolve();
                     }
                     break;

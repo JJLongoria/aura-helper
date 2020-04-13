@@ -1,0 +1,69 @@
+{
+  "name": "FileAsset",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "baseAssetUrl",
+      "description": "Base download URL of the asset.",
+      "datatype": "String",
+      "signature": "public String baseAssetUrl"
+    },
+    {
+      "name": "baseUnauthenticated​AssetUrl",
+      "description": "Base download URL of the asset for",
+      "datatype": "String",
+      "signature": "public String baseUnauthenticated​AssetUrl"
+    },
+    {
+      "name": "id",
+      "description": "ID of the asset.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "isVisibleBy​ExternalUsers",
+      "description": "Indicates whether unauthenticated",
+      "datatype": "Boolean",
+      "signature": "public Boolean isVisibleBy​ExternalUsers"
+    },
+    {
+      "name": "masterLabel",
+      "description": "Master label of the asset.",
+      "datatype": "String",
+      "signature": "public String masterLabel"
+    },
+    {
+      "name": "name",
+      "description": "Unique name of the asset.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "namespacePrefix",
+      "description": "Namespace prefix of the package containing the",
+      "datatype": "String",
+      "signature": "public String namespacePrefix"
+    },
+    {
+      "name": "type",
+      "description": "Type of asset.",
+      "datatype": "String",
+      "signature": "public String type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An asset file.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_file_asset.htm"
+}

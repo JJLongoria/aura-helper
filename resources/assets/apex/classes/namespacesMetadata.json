@@ -34,19 +34,33 @@
         "description": "The Cache namespace contains methods for managing the platform cache.",
         "memberNumber": 7
     },
+    "canvas":{
+        "name": "Canvas",
+        "path": "./resources/assets/apex/classes/Canvas",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_Canvas.htm",
+        "description": "The Cache namespace contains methods for managing the platform cache.",
+        "memberNumber": 7
+    },
     "chatteranswers":{
         "name": "ChatterAnswers",
         "path": "./resources/assets/apex/classes/ChatterAnswers",
         "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_ChatterAnswers.htm",
-        "description": "The ChatterAnswers namespace provides an interface for creating Account records.",
-        "memberNumber": 1
+        "description": "The Canvas namespace provides an interface and classes for canvas apps in Salesforce.",
+        "memberNumber": 7
+    },
+    "commercepayments":{
+        "name": "commercepayments",
+        "path": "./resources/assets/apex/classes/commercepayments",
+        "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_namespace_commercepayments.htm",
+        "description": "Use the commercepayments namespace to provide a safe and customizable platform for managing customer payments and refunds",
+        "memberNumber": 16
     },
     "connectapi":{
         "name": "ConnectApi",
         "path": "./resources/assets/apex/classes/ConnectApi",
         "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_connect_api.htm",
         "description": "The ConnectApi namespace (also called Chatter in Apex) provides classes for accessing the same data available in Chatter REST API. Use Chatter in Apex to create custom Chatter experiences in Salesforce.",
-        "memberNumber": 29
+        "memberNumber": 618
     },
     "database":{
         "name": "Database",

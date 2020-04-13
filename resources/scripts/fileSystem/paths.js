@@ -63,6 +63,9 @@ class Paths {
     static getSystemClassesPath() {
         return applicationContext.context.asAbsolutePath("./resources/assets/apex/classes");
     }
+    static getAssetsPath() {
+        return applicationContext.context.asAbsolutePath("./resources/assets");
+    }
     static getSFDXFolderPath() { 
         return Paths.getWorkspaceFolder() + '/.sfdx';
     }
@@ -80,6 +83,12 @@ class Paths {
     }
     static getPackageFolder() { 
         return applicationContext.context.storagePath + "\\" + "download\\metadata\\package";
+    }
+    static getConvertedProjectFolder() { 
+        return applicationContext.context.storagePath + "\\" + "download\\metadata\\converted";
+    }
+    static getTempProjectFolder() { 
+        return applicationContext.context.storagePath + "\\" + "download\\metadata\\tempProject";
     }
     static getDestructivePackageFolder() { 
         return applicationContext.context.storagePath + "\\" + "download\\metadata\\destructivePackage";

@@ -1,0 +1,39 @@
+{
+  "name": "​EmailAttachment",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "attachment",
+      "description": "Record summary of the attachment.",
+      "datatype": "ConnectApi.​RecordSummary",
+      "signature": "public ConnectApi.​RecordSummary attachment"
+    },
+    {
+      "name": "contentType",
+      "description": "Type of attachment.",
+      "datatype": "String",
+      "signature": "public String contentType"
+    },
+    {
+      "name": "fileName",
+      "description": "Name of the attachment.",
+      "datatype": "String",
+      "signature": "public String fileName"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An email attachment in an email message.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_email_attachment.htm"
+}

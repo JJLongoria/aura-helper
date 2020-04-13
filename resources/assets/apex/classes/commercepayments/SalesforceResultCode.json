@@ -1,0 +1,28 @@
+{
+  "name": "SalesforceResultCode",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "Decline",
+    "Indeterminate",
+    "PermanentFail",
+    "RequiresReview",
+    "Success",
+    "SystemError",
+    "ValidationError"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Defines the gateway call status values in Salesforce based on the call status values that the payment gateway returned.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_commercepayments_SalesforceResultCode.htm"
+}

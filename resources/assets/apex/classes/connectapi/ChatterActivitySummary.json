@@ -1,0 +1,45 @@
+{
+  "name": "ChatterActivitySummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.UserFeedEntityActivitySummary",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "commentCount",
+      "description": "Total number of",
+      "datatype": "Integer",
+      "signature": "public Integer commentCount"
+    },
+    {
+      "name": "commentReceived​Count",
+      "description": "Total",
+      "datatype": "Integer",
+      "signature": "public Integer commentReceived​Count"
+    },
+    {
+      "name": "likeReceived​Count",
+      "description": "Total number",
+      "datatype": "Integer",
+      "signature": "public Integer likeReceived​Count"
+    },
+    {
+      "name": "postCount",
+      "description": "Total number of posts",
+      "datatype": "Integer",
+      "signature": "public Integer postCount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Summary of Chatter activity.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_chatter_activity_summary.htm"
+}

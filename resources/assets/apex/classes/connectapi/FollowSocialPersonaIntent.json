@@ -1,0 +1,33 @@
+{
+  "name": "FollowSocialPersonaIntent",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "managedSocialAccount",
+      "description": "Managed social account that follows the social",
+      "datatype": "ConnectApi.​ManagedSocialAccount",
+      "signature": "public ConnectApi.​ManagedSocialAccount managedSocialAccount"
+    },
+    {
+      "name": "socialPersonaId",
+      "description": "ID of the social persona to follow.",
+      "datatype": "String",
+      "signature": "public String socialPersonaId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Follow intent on a social persona.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_follow_social_persona_intent_output.htm"
+}

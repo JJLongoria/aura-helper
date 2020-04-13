@@ -1,0 +1,33 @@
+{
+  "name": "RepositoryGroupSummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.AbstractDirectoryEntrySummary",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "groupType",
+      "description": "Type of group. Values",
+      "datatype": "ConnectApi.​ContentHub​GroupType",
+      "signature": "public ConnectApi.​ContentHub​GroupType groupType"
+    },
+    {
+      "name": "name",
+      "description": "Name of the group.",
+      "datatype": "String",
+      "signature": "public String name"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A group summary.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_repository_group_summary.htm"
+}

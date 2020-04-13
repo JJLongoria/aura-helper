@@ -1,0 +1,46 @@
+{
+  "name": "DirectMessageMemberPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "description": "Page token to access the current page of direct message",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "URL to the current page of direct message members.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Page token to access the next page of direct message",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "URL to the next page of direct message members.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Collection of direct message members.",
+      "datatype": "",
+      "signature": "public  undefined"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of direct message members.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_direct_message_member_collection.htm"
+}

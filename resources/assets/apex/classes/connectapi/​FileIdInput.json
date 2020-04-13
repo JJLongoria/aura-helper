@@ -1,0 +1,33 @@
+{
+  "name": "​FileIdInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "ID of a file that has already been uploaded.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "operationType",
+      "description": "Operation to carry out on the file. Values are: Add—Adds the file to the feed element. Remove—Removes the file from the feed element. Remove operations are processed before Add operations. Adding content that is already added and removing content that is already removed result in no operation.",
+      "datatype": "ConnectApi.​OperationType",
+      "signature": "public ConnectApi.​OperationType operationType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Attach a file that has already been uploaded or remove a file from a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_file_id.htm"
+}

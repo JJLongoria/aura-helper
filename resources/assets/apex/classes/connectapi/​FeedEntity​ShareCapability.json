@@ -1,0 +1,27 @@
+{
+  "name": "​FeedEntity​ShareCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "feedEntity",
+      "description": "The summary of the feed entity that is shared with the feed",
+      "datatype": "ConnectApi.​FeedEntity​Summary",
+      "signature": "public ConnectApi.​FeedEntity​Summary feedEntity"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element or comment has this capability, a feed entity is shared with it.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_entity_share_capability.htm"
+}

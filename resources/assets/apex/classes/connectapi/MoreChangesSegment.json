@@ -1,0 +1,33 @@
+{
+  "name": "MoreChangesSegment",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​​Message​Segment",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "moreChanges",
+      "description": "Complete list of tracked changes.",
+      "datatype": "List<ConnectApi.​FieldChange​Segment>",
+      "signature": "public List<ConnectApi.​FieldChange​Segment> moreChanges"
+    },
+    {
+      "name": "moreChangesCount",
+      "description": "Number of additional changes",
+      "datatype": "Integer",
+      "signature": "public Integer moreChangesCount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_moreChgMsgSeg.htm"
+}

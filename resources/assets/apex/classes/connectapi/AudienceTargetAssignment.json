@@ -1,0 +1,69 @@
+{
+  "name": "AudienceTargetAssignment",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "groupName",
+      "description": "Group name of the target. Groups bundle related target and",
+      "datatype": "String",
+      "signature": "public String groupName"
+    },
+    {
+      "name": "id",
+      "description": "ID of the target.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "isMatch",
+      "description": "Specifies whether the target matches the current context",
+      "datatype": "Boolean",
+      "signature": "public Boolean isMatch"
+    },
+    {
+      "name": "priority",
+      "description": "Priority of the target. Within a group, priority determines which target is",
+      "datatype": "Integer",
+      "signature": "public Integer priority"
+    },
+    {
+      "name": "publishStatus",
+      "description": "Publish status of the target. Values are:",
+      "datatype": "ConnectApi.​PublishStatus",
+      "signature": "public ConnectApi.​PublishStatus publishStatus"
+    },
+    {
+      "name": "targetType",
+      "description": "Type of target, indicating the nature of the data being",
+      "datatype": "String",
+      "signature": "public String targetType"
+    },
+    {
+      "name": "targetValue",
+      "description": "Value of the target.",
+      "datatype": "String",
+      "signature": "public String targetValue"
+    },
+    {
+      "name": "url",
+      "description": "URL to the target.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Target assignments for a personalization audience.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_audience_target_assignment.htm"
+}

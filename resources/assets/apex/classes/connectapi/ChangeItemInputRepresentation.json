@@ -1,0 +1,45 @@
+{
+  "name": "ChangeItemInputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "orderItem​SummaryId",
+      "description": "ID of the OrderItemSummary.",
+      "datatype": "String",
+      "signature": "public String orderItem​SummaryId"
+    },
+    {
+      "name": "quantity",
+      "description": "Quantity to change. Use a positive value. For example, a value of 2 means “cancel or return 2 units.”",
+      "datatype": "Double",
+      "signature": "public Double quantity"
+    },
+    {
+      "name": "reason",
+      "description": "Reason for the change.",
+      "datatype": "String",
+      "signature": "public String reason"
+    },
+    {
+      "name": "shipping​Reduction​Flag",
+      "description": "Specifies whether to prorate the shipping charge.",
+      "datatype": "Boolean",
+      "signature": "public Boolean shipping​Reduction​Flag"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Change to an OrderItemSummary, such as a return or cancel. You specify whether to prorate the associated shipping charge based on the price change. The OrderItemSummary can’t be a shipping charge.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_change_item.htm"
+}

@@ -1,0 +1,190 @@
+{
+  "abstractresponse": {
+    "name": "AbstractResponse",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Contains the normalized response fields from payment gateways that are common to all the other gateway responses. This class can’t be instantiated on its own. This class implements the GatewayResponse class. Other GatewayResponse classes extend this class to inherit common properties.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_AbstractResponse.htm",
+    "classes": [],
+    "enums": []
+  },
+  "auditparamsrequest": {
+    "name": "AuditParamsRequest",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "AuditParamsRequest is used for audit parameters in a transaction request. This is an abstract request class that is extended by the BaseRequest class.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_AuditParamsRequest.htm#apex_class_commerce_payments_AuditParamsRequest",
+    "classes": [],
+    "enums": []
+  },
+  "baserequest": {
+    "name": "BaseRequest",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "BaseRequest is extended by all the request classes.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_BaseRequest.htm#apex_class_System_BaseRequest",
+    "classes": [],
+    "enums": []
+  },
+  "capturerequest": {
+    "name": "CaptureRequest",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Represents a Capture request. This class extends the BaseRequest class and inherits all its methods.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_CaptureRequest.htm#apex_class_commerce_payments_CaptureRequest",
+    "classes": [],
+    "enums": []
+  },
+  "captureresponse": {
+    "name": "CaptureResponse",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "The payment gateway adapter sends this response for the Capture request type. This class extends AbstractResponse and inherits its methods.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_CaptureResponse.htm#apex_class_commerce_payments_CaptureResponse",
+    "classes": [],
+    "enums": []
+  },
+  "custommetadatatypeinfo": {
+    "name": "CustomMetadataTypeInfo",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Access information about custom metadata. The PaymentGatewayAdapter can send CustomMetadataTypeInfo to transaction requests through the response object’s SalesforceResultCodeInfo.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_CustomMetadataTypeInfo.htm#apex_class_commerce_payments_CustomMetadataTypeInfo",
+    "classes": [],
+    "enums": []
+  },
+  "gatewayerrorresponse": {
+    "name": "GatewayErrorResponse",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Use to respond with an Error following high-level errors from the PaymentGateway adapter, such as request-forbidden responses, custom validation errors, or expired API tokens.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_GatewayErrorResponse.htm#apex_class_commerce_payments_GatewayErrorResponse",
+    "classes": [],
+    "enums": []
+  },
+  "gatewayresponse": {
+    "name": "GatewayResponse",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": true,
+    "enumValues": [],
+    "description": "Generic payment gateway response interface. It can be referred, but gateway adapters shouldn’t implement this interface.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_commercepayments_GatewayResponse.htm#apex_interface_commerce_payments_GatewayResponse",
+    "classes": [],
+    "enums": []
+  },
+  "paymentgatewayadapter": {
+    "name": "PaymentGatewayAdapter",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": true,
+    "enumValues": [],
+    "description": "PaymentGatewayAdapters can implement this interface in order to process requests.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_commercepayments_PaymentGatewayAdapter.htm#apex_interface_commerce_payments_PaymentGatewayAdapter",
+    "classes": [],
+    "enums": []
+  },
+  "paymentgatewaycontext": {
+    "name": "PaymentGatewayContext",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "PaymentGatewayAdapters can implement this interface in order to process requests.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_PaymentGatewayContext.htm#apex_class_commerce_payments_PaymentGatewayContext",
+    "classes": [],
+    "enums": []
+  },
+  "paymentshttp": {
+    "name": "PaymentsHttp",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Make an HTTP request to start the interaction with the payment gateway.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_PaymentsHttp.htm",
+    "classes": [],
+    "enums": []
+  },
+  "referencedrefundrequest": {
+    "name": "ReferencedRefundRequest",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Access information about the referenced refund requests. Extends RefundRequest.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_ReferencedRefundRequest.htm#apex_class_commerce_payments_ReferencedRefundRequest",
+    "classes": [],
+    "enums": []
+  },
+  "referencedrefundresponse": {
+    "name": "ReferencedRefundResponse",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "The payment gateway adapter sends this response for the ReferencedRefund request type.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_ReferencedRefundResponse.htm#apex_class_commerce_payments_ReferencedRefundResponse",
+    "classes": [],
+    "enums": []
+  },
+  "requesttype": {
+    "name": "RequestType",
+    "namespace": "commercepayments",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "Authorize",
+      "Capture",
+      "ReferencedRefund"
+    ],
+    "description": "Payment Transaction request type.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_commercepayments_RequestType.htm",
+    "classes": [],
+    "enums": []
+  },
+  "salesforceresultcode": {
+    "name": "SalesforceResultCode",
+    "namespace": "commercepayments",
+    "isEnum": true,
+    "isInterface": false,
+    "enumValues": [
+      "Decline",
+      "Indeterminate",
+      "PermanentFail",
+      "RequiresReview",
+      "Success",
+      "SystemError",
+      "ValidationError"
+    ],
+    "description": "Defines the gateway call status values in Salesforce based on the call status values that the payment gateway returned.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_commercepayments_SalesforceResultCode.htm",
+    "classes": [],
+    "enums": []
+  },
+  "salesforceresultcodeinfo": {
+    "name": "SalesforceResultCodeInfo",
+    "namespace": "commercepayments",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Apex object for storing Salesforce result code information from payment gateway adapters.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_SalesforceResultCodeInfo.htm#apex_class_commerce_payments_SalesforceResultCodeInfo",
+    "classes": [],
+    "enums": []
+  }
+}

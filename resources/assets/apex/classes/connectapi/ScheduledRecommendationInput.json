@@ -1,0 +1,33 @@
+{
+  "name": "ScheduledRecommendationInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isApproved",
+      "description": "Specifies whether to approve (true) or reject (false) publishing the social posts. If unspecified, defaults to false.",
+      "datatype": "Boolean",
+      "signature": "public Boolean isApproved"
+    },
+    {
+      "name": "socialPost​IdList",
+      "description": "A list of up to 200 social post IDs.",
+      "datatype": "List<String>",
+      "signature": "public List<String> socialPost​IdList"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "List of social post ids and the action to approve or reject publishing them.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_scheduled_recommendation.htm"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "​BookmarksCapability​Input",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isBookmarked​ByCurrentUser",
+      "description": "Specifies if the feed element should be bookmarked for the user (true) or not (false).",
+      "datatype": "Boolean",
+      "signature": "public Boolean isBookmarked​ByCurrentUser"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Create or update a bookmark on a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_bookmarks_capability.htm"
+}

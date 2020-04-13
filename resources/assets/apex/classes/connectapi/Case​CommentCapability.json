@@ -1,0 +1,63 @@
+{
+  "name": "Case​CommentCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "actorType",
+      "description": "Specifies the type of user who made the comment.",
+      "datatype": "ConnectApi.​CaseActorType",
+      "signature": "public ConnectApi.​CaseActorType actorType"
+    },
+    {
+      "name": "createdBy",
+      "description": "Information about the user who created the comment.",
+      "datatype": "ConnectApi.Actor",
+      "signature": "public ConnectApi.Actor createdBy"
+    },
+    {
+      "name": "createdDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "eventType",
+      "description": "Specifies an event type for a comment in the case feed.",
+      "datatype": "ConnectApi.​CaseComment​EventType",
+      "signature": "public ConnectApi.​CaseComment​EventType eventType"
+    },
+    {
+      "name": "id",
+      "description": "18-character ID of case comment.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "published",
+      "description": "Specifies whether the comment has been published.",
+      "datatype": "Boolean",
+      "signature": "public Boolean published"
+    },
+    {
+      "name": "text",
+      "description": "Text of the case comment.",
+      "datatype": "String",
+      "signature": "public String text"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has a case comment on the case feed.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_case_comment_capability.htm"
+}

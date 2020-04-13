@@ -1,0 +1,28 @@
+{
+    "name": "InvalidReportMetadataException",
+    "namespace": "Reports",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "Exception",
+    "isInterface": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [
+        {
+            "name": "getReportMetadataErrors",
+            "signature": "public List<String> getReportMetadataErrors()",
+            "description": "returns a list of metadata errors.",
+            "params": [],
+            "datatype": "List<String>"
+        }
+    ],
+    "description": "Missing metadata for filters",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Reports_exceptions.htm"
+}

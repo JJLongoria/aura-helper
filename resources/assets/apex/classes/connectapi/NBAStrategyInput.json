@@ -1,0 +1,45 @@
+{
+  "name": "NBAStrategyInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "contextRecordId",
+      "description": "ID of the context record. For example, if the",
+      "datatype": "String",
+      "signature": "public String contextRecordId"
+    },
+    {
+      "name": "maxResults",
+      "description": "Maximum number of results. Valid values are from 1 to",
+      "datatype": "Integer",
+      "signature": "public Integer maxResults"
+    },
+    {
+      "name": "strategyContext",
+      "description": "Variable and value mappings for the",
+      "datatype": "Map<String, String>",
+      "signature": "public Map<String, String> strategyContext"
+    },
+    {
+      "name": "debugTrace",
+      "description": "Specifies whether to return trace and debug information in",
+      "datatype": "Boolean",
+      "signature": "public Boolean debugTrace"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A recommendation strategy.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_n_b_a_strategy_execution.htm"
+}

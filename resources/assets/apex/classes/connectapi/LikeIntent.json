@@ -1,0 +1,33 @@
+{
+  "name": "LikeIntent",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isLiked",
+      "description": "Specifies whether the managed social account liked the social",
+      "datatype": "Boolean",
+      "signature": "public Boolean isLiked"
+    },
+    {
+      "name": "managedSocialAccount",
+      "description": "Managed social account that likes the social",
+      "datatype": "ConnectApi.​ManagedSocialAccount",
+      "signature": "public ConnectApi.​ManagedSocialAccount managedSocialAccount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Like intent for a social post.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_like_intent_output.htm"
+}

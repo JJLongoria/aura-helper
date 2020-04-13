@@ -1,0 +1,27 @@
+{
+  "name": "DateRecordField",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​LabeledRecord​Field",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "dateValue",
+      "description": "A date that a machine can read.Ignore the trailing 00:00:00.000Z characters.",
+      "datatype": "Datetime",
+      "signature": "public Datetime dateValue"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_dateRecordField.htm"
+}

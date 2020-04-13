@@ -1,0 +1,27 @@
+{
+  "name": "StreamSubscriptionInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "entityId",
+      "description": "The ID of any feed-enabled entity, such as a group, record, or user, that",
+      "datatype": "String",
+      "signature": "public String entityId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An entity to subscribe to for a Chatter feed stream.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_stream_subscription.htm"
+}

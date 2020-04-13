@@ -1,14 +1,51 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [1.9.0 - 2020-XX-XX]
+## [1.9.4 - 2020-03-18]
 ### Added
-
+- Add repair dependencies command
+- Add Retrieve Full RecordTypes command (work like Retrieve full profiles)
+- Added option for keep blank lines on code for the Apex Formatter
 
 ### Changed
+- Changed retrieve full profiles and retrieve full permission set commands
 
+### Fixed
+- Fixed  some bugs with XML files compression
+
+## [1.9.3 - 2020-03-18]
+### Fixed
+- Fixed bug with format on save
+
+## [1.9.2 - 2020-03-18]
+### Fixed
+- Fixed bugs with queries format
+
+## [1.9.1 - 2020-03-17]
+### Fixed
+- Fixed bugs with apex formatter
+
+## [1.9.0 - 2020-03-16]
+
+### Added
+- Added new command to generate project documentation automatically similar to salesforce official doc with navigable links on datatypes (both, custom and standard). To do this, it uses the classes stored locally together with the comments of methods, classes and variables that match the established template.
+- Added support for creating comments for class variables so that they can be analyzed later to generate documentation
+- Added Commands for implements interfaces and extended classes automatically - abstract and virtual methods - (only not implemented methods)
+- Added support for more than 600 standard classes (Now support all apex classes, more than 1000)
+- New Apex Formatter. Optimized at least 30% and added options for format style configuration.
+- Added configuration option for merge profiles or permissions set permissions with the local data (if not exists in file)
+<!-- - Added Apex Analysis for better code practices and detect erros or problematic code:
+    - Code Complexity Measurement based on the model proposed by T.J. McCabe (1976) https://ieeexplore.ieee.org/document/1702388 -->
+
+### Changed
+- Better Code Completion Options for Apex Code
+- Optimized to find code completions suggestions
+- Enhanced custom Apex Tokenizer and Parser for Better code completion suggestions
+- Added support for refresh profiles and permission sets with all objects or only objects from the org namespace
 
 ### Fixed
 - Fixed some bugs with autocompletions tools that not shown inherited elements for apex classes.
+- Fixed bugs with XML Compresion Tool
+- Fixed a little bug when mathing org and local
 
 ## [1.8.0 - 2020-01-23]
 ### Added

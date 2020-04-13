@@ -1,0 +1,39 @@
+{
+  "name": "Invitation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "email",
+      "description": "Email address of the user.",
+      "datatype": "String",
+      "signature": "public String email"
+    },
+    {
+      "name": "status",
+      "description": "",
+      "datatype": "ConnectApi.​GroupViral​InvitationsStatus",
+      "signature": "public ConnectApi.​GroupViral​InvitationsStatus status"
+    },
+    {
+      "name": "userId",
+      "description": "ID of the user.",
+      "datatype": "String",
+      "signature": "public String userId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An invitation.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_invite.htm"
+}

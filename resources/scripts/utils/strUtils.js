@@ -1,6 +1,6 @@
-class StrUtils { 
+class StrUtils {
 
-    static replace(str, replace, replacement) { 
+    static replace(str, replace, replacement) {
         return str.split(replace).join(replacement);
     }
 

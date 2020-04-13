@@ -1,0 +1,130 @@
+{
+    "name": "Exception",
+    "namespace": "System",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "",
+    "isInterface": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [
+        {
+            "name": "Exception",
+            "signature": "public Exception()",
+            "description": "Return a new exception",
+            "params": []
+        },
+        {
+            "name": "Exception",
+            "signature": "public Exception(String message)",
+            "description": "Return a new exception",
+            "params": [
+                {
+                    "name": "message",
+                    "datatype": "String",
+                    "description": "The message of the exception."
+                }
+            ]
+        },
+        {
+            "name": "Exception",
+            "signature": "public Exception(Exception ex)",
+            "description": "Return a new exception",
+            "params": [
+                {
+                    "name": "ex",
+                    "datatype": "Exception",
+                    "description": "The base exception for create a new exception."
+                }
+            ]
+        },
+        {
+            "name": "Exception",
+            "signature": "public Exception(String message, Exception ex)",
+            "description": "Return a new exception",
+            "params": [
+                {
+                    "name": "message",
+                    "datatype": "String",
+                    "description": "The message of the exception."
+                },
+                {
+                    "name": "ex",
+                    "datatype": "Exception",
+                    "description": "The base exception for create a new exception."
+                }
+            ]
+        }
+    ],
+    "methods": [
+        {
+            "name": "getCause",
+            "signature": "public Exception getCause()",
+            "description": "Returns the cause of the exception as an exception object.",
+            "params": [],
+            "datatype": "Exception"
+        },
+        {
+            "name": "getLineNumber",
+            "signature": "public Integer getLineNumber()",
+            "description": "Returns the line number from where the exception was thrown.",
+            "params": [],
+            "datatype": "Integer"
+        },
+        {
+            "name": "getMessage",
+            "signature": "public String getMessage()",
+            "description": "Returns the error message that displays for the user.",
+            "params": [],
+            "datatype": "String"
+        },
+        {
+            "name": "getStackTraceString",
+            "signature": "public String getStackTraceString()",
+            "description": "Returns the stack trace as a string.",
+            "params": [],
+            "datatype": "String"
+        },
+        {
+            "name": "getTypeName",
+            "signature": "public String getTypeName()",
+            "description": "Returns the type of exception, such as DmlException, ListException, MathException, and so on.",
+            "params": [],
+            "datatype": "String"
+        },
+        {
+            "name": "initCause",
+            "signature": "public void initCause(Exception cause)",
+            "description": "Sets the cause for this exception, if one has not already been set.",
+            "params": [
+                {
+                    "name": "cause",
+                    "datatype": "Exception",
+                    "description": "The base exception cause to set."
+                }
+            ],
+            "datatype": "void"
+        },
+        {
+            "name": "setMessage",
+            "signature": "public void setMessage(String message)",
+            "description": "Sets the error message that displays for the user.",
+            "params": [
+                {
+                    "name": "message",
+                    "datatype": "String",
+                    "description": "Message of the exception to set"
+                }
+            ],
+            "datatype": "void"
+        }
+    ],
+    "description": "An exception denotes an error that disrupts the normal flow of code execution. You can use Apex built-in exceptions or create custom exceptions. All exceptions have common methods.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm"
+}

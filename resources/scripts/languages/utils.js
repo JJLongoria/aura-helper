@@ -3,6 +3,9 @@ const TokenType = require('./tokenTypes');
 const logger = require('../main/logger');
 const vscode = require('vscode');
 const Position = vscode.Position;
+const fileSystem = require('../fileSystem');
+const Paths = fileSystem.Paths;
+const FileReader = fileSystem.FileReader;
 
 class Utils {
 
@@ -14,14 +17,14 @@ class Utils {
             let lastToken = Utils.getLastToken(tokens, index);
             let token = tokens[index];
             let nextToken = Utils.getNextToken(tokens, index);
-            newLine = (lastToken && lastToken.line < token.line) || !lastToken;
+            newLine = (lastToken && token && lastToken.line < token.line) || !lastToken;
             if (newLine)
                 text += Utils.getWhitespaces(token.startColumn);
 
             text += token.content;
-            if (nextToken && token.line === nextToken.line)
+            if (nextToken && token &&  token.line === nextToken.line)
                 text += Utils.getWhitespaces(nextToken.startColumn - token.endColumn);
-            if (nextToken && token.line < nextToken.line)
+            if (nextToken && token && token.line < nextToken.line)
                 text += Utils.getNewLines(nextToken.line - token.line);
             index++;
         }
@@ -194,7 +197,7 @@ class Utils {
     }
 
     static isOnPosition(position, lastToken, token, nextToken) {
-        if (position && token.line == position.line) {
+        if (position && token && token.line == position.line) {
             if (token.relativeStartColumn <= position.character && nextToken && position.character <= nextToken.relativeStartColumn)
                 return true;
         } else if (position && lastToken && lastToken.line < position.line && nextToken && position.line < nextToken.line) {

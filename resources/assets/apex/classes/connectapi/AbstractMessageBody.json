@@ -1,0 +1,33 @@
+{
+  "name": "AbstractMessageBody",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "parameters",
+      "description": "List of parameters to pass to the action.",
+      "datatype": "List<ConnectApi.​NBAAction​Parameter>",
+      "signature": "public List<ConnectApi.​NBAAction​Parameter> parameters"
+    },
+    {
+      "name": "type",
+      "description": "Type of action.",
+      "datatype": "ConnectApi.​NBAActionType",
+      "signature": "public ConnectApi.​NBAActionType type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A recommended action of recommendation strategy.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstractMessageBody.htm"
+}

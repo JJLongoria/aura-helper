@@ -1,0 +1,63 @@
+{
+  "name": "ChatterStream",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "community",
+      "description": "Community summary for the stream.",
+      "datatype": "ConnectApi.​CommunitySummary",
+      "signature": "public ConnectApi.​CommunitySummary community"
+    },
+    {
+      "name": "createdDate",
+      "description": "Date the stream was created.",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "description",
+      "description": "Description of the stream.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "id",
+      "description": "18-character ID of the stream.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "name",
+      "description": "Name of the stream.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "subscriptions",
+      "description": "List of entities whose feeds are included in the",
+      "datatype": "List<ConnectApi.​FeedEnabledEntity>",
+      "signature": "public List<ConnectApi.​FeedEnabledEntity> subscriptions"
+    },
+    {
+      "name": "url",
+      "description": "URL to the stream.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A Chatter feed stream.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_stream.htm"
+}

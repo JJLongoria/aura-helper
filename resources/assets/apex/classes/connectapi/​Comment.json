@@ -1,0 +1,141 @@
+{
+  "name": "​Comment",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "attachment",
+      "description": "If the comment contains an attachment, property value is ContentAttachment. If the comment does not contain",
+      "datatype": "ConnectApi.​FeedItem​Attachment",
+      "signature": "public ConnectApi.​FeedItem​Attachment attachment"
+    },
+    {
+      "name": "body",
+      "description": "Body of the comment.",
+      "datatype": "ConnectApi.​FeedBody",
+      "signature": "public ConnectApi.​FeedBody body"
+    },
+    {
+      "name": "capabilities",
+      "description": "Capabilities associated with the comment, such as any file attachments.",
+      "datatype": "ConnectApi.​CommentCapabilities",
+      "signature": "public ConnectApi.​CommentCapabilities capabilities"
+    },
+    {
+      "name": "clientInfo",
+      "description": "Information about the connected app used to",
+      "datatype": "ConnectApi.​ClientInfo",
+      "signature": "public ConnectApi.​ClientInfo clientInfo"
+    },
+    {
+      "name": "createdDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "feedElement",
+      "description": "Feed element on which the comment is posted.",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference feedElement"
+    },
+    {
+      "name": "feedItem",
+      "description": "Feed item on which the comment is posted.",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference feedItem"
+    },
+    {
+      "name": "id",
+      "description": "Comment’s 18–character ID.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "isDelete​Restricted",
+      "description": "If this property is true, the context",
+      "datatype": "Boolean",
+      "signature": "public Boolean isDelete​Restricted"
+    },
+    {
+      "name": "likes",
+      "description": "The first page of likes for the comment.This property has no",
+      "datatype": "ConnectApi.​Chatter​Like​Page",
+      "signature": "public ConnectApi.​Chatter​Like​Page likes"
+    },
+    {
+      "name": "likesMessage",
+      "description": "A message body that describes who likes the comment.This property is null for",
+      "datatype": "ConnectApi.​Message​Body",
+      "signature": "public ConnectApi.​Message​Body likesMessage"
+    },
+    {
+      "name": "moderation​Flags",
+      "description": "Information about the moderation flags on a comment. If ConnectApi.Features.communityModeration is false, this property is null.",
+      "datatype": "ConnectApi.​ModerationFlags",
+      "signature": "public ConnectApi.​ModerationFlags moderation​Flags"
+    },
+    {
+      "name": "myLike",
+      "description": "If the context user liked the comment, this property is a reference to the",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference myLike"
+    },
+    {
+      "name": "parent",
+      "description": "Information about the parent feed-item for this comment.",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference parent"
+    },
+    {
+      "name": "relativeCreatedDate",
+      "description": "The created date formatted as a relative,",
+      "datatype": "String",
+      "signature": "public String relativeCreatedDate"
+    },
+    {
+      "name": "threadLevel",
+      "description": "Level of nesting for a comment. 0 indicates a standard",
+      "datatype": "Integer",
+      "signature": "public Integer threadLevel"
+    },
+    {
+      "name": "threadParentId",
+      "description": "ID of the parent comment for a threaded comment.",
+      "datatype": "String",
+      "signature": "public String threadParentId"
+    },
+    {
+      "name": "type",
+      "description": "Type of comment.",
+      "datatype": "ConnectApi.​CommentType Enum",
+      "signature": "public ConnectApi.​CommentType Enum type"
+    },
+    {
+      "name": "url",
+      "description": "Chatter REST API URL to this comment.",
+      "datatype": "String",
+      "signature": "public String url"
+    },
+    {
+      "name": "user",
+      "description": "Information about the comment author.",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary user"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_comment.htm"
+}

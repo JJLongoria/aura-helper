@@ -1,0 +1,27 @@
+{
+  "name": "ActivitySharingResult",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "success",
+      "description": "Whether the share operation succeeded or not.",
+      "datatype": "Boolean",
+      "signature": "public Boolean success"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The results of sharing a captured email or event.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_activity_sharing_result.htm"
+}

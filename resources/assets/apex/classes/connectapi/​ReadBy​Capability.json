@@ -1,0 +1,39 @@
+{
+  "name": "​ReadBy​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isReadByMe",
+      "description": "Specifies whether the feed element has been read (true) or not (false) by the context user.",
+      "datatype": "Boolean",
+      "signature": "public Boolean isReadByMe"
+    },
+    {
+      "name": "lastReadDateByMe",
+      "description": "Last date when the feed element was marked read for the context",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastReadDateByMe"
+    },
+    {
+      "name": "page",
+      "description": "First page of information about who read the feed element and",
+      "datatype": "ConnectApi.​ReadByPage",
+      "signature": "public ConnectApi.​ReadByPage page"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, the context user can mark it as read.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_read_by_capability.htm"
+}

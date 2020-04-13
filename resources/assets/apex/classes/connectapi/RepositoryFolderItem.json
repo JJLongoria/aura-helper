@@ -1,0 +1,39 @@
+{
+  "name": "RepositoryFolderItem",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "file",
+      "description": "If the folder item is a file, the file summary. If the folder item is a",
+      "datatype": "ConnectApi.​Repository​FileSummary",
+      "signature": "public ConnectApi.​Repository​FileSummary file"
+    },
+    {
+      "name": "folder",
+      "description": "If the folder item is a folder, the folder summary. If the folder item is",
+      "datatype": "ConnectApi.​Repository​FolderSummary",
+      "signature": "public ConnectApi.​Repository​FolderSummary folder"
+    },
+    {
+      "name": "type",
+      "description": "Type of item in a folder. Values",
+      "datatype": "ConnectApi.​FolderItemType",
+      "signature": "public ConnectApi.​FolderItemType type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A folder item.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_repository_folder_item.htm"
+}

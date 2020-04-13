@@ -1,0 +1,93 @@
+{
+  "name": "AbstractRepositoryItem",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "createdBy",
+      "description": "Name of the user who created the item.",
+      "datatype": "String",
+      "signature": "public String createdBy"
+    },
+    {
+      "name": "createdDate",
+      "description": "Date the item was created.",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "description",
+      "description": "Description of the Item.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "id",
+      "description": "ID of the item.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "itemTypeUrl",
+      "description": "URL to the item type information.",
+      "datatype": "String",
+      "signature": "public String itemTypeUrl"
+    },
+    {
+      "name": "modifiedBy",
+      "description": "Name of the user who last modified the item.",
+      "datatype": "String",
+      "signature": "public String modifiedBy"
+    },
+    {
+      "name": "modifiedDate",
+      "description": "Date the item was last modified.",
+      "datatype": "Datetime",
+      "signature": "public Datetime modifiedDate"
+    },
+    {
+      "name": "motif",
+      "description": "Motif of the item.",
+      "datatype": "ConnectApi.​Motif",
+      "signature": "public ConnectApi.​Motif motif"
+    },
+    {
+      "name": "name",
+      "description": "Name of the item.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "repository",
+      "description": "Item external repository.",
+      "datatype": "ConnectApi.​Reference",
+      "signature": "public ConnectApi.​Reference repository"
+    },
+    {
+      "name": "type",
+      "description": "Item type, file or folder.",
+      "datatype": "String",
+      "signature": "public String type"
+    },
+    {
+      "name": "url",
+      "description": "The URL to the  item.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A repository item.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_repository_item.htm"
+}

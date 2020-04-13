@@ -1,0 +1,141 @@
+{
+  "name": "​Community",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "allowChatter​​AccessWithoutLogin",
+      "description": "Specifies if guest users can access public groups",
+      "datatype": "Boolean",
+      "signature": "public Boolean allowChatter​​AccessWithoutLogin"
+    },
+    {
+      "name": "allowMembers​ToFlag",
+      "description": "Specifies if members of the community can flag content.",
+      "datatype": "Boolean",
+      "signature": "public Boolean allowMembers​ToFlag"
+    },
+    {
+      "name": "description",
+      "description": "Community description.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "guestMember​VisibilityEnabled",
+      "description": "Specifies whether guest members can see",
+      "datatype": "Boolean",
+      "signature": "public Boolean guestMember​VisibilityEnabled"
+    },
+    {
+      "name": "id",
+      "description": "Community ID.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "invitationsEnabled",
+      "description": "Specifies whether users can invite other external users to the",
+      "datatype": "Boolean",
+      "signature": "public Boolean invitationsEnabled"
+    },
+    {
+      "name": "knowledgeable​​Enabled",
+      "description": "Specifies whether knowledgeable people and",
+      "datatype": "Boolean",
+      "signature": "public Boolean knowledgeable​​Enabled"
+    },
+    {
+      "name": "loginUrl",
+      "description": "Login URL for the community.",
+      "datatype": "String",
+      "signature": "public String loginUrl"
+    },
+    {
+      "name": "memberVisibility​Enabled",
+      "description": "Specifies whether community members can see other",
+      "datatype": "Boolean",
+      "signature": "public Boolean memberVisibility​Enabled"
+    },
+    {
+      "name": "name",
+      "description": "Community name.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "nicknameDisplay​Enabled",
+      "description": "Specifies whether nicknames are displayed in",
+      "datatype": "Boolean",
+      "signature": "public Boolean nicknameDisplay​Enabled"
+    },
+    {
+      "name": "privateMessages​​Enabled",
+      "description": "Specifies whether members of the community can",
+      "datatype": "Boolean",
+      "signature": "public Boolean privateMessages​​Enabled"
+    },
+    {
+      "name": "reputationEnabled",
+      "description": "Specifies whether reputation is calculated and displayed",
+      "datatype": "Boolean",
+      "signature": "public Boolean reputationEnabled"
+    },
+    {
+      "name": "sendWelcomeEmail",
+      "description": "Specifies whether emails are sent to all new users when they join.",
+      "datatype": "Boolean",
+      "signature": "public Boolean sendWelcomeEmail"
+    },
+    {
+      "name": "siteAsContainer​Enabled",
+      "description": "Specifies whether the community uses Site.com",
+      "datatype": "Boolean",
+      "signature": "public Boolean siteAsContainer​Enabled"
+    },
+    {
+      "name": "siteUrl",
+      "description": "Site URL for the community, which is the custom domain plus a URL",
+      "datatype": "String",
+      "signature": "public String siteUrl"
+    },
+    {
+      "name": "status",
+      "description": "Status of the community.",
+      "datatype": "ConnectApi.​CommunityStatus\r          Enum",
+      "signature": "public ConnectApi.​CommunityStatus\r          Enum status"
+    },
+    {
+      "name": "templateName",
+      "description": "Name of the community’s template.",
+      "datatype": "String",
+      "signature": "public String templateName"
+    },
+    {
+      "name": "url",
+      "description": "Full URL to community.",
+      "datatype": "String",
+      "signature": "public String url"
+    },
+    {
+      "name": "urlPathPrefix",
+      "description": "Community-specific URL prefix.",
+      "datatype": "String",
+      "signature": "public String urlPathPrefix"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_community.htm"
+}

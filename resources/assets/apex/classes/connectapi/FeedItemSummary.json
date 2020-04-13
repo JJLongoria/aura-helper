@@ -1,0 +1,63 @@
+{
+  "name": "FeedItemSummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.FeedEntitySummary",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "capabilities",
+      "description": "Container for all capabilities that can be included with",
+      "datatype": "ConnectApi.​FeedElement​Capabilities",
+      "signature": "public ConnectApi.​FeedElement​Capabilities capabilities"
+    },
+    {
+      "name": "header",
+      "description": "Title of the post. This property contains renderable plain text",
+      "datatype": "ConnectApi.​MessageBody",
+      "signature": "public ConnectApi.​MessageBody header"
+    },
+    {
+      "name": "modifiedDate",
+      "description": "When the feed item was modified in the form of an ISO",
+      "datatype": "Datetime",
+      "signature": "public Datetime modifiedDate"
+    },
+    {
+      "name": "originalFeedItem",
+      "description": "Reference to the original feed item if this feed item",
+      "datatype": "ConnectApi.​Reference",
+      "signature": "public ConnectApi.​Reference originalFeedItem"
+    },
+    {
+      "name": "originalFeed​ItemActor",
+      "description": "If this feed item is a shared feed item,",
+      "datatype": "ConnectApi.Actor",
+      "signature": "public ConnectApi.Actor originalFeed​ItemActor"
+    },
+    {
+      "name": "photoUrl",
+      "description": "URL of the photo associated with the feed item.",
+      "datatype": "String",
+      "signature": "public String photoUrl"
+    },
+    {
+      "name": "visibility",
+      "description": "",
+      "datatype": "ConnectApi.​FeedItemVisibility",
+      "signature": "public ConnectApi.​FeedItemVisibility visibility"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A feed item summary.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_item_summary.htm"
+}

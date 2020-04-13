@@ -1,0 +1,33 @@
+{
+  "name": "​TopicNamesInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "topicNames",
+      "description": "A list of up to 10 topic names for a feed item or 100 topic names for a",
+      "datatype": "List<String>",
+      "signature": "public List<String> topicNames"
+    },
+    {
+      "name": "topicSuggestions",
+      "description": "A list of suggested topics to assign to a record or",
+      "datatype": "List<String>",
+      "signature": "public List<String> topicSuggestions"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A list of topic names to replace currently assigned topics. Also a list of suggested topics to assign.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_topic_name_collection.htm"
+}

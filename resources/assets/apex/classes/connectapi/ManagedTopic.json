@@ -1,0 +1,57 @@
+{
+  "name": "ManagedTopic",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "children",
+      "description": "Children managed topics of the managed topic; null if the depth request parameter isn’t specified or is",
+      "datatype": "List<ConnectApi.​ManagedTopic>",
+      "signature": "public List<ConnectApi.​ManagedTopic> children"
+    },
+    {
+      "name": "id",
+      "description": "ID of managed topic.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "managedTopicType",
+      "description": "",
+      "datatype": "ConnectApi.Managed​Topic​Type",
+      "signature": "public ConnectApi.Managed​Topic​Type managedTopicType"
+    },
+    {
+      "name": "parent",
+      "description": "Parent managed topic of the managed topic.",
+      "datatype": "ConnectApi.​​Reference Class",
+      "signature": "public ConnectApi.​​Reference Class parent"
+    },
+    {
+      "name": "topic",
+      "description": "Information about the topic.",
+      "datatype": "ConnectApi.​Topic",
+      "signature": "public ConnectApi.​Topic topic"
+    },
+    {
+      "name": "url",
+      "description": "Chatter REST API URL to the managed topic.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Represents a managed topic in a community.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_topic.htm"
+}

@@ -1,0 +1,45 @@
+{
+  "name": "​Chatter​Like",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "Like’s 18-character ID",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "likedItem",
+      "description": "A reference to the liked comment or feed element.",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference likedItem"
+    },
+    {
+      "name": "url",
+      "description": "Like’s Chatter REST API URL",
+      "datatype": "String",
+      "signature": "public String url"
+    },
+    {
+      "name": "user",
+      "description": "Like’s creator",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary user"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_chatter_like.htm"
+}

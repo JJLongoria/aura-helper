@@ -1,0 +1,39 @@
+{
+  "name": "BundleCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "bundleType",
+      "description": "Defines this feed element's bundle type.",
+      "datatype": "ConnectApi.BundleType",
+      "signature": "public ConnectApi.BundleType bundleType"
+    },
+    {
+      "name": "page",
+      "description": "A collection of feed elements.",
+      "datatype": "ConnectApi.​FeedElement​Page",
+      "signature": "public ConnectApi.​FeedElement​Page page"
+    },
+    {
+      "name": "totalElements",
+      "description": "The total number of feed elements that",
+      "datatype": "Integer",
+      "signature": "public Integer totalElements"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has a container of feed elements called a bundle.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_bundle_capability.htm"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Moderation​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "moderationFlags",
+      "description": "The moderation flags for this feed",
+      "datatype": "ConnectApi.​ModerationFlags",
+      "signature": "public ConnectApi.​ModerationFlags moderationFlags"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, users in a community can flag it for moderation.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_moderation_capability.htm"
+}

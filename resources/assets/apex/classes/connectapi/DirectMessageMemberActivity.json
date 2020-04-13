@@ -1,0 +1,45 @@
+{
+  "name": "DirectMessageMemberActivity",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "activityDate",
+      "description": "Direct message member activity date.",
+      "datatype": "Datetime",
+      "signature": "public Datetime activityDate"
+    },
+    {
+      "name": "actor",
+      "description": "User who changed the direct message membership.",
+      "datatype": "ConnectApi.​UserSummary",
+      "signature": "public ConnectApi.​UserSummary actor"
+    },
+    {
+      "name": "membersAdded",
+      "description": "Members added to the direct message as part of the",
+      "datatype": "ConnectApi.​DirectMessage​MemberPage",
+      "signature": "public ConnectApi.​DirectMessage​MemberPage membersAdded"
+    },
+    {
+      "name": "membersRemoved",
+      "description": "Members removed from the direct message as part of the",
+      "datatype": "ConnectApi.​DirectMessage​MemberPage",
+      "signature": "public ConnectApi.​DirectMessage​MemberPage membersRemoved"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Direct message member activity.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_direct_message_membership_activity.htm"
+}

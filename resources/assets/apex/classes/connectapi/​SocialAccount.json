@@ -1,0 +1,51 @@
+{
+  "name": "​SocialAccount",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "externalSocial​AccountId",
+      "description": "ID of the external social account, if",
+      "datatype": "String",
+      "signature": "public String externalSocial​AccountId"
+    },
+    {
+      "name": "handle",
+      "description": "Social handle, screen name, or alias that identifies this",
+      "datatype": "String",
+      "signature": "public String handle"
+    },
+    {
+      "name": "name",
+      "description": "Name of the account as defined by the account's",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "profileUrl",
+      "description": "URL to the account's profile.",
+      "datatype": "String",
+      "signature": "public String profileUrl"
+    },
+    {
+      "name": "socialPersonaId",
+      "description": "ID of the social persona account, if the external",
+      "datatype": "String",
+      "signature": "public String socialPersonaId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A social account on a social network.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_social_account.htm"
+}

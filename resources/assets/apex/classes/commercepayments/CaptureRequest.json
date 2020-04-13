@@ -1,0 +1,49 @@
+{
+  "name": "CaptureRequest",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "accountId",
+      "signature": "",
+      "description": "Account ID value. References an account record.",
+      "params": [],
+      "datatype": "void"
+    },
+    {
+      "name": "amount",
+      "signature": "",
+      "description": "Amount of currency that needs to be captured.",
+      "params": [],
+      "datatype": "void"
+    }
+  ],
+  "constructors": [
+    {
+      "name": "CaptureRequest",
+      "signature": "",
+      "description": "This method is used only for testing.",
+      "params": [
+        {
+          "name": "authorizationId",
+          "datatype": "String",
+          "description": "The amount to be debited or captured. Represents a payment authorization record."
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [],
+  "description": "Represents a Capture request. This class extends the BaseRequest class and inherits all its methods.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_CaptureRequest.htm#apex_class_commerce_payments_CaptureRequest"
+}

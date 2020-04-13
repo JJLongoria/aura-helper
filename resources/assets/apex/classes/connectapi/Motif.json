@@ -1,0 +1,51 @@
+{
+  "name": "Motif",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "color",
+      "description": "A hex value representing the base color of the record type,",
+      "datatype": "String",
+      "signature": "public String color"
+    },
+    {
+      "name": "largeIconUrl",
+      "description": "A large icon indicating the record type.",
+      "datatype": "String",
+      "signature": "public String largeIconUrl"
+    },
+    {
+      "name": "mediumIconUrl",
+      "description": "A medium icon indicating the record type.",
+      "datatype": "String",
+      "signature": "public String mediumIconUrl"
+    },
+    {
+      "name": "smallIconUrl",
+      "description": "A small icon indicating the record type.",
+      "datatype": "String",
+      "signature": "public String smallIconUrl"
+    },
+    {
+      "name": "svgIconUrl",
+      "description": "An icon in SVG format  indicating the record type, or null if the icon doesn’t exist.",
+      "datatype": "String",
+      "signature": "public String svgIconUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_motif.htm"
+}

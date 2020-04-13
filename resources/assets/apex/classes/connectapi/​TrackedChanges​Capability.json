@@ -1,0 +1,27 @@
+{
+  "name": "​TrackedChanges​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "changes",
+      "description": "Collection of feed tracked changes.",
+      "datatype": "List<ConnectApi.​TrackedChangeItem>",
+      "signature": "public List<ConnectApi.​TrackedChangeItem> changes"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it contains all changes to a record for a single tracked change event.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_tracked_changes_capability.htm"
+}

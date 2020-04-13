@@ -1,0 +1,20 @@
+{
+    "name": "RateLimitException",
+    "namespace": "ConnectApi",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "Exception",
+    "isInterface": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [],
+    "description": "When you exceed the rate limit. This is equivalent to receiving a 503 Service Unavailable error from Chatter REST API.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_exceptions.htm"
+}

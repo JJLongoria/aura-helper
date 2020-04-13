@@ -1,0 +1,27 @@
+{
+  "name": "ActivitySharingInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "sharingType",
+      "description": "Type of sharing operation. Values are: Everyone—The activity is shared with everyone. MyGroups—The activity is shared only with a selection of the context user’s groups. OnlyMe—The activity is private.",
+      "datatype": "ConnectApi.​Activity​SharingType",
+      "signature": "public ConnectApi.​Activity​SharingType sharingType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Defines who a captured email or event is shared with.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_activity_sharing.htm"
+}

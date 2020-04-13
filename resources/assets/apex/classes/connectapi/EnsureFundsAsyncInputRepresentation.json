@@ -1,0 +1,27 @@
+{
+  "name": "EnsureFundsAsyncInputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "invoiceId",
+      "description": "ID of the invoice.",
+      "datatype": "String",
+      "signature": "public String invoiceId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "ID of an invoice to ensure funds or capture payment for.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_ensure_funds_async.htm"
+}

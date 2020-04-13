@@ -1,0 +1,69 @@
+{
+  "name": "Group​Membership​Request",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "createdDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "id",
+      "description": "ID for the group membership request object",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "lastUpdateDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastUpdateDate"
+    },
+    {
+      "name": "requestedGroup",
+      "description": "Information about the group the context user is requesting",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference requestedGroup"
+    },
+    {
+      "name": "responseMessage",
+      "description": "A message for the user if their membership request is declined.",
+      "datatype": "String",
+      "signature": "public String responseMessage"
+    },
+    {
+      "name": "status",
+      "description": "Status of a request to join a private",
+      "datatype": "ConnectApi.​GroupMembership​RequestStatus Enum",
+      "signature": "public ConnectApi.​GroupMembership​RequestStatus Enum status"
+    },
+    {
+      "name": "url",
+      "description": "URL of the group membership request object.",
+      "datatype": "String",
+      "signature": "public String url"
+    },
+    {
+      "name": "user",
+      "description": "Information about the user requesting membership in a group.",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary user"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_group_membership_request.htm"
+}

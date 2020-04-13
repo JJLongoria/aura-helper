@@ -1,0 +1,39 @@
+{
+  "name": "Approval​Post​Template​Field",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "displayName",
+      "description": "The field name",
+      "datatype": "String",
+      "signature": "public String displayName"
+    },
+    {
+      "name": "displayValue",
+      "description": "The field value or null if the field is set to null.",
+      "datatype": "String",
+      "signature": "public String displayValue"
+    },
+    {
+      "name": "record",
+      "description": "A record IDIf no record exists or if the reference is null, this value is null.",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference record"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_approval_post.htm"
+}

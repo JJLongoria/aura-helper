@@ -36,7 +36,6 @@ class CustomLabelsUtils {
                 if (customLabels.fullName !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('fullName', customLabels.fullName));
                 if (customLabels.labels !== undefined) {
-                    Utils.sort(customLabels.labels, ["fullName"]);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('labels', customLabels.labels, true, 1));
                 }
                 xmlLines.push('</CustomLabels>');

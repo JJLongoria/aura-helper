@@ -1,0 +1,51 @@
+{
+  "name": "Extension",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "alternative​Representation",
+      "description": "Alternative representation of the",
+      "datatype": "ConnectApi.​Alternative",
+      "signature": "public ConnectApi.​Alternative alternative​Representation"
+    },
+    {
+      "name": "attachmentId",
+      "description": "Attachment ID of the extension.",
+      "datatype": "String",
+      "signature": "public String attachmentId"
+    },
+    {
+      "name": "extensionId",
+      "description": "ID of the extension.",
+      "datatype": "String",
+      "signature": "public String extensionId"
+    },
+    {
+      "name": "payload",
+      "description": "Payload associated with the extension.",
+      "datatype": "String",
+      "signature": "public String payload"
+    },
+    {
+      "name": "payloadVersion",
+      "description": "Payload version that identifies the structure of",
+      "datatype": "String",
+      "signature": "public String payloadVersion"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An extension.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_extension.htm"
+}

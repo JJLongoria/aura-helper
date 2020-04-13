@@ -1,0 +1,39 @@
+{
+  "name": "BatchInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "input",
+      "description": "An individual input object to be used in the batch operation. For example,",
+      "datatype": "Object",
+      "signature": "public Object input"
+    },
+    {
+      "name": "binary",
+      "description": "A binary file to associate with the input object.",
+      "datatype": "ConnectApi.BinaryInput",
+      "signature": "public ConnectApi.BinaryInput binary"
+    },
+    {
+      "name": "binaries",
+      "description": "A list of binary files to associate with the input object.",
+      "datatype": "List<ConnectApi.BinaryInput>",
+      "signature": "public List<ConnectApi.BinaryInput> binaries"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Construct a set of inputs to be passed into a method at the same time.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_batch.htm"
+}

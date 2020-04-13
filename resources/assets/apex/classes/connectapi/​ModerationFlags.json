@@ -1,0 +1,45 @@
+{
+  "name": "​ModerationFlags",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "flagCount",
+      "description": "Number of moderation flags on this feed item, comment, or file. If the context",
+      "datatype": "Integer",
+      "signature": "public Integer flagCount"
+    },
+    {
+      "name": "flagCount​ByReason",
+      "description": "",
+      "datatype": "Map<ConnectApi.​CommunityFlag​ReasonType, Integer>",
+      "signature": "public Map<ConnectApi.​CommunityFlag​ReasonType, Integer> flagCount​ByReason"
+    },
+    {
+      "name": "flaggedByMe",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean flaggedByMe"
+    },
+    {
+      "name": "flags",
+      "description": "Collection of flags.",
+      "datatype": "ConnectApi.​ModerationFlags​Collection",
+      "signature": "public ConnectApi.​ModerationFlags​Collection flags"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Information about the moderation flags on a feed item, comment, or file.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_moderationFlags.htm"
+}

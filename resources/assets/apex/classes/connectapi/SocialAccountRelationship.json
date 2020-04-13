@@ -1,0 +1,45 @@
+{
+  "name": "SocialAccountRelationship",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isFollowed",
+      "description": "Specifies whether the social account is followed by the social",
+      "datatype": "Boolean",
+      "signature": "public Boolean isFollowed"
+    },
+    {
+      "name": "isFollowing",
+      "description": "Specifies whether the social account is following the social",
+      "datatype": "Boolean",
+      "signature": "public Boolean isFollowing"
+    },
+    {
+      "name": "socialAccountId",
+      "description": "ID of the social account.",
+      "datatype": "String",
+      "signature": "public String socialAccountId"
+    },
+    {
+      "name": "socialPersonaId",
+      "description": "ID of the social persona.",
+      "datatype": "String",
+      "signature": "public String socialPersonaId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Follow relationship between a managed social account and a social persona.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_social_account_relationship_output.htm"
+}

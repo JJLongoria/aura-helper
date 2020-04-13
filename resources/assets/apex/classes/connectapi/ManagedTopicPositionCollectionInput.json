@@ -1,0 +1,27 @@
+{
+  "name": "ManagedTopicPositionCollectionInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "managedTopic​Positions",
+      "description": "List of relative positions of managed topics. This list can include Featured and Navigational managed topics and doesn’t need to include all managed",
+      "datatype": "List<ConnectApi.​ManagedTopic​PositionInput>",
+      "signature": "public List<ConnectApi.​ManagedTopic​PositionInput> managedTopic​Positions"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of relative positions of managed topics.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_managed_topic_position_collection.htm"
+}

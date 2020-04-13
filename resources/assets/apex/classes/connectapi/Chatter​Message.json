@@ -1,0 +1,75 @@
+{
+  "name": "Chatter​Message",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "body",
+      "description": "Contents of the message",
+      "datatype": "ConnectApi.​Message​Body",
+      "signature": "public ConnectApi.​Message​Body body"
+    },
+    {
+      "name": "conversationId",
+      "description": "The ID for the conversation",
+      "datatype": "String",
+      "signature": "public String conversationId"
+    },
+    {
+      "name": "conversationUrl",
+      "description": "Chatter REST API URL identifying the conversation",
+      "datatype": "String",
+      "signature": "public String conversationUrl"
+    },
+    {
+      "name": "id",
+      "description": "The ID of the message",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "recipients",
+      "description": "List of the recipients of the message",
+      "datatype": "List<ConnectApi.​User​Summary>",
+      "signature": "public List<ConnectApi.​User​Summary> recipients"
+    },
+    {
+      "name": "sender",
+      "description": "The sender of the message",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary sender"
+    },
+    {
+      "name": "sendingCommunity",
+      "description": "Information about the community from which the message was",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference sendingCommunity"
+    },
+    {
+      "name": "sentDate",
+      "description": "The date and time the message was sent",
+      "datatype": "Datetime",
+      "signature": "public Datetime sentDate"
+    },
+    {
+      "name": "url",
+      "description": "Chatter REST API URL identifying the current page of the conversation",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_ChatterMessage.htm"
+}

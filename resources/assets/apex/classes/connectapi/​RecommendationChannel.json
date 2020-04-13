@@ -1,0 +1,27 @@
+{
+  "name": "​RecommendationChannel",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "CustomChannel1",
+    "CustomChannel2",
+    "CustomChannel3",
+    "CustomChannel4",
+    "CustomChannel5",
+    "DefaultChannel"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "A way to tie custom recommendations",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_enums.htm"
+}

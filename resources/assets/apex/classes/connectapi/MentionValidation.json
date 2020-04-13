@@ -1,0 +1,33 @@
+{
+  "name": "MentionValidation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "recordId",
+      "description": "The ID of the mentioned record.",
+      "datatype": "String",
+      "signature": "public String recordId"
+    },
+    {
+      "name": "validationStatus",
+      "description": "Type of validation error for a proposed",
+      "datatype": "ConnectApi.​MentionValidation​Status Enum",
+      "signature": "public ConnectApi.​MentionValidation​Status Enum validationStatus"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_mentionValidation.htm"
+}

@@ -4,6 +4,11 @@ const auraSnippets = {};
 const jsSnippets = {};
 const sldsSnippets = {};
 const outputChannel = {};
+const statusBar = {};
+const userClasses = {};
+const allNamespaces = {};
+const namespacesMetadata = {};
+const sObjects = {};
 
 module.exports = {
     context,
@@ -11,5 +16,10 @@ module.exports = {
     auraSnippets,
     jsSnippets,
     sldsSnippets,
-    outputChannel
+    outputChannel,
+    statusBar,
+    userClasses,
+    namespacesMetadata,
+    allNamespaces,
+    sObjects
 }

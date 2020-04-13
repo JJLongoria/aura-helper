@@ -83,11 +83,9 @@ class AssignmentRulesUtils {
             if (ruleEntry.overrideExistingTeams !== undefined)
                 xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('overrideExistingTeams', ruleEntry.overrideExistingTeams));
             if (ruleEntry.team !== undefined) {
-                Utils.sort(ruleEntry.team);
                 xmlLines = xmlLines.concat(Utils.getXMLBlock('team', ruleEntry.team, true, initIndent + 1));
             }
             if (ruleEntry.criteriaItems !== undefined) {
-                Utils.sort(ruleEntry.criteriaItems, ['field']);
                 xmlLines = xmlLines.concat(Utils.getXMLBlock('criteriaItems', ruleEntry.criteriaItems, true, initIndent + 1));
             }
             xmlLines.push(Utils.getTabs(initIndent) + '</ruleEntry>');

@@ -1,0 +1,33 @@
+{
+  "name": "BaseOutputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "errors",
+      "description": "Any errors that were returned.",
+      "datatype": "List<ConnectApi.​ErrorResponse>",
+      "signature": "public List<ConnectApi.​ErrorResponse> errors"
+    },
+    {
+      "name": "success",
+      "description": "Indicates whether the transaction was successful.",
+      "datatype": "Boolean",
+      "signature": "public Boolean success"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Base Order Management output class.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_base_output.htm"
+}

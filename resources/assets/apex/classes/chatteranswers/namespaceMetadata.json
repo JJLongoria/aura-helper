@@ -6,7 +6,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Creates Account records that will be associated with Chatter Answers users.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_chatteranswers_accountcreator.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_chatteranswers_accountcreator.htm",
     "classes": [],
     "enums": []
   }

@@ -1,0 +1,33 @@
+{
+  "name": "ManagedContentDateAndTimeNodeValue",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.ManagedContentNodeValue",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "dateTimeValue",
+      "description": "UTC date and time value of the managed content",
+      "datatype": "Datetime",
+      "signature": "public Datetime dateTimeValue"
+    },
+    {
+      "name": "timeZone",
+      "description": "Time zone in which the date and time is",
+      "datatype": "String",
+      "signature": "public String timeZone"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Managed content node of date and time type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_content_date_and_time_node_value.htm"
+}

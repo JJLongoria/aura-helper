@@ -79,7 +79,6 @@ class AutoResponseRulesUtils {
             if (ruleEntry.senderName !== undefined)
                 xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('senderName', ruleEntry.senderName));
             if (ruleEntry.criteriaItems !== undefined) {
-                Utils.sort(ruleEntry.criteriaItems, ['field']);
                 xmlLines = xmlLines.concat(Utils.getXMLBlock('criteriaItems', ruleEntry.criteriaItems, true, initIndent + 1));
             }
             xmlLines.push(Utils.getTabs(initIndent) + '</ruleEntry>');

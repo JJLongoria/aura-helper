@@ -1,0 +1,39 @@
+{
+  "name": "TopicInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "description",
+      "description": "Description of the topic",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "idsToMerge",
+      "description": "",
+      "datatype": "List<String>",
+      "signature": "public List<String> idsToMerge"
+    },
+    {
+      "name": "name",
+      "description": "Name of the topicUse this property to change only the capitalization and",
+      "datatype": "String",
+      "signature": "public String name"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Update a topic’s name or description or merge topics.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_Topic.htm"
+}

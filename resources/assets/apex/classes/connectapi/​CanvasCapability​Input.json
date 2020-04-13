@@ -1,0 +1,63 @@
+{
+  "name": "​CanvasCapability​Input",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "description",
+      "description": "A description of the canvas app. The maximum size is 255 characters.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "developerName",
+      "description": "The API name (developer name) of the connected app.",
+      "datatype": "String",
+      "signature": "public String developerName"
+    },
+    {
+      "name": "height",
+      "description": "The height of the canvas app in pixels.",
+      "datatype": "String",
+      "signature": "public String height"
+    },
+    {
+      "name": "namespacePrefix",
+      "description": "A unique namespace prefix for the canvas app.",
+      "datatype": "String",
+      "signature": "public String namespacePrefix"
+    },
+    {
+      "name": "parameters",
+      "description": "JSON parameters passed to the canvas app.",
+      "datatype": "String",
+      "signature": "public String parameters"
+    },
+    {
+      "name": "thumbnailUrl",
+      "description": "A thumbnail URL to a preview image. The maximum thumbnail size is 120 pixels by 120 pixels.",
+      "datatype": "String",
+      "signature": "public String thumbnailUrl"
+    },
+    {
+      "name": "title",
+      "description": "A title for the canvas link.",
+      "datatype": "String",
+      "signature": "public String title"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Create or update a canvas app associated with a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_canvas_capability.htm"
+}

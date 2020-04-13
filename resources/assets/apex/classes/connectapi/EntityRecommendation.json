@@ -1,0 +1,39 @@
+{
+  "name": "EntityRecommendation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.AbstractRecommendation",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "actOnUrl",
+      "description": "For user, file, group, topic, and record entity types,",
+      "datatype": "String",
+      "signature": "public String actOnUrl"
+    },
+    {
+      "name": "action",
+      "description": "Specifies the action to take on a recommendation.",
+      "datatype": "ConnectApi.​Recommendation​ActionType",
+      "signature": "public ConnectApi.​Recommendation​ActionType action"
+    },
+    {
+      "name": "entity",
+      "description": "The entity with which the receiver is recommended to take",
+      "datatype": "ConnectApi.Actor",
+      "signature": "public ConnectApi.Actor entity"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A Chatter, custom, or static recommendation.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_entity_recommendation.htm"
+}

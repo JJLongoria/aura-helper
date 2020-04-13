@@ -1,0 +1,105 @@
+{
+  "name": "RecommendationReaction",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "aiModel",
+      "description": "Reserved for future use.",
+      "datatype": "String",
+      "signature": "public String aiModel"
+    },
+    {
+      "name": "contextRecord",
+      "description": "Reference to the context record.",
+      "datatype": "ConnectApi.Reference",
+      "signature": "public ConnectApi.Reference contextRecord"
+    },
+    {
+      "name": "createdBy",
+      "description": "Reference to the reaction creator.",
+      "datatype": "ConnectApi.​Reference",
+      "signature": "public ConnectApi.​Reference createdBy"
+    },
+    {
+      "name": "createdDate",
+      "description": "Reaction creation date.",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "externalId",
+      "description": "External target ID of the recommendation reacted",
+      "datatype": "String",
+      "signature": "public String externalId"
+    },
+    {
+      "name": "id",
+      "description": "Reaction record ID.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "onBehalfOf",
+      "description": "Reference to the user or record that is indirectly reacting",
+      "datatype": "ConnectApi.​Reference",
+      "signature": "public ConnectApi.​Reference onBehalfOf"
+    },
+    {
+      "name": "reactionType",
+      "description": "Type of reaction to a recommendation.",
+      "datatype": "ConnectApi.​RecommendationReaction​Type",
+      "signature": "public ConnectApi.​RecommendationReaction​Type reactionType"
+    },
+    {
+      "name": "recommendation​Mode",
+      "description": "Reserved for future use.",
+      "datatype": "String",
+      "signature": "public String recommendation​Mode"
+    },
+    {
+      "name": "recommendation​Score",
+      "description": "Reserved for future use.",
+      "datatype": "Double",
+      "signature": "public Double recommendation​Score"
+    },
+    {
+      "name": "strategy",
+      "description": "Strategy that recommended the target",
+      "datatype": "ConnectApi.​RecordSnapshot",
+      "signature": "public ConnectApi.​RecordSnapshot strategy"
+    },
+    {
+      "name": "targetAction",
+      "description": "Target action that is",
+      "datatype": "ConnectApi.​RecordSnapshot",
+      "signature": "public ConnectApi.​RecordSnapshot targetAction"
+    },
+    {
+      "name": "targetRecord",
+      "description": "Reference to the target record.",
+      "datatype": "ConnectApi.​Reference",
+      "signature": "public ConnectApi.​Reference targetRecord"
+    },
+    {
+      "name": "url",
+      "description": "URL to the recommendation reaction.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A reaction to a recommendation produced by a recommendation strategy",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_n_b_a_reaction.htm"
+}

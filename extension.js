@@ -35,12 +35,16 @@ function activate(context) {
 	let openProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.open', commands.openProfilePermSetGUI);
 	let openPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.open', commands.openProfilePermSetGUI);
 	let retrieveFullProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.retrieve', commands.retrieveFullProfile);
-	let retrieveFullPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.retrieve', commands.retrieveFullProfile);
+	let retrieveFullPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.retrieve', commands.retrieveFullPermissionSet);
 	let packageGenerator = vscode.commands.registerCommand('aurahelper.metadata.package.generate', commands.packageGenerator);
 	let matchOrgWithLocal = vscode.commands.registerCommand('aurahelper.metadata.org.match', commands.matchOrgWithLocal);
 	let openCustomLabelsGUI = vscode.commands.registerCommand('aurahelper.metadata.customlabels.open', commands.openCustomLabelsGUI);
 	//let openCustomObjectsGUI = vscode.commands.registerCommand('aurahelper.metadata.customobjects.open', commands.openCustomObjectsGUI);
 	let createProjectDocumentation = vscode.commands.registerCommand('aurahelper.documentation.project.create', commands.createProjectDocumentation);
+	let implementInterfaces = vscode.commands.registerCommand('aurahelper.completion.apex.implement.interface', commands.implementInterfaces);
+	let implementExtendedClasses = vscode.commands.registerCommand('aurahelper.completion.apex.implement.extend', commands.implementExtendedClasses);
+	let repairProjectDependencies = vscode.commands.registerCommand('aurahelper.metadata.project.repair', commands.repairProjectDependencies);
+	let retrieveFullRecordTypes = vscode.commands.registerCommand('aurahelper.metadata.recordtype.retrieve', commands.retrieveFullRecordTypes);
 
 	vscode.commands.registerCommand('aurahelper.completion.apex', commands.apexCodeCompletion);
 	vscode.commands.registerCommand('aurahelper.completion.aura', commands.auraCodeCompletion);
@@ -83,6 +87,10 @@ function activate(context) {
 	context.subscriptions.push(openCustomLabelsGUI);
 	//context.subscriptions.push(openCustomObjectsGUI);
 	context.subscriptions.push(createProjectDocumentation);
+	context.subscriptions.push(implementInterfaces);
+	context.subscriptions.push(implementExtendedClasses); 
+	context.subscriptions.push(repairProjectDependencies);
+	context.subscriptions.push(retrieveFullRecordTypes);
 }
 exports.activate = activate;
 

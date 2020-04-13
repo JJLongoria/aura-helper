@@ -1,0 +1,33 @@
+{
+  "name": "TopicsCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "canAssignTopics",
+      "description": "true if a topic can",
+      "datatype": "Boolean",
+      "signature": "public Boolean canAssignTopics"
+    },
+    {
+      "name": "items",
+      "description": "A collection of topics associated with this feed element.",
+      "datatype": "List<ConnectApi.​Topic>",
+      "signature": "public List<ConnectApi.​Topic> items"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, the context user can add topics to it. Topics help users organize and discover conversations.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_topics_capability.htm"
+}

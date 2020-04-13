@@ -1,0 +1,51 @@
+{
+  "name": "RecommendationDefinitionInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "actionUrl",
+      "description": "URL for acting on the custom recommendation, for",
+      "datatype": "String",
+      "signature": "public String actionUrl"
+    },
+    {
+      "name": "actionUrlName",
+      "description": "Text label for the action URL in the user",
+      "datatype": "String",
+      "signature": "public String actionUrlName"
+    },
+    {
+      "name": "explanation",
+      "description": "Explanation, or body, of the custom",
+      "datatype": "String",
+      "signature": "public String explanation"
+    },
+    {
+      "name": "name",
+      "description": "Name of the custom recommendation definition. The name",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "title",
+      "description": "Title of the custom recommendation",
+      "datatype": "String",
+      "signature": "public String title"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A custom recommendation definition.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_recommendation_definition.htm"
+}

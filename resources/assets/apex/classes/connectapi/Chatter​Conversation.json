@@ -1,0 +1,51 @@
+{
+  "name": "Chatter​Conversation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "conversationId",
+      "description": "The ID for the conversation",
+      "datatype": "String",
+      "signature": "public String conversationId"
+    },
+    {
+      "name": "conversationUrl",
+      "description": "Chatter REST API URL identifying the conversation",
+      "datatype": "String",
+      "signature": "public String conversationUrl"
+    },
+    {
+      "name": "members",
+      "description": "List of users in the conversation",
+      "datatype": "List<ConnectApi.​User​Summary>",
+      "signature": "public List<ConnectApi.​User​Summary> members"
+    },
+    {
+      "name": "messages",
+      "description": "The content of the conversation",
+      "datatype": "ConnectApi.​Chatter​MessagePage",
+      "signature": "public ConnectApi.​Chatter​MessagePage messages"
+    },
+    {
+      "name": "read",
+      "description": "Specifies if the conversation is read (true) or not read (false)",
+      "datatype": "Boolean",
+      "signature": "public Boolean read"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_ChatterConversation.htm"
+}

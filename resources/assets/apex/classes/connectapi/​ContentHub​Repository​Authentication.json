@@ -1,0 +1,39 @@
+{
+  "name": "​ContentHub​Repository​Authentication",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "authFlowUrl",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String authFlowUrl"
+    },
+    {
+      "name": "authProtocol",
+      "description": "Authentication protocol used for the",
+      "datatype": "ConnectApi.​ContentHub​Authentication​Protocol",
+      "signature": "public ConnectApi.​ContentHub​Authentication​Protocol authProtocol"
+    },
+    {
+      "name": "userHas​AuthSettings",
+      "description": "Specifies whether the user has credentials or the administrator",
+      "datatype": "Boolean",
+      "signature": "public Boolean userHas​AuthSettings"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Authentication information for a repository.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_content_hub_repository_authentication.htm"
+}

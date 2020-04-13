@@ -1,0 +1,39 @@
+{
+  "name": "​Alternative",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "text​Representation",
+      "description": "Text representation of the extension.",
+      "datatype": "String",
+      "signature": "public String text​Representation"
+    },
+    {
+      "name": "thumbnailUrl",
+      "description": "Thumbnail URL for the extension.",
+      "datatype": "String",
+      "signature": "public String thumbnailUrl"
+    },
+    {
+      "name": "title",
+      "description": "Title of the extension.",
+      "datatype": "String",
+      "signature": "public String title"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Alternative representation for an extension on a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_alternative.htm"
+}

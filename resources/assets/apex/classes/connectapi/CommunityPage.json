@@ -1,0 +1,33 @@
+{
+  "name": "CommunityPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "communities",
+      "description": "List of communities context user has access to",
+      "datatype": "List<ConnectApi.​Community>",
+      "signature": "public List<ConnectApi.​Community> communities"
+    },
+    {
+      "name": "total",
+      "description": "Total number of communities",
+      "datatype": "Integer",
+      "signature": "public Integer total"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_communityPage.htm"
+}

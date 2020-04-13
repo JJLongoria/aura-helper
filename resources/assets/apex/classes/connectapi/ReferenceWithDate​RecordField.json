@@ -1,0 +1,33 @@
+{
+  "name": "ReferenceWithDate​RecordField",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​LabeledRecord​Field",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "dateValue",
+      "description": "A time at which the referenced object",
+      "datatype": "Datetime",
+      "signature": "public Datetime dateValue"
+    },
+    {
+      "name": "reference",
+      "description": "The object referenced by the record field.",
+      "datatype": "ConnectApi.​RecordSummary",
+      "signature": "public ConnectApi.​RecordSummary reference"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_referenceWithDateRecordField.htm"
+}

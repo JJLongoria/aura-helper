@@ -18,14 +18,14 @@
       "signature": "public String body {get; set;}",
       "description": "The HTTP body of the authentication request.",
       "params": [],
-      "datatype": "void"
+      "datatype": "String"
     },
     {
       "name": "headers",
       "signature": "public Map<String,String> headers {get; set;}",
       "description": "The HTTP headers of the authentication request.",
       "params": [],
-      "datatype": "void"
+      "datatype": "Map<String,String>"
     }
   ],
   "constructors": [

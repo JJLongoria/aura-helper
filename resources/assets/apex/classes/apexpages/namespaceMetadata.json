@@ -6,7 +6,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "You can use ApexPages.Action to create an action method that you can use in a Visualforce custom controller or controller extension.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_action.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_action.htm",
     "classes": [],
     "enums": []
   },
@@ -17,7 +17,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents a dynamic Visualforce component in Apex.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_dynamic_components.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_dynamic_components.htm",
     "classes": [],
     "enums": []
   },
@@ -28,7 +28,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "IdeaStandardController objects offer Ideas-specific functionality in addition to what is provided by the StandardController.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardcontroller.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardcontroller.htm",
     "classes": [],
     "enums": []
   },
@@ -39,7 +39,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "IdeaStandardSetController objects offer Ideas-specific functionality in addition to what is provided by the StandardSetController.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardsetcontroller.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_ideastandardsetcontroller.htm",
     "classes": [],
     "enums": []
   },
@@ -50,7 +50,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "KnowledgeArticleVersionStandardController objects offer article-specific functionality in addition to what is provided by the StandardController.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_knowledgearticleversionstandardcontroller.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_knowledgearticleversionstandardcontroller.htm",
     "classes": [],
     "enums": []
   },
@@ -61,7 +61,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains validation errors that occur when the end user saves the page when using a standard controller.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_message.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_message.htm",
     "classes": [],
     "enums": []
   },
@@ -72,7 +72,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Use a StandardController when defining an extension for a standard controller.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_standardcontroller.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_standardcontroller.htm",
     "classes": [],
     "enums": []
   },
@@ -83,7 +83,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "StandardSetController objects allow you to create list controllers similar to, or as extensions of, the pre-built Visualforce list controllers provided by Salesforce.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_standardsetcontroller.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_pages_standardsetcontroller.htm",
     "classes": [],
     "enums": []
   }

@@ -1,0 +1,45 @@
+{
+  "name": "DatacloudPurchaseUsage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "listpoolCreditsAvailable",
+      "description": "The points or credits that are available in a pool of",
+      "datatype": "Integer",
+      "signature": "public Integer listpoolCreditsAvailable"
+    },
+    {
+      "name": "listpoolCreditsUsed",
+      "description": "The points or credits that have been used from a pool of credits",
+      "datatype": "Integer",
+      "signature": "public Integer listpoolCreditsUsed"
+    },
+    {
+      "name": "monthlyCreditsAvailable",
+      "description": "The total credits that are assigned to a Monthly User.",
+      "datatype": "Integer",
+      "signature": "public Integer monthlyCreditsAvailable"
+    },
+    {
+      "name": "monthlyCreditsUsed",
+      "description": "The credits that are used by a Monthly User for the current",
+      "datatype": "Integer",
+      "signature": "public Integer monthlyCreditsUsed"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Information about Data.com point usage for monthly and list pool users.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_datacloud_purchase_usage.htm"
+}

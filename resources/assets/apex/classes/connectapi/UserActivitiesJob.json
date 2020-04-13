@@ -1,0 +1,39 @@
+{
+  "name": "UserActivitiesJob",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "jobToken",
+      "description": "Token that identifies the user activities job.",
+      "datatype": "String",
+      "signature": "public String jobToken"
+    },
+    {
+      "name": "jobType",
+      "description": "Type of user activities job. Value is export or purge.",
+      "datatype": "String",
+      "signature": "public String jobType"
+    },
+    {
+      "name": "message",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String message"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "User activities job.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_user_activities_job.htm"
+}

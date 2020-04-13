@@ -1,0 +1,81 @@
+{
+  "name": "DashboardComponent​Snapshot",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "componentId",
+      "description": "18-character ID of the dashboard component.",
+      "datatype": "String",
+      "signature": "public String componentId"
+    },
+    {
+      "name": "componentName",
+      "description": "The dashboard component name.",
+      "datatype": "String",
+      "signature": "public String componentName"
+    },
+    {
+      "name": "dashboardBodyText",
+      "description": "Display this text next to the actor in the feed",
+      "datatype": "String",
+      "signature": "public String dashboardBodyText"
+    },
+    {
+      "name": "dashboardId",
+      "description": "18-character ID of the dashboard.",
+      "datatype": "String",
+      "signature": "public String dashboardId"
+    },
+    {
+      "name": "dashboardName",
+      "description": "The name of the dashboard.",
+      "datatype": "String",
+      "signature": "public String dashboardName"
+    },
+    {
+      "name": "fullSizeImageUrl",
+      "description": "The source URL to retrieve the full-size image of a",
+      "datatype": "String",
+      "signature": "public String fullSizeImageUrl"
+    },
+    {
+      "name": "lastRefreshDate",
+      "description": "ISO 8601 date specifying when this dashboard component",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastRefreshDate"
+    },
+    {
+      "name": "lastRefresh​DateDisplayText",
+      "description": "Display text for the last refresh date, for",
+      "datatype": "String",
+      "signature": "public String lastRefresh​DateDisplayText"
+    },
+    {
+      "name": "runningUser",
+      "description": "The running user of the dashboard at the time the snapshot",
+      "datatype": "ConnectApi.​UserSummary",
+      "signature": "public ConnectApi.​UserSummary runningUser"
+    },
+    {
+      "name": "thumbnailUrl",
+      "description": "The source URL to retrieve the thumbnail image of a",
+      "datatype": "String",
+      "signature": "public String thumbnailUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Represents both dashboard component snapshots and alerts you receive when a dashboard component value crosses a threshold.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_dashboard_component_snapshot.htm"
+}

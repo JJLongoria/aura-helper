@@ -166,82 +166,15 @@ function processResponse(user, stdOut, cancelToken, promiseResolve) {
     let jsonOut = JSON.parse(stdOut);
     if (jsonOut.status === 0) {
         deployJobId = jsonOut.result.id;
-        interval = setInterval(() => {
-            monitorizeDeploy(user, deployJobId, cancelToken, promiseResolve);
-        }, 1000);
-    }
-}
-
-function monitorizeDeploy(user, deployJobId, cancelToken, promiseResolve) {
-    let buffer = [];
-    let bufferError = [];
-    ProcessManager.deployReport(user, deployJobId, cancelToken, function (event, data) {
-        switch (event) {
-            case ProcessEvent.ERR_OUT:
-            case ProcessEvent.ERROR:
-                bufferError = bufferError.concat(data);
-                break;
-            case ProcessEvent.END:
-                if (buffer.length > 0) {
-                    let jsonOut = JSON.parse(buffer.toString());
-                    if (jsonOut.status === 0) {
-                        if (jsonOut.result.done) {
-                            promiseResolve();
-                            clearInterval(interval);
-                            view.postMessage({ command: 'metadataDeleted' });
-                        }
-                    }
-                }
-                break;
-            case ProcessEvent.KILLED:
-                view.postMessage({ command: 'processKilled' });
-                clearInterval(interval);
-                promiseResolve();
-                cancelDeploy();
-                break;
-            case ProcessEvent.STD_OUT:
-                buffer = buffer.concat(data);
-                break;
-            default:
-                break;
-        }
-    });
-}
-
-function cancelDeploy(user, deployJobId) {
-    window.withProgress({
-        location: ProgressLocation.Notification,
-        title: "Canceling Destructive Deploy Job with Id: " + deployJobId,
-        cancellable: false
-    }, (progress, cancelToken) => {
-        return new Promise(promiseResolve => {
-            try {
-                let buffer = [];
-                let bufferError = [];
-                ProcessManager.cancelDeploy(user, deployJobId, undefined, function (event, data) {
-                    switch (event) {
-                        case ProcessEvent.ERR_OUT:
-                        case ProcessEvent.ERROR:
-                            bufferError = bufferError.concat(data);
-                            break;
-                        case ProcessEvent.END:
-                            promiseResolve();
-                            view.postMessage({ command: 'processKilled' });
-                            break;
-                        case ProcessEvent.KILLED:
-                            view.postMessage({ command: 'processKilled' });
-                            break;
-                        case ProcessEvent.STD_OUT:
-                            buffer = buffer.concat(data);
-                            break;
-                        default:
-                            break;
-                    }
-                });
-            } catch (error) {
-                view.postMessage({ command: 'metadataDeletedError', data: { error: error } });
+        view.postMessage({ command: 'metadataDeleted', data: {  } });
+    } else if (jsonOut.status === 1) { 
+        let errors = '';
+        if (jsonOut.result.details && jsonOut.result.details.componentFailures && jsonOut.result.details.componentFailures.length > 0) { 
+            for (const fail of jsonOut.result.details.componentFailures) {
+                errors += '<b>' + fail.fullName + '</b>: ' + fail.problem + '\n';
             }
-        });
-    });
+        }
+        view.postMessage({ command: 'metadataDeletedError', data: { error: errors } });
+    }
+    promiseResolve();
 }
-

@@ -1,0 +1,75 @@
+{
+  "name": "BaseManagedSocialAccount",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​ManagedSocialAccount",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "defaultResponse​AccountId",
+      "description": "Default response account to",
+      "datatype": "String",
+      "signature": "public String defaultResponse​AccountId"
+    },
+    {
+      "name": "displayName",
+      "description": "Real name (or user name if real name not",
+      "datatype": "String",
+      "signature": "public String displayName"
+    },
+    {
+      "name": "externalPictureUrl",
+      "description": "URL to the account's avatar",
+      "datatype": "String",
+      "signature": "public String externalPictureUrl"
+    },
+    {
+      "name": "id",
+      "description": "Internal SFDC ID for this managed social account.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "label",
+      "description": "Label for the social account.",
+      "datatype": "String",
+      "signature": "public String label"
+    },
+    {
+      "name": "profileUrl",
+      "description": "URL to the account's profile.",
+      "datatype": "String",
+      "signature": "public String profileUrl"
+    },
+    {
+      "name": "socialNetwork",
+      "description": "Social network that this account belongs",
+      "datatype": "ConnectApi.​SocialNetworkProvider",
+      "signature": "public ConnectApi.​SocialNetworkProvider socialNetwork"
+    },
+    {
+      "name": "uniqueName",
+      "description": "Unique name used for distinguishing same name",
+      "datatype": "String",
+      "signature": "public String uniqueName"
+    },
+    {
+      "name": "username",
+      "description": "Unique user name or handle for this account on",
+      "datatype": "String",
+      "signature": "public String username"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Base information describing a managed social account or fan page of a social network.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_social_account_base_output.htm"
+}

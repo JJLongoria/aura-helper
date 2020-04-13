@@ -1,0 +1,27 @@
+{
+  "name": "Compound​RecordField",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​LabeledRecord​Field",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "fields",
+      "description": "A collection of subfields that make up the compound",
+      "datatype": "List<ConnectApi.​​Abstract​RecordField>",
+      "signature": "public List<ConnectApi.​​Abstract​RecordField> fields"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_compoundRecordField.htm"
+}

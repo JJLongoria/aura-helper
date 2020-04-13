@@ -12,3 +12,4 @@ const apexParser = require('./apexParser');
 exports.ApexParser = apexParser.ApexParser;
 const utils = require('./utils');
 exports.Utils = utils.Utils;
+exports.Apex = require('./apex');

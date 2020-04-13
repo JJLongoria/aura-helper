@@ -1,0 +1,39 @@
+{
+  "name": "RecommendationReactions",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageUrl",
+      "description": "URL to the current page of reactions in the collection.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "URL to the next page of reactions in the collection.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "reactions",
+      "description": "Collection of recommendation reactions.",
+      "datatype": "List<ConnectApi.​Recommendation​Reaction>",
+      "signature": "public List<ConnectApi.​Recommendation​Reaction> reactions"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A list of recommendation reactions.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_n_b_a_reaction_collection.htm"
+}

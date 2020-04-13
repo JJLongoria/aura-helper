@@ -1,0 +1,93 @@
+{
+  "name": "RecommendationReactionInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "aiModel",
+      "description": "Reserved for future use.",
+      "datatype": "String",
+      "signature": "public String aiModel"
+    },
+    {
+      "name": "contextRecordId",
+      "description": "ID of the context record. For example, if the",
+      "datatype": "String",
+      "signature": "public String contextRecordId"
+    },
+    {
+      "name": "executionId",
+      "description": "ID of the original recommendation strategy",
+      "datatype": "String",
+      "signature": "public String executionId"
+    },
+    {
+      "name": "externalId",
+      "description": "External ID of the recommendation. This ID doesn’t need to",
+      "datatype": "String",
+      "signature": "public String externalId"
+    },
+    {
+      "name": "onBehalfOfId",
+      "description": "ID of the user or entity for which the reaction",
+      "datatype": "String",
+      "signature": "public String onBehalfOfId"
+    },
+    {
+      "name": "reactionType",
+      "description": "Type of reaction to a recommendation.",
+      "datatype": "ConnectApi.​Recommendation​ReactionType",
+      "signature": "public ConnectApi.​Recommendation​ReactionType reactionType"
+    },
+    {
+      "name": "recommendation​Mode",
+      "description": "Reserved for future use.",
+      "datatype": "String",
+      "signature": "public String recommendation​Mode"
+    },
+    {
+      "name": "recommendation​Score",
+      "description": "Reserved for future use.",
+      "datatype": "Double",
+      "signature": "public Double recommendation​Score"
+    },
+    {
+      "name": "strategyName",
+      "description": "Name of the recommendation strategy.",
+      "datatype": "String",
+      "signature": "public String strategyName"
+    },
+    {
+      "name": "targetActionId",
+      "description": "ID of the target action.",
+      "datatype": "String",
+      "signature": "public String targetActionId"
+    },
+    {
+      "name": "targetActionName",
+      "description": "Name of the target action.",
+      "datatype": "String",
+      "signature": "public String targetActionName"
+    },
+    {
+      "name": "targetId",
+      "description": "ID of the recommendation that is being reacted",
+      "datatype": "String",
+      "signature": "public String targetId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A reaction to a recommendation produced by a recommendation strategy.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_n_b_a_reaction.htm"
+}

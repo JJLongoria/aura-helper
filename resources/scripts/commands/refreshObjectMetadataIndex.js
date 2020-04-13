@@ -90,8 +90,10 @@ function refreshObjectMetadataIndex(object, user) {
 					case ProcessEvent.END:
 						if (buffer.length > 0) {
 							let metadataIndex = MetadataFactory.createMetadataFromJSONSchema(buffer.toString());
-							FileWriter.createFileSync(Paths.getMetadataIndexPath() + "/" + object + ".json", JSON.stringify(metadataIndex, null, 2));
-							window.showInformationMessage("Metadata Index for " + object + " refreshed Succesfully");
+							if (metadataIndex) {
+								FileWriter.createFileSync(Paths.getMetadataIndexPath() + "/" + object + ".json", JSON.stringify(metadataIndex, null, 2));
+								window.showInformationMessage("Metadata Index for " + object + " refreshed Succesfully");
+							}
 							resolve();
 						} else {
 							window.showErrorMessage("Error refreshing index for object " + object + ". Error: " + bufferError.toString());

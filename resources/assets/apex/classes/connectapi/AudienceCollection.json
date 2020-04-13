@@ -1,0 +1,27 @@
+{
+  "name": "AudienceCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "audiences",
+      "description": "Collection of audiences.",
+      "datatype": "List<ConnectApi.​Audience>",
+      "signature": "public List<ConnectApi.​Audience> audiences"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Collection of personalization audiences.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_audience_collection.htm"
+}

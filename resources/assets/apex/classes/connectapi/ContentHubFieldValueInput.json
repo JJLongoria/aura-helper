@@ -1,0 +1,33 @@
+{
+  "name": "ContentHubFieldValueInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "name",
+      "description": "Name of the item field.When updating the metadata of a repository file, only the name field can be updated.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "value",
+      "description": "Value of the item field.",
+      "datatype": "String",
+      "signature": "public String value"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The fields of the item type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_content_hub_field_value.htm"
+}

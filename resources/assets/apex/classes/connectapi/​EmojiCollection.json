@@ -1,0 +1,27 @@
+{
+  "name": "​EmojiCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "emojis",
+      "description": "A collection of emojis.",
+      "datatype": "List<ConnectApi.​Emoji>",
+      "signature": "public List<ConnectApi.​Emoji> emojis"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of emojis.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_emoji_collection.htm"
+}

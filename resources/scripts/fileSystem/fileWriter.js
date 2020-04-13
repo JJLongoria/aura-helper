@@ -25,6 +25,10 @@ class FileWriter {
     static createFolderSync(folderPath) {
         fs.mkdirSync(folderPath, { recursive: true });
     }
+    static copyFile(source, target, callback) { 
+        fs.copyFile(source, target, callback);
+    }
+
     static copyFileSync(sourcePath, targetPath) {
         fs.copyFileSync(sourcePath, targetPath);
     }

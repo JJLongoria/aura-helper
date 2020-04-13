@@ -1,0 +1,45 @@
+{
+  "name": "AbstractDirectoryEntrySummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "domain",
+      "description": "Domain of the directory entry.",
+      "datatype": "String",
+      "signature": "public String domain"
+    },
+    {
+      "name": "email",
+      "description": "Email of the directory entry.",
+      "datatype": "String",
+      "signature": "public String email"
+    },
+    {
+      "name": "id",
+      "description": "ID of the directory entry.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "type",
+      "description": "",
+      "datatype": "ConnectApi.​ContentHub​DirectoryEntry​Type",
+      "signature": "public ConnectApi.​ContentHub​DirectoryEntry​Type type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A directory entry with summary information.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_directory_entry_summary.htm"
+}

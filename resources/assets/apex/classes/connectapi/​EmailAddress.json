@@ -1,0 +1,39 @@
+{
+  "name": "​EmailAddress",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "displayName",
+      "description": "The display name for the email address.",
+      "datatype": "String",
+      "signature": "public String displayName"
+    },
+    {
+      "name": "emailAddress",
+      "description": "The email address.",
+      "datatype": "String",
+      "signature": "public String emailAddress"
+    },
+    {
+      "name": "relatedRecord",
+      "description": "The summary of a related record, for example, a",
+      "datatype": "ConnectApi.​RecordSummary Class",
+      "signature": "public ConnectApi.​RecordSummary Class relatedRecord"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_emailAddress.htm"
+}

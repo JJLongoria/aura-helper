@@ -20,7 +20,7 @@ function provideApexCompletion(document, position) {
     let items;
     const line = document.lineAt(position.line).text;
     if (line.indexOf('/**') !== -1) {
-        if (!config.getConfig().activeApexCommentSuggestion)
+        if (!config.getConfig().autoCompletion.activeApexCommentSuggestion)
             return Promise.resolve(undefined);
         items = getCommentCompletionItem(position);
     }
@@ -29,7 +29,7 @@ function provideApexCompletion(document, position) {
 
 function getCommentCompletionItem(position) {
     let items = [];
-    if (!config.getConfig().activeApexCommentSuggestion)
+    if (!config.getConfig().autoCompletion.activeApexCommentSuggestion)
         return Promise.resolve(undefined);
     let item = new CompletionItem('/** */', CompletionItemKind.Snippet);
     item.detail = 'Apex Comment';
