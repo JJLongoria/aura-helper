@@ -274,6 +274,8 @@ class WorkflowUtils {
                 xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('booleanFilter', rule.booleanFilter));
             if (rule.criteriaItems !== undefined)
                 xmlLines = xmlLines.concat(Utils.getXMLBlock('criteriaItems', rule.criteriaItems, true, initIndent + 1));
+            if (rule.actions !== undefined)
+                xmlLines = xmlLines.concat(Utils.getXMLBlock('actions', rule.actions, true, initIndent + 1));
             if (rule.workflowTimeTriggers !== undefined)
                 xmlLines = xmlLines.concat(WorkflowUtils.getWorkflowTimeTriggerXMLLines(rule.workflowTimeTriggers, initIndent + 1));
             xmlLines.push(Utils.getTabs(initIndent) + '</rules>');
@@ -283,6 +285,7 @@ class WorkflowUtils {
 
     static getWorkflowTimeTriggerXMLLines(workflowTimeTriggers, initIndent) {
         let xmlLines = [];
+        workflowTimeTriggers = Utils.forceArray(workflowTimeTriggers);
         for (const workflowTimeTrigger of workflowTimeTriggers) {
             xmlLines.push(Utils.getTabs(initIndent) + '<workflowTimeTriggers>');
             if (workflowTimeTrigger.offsetFromField !== undefined)

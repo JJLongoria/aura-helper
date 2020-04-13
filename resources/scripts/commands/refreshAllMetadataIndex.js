@@ -53,7 +53,7 @@ function onButtonClick(selected) {
     }
 }
 
-function processCustomObjectsOut(user, stdOut, objProgress, cancelToken, callback) {
+function processCustomObjectsOut(user, stdOut, objProgress, cancelToken) {
     return new Promise(function (resolve) {
         let data = JSON.parse(stdOut);
         if (data.status === 0) {

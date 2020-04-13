@@ -1,5 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [1.9.4 - 2020-03-18]
+### Added
+- Add repair dependencies command
+- Add Retrieve Full RecordTypes command (work like Retrieve full profiles)
+- Added option for keep blank lines on code for the Apex Formatter
+
+### Changed
+- Changed retrieve full profiles and retrieve full permission set commands
+
+### Fixed
+- Fixed  some bugs with XML files compression
+
 ## [1.9.3 - 2020-03-18]
 ### Fixed
 - Fixed bug with format on save

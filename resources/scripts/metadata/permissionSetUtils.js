@@ -355,47 +355,36 @@ class PermissionSetUtils {
                 if (permissionSet.hasActivationRequired !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('hasActivationRequired', permissionSet.hasActivationRequired));
                 if (permissionSet.applicationVisibilities) {
-                    Utils.sort(permissionSet.applicationVisibilities, ['application']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('applicationVisibilities', permissionSet.applicationVisibilities, true, 1));
                 }
                 if (permissionSet.classAccesses) {
-                    Utils.sort(permissionSet.classAccesses, ['apexClass']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('classAccesses', permissionSet.classAccesses, true, 1));
                 }
                 if (permissionSet.customMetadataTypeAccesses) {
-                    Utils.sort(permissionSet.customMetadataTypeAccesses, ['name']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('customMetadataTypeAccesses', permissionSet.customMetadataTypeAccesses, true, 1));
                 }
                 if (permissionSet.customPermissions) {
-                    Utils.sort(permissionSet.customPermissions, ['name']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('customPermissions', permissionSet.customPermissions, true, 1));
                 }
                 if (permissionSet.externalDataSourceAccesses) {
-                    Utils.sort(permissionSet.externalDataSourceAccesses, ['externalDataSource']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('externalDataSourceAccesses', permissionSet.externalDataSourceAccesses, true, 1));
                 }
                 if (permissionSet.fieldPermissions) {
-                    Utils.sort(permissionSet.fieldPermissions, ['field']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('fieldPermissions', permissionSet.fieldPermissions, true, 1));
                 }
                 if (permissionSet.objectPermissions) {
-                    Utils.sort(permissionSet.objectPermissions, ['object']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('objectPermissions', permissionSet.objectPermissions, true, 1));
                 }
                 if (permissionSet.pageAccesses) {
-                    Utils.sort(permissionSet.pageAccesses, ['apexPage']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('pageAccesses', permissionSet.pageAccesses, true, 1));
                 }
                 if (permissionSet.recordTypeVisibilities) {
-                    Utils.sort(permissionSet.recordTypeVisibilities, ['recordType']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('recordTypeVisibilities', permissionSet.recordTypeVisibilities, true, 1));
                 }
                 if (permissionSet.tabSettings) {
-                    Utils.sort(permissionSet.tabVisibilities, ['tab']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('tabSettings', permissionSet.tabSettings, true, 1));
                 }
                 if (permissionSet.userPermissions) {
-                    Utils.sort(permissionSet.userPermissions, ['name']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('userPermissions', permissionSet.userPermissions, true, 1));
                 }
                 xmlLines.push('</PermissionSet>');

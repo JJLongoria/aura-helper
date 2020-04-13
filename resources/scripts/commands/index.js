@@ -54,3 +54,5 @@ const repairProjectDependencies = require('./repairProjectDependencies');
 exports.repairProjectDependencies = repairProjectDependencies.run;
 const retrieveFullRecordTypes = require('./retrieveFullRecordTypes');
 exports.retrieveFullRecordTypes = retrieveFullRecordTypes.run;
+const retrieveFullPermissionSet = require('./retrieveFullPermissionSet');
+exports.retrieveFullPermissionSet = retrieveFullPermissionSet.run;
