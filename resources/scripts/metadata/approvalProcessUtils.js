@@ -131,11 +131,9 @@ class ApprovalProcessUtils {
                 if (approvalProcess.nextAutomatedApprover !== undefined)
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('nextAutomatedApprover', approvalProcess.nextAutomatedApprover, true, 1));
                 if (approvalProcess.allowedSubmitters) {
-                    Utils.sort(approvalProcess.allowedSubmitters, ['submitter']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('allowedSubmitters', approvalProcess.allowedSubmitters, true, 1));
                 }
                 if (approvalProcess.approvalPageFields && approvalProcess.approvalPageFields.field) {
-                    Utils.sort(approvalProcess.approvalPageFields.field);
                     xmlLines.push(Utils.getTabs(1) + '<approvalPageFields>');
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('field', approvalProcess.approvalPageFields.field, true, 2));
                     xmlLines.push(Utils.getTabs(1) + '</approvalPageFields>');
@@ -230,7 +228,6 @@ class ApprovalProcessUtils {
         if (entryCriteria.formula !== undefined)
             xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formula', entryCriteria.formula));
         if (entryCriteria.criteriaItems !== undefined) {
-            Utils.sort(entryCriteria.criteriaItems, ['field']);
             xmlLines = xmlLines.concat(Utils.getXMLBlock('criteriaItems', entryCriteria.criteriaItems, true, initIndent + 1));
         }
         xmlLines.push(Utils.getTabs(initIndent) + '</entryCriteria>');

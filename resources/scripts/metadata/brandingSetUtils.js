@@ -41,7 +41,6 @@ class BrandingSetUtils {
                 if (brandingSet.description !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('description', brandingSet.description));
                 if (brandingSet.brandingSetProperty !== undefined) {
-                    Utils.sort(brandingSet.brandingSetProperty, ['propertyName']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('brandingSetProperty', brandingSet.brandingSetProperty, true, 1));
                 }
                 xmlLines.push('</BrandingSet>');

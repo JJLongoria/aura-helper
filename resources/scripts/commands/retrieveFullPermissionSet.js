@@ -44,7 +44,7 @@ exports.run = async function () {
     let editorOppened = false;
     let wrongFile = false;
     let showOptions = true;
-    let typeForRetrieve = 'Profile';
+    let typeForRetrieve = 'Permission Set';
     try {
         user = await Config.getAuthUsername();
         let options = ["From Local", "From Org"];
@@ -67,8 +67,8 @@ function showProfiles(profileNames, retrieveFrom, typeForRetrieve) {
                 const metadataTypes = await MetadataConnection.getMetadataTypesFromOrg(user);
                 let folderMetadataMap = MetadataUtils.createFolderMetadataMap(metadataTypes);
                 let metadataFromFileSystem = MetadataFactory.getMetadataObjectsFromFileSystem(folderMetadataMap);
-                if(metadataFromFileSystem[MetadataType.PROFILE] && Object.keys(metadataFromFileSystem[MetadataType.PROFILE].childs).length > 0){
-                    profileNames = Object.keys(metadataFromFileSystem[MetadataType.PROFILE].childs);
+                if(metadataFromFileSystem[MetadataType.PERMISSION_SET] && Object.keys(metadataFromFileSystem[MetadataType.PERMISSION_SET].childs).length > 0){
+                    profileNames = Object.keys(metadataFromFileSystem[MetadataType.PERMISSION_SET].childs);
                 }
             }
             if(profileNames && profileNames.length > 0){

@@ -461,43 +461,33 @@ class ProfileUtils {
                 if (profile.custom !== undefined)
                     profileLines.push(Utils.getTabs(1) + Utils.getXMLTag('custom', profile.custom));
                 if (profile.applicationVisibilities) {
-                    Utils.sort(profile.applicationVisibilities, ['application']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('applicationVisibilities', profile.applicationVisibilities, true, 1));
                 }
                 if (profile.classAccesses) {
-                    Utils.sort(profile.classAccesses, ['apexClass']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('classAccesses', profile.classAccesses, true, 1));
                 }
                 if (profile.customMetadataTypeAccesses) {
-                    Utils.sort(profile.customMetadataTypeAccesses, ['name']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('customMetadataTypeAccesses', profile.customMetadataTypeAccesses, true, 1));
                 }
                 if (profile.customPermissions) {
-                    Utils.sort(profile.customPermissions, ['name']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('customPermissions', profile.customPermissions, true, 1));
                 }
                 if (profile.customSettingAccesses) {
-                    Utils.sort(profile.customSettingAccesses, ['name']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('customSettingAccesses', profile.customSettingAccesses, true, 1));
                 }
                 if (profile.externalDataSourceAccesses) {
-                    Utils.sort(profile.externalDataSourceAccesses, ['externalDataSource']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('externalDataSourceAccesses', profile.externalDataSourceAccesses, true, 1));
                 }
                 if (profile.fieldPermissions) {
-                    Utils.sort(profile.fieldPermissions, ['field']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('fieldPermissions', profile.fieldPermissions, true, 1));
                 }
                 if (profile.fieldLevelSecurities) {
-                    Utils.sort(profile.fieldLevelSecurities, ['field']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('fieldLevelSecurities', profile.fieldLevelSecurities, true, 1));
                 }
                 if (profile.flowAccesses) {
-                    Utils.sort(profile.flowAccesses, ['flow']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('flowAccesses', profile.flowAccesses, true, 1));
                 }
                 if (profile.layoutAssignments) {
-                    Utils.sort(profile.layoutAssignments, ['layout', 'recordType']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('layoutAssignments', profile.layoutAssignments, true, 1));
                 }
                 if (profile.loginHours) {
@@ -533,31 +523,24 @@ class ProfileUtils {
                     profileLines.push('\t</loginHours>');
                 }
                 if (profile.loginIpRanges) {
-                    Utils.sort(profile.loginIpRanges, ['startAddress', 'endAddress']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('loginIpRanges', profile.loginIpRanges, true, 1));
                 }
                 if (profile.objectPermissions) {
-                    Utils.sort(profile.objectPermissions, ['object']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('objectPermissions', profile.objectPermissions, true, 1));
                 }
                 if (profile.pageAccesses) {
-                    Utils.sort(profile.pageAccesses, ['apexPage']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('pageAccesses', profile.pageAccesses, true, 1));
                 }
                 if (profile.profileActionOverrides) {
-                    Utils.sort(profile.profileActionOverrides, ['actionName', 'type', 'pageOrSobjectType', 'recordType']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('profileActionOverrides', profile.profileActionOverrides, true, 1));
                 }
                 if (profile.recordTypeVisibilities) {
-                    Utils.sort(profile.recordTypeVisibilities, ['recordType']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('recordTypeVisibilities', profile.recordTypeVisibilities, true, 1));
                 }
                 if (profile.tabVisibilities) {
-                    Utils.sort(profile.tabVisibilities, ['tab']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('tabVisibilities', profile.tabVisibilities, true, 1));
                 }
                 if (profile.userPermissions) {
-                    Utils.sort(profile.userPermissions, ['name']);
                     profileLines = profileLines.concat(Utils.getXMLBlock('userPermissions', profile.userPermissions, true, 1));
                 }
                 profileLines.push('</Profile>');

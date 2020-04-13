@@ -12,6 +12,7 @@ const FileWriter = fileSystem.FileWriter;
 const Paths = fileSystem.Paths;
 const CustomApplicationUtils = Metadata.CustomApplicationUtils;
 const ProfileUtils = Metadata.ProfileUtils;
+const PermissionSetUtils = Metadata.PermissionSetUtils;
 const ProgressLocation = vscode.ProgressLocation;
 const window = vscode.window;
 const AuraParser = languages.AuraParser;
@@ -39,8 +40,8 @@ exports.run = async function () {
                         progress.report({ message: "Repairing Permission Set Dependencies" });
                         repairPermissionSetDependencies(metadataFromFileSystem[metadataType.xmlName], metadataPath + '/' + folder, metadataFromFileSystem);
                     }
-                    resolve();
                 });
+                resolve();
             });
         });
     });
@@ -131,7 +132,7 @@ function repairProfileDependencies(profiles, folder, metadataFromFileSystem) {
     let apexClasses = metadataFromFileSystem[MetadataTypes.APEX_CLASS].childs;
     let customObjects = metadataFromFileSystem[MetadataTypes.CUSTOM_OBJECT].childs;
     let customPermissions = metadataFromFileSystem[MetadataTypes.CUSTOM_PERMISSION].childs;
-    let customFields = metadataFromFileSystem[MetadataTypes.CUSTOM_FIELD].childs;
+    let customFields = metadataFromFileSystem[MetadataTypes.CUSTOM_FIELDS].childs;
     let flows = metadataFromFileSystem[MetadataTypes.FLOWS].childs;
     let layouts = metadataFromFileSystem[MetadataTypes.LAYOUT].childs;
     let apexPages = metadataFromFileSystem[MetadataTypes.APEX_PAGE].childs;
@@ -141,6 +142,8 @@ function repairProfileDependencies(profiles, folder, metadataFromFileSystem) {
     Object.keys(profiles.childs).forEach(function (key) {
         let profile = profiles.childs[key];
         let filePath = folder + '/' + profile.name + '.profile-meta.xml';
+        let root = AuraParser.parseXML(FileReader.readFileSync(filePath), true);
+        let profileXML = ProfileUtils.createProfile(root.Profile);
         let index = 0;
         let anyRemove = false;
         let appsToRemove = [];
@@ -156,62 +159,62 @@ function repairProfileDependencies(profiles, folder, metadataFromFileSystem) {
         let customMetadataToRemove = [];
         let customSettingsToRemove = [];
         index = 0;
-        for (const appVisibility of profile.applicationVisibilities) {
+        for (const appVisibility of profileXML.applicationVisibilities) {
             if (!customApps[appVisibility.application] && !appsToRemove.includes(index))
                 appsToRemove.push(index);
             index++;
         }
         appsToRemove = appsToRemove.reverse();
         for (let appIndex of appsToRemove) {
-            profile.applicationVisibilities.splice(appIndex, 1);
+            profileXML.applicationVisibilities.splice(appIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const classAccess of profile.classAccesses) {
+        for (const classAccess of profileXML.classAccesses) {
             if (!apexClasses[classAccess.apexClass] && !classesToRemote.includes(index))
                 classesToRemote.push(index);
             index++;
         }
         classesToRemote = classesToRemote.reverse();
         for (let classIndex of classesToRemote) {
-            profile.classAccesses.splice(classIndex, 1);
+            profileXML.classAccesses.splice(classIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const customMetadataAccess of profile.customMetadataTypeAccesses) {
+        for (const customMetadataAccess of profileXML.customMetadataTypeAccesses) {
             if (!customMetadata[customMetadataAccess.name] && !customMetadataToRemove.includes(index))
             customMetadataToRemove.push(index);
             index++;
         }
         customMetadataToRemove = customMetadataToRemove.reverse();
         for (let customMetadataIndex of customMetadataToRemove) {
-            profile.customMetadataTypeAccesses.splice(customMetadataIndex, 1);
+            profileXML.customMetadataTypeAccesses.splice(customMetadataIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const customPermission of profile.customPermissions) {
+        for (const customPermission of profileXML.customPermissions) {
             if (!customPermissions[customPermission.name] && !customPermissionToRemove.includes(index))
                 customPermissionToRemove.push(index);
             index++;
         }
         customPermissionToRemove = customPermissionToRemove.reverse();
         for (let permissionIndex of customPermissionToRemove) {
-            profile.customPermissions.splice(permissionIndex, 1);
+            profileXML.customPermissions.splice(permissionIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const customSettingAccess of profile.customSettingAccesses) {
+        for (const customSettingAccess of profileXML.customSettingAccesses) {
             if (!customObjects[customSettingAccess.name] && !customSettingsToRemove.includes(index))
                 customSettingsToRemove.push(index);
             index++;
         }
         customSettingsToRemove = customSettingsToRemove.reverse();
         for (let customSettingIndex of customSettingsToRemove) {
-            profile.customSettingAccesses.splice(customSettingIndex, 1);
+            profileXML.customSettingAccesses.splice(customSettingIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const fieldPermission of profile.fieldPermissions) {
+        for (const fieldPermission of profileXML.fieldPermissions) {
             let sObject = fieldPermission.field.substring(0, fieldPermission.field.indexOf('.'));
             let field = fieldPermission.field.substring(fieldPermission.field.indexOf('.') + 1);
             if ((!customFields[sObject] || !customFields[sObject].childs[field]) && !fieldsToRemove.includes(index))
@@ -220,22 +223,22 @@ function repairProfileDependencies(profiles, folder, metadataFromFileSystem) {
         }
         fieldsToRemove = fieldsToRemove.reverse();
         for (let fieldIndex of fieldsToRemove) {
-            profile.fieldPermissions.splice(fieldIndex, 1);
+            profileXML.fieldPermissions.splice(fieldIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const flowAccess of profile.flowAccesses) {
+        for (const flowAccess of profileXML.flowAccesses) {
             if (!flows[flowAccess.flow] && !flowsToRemove.includes(index))
                 flowsToRemove.push(index);
             index++;
         }
         flowsToRemove = flowsToRemove.reverse();
         for (let flowIndex of flowsToRemove) {
-            profile.flowAccesses.splice(flowIndex, 1);
+            profileXML.flowAccesses.splice(flowIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const layoutAssignment of profile.layoutAssignments) {
+        for (const layoutAssignment of profileXML.layoutAssignments) {
             let sObject = layoutAssignment.layout.substring(0, layoutAssignment.layout.indexOf('-'));
             let layout = layoutAssignment.layout.substring(layoutAssignment.layout.indexOf('-') + 1);
             if ((!layouts[sObject] || !layouts[sObject].childs[layout]) && !layoutsToRemove.includes(index))
@@ -244,33 +247,33 @@ function repairProfileDependencies(profiles, folder, metadataFromFileSystem) {
         }
         layoutsToRemove = layoutsToRemove.reverse();
         for (let layoutIndex of layoutsToRemove) {
-            profile.layoutAssignments.splice(layoutIndex, 1);
+            profileXML.layoutAssignments.splice(layoutIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const objectPermission of profile.objectPermissions) {
+        for (const objectPermission of profileXML.objectPermissions) {
             if (!customObjects[objectPermission.object] && !objectsToRemove.includes(index))
                 objectsToRemove.push(index);
             index++;
         }
         objectsToRemove = objectsToRemove.reverse();
         for (let objectIndex of objectsToRemove) {
-            profile.objectPermissions.splice(objectIndex, 1);
+            profileXML.objectPermissions.splice(objectIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const pageAccess of profile.pageAccesses) {
+        for (const pageAccess of profileXML.pageAccesses) {
             if (!apexPages[pageAccess.page] && !pagesToRemove.includes(index))
                 pagesToRemove.push(index);
             index++;
         }
         pagesToRemove = pagesToRemove.reverse();
         for (let pageIndex of pagesToRemove) {
-            profile.pageAccesses.splice(pageIndex, 1);
+            profileXML.pageAccesses.splice(pageIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const recordTypeVisibility of profile.recordTypeVisibilities) {
+        for (const recordTypeVisibility of profileXML.recordTypeVisibilities) {
             let sObject = recordTypeVisibility.recordType.substring(0, recordTypeVisibility.recordType.indexOf('.'));
             let recordType = recordTypeVisibility.recordType.substring(recordTypeVisibility.recordType.indexOf('.') + 1);
             if ((!recordTypes[sObject] || !recordTypes[sObject].childs[recordType]) && !recordTypesToRemove.includes(index))
@@ -279,22 +282,22 @@ function repairProfileDependencies(profiles, folder, metadataFromFileSystem) {
         }
         recordTypesToRemove = recordTypesToRemove.reverse();
         for (let rtIndex of recordTypesToRemove) {
-            profile.recordTypeVisibilities.splice(rtIndex, 1);
+            profileXML.recordTypeVisibilities.splice(rtIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const tabVisibility of profile.tabVisibilities) {
+        for (const tabVisibility of profileXML.tabVisibilities) {
             if (!tabs[tabVisibility.tab] && !tabsToRemove.includes(index))
                 tabsToRemove.push(index);
             index++;
         }
         tabsToRemove = tabsToRemove.reverse();
         for (let tabIndex of tabsToRemove) {
-            profile.tabVisibilities.splice(tabIndex, 1);
+            profileXML.tabVisibilities.splice(tabIndex, 1);
             anyRemove = true;
         }
         if (anyRemove) {
-            let content = ProfileUtils.toXML(profile, true)
+            let content = ProfileUtils.toXML(profileXML, true)
             FileWriter.createFileSync(filePath, content);
         }
     });
@@ -305,14 +308,16 @@ function repairPermissionSetDependencies(permissionSets, folder, metadataFromFil
     let apexClasses = metadataFromFileSystem[MetadataTypes.APEX_CLASS].childs;
     let customObjects = metadataFromFileSystem[MetadataTypes.CUSTOM_OBJECT].childs;
     let customPermissions = metadataFromFileSystem[MetadataTypes.CUSTOM_PERMISSION].childs;
-    let customFields = metadataFromFileSystem[MetadataTypes.CUSTOM_FIELD].childs;
+    let customFields = metadataFromFileSystem[MetadataTypes.CUSTOM_FIELDS].childs;
     let apexPages = metadataFromFileSystem[MetadataTypes.APEX_PAGE].childs;
     let recordTypes = metadataFromFileSystem[MetadataTypes.RECORD_TYPE].childs;
     let tabs = metadataFromFileSystem[MetadataTypes.TAB].childs;
     let customMetadata = metadataFromFileSystem[MetadataTypes.CUSTOM_METADATA].childs;
     Object.keys(permissionSets.childs).forEach(function (key) {
         let permissionSet = permissionSets.childs[key];
-        let filePath = folder + '/' + permissionSet.name + '.profile-meta.xml';
+        let filePath = folder + '/' + permissionSet.name + '.permissionset-meta.xml';
+        let root = AuraParser.parseXML(FileReader.readFileSync(filePath), true);
+        let permissionSetXML = PermissionSetUtils.createPermissionSet(root.PermissionSet);
         let index = 0;
         let anyRemove = false;
         let appsToRemove = [];
@@ -326,62 +331,62 @@ function repairPermissionSetDependencies(permissionSets, folder, metadataFromFil
         let customMetadataToRemove = [];
         let customSettingsToRemove = [];
         index = 0;
-        for (const appVisibility of permissionSet.applicationVisibilities) {
+        for (const appVisibility of permissionSetXML.applicationVisibilities) {
             if (!customApps[appVisibility.application] && !appsToRemove.includes(index))
                 appsToRemove.push(index);
             index++;
         }
         appsToRemove = appsToRemove.reverse();
         for (let appIndex of appsToRemove) {
-            permissionSet.applicationVisibilities.splice(appIndex, 1);
+            permissionSetXML.applicationVisibilities.splice(appIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const classAccess of permissionSet.classAccesses) {
+        for (const classAccess of permissionSetXML.classAccesses) {
             if (!apexClasses[classAccess.apexClass] && !classesToRemote.includes(index))
                 classesToRemote.push(index);
             index++;
         }
         classesToRemote = classesToRemote.reverse();
         for (let classIndex of classesToRemote) {
-            permissionSet.classAccesses.splice(classIndex, 1);
+            permissionSetXML.classAccesses.splice(classIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const customMetadataAccess of permissionSet.customMetadataTypeAccesses) {
+        for (const customMetadataAccess of permissionSetXML.customMetadataTypeAccesses) {
             if (!customMetadata[customMetadataAccess.name] && !customMetadataToRemove.includes(index))
             customMetadataToRemove.push(index);
             index++;
         }
         customMetadataToRemove = customMetadataToRemove.reverse();
         for (let customMetadataIndex of customMetadataToRemove) {
-            permissionSet.customMetadataTypeAccesses.splice(customMetadataIndex, 1);
+            permissionSetXML.customMetadataTypeAccesses.splice(customMetadataIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const customPermission of permissionSet.customPermissions) {
+        for (const customPermission of permissionSetXML.customPermissions) {
             if (!customPermissions[customPermission.name] && !customPermissionToRemove.includes(index))
                 customPermissionToRemove.push(index);
             index++;
         }
         customPermissionToRemove = customPermissionToRemove.reverse();
         for (let permissionIndex of customPermissionToRemove) {
-            permissionSet.customPermissions.splice(permissionIndex, 1);
+            permissionSetXML.customPermissions.splice(permissionIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const customSettingAccess of permissionSet.customSettingAccesses) {
+        for (const customSettingAccess of permissionSetXML.customSettingAccesses) {
             if (!customObjects[customSettingAccess.name] && !customSettingsToRemove.includes(index))
                 customSettingsToRemove.push(index);
             index++;
         }
         customSettingsToRemove = customSettingsToRemove.reverse();
         for (let customSettingIndex of customSettingsToRemove) {
-            permissionSet.customSettingAccesses.splice(customSettingIndex, 1);
+            permissionSetXML.customSettingAccesses.splice(customSettingIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const fieldPermission of permissionSet.fieldPermissions) {
+        for (const fieldPermission of permissionSetXML.fieldPermissions) {
             let sObject = fieldPermission.field.substring(0, fieldPermission.field.indexOf('.'));
             let field = fieldPermission.field.substring(fieldPermission.field.indexOf('.') + 1);
             if ((!customFields[sObject] || !customFields[sObject].childs[field]) && !fieldsToRemove.includes(index))
@@ -390,33 +395,33 @@ function repairPermissionSetDependencies(permissionSets, folder, metadataFromFil
         }
         fieldsToRemove = fieldsToRemove.reverse();
         for (let fieldIndex of fieldsToRemove) {
-            permissionSet.fieldPermissions.splice(fieldIndex, 1);
+            permissionSetXML.fieldPermissions.splice(fieldIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const objectPermission of permissionSet.objectPermissions) {
+        for (const objectPermission of permissionSetXML.objectPermissions) {
             if (!customObjects[objectPermission.object] && !objectsToRemove.includes(index))
                 objectsToRemove.push(index);
             index++;
         }
         objectsToRemove = objectsToRemove.reverse();
         for (let objectIndex of objectsToRemove) {
-            permissionSet.objectPermissions.splice(objectIndex, 1);
+            permissionSetXML.objectPermissions.splice(objectIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const pageAccess of permissionSet.pageAccesses) {
+        for (const pageAccess of permissionSetXML.pageAccesses) {
             if (!apexPages[pageAccess.page] && !pagesToRemove.includes(index))
                 pagesToRemove.push(index);
             index++;
         }
         pagesToRemove = pagesToRemove.reverse();
         for (let pageIndex of pagesToRemove) {
-            permissionSet.pageAccesses.splice(pageIndex, 1);
+            permissionSetXML.pageAccesses.splice(pageIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const recordTypeVisibility of permissionSet.recordTypeVisibilities) {
+        for (const recordTypeVisibility of permissionSetXML.recordTypeVisibilities) {
             let sObject = recordTypeVisibility.recordType.substring(0, recordTypeVisibility.recordType.indexOf('.'));
             let recordType = recordTypeVisibility.recordType.substring(recordTypeVisibility.recordType.indexOf('.') + 1);
             if ((!recordTypes[sObject] || !recordTypes[sObject].childs[recordType]) && !recordTypesToRemove.includes(index))
@@ -425,22 +430,22 @@ function repairPermissionSetDependencies(permissionSets, folder, metadataFromFil
         }
         recordTypesToRemove = recordTypesToRemove.reverse();
         for (let rtIndex of recordTypesToRemove) {
-            permissionSet.recordTypeVisibilities.splice(rtIndex, 1);
+            permissionSetXML.recordTypeVisibilities.splice(rtIndex, 1);
             anyRemove = true;
         }
         index = 0;
-        for (const tabVisibility of permissionSet.tabSettings) {
+        for (const tabVisibility of permissionSetXML.tabSettings) {
             if (!tabs[tabVisibility.tab] && !tabsToRemove.includes(index))
                 tabsToRemove.push(index);
             index++;
         }
         tabsToRemove = tabsToRemove.reverse();
         for (let tabIndex of tabsToRemove) {
-            permissionSet.tabSettings.splice(tabIndex, 1);
+            permissionSetXML.tabSettings.splice(tabIndex, 1);
             anyRemove = true;
         }
         if (anyRemove) {
-            let content = ProfileUtils.toXML(permissionSet, true)
+            let content = PermissionSetUtils.toXML(permissionSetXML, true)
             FileWriter.createFileSync(filePath, content);
         }
     });

@@ -25,7 +25,7 @@ exports.run = function (uri) {
             title: "Compressing All XML Files",
             cancellable: false
         }, (progress, token) => {
-            return new Promise(resolve => {
+            return new Promise(async resolve => {
                 setTimeout(() => {
                     FileReader.getAllFiles(folderPath, function (error, result) {
                         let xmlFiles = [];
@@ -39,7 +39,7 @@ exports.run = function (uri) {
                                     let content = MetadataCompressor.compress(file);
                                     if (content) {
                                         Logger.output("Compressing files: " + file);
-                                        FileWriter.createFileSync(file, content);
+                                        FileWriter.createFile(file, content, function(err){});
                                     }
                                 } catch (error) {
                                     console.log(error);

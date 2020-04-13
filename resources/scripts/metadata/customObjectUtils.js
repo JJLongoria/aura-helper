@@ -133,7 +133,7 @@ class CustomObjectUtils {
                 externalId: undefined,
                 fieldManageability: undefined,
                 formula: undefined,
-                formulaTreatBlankAs: undefined,
+                formulaTreatBlanksAs: undefined,
                 fullName: undefined,
                 globalPicklist: undefined,
                 indexed: undefined,
@@ -734,8 +734,8 @@ class CustomObjectUtils {
                         xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('fieldManageability', field.fieldManageability));
                     if (field.formula !== undefined)
                         xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formula', field.formula));
-                    if (field.formulaTreatBlankAs !== undefined)
-                        xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formulaTreatBlankAs', field.formulaTreatBlankAs));
+                    if (field.formulaTreatBlanksAs !== undefined)
+                        xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formulaTreatBlanksAs', field.formulaTreatBlanksAs));
                     if (field.globalPicklist !== undefined)
                         xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('globalPicklist', field.globalPicklist));
                     if (field.isAIPredictionField !== undefined)
@@ -859,8 +859,8 @@ class CustomObjectUtils {
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('fieldManageability', fields.fieldManageability));
                 if (fields.formula !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('formula', fields.formula));
-                if (fields.formulaTreatBlankAs !== undefined)
-                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('formulaTreatBlankAs', fields.formulaTreatBlankAs));
+                if (fields.formulaTreatBlanksAs !== undefined)
+                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('formulaTreatBlanksAs', fields.formulaTreatBlanksAs));
                 if (fields.globalPicklist !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('globalPicklist', fields.globalPicklist));
                 if (fields.isAIPredictionField !== undefined)
@@ -1239,8 +1239,8 @@ class CustomObjectUtils {
             xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('fieldManageability', nameField.fieldManageability));
         if (nameField.formula !== undefined)
             xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formula', nameField.formula));
-        if (nameField.formulaTreatBlankAs !== undefined)
-            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formulaTreatBlankAs', nameField.formulaTreatBlankAs));
+        if (nameField.formulaTreatBlanksAs !== undefined)
+            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formulaTreatBlanksAs', nameField.formulaTreatBlanksAs));
         if (nameField.globalPicklist !== undefined)
             xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('globalPicklist', nameField.globalPicklist));
         if (nameField.isAIPredictionField !== undefined)
