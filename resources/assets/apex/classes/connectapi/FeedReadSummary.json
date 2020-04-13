@@ -1,0 +1,33 @@
+{
+  "name": "FeedReadSummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.UserActivitySummary",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "containerId",
+      "description": "ID of the parent of the feed.",
+      "datatype": "String",
+      "signature": "public String containerId"
+    },
+    {
+      "name": "feedType",
+      "description": "Type of feed.",
+      "datatype": "ConnectApi.FeedType",
+      "signature": "public ConnectApi.FeedType feedType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Summary of the feed that was read.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_read_summary.htm"
+}

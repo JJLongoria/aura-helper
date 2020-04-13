@@ -1,0 +1,69 @@
+{
+  "name": "​RecommendationAudience",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "criteria",
+      "description": "The criteria for the custom recommendation audience",
+      "datatype": "ConnectApi.​AudienceCriteria",
+      "signature": "public ConnectApi.​AudienceCriteria criteria"
+    },
+    {
+      "name": "id",
+      "description": "18-character ID of the custom recommendation",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "memberCount",
+      "description": "",
+      "datatype": "Integer",
+      "signature": "public Integer memberCount"
+    },
+    {
+      "name": "members",
+      "description": "",
+      "datatype": "ConnectApi.​UserReferencePage",
+      "signature": "public ConnectApi.​UserReferencePage members"
+    },
+    {
+      "name": "modifiedBy",
+      "description": "User who last modified the custom recommendation",
+      "datatype": "ConnectApi.User",
+      "signature": "public ConnectApi.User modifiedBy"
+    },
+    {
+      "name": "modifiedDate",
+      "description": "An ISO 8601 format date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime modifiedDate"
+    },
+    {
+      "name": "name",
+      "description": "Name of the custom recommendation audience.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "url",
+      "description": "URL for the custom recommendation audience.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A custom recommendation audience.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_recommendation_audience.htm"
+}

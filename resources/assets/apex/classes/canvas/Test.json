@@ -1,0 +1,106 @@
+{
+    "name": "Test",
+    "namespace": "Canvas",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "",
+    "isInterface": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [
+        {
+            "name": "KEY_CANVAS_URL",
+            "datatype": "String",
+            "description": "Represents the canvas app URL key in the ApplicationContext.",
+            "signature": "public static final String KEY_CANVAS_URL"
+        },
+        {
+            "name": "KEY_DEVELOPER_NAME",
+            "datatype": "String",
+            "description": "Represents the canvas app developer or API name key in the ApplicationContext.",
+            "signature": "public static final String KEY_DEVELOPER_NAME"
+        },
+        {
+            "name": "KEY_DISPLAY_LOCATION",
+            "datatype": "String",
+            "description": "Represents the canvas app display location key in the EnvironmentContext.",
+            "signature": "public static final String KEY_DISPLAY_LOCATION"
+        },
+        {
+            "name": "KEY_LOCATION_URL",
+            "datatype": "String",
+            "description": "Represents the canvas app location URL key in the EnvironmentContext.",
+            "signature": "public static final String KEY_LOCATION_URL"
+        },
+        {
+            "name": "KEY_NAME",
+            "datatype": "String",
+            "description": "Represents the canvas app name key in the ApplicationContext.",
+            "signature": "public static final String KEY_NAME"
+        },
+        {
+            "name": "KEY_NAMESPACE",
+            "datatype": "String",
+            "description": "Represents the canvas app namespace key in the ApplicationContext.",
+            "signature": "public static final String KEY_NAMESPACE"
+        },
+        {
+            "name": "KEY_SUB_LOCATION",
+            "datatype": "String",
+            "description": "Represents the canvas app sublocation key in the EnvironmentContext.",
+            "signature": "public static final String KEY_SUB_LOCATION"
+        },
+        {
+            "name": "KEY_VERSION",
+            "datatype": "String",
+            "description": "Represents the canvas app version key in the ApplicationContext.",
+            "signature": "public static final String KEY_VERSION"
+        }
+    ],
+    "constructors": [],
+    "methods": [
+        {
+            "name": "mockRenderContext",
+            "signature": "public static Canvas.RenderContext mockRenderContext(Map<String, String> applicationContextTestValues, Map<String, String> environmentContextTestValues)",
+            "description": "Creates and returns a test Canvas.RenderContext based on the provided application and environment context parameters.",
+            "params": [
+                {
+                    "name": "applicationContextTestValues",
+                    "datatype": "Map<String, String>",
+                    "description": "Specifies a map of key-value pairs that provide mock application context data. Use constants that are provided by Canvas.Test as keys. If null is provided for this parameter, the canvas framework will generate some default mock application context values."
+                },
+                {
+                    "name": "environmentContextTestValues",
+                    "datatype": "Map<String, String>",
+                    "description": "Specifies a map of key-value pairs that provide mock environment context data. Use constants provided by Canvas.Test as keys. If null is provided for this parameter, the canvas framework will generate some default mock environment context values."
+                }
+            ],
+            "datatype": "Canvas.RenderContext"
+        },
+        {
+            "name": "testCanvasLifecycle",
+            "signature": "public static void testCanvasLifecycle(Canvas.CanvasLifecycleHandler lifecycleHandler, Canvas.RenderContext mockRenderContext)",
+            "description": "Calls the canvas test framework to invoke a CanvasLifecycleHandler with the provided RenderContext.",
+            "params": [
+                {
+                    "name": "lifecycleHandler",
+                    "datatype": "Canvas.CanvasLifecycleHandler",
+                    "description": "Specifies the CanvasLifecycleHandler implementation that you need to invoke."
+                },
+                {
+                    "name": "mockRenderContext",
+                    "datatype": "Canvas.RenderContext",
+                    "description": "Specifies the RenderContext information that you need to provide to the invoked CanvasLifecycleHandler. If null is provided for this parameter, the canvas framework will generate and use a default mock RenderContext."
+                }
+            ],
+            "datatype": "void"
+        }
+    ],
+    "description": "Contains methods for automated testing of your Canvas classes.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_canvas_Test.htm"
+}

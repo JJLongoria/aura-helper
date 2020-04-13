@@ -1,0 +1,51 @@
+{
+  "name": "GroupMember",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "User’s 18-character ID",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "lastFeed​AccessDate",
+      "description": "The date and time at which the group member",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastFeed​AccessDate"
+    },
+    {
+      "name": "role",
+      "description": "Type of membership the user has with the",
+      "datatype": "ConnectApi.​GroupMembership​Type Enum",
+      "signature": "public ConnectApi.​GroupMembership​Type Enum role"
+    },
+    {
+      "name": "url",
+      "description": "Chatter REST API URL to this membership",
+      "datatype": "String",
+      "signature": "public String url"
+    },
+    {
+      "name": "user",
+      "description": "Information about the user who is subscribed to this group",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary user"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_Group_Member_Output.htm"
+}

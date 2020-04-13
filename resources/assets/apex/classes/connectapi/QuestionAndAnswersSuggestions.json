@@ -1,0 +1,33 @@
+{
+  "name": "QuestionAndAnswersSuggestions",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "articles",
+      "description": "List of articles.",
+      "datatype": "List<ConnectApi.​ArticleItem>",
+      "signature": "public List<ConnectApi.​ArticleItem> articles"
+    },
+    {
+      "name": "questions",
+      "description": "List of questions.",
+      "datatype": "List<ConnectApi.​FeedElement>",
+      "signature": "public List<ConnectApi.​FeedElement> questions"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Question and answers suggestions.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_question_and_answer_suggestion_collection.htm"
+}

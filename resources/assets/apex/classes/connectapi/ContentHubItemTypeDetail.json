@@ -1,0 +1,27 @@
+{
+  "name": "ContentHubItemTypeDetail",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.AbstractContentHubItemType",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "fields",
+      "description": "A list of fields that the context user is allowed to set in the",
+      "datatype": "List<ConnectApi.​ContentHub​FieldDefinition>",
+      "signature": "public List<ConnectApi.​ContentHub​FieldDefinition> fields"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The details of an item type associated with a repository folder.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_content_hub_item_type_detail.htm"
+}

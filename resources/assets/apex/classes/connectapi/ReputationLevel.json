@@ -1,0 +1,39 @@
+{
+  "name": "ReputationLevel",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "levelImageUrl",
+      "description": "URL to the reputation level image.",
+      "datatype": "String",
+      "signature": "public String levelImageUrl"
+    },
+    {
+      "name": "levelName",
+      "description": "Name of the reputation level.",
+      "datatype": "String",
+      "signature": "public String levelName"
+    },
+    {
+      "name": "levelNumber",
+      "description": "Reputation level number, which is the numerical rank of the level, with",
+      "datatype": "Integer",
+      "signature": "public Integer levelNumber"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Reputation level for a user.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_reputation_level.htm"
+}

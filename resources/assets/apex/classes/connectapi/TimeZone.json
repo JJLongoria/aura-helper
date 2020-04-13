@@ -1,0 +1,33 @@
+{
+  "name": "TimeZone",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "gmtOffset",
+      "description": "Signed offset, in hours, from GMT",
+      "datatype": "Double",
+      "signature": "public Double gmtOffset"
+    },
+    {
+      "name": "name",
+      "description": "Display name of this time zone",
+      "datatype": "String",
+      "signature": "public String name"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_timezone.htm"
+}

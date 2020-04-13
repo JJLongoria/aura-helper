@@ -6,7 +6,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods to set the appearance of apps in the App Launcher.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_AppMenu.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_AppMenu.htm",
     "classes": [],
     "enums": []
   },
@@ -17,7 +17,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents the logo of the community. For internal use only.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_CommunityLogoController.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_CommunityLogoController.htm",
     "classes": [],
     "enums": []
   },
@@ -28,7 +28,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents the link on the login form that employees can click to log in. For internal use only.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_EmployeeLoginLinkController.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_EmployeeLoginLinkController.htm",
     "classes": [],
     "enums": []
   },
@@ -39,7 +39,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Represents the social authentication providers configured for the community. For internal use only.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_SocialLoginController.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_applauncher_SocialLoginController.htm",
     "classes": [],
     "enums": []
   }

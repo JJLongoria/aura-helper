@@ -1,0 +1,27 @@
+{
+  "name": "UpDownVoteCapabilityInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "vote",
+      "description": "Type of vote for a feed element or comment. Values are:",
+      "datatype": "ConnectApi.​UpDownVoteValue",
+      "signature": "public ConnectApi.​UpDownVoteValue vote"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Upvote or downvote a feed element or a comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_up_down_vote_capability.htm"
+}

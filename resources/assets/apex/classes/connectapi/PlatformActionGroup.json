@@ -1,0 +1,51 @@
+{
+  "name": "PlatformActionGroup",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "category",
+      "description": "Indicates the priority and relative locations of platform actions. Values",
+      "datatype": "ConnectApi.​PlatformAction​GroupCategory",
+      "signature": "public ConnectApi.​PlatformAction​GroupCategory category"
+    },
+    {
+      "name": "id",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "modifiedDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime modifiedDate"
+    },
+    {
+      "name": "platform​Actions",
+      "description": "",
+      "datatype": "List<ConnectApi.​PlatformAction>",
+      "signature": "public List<ConnectApi.​PlatformAction> platform​Actions"
+    },
+    {
+      "name": "url",
+      "description": "",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A platform action group instance with state appropriate for the context user.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_platform_action_group.htm"
+}

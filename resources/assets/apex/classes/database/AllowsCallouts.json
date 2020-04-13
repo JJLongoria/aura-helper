@@ -1,0 +1,20 @@
+{
+    "name": "AllowCallouts",
+    "namespace": "Database",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "",
+    "isInterface": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [],
+    "description": "To use a callout in batch Apex, specify Database.AllowsCallouts in the class definition.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_batch_interface.htm"
+  }

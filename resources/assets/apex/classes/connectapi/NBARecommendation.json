@@ -1,0 +1,81 @@
+{
+  "name": "NBARecommendation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "aiModel",
+      "description": "Reserved for future use.",
+      "datatype": "String",
+      "signature": "public String aiModel"
+    },
+    {
+      "name": "acceptanceLabel",
+      "description": "Text indicating user acceptance of the",
+      "datatype": "String",
+      "signature": "public String acceptanceLabel"
+    },
+    {
+      "name": "description",
+      "description": "Description of the recommendation.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "externalId",
+      "description": "External ID of the recommendation. This ID doesn’t need to",
+      "datatype": "String",
+      "signature": "public String externalId"
+    },
+    {
+      "name": "imageUrl",
+      "description": "URL to the asset file to display.",
+      "datatype": "String",
+      "signature": "public String imageUrl"
+    },
+    {
+      "name": "recommendation​Mode",
+      "description": "Reserved for future use.",
+      "datatype": "String",
+      "signature": "public String recommendation​Mode"
+    },
+    {
+      "name": "recommendation​Score",
+      "description": "Reserved for future use.",
+      "datatype": "Double",
+      "signature": "public Double recommendation​Score"
+    },
+    {
+      "name": "rejectionLabel",
+      "description": "Text indicating user rejection of the",
+      "datatype": "String",
+      "signature": "public String rejectionLabel"
+    },
+    {
+      "name": "target",
+      "description": "Target to act on.",
+      "datatype": "ConnectApi.​AbstractNBATarget",
+      "signature": "public ConnectApi.​AbstractNBATarget target"
+    },
+    {
+      "name": "targetAction",
+      "description": "Action to recommend.",
+      "datatype": "ConnectApi.​AbstractNBAAction",
+      "signature": "public ConnectApi.​AbstractNBAAction targetAction"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A recommendation returned by a recommendation strategy.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_n_b_a_recommendation.htm"
+}

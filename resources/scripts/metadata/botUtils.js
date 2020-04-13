@@ -330,13 +330,11 @@ class BotUtils {
         if (botVersions.responseDelayMilliseconds !== undefined)
             xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('responseDelayMilliseconds', botVersions.responseDelayMilliseconds));
         if (botVersions.botDialogGroups) {
-            Utils.sort(botVersions.botDialogGroups, ['developerName']);
             xmlLines = xmlLines.concat(Utils.getXMLBlock('botDialogGroups', botVersions.botDialogGroups, true, initIndent + 1));
         }
         if (botVersions.botDialogs)
             xmlLines = xmlLines.concat(BotUtils.getBotDialogsXMLLines(botVersions.botDialogs, initIndent + 1));
         if (botVersions.conversationVariables) {
-            Utils.sort(botVersions.conversationVariables, ['developerName']);
             xmlLines = xmlLines.concat(Utils.getXMLBlock('conversationVariables', botVersions.conversationVariables, true, initIndent + 1));
         }
         xmlLines.push('\t</botVersions>');
@@ -346,7 +344,6 @@ class BotUtils {
     static getBotDialogsXMLLines(botDialogs, initIndent) {
         let xmlLines = [];
         let dialogs = Utils.forceArray(botDialogs);
-        Utils.sort(botDialogs, ['developerName']);
         for (const botDialog of dialogs) {
             xmlLines.push(Utils.getTabs(initIndent) + '<botDialogs>');
             if (botDialog.developerName !== undefined)
@@ -391,7 +388,6 @@ class BotUtils {
             if (botStep.botNavigation)
                 xmlLines = xmlLines.concat(BotUtils.getBotNavigationXMLLines(botStep.botNavigation, initIndent + 1));
             if (botStep.botStepConditions) {
-                Utils.sort(botStep.botStepConditions, ['leftOperandName']);
                 xmlLines = xmlLines.concat(Utils.getXMLBlock('botStepConditions', botStep.botStepConditions, true, initIndent + 1));
             }
             if (botStep.botSteps)
@@ -413,7 +409,6 @@ class BotUtils {
         if (botInvocation.invocationActionType !== undefined)
             xmlLines.push(Utils.getTabs(initIndent + 2) + Utils.getXMLTag('invocationActionType', botInvocation.invocationActionType));
         if (botInvocation.invocationMappings !== undefined) {
-            Utils.sort(botInvocation.invocationMappings, ['variableName']);
             xmlLines = xmlLines.concat(Utils.getXMLBlock('invocationMappings', botInvocation.invocationMappings, true, initIndent + 2));
         }
         xmlLines.push(Utils.getTabs(initIndent + 1) + '</botInvocation>');

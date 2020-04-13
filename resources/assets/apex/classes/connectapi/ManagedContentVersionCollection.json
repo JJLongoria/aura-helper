@@ -1,0 +1,57 @@
+{
+  "name": "ManagedContentVersionCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageUrl",
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "items",
+      "description": "List of managed content versions.",
+      "datatype": "List<ConnectApi.​ManagedContent​Version>",
+      "signature": "public List<ConnectApi.​ManagedContent​Version> items"
+    },
+    {
+      "name": "managedContent​Types",
+      "description": "Map of managed content types.",
+      "datatype": "Map<String, ConnectApi.​ManagedContentType>",
+      "signature": "public Map<String, ConnectApi.​ManagedContentType> managedContent​Types"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "total",
+      "description": "Total number of managed content versions.",
+      "datatype": "Integer",
+      "signature": "public Integer total"
+    },
+    {
+      "name": "totalTypes",
+      "description": "Total number of managed content types.",
+      "datatype": "Integer",
+      "signature": "public Integer totalTypes"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Collection of managed content versions.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_content_version_collection.htm"
+}

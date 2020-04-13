@@ -1,0 +1,33 @@
+{
+  "name": "HideSocialPostIntent",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isHidden",
+      "description": "Specifies whether the managed social account hid the social post (true) or not (false).",
+      "datatype": "Boolean",
+      "signature": "public Boolean isHidden"
+    },
+    {
+      "name": "managedSocialAccount",
+      "description": "Managed social account that hides the social post.",
+      "datatype": "ConnectApi.​ManagedSocialAccount",
+      "signature": "public ConnectApi.​ManagedSocialAccount managedSocialAccount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Hide intent for a social post.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_hide_social_post_intent_output.htm"
+}

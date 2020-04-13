@@ -1,0 +1,111 @@
+{
+  "name": "ActionLinkDefinition",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "actionUrl",
+      "description": "The action link URL. For example, a Ui action link URL is a Web page. A Download action link URL is a link to the file to download. Ui and Download action link URLs are provided to clients. An Api or ApiAsync action link URL is a REST resource. Api and ApiAsync action link URLs aren’t provided to clients. Links to",
+      "datatype": "String",
+      "signature": "public String actionUrl"
+    },
+    {
+      "name": "createdDate",
+      "description": "An ISO 8601 format date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "excludedUserId",
+      "description": "ID of a single user to exclude from",
+      "datatype": "String",
+      "signature": "public String excludedUserId"
+    },
+    {
+      "name": "groupDefault",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean groupDefault"
+    },
+    {
+      "name": "headers",
+      "description": "The request headers for the Api and ApiAsync action link",
+      "datatype": "List<ConnectApi.​RequestHeader>",
+      "signature": "public List<ConnectApi.​RequestHeader> headers"
+    },
+    {
+      "name": "id",
+      "description": "The 18-character ID for the action link definition.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "label",
+      "description": "A custom label to display on the action link button. A",
+      "datatype": "String",
+      "signature": "public String label"
+    },
+    {
+      "name": "labelKey",
+      "description": "Key for the set of labels to show in the user",
+      "datatype": "String",
+      "signature": "public String labelKey"
+    },
+    {
+      "name": "method",
+      "description": "The HTTP method. One of these values:",
+      "datatype": "ConnectApi.​HttpRequestMethod",
+      "signature": "public ConnectApi.​HttpRequestMethod method"
+    },
+    {
+      "name": "modifiedDate",
+      "description": "An ISO 8601 format date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime modifiedDate"
+    },
+    {
+      "name": "requestBody",
+      "description": "The request body for Api and ApiAsync action link",
+      "datatype": "String",
+      "signature": "public String requestBody"
+    },
+    {
+      "name": "requires​Confirmation",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean requires​Confirmation"
+    },
+    {
+      "name": "templateId",
+      "description": "The ID of the action link template from which to instantiate this action",
+      "datatype": "String",
+      "signature": "public String templateId"
+    },
+    {
+      "name": "type",
+      "description": "Defines the type of action link. Values are:",
+      "datatype": "ConnectApi.​ActionLinkType",
+      "signature": "public ConnectApi.​ActionLinkType type"
+    },
+    {
+      "name": "userId",
+      "description": "The ID of the user who can execute the action.",
+      "datatype": "String",
+      "signature": "public String userId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The definition of an action link.  Action link definition can be sensitive to a third party (for example, OAuth bearer token headers). For this reason, only calls made from the Apex namespace that created the action link definition can read, modify, or delete the definition. In addition, the user making the call must have created the definition or have View All Data permission.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_action_link_definition.htm"
+}

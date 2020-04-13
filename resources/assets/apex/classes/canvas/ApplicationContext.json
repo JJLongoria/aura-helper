@@ -1,0 +1,69 @@
+{
+    "name": "ApplicationContext",
+    "namespace": "Canvas",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "",
+    "isInterface": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [
+      {
+        "name": "getCanvasUrl",
+        "signature": "public String getCanvasUrl()",
+        "description": "Retrieves the fully qualified URL of the canvas app.",
+        "params": [],
+        "datatype": "String"
+      },
+      {
+        "name": "getDeveloperName",
+        "signature": "public String getDeveloperName()",
+        "description": "Retrieves the internal API name of the canvas app.",
+        "params": [],
+        "datatype": "String"
+      },
+      {
+        "name": "getName",
+        "signature": "public String getName()",
+        "description": "Retrieves the name of the canvas app.",
+        "params": [],
+        "datatype": "String"
+      },
+      {
+        "name": "getNamespace",
+        "signature": "public String getNamespace()",
+        "description": "Retrieves the namespace prefix of the canvas app.",
+        "params": [],
+        "datatype": "String"
+      },
+      {
+        "name": "getVersion",
+        "signature": "public String getVersion()",
+        "description": "Retrieves the current version of the canvas app.",
+        "params": [],
+        "datatype": "String"
+      },
+      {
+        "name": "setCanvasUrlPath",
+        "signature": "public String setCanvasUrlPath(String newPath)",
+        "description": "Overrides the URL of the canvas app for the current request.",
+        "params": [
+            {
+                "name": "newPath",
+                "datatype": "String",
+                "description": "The URL (not including domain) that you need to use to override the canvas app URL."
+              }
+        ],
+        "datatype": "String"
+      }
+    ],
+    "description": "Use this interface to retrieve application context information, such as the application version or URL.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_canvas_ApplicationContext.htm"
+  }

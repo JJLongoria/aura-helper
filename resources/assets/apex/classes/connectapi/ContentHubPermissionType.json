@@ -1,0 +1,33 @@
+{
+  "name": "ContentHubPermissionType",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "Internal ID of the permission type in the repository.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "label",
+      "description": "Label as returned by the repository.",
+      "datatype": "String",
+      "signature": "public String label"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A permission type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_content_hub_permission_type.htm"
+}

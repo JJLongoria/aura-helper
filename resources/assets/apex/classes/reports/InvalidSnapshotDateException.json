@@ -1,0 +1,28 @@
+{
+    "name": "InvalidSnapshotDateException",
+    "namespace": "Reports",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "Exception",
+    "isInterface": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [
+        {
+            "name": "getSnapshotDateErrors",
+            "signature": "public List<String> getSnapshotDateErrors()",
+            "description": "returns a list of snapshot date errors.",
+            "params": [],
+            "datatype": "List<String>"
+        }
+    ],
+    "description": "Invalid historical report format",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Reports_exceptions.htm"
+}

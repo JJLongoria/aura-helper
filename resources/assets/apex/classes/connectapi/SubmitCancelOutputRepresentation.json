@@ -1,0 +1,33 @@
+{
+  "name": "SubmitCancelOutputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.BaseOutputRepresentation",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "changeBalances",
+      "description": "Financial values from the created change",
+      "datatype": "ConnectApi.​ChangeItem​OutputRepresentation",
+      "signature": "public ConnectApi.​ChangeItem​OutputRepresentation changeBalances"
+    },
+    {
+      "name": "changeOrderId",
+      "description": "ID of the created change order.",
+      "datatype": "String",
+      "signature": "public String changeOrderId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "ID of the change order created for a return action, and a set of its financial values.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_submit_cancel_output.htm"
+}

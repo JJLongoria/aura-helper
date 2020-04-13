@@ -1,0 +1,39 @@
+{
+  "name": "DatacloudOrderInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "companyIds",
+      "description": "A comma-separated list of identification numbers for the companies to be purchased.You can’t include any contact IDs or your purchase fails.",
+      "datatype": "String",
+      "signature": "public String companyIds"
+    },
+    {
+      "name": "contactIds",
+      "description": "A comma-separated list of identification numbers for the contacts to be purchased.You can’t include any company IDs or your purchase fails.",
+      "datatype": "String",
+      "signature": "public String contactIds"
+    },
+    {
+      "name": "userType",
+      "description": "Indicates the Data.com user type to be used. There are two user types.  Monthly (default) Listpool",
+      "datatype": "ConnectDatacloudUserTypeEnum",
+      "signature": "public ConnectDatacloudUserTypeEnum userType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Input representation for a Datacloud order to purchase contacts or companies and retrieve purchase information.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_datacloud_order.htm"
+}

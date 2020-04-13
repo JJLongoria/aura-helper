@@ -1,0 +1,31 @@
+{
+  "name": "​AudienceCriteriaOperator",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "Contains",
+    "Equal",
+    "GreaterThan",
+    "GreaterThanOrEqual",
+    "Includes",
+    "LessThan",
+    "LessThanOrEqual",
+    "NotEqual",
+    "NotIncludes",
+    "StartsWith"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Operator used in the personalization audience criterion.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_enums.htm"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "​PinCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isPinnableByMe",
+      "description": "Specifies whether the context user can pin or unpin the",
+      "datatype": "Boolean",
+      "signature": "public Boolean isPinnableByMe"
+    },
+    {
+      "name": "isPinned",
+      "description": "Specifies whether the entity is pinned (true) or not pinned (false) to the feed.",
+      "datatype": "Boolean",
+      "signature": "public Boolean isPinned"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, users who have permission can pin it to a feed.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_pin_capability.htm"
+}

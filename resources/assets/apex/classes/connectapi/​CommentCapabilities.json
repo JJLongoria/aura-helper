@@ -1,0 +1,69 @@
+{
+  "name": "​CommentCapabilities",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "comments",
+      "description": "If a comment has this capability, it has threaded",
+      "datatype": "ConnectApi.​CommentsCapability",
+      "signature": "public ConnectApi.​CommentsCapability comments"
+    },
+    {
+      "name": "content",
+      "description": "If a comment has this capability, it has a file",
+      "datatype": "ConnectApi.​ContentCapability",
+      "signature": "public ConnectApi.​ContentCapability content"
+    },
+    {
+      "name": "edit",
+      "description": "If a comment has this capability, users who have",
+      "datatype": "ConnectApi.​EditCapability",
+      "signature": "public ConnectApi.​EditCapability edit"
+    },
+    {
+      "name": "feedEntityShare",
+      "description": "If a comment has this capability, a feed entity is",
+      "datatype": "ConnectApi.​FeedEntity​ShareCapability",
+      "signature": "public ConnectApi.​FeedEntity​ShareCapability feedEntityShare"
+    },
+    {
+      "name": "record",
+      "description": "If a comment has this capability, it has a record",
+      "datatype": "ConnectApi.​RecordCapability",
+      "signature": "public ConnectApi.​RecordCapability record"
+    },
+    {
+      "name": "status",
+      "description": "If a comment has this capability, it has a status that",
+      "datatype": "ConnectApi.​StatusCapability",
+      "signature": "public ConnectApi.​StatusCapability status"
+    },
+    {
+      "name": "upDownVote",
+      "description": "If a comment has this capability, users can upvote or",
+      "datatype": "ConnectApi.​UpDownVoteCapability",
+      "signature": "public ConnectApi.​UpDownVoteCapability upDownVote"
+    },
+    {
+      "name": "verified",
+      "description": "If a comment has this capability, users with permission can mark it as",
+      "datatype": "ConnectApi.​VerifiedCapability",
+      "signature": "public ConnectApi.​VerifiedCapability verified"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A set of capabilities on a comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_comment_capabilities.htm"
+}

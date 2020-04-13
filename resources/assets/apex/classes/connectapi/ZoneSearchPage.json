@@ -1,0 +1,51 @@
+{
+  "name": "ZoneSearchPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageToken",
+      "description": "Token identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageToken"
+    },
+    {
+      "name": "currentPageUrl",
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "items",
+      "description": "List of search results",
+      "datatype": "List<ConnectApi.ZoneSearchResult>",
+      "signature": "public List<ConnectApi.ZoneSearchResult> items"
+    },
+    {
+      "name": "nextPageToken",
+      "description": "Token identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageToken"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_zoneSearchPage.htm"
+}

@@ -1,0 +1,51 @@
+{
+  "name": "​DirectMessage​MemberActivityPage",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "activities",
+      "description": "Collection of direct message member activities.",
+      "datatype": "List<ConnectApi.​DirectMessage​MemberActivity>",
+      "signature": "public List<ConnectApi.​DirectMessage​MemberActivity> activities"
+    },
+    {
+      "name": "currentPageToken",
+      "description": "Token identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageToken"
+    },
+    {
+      "name": "currentPageUrl",
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "nextPageToken",
+      "description": "Token identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageToken"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A page of direct message member activities.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_direct_message_membership_activity_collection.htm"
+}

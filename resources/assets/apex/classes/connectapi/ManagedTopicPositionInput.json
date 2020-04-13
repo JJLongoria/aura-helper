@@ -1,0 +1,33 @@
+{
+  "name": "ManagedTopicPositionInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "managedTopicId",
+      "description": "ID of existing managed topic.",
+      "datatype": "String",
+      "signature": "public String managedTopicId"
+    },
+    {
+      "name": "position",
+      "description": "Relative position of the managed topic, indicated",
+      "datatype": "Integer",
+      "signature": "public Integer position"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Relative position of a managed topic.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_managed_topic_position.htm"
+}

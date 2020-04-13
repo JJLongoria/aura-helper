@@ -1,0 +1,27 @@
+{
+  "name": "MuteCapabilityInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isMutedByMe",
+      "description": "Indicates whether the feed element is muted for the",
+      "datatype": "Boolean",
+      "signature": "public Boolean isMutedByMe"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Mute or unmute a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_mute_capability.htm"
+}

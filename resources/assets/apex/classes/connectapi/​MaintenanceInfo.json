@@ -1,0 +1,75 @@
+{
+  "name": "​MaintenanceInfo",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "description",
+      "description": "Description of the maintenance.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "maintenanceTitle",
+      "description": "Title of the maintenance.",
+      "datatype": "String",
+      "signature": "public String maintenanceTitle"
+    },
+    {
+      "name": "maintenanceType",
+      "description": "Type of maintenance. Values",
+      "datatype": "ConnectApi.​MaintenanceType",
+      "signature": "public ConnectApi.​MaintenanceType maintenanceType"
+    },
+    {
+      "name": "message​EffectiveTime",
+      "description": "Effective time when users start seeing the maintenance",
+      "datatype": "Datetime",
+      "signature": "public Datetime message​EffectiveTime"
+    },
+    {
+      "name": "message​ExpirationTime",
+      "description": "Expiration time of the maintenance",
+      "datatype": "Datetime",
+      "signature": "public Datetime message​ExpirationTime"
+    },
+    {
+      "name": "scheduledEnd​Downtime",
+      "description": "Scheduled end of downtime. null for GenerallyAvailable",
+      "datatype": "Datetime",
+      "signature": "public Datetime scheduledEnd​Downtime"
+    },
+    {
+      "name": "scheduledEnd​MaintenanceTime",
+      "description": "Scheduled end of maintenance. null for Downtime maintenance",
+      "datatype": "Datetime",
+      "signature": "public Datetime scheduledEnd​MaintenanceTime"
+    },
+    {
+      "name": "scheduledStart​Downtime",
+      "description": "Scheduled start of downtime. null for GenerallyAvailable and ReadOnly maintenance types.",
+      "datatype": "Datetime",
+      "signature": "public Datetime scheduledStart​Downtime"
+    },
+    {
+      "name": "scheduledStart​MaintenanceTime",
+      "description": "Scheduled start time of maintenance. null for Downtime maintenance type.",
+      "datatype": "Datetime",
+      "signature": "public Datetime scheduledStart​MaintenanceTime"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Information about the upcoming scheduled maintenance for the organization.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_maintenance_info.htm"
+}

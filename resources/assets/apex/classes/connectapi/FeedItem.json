@@ -1,0 +1,153 @@
+{
+  "name": "FeedItem",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "actor",
+      "description": "The entity that created the feed item.",
+      "datatype": "ConnectApi.Actor",
+      "signature": "public ConnectApi.Actor actor"
+    },
+    {
+      "name": "attachment",
+      "description": "Information about the attachment. If there is no attachment, returns null.",
+      "datatype": "ConnectApi.​FeedItem​Attachment",
+      "signature": "public ConnectApi.​FeedItem​Attachment attachment"
+    },
+    {
+      "name": "canShare",
+      "description": "Indicates whether the feed item can be shared.If a feed item has multiple",
+      "datatype": "Boolean",
+      "signature": "public Boolean canShare"
+    },
+    {
+      "name": "clientInfo",
+      "description": "Information about the connected app used to",
+      "datatype": "ConnectApi.​ClientInfo",
+      "signature": "public ConnectApi.​ClientInfo clientInfo"
+    },
+    {
+      "name": "comments",
+      "description": "First page of comments for this feed item.",
+      "datatype": "ConnectApi.​Comment​​Page",
+      "signature": "public ConnectApi.​Comment​​Page comments"
+    },
+    {
+      "name": "event",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean event"
+    },
+    {
+      "name": "hasVerified​Comment",
+      "description": "true if the",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasVerified​Comment"
+    },
+    {
+      "name": "isBookmarked​ByCurrentUser",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isBookmarked​ByCurrentUser"
+    },
+    {
+      "name": "isDelete​Restricted",
+      "description": "If this property is true the comment",
+      "datatype": "Boolean",
+      "signature": "public Boolean isDelete​Restricted"
+    },
+    {
+      "name": "isLikedBy​CurrentUser",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isLikedBy​CurrentUser"
+    },
+    {
+      "name": "isSharable",
+      "description": "Indicates whether the feed item can be shared.",
+      "datatype": "Boolean",
+      "signature": "public Boolean isSharable"
+    },
+    {
+      "name": "likes",
+      "description": "First page of likes for this feed item.",
+      "datatype": "ConnectApi.​Chatter​Like​Page",
+      "signature": "public ConnectApi.​Chatter​Like​Page likes"
+    },
+    {
+      "name": "likesMessage",
+      "description": "A message body the describes who likes the feed item.",
+      "datatype": "ConnectApi.​Message​Body",
+      "signature": "public ConnectApi.​Message​Body likesMessage"
+    },
+    {
+      "name": "moderationFlags",
+      "description": "Information about the moderation flags on a feed item. If ConnectApi.Features.communityModeration is false, this property is null.",
+      "datatype": "ConnectApi.​ModerationFlags",
+      "signature": "public ConnectApi.​ModerationFlags moderationFlags"
+    },
+    {
+      "name": "myLike",
+      "description": "If the context user has liked the feed item, this property is a reference to",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference myLike"
+    },
+    {
+      "name": "originalFeedItem",
+      "description": "A reference to the original feed item if this feed item is a shared feed item,",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference originalFeedItem"
+    },
+    {
+      "name": "originalFeed​ItemActor",
+      "description": "If this feed item is a shared feed item, returns information about the original",
+      "datatype": "ConnectApi.Actor",
+      "signature": "public ConnectApi.Actor originalFeed​ItemActor"
+    },
+    {
+      "name": "photoUrl",
+      "description": "URL of the photo associated with the feed item",
+      "datatype": "String",
+      "signature": "public String photoUrl"
+    },
+    {
+      "name": "preamble",
+      "description": "A collection of message segments, including the unformatted text of the message",
+      "datatype": "ConnectApi.​Message​Body",
+      "signature": "public ConnectApi.​Message​Body preamble"
+    },
+    {
+      "name": "topics",
+      "description": "Topics for this feed item.",
+      "datatype": "ConnectApi.FeedItemTopicPage",
+      "signature": "public ConnectApi.FeedItemTopicPage topics"
+    },
+    {
+      "name": "type",
+      "description": "Type of feed item.",
+      "datatype": "ConnectApi.​FeedItemType",
+      "signature": "public ConnectApi.​FeedItemType type"
+    },
+    {
+      "name": "visibility",
+      "description": "Type of users who can see a feed",
+      "datatype": "ConnectApi.​FeedItem​VisibilityType",
+      "signature": "public ConnectApi.​FeedItem​VisibilityType visibility"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_Feed_Item.htm"
+}

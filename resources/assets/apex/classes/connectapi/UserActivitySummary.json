@@ -1,0 +1,45 @@
+{
+  "name": "UserActivitySummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "activityDate",
+      "description": "Date of the user activity.",
+      "datatype": "Datetime",
+      "signature": "public Datetime activityDate"
+    },
+    {
+      "name": "activityType",
+      "description": "Type of user activity.",
+      "datatype": "String",
+      "signature": "public String activityType"
+    },
+    {
+      "name": "activityUrl",
+      "description": "URL of the user activity.",
+      "datatype": "String",
+      "signature": "public String activityUrl"
+    },
+    {
+      "name": "community",
+      "description": "Community in which the user performed the",
+      "datatype": "ConnectApi.​CommunitySummary",
+      "signature": "public ConnectApi.​CommunitySummary community"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "User activity summary.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_user_activity_summary.htm"
+}

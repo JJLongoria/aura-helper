@@ -1,0 +1,33 @@
+{
+  "name": "RelatedQuestion",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.RelatedFeedPost",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "hasBestAnswer",
+      "description": "Indicates whether the question has a best",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasBestAnswer"
+    },
+    {
+      "name": "interactions",
+      "description": "The number of individual views, likes, and",
+      "datatype": "ConnectApi.​Interactions​Capability",
+      "signature": "public ConnectApi.​Interactions​Capability interactions"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A related question.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_related_question.htm"
+}

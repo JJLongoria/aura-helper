@@ -1,0 +1,27 @@
+{
+  "name": "StatusCapabilityInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "feedEntityStatus",
+      "description": "Status of the feed post or comment. Values are:",
+      "datatype": "ConnectApi.​FeedEntityStatus",
+      "signature": "public ConnectApi.​FeedEntityStatus feedEntityStatus"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Change the status of a feed post or comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_status_capability.htm"
+}

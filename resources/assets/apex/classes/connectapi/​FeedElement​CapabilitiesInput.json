@@ -1,0 +1,99 @@
+{
+  "name": "​FeedElement​CapabilitiesInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "associated​Actions",
+      "description": "Describes actions added to the feed element.",
+      "datatype": "ConnectApi.​AssociatedActions​CapabilityInput Class",
+      "signature": "public ConnectApi.​AssociatedActions​CapabilityInput Class associated​Actions"
+    },
+    {
+      "name": "bookmarks",
+      "description": "Describes bookmarks added to the feed element.",
+      "datatype": "ConnectApi.​BookmarksCapability​Input",
+      "signature": "public ConnectApi.​BookmarksCapability​Input bookmarks"
+    },
+    {
+      "name": "canvas",
+      "description": "Describes a canvas app added to the feed element.",
+      "datatype": "ConnectApi.​CanvasCapability​Input",
+      "signature": "public ConnectApi.​CanvasCapability​Input canvas"
+    },
+    {
+      "name": "content",
+      "description": "Describes content added to the feed element. Important This class isn’t available for feed posts in version 36.0 and later. In version 36.0 and later, use ConnectApi.​FilesCapabilityInput.",
+      "datatype": "ConnectApi.​ContentCapability​Input",
+      "signature": "public ConnectApi.​ContentCapability​Input content"
+    },
+    {
+      "name": "directMessage",
+      "description": "Describes the direct message.",
+      "datatype": "ConnectApi.​DirectMessage​CapabilityInput",
+      "signature": "public ConnectApi.​DirectMessage​CapabilityInput directMessage"
+    },
+    {
+      "name": "extensions",
+      "description": "Describes the extensions associated with the feed element.",
+      "datatype": "ConnectApi.​Extensions​CapabilityInput",
+      "signature": "public ConnectApi.​Extensions​CapabilityInput extensions"
+    },
+    {
+      "name": "feedEntityShare",
+      "description": "Describes the feed entity shared with the feed element.",
+      "datatype": "ConnectApi.​FeedEntityShare​CapabilityInput",
+      "signature": "public ConnectApi.​FeedEntityShare​CapabilityInput feedEntityShare"
+    },
+    {
+      "name": "files",
+      "description": "Describes files attached to the feed element.",
+      "datatype": "ConnectApi.​FilesCapabilityInput",
+      "signature": "public ConnectApi.​FilesCapabilityInput files"
+    },
+    {
+      "name": "link",
+      "description": "Describes a link added to the feed element.",
+      "datatype": "ConnectApi.​LinkCapabilityInput",
+      "signature": "public ConnectApi.​LinkCapabilityInput link"
+    },
+    {
+      "name": "poll",
+      "description": "Describes a poll added to the feed element.",
+      "datatype": "ConnectApi.​PollCapabilityInput",
+      "signature": "public ConnectApi.​PollCapabilityInput poll"
+    },
+    {
+      "name": "questionAnd​Answers",
+      "description": "Describes a question and answer capability added to the feed element.",
+      "datatype": "ConnectApi.​QuestionAndAnswers​CapabilityInput",
+      "signature": "public ConnectApi.​QuestionAndAnswers​CapabilityInput questionAnd​Answers"
+    },
+    {
+      "name": "status",
+      "description": "Describes the status of the feed element.",
+      "datatype": "ConnectApi.​StatusCapabilityInput",
+      "signature": "public ConnectApi.​StatusCapabilityInput status"
+    },
+    {
+      "name": "topics",
+      "description": "Describes topics assigned to the feed element.",
+      "datatype": "ConnectApi.​TopicsCapability​Input",
+      "signature": "public ConnectApi.​TopicsCapability​Input topics"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A container for all capabilities that can be included when creating a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_feed_element_capabilities.htm"
+}

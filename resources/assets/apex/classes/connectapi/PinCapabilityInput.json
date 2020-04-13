@@ -1,0 +1,33 @@
+{
+  "name": "PinCapabilityInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "entityId",
+      "description": "ID of the entity to pin or unpin. In version 41.0 and later,",
+      "datatype": "String",
+      "signature": "public String entityId"
+    },
+    {
+      "name": "isPinned",
+      "description": "Specifies whether to pin (true) or unpin (false) the entity.",
+      "datatype": "Boolean",
+      "signature": "public Boolean isPinned"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Pin or unpin a feed element to a feed.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_pin_capability.htm"
+}

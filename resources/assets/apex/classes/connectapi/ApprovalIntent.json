@@ -1,0 +1,27 @@
+{
+  "name": "ApprovalIntent",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isRecallable",
+      "description": "Specifies whether the social post can be recalled (true) or not (false).",
+      "datatype": "Boolean",
+      "signature": "public Boolean isRecallable"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Approval intent for a social post.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_approval_social_post_intent_output.htm"
+}

@@ -1,0 +1,45 @@
+{
+  "name": "Comment​​Input",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "attachment",
+      "description": "Specifies an attachment for the comment. Valid values are:  ContentAttachmentInput NewFileAttachmentInput LinkAttachmentInput is not permitted for comments. Important As of version 32.0, use the capabilities property.",
+      "datatype": "ConnectApi.​Feed​Item​Attachment​​Input",
+      "signature": "public ConnectApi.​Feed​Item​Attachment​​Input attachment"
+    },
+    {
+      "name": "body",
+      "description": "Description of message body. The body can contain up to 10,000 characters and 25 mentions. Because the character limit can change, clients should make a describeSObjects() call on the FeedItem or FeedComment object and look at the length of the Body or CommentBody field to determine the maximum number of allowed characters.To edit this property in a comment, use updateComment(communityId, commentId, comment). Editing comments is supported in version 34.0 and later. Rich text and inline images are supported in comment bodies in version 35.0 and later. Entity links are supported in version 43.0 and later.",
+      "datatype": "ConnectApi.​Message​​Body​Input",
+      "signature": "public ConnectApi.​Message​​Body​Input body"
+    },
+    {
+      "name": "capabilities",
+      "description": "Specifies any capabilities for the comment, such as a file attachment.",
+      "datatype": "ConnectApi.​CommentCapabilities​Input",
+      "signature": "public ConnectApi.​CommentCapabilities​Input capabilities"
+    },
+    {
+      "name": "threadParentId",
+      "description": "ID of the parent comment for a threaded comment.",
+      "datatype": "String",
+      "signature": "public String threadParentId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_comment.htm"
+}

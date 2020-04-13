@@ -1,0 +1,51 @@
+{
+  "name": "ZoneSearchResult",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "hasBestAnswer",
+      "description": "Indicates if the search result has a best answer",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasBestAnswer"
+    },
+    {
+      "name": "id",
+      "description": "ID of the search result. The search result can be a question",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "title",
+      "description": "Title of the search result",
+      "datatype": "String",
+      "signature": "public String title"
+    },
+    {
+      "name": "type",
+      "description": "Specifies the zone search result type",
+      "datatype": "ConnectApi.​ZoneSearch​ResultType Enum",
+      "signature": "public ConnectApi.​ZoneSearch​ResultType Enum type"
+    },
+    {
+      "name": "voteCount",
+      "description": "Number of votes given to the search result",
+      "datatype": "String",
+      "signature": "public String voteCount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_zoneSearchResult.htm"
+}

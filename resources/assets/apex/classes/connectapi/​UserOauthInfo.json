@@ -1,0 +1,33 @@
+{
+  "name": "​UserOauthInfo",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "availableExternal​EmailService",
+      "description": "The available OAuth service",
+      "datatype": "Connect.Oauth​ProviderInfo",
+      "signature": "public Connect.Oauth​ProviderInfo availableExternal​EmailService"
+    },
+    {
+      "name": "isAuthenticated",
+      "description": "Specifies whether the user is authenticated (true) or not (false).",
+      "datatype": "Boolean",
+      "signature": "public Boolean isAuthenticated"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_oauth_user.htm"
+}

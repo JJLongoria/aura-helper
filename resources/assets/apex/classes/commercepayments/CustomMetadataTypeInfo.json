@@ -1,0 +1,34 @@
+{
+  "name": "CustomMetadataTypeInfo",
+  "namespace": "commercepayments",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [
+    {
+      "name": "CustomMetadataTypeInfo",
+      "signature": "global CustomMetadataTypeInfo(String cmtRecordId, String cmtSfResultCodeFieldName)",
+      "description": "Constructor for providing custom metadata type information.",
+      "params": [
+        {
+          "name": "cmtSfResultCodeFieldName",
+          "datatype": "String",
+          "description": "ID of the matchedcustom metadata type record Field that contains the Salesforce result code values. Belongs to the custom metadata type."
+        }
+      ],
+      "datatype": "void"
+    }
+  ],
+  "methods": [],
+  "description": "Access information about custom metadata. The PaymentGatewayAdapter can send CustomMetadataTypeInfo to transaction requests through the response object’s SalesforceResultCodeInfo.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_commercepayments_CustomMetadataTypeInfo.htm#apex_class_commerce_payments_CustomMetadataTypeInfo"
+}

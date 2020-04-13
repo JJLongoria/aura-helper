@@ -1,0 +1,105 @@
+{
+  "name": "AbstractRepositoryFile",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.AbstractRepositoryItem",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "checkinComment",
+      "description": "Checkin comment of the file.",
+      "datatype": "String",
+      "signature": "public String checkinComment"
+    },
+    {
+      "name": "contentBody",
+      "description": "Text of the file’s content if available, otherwise null.",
+      "datatype": "String",
+      "signature": "public String contentBody"
+    },
+    {
+      "name": "contentSize",
+      "description": "Length in bytes of the content of the file.",
+      "datatype": "Integer",
+      "signature": "public Integer contentSize"
+    },
+    {
+      "name": "downloadUrl",
+      "description": "URL to the repository file content.",
+      "datatype": "String",
+      "signature": "public String downloadUrl"
+    },
+    {
+      "name": "external​ContentUrl",
+      "description": "URL of this file’s content in the external",
+      "datatype": "String",
+      "signature": "public String external​ContentUrl"
+    },
+    {
+      "name": "external​DocumentUrl",
+      "description": "URL of this file in the external",
+      "datatype": "String",
+      "signature": "public String external​DocumentUrl"
+    },
+    {
+      "name": "external​FilePermission​Information",
+      "description": "External file permission",
+      "datatype": "ConnectApi.​ExternalFile​PermissionInformation",
+      "signature": "public ConnectApi.​ExternalFile​PermissionInformation external​FilePermission​Information"
+    },
+    {
+      "name": "mimeType",
+      "description": "Mime type of the file.",
+      "datatype": "String",
+      "signature": "public String mimeType"
+    },
+    {
+      "name": "previewUrl​Thumbnail",
+      "description": "URL to the thumbnail preview (240 x 180",
+      "datatype": "String",
+      "signature": "public String previewUrl​Thumbnail"
+    },
+    {
+      "name": "previewUrl​ThumbnailBig",
+      "description": "URL to the big thumbnail preview (720 x 480",
+      "datatype": "String",
+      "signature": "public String previewUrl​ThumbnailBig"
+    },
+    {
+      "name": "previewUrl​ThumbnailTiny",
+      "description": "URL to the tiny thumbnail preview (120 x 90",
+      "datatype": "String",
+      "signature": "public String previewUrl​ThumbnailTiny"
+    },
+    {
+      "name": "previewsUrl",
+      "description": "URL to the previews.",
+      "datatype": "String",
+      "signature": "public String previewsUrl"
+    },
+    {
+      "name": "title",
+      "description": "Title of the file.",
+      "datatype": "String",
+      "signature": "public String title"
+    },
+    {
+      "name": "versionId",
+      "description": "ID of the file version in the external system.",
+      "datatype": "String",
+      "signature": "public String versionId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A repository file.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_repository_file.htm"
+}

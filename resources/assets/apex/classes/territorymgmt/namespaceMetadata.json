@@ -6,7 +6,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Apex interface that allows an implementing class to assign a single territory to an opportunity.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TerritoryMgmt_OpportunityTerritory2AssignmentFilter.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TerritoryMgmt_OpportunityTerritory2AssignmentFilter.htm",
     "classes": [],
     "enums": []
   }

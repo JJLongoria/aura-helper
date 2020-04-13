@@ -1,0 +1,27 @@
+{
+  "name": "ManagedContentDateNodeValue",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.ManagedContentNodeValue",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "value",
+      "description": "Date value of the managed content node.",
+      "datatype": "Datetime",
+      "signature": "public Datetime value"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Managed content node of date type.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_content_date_node_value.htm"
+}

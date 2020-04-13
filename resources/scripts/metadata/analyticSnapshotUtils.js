@@ -60,7 +60,6 @@ class AnalyticSnapshotUtils {
                 if (analyticSnapshot.targetObject)
                     xmlLines.push('\t' + Utils.getXMLTag('targetObject', analyticSnapshot.targetObject));
                 if (analyticSnapshot.mappings && analyticSnapshot.mappings.length > 0) {
-                    Utils.sort(analyticSnapshot.mappings, ['sourceField', 'targetField']);
                     xmlLines = xmlLines.concat(Utils.getXMLBlock('mappings', analyticSnapshot.mappings, true, 1));
                 }
                 xmlLines.push('</AnalyticSnapshot>');

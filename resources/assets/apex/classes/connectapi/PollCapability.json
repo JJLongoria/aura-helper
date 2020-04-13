@@ -1,0 +1,39 @@
+{
+  "name": "PollCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "choices",
+      "description": "Collection of poll choices that make up the poll.",
+      "datatype": "List<ConnectApi.​FeedPollChoice>",
+      "signature": "public List<ConnectApi.​FeedPollChoice> choices"
+    },
+    {
+      "name": "myChoiceId",
+      "description": "18-character ID of the poll choice that the context user has voted",
+      "datatype": "String",
+      "signature": "public String myChoiceId"
+    },
+    {
+      "name": "totalVoteCount",
+      "description": "Total number of votes cast on the feed poll",
+      "datatype": "Integer",
+      "signature": "public Integer totalVoteCount"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it includes a poll.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_poll_capability.htm"
+}

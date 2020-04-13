@@ -1,0 +1,87 @@
+{
+  "name": "LinkMetadata",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​​Message​Segment",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "description",
+      "description": "Description of the link.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "frameSource",
+      "description": "HTML required to display the resource.",
+      "datatype": "String",
+      "signature": "public String frameSource"
+    },
+    {
+      "name": "height",
+      "description": "Height required to display the HTML.",
+      "datatype": "Integer",
+      "signature": "public Integer height"
+    },
+    {
+      "name": "originalUrl",
+      "description": "Original URL that was used to request the metadata.",
+      "datatype": "String",
+      "signature": "public String originalUrl"
+    },
+    {
+      "name": "providerUrl",
+      "description": "URL of the provider that the information is retrieved from.",
+      "datatype": "String",
+      "signature": "public String providerUrl"
+    },
+    {
+      "name": "source",
+      "description": "Source of the link metadata. Values are:",
+      "datatype": "ConnectApi.​LinkMetadataSource",
+      "signature": "public ConnectApi.​LinkMetadataSource source"
+    },
+    {
+      "name": "thumbnailUrl",
+      "description": "Thumbnail of the resource.",
+      "datatype": "String",
+      "signature": "public String thumbnailUrl"
+    },
+    {
+      "name": "title",
+      "description": "Title of the link.",
+      "datatype": "String",
+      "signature": "public String title"
+    },
+    {
+      "name": "type",
+      "description": "Type of link that the metadata",
+      "datatype": "ConnectApi.​LinkMetadataType",
+      "signature": "public ConnectApi.​LinkMetadataType type"
+    },
+    {
+      "name": "url",
+      "description": "URL of the image to display, if one is available.",
+      "datatype": "String",
+      "signature": "public String url"
+    },
+    {
+      "name": "width",
+      "description": "Width required to display the HTML.",
+      "datatype": "Integer",
+      "signature": "public Integer width"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Metadata for a link.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_link_metadata.htm"
+}

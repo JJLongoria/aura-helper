@@ -6,7 +6,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for describing summary fields such as Record Count, Sum, Average, Max, Min, and custom summary formulas. Includes name, label, data type, and grouping context.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_aggregatecolumn.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_aggregatecolumn.htm",
     "classes": [],
     "enums": []
   },
@@ -17,7 +17,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods and constructors to work with information about a bucket field, including bucket type, name, and bucketed values.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_BucketField.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_BucketField.htm",
     "classes": [],
     "enums": []
   },
@@ -28,7 +28,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about the report values included in a bucket field.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_BucketFieldValue.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_BucketFieldValue.htm",
     "classes": [],
     "enums": []
   },
@@ -43,7 +43,7 @@
       "TEXT"
     ],
     "description": "The types of values included in a bucket.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_BucketType.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_BucketType.htm",
     "classes": [],
     "enums": []
   },
@@ -73,7 +73,7 @@
       "URL_DATA"
     ],
     "description": "The Reports.ColumnDataType enum describes the type of data in a column. It is returned by the getDataType method.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_columndatatype.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_columndatatype.htm",
     "classes": [],
     "enums": []
   },
@@ -87,7 +87,7 @@
       "DESCENDING"
     ],
     "description": "The Reports.ColumnSortOrder enum describes the order that the grouping column uses to sort data.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_columnsortorder.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_columnsortorder.htm",
     "classes": [],
     "enums": []
   },
@@ -98,7 +98,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods and constructors used to work with information about a cross filter.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_CrossFilter.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_CrossFilter.htm",
     "classes": [],
     "enums": []
   },
@@ -113,7 +113,7 @@
       "GRAND_TOTAL"
     ],
     "description": "The group level at which the custom summary format aggregate is displayed in a report.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_CsfGroupType.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_CsfGroupType.htm",
     "classes": [],
     "enums": []
   },
@@ -137,7 +137,7 @@
       "YEAR"
     ],
     "description": "The Reports.DateGranularity enum describes the date interval that is used for grouping.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_dategranularity.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_dategranularity.htm",
     "classes": [],
     "enums": []
   },
@@ -148,7 +148,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for describing fields that contain detailed data. Detailed data fields are also listed in the report metadata.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_detailcolumn.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_detailcolumn.htm",
     "classes": [],
     "enums": []
   },
@@ -159,7 +159,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information for each row or column grouping.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_dimension.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_dimension.htm",
     "classes": [],
     "enums": []
   },
@@ -170,7 +170,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the individual components of an evaluated condition for a report notification, such as the aggregate name and label, the operator, and the value that the aggregate is compared to.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_EvaluatedCondition.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_EvaluatedCondition.htm",
     "classes": [],
     "enums": []
   },
@@ -188,7 +188,18 @@
       "NOT_EQUAL"
     ],
     "description": "The Reports.EvaluatedConditionOperator enum describes the type of operator used to compare an aggregate to a value. It is returned by the getOperator method.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_evaluatedconditionoperator.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_evaluatedconditionoperator.htm",
+    "classes": [],
+    "enums": []
+  },
+  "featurenotsupportedexception": {
+    "name": "FeatureNotSupportedException",
+    "namespace": "Reports",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Invalid report format",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Reports_exceptions.htm",
     "classes": [],
     "enums": []
   },
@@ -199,7 +210,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about a filter operator, such as display name and API name.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_filteroperator.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_filteroperator.htm",
     "classes": [],
     "enums": []
   },
@@ -210,7 +221,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about a filter value, such as the display name and API name.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_filtervalue.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_filtervalue.htm",
     "classes": [],
     "enums": []
   },
@@ -225,7 +236,7 @@
       "PERCENT"
     ],
     "description": "The format of the numbers in a custom summary formula.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_FormulaType.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_FormulaType.htm",
     "classes": [],
     "enums": []
   },
@@ -236,7 +247,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for describing fields that are used for column grouping.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_groupingcolumn.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_groupingcolumn.htm",
     "classes": [],
     "enums": []
   },
@@ -247,7 +258,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods for describing fields that are used for grouping.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_groupinginfo.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_groupinginfo.htm",
     "classes": [],
     "enums": []
   },
@@ -258,7 +269,62 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains grouping values for a row or column, including the key, label, and value.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_groupingvalue.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_groupingvalue.htm",
+    "classes": [],
+    "enums": []
+  },
+  "instanceaccessexception": {
+    "name": "InstanceAccessException",
+    "namespace": "Reports",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Unable to access report instance",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Reports_exceptions.htm",
+    "classes": [],
+    "enums": []
+  },
+  "invalidfilterexception": {
+    "name": "InvalidFilterException",
+    "namespace": "Reports",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Filter validation error",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Reports_exceptions.htm",
+    "classes": [],
+    "enums": []
+  },
+  "invalidreportmetadataexception": {
+    "name": "InvalidReportMetadataException",
+    "namespace": "Reports",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Missing metadata for filters",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Reports_exceptions.htm",
+    "classes": [],
+    "enums": []
+  },
+  "invalidsnapshotdateexception": {
+    "name": "InvalidSnapshotDateException",
+    "namespace": "Reports",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Invalid historical report format",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Reports_exceptions.htm",
+    "classes": [],
+    "enums": []
+  },
+  "metadataexception": {
+    "name": "MetadataException",
+    "namespace": "Reports",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "No selected report columns",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Reports_exceptions.htm",
     "classes": [],
     "enums": []
   },
@@ -269,7 +335,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Implement this interface to trigger a custom Apex class when the conditions for a report notification are met.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_reports_NotificationAction.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_reports_NotificationAction.htm",
     "classes": [],
     "enums": []
   },
@@ -280,7 +346,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about the report instance and condition threshold for a report notification.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_NotificationActionContext.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_NotificationActionContext.htm",
     "classes": [],
     "enums": []
   },
@@ -291,7 +357,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods and constructors for working with information about a custom summary formula (CSF).",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportCsf.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportCsf.htm",
     "classes": [],
     "enums": []
   },
@@ -302,7 +368,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about a currency value, including the amount and currency code.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportcurrency.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportcurrency.htm",
     "classes": [],
     "enums": []
   },
@@ -313,7 +379,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the data for a cell in the report, including the display label and value.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportdatacell.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportdatacell.htm",
     "classes": [],
     "enums": []
   },
@@ -324,7 +390,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains report, report type, and extended metadata for a tabular, summary, or matrix report.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportdescriberesult.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportdescriberesult.htm",
     "classes": [],
     "enums": []
   },
@@ -335,7 +401,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains data cells for a detail row of a report.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportdetailrow.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportdetailrow.htm",
     "classes": [],
     "enums": []
   },
@@ -346,7 +412,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about the divisions that can be used to filter a report.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportDivisionInfo.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportDivisionInfo.htm",
     "classes": [],
     "enums": []
   },
@@ -357,7 +423,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains report extended metadata for a tabular, summary, or matrix report.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportextendedmetadata.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportextendedmetadata.htm",
     "classes": [],
     "enums": []
   },
@@ -368,7 +434,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the fact map for the report, which represents the report’s data values.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportfact.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportfact.htm",
     "classes": [],
     "enums": []
   },
@@ -379,7 +445,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the detailed fact map for the report, which represents the report’s data values.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportfactwithdetails.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportfactwithdetails.htm",
     "classes": [],
     "enums": []
   },
@@ -390,7 +456,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the fact map for the report, which represents the report’s data values, and includes summarized fields.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportfactwithsummaries.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportfactwithsummaries.htm",
     "classes": [],
     "enums": []
   },
@@ -401,7 +467,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about a report filter, including column, operator, and value.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportfilter.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportfilter.htm",
     "classes": [],
     "enums": []
   },
@@ -416,7 +482,7 @@
       "TABULAR"
     ],
     "description": "Contains the possible report format types.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_reportformat.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_reportformat.htm",
     "classes": [],
     "enums": []
   },
@@ -427,7 +493,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Returns an instance of a report that was run asynchronously. Retrieves the results for that instance.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportinstance.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportinstance.htm",
     "classes": [],
     "enums": []
   },
@@ -438,7 +504,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Runs a report synchronously or asynchronously and with or without details.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportmanager.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportmanager.htm",
     "classes": [],
     "enums": []
   },
@@ -449,7 +515,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains report metadata for a tabular, summary, or matrix report.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportmetadata.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportmetadata.htm",
     "classes": [],
     "enums": []
   },
@@ -460,7 +526,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the results of running a report.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportresults.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reportresults.htm",
+    "classes": [],
+    "enums": []
+  },
+  "reportrunexception": {
+    "name": "ReportRunException",
+    "namespace": "Reports",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Error running report",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Reports_exceptions.htm",
     "classes": [],
     "enums": []
   },
@@ -471,7 +548,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about possible scope values that you can choose. Scope values depend on the report type. For example, you can set the scope for opportunity reports to All opportunities, My team’s opportunities, or My opportunities.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportScopeInfo.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportScopeInfo.htm",
     "classes": [],
     "enums": []
   },
@@ -482,7 +559,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about a possible scope value. Scope values depend on the report type. For example, you can set the scope for opportunity reports to All opportunities, My team’s opportunities, or My opportunities.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportScopeValue.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportScopeValue.htm",
     "classes": [],
     "enums": []
   },
@@ -493,7 +570,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains the unique API name and display name for the report type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reporttype.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reporttype.htm",
     "classes": [],
     "enums": []
   },
@@ -504,7 +581,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains detailed report type metadata about a field, including data type, display name, and filter values.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reporttypecolumn.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reporttypecolumn.htm",
     "classes": [],
     "enums": []
   },
@@ -515,7 +592,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Information about categories of fields in a report type.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reporttypecolumncategory.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_reporttypecolumncategory.htm",
     "classes": [],
     "enums": []
   },
@@ -526,7 +603,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains report type metadata, which gives you information about the fields that are available in each section of the report type, plus filter information for those fields.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportTypeMetadata.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ReportTypeMetadata.htm",
     "classes": [],
     "enums": []
   },
@@ -537,7 +614,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about the sort column used in the report.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_SortColumn.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_SortColumn.htm",
     "classes": [],
     "enums": []
   },
@@ -548,7 +625,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about standard date filter available in the report—for example, the API name, start date, and end date of the standard date filter duration as well as the API name of the date field on which the filter is placed.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardDateFilter.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardDateFilter.htm",
     "classes": [],
     "enums": []
   },
@@ -559,7 +636,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about each standard date filter—also referred to as a relative date filter. It contains the API name and display label of the standard date filter duration as well as the start and end dates.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardDateFilterDuration.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardDateFilterDuration.htm",
     "classes": [],
     "enums": []
   },
@@ -570,7 +647,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about the standard date filter groupings, such as the grouping display label and all standard date filters that fall under the grouping. Groupings include Calendar Year, Calendar Quarter, Calendar Month, Calendar Week, Fiscal Year, Fiscal Quarter, Day, and custom values based on user-defined date ranges.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardDateFilterDurationGroup.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardDateFilterDurationGroup.htm",
     "classes": [],
     "enums": []
   },
@@ -581,7 +658,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about the standard filter defined in the report, such as the filter field API name and filter value.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardFilter.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardFilter.htm",
     "classes": [],
     "enums": []
   },
@@ -592,7 +669,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Is an abstract base class for an object that provides standard filter information.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardFilterInfo.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardFilterInfo.htm",
     "classes": [],
     "enums": []
   },
@@ -603,7 +680,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains information about the standard filter picklist, such as the display name and type of the filter field, the default picklist value, and a list of all possible picklist values.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardFilterInfoPicklist.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_StandardFilterInfoPicklist.htm",
     "classes": [],
     "enums": []
   },
@@ -617,7 +694,7 @@
       "STRING"
     ],
     "description": "The StandardFilterType enum describes the type of standard filters in a report. The getType() method returns a Reports.StandardFilterType enum value.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_StandardFilterType.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_enum_reports_StandardFilterType.htm",
     "classes": [],
     "enums": []
   },
@@ -628,7 +705,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains summary data for a cell of the report.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_summaryvalue.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_summaryvalue.htm",
     "classes": [],
     "enums": []
   },
@@ -639,7 +716,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains a list of evaluated conditions for a report notification.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ThresholdInformation.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_ThresholdInformation.htm",
     "classes": [],
     "enums": []
   },
@@ -650,7 +727,18 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains methods and constructors for working with information about a row limit filter.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_TopRows.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_reports_TopRows.htm",
+    "classes": [],
+    "enums": []
+  },
+  "unsupportedoperationexception": {
+    "name": "UnsupportedOperationException",
+    "namespace": "Reports",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Missing permissions for running reports",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Reports_exceptions.htm",
     "classes": [],
     "enums": []
   }

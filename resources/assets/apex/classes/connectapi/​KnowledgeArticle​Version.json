@@ -1,0 +1,63 @@
+{
+  "name": "​KnowledgeArticle​Version",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "articleType",
+      "description": "Type of the knowledge article.",
+      "datatype": "String",
+      "signature": "public String articleType"
+    },
+    {
+      "name": "id",
+      "description": "ID of the knowledge article version.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "knowledgeArticleId",
+      "description": "ID of the corresponding knowledge article.",
+      "datatype": "String",
+      "signature": "public String knowledgeArticleId"
+    },
+    {
+      "name": "lastPublishedDate",
+      "description": "Last published date of the knowledge article.",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastPublishedDate"
+    },
+    {
+      "name": "summary",
+      "description": "Summary of the knowledge article contents.",
+      "datatype": "String",
+      "signature": "public String summary"
+    },
+    {
+      "name": "title",
+      "description": "Title of the knowledge article.",
+      "datatype": "String",
+      "signature": "public String title"
+    },
+    {
+      "name": "urlName",
+      "description": "URL name of the knowledge article.",
+      "datatype": "String",
+      "signature": "public String urlName"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A knowledge article version.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_knowledge_article_version.htm"
+}

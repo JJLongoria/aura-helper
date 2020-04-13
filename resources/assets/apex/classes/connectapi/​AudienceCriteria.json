@@ -1,0 +1,27 @@
+{
+  "name": "​AudienceCriteria",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "type",
+      "description": "Specifies the custom recommendation audience criteria type. One of these",
+      "datatype": "ConnectApi.​RecommendationAudience​CriteriaType",
+      "signature": "public ConnectApi.​RecommendationAudience​CriteriaType type"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Custom recommendation audience criteria.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_audience_criteria.htm"
+}

@@ -1,0 +1,35 @@
+{
+    "name": "RenderContext",
+    "namespace": "Canvas",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "",
+    "isInterface": true,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [
+      {
+        "name": "getApplicationContext",
+        "signature": "public Canvas.ApplicationContext getApplicationContext()",
+        "description": "Retrieves the application context information.",
+        "params": [],
+        "datatype": "Canvas.ApplicationContext"
+      },
+      {
+        "name": "getEnvironmentContext",
+        "signature": "public Canvas.EnvironmentContext getEnvironmentContext()",
+        "description": "Retrieves the environment context information.",
+        "params": [],
+        "datatype": "Canvas.EnvironmentContext"
+      }
+    ],
+    "description": "A wrapper interface that is used to retrieve application and environment context information.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_canvas_RenderContext.htm"
+  }

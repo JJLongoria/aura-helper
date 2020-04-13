@@ -1,0 +1,45 @@
+{
+  "name": "ManagedContentChannel",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "channelId",
+      "description": "ID of the managed content channel.",
+      "datatype": "String",
+      "signature": "public String channelId"
+    },
+    {
+      "name": "channelName",
+      "description": "Name of the managed content channel.",
+      "datatype": "String",
+      "signature": "public String channelName"
+    },
+    {
+      "name": "channelType",
+      "description": "Type of managed content channel. Values are:",
+      "datatype": "ConnectApi.​ManagedContent​ChannelType",
+      "signature": "public ConnectApi.​ManagedContent​ChannelType channelType"
+    },
+    {
+      "name": "isChannelSearchable",
+      "description": "Specifies whether the text contents of the channel",
+      "datatype": "Boolean",
+      "signature": "public Boolean isChannelSearchable"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Managed content channel.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_content_channel.htm"
+}

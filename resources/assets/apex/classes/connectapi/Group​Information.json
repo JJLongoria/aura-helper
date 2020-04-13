@@ -1,0 +1,33 @@
+{
+  "name": "Group​Information",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "text",
+      "description": "The text of the “Information” section of the",
+      "datatype": "String",
+      "signature": "public String text"
+    },
+    {
+      "name": "title",
+      "description": "The title of the “Information” section of the",
+      "datatype": "String",
+      "signature": "public String title"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_groupinformation.htm"
+}

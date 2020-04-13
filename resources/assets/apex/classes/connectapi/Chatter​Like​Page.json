@@ -1,0 +1,75 @@
+{
+  "name": "Chatter​Like​Page",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageToken",
+      "description": "Token identifying the current page.",
+      "datatype": "Integer",
+      "signature": "public Integer currentPageToken"
+    },
+    {
+      "name": "currentPageUrl",
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "items",
+      "description": "List of likes",
+      "datatype": "List<ConnectApi.​Chatter​Like>",
+      "signature": "public List<ConnectApi.​Chatter​Like> items"
+    },
+    {
+      "name": "likes",
+      "description": "List of likes",
+      "datatype": "List<ConnectApi.​Chatter​Like>",
+      "signature": "public List<ConnectApi.​Chatter​Like> likes"
+    },
+    {
+      "name": "nextPageToken",
+      "description": "Token identifying the next page, or null if there isn’t a next page.",
+      "datatype": "Integer",
+      "signature": "public Integer nextPageToken"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "previousPageToken",
+      "description": "Token identifying the previous page, or null if there isn’t a previous page.",
+      "datatype": "Integer",
+      "signature": "public Integer previousPageToken"
+    },
+    {
+      "name": "previousPageUrl",
+      "description": "Chatter REST API URL identifying the previous page, or null if there isn’t a previous",
+      "datatype": "String",
+      "signature": "public String previousPageUrl"
+    },
+    {
+      "name": "total",
+      "description": "Total number of likes across all pages",
+      "datatype": "Integer",
+      "signature": "public Integer total"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_like_page.htm"
+}

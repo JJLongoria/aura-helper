@@ -1,0 +1,81 @@
+{
+  "name": "AudienceCriterionValueInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "city",
+      "description": "City of a user.",
+      "datatype": "String",
+      "signature": "public String city"
+    },
+    {
+      "name": "country",
+      "description": "Country of a user.",
+      "datatype": "String",
+      "signature": "public String country"
+    },
+    {
+      "name": "domainId",
+      "description": "Domain ID of a user.",
+      "datatype": "String",
+      "signature": "public String domainId"
+    },
+    {
+      "name": "entityField",
+      "description": "Field of an object.",
+      "datatype": "String",
+      "signature": "public String entityField"
+    },
+    {
+      "name": "entityType",
+      "description": "Type of object.",
+      "datatype": "String",
+      "signature": "public String entityType"
+    },
+    {
+      "name": "fieldValue",
+      "description": "Value of a field.",
+      "datatype": "String",
+      "signature": "public String fieldValue"
+    },
+    {
+      "name": "isEnabled",
+      "description": "Specifies whether the permission is enabled (true) or not (false) for a user.",
+      "datatype": "Boolean",
+      "signature": "public Boolean isEnabled"
+    },
+    {
+      "name": "permission",
+      "description": "Valid API name of a standard user or custom permission.",
+      "datatype": "String",
+      "signature": "public String permission"
+    },
+    {
+      "name": "profileId",
+      "description": "Profile ID of a user.",
+      "datatype": "String",
+      "signature": "public String profileId"
+    },
+    {
+      "name": "subdivision",
+      "description": "Subdivision of a user.",
+      "datatype": "String",
+      "signature": "public String subdivision"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Audience criterion value.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_audience_criterion_value.htm"
+}

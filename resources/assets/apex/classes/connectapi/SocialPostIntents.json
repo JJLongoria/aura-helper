@@ -1,0 +1,57 @@
+{
+  "name": "SocialPostIntents",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "approvalIntent",
+      "description": "Approval intent for the social post.",
+      "datatype": "ConnectApi.​ApprovalIntent",
+      "signature": "public ConnectApi.​ApprovalIntent approvalIntent"
+    },
+    {
+      "name": "deleteIntent",
+      "description": "Delete intents for the social post.",
+      "datatype": "ConnectApi.​DeleteIntents",
+      "signature": "public ConnectApi.​DeleteIntents deleteIntent"
+    },
+    {
+      "name": "followIntent",
+      "description": "Follow intents for the social persona.",
+      "datatype": "ConnectApi.​FollowIntents",
+      "signature": "public ConnectApi.​FollowIntents followIntent"
+    },
+    {
+      "name": "hideIntent",
+      "description": "Hide intent for the social post.",
+      "datatype": "ConnectApi.​HideSocial​PostIntent",
+      "signature": "public ConnectApi.​HideSocial​PostIntent hideIntent"
+    },
+    {
+      "name": "likeIntent",
+      "description": "Like intents for the social post.",
+      "datatype": "ConnectApi.​LikeIntents",
+      "signature": "public ConnectApi.​LikeIntents likeIntent"
+    },
+    {
+      "name": "replyIntent",
+      "description": "Reply intents for the social post.",
+      "datatype": "ConnectApi.​ReplyIntents",
+      "signature": "public ConnectApi.​ReplyIntents replyIntent"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Intents available for a social post.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_social_post_intents_output.htm"
+}

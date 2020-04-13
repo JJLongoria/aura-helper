@@ -1,0 +1,27 @@
+{
+  "name": "AudienceCriterionDetail",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "value",
+      "description": "Mapping of an audience criterion value and field.",
+      "datatype": "Map<String, String>",
+      "signature": "public Map<String, String> value"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Audience criterion information.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_audience_criterion_details.htm"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "ReadBy",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "lastReadDateByUser",
+      "description": "When the user last read the feed element in ISO 8601",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastReadDateByUser"
+    },
+    {
+      "name": "user",
+      "description": "Information about the user who read the feed element.",
+      "datatype": "ConnectApi.​UserSummary",
+      "signature": "public ConnectApi.​UserSummary user"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Information about who read the feed element and when.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_read_by.htm"
+}

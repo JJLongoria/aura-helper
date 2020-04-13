@@ -6,7 +6,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Allows an implementing class to make asynchronous Apex calls. This interface is used only for transaction security Apex policies created in Real-Time Event Monitoring.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_AsyncCondition_interface.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_AsyncCondition_interface.htm",
     "classes": [],
     "enums": []
   },
@@ -17,7 +17,7 @@
     "isInterface": false,
     "enumValues": [],
     "description": "Contains event information that the evaluate method uses to evaluate a transaction security policy.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_TxnSecurity_Event.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_TxnSecurity_Event.htm",
     "classes": [],
     "enums": []
   },
@@ -28,7 +28,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Allows an implementing class to specify whether to take action when certain events occur based on a transaction security policy. This interface is only used for Apex policies created in Real-Time Event Monitoring.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_EventCondition.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_EventCondition.htm",
     "classes": [],
     "enums": []
   },
@@ -39,7 +39,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Apex interface that allows an implementing class to specify actions to take when certain events occur based on a transaction security policy.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_PolicyCondition.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_interface_TxnSecurity_PolicyCondition.htm",
     "classes": [],
     "enums": []
   }

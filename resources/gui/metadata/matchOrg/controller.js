@@ -33,7 +33,7 @@ window.addEventListener('message', event => {
             break;
         case 'metadataDeletedError':
             // @ts-ignore
-            showPageMessage('error', '{!label.delete_metadata_error}');
+            showPageMessage('error', '{!label.delete_metadata_error}' + '\n' + eventData.data.error);
             break;
         case 'processKilled':
             // @ts-ignore

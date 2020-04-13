@@ -1,0 +1,27 @@
+{
+  "name": "DigestJob",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "period",
+      "description": "Time period that’s included in a Chatter",
+      "datatype": "ConnectApi.​DigestPeriod",
+      "signature": "public ConnectApi.​DigestPeriod period"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Represents a successfully enqueued API digest job request.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_digest_job.htm"
+}

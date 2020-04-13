@@ -1,0 +1,39 @@
+{
+  "name": "Icon",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "height",
+      "description": "The height of the icon in pixels.",
+      "datatype": "Integer",
+      "signature": "public Integer height"
+    },
+    {
+      "name": "width",
+      "description": "The width of the icon in pixels.",
+      "datatype": "Integer",
+      "signature": "public Integer width"
+    },
+    {
+      "name": "url",
+      "description": "The URL of the icon. This URL is available to unauthenticated",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_icon.htm"
+}

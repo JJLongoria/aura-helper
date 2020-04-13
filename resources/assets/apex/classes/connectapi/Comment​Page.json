@@ -1,0 +1,66 @@
+{
+  "name": "Comment​Page",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "description": "Collection of comments.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Token identifying the current page.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Collection of comments for this feed element.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Token identifying the next page, or null if there isn’t a next page.If you want to read more of the comments in search results, all the comments",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.If you want to read more of the comments in search",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Token identifying the previous page, or null if there isn’t a previous page.",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Chatter REST API URL identifying the previous page, or null if there isn’t a previous",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "Total number of published comments for the parent feed element.",
+      "datatype": "",
+      "signature": "public  undefined"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A page of comments.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_comment_page.htm"
+}

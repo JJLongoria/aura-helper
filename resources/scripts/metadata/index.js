@@ -71,3 +71,4 @@ exports.Territory2ModelUtils = require('./territory2ModelUtils');
 exports.Territory2RuleUtils = require('./territory2RuleUtils');
 exports.TranslationsUtils = require('./translationsUtils');
 exports.WorkflowUtils = require('./workflowUtils');
+exports.MetadataCompressor = require('./metadataCompressor');

@@ -1,0 +1,69 @@
+{
+  "name": "Zone",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "description",
+      "description": "The description of the zone",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "id",
+      "description": "The zone ID",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "isActive",
+      "description": "Indicates whether or not the zone is active",
+      "datatype": "Boolean",
+      "signature": "public Boolean isActive"
+    },
+    {
+      "name": "isChatterAnswers",
+      "description": "Indicates whether or not the zone is available for Chatter",
+      "datatype": "Boolean",
+      "signature": "public Boolean isChatterAnswers"
+    },
+    {
+      "name": "name",
+      "description": "Name of the zone",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "url",
+      "description": "The URL of the zone",
+      "datatype": "String",
+      "signature": "public String url"
+    },
+    {
+      "name": "visibility",
+      "description": "Zone visibility type",
+      "datatype": "ConnectApi.​ZoneShowIn",
+      "signature": "public ConnectApi.​ZoneShowIn visibility"
+    },
+    {
+      "name": "visibilityId",
+      "description": "If the zone is available in a portal or a community, this property",
+      "datatype": "String",
+      "signature": "public String visibilityId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_zone.htm"
+}

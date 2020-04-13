@@ -1,0 +1,33 @@
+{
+  "name": "Group​​MembershipRequests",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "requests",
+      "description": "Information about group membership requests.",
+      "datatype": "List<ConnectApi.​Group​Membership​Request>",
+      "signature": "public List<ConnectApi.​Group​Membership​Request> requests"
+    },
+    {
+      "name": "total",
+      "description": "The total number of requests.",
+      "datatype": "Integer",
+      "signature": "public Integer total"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_group_membership_requests.htm"
+}

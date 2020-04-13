@@ -1,0 +1,57 @@
+{
+  "name": "Announcement",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "expirationDate",
+      "description": "The Salesforce UI displays an announcement until 11:59 p.m. on",
+      "datatype": "Datetime",
+      "signature": "public Datetime expirationDate"
+    },
+    {
+      "name": "feedElement",
+      "description": "The feed element that contains the body of the announcement and",
+      "datatype": "ConnectApi.​FeedElement Class",
+      "signature": "public ConnectApi.​FeedElement Class feedElement"
+    },
+    {
+      "name": "id",
+      "description": "18-character ID of the announcement.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "isArchived",
+      "description": "Specifies whether the announcement is",
+      "datatype": "Boolean",
+      "signature": "public Boolean isArchived"
+    },
+    {
+      "name": "sendEmails",
+      "description": "Specifies whether the announcement is sent as an email to",
+      "datatype": "Boolean",
+      "signature": "public Boolean sendEmails"
+    },
+    {
+      "name": "url",
+      "description": "The URL to the announcement.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An announcement displays in a designated location in the Salesforce UI until 11:59 p.m. on its expiration date, unless it’s deleted or replaced by another announcement.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_announcement.htm"
+}

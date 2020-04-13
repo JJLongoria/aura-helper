@@ -1,0 +1,33 @@
+{
+  "name": "RequestHeaderInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "name",
+      "description": "The name of the request header.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "value",
+      "description": "The value of the request header.",
+      "datatype": "String",
+      "signature": "public String value"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An HTTP request header name and value pair.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_request_header.htm"
+}

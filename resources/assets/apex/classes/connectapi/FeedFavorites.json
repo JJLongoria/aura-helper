@@ -1,0 +1,33 @@
+{
+  "name": "FeedFavorites",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "favorites",
+      "description": "Complete list of favorites",
+      "datatype": "List<ConnectApi.​Feed​Favorite>",
+      "signature": "public List<ConnectApi.​Feed​Favorite> favorites"
+    },
+    {
+      "name": "total",
+      "description": "Total number of favorites",
+      "datatype": "Integer",
+      "signature": "public Integer total"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_Feed_Favorites.htm"
+}

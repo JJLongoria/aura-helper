@@ -1,0 +1,33 @@
+{
+  "name": "Scope",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "name",
+      "description": "Name of the scope for the target.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "value",
+      "description": "Value of the scope for the target.",
+      "datatype": "String",
+      "signature": "public String value"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Scope information for a target.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_scope.htm"
+}

@@ -47,6 +47,10 @@ function getApexComment(data, commentTemplate) {
         }
         comment = lines.join('\n');
         comment = comment.replace(`{!class.description}`, `\${${snippetNum}:` + data.classData.name + ` Description}`).replace('{!class.name}', data.classData.name);
+    } else {
+        comment = '/**\n';
+        comment += ' * ' + `\${0:description}` + '\n';
+        comment += ' */';
     }
     logger.log('comment', comment);
     return comment;

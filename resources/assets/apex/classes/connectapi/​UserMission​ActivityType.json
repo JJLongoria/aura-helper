@@ -1,0 +1,31 @@
+{
+  "name": "​UserMission​ActivityType",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "FeedItemAnswerAQuestion",
+    "FeedItemLikeSomething",
+    "FeedItemMarkAnswerAsBest",
+    "FeedItemPostQuestion",
+    "FeedItemReceiveAComment",
+    "FeedItemReceiveALike",
+    "FeedItemReceiveAnAnswer",
+    "FeedItemWriteAComment",
+    "FeedItemWriteAPost",
+    "FeedItemYourAnswerMarkedBest"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "Type of mission activity for a",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_enums.htm"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "FeedDirectory",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "favorites",
+      "description": "A list of feed favorites",
+      "datatype": "List<ConnectApi.​Feed​Favorite>",
+      "signature": "public List<ConnectApi.​Feed​Favorite> favorites"
+    },
+    {
+      "name": "feeds",
+      "description": "A list of feeds",
+      "datatype": "List<ConnectApi.FeedDirectoryItem>",
+      "signature": "public List<ConnectApi.FeedDirectoryItem> feeds"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_Feed_directory.htm"
+}

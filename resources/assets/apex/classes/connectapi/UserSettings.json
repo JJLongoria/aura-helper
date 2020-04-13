@@ -1,0 +1,183 @@
+{
+  "name": "UserSettings",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "approvalPosts",
+      "description": "User can approve workflows from Chatter",
+      "datatype": "Boolean",
+      "signature": "public Boolean approvalPosts"
+    },
+    {
+      "name": "canAccess​PersonalStreams",
+      "description": "User can access personal stream",
+      "datatype": "Boolean",
+      "signature": "public Boolean canAccess​PersonalStreams"
+    },
+    {
+      "name": "canFollow",
+      "description": "User can follow users and",
+      "datatype": "Boolean",
+      "signature": "public Boolean canFollow"
+    },
+    {
+      "name": "canModify​AllData",
+      "description": "User has Modify all Data permission.",
+      "datatype": "Boolean",
+      "signature": "public Boolean canModify​AllData"
+    },
+    {
+      "name": "canOwnGroups",
+      "description": "User can own groups.",
+      "datatype": "Boolean",
+      "signature": "public Boolean canOwnGroups"
+    },
+    {
+      "name": "canViewAllData",
+      "description": "User has View all Data permission.",
+      "datatype": "Boolean",
+      "signature": "public Boolean canViewAllData"
+    },
+    {
+      "name": "canViewAllGroups",
+      "description": "User has View all Groups permission.",
+      "datatype": "Boolean",
+      "signature": "public Boolean canViewAllGroups"
+    },
+    {
+      "name": "canViewAllUsers",
+      "description": "User has View all Users permission.",
+      "datatype": "Boolean",
+      "signature": "public Boolean canViewAllUsers"
+    },
+    {
+      "name": "canViewCommunity​Switcher",
+      "description": "User can see the community switcher",
+      "datatype": "Boolean",
+      "signature": "public Boolean canViewCommunity​Switcher"
+    },
+    {
+      "name": "canViewFull​UserProfile",
+      "description": "User can see other user’s Chatter",
+      "datatype": "Boolean",
+      "signature": "public Boolean canViewFull​UserProfile"
+    },
+    {
+      "name": "canViewPublicFiles",
+      "description": "User can see all files that are",
+      "datatype": "Boolean",
+      "signature": "public Boolean canViewPublicFiles"
+    },
+    {
+      "name": "currencySymbol",
+      "description": "Currency symbol to use for displaying",
+      "datatype": "String",
+      "signature": "public String currencySymbol"
+    },
+    {
+      "name": "externalUser",
+      "description": "User is a Chatter customer.",
+      "datatype": "Boolean",
+      "signature": "public Boolean externalUser"
+    },
+    {
+      "name": "fileSync​Limit",
+      "description": "Maximum number of files user can",
+      "datatype": "Integer",
+      "signature": "public Integer fileSync​Limit"
+    },
+    {
+      "name": "fileSync​StorageLimit",
+      "description": "Maximum storage for synced files, in megabytes (MB).",
+      "datatype": "Integer",
+      "signature": "public Integer fileSync​StorageLimit"
+    },
+    {
+      "name": "folderSync​Limit",
+      "description": "Maximum number of folders user can",
+      "datatype": "Integer",
+      "signature": "public Integer folderSync​Limit"
+    },
+    {
+      "name": "hasAccessTo​InternalOrg",
+      "description": "User is a member of the internal",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasAccessTo​InternalOrg"
+    },
+    {
+      "name": "hasChatter",
+      "description": "User has access to Chatter.",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasChatter"
+    },
+    {
+      "name": "hasFileSync",
+      "description": "User has Sync Files permission.",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasFileSync"
+    },
+    {
+      "name": "hasFieldService​LocationTracking",
+      "description": "User has Field Service Lightning",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasFieldService​LocationTracking"
+    },
+    {
+      "name": "hasFieldService​MobileAccess",
+      "description": "User has access to the Field",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasFieldService​MobileAccess"
+    },
+    {
+      "name": "hasFileSync​ManagedClient​AutoUpdate",
+      "description": "Administrator for the",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasFileSync​ManagedClient​AutoUpdate"
+    },
+    {
+      "name": "hasRestData​ApiAccess",
+      "description": "User has access to REST API.",
+      "datatype": "Boolean",
+      "signature": "public Boolean hasRestData​ApiAccess"
+    },
+    {
+      "name": "timeZone",
+      "description": "The user's time zone as selected in the user’s personal settings in",
+      "datatype": "ConnectApi.​TimeZone",
+      "signature": "public ConnectApi.​TimeZone timeZone"
+    },
+    {
+      "name": "userDefault​CurrencyIsoCode",
+      "description": "The ISO code for the default",
+      "datatype": "String",
+      "signature": "public String userDefault​CurrencyIsoCode"
+    },
+    {
+      "name": "userId",
+      "description": "18-character ID of the",
+      "datatype": "String",
+      "signature": "public String userId"
+    },
+    {
+      "name": "userLocale",
+      "description": "Locale of user.",
+      "datatype": "String",
+      "signature": "public String userLocale"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Settings specific to a user.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_usersettings.htm"
+}

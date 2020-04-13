@@ -1,0 +1,27 @@
+{
+  "name": "AssociatedActionsCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "platformAction​Groups",
+      "description": "The platform action groups associated with a feed element.",
+      "datatype": "List<ConnectApi.​PlatformActionGroup>",
+      "signature": "public List<ConnectApi.​PlatformActionGroup> platformAction​Groups"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has platform actions associated with it.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_associated_actions_capability.htm"
+}

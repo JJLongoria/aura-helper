@@ -1,0 +1,51 @@
+{
+  "name": "ManagedContentChannelCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "channels",
+      "description": "List of managed content channels.",
+      "datatype": "List<ConnectApi.​ManagedContent​Channel>",
+      "signature": "public List<ConnectApi.​ManagedContent​Channel> channels"
+    },
+    {
+      "name": "currentPageUrl",
+      "description": "Chatter REST API URL identifying the current page.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "previousPageUrl",
+      "description": "Chatter REST API URL identifying the previous page, or null if there isn’t a previous",
+      "datatype": "String",
+      "signature": "public String previousPageUrl"
+    },
+    {
+      "name": "totalChannels",
+      "description": "Total number of managed content channels.",
+      "datatype": "Integer",
+      "signature": "public Integer totalChannels"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Collection of managed content channels.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_content_channel_collection.htm"
+}

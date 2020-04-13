@@ -91,7 +91,7 @@ class View {
             return;
         }
         this.loadContent();
-        this.content = View.translate(this.content, ((this.options.lang && this.options.lang.length > 0) ? this.options.lang : Config.getConfig().defaultGUILanguage), true);
+        this.content = View.translate(this.content, ((this.options.lang && this.options.lang.length > 0) ? this.options.lang : Config.getConfig().graphicUserInterface.defaultGUILanguage), true);
         let thisPanel = this.panel;
         thisPanel.webview.html = this.content;
         setTimeout(() => {

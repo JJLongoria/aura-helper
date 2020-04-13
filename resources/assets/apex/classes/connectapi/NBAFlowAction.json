@@ -1,0 +1,45 @@
+{
+  "name": "NBAFlowAction",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.AbstractNBAAction",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "flowLabel",
+      "description": "Label of the recommended flow.",
+      "datatype": "String",
+      "signature": "public String flowLabel"
+    },
+    {
+      "name": "flowType",
+      "description": "Type of recommended flow.",
+      "datatype": "ConnectApi.​NBAFlowType",
+      "signature": "public ConnectApi.​NBAFlowType flowType"
+    },
+    {
+      "name": "id",
+      "description": "ID of the flow.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "name",
+      "description": "Name of the flow.",
+      "datatype": "String",
+      "signature": "public String name"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A recommended flow.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_n_b_a_flow_action.htm"
+}

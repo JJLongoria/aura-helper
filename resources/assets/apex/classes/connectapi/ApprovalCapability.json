@@ -1,0 +1,45 @@
+{
+  "name": "ApprovalCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "The work item ID. The work item ID is null if there isn’t a pending work item associated with the approval",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "postTemplate​Fields",
+      "description": "The details of the approval post template field.",
+      "datatype": "List<ConnectApi.​ApprovalPost​TemplateField>",
+      "signature": "public List<ConnectApi.​ApprovalPost​TemplateField> postTemplate​Fields"
+    },
+    {
+      "name": "processInstance​StepId",
+      "description": "The process instance step ID. The associated record represents",
+      "datatype": "String",
+      "signature": "public String processInstance​StepId"
+    },
+    {
+      "name": "status",
+      "description": "The status of the approval.",
+      "datatype": "ConnectApi.​WorkflowProcess​Status",
+      "signature": "public ConnectApi.​WorkflowProcess​Status status"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it includes information about an approval.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_approval_capability.htm"
+}

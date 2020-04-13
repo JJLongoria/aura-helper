@@ -1,0 +1,27 @@
+{
+  "name": "TargetCollectionUpdateInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "targets",
+      "description": "List of targets to update.",
+      "datatype": "List<ConnectApi.​TargetUpdate​Input>",
+      "signature": "public List<ConnectApi.​TargetUpdate​Input> targets"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Collection of targets to update.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_target_collection_update.htm"
+}

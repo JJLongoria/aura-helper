@@ -1,0 +1,30 @@
+{
+  "name": "​SocialPostStatusType",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": true,
+  "enumValues": [
+    "ApprovalPending",
+    "ApprovalRecalled",
+    "ApprovalRejected",
+    "Deleted",
+    "Failed",
+    "Hidden",
+    "Pending",
+    "Sent",
+    "Unknown"
+  ],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [],
+  "constructors": [],
+  "methods": [],
+  "description": "State of the social post.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/connectAPI_enums.htm"
+}

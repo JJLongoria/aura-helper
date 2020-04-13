@@ -1,0 +1,39 @@
+{
+  "name": "Chatter​Group​Detail",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.ChatterGroup",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "fileCount",
+      "description": "The number of files posted to the group.",
+      "datatype": "Integer",
+      "signature": "public Integer fileCount"
+    },
+    {
+      "name": "information",
+      "description": "Describes the Information section of the group. If the group is",
+      "datatype": "ConnectApi.​Group​Information",
+      "signature": "public ConnectApi.​Group​Information information"
+    },
+    {
+      "name": "pending​Requests",
+      "description": "The number of requests to join a group that are in a pending",
+      "datatype": "Integer",
+      "signature": "public Integer pending​Requests"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_GroupDetail.htm"
+}

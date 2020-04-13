@@ -1,0 +1,33 @@
+{
+  "name": "ContentHubRepositoryFeatures",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "canBrowse",
+      "description": "Specifies whether the repository’s folder hierarchy can be browsed",
+      "datatype": "Boolean",
+      "signature": "public Boolean canBrowse"
+    },
+    {
+      "name": "canSearch",
+      "description": "Specifies whether the repository can be searched (true) or not (false).",
+      "datatype": "Boolean",
+      "signature": "public Boolean canSearch"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The features of a repository.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_content_hub_repository_features.htm"
+}

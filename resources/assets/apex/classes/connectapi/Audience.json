@@ -1,0 +1,63 @@
+{
+  "name": "Audience",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "criteria",
+      "description": "Criteria details for the audience.",
+      "datatype": "List<ConnectApi.​AudienceCriteria​Detail>",
+      "signature": "public List<ConnectApi.​AudienceCriteria​Detail> criteria"
+    },
+    {
+      "name": "customFormula",
+      "description": "Custom formula for the audience criteria. For",
+      "datatype": "String",
+      "signature": "public String customFormula"
+    },
+    {
+      "name": "formulaFilterType",
+      "description": "Formula filter type for the",
+      "datatype": "ConnectApi.​FormulaFilterType",
+      "signature": "public ConnectApi.​FormulaFilterType formulaFilterType"
+    },
+    {
+      "name": "id",
+      "description": "ID of the audience.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "name",
+      "description": "Name of the audience.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "targets",
+      "description": "Target assignments for the audience.",
+      "datatype": "List<ConnectApi.​AudienceTarget​Assignment>",
+      "signature": "public List<ConnectApi.​AudienceTarget​Assignment> targets"
+    },
+    {
+      "name": "url",
+      "description": "URL to this audience.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A personalization audience.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_audience.htm"
+}

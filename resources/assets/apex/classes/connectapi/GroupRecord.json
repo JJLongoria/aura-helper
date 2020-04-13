@@ -1,0 +1,39 @@
+{
+  "name": "GroupRecord",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "Record’s 18-character ID",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "record",
+      "description": "Information about the record associated with the group",
+      "datatype": "ConnectApi.​ActorWithId",
+      "signature": "public ConnectApi.​ActorWithId record"
+    },
+    {
+      "name": "url",
+      "description": "Record URL",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A record associated with a group.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_GroupRecord.htm"
+}

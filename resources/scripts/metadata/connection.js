@@ -166,6 +166,37 @@ class Connection {
         });
     }
 
+    // Method to replace getMetadataObjectsListFromOrg()
+    static getMetadataTypesFromOrg(user, options) {
+        if (!options) {
+            options = {
+                forceDownload: false,
+                progressReport: undefined,
+                cancelToken: undefined
+            };
+        }
+        let progressReport = options.progressReport;
+        let cancelToken = options.cancelToken;
+        let folder = Paths.getSFDXFolderPath() + '/orgs/' + user + '/metadata';
+        let file = Paths.getSFDXFolderPath() + '/orgs/' + user + '/metadata/metadataTypes.json';
+        return new Promise(async function (resolve) {
+            if (progressReport)
+                progressReport.report({ message: "Getting all available types for download" });
+            if (FileChecker.isExists(file) && !options.forceDownload) {
+                resolve(Connection.getMetadataObjectsFromSFDXMetadataTypesFile(file));
+            } else {
+                let out = await ProcessManager.listMetadataTypes(user, { forceDownload: false, processReport: progressReport, cancelToken: cancelToken });
+                if (out && out.stdOut) {
+                    if (!FileChecker.isExists(folder))
+                        FileWriter.createFolderSync(folder);
+                    FileWriter.createFileSync(file, out.stdOut.toString());
+                    resolve(Connection.getMetadataObjectsFromSFDXMetadataTypesFile(file));
+                } else {
+                    resolve();
+                }
+            }
+        });
+    }
 
     static getMetadataObjectsListFromOrg(user, forceDownload, progressReport, cancelToken, callback) {
         abort = false;
@@ -232,6 +263,68 @@ class Connection {
         return metadataObjects;
     }
 
+    // Replace getMetadataFromOrg()
+    static downloadMatadataFromOrg(user, metadataObjects, orgNamespace, downloadAll, progressReport, cancelToken){
+        return new Promise(async function(resolve){
+            let metadata = {};
+            if (cancelToken) {
+                cancelToken.onCancellationRequested(() => {
+                    Connection.abort();
+                });
+                if (cancelToken.isCancellationRequested) {
+                    resolve(metadata);
+                    return;
+                }
+    
+            }
+            let folders = await Connection.getFolders(user, cancelToken);
+            for (const metadataObject of metadataObjects) {
+                if (abort) {
+                    resolve(metadata);
+                    return;
+                }
+                let objName = (metadataObject.xmlName) ? metadataObject.xmlName : metadataObject;
+                let foldersByType = Connection.getFoldersByType(folders, objName);
+                let metadataType;
+                Logger.log('percentage', increment);
+                if (objName === MetadataTypes.REPORTS || objName === MetadataTypes.DASHBOARD || objName === MetadataTypes.DOCUMENT) {
+                    for (const folder of foldersByType) {
+                        let folderName = "unfiled$public";
+                        if (folder.DeveloperName) {
+                            folderName = folder.DeveloperName;
+                        }
+                        if (progressReport)
+                            progressReport.report({ message: "Downloading " + objName + " from Folder: " + folderName });
+                        metadataType = await Connection.describeMetadataFromFolder(user, objName, orgNamespace, downloadAll, folderName, cancelToken);
+                        if (metadataType) {
+                            if (!metadata[objName])
+                                metadata[objName] = metadataType;
+                            else {
+                                Object.keys(metadataType.childs).forEach(function (key) {
+                                    metadata[objName].childs[key] = metadataType.childs[key];
+                                });
+                            }
+                        }
+                    }
+                } else if (objName === MetadataTypes.EMAIL_TEMPLATE) {
+                    if (progressReport)
+                        progressReport.report({ increment: increment, message: "Downloading " + objName });
+                    metadataType = await Connection.getEmailTemplates(user, objName, orgNamespace, folders, downloadAll, cancelToken);
+                    if (metadataType)
+                        metadata[objName] = metadataType;
+                } else {
+                    if (progressReport)
+                        progressReport.report({ increment: increment, message: "Downloading " + objName });
+                    metadataType = await Connection.getMetadataObjectsFromOrg(user, objName, orgNamespace, folders, downloadAll, cancelToken);
+                    if (metadataType)
+                        metadata[objName] = metadataType;
+                }
+            }
+            resolve(metadata);
+        });
+    }
+
+    // Deprecated
     static async getMetadataFromOrg(user, metadataObjects, orgNamespace, downloadAll, progressReport, cancelToken, callback) {
         let metadata = {};
         if (cancelToken) {

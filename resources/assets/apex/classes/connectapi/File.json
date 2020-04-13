@@ -1,0 +1,225 @@
+{
+  "name": "File",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​ActorWithId",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "checksum",
+      "description": "MD5 checksum for the file.",
+      "datatype": "String",
+      "signature": "public String checksum"
+    },
+    {
+      "name": "content​ModifiedDate",
+      "description": "An ISO 8601 format date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime content​ModifiedDate"
+    },
+    {
+      "name": "contentSize",
+      "description": "Size of the file in bytes.",
+      "datatype": "Integer",
+      "signature": "public Integer contentSize"
+    },
+    {
+      "name": "contentUrl",
+      "description": "If the file is a link, returns the URL, otherwise, the string null.",
+      "datatype": "String",
+      "signature": "public String contentUrl"
+    },
+    {
+      "name": "createdDate",
+      "description": "ISO 8601 date string when the file was",
+      "datatype": "Datetime",
+      "signature": "public Datetime createdDate"
+    },
+    {
+      "name": "description",
+      "description": "Description of the file.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "downloadUrl",
+      "description": "URL to the file, that can be used for downloading the file.",
+      "datatype": "String",
+      "signature": "public String downloadUrl"
+    },
+    {
+      "name": "fileExtension",
+      "description": "Extension of the file.",
+      "datatype": "String",
+      "signature": "public String fileExtension"
+    },
+    {
+      "name": "fileType",
+      "description": "Type of file, such as PDF, PowerPoint.",
+      "datatype": "String",
+      "signature": "public String fileType"
+    },
+    {
+      "name": "flashRendition​Status",
+      "description": "Specifies if a flash preview version of the file has been rendered.",
+      "datatype": "String",
+      "signature": "public String flashRendition​Status"
+    },
+    {
+      "name": "isFileAsset",
+      "description": "Specifies whether the file is an asset.",
+      "datatype": "Boolean",
+      "signature": "public Boolean isFileAsset"
+    },
+    {
+      "name": "isInMyFileSync",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isInMyFileSync"
+    },
+    {
+      "name": "isMajorVersion",
+      "description": "",
+      "datatype": "Boolean",
+      "signature": "public Boolean isMajorVersion"
+    },
+    {
+      "name": "mimeType",
+      "description": "File’s MIME type.",
+      "datatype": "String",
+      "signature": "public String mimeType"
+    },
+    {
+      "name": "moderationFlags",
+      "description": "Information about the moderation flags on a file. If ConnectApi.Features.communityModeration is false, this property is null.",
+      "datatype": "ConnectApi.​ModerationFlags",
+      "signature": "public ConnectApi.​ModerationFlags moderationFlags"
+    },
+    {
+      "name": "modifiedDate",
+      "description": "An ISO 8601 format date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime modifiedDate"
+    },
+    {
+      "name": "name",
+      "description": "Name of the file.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "origin",
+      "description": "Specifies the file source. Valid values are:",
+      "datatype": "String",
+      "signature": "public String origin"
+    },
+    {
+      "name": "owner",
+      "description": "File’s owner.",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary owner"
+    },
+    {
+      "name": "pdfRendition​Status",
+      "description": "Specifies if a PDF preview version of the file has been rendered.",
+      "datatype": "String",
+      "signature": "public String pdfRendition​Status"
+    },
+    {
+      "name": "publishStatus",
+      "description": "Specifies the publish status of the file.",
+      "datatype": "ConnectApi.​FilePublishStatus",
+      "signature": "public ConnectApi.​FilePublishStatus publishStatus"
+    },
+    {
+      "name": "renditionUrl",
+      "description": "URL to the rendition for the file.",
+      "datatype": "String",
+      "signature": "public String renditionUrl"
+    },
+    {
+      "name": "renditionUrl​240By180",
+      "description": "URL to the 240 x 180 rendition resource for the file.",
+      "datatype": "String",
+      "signature": "public String renditionUrl​240By180"
+    },
+    {
+      "name": "renditionUrl​720By480",
+      "description": "URL to the 720 x 480 rendition resource for the file.",
+      "datatype": "String",
+      "signature": "public String renditionUrl​720By480"
+    },
+    {
+      "name": "sharingOption",
+      "description": "Sharing option of the file. Values are:",
+      "datatype": "ConnectApi.​FileSharingOption",
+      "signature": "public ConnectApi.​FileSharingOption sharingOption"
+    },
+    {
+      "name": "sharingPrivacy",
+      "description": "Sharing privacy of a file.",
+      "datatype": "ConnectApi.​FileSharingPrivacy",
+      "signature": "public ConnectApi.​FileSharingPrivacy sharingPrivacy"
+    },
+    {
+      "name": "sharingRole",
+      "description": "Sharing role of the file.",
+      "datatype": "ConnectApi.​FileSharingType",
+      "signature": "public ConnectApi.​FileSharingType sharingRole"
+    },
+    {
+      "name": "systemModstamp",
+      "description": "ISO 8601 date string indicating when a user or any",
+      "datatype": "Datetime",
+      "signature": "public Datetime systemModstamp"
+    },
+    {
+      "name": "textPreview",
+      "description": "Text preview of the file if available; null otherwise.",
+      "datatype": "String",
+      "signature": "public String textPreview"
+    },
+    {
+      "name": "thumb120By90​RenditionStatus",
+      "description": "Specifies the rendering status of the 120 x 90 preview image of the",
+      "datatype": "String",
+      "signature": "public String thumb120By90​RenditionStatus"
+    },
+    {
+      "name": "thumb240By180​RenditionStatus",
+      "description": "Specifies the rendering status of the 240 x 180 preview image of the",
+      "datatype": "String",
+      "signature": "public String thumb240By180​RenditionStatus"
+    },
+    {
+      "name": "thumb720By480​RenditionStatus",
+      "description": "Specifies the rendering status of the 720 x 480 preview image of the",
+      "datatype": "String",
+      "signature": "public String thumb720By480​RenditionStatus"
+    },
+    {
+      "name": "title",
+      "description": "Title of the file.",
+      "datatype": "String",
+      "signature": "public String title"
+    },
+    {
+      "name": "versionNumber",
+      "description": "File’s version number.",
+      "datatype": "String",
+      "signature": "public String versionNumber"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_file.htm"
+}

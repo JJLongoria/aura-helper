@@ -1,0 +1,27 @@
+{
+  "name": "SupportedEmojis",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "supportedEmojis",
+      "description": "A collection of supported emojis.",
+      "datatype": "ConnectApi.​EmojiCollection",
+      "signature": "public ConnectApi.​EmojiCollection supportedEmojis"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of supported emojis.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_supported_emojis_output.htm"
+}

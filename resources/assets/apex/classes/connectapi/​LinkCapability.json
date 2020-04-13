@@ -1,0 +1,33 @@
+{
+  "name": "​LinkCapability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "url",
+      "description": "Link URL. The URL can be to an external site.",
+      "datatype": "String",
+      "signature": "public String url"
+    },
+    {
+      "name": "urlName",
+      "description": "Description of the link.",
+      "datatype": "String",
+      "signature": "public String urlName"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, it has a link.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_link_capability.htm"
+}

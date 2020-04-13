@@ -102,7 +102,7 @@ class CustomObjectUtils {
         } else {
             newCompactLayout = {
                 fullName: undefined,
-                field: [],
+                fields: [],
                 label: undefined
             };
         }
@@ -133,7 +133,7 @@ class CustomObjectUtils {
                 externalId: undefined,
                 fieldManageability: undefined,
                 formula: undefined,
-                formulaTreatBlankAs: undefined,
+                formulaTreatBlanksAs: undefined,
                 fullName: undefined,
                 globalPicklist: undefined,
                 indexed: undefined,
@@ -314,6 +314,17 @@ class CustomObjectUtils {
         return {
             profileName: Utils.forceArray(profileName),
             fields: Utils.forceArray(fields)
+        }
+    }
+
+    static createCustomValue(color, isDefault, description, fullName, isActive, label) {
+        return {
+            color: color,
+            default: isDefault,
+            description: description,
+            fullName: fullName,
+            isActive: isActive,
+            label: label
         }
     }
 
@@ -723,8 +734,8 @@ class CustomObjectUtils {
                         xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('fieldManageability', field.fieldManageability));
                     if (field.formula !== undefined)
                         xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formula', field.formula));
-                    if (field.formulaTreatBlankAs !== undefined)
-                        xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formulaTreatBlankAs', field.formulaTreatBlankAs));
+                    if (field.formulaTreatBlanksAs !== undefined)
+                        xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formulaTreatBlanksAs', field.formulaTreatBlanksAs));
                     if (field.globalPicklist !== undefined)
                         xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('globalPicklist', field.globalPicklist));
                     if (field.isAIPredictionField !== undefined)
@@ -760,7 +771,7 @@ class CustomObjectUtils {
                     if (field.trueValueIndexed !== undefined)
                         xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('trueValueIndexed', field.trueValueIndexed));
                     if (field.valueSet !== undefined)
-                        xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('valueSet', field.valueSet));
+                        xmlLines = xmlLines.concat(CustomObjectUtils.getValueSetXMLLines(field.valueSet, initIndent + 1));
                     if (field.writeRequiresMasterRead !== undefined)
                         xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('writeRequiresMasterRead', field.writeRequiresMasterRead));
                     if (field.lookupFilter !== undefined)
@@ -848,8 +859,8 @@ class CustomObjectUtils {
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('fieldManageability', fields.fieldManageability));
                 if (fields.formula !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('formula', fields.formula));
-                if (fields.formulaTreatBlankAs !== undefined)
-                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('formulaTreatBlankAs', fields.formulaTreatBlankAs));
+                if (fields.formulaTreatBlanksAs !== undefined)
+                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('formulaTreatBlanksAs', fields.formulaTreatBlanksAs));
                 if (fields.globalPicklist !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('globalPicklist', fields.globalPicklist));
                 if (fields.isAIPredictionField !== undefined)
@@ -885,7 +896,7 @@ class CustomObjectUtils {
                 if (fields.trueValueIndexed !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('trueValueIndexed', fields.trueValueIndexed));
                 if (fields.valueSet !== undefined)
-                    xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('valueSet', fields.valueSet));
+                    xmlLines = xmlLines.concat(CustomObjectUtils.getValueSetXMLLines(fields.valueSet, 1));
                 if (fields.writeRequiresMasterRead !== undefined)
                     xmlLines.push(Utils.getTabs(1) + Utils.getXMLTag('writeRequiresMasterRead', fields.writeRequiresMasterRead));
                 if (fields.lookupFilter !== undefined)
@@ -897,6 +908,32 @@ class CustomObjectUtils {
                 xmlLines.push('</CustomField>');
             }
         }
+        return xmlLines;
+    }
+    
+    static getValueSetXMLLines(valueSet, initIndent) {
+        let xmlLines = [];
+        xmlLines.push(Utils.getTabs(initIndent) +'<valueSet>');
+        if (valueSet.controllingField !== undefined)
+            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('controllingField', valueSet.controllingField));
+        if (valueSet.restricted !== undefined)
+            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('restricted', valueSet.restricted));
+        if (valueSet.valueSetDefinition !== undefined)
+            xmlLines = xmlLines.concat(CustomObjectUtils.getValueSetDefinitionXMLLines(valueSet.valueSetDefinition, initIndent + 1));
+        if (valueSet.valueSettings !== undefined)
+            xmlLines = xmlLines.concat(Utils.getXMLBlock('valueSettings', valueSet.valueSettings, true, initIndent + 1));
+        xmlLines.push(Utils.getTabs(initIndent) +'</valueSet>');
+        return xmlLines;
+    }
+
+    static getValueSetDefinitionXMLLines(valueSetDefinition, initIndent) {
+        let xmlLines = [];
+        xmlLines.push(Utils.getTabs(initIndent) +'<valueSetDefinition>');
+        if (valueSetDefinition.sorted !== undefined)
+            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('sorted', valueSetDefinition.sorted));
+        if (valueSetDefinition.value !== undefined)
+            xmlLines = xmlLines.concat(Utils.getXMLBlock('value', valueSetDefinition.value, true, initIndent + 1));
+        xmlLines.push(Utils.getTabs(initIndent) +'</valueSetDefinition>');
         return xmlLines;
     }
 
@@ -1202,8 +1239,8 @@ class CustomObjectUtils {
             xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('fieldManageability', nameField.fieldManageability));
         if (nameField.formula !== undefined)
             xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formula', nameField.formula));
-        if (nameField.formulaTreatBlankAs !== undefined)
-            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formulaTreatBlankAs', nameField.formulaTreatBlankAs));
+        if (nameField.formulaTreatBlanksAs !== undefined)
+            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('formulaTreatBlanksAs', nameField.formulaTreatBlanksAs));
         if (nameField.globalPicklist !== undefined)
             xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('globalPicklist', nameField.globalPicklist));
         if (nameField.isAIPredictionField !== undefined)
@@ -1239,7 +1276,7 @@ class CustomObjectUtils {
         if (nameField.trueValueIndexed !== undefined)
             xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('trueValueIndexed', nameField.trueValueIndexed));
         if (nameField.valueSet !== undefined)
-            xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('valueSet', nameField.valueSet));
+            xmlLines = xmlLines.concat(CustomObjectUtils.getValueSetXMLLines(nameField.valueSet, initIndent + 1));
         if (nameField.writeRequiresMasterRead !== undefined)
             xmlLines.push(Utils.getTabs(initIndent + 1) + Utils.getXMLTag('writeRequiresMasterRead', nameField.writeRequiresMasterRead));
         if (nameField.lookupFilter !== undefined)

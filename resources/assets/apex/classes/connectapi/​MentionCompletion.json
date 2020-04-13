@@ -1,0 +1,63 @@
+{
+  "name": "​MentionCompletion",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "additionalLabel",
+      "description": "An additional label (if one",
+      "datatype": "String",
+      "signature": "public String additionalLabel"
+    },
+    {
+      "name": "description",
+      "description": "A description of the",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "name",
+      "description": "The name of the record",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "outOfOffice",
+      "description": "If the record represented by this completion",
+      "datatype": "ConnectApi.​OutOfOffice",
+      "signature": "public ConnectApi.​OutOfOffice outOfOffice"
+    },
+    {
+      "name": "photoUrl",
+      "description": "A URL to the photo or icon of",
+      "datatype": "String",
+      "signature": "public String photoUrl"
+    },
+    {
+      "name": "recordId",
+      "description": "The ID of the record",
+      "datatype": "String",
+      "signature": "public String recordId"
+    },
+    {
+      "name": "userType",
+      "description": "",
+      "datatype": "ConnectApi.​UserType\r                          Enum",
+      "signature": "public ConnectApi.​UserType\r                          Enum userType"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_mention_completion.htm"
+}

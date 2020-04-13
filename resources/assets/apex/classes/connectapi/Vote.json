@@ -1,0 +1,39 @@
+{
+  "name": "Vote",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "type",
+      "description": "Type of vote for a feed element or comment.",
+      "datatype": "ConnectApi.​UpDownVoteValue",
+      "signature": "public ConnectApi.​UpDownVoteValue type"
+    },
+    {
+      "name": "user",
+      "description": "User who voted on the feed element or comment.",
+      "datatype": "ConnectApi.​UserSummary",
+      "signature": "public ConnectApi.​UserSummary user"
+    },
+    {
+      "name": "votedItem",
+      "description": "Reference to the feed element or comment that was voted on.",
+      "datatype": "ConnectApi.​Reference",
+      "signature": "public ConnectApi.​Reference votedItem"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An upvote or downvote on a feed element or comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_vote.htm"
+}

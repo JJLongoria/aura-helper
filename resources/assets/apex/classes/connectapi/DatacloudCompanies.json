@@ -1,0 +1,51 @@
+{
+  "name": "DatacloudCompanies",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "companies",
+      "description": "A detailed list of companies that were part of a single",
+      "datatype": "ConnectApi.DatacloudCompany",
+      "signature": "public ConnectApi.DatacloudCompany companies"
+    },
+    {
+      "name": "currentPageUrl",
+      "description": "The URL for the current page of a list of companies.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "Chatter REST API URL identifying the next page, or null if there isn’t a next page.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "previousPageUrl",
+      "description": "The URL to the previous page of companies that were viewed before",
+      "datatype": "String",
+      "signature": "public String previousPageUrl"
+    },
+    {
+      "name": "total",
+      "description": "The number of companies in the order. You can calculate the number of pages to",
+      "datatype": "Integer",
+      "signature": "public Integer total"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Lists all companies that were purchased in a specific order, page URLs, and the number of companies in the order.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_datacloud_company_collection.htm"
+}

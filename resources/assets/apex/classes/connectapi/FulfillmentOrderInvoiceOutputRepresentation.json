@@ -1,0 +1,27 @@
+{
+  "name": "FulfillmentOrderInvoiceOutputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.BaseOutputRepresentation",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "invoiceId",
+      "description": "ID of the created invoice.",
+      "datatype": "String",
+      "signature": "public String invoiceId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "ID of the created invoice.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_fulfillment_order_invoice_output.htm"
+}

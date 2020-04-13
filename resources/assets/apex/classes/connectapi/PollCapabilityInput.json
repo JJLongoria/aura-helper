@@ -1,0 +1,33 @@
+{
+  "name": "PollCapabilityInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.FeedElement​CapabilityInput",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "choices",
+      "description": "The choices used to create a new poll. You must specify",
+      "datatype": "List<String>",
+      "signature": "public List<String> choices"
+    },
+    {
+      "name": "myChoiceId",
+      "description": "ID of an existing choice on the feed poll. Used to vote on an existing",
+      "datatype": "String",
+      "signature": "public String myChoiceId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Create, update, or vote on a poll on a feed element.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_poll_capability.htm"
+}

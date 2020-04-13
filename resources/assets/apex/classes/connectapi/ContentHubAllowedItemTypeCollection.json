@@ -1,0 +1,27 @@
+{
+  "name": "ContentHubAllowedItemTypeCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "allowedItemTypes",
+      "description": "A collection of item types that the context user is allowed to",
+      "datatype": "List<ConnectApi.​ContentHub​ItemTypeSummary>",
+      "signature": "public List<ConnectApi.​ContentHub​ItemTypeSummary> allowedItemTypes"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "The item types that the context user is allowed to create in a repository folder.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_content_hub_allowed_item_type_collection.htm"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "TargetCollectionInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "targets",
+      "description": "List of targets to create.",
+      "datatype": "List<ConnectApi.​TargetInput>",
+      "signature": "public List<ConnectApi.​TargetInput> targets"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Collection of targets to create.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_target_collection.htm"
+}

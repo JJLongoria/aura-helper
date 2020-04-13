@@ -1,0 +1,27 @@
+{
+  "name": "UserFeedEntityActivitySummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.UserActivitySummary",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "feedEntityId",
+      "description": "ID of the feed entity.",
+      "datatype": "String",
+      "signature": "public String feedEntityId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "User feed entity activity summary.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_abstract_feed_entity_activity_summary.htm"
+}

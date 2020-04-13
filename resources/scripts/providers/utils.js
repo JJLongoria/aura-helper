@@ -3,6 +3,7 @@ const language = require('../languages');
 const logger = require('../main/logger');
 const config = require('../main/config');
 const vscode = require('vscode');
+const applicationContext = require('../main/applicationContext');
 const CompletionItemKind = vscode.CompletionItemKind;
 const CompletionItem = vscode.CompletionItem;
 const SnippetString = vscode.SnippetString;
@@ -11,132 +12,9 @@ const Paths = fileSystem.Paths;
 const FileChecker = fileSystem.FileChecker;
 const Tokenizer = language.Tokenizer;
 const TokenType = language.TokenType;
-const BundleAnalizer = language.BundleAnalizer;
-const langUtils = language.Utils;
-const ApexParser = language.ApexParser;
 const AuraParser = language.AuraParser;
 
 class Utils {
-
-    static getClassesFromClassFolder(document) {
-        let classes = {
-            classesToLower: [],
-            classes: [],
-            classesMap: {},
-        };
-        let classesPath = Paths.getFolderPath(document.uri.fsPath);
-        logger.log('classesPath', classesPath);
-        let files = FileReader.readDirSync(classesPath);
-        if (files && files.length > 0) {
-            for (const fileName of files) {
-                if (fileName.endsWith('.cls')) {
-                    let className = fileName.replace(".cls", "").trim();
-                    let nameToLower = className.toLowerCase();
-                    classes.classesToLower.push(nameToLower);
-                    classes.classes.push(className);
-                    classes.classesMap[nameToLower] = className;
-                }
-            }
-        }
-        return classes;
-    }
-
-    static getClassesFromNamespace(namespace) {
-        let classes = {
-            classesToLower: [],
-            classes: [],
-            classesMap: {},
-        };
-        let classesPath = Paths.getSystemClassesPath() + '/' + namespace;
-        logger.log('classesPath', classesPath);
-        if (FileChecker.isExists(classesPath)) {
-            let files = FileReader.readDirSync(classesPath);
-            if (files && files.length > 0) {
-                for (const fileName of files) {
-                    if (fileName !== 'namespaceMetadata.json') {
-                        let className = fileName.replace(".json", "").trim();
-                        let nameToLower = className.toLowerCase();
-                        classes.classesToLower.push(nameToLower);
-                        classes.classes.push(className);
-                        classes.classesMap[nameToLower] = className;
-                    }
-                }
-            }
-        }
-        return classes;
-    }
-
-    static getNamespaceMetadataFile(namespace) {
-        let nsMetadataPath = Paths.getSystemClassesPath() + '/' + namespace + "/namespaceMetadata.json";
-        return JSON.parse(FileReader.readFileSync(nsMetadataPath));
-    }
-
-    static getNamespacesFromFolder() {
-        let namespaces = {
-            namespacesToLower: [],
-            namespaces: [],
-            namespacesMap: {},
-        };
-        let classesPath = Paths.getSystemClassesPath();
-        logger.log('classesPath', classesPath);
-        let files = FileReader.readDirSync(classesPath);
-        if (files && files.length > 0) {
-            for (const fileName of files) {
-                if (fileName !== 'namespacesMetadata.json') {
-                    namespaces.namespacesToLower.push(fileName.toLowerCase());
-                    namespaces.namespaces.push(fileName);
-                    namespaces.namespacesMap[fileName.toLowerCase()] = fileName;
-                }
-            }
-        }
-        return namespaces;
-    }
-
-    static getObjectsFromMetadataIndex() {
-        let sObjects = {
-            sObjectsToLower: [],
-            sObjects: [],
-            sObjectsMap: {},
-        };
-        let metadataPath = Paths.getMetadataIndexPath();
-        let files = FileReader.readDirSync(metadataPath);
-        if (files && files.length > 0) {
-            for (const fileName of files) {
-                let sObjectName = fileName.replace(".json", "").trim();
-                let nameToLower = sObjectName.toLowerCase();
-                sObjects.sObjectsToLower.push(nameToLower);
-                sObjects.sObjects.push(sObjectName);
-                sObjects.sObjectsMap[nameToLower] = sObjectName;
-            }
-        }
-        return sObjects;
-    }
-
-    static getObjectFromMetadataIndex(object) {
-        let metadataObjectPath = Paths.getMetadataIndexPath() + '/' + object + '.json';
-        logger.log(metadataObjectPath);
-        if (FileChecker.isExists(metadataObjectPath)) {
-            return JSON.parse(FileReader.readFileSync(metadataObjectPath));
-        } else {
-            return undefined;
-        }
-    }
-
-    static getClassStructure(document, ns, className) {
-        let classStructure;
-        if (className.indexOf('<') !== -1)
-            className = className.split('<')[0];
-        if (className.indexOf('[') !== -1 && className.indexOf(']') !== -1)
-            className = "List";
-        let userClassPath = Paths.getFolderPath(document.uri.fsPath) + "/" + className + ".cls";
-        let systemClassPath = Paths.getSystemClassesPath() + "/" + ns + '/' + className + ".json";
-        if (FileChecker.isExists(userClassPath))
-            classStructure = ApexParser.getFileStructure(FileReader.readFileSync(userClassPath));
-        else if (FileChecker.isExists(systemClassPath))
-            classStructure = JSON.parse(FileReader.readFileSync(systemClassPath));
-        return classStructure;
-
-    }
 
     static getFieldData(sObject, fieldName) {
         if (sObject) {
@@ -175,7 +53,7 @@ class Utils {
             };
         let lineTokens = Tokenizer.tokenize(lineText);
         let index = 0;
-        let tokenPos = 0;
+        let tokenPos = -1;
         let token;
         let startColumn;
         while (index < lineTokens.length) {
@@ -189,6 +67,11 @@ class Utils {
             tokenPos--;
         let endLoop = false;
         let isOnParams = false;
+        if (tokenPos === -1)
+            return {
+                activation: activation,
+                startColumn: 0
+            };
         while (!endLoop) {
             token = lineTokens[tokenPos];
             let lastToken = (tokenPos - 1 > 0) ? lineTokens[tokenPos - 1] : undefined;
@@ -319,12 +202,12 @@ class Utils {
     }
 
     static getQueryCompletionItems(activationTokens, activationInfo, queryData, position, command) {
-        if (!config.getConfig().activeQuerySuggestion)
+        if (!config.getConfig().autoCompletion.activeQuerySuggestion)
             return Promise.resolve(undefined);
-        let sObjects = Utils.getObjectsFromMetadataIndex();
+        let sObjects = applicationContext.sObjects;
         let items;
-        if (sObjects.sObjectsToLower.includes(queryData.from.toLowerCase())) {
-            let sObject = Utils.getObjectFromMetadataIndex(sObjects.sObjectsMap[queryData.from.toLowerCase()]);
+        if (sObjects[queryData.from.toLowerCase()]) {
+            let sObject = sObjects[queryData.from.toLowerCase()];
             if (activationTokens.length === 0) {
                 items = Utils.getSobjectsFieldsCompletionItems(position, sObject, command, activationTokens, activationInfo);
             } else {
@@ -336,7 +219,7 @@ class Utils {
                     let fielData = Utils.getFieldData(lastObject, actToken);
                     if (fielData) {
                         if (fielData.referenceTo.length === 1) {
-                            lastObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
+                            lastObject = sObjects[queryData.from.toLowerCase()];
                         } else {
                             lastObject = undefined;
                         }
@@ -436,30 +319,24 @@ class Utils {
     }
 
     static isSObject(objectName) {
-        let sObjects = Utils.getObjectsFromMetadataIndex();
-        return sObjects && sObjects.sObjectsToLower.includes(objectName.toLowerCase());
+        let sObjects = applicationContext.sObjects;
+        return sObjects && sObjects[objectName.toLowerCase()];
     }
 
-    static isUserClass(className, document) {
-        let classes = Utils.getClassesFromClassFolder(document);
-        return classes && classes.classesToLower.includes(className.toLowerCase());
+    static isUserClass(className) {
+        let classes = applicationContext.userClasses;
+        return classes && classes[className.toLowerCase()];
     }
 
     static isSystemClass(className) {
-        let classes = Utils.getClassesFromNamespace('system');
-        return classes && classes.classesToLower.includes(className.toLowerCase());
+        let classes = applicationContext.namespacesMetadata['system'];
+        return classes && classes[className.toLowerCase()];
     }
 
     static getSystemClass(ns, className) {
-        let path = Paths.getSystemClassesPath() + '/' + ns + '/' + className + '.json';
-        if (FileChecker.isExists(path))
-            return JSON.parse(FileReader.readFileSync(path));
+        if (applicationContext.namespacesMetadata[ns.toLowerCase])
+            return applicationContext.namespacesMetadata[ns.toLowerCase][className];
         return undefined;
-    }
-
-    static getNamespacesMetadataFile() {
-        let nsMetadataPath = Paths.getSystemClassesPath() + '/namespacesMetadata.json';
-        return JSON.parse(FileReader.readFileSync(nsMetadataPath));
     }
 
     static isOnPosition(position, lastToken, token, nextToken) {
@@ -472,10 +349,10 @@ class Utils {
         return false;
     }
 
-    static getApexCompletionItems(document, position, activationTokens, activationInfo, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects) {
+    static getApexCompletionItems(position, activationTokens, activationInfo, fileStructure, classes, systemMetadata, allNamespaces, sObjects) {
         let items = [];
-        let sObject;
-        let lastClass = fileStructure;
+        let sObject = sObjects[activationTokens[0].toLowerCase()];
+        let lastClass = fileStructure || classes[activationTokens[0].toLowerCase()] || systemMetadata[activationTokens[0].toLowerCase()];
         let parentStruct;
         let index = 0;
         for (let actToken of activationTokens) {
@@ -489,7 +366,7 @@ class Utils {
                     let fielData = Utils.getFieldData(sObject, actToken);
                     if (fielData) {
                         if (fielData.referenceTo.length === 1) {
-                            sObject = Utils.getObjectFromMetadataIndex(fielData.referenceTo[0]);
+                            sObject = sObjects[fielData.referenceTo[0]];
                         } else {
                             datatype = fielData.type;
                             if (datatype.indexOf('<') !== -1)
@@ -501,49 +378,51 @@ class Utils {
                                 if (splits.length === 2) {
                                     let parentClassOrNs = splits[0];
                                     className = splits[1];
-                                    if (systemMetadata[parentClassOrNs]) {
-                                        parentStruct = Utils.getClassStructure(document, 'System', parentClassOrNs);
-                                    } else if (namespacesMetadata[parentClassOrNs]) {
-                                        lastClass = Utils.getClassStructure(document, parentClassOrNs, className);
-                                        parentStruct = undefined;
-                                        sObject = undefined;
+                                    if (allNamespaces[parentClassOrNs.toLowerCase()]) {
+                                        let namespaceMetadata = applicationContext.namespacesMetadata[parentClassOrNs.toLowerCase()];
+                                        if (namespaceMetadata[className.toLowerCase()]) {
+                                            lastClass = namespaceMetadata[className.toLowerCase()];
+                                            parentStruct = undefined;
+                                            sObject = undefined;
+                                        }
                                     }
-                                } else if (splits.length === 2) {
+                                    if (!lastClass && systemMetadata[parentClassOrNs.toLowerCase()]) {
+                                        parentStruct = systemMetadata[parentClassOrNs.toLowerCase()];
+                                    }
+                                } else if (splits.length > 2) {
                                     let nsName = splits[0];
                                     let parentClassName = splits[1];
                                     className = splits[2];
-                                    if (systemMetadata[parentClassName.toLowerCase()]) {
-                                        parentStruct = Utils.getClassStructure(document, 'System', parentClassName);
-                                    } else if (namespacesMetadata[nsName.toLowerCase()]) {
-                                        lastClass = Utils.getClassStructure(document, nsName, parentClassName);
-                                        parentStruct = undefined;
-                                        sObject = undefined;
+                                    if (allNamespaces[nsName.toLowerCase()]) {
+                                        let namespaceMetadata = applicationContext.namespacesMetadata[nsName.toLowerCase()];
+                                        if (namespaceMetadata[parentClassName.toLowerCase()]) {
+                                            lastClass = undefined;
+                                            parentStruct = namespaceMetadata[parentClassName.toLowerCase()];
+                                            sObject = undefined;
+                                        }
+                                    }
+                                    if (!parentStruct && systemMetadata[parentClassName.toLowerCase()]) {
+                                        parentStruct = systemMetadata[parentClassName.toLowerCase()];
                                     }
                                 }
                             } else {
                                 parentStruct = undefined;
                                 if (systemMetadata[datatype.toLowerCase()]) {
-                                    lastClass = Utils.getClassStructure(document, 'System', datatype);
+                                    lastClass = systemMetadata[datatype.toLowerCase()];
                                     sObject = undefined;
                                 }
                             }
                             if (parentStruct && className) {
                                 let classFound = false;
-                                Object.keys(parentStruct.classes).forEach(function (key) {
-                                    let innerClass = parentStruct.classes[key];
-                                    if (innerClass.name.toLowerCase() === className.toLowerCase()) {
-                                        classFound = true;
-                                        lastClass = innerClass;
-                                    }
-                                });
+                                if (parentStruct.classes[className.toLowerCase()]) {
+                                    classFound = true;
+                                    lastClass = parentStruct.classes[className.toLowerCase()];
+                                }
                                 if (!classFound) {
-                                    Object.keys(parentStruct.enums).forEach(function (key) {
-                                        let innerEnum = parentStruct.enums[key];
-                                        if (innerEnum.name.toLowerCase() === className.toLowerCase()) {
-                                            lastClass = innerEnum;
-                                            classFound = true;
-                                        }
-                                    });
+                                    if (parentStruct.enums[className.toLowerCase()]) {
+                                        classFound = true;
+                                        lastClass = parentStruct.enums[className.toLowerCase()];
+                                    }
                                 }
                                 if (!classFound)
                                     lastClass = undefined;
@@ -573,19 +452,19 @@ class Utils {
                         }
                         if (!datatype) {
                             if (lastClass.parentClass) {
-                                parentStruct = Utils.getClassStructure(document, undefined, lastClass.parentClass);
+                                parentStruct = classes[lastClass.parentClass.toLowerCase()];
                                 className = actToken;
                             } else {
-                                if (classes.classesToLower.includes(actToken.toLowerCase())) {
-                                    lastClass = Utils.getClassStructure(document, undefined, actToken);
+                                if (classes[actToken.toLowerCase()]) {
+                                    lastClass = classes[actToken.toLowerCase()];
                                     parentStruct = undefined;
                                     sObject = undefined;
                                 } else if (systemMetadata[actToken.toLowerCase()]) {
-                                    lastClass = Utils.getClassStructure(document, 'System', actToken);
+                                    lastClass = systemMetadata[actToken.toLowerCase()];
                                     parentStruct = undefined;
                                     sObject = undefined;
-                                } else if (sObjects.sObjectsToLower.includes(actToken.toLowerCase())) {
-                                    sObject = Utils.getObjectFromMetadataIndex(actToken);
+                                } else if (sObjects[actToken.toLowerCase()]) {
+                                    sObject = sObjects[actToken.toLowerCase()];
                                     parentStruct = undefined;
                                     lastClass = undefined;
                                 }
@@ -600,42 +479,50 @@ class Utils {
                                 if (splits.length === 2) {
                                     let parentClassOrNs = splits[0];
                                     className = splits[1];
-                                    if (classes.classesToLower.includes(parentClassOrNs.toLowerCase())) {
-                                        parentStruct = Utils.getClassStructure(document, undefined, parentClassOrNs);
-                                    } else if (systemMetadata[parentClassOrNs]) {
-                                        parentStruct = Utils.getClassStructure(document, 'System', parentClassOrNs);
-                                    } else if (namespacesMetadata[parentClassOrNs]) {
-                                        lastClass = Utils.getClassStructure(document, parentClassOrNs, className);
-                                        parentStruct = undefined;
-                                        sObject = undefined;
+                                    if (classes[parentClassOrNs.toLowerCase()]) {
+                                        parentStruct = classes[parentClassOrNs.toLowerCase()];
+                                    } else if (allNamespaces[parentClassOrNs.toLowerCase()]) {
+                                        let namespaceMetadata = applicationContext.namespacesMetadata[parentClassOrNs.toLowerCase()];
+                                        if (namespaceMetadata[className.toLowerCase()]) {
+                                            lastClass = namespaceMetadata[className.toLowerCase()];
+                                            parentStruct = undefined;
+                                            sObject = undefined;
+                                        }
                                     }
-                                } else if (splits.length === 2) {
+                                    if (!lastClass && systemMetadata[parentClassOrNs.toLowerCase()]) {
+                                        parentStruct = systemMetadata[parentClassOrNs.toLowerCase()];
+                                    }
+                                } else if (splits.length > 2) {
                                     let nsName = splits[0];
                                     let parentClassName = splits[1];
                                     className = splits[2];
-                                    if (classes.classesToLower.includes(parentClassName.toLowerCase())) {
-                                        parentStruct = Utils.getClassStructure(document, undefined, parentClassName);
-                                    } else if (systemMetadata[parentClassName.toLowerCase()]) {
-                                        parentStruct = Utils.getClassStructure(document, 'System', parentClassName);
-                                    } else if (namespacesMetadata[nsName.toLowerCase()]) {
-                                        lastClass = Utils.getClassStructure(document, nsName, parentClassName);
-                                        parentStruct = undefined;
-                                        sObject = undefined;
+                                    if (classes[parentClassName.toLowerCase()]) {
+                                        parentStruct = classes[parentClassName.toLowerCase()];
+                                    } else if (allNamespaces[nsName.toLowerCase()]) {
+                                        let namespaceMetadata = applicationContext[nsName.toLowerCase()];
+                                        if (namespaceMetadata[parentClassName.toLowerCase()]) {
+                                            lastClass = undefined;
+                                            parentStruct = namespaceMetadata[parentClassName.toLowerCase()];
+                                            sObject = undefined;
+                                        }
+                                    }
+                                    if (!parentStruct && systemMetadata[parentClassName.toLowerCase()]) {
+                                        parentStruct = systemMetadata[parentClassName.toLowerCase()];
                                     }
                                 }
                             } else {
                                 parentStruct = undefined;
                                 if (lastClass.parentClass && datatype !== 'List') {
-                                    parentStruct = Utils.getClassStructure(document, undefined, lastClass.parentClass);
+                                    parentStruct = classes[lastClass.parentClass.toLowerCase()];
                                     className = datatype;
-                                } else if (classes.classesToLower.includes(datatype.toLowerCase())) {
-                                    lastClass = Utils.getClassStructure(document, undefined, datatype);
+                                } else if (classes[datatype.toLowerCase()]) {
+                                    lastClass = classes[datatype.toLowerCase()];
                                     sObject = undefined;
-                                } else if (systemMetadata[datatype.toLowerCase()]) {
-                                    lastClass = Utils.getClassStructure(document, 'System', datatype);
+                                } if (systemMetadata[datatype.toLowerCase()]) {
+                                    lastClass = systemMetadata[datatype.toLowerCase()];
                                     sObject = undefined;
-                                } else if (sObjects.sObjectsToLower.includes(datatype.toLowerCase())) {
-                                    sObject = Utils.getObjectFromMetadataIndex(datatype);
+                                } else if (sObjects[datatype.toLowerCase()]) {
+                                    sObject = sObjects[datatype.toLowerCase()];
                                     parentStruct = undefined;
                                     lastClass = undefined;
                                 }
@@ -643,21 +530,15 @@ class Utils {
                         }
                         if (parentStruct && className) {
                             let classFound = false;
-                            Object.keys(parentStruct.classes).forEach(function (key) {
-                                let innerClass = parentStruct.classes[key];
-                                if (innerClass.name.toLowerCase() === className.toLowerCase()) {
-                                    classFound = true;
-                                    lastClass = innerClass;
-                                }
-                            });
+                            if (parentStruct.classes[className.toLowerCase()]) {
+                                classFound = true;
+                                lastClass = parentStruct.classes[className.toLowerCase()];
+                            }
                             if (!classFound) {
-                                Object.keys(parentStruct.enums).forEach(function (key) {
-                                    let innerEnum = parentStruct.enums[key];
-                                    if (innerEnum.name.toLowerCase() === className.toLowerCase()) {
-                                        lastClass = innerEnum;
-                                        classFound = true;
-                                    }
-                                });
+                                if (parentStruct.enums[className.toLowerCase()]) {
+                                    classFound = true;
+                                    lastClass = parentStruct.enums[className.toLowerCase()];
+                                }
                             }
                             if (!classFound)
                                 lastClass = undefined;
@@ -667,9 +548,9 @@ class Utils {
             }
             index++;
         }
-        if (lastClass && config.getConfig().activeApexSuggestion) {
+        if (lastClass && config.getConfig().autoCompletion.activeApexSuggestion) {
             items = Utils.getApexClassCompletionItems(position, lastClass);
-        } else if (sObject && config.getConfig().activeSobjectFieldsSuggestion) {
+        } else if (sObject && config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
             items = Utils.getSobjectsFieldsCompletionItems(position, sObject, 'aurahelper.completion.apex', activationTokens, activationInfo);
         }
         return items;
@@ -699,10 +580,19 @@ class Utils {
             } else {
                 if (apexClass.posData && apexClass.posData.isOnMethod) {
                     let method = Utils.getMethod(apexClass, apexClass.posData.methodSignature);
-                    for (const variable of method.params) {
-                        let options = Utils.getCompletionItemOptions(variable.description, 'Datatype: ' + variable.datatype, variable.name, true, CompletionItemKind.Variable);
-                        let command = Utils.getCommand('MethodParam', 'aurahelper.completion.apex', [position, 'MethodParam', variable]);
-                        items.push(Utils.createItemForCompletion(variable.name, options, command));
+                    for (const param of method.params) {
+                        let description = '';
+                        if (method.comment && method.comment.params) { 
+                            let commentParam = method.comment.params[param.name];
+                            if (commentParam) {
+                                if (commentParam.description && commentParam.description.length > 0)
+                                    description += ' :' + commentParam.description + '  \n\n';
+                            }
+                        }
+                        description += 'Type: ' + param.datatype;
+                        let options = Utils.getCompletionItemOptions(param.datatype + ' ' + param.name, description, param.name, true, CompletionItemKind.Variable);
+                        let command = Utils.getCommand('MethodParam', 'aurahelper.completion.apex', [position, 'MethodParam', param]);
+                        items.push(Utils.createItemForCompletion(param.name, options, command));
                     }
                     for (const variable of method.declaredVariables) {
                         let options = Utils.getCompletionItemOptions('Method declared variable', 'Datatype: ' + variable.datatype, variable.name, true, CompletionItemKind.Variable);
@@ -711,7 +601,11 @@ class Utils {
                     }
                 }
                 for (const field of apexClass.fields) {
-                    let options = Utils.getCompletionItemOptions('Class field', 'Type: ' + field.type, field.name, true, CompletionItemKind.Field);
+                    let description = '';
+                    if (field.comment && field.comment.description && field.comment.description.length > 0)
+                        description += '### ' + field.comment.description + '  \n';
+                    description += 'Type: ' + field.datatype;
+                    let options = Utils.getCompletionItemOptions('Class field', description, field.name, true, CompletionItemKind.Field);
                     let command = Utils.getCommand('ClassField', 'aurahelper.completion.apex', [position, 'ClassField', field.name]);
                     items.push(Utils.createItemForCompletion(field.name, options, command));
                 }
@@ -719,8 +613,25 @@ class Utils {
                     let insertText = method.name + "(";
                     let snippetNum = 1;
                     let name = method.name + "(";
+                    let description = '';
+                    if (method.comment && method.comment.description && method.comment.description.length > 0)
+                        description += '### ' + method.comment.description + '  \n';
+                    else if (method.description)
+                        description += '### ' + method.description + '  \n';
+                    if (method.params.length > 0)
+                        description += '*Parameters:*   \n\n';
                     if (method.params) {
                         for (const param of method.params) {
+                            description += '> **' + param.name + '** (*' + param.datatype + '*)';
+                            if (method.comment && method.comment.params) {
+                                let commentParam = method.comment.params[param.name];
+                                if (commentParam) {
+                                    if (commentParam.description && commentParam.description.length > 0)
+                                        description += ' :' + commentParam.description + '  \n\n';
+                                }
+                            } else if (param.description) {
+                                description += ' :' + param.description + '  \n\n';
+                            }
                             if (snippetNum === 1) {
                                 name += param.name;
                                 insertText += "${" + snippetNum + ":" + param.name + "}";
@@ -746,7 +657,7 @@ class Utils {
                     }
                     name += ")";
                     insertText += ")";
-                    let options = Utils.getCompletionItemOptions(method.signature, method.description, new SnippetString(insertText), true, CompletionItemKind.Constructor);
+                    let options = Utils.getCompletionItemOptions(method.signature, description, new SnippetString(insertText), true, CompletionItemKind.Constructor);
                     let command = Utils.getCommand('ClassConstructor', 'aurahelper.completion.apex', [position, 'ClassConstructor', method]);
                     items.push(Utils.createItemForCompletion(name, options, command));
                 }
@@ -754,7 +665,24 @@ class Utils {
                     let insertText = method.name + "(";
                     let snippetNum = 1;
                     let name = method.name + "(";
+                    let description = '';
+                    if (method.comment && method.comment.description && method.comment.description.length > 0)
+                        description += '### ' + method.comment.description + '  \n';
+                    else if (method.description)
+                        description += '### ' + method.description + '  \n';
+                    if (method.params.length > 0)
+                        description += '*Parameters:*   \n\n';
                     for (const param of method.params) {
+                        description += '> **' + param.name + '** (*' + param.datatype + '*)';
+                        if (method.comment && method.comment.params) {
+                            let commentParam = method.comment.params[param.name];
+                            if (commentParam) {
+                                if (commentParam.description && commentParam.description.length > 0)
+                                    description += ' :' + commentParam.description + '  \n\n';
+                            }
+                        } else if (param.description) {
+                            description += ' :' + param.description + '  \n\n';
+                        }
                         if (snippetNum === 1) {
                             name += param.name;
                             insertText += "${" + snippetNum + ":" + param.name + "}";
@@ -765,11 +693,18 @@ class Utils {
                         }
                         snippetNum++;
                     }
+                    if (method.comment && method.comment.return && method.datatype.toLowerCase() !== 'void') {
+                        description += '*Return*:  \n'
+                        if (method.comment.return.description && method.comment.return.description.length > 0) {
+                            description += '> ' + method.comment.return.description + '  \n';
+                        }
+                        description += '> *' + method.comment.return.type + '*  \n';
+                    }
                     name += ")";
                     insertText += ")";
                     if (method.datatype.toLowerCase() === 'void')
                         insertText += ';';
-                    let options = Utils.getCompletionItemOptions(method.signature, method.description, new SnippetString(insertText), true, CompletionItemKind.Method);
+                    let options = Utils.getCompletionItemOptions(method.signature, description, new SnippetString(insertText), true, CompletionItemKind.Method);
                     let command = Utils.getCommand('ClassMethod', 'aurahelper.completion.apex', [position, 'ClassMethod', method]);
                     items.push(Utils.createItemForCompletion(name, options, command));
                 }
@@ -777,27 +712,27 @@ class Utils {
                     let innerClass = apexClass.classes[key];
                     let options;
                     if (innerClass.isInterface) {
-                        options = Utils.getCompletionItemOptions('Internal Interface from : ' + apexClass.name, innerClass.description, innerClass.name, true, CompletionItemKind.Interface);
+                        options = Utils.getCompletionItemOptions('Internal Interface from : ' + apexClass.name, (innerClass.comment) ? innerClass.comment : '', innerClass.name, true, CompletionItemKind.Interface);
                     } else {
-                        options = Utils.getCompletionItemOptions('Internal Class from : ' + apexClass.name, innerClass.description, innerClass.name, true, CompletionItemKind.Class);
+                        options = Utils.getCompletionItemOptions('Internal Class from : ' + apexClass.name, (innerClass.comment) ? innerClass.comment : '', innerClass.name, true, CompletionItemKind.Class);
                     }
                     let command = Utils.getCommand('InnerClass', 'aurahelper.completion.apex', [position, 'InnerClass', innerClass]);
                     items.push(Utils.createItemForCompletion(innerClass.name, options, command));
                 });
                 Object.keys(apexClass.enums).forEach(function (key) {
                     let innerEnum = apexClass.enums[key];
-                    let options = Utils.getCompletionItemOptions(innerEnum.name + ' Enum', innerEnum.description, innerEnum.name, true, CompletionItemKind.Enum);
+                    let options = Utils.getCompletionItemOptions(innerEnum.name + ' Enum', (innerEnum.comment) ? innerEnum.comment : '', innerEnum.name, true, CompletionItemKind.Enum);
                     let command = Utils.getCommand('InnerEnum', 'aurahelper.completion.apex', [position, 'InnerEnum', innerEnum]);
                     items.push(Utils.createItemForCompletion(innerEnum.name, options, command));
                 });
-                if (apexClass.extends) { 
+                if (apexClass.extends) {
                     let parentClasss = apexClass;
-                    while (!parentClasss.extends) { 
+                    while (!parentClasss.extends) {
                         items = items.concat(Utils.getApexClassCompletionItems(position, parentClasss));
                         parentClasss = parentClasss.extends;
                     }
                 }
-                if (apexClass.implements.length > 0) { 
+                if (apexClass.implements.length > 0) {
                     for (const imp of apexClass.implements) {
                         items = items.concat(Utils.getApexClassCompletionItems(position, imp));
                     }
@@ -833,7 +768,7 @@ class Utils {
         if (options && options.detail)
             item.detail = options.detail;
         if (options && options.documentation)
-            item.documentation = options.documentation;
+            item.documentation = new vscode.MarkdownString(options.documentation);
         if (options && options.preselect)
             item.preselect = options.preselect;
         if (options && options.insertText)
@@ -843,57 +778,55 @@ class Utils {
         return item;
     }
 
-    static getAllAvailableCompletionItems(position, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects) {
+    static getAllAvailableCompletionItems(position, fileStructure, classes, systemMetadata, allNamespaces, sObjects) {
         let items = [];
-        if (config.getConfig().activeApexSuggestion) {
+        if (config.getConfig().autoCompletion.activeApexSuggestion) {
             items = Utils.getApexClassCompletionItems(position, fileStructure)
-            for (const userClass of classes.classes) {
-                let options = Utils.getCompletionItemOptions(userClass, 'Custom Apex Class', userClass, true, CompletionItemKind.Class);
+            Object.keys(classes).forEach(function (key) {
+                let userClass = classes[key];
+                let options = Utils.getCompletionItemOptions(userClass, (userClass.comment) ? userClass.comment : 'Custom Class', userClass, true, CompletionItemKind.Class);
                 let command = Utils.getCommand('UserClass', 'aurahelper.completion.apex', [position, 'UserClass', userClass]);
                 items.push(Utils.createItemForCompletion(userClass, options, command));
-            }
+            });
             Object.keys(systemMetadata).forEach(function (key) {
                 let systemClass = systemMetadata[key];
                 if (systemClass.isEnum) {
-                    let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '') + '\nEnum Values: \n' + systemClass.enumValues.join('\n');
+                    let description = systemClass.description + ((systemClass.link) ? ' Documentation:\n ' + systemClass.link : '') + '\nEnum Values: \n' + systemClass.enumValues.join('\n');
                     let options = Utils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Enum);
                     let command = Utils.getCommand('SystemEnum', 'aurahelper.completion.apex', [position, 'SystemEnum', systemClass]);
                     items.push(Utils.createItemForCompletion(systemClass.name, options, command));
                 } else if (systemClass.isInterface) {
-                    let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '');
+                    let description = systemClass.description + ((systemClass.link) ? ' Documentation:\n ' + systemClass.link : '');
                     let options = Utils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Interface);
                     let command = Utils.getCommand('SystemInterface', 'aurahelper.completion.apex', [position, 'SystemInterface', systemClass]);
                     items.push(Utils.createItemForCompletion(systemClass.name, options, command));
                 } else {
-                    let description = systemClass.description + ((systemClass.link) ? 'Documentation:\n ' + systemClass.link : '');
+                    let description = systemClass.description + ((systemClass.link) ? ' Documentation:\n ' + systemClass.link : '');
                     let options = Utils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Class);
                     let command = Utils.getCommand('SystemClass', 'aurahelper.completion.apex', [position, 'SystemClass', systemClass]);
                     items.push(Utils.createItemForCompletion(systemClass.name, options, command));
                 }
             });
-            Object.keys(namespacesMetadata).forEach(function (key) {
-                let nsMetadata = namespacesMetadata[key];
-                let options = Utils.getCompletionItemOptions(nsMetadata.description, nsMetadata.docLink, nsMetadata.name, true, CompletionItemKind.Module);
+            Object.keys(allNamespaces).forEach(function (key) {
+                let nsMetadata = allNamespaces[key];
+                let options = Utils.getCompletionItemOptions(nsMetadata.description, ' Documentation:\n ' + nsMetadata.docLink, nsMetadata.name, true, CompletionItemKind.Module);
                 let command = Utils.getCommand('Namespace', 'aurahelper.completion.apex', [position, 'Namespace', nsMetadata]);
                 items.push(Utils.createItemForCompletion(nsMetadata.name, options, command));
             });
         }
-        if (config.getConfig().activeSObjectSuggestion) {
-            for (const sobject of sObjects.sObjectsToLower) {
-                let objName = sObjects.sObjectsMap[sobject];
-                let splits = objName.split('__');
-                let namespace = '';
+        if (config.getConfig().autoCompletion.activeSObjectSuggestion) {
+            Object.keys(sObjects).forEach(function (key) {
+                let sObject = sObjects[key];
                 let description = 'Standard SObject';
-                if (objName.indexOf('__c') !== -1)
+                if (sObject.custom)
                     description = 'Custom SObject';
-                if (splits.length > 2) {
-                    namespace = splits[0].trim();
-                    description += '\nNamespace: ' + namespace;
+                if (sObject.namespace) {
+                    description += '\nNamespace: ' + sObject.namespace;
                 }
-                let options = Utils.getCompletionItemOptions(objName, description, objName, true, CompletionItemKind.Class);
-                let command = Utils.getCommand('SObject', 'aurahelper.completion.apex', [position, 'SObject', objName]);
-                items.push(Utils.createItemForCompletion(objName, options, command));
-            }
+                let options = Utils.getCompletionItemOptions(sObject.name, description, sObject.name, true, CompletionItemKind.Class);
+                let command = Utils.getCommand('SObject', 'aurahelper.completion.apex', [position, 'SObject', sObject.name]);
+                items.push(Utils.createItemForCompletion(sObject.name, options, command));
+            });
         }
         return items;
     }

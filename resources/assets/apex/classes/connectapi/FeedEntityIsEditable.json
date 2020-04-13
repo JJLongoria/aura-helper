@@ -1,0 +1,39 @@
+{
+  "name": "FeedEntityIsEditable",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "areAttachments​EditableByMe",
+      "description": "true if the context user can add and remove attachments on the feed",
+      "datatype": "Boolean",
+      "signature": "public Boolean areAttachments​EditableByMe"
+    },
+    {
+      "name": "feedEntityUrl",
+      "description": "URL of the feed element or comment.",
+      "datatype": "String",
+      "signature": "public String feedEntityUrl"
+    },
+    {
+      "name": "isEditableByMe",
+      "description": "true if the",
+      "datatype": "Boolean",
+      "signature": "public Boolean isEditableByMe"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Indicates if the context user can edit a feed element or comment.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_entity_is_editable.htm"
+}

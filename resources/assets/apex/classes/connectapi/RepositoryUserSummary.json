@@ -1,0 +1,33 @@
+{
+  "name": "RepositoryUserSummary",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.AbstractDirectoryEntrySummary",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "firstName",
+      "description": "First name of the user.",
+      "datatype": "String",
+      "signature": "public String firstName"
+    },
+    {
+      "name": "lastName",
+      "description": "Last name of the user.",
+      "datatype": "String",
+      "signature": "public String lastName"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A user summary.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_repository_user_summary.htm"
+}

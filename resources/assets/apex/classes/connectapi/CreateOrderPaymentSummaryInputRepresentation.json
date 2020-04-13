@@ -1,0 +1,33 @@
+{
+  "name": "CreateOrderPaymentSummaryInputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "orderSummaryId",
+      "description": "ID of the OrderSummary.",
+      "datatype": "String",
+      "signature": "public String orderSummaryId"
+    },
+    {
+      "name": "payment​AuthorizationId",
+      "description": "ID of the payment authorization.",
+      "datatype": "String",
+      "signature": "public String payment​AuthorizationId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An OrderSummary for which to create an OrderPaymentSummary, with the payment authorization or payments to include in it.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_create_order_payment_summary.htm"
+}

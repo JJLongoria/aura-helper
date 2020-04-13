@@ -3,6 +3,7 @@ const logger = require('../main/logger');
 const Utils = require('./utils').Utils;
 const languages = require('../languages');
 const vscode = require('vscode');
+const applicationContext = require('../main/applicationContext');
 const FileChecker = fileSystem.FileChecker;
 const FileReader = fileSystem.FileReader;
 const langUtils = languages.Utils;
@@ -12,12 +13,18 @@ const config = require('../main/config');
 
 exports.provider = {
     provideCompletionItems(document, position) {
-        let items;
-        if (FileChecker.isApexClass(document.uri.fsPath) || FileChecker.isApexTrigger(document.uri.fsPath)) {
-            items = provideApexCompletion(document, position);
-            items.sort();
-        }
-        return Promise.resolve(items);
+        return new Promise(function (resolve) {
+            let items;
+            try {
+                if (FileChecker.isApexClass(document.uri.fsPath) || FileChecker.isApexTrigger(document.uri.fsPath)) {
+                    items = provideApexCompletion(document, position);
+                    items.sort();
+                }
+            } catch (error) {
+                logger.error(error);
+            }
+            resolve(items);
+        });
     }
 }
 
@@ -29,20 +36,19 @@ function provideApexCompletion(document, position) {
         let activation = activationInfo.activation;
         let activationTokens = getActivationTokens(activation);
         let queryData = langUtils.getQueryData(document, position);
-        // let fileStructure = ApexParser.parse(FileReader.readDocument(document), position);
-        let fileStructure = ApexParser.getFileStructure(FileReader.readDocument(document), position);
-        let classes = Utils.getClassesFromClassFolder(document);
-        let systemMetadata = Utils.getNamespaceMetadataFile('System');
-        let namespacesMetadata = Utils.getNamespacesMetadataFile();
-        let sObjects = Utils.getObjectsFromMetadataIndex();
+        let classes = applicationContext.userClasses;
+        let allNamespaces = applicationContext.allNamespaces;
+        let systemMetadata = allNamespaces['system'];
+        let sObjects = applicationContext.sObjects;
+        let fileStructure = ApexParser.getFileStructure(FileReader.readDocument(document), position, classes, systemMetadata, allNamespaces);
         if (queryData) {
             items = Utils.getQueryCompletionItems(activationTokens, queryData, position, 'aurahelper.completion.apex');
         } else if (activationTokens.length > 0 && activationTokens[0].toLowerCase() === 'label') {
             items = getLabelsCompletionItems(activationTokens, position);
         } else if (activationTokens.length > 1) {
-            items = Utils.getApexCompletionItems(document, position, activationTokens, activationInfo, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects);
+            items = Utils.getApexCompletionItems(position, activationTokens, activationInfo, fileStructure, classes, systemMetadata, allNamespaces, sObjects);
         } else {
-            items = Utils.getAllAvailableCompletionItems(position, fileStructure, classes, systemMetadata, namespacesMetadata, sObjects);
+            items = Utils.getAllAvailableCompletionItems(position, fileStructure, classes, systemMetadata, allNamespaces, sObjects);
         }
     }
     return items;

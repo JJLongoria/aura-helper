@@ -1,0 +1,57 @@
+{
+  "name": "BannerPhotoInput",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "cropHeight",
+      "description": "Height of the crop rectangle in pixels.",
+      "datatype": "Integer",
+      "signature": "public Integer cropHeight"
+    },
+    {
+      "name": "cropWidth",
+      "description": "Width of the crop rectangle in pixels.",
+      "datatype": "Integer",
+      "signature": "public Integer cropWidth"
+    },
+    {
+      "name": "cropX",
+      "description": "X position of the crop rectangle from the left edge of the image in pixels. Top left is position (0,0).",
+      "datatype": "Integer",
+      "signature": "public Integer cropX"
+    },
+    {
+      "name": "cropY",
+      "description": "Y position of the crop rectangle from the top edge of the image in pixels. Top left is position (0,0).",
+      "datatype": "Integer",
+      "signature": "public Integer cropY"
+    },
+    {
+      "name": "fileId",
+      "description": "ID of an existing file. The key prefix must be 069, and the file size must be less than 8 MB. Note Images uploaded on the Group page and on the User page don’t have file IDs and therefore can’t be used.",
+      "datatype": "String",
+      "signature": "public String fileId"
+    },
+    {
+      "name": "versionNumber",
+      "description": "Version number of an existing file. If not provided, the latest version is used.",
+      "datatype": "Integer",
+      "signature": "public Integer versionNumber"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A banner photo.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_input_banner_photo.htm"
+}

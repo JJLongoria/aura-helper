@@ -1,0 +1,27 @@
+{
+  "name": "Bookmarks​Capability",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.​FeedElement​Capability",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "isBookmarked​ByCurrentUser",
+      "description": "Indicates whether the feed element has been",
+      "datatype": "Boolean",
+      "signature": "public Boolean isBookmarked​ByCurrentUser"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "If a feed element has this capability, the context user can bookmark it.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_bookmarks_capability.htm"
+}

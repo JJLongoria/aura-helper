@@ -1,0 +1,51 @@
+{
+  "name": "​FeedEnabledEntity",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "id",
+      "description": "The 18-character ID of the record.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "motif",
+      "description": "Small, medium, and large icons indicating the record's type.",
+      "datatype": "ConnectApi.Motif",
+      "signature": "public ConnectApi.Motif motif"
+    },
+    {
+      "name": "name",
+      "description": "The localized name of the record.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "type",
+      "description": "The type of the record.",
+      "datatype": "String",
+      "signature": "public String type"
+    },
+    {
+      "name": "url",
+      "description": "URL to the record.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "An entity that can have feeds associated with it.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_feed_enabled_entity_summary.htm"
+}

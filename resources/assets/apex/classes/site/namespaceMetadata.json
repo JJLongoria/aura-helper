@@ -1,4 +1,15 @@
 {
+  "featurenotsupportedexception": {
+    "name": "FeatureNotSupportedException",
+    "namespace": "Site",
+    "isEnum": false,
+    "isInterface": false,
+    "enumValues": [],
+    "description": "Unable to create external user. This exception can’t be subclassed or thrown in code",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_Site_exceptions.htm",
+    "classes": [],
+    "enums": []
+  },
   "urlrewriter": {
     "name": "UrlRewriter",
     "namespace": "Site",
@@ -6,7 +17,7 @@
     "isInterface": true,
     "enumValues": [],
     "description": "Enables rewriting Sites URLs.",
-    "link": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_site_urlRewriter_reference.htm",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_site_urlRewriter_reference.htm",
     "classes": [],
     "enums": []
   }

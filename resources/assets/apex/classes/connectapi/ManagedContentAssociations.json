@@ -1,0 +1,27 @@
+{
+  "name": "ManagedContentAssociations",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "topics",
+      "description": "A collection of topics associated with the managed content.",
+      "datatype": "List<ConnectApi.​TopicSummary>",
+      "signature": "public List<ConnectApi.​TopicSummary> topics"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Content topics associated with managed content.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_managed_content_associations.htm"
+}

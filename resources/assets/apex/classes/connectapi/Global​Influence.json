@@ -1,0 +1,33 @@
+{
+  "name": "Global​Influence",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "percentile",
+      "description": "Percentile value for the",
+      "datatype": "String",
+      "signature": "public String percentile"
+    },
+    {
+      "name": "rank",
+      "description": "Number indicating the user’s",
+      "datatype": "Integer",
+      "signature": "public Integer rank"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_Chatter_Influence.htm"
+}

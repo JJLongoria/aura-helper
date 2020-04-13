@@ -27,9 +27,14 @@ const DOLLAR = "dollar";
 const PERCENT = "percent";
 const SYMBOL = "symbol";
 const NUMBER = "number";
+const DECIMAL = "decimal";
+const DATE = "date";
+const DATETIME = "datetime";
+const TIME = "time";
 const IDENTIFIER = "identifier";
 const SLQUOTTE = "slQuotte";
 const BSLQUOTTE = "bSlQuotte";
+const UNKNOWN = 'unknown';
 
 module.exports = {
     COMMA,
@@ -62,5 +67,10 @@ module.exports = {
     SLQUOTTE,
     BSLQUOTTE,
     OPEN_EXMARK,
-    OPEN_QMARK
+    OPEN_QMARK,
+    DECIMAL,
+    DATE,
+    DATETIME,
+    TIME,
+    UNKNOWN
 }

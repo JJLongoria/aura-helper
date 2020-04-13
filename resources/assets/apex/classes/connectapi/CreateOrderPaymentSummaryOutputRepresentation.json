@@ -1,0 +1,27 @@
+{
+  "name": "CreateOrderPaymentSummaryOutputRepresentation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "ConnectApi.BaseOutputRepresentation",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "orderPayment​SummaryId",
+      "description": "ID of the Order Payment Summary.",
+      "datatype": "String",
+      "signature": "public String orderPayment​SummaryId"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "ID of the created Order Payment Summary.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_create_order_payment_summary_output.htm"
+}

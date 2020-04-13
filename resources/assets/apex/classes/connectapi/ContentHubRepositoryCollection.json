@@ -1,0 +1,45 @@
+{
+  "name": "ContentHubRepositoryCollection",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "currentPageUrl",
+      "description": "URL to the current page of repositories.",
+      "datatype": "String",
+      "signature": "public String currentPageUrl"
+    },
+    {
+      "name": "nextPageUrl",
+      "description": "URL to the next page of repositories.",
+      "datatype": "String",
+      "signature": "public String nextPageUrl"
+    },
+    {
+      "name": "previousPageUrl",
+      "description": "URL to the previous page of repositories.",
+      "datatype": "String",
+      "signature": "public String previousPageUrl"
+    },
+    {
+      "name": "repositories",
+      "description": "Collection of repositories.",
+      "datatype": "List<ConnectApi.​ContentHub​Repository>",
+      "signature": "public List<ConnectApi.​ContentHub​Repository> repositories"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A collection of repositories.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_content_hub_repository_collection.htm"
+}

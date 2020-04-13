@@ -1,0 +1,20 @@
+{
+    "name": "JSONException",
+    "namespace": "System",
+    "accessModifier": "global",
+    "definitionModifier": "",
+    "withSharing": false,
+    "inheritedSharing": false,
+    "isEnum": false,
+    "enumValues": [],
+    "extendsType": "Exception",
+    "isInterface": false,
+    "implements": [],
+    "classes": {},
+    "enums": {},
+    "fields": [],
+    "constructors": [],
+    "methods": [],
+    "description": "Any problem with JSON serialization and deserialization operations. For more information, see the methods of System.JSON, System.JSONParser, and System.JSONGenerator.",
+    "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_exception_methods.htm"
+}

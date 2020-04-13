@@ -1,0 +1,56 @@
+{
+  "name": "MentionCompletion",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "description": "An additional label (if one",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "A description of the",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "The name of the record",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "If the record represented by this completion",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "A URL to the photo or icon of",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "The ID of the record",
+      "datatype": "",
+      "signature": "public  undefined"
+    },
+    {
+      "description": "",
+      "datatype": "",
+      "signature": "public  undefined"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_mention_completion.htm"
+}

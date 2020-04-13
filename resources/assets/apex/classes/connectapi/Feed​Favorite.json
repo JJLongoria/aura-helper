@@ -1,0 +1,87 @@
+{
+  "name": "Feed​Favorite",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "community",
+      "description": "Information about the community that contains the favorite",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference community"
+    },
+    {
+      "name": "createdBy",
+      "description": "Favorite’s creator",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary createdBy"
+    },
+    {
+      "name": "feedUrl",
+      "description": "Chatter REST API URL identifying the feed item for this favorite",
+      "datatype": "String",
+      "signature": "public String feedUrl"
+    },
+    {
+      "name": "id",
+      "description": "Favorite’s 18–character ID",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "lastViewDate",
+      "description": "ISO 8601 date string, for example,",
+      "datatype": "Datetime",
+      "signature": "public Datetime lastViewDate"
+    },
+    {
+      "name": "name",
+      "description": "Favorite’s name",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "searchText",
+      "description": "If the favorite is from a search, contains the search text,",
+      "datatype": "String",
+      "signature": "public String searchText"
+    },
+    {
+      "name": "target",
+      "description": "A reference to the topic if applicable, null otherwise",
+      "datatype": "ConnectApi.​​Reference",
+      "signature": "public ConnectApi.​​Reference target"
+    },
+    {
+      "name": "type",
+      "description": "An empty string or one of the following values:",
+      "datatype": "ConnectApi.​FeedFavorite​Type Enum",
+      "signature": "public ConnectApi.​FeedFavorite​Type Enum type"
+    },
+    {
+      "name": "url",
+      "description": "Chatter REST API URL to this favorite",
+      "datatype": "String",
+      "signature": "public String url"
+    },
+    {
+      "name": "user",
+      "description": "Information about the user who saved this favorite",
+      "datatype": "ConnectApi.​User​Summary",
+      "signature": "public ConnectApi.​User​Summary user"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_Feed_Favorite.htm"
+}

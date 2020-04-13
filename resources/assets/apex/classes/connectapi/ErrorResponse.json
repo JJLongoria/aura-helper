@@ -1,0 +1,33 @@
+{
+  "name": "ErrorResponse",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "errorCode",
+      "description": "Error code.",
+      "datatype": "String",
+      "signature": "public String errorCode"
+    },
+    {
+      "name": "message",
+      "description": "More error detail, if available.",
+      "datatype": "String",
+      "signature": "public String message"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "Base error response.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_error_response.htm"
+}

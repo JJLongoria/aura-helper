@@ -1,0 +1,75 @@
+{
+  "name": "Recommendation",
+  "namespace": "ConnectApi",
+  "accessModifier": "global",
+  "definitionModifier": "",
+  "withSharing": false,
+  "inheritedSharing": false,
+  "isEnum": false,
+  "enumValues": [],
+  "extendsType": "",
+  "isInterface": false,
+  "implements": [],
+  "classes": {},
+  "enums": {},
+  "fields": [
+    {
+      "name": "acceptanceLabel",
+      "description": "Text indicating user acceptance of the",
+      "datatype": "String",
+      "signature": "public String acceptanceLabel"
+    },
+    {
+      "name": "actionReference",
+      "description": "Reference to the action to perform, for example,",
+      "datatype": "String",
+      "signature": "public String actionReference"
+    },
+    {
+      "name": "description",
+      "description": "Description of the recommendation.",
+      "datatype": "String",
+      "signature": "public String description"
+    },
+    {
+      "name": "externalId",
+      "description": "External ID of the recommendation. This ID doesn’t need to",
+      "datatype": "String",
+      "signature": "public String externalId"
+    },
+    {
+      "name": "id",
+      "description": "ID of the recommendation.",
+      "datatype": "String",
+      "signature": "public String id"
+    },
+    {
+      "name": "image",
+      "description": "Image to display.",
+      "datatype": "ConnectApi.​FileAsset",
+      "signature": "public ConnectApi.​FileAsset image"
+    },
+    {
+      "name": "name",
+      "description": "Name of the recommendation.",
+      "datatype": "String",
+      "signature": "public String name"
+    },
+    {
+      "name": "rejectionLabel",
+      "description": "Text indicating user rejection of the",
+      "datatype": "String",
+      "signature": "public String rejectionLabel"
+    },
+    {
+      "name": "url",
+      "description": "URL to the recommendation.",
+      "datatype": "String",
+      "signature": "public String url"
+    }
+  ],
+  "constructors": [],
+  "methods": [],
+  "description": "A Next Best Action recommendation object.",
+  "docLink": "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connectapi_output_proposition.htm"
+}
