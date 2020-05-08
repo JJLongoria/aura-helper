@@ -179,9 +179,7 @@ function retrieveSFDXFormat(user, metadata, options, callback) {
                                     let recordTypeSourceFile = objectsSourceFolder + '/' + key + '/recordTypes/' + childKey + '.recordType-meta.xml';
                                     if (FileChecker.isExists(recordTypeSourceFile)) {
                                         let recordTypeTargetFile = objectsTargetFolder + '/' + key + '/recordTypes/' + childKey + '.recordType-meta.xml';
-                                        FileWriter.copyFile(recordTypeSourceFile, recordTypeTargetFile, function (err) {
-                                            console.log(err);
-                                        });
+                                        FileWriter.copyFileSync(recordTypeSourceFile, recordTypeTargetFile);
                                     }
                                 });
                             });
@@ -200,9 +198,7 @@ function retrieveSFDXFormat(user, metadata, options, callback) {
                             let recordTypeSourceFile = objectsSourceFolder + '/' + options.sObject + '/recordTypes/' + options.recordType + '.recordType-meta.xml';
                             if (FileChecker.isExists(recordTypeSourceFile)) {
                                 let recordTypeTargetFile = objectsTargetFolder + '/' + options.sObject + '/recordTypes/' + options.recordType + '.recordType-meta.xml';
-                                FileWriter.copyFile(recordTypeSourceFile, recordTypeTargetFile, function (err) {
-                                    console.log(err);
-                                });
+                                FileWriter.copyFileSync(recordTypeSourceFile, recordTypeTargetFile);
                             }
                         }
                     }

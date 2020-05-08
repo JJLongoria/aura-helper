@@ -39,7 +39,7 @@ exports.run = function (uri) {
                                     let content = MetadataCompressor.compress(file);
                                     if (content) {
                                         Logger.output("Compressing files: " + file);
-                                        FileWriter.createFile(file, content, function(err){});
+                                        FileWriter.createFileSync(file, content);
                                     }
                                 } catch (error) {
                                     console.log(error);

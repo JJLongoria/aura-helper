@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const Metadata = require('../metadata');
 const Config = require('../main/config');
+const StrUtils = require('../utils/strUtils');
 const languages = require('../languages');
 const MetadataFactory = Metadata.Factory;
 const MetadataConnection = Metadata.Connection;
@@ -183,7 +184,7 @@ function repairProfileDependencies(profiles, folder, metadataFromFileSystem) {
         index = 0;
         for (const customMetadataAccess of profileXML.customMetadataTypeAccesses) {
             if (!customMetadata[customMetadataAccess.name] && !customMetadataToRemove.includes(index))
-            customMetadataToRemove.push(index);
+                customMetadataToRemove.push(index);
             index++;
         }
         customMetadataToRemove = customMetadataToRemove.reverse();
@@ -217,8 +218,23 @@ function repairProfileDependencies(profiles, folder, metadataFromFileSystem) {
         for (const fieldPermission of profileXML.fieldPermissions) {
             let sObject = fieldPermission.field.substring(0, fieldPermission.field.indexOf('.'));
             let field = fieldPermission.field.substring(fieldPermission.field.indexOf('.') + 1);
-            if ((!customFields[sObject] || !customFields[sObject].childs[field]) && !fieldsToRemove.includes(index))
-                fieldsToRemove.push(index);
+            let sObjectAux;
+            if (sObject === 'Task')
+                sObjectAux = 'Activity';
+            if (sObjectAux) {
+                let inObj = true;
+                let inAux = true;
+                if (!customFields[sObjectAux] || !customFields[sObjectAux].childs[field])
+                    inAux = false;
+                if (!customFields[sObject] || !customFields[sObject].childs[field])
+                    inObj = false;
+                if (!inAux && !inObj && !fieldsToRemove.includes(index)) {
+                    fieldsToRemove.push(index);
+                }
+            } else {
+                if ((!customFields[sObject] || !customFields[sObject].childs[field]) && !fieldsToRemove.includes(index))
+                    fieldsToRemove.push(index);
+            }
             index++;
         }
         fieldsToRemove = fieldsToRemove.reverse();
@@ -263,7 +279,7 @@ function repairProfileDependencies(profiles, folder, metadataFromFileSystem) {
         }
         index = 0;
         for (const pageAccess of profileXML.pageAccesses) {
-            if (!apexPages[pageAccess.page] && !pagesToRemove.includes(index))
+            if (!apexPages[pageAccess.apexPage] && !pagesToRemove.includes(index))
                 pagesToRemove.push(index);
             index++;
         }
@@ -287,8 +303,14 @@ function repairProfileDependencies(profiles, folder, metadataFromFileSystem) {
         }
         index = 0;
         for (const tabVisibility of profileXML.tabVisibilities) {
-            if (!tabs[tabVisibility.tab] && !tabsToRemove.includes(index))
-                tabsToRemove.push(index);
+            if (tabVisibility.tab.indexOf('standard-') !== -1) {
+                let sObj = StrUtils.replace(tabVisibility.tab, 'standard-', '');
+                if (!customObjects[sObj] && !tabsToRemove.includes(index))
+                    tabsToRemove.push(index);
+            } else {
+                if (!tabs[tabVisibility.tab] && !tabsToRemove.includes(index))
+                    tabsToRemove.push(index);
+            }
             index++;
         }
         tabsToRemove = tabsToRemove.reverse();
@@ -355,7 +377,7 @@ function repairPermissionSetDependencies(permissionSets, folder, metadataFromFil
         index = 0;
         for (const customMetadataAccess of permissionSetXML.customMetadataTypeAccesses) {
             if (!customMetadata[customMetadataAccess.name] && !customMetadataToRemove.includes(index))
-            customMetadataToRemove.push(index);
+                customMetadataToRemove.push(index);
             index++;
         }
         customMetadataToRemove = customMetadataToRemove.reverse();
@@ -389,8 +411,23 @@ function repairPermissionSetDependencies(permissionSets, folder, metadataFromFil
         for (const fieldPermission of permissionSetXML.fieldPermissions) {
             let sObject = fieldPermission.field.substring(0, fieldPermission.field.indexOf('.'));
             let field = fieldPermission.field.substring(fieldPermission.field.indexOf('.') + 1);
-            if ((!customFields[sObject] || !customFields[sObject].childs[field]) && !fieldsToRemove.includes(index))
-                fieldsToRemove.push(index);
+            let sObjectAux;
+            if (sObject === 'Task')
+                sObjectAux = 'Activity';
+            if (sObjectAux) {
+                let inObj = true;
+                let inAux = true;
+                if (!customFields[sObjectAux] || !customFields[sObjectAux].childs[field])
+                    inAux = false;
+                if (!customFields[sObject] || !customFields[sObject].childs[field])
+                    inObj = false;
+                if (!inAux && !inObj && !fieldsToRemove.includes(index)) {
+                    fieldsToRemove.push(index);
+                }
+            } else {
+                if ((!customFields[sObject] || !customFields[sObject].childs[field]) && !fieldsToRemove.includes(index))
+                    fieldsToRemove.push(index);
+            }
             index++;
         }
         fieldsToRemove = fieldsToRemove.reverse();
@@ -411,7 +448,7 @@ function repairPermissionSetDependencies(permissionSets, folder, metadataFromFil
         }
         index = 0;
         for (const pageAccess of permissionSetXML.pageAccesses) {
-            if (!apexPages[pageAccess.page] && !pagesToRemove.includes(index))
+            if (!apexPages[pageAccess.apexPage] && !pagesToRemove.includes(index))
                 pagesToRemove.push(index);
             index++;
         }
@@ -435,8 +472,14 @@ function repairPermissionSetDependencies(permissionSets, folder, metadataFromFil
         }
         index = 0;
         for (const tabVisibility of permissionSetXML.tabSettings) {
-            if (!tabs[tabVisibility.tab] && !tabsToRemove.includes(index))
-                tabsToRemove.push(index);
+            if (tabVisibility.tab.indexOf('standard-') !== -1) {
+                let sObj = StrUtils.replace(tabVisibility.tab, 'standard-', '');
+                if (!customObjects[sObj] && !tabsToRemove.includes(index))
+                    tabsToRemove.push(index);
+            } else {
+                if (!tabs[tabVisibility.tab] && !tabsToRemove.includes(index))
+                    tabsToRemove.push(index);
+            }
             index++;
         }
         tabsToRemove = tabsToRemove.reverse();

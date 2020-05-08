@@ -62,20 +62,8 @@ exports.run = function () {
 }
 
 function getMetadataForMatchOrgAndLocal(metadataFromFileSystem, metadataFromOrg) {
-    let metadataTypesForCheck = [
-        MetadataTypes.APEX_CLASS,
-        MetadataTypes.CUSTOM_FIELDS,
-        MetadataTypes.CUSTOM_OBJECT,
-        MetadataTypes.RECORD_TYPE,
-        MetadataTypes.LAYOUT,
-        MetadataTypes.FLOWS,
-        MetadataTypes.APEX_PAGE,
-        MetadataTypes.APEX_TRIGGER,
-        MetadataTypes.APEX_COMPONENT,
-        MetadataTypes.APPROVAL_PROCESSES
-    ];
     let metadataOnOrg = {};
-    let metadataOnLocal = [];
+    let metadataOnLocal = {};
     Object.keys(metadataFromFileSystem).forEach(function (key) {
         let metadataTypeFromFileSystem = metadataFromFileSystem[key];
         let metadataTypeFromOrg = metadataFromOrg[key];
