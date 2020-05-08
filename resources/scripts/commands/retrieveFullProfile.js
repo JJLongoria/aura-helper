@@ -182,6 +182,8 @@ async function retrieveMetadata(user, metadata, compress, typeForRetrieve, progr
     packageFolder = parent + '/projectTemp';
     if (FileChecker.isExists(packageFolder))
         FileWriter.delete(packageFolder);
+    if(!FileChecker.isExists(parent))
+        FileWriter.createFolderSync(parent);
     let out = await ProcessManager.createSFDXProject('projectTemp', parent, cancelToken);
     if (out) {
         if (out.stdErr) {
@@ -207,10 +209,10 @@ async function retrieveMetadata(user, metadata, compress, typeForRetrieve, progr
                             let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
                             if (profileRaw) {
                                 let profile = PermissionSetUtils.createPermissionSet(profileRaw);
-                                FileWriter.createFile(sourceFile, PermissionSetUtils.toXML(profile, true), function () { });
+                                FileWriter.createFileSync(sourceFile, PermissionSetUtils.toXML(profile, true));
                             }
                         }
-                        FileWriter.copyFile(sourceFile, targetFile, function () { });
+                        //FileWriter.copyFile(sourceFile, targetFile, function () { });
                     }
                 } else {
                     let profiles = FileReader.readDirSync(packageFolder + '/force-app/main/default/profiles');
@@ -224,10 +226,10 @@ async function retrieveMetadata(user, metadata, compress, typeForRetrieve, progr
                             let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
                             if (profileRaw) {
                                 let profile = ProfileUtils.createProfile(profileRaw);
-                                FileWriter.createFile(sourceFile, ProfileUtils.toXML(profile, true), function () { });
+                                FileWriter.createFileSync(targetFile, ProfileUtils.toXML(profile, true));
                             }
                         }
-                        FileWriter.copyFile(sourceFile, targetFile, function () { });
+                        //FileWriter.copyFile(sourceFile, targetFile, function () { });
                     }
                 }
             }

@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [1.9.4 - 2020-03-18]
+## [1.9.4 - 2020-04-15]
+### Fixed
+- Fixed problems with repair project dependencies
+- Fixed problems with retrieve full profiles and permission sets
+
+## [1.9.4 - 2020-03-12]
 ### Added
 - Add repair dependencies command
 - Add Retrieve Full RecordTypes command (work like Retrieve full profiles)
