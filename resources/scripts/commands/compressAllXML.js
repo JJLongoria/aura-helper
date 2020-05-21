@@ -1,17 +1,9 @@
-const Logger = require('../main/logger');
-const languages = require('../languages');
+const Logger = require('../utils/logger');
 const fileSystem = require('../fileSystem');
 const vscode = require('vscode');
-const metadata = require('../metadata');
-const AuraParser = languages.AuraParser;
-const window = vscode.window;
-const Range = vscode.Range;
-const ProgressLocation = vscode.ProgressLocation;
-const FileChecker = fileSystem.FileChecker;
-const FileReader = fileSystem.FileReader;
-const FileWriter = fileSystem.FileWriter;
+const Processes = require('../processes');
 const Paths = fileSystem.Paths;
-const MetadataCompressor = metadata.MetadataCompressor;
+const ProcessManager = Processes.ProcessManager;
 
 exports.run = function (uri) {
     try {
@@ -19,43 +11,32 @@ exports.run = function (uri) {
         if (uri) {
             folderPath = uri.fsPath;
         }
-        Logger.output("Compressing All XML files");
-        window.withProgress({
-            location: ProgressLocation.Notification,
+        Logger.output("Compressing All XML files from " + folderPath);
+        vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
             title: "Compressing All XML Files",
             cancellable: false
-        }, (progress, token) => {
-            return new Promise(async resolve => {
-                setTimeout(() => {
-                    FileReader.getAllFiles(folderPath, function (error, result) {
-                        let xmlFiles = [];
-                        if (!error) {
-                            for (let file of result) {
-                                if (file.endsWith('.xml'))
-                                    xmlFiles.push(file);
-                            }
-                            for (const file of xmlFiles) {
-                                try {
-                                    let content = MetadataCompressor.compress(file);
-                                    if (content) {
-                                        Logger.output("Compressing files: " + file);
-                                        FileWriter.createFileSync(file, content);
-                                    }
-                                } catch (error) {
-                                    console.log(error);
-                                }
-                            }
-                            resolve();
-                        } else {
-                            window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
-                            resolve();
-                        }
-                    });
-                }, 100);
+        }, () => {
+            return new Promise(resolve => {
+                ProcessManager.auraHelperCompressFolder(folderPath, true).then(function (out) {
+                    if (out.stdOut) {
+                        let response = JSON.parse(out.stdOut);
+                        if (response.status === 0)
+                            vscode.window.showInformationMessage(response.result.message);
+                        else
+                            vscode.window.showErrorMessage(response.result.message);
+                    } else {
+                        vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+                    }
+                    resolve();
+                }).catch(function (error) {
+                    vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+                    resolve();
+                });
             });
         });
 
     } catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
     }
 }

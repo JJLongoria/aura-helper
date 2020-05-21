@@ -1,6 +1,6 @@
 const vscode = require('vscode');
-const Logger = require('../main/logger');
-const Config = require('../main/config');
+const Logger = require('../utils/logger');
+const Config = require('../core/config');
 const GUIEngine = require('../guiEngine');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
@@ -13,12 +13,11 @@ const Engine = GUIEngine.Engine;
 const Routing = GUIEngine.Routing;
 const FileReader = fileSystem.FileReader;
 const Paths = fileSystem.Paths;
-const AuraParser = languages.AuraParser;
+const XMLParser = languages.XMLParser;
 const FileChecker = fileSystem.FileChecker;
 const CustomLabelsUtils = metadata.CustomLabelsUtils;
 const FileWriter = fileSystem.FileWriter;
 const MetadataFactory = metadata.Factory;
-const PackageGenerator = metadata.PackageGenerator;
 const ProgressLocation = vscode.ProgressLocation;
 
 let view;
@@ -37,7 +36,7 @@ exports.run = function (fileUri) {
         if (!filePath)
             filePath = Paths.getMetadataRootFolder() + '/labels/CustomLabels.labels-meta.xml';
         if (FileChecker.isExists(filePath)) {
-            let customLabelsRoot = AuraParser.parseXML(FileReader.readFileSync(filePath));
+            let customLabelsRoot = XMLParser.parseXML(FileReader.readFileSync(filePath));
             CustomLabels = customLabelsRoot.CustomLabels;
             let viewOptions = Engine.getViewOptions();
             viewOptions.title = '{!label.custom_labels}';
@@ -45,14 +44,12 @@ exports.run = function (fileUri) {
             viewOptions.actions.push(Engine.createButtonAction('newCustomLabelBtn', '{!label.new_custom_label}', ["w3-btn w3-border w3-border-green save"], "onClickNewLabel()"));
             viewOptions.actions.push(Engine.createButtonAction('cancelBtn', '{!label.cancel}', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
             view = Engine.createView(Routing.CustomLabels, viewOptions);
-            view.render(function (resolve) {
-                let labels = [];
-                if (Array.isArray(CustomLabels.labels))
-                    labels = CustomLabels.labels;
-                else
-                    labels.push(CustomLabels.labels);
-                resolve(labels);
-            });
+            let labels = [];
+            if (Array.isArray(CustomLabels.labels))
+                labels = CustomLabels.labels;
+            else
+                labels.push(CustomLabels.labels);
+            view.render(labels);
             view.onReceiveMessage(function (message) {
                 if (message.command === 'delete')
                     deleteLabel(message.labels, message.index);
@@ -80,15 +77,15 @@ async function deleteLabel(labels, index) {
     };
     metadataTypes["CustomLabel"].childs[labelToDelete.fullName] = MetadataFactory.createMetadataObject(labelToDelete.fullName, true);
     let version = Config.getOrgVersion();
+    if (!FileChecker.isExists(Paths.getPackageFolder()))
+        FileWriter.createFolderSync(Paths.getPackageFolder());
+    let jsonPackagePath = Paths.getPackageFolder() + '/package.json';
+    let jsonDestructivePath = Paths.getPackageFolder() + '/destructive.json';
+    FileWriter.createFileSync(jsonPackagePath, JSON.stringify({}, null, 2));
+    FileWriter.createFileSync(jsonDestructivePath, JSON.stringify(metadataTypes, null, 2));
+    await createPackage(version, jsonPackagePath, false);
+    await createPackage(version, jsonDestructivePath, true);
     let user = await Config.getAuthUsername();
-    let packageContent = PackageGenerator.createPackage({}, version, true);
-    let destructivePackageContent = PackageGenerator.createPackage(metadataTypes, version, true);
-    let folder = Paths.getDestructivePackageFolder();
-    if (FileChecker.isExists(folder))
-        FileWriter.delete(folder);
-    FileWriter.createFolderSync(folder);
-    FileWriter.createFileSync(folder + '\\package.xml', packageContent);
-    FileWriter.createFileSync(folder + '\\destructiveChanges.xml', destructivePackageContent);
     Window.withProgress({
         location: ProgressLocation.Notification,
         title: "Deleting Custom Label " + labelToDelete.fullName + " from Org",
@@ -98,7 +95,7 @@ async function deleteLabel(labels, index) {
             try {
                 let buffer = [];
                 let bufferError = [];
-                ProcessManager.destructiveChanges(user, folder, cancelToken, function (event, data) {
+                ProcessManager.destructiveChanges(user, Paths.getPackageFolder(), cancelToken, function (event, data) {
                     switch (event) {
                         case ProcessEvent.ERR_OUT:
                         case ProcessEvent.ERROR:
@@ -126,6 +123,25 @@ async function deleteLabel(labels, index) {
                 view.postMessage({ command: "deletedError", error: error });
             }
         });
+    });
+}
+
+function createPackage(version, filePath, isDestructive) {
+    return new Promise(async function (resolve) {
+        try {
+            let options = {
+                outputPath: Paths.getPackageFolder(),
+                createFrom: 'json',
+                createType: (isDestructive) ? 'destructive ' : 'package',
+                version: version,
+                source: filePath,
+                explicit: true
+            };
+            await ProcessManager.auraHelperPackageGenerator(options, true);
+        } catch (error) {
+            resolve();
+        }
+        resolve();
     });
 }
 

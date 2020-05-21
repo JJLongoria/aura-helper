@@ -4,7 +4,7 @@ const FileReader = fileSystem.FileReader;
 const StrUtils = require('../../utils/strUtils');
 const Token = require('./token');
 const TokenType = require('./tokenTypes');
-const ApplicationContext = require('../../main/applicationContext');
+const ApplicationContext = require('../../core/applicationContext');
 
 const symbolTokens = {
     ">>>=": TokenType.OPERATOR.BITWISE.UNSIGNED_RIGHT_ASSIGN,

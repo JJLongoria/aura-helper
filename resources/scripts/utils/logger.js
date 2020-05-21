@@ -1,4 +1,4 @@
-const appContext = require('./applicationContext');
+const appContext = require('../core/applicationContext');
 const DEBUG = false;
 
 class Logger {
@@ -21,7 +21,7 @@ class Logger {
     }
 
     static output(output) {
-        appContext.outputChannel.appendLine(output);
+        appContext.outputChannel.append(output);
     }
 
     static error(text) {

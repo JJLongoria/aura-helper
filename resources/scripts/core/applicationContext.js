@@ -9,6 +9,7 @@ const userClasses = {};
 const allNamespaces = {};
 const namespacesMetadata = {};
 const sObjects = {};
+const diagnosticCollection = {};
 
 module.exports = {
     context,
@@ -21,5 +22,6 @@ module.exports = {
     userClasses,
     namespacesMetadata,
     allNamespaces,
-    sObjects
+    sObjects,
+    diagnosticCollection
 }

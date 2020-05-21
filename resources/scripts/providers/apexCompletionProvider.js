@@ -1,15 +1,15 @@
 const fileSystem = require('../fileSystem');
-const logger = require('../main/logger');
+const logger = require('../utils/logger');
 const Utils = require('./utils').Utils;
 const languages = require('../languages');
 const vscode = require('vscode');
-const applicationContext = require('../main/applicationContext');
+const applicationContext = require('../core/applicationContext');
 const FileChecker = fileSystem.FileChecker;
 const FileReader = fileSystem.FileReader;
 const langUtils = languages.Utils;
 const ApexParser = languages.ApexParser;
 const CompletionItemKind = vscode.CompletionItemKind;
-const config = require('../main/config');
+const config = require('../core/config');
 
 exports.provider = {
     provideCompletionItems(document, position) {
@@ -42,7 +42,7 @@ function provideApexCompletion(document, position) {
         let sObjects = applicationContext.sObjects;
         let fileStructure = ApexParser.getFileStructure(FileReader.readDocument(document), position, classes, systemMetadata, allNamespaces);
         if (queryData) {
-            items = Utils.getQueryCompletionItems(activationTokens, queryData, position, 'aurahelper.completion.apex');
+            items = Utils.getQueryCompletionItems(activationTokens, activationInfo, queryData, position, 'aurahelper.completion.apex');
         } else if (activationTokens.length > 0 && activationTokens[0].toLowerCase() === 'label') {
             items = getLabelsCompletionItems(activationTokens, position);
         } else if (activationTokens.length > 1) {

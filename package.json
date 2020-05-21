@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions for work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "1.9.5",
+	"version": "2.0.0",
 	"engines": {
 		"vscode": "^1.37.0",
 		"node": ">=12.0.0"
@@ -66,10 +66,9 @@
 		"onCommand:aurahelper.metadata.compress.xml.all",
 		"onCommand:aurahelper.metadata.profile.open",
 		"onCommand:aurahelper.metadata.permissionset.open",
-		"onCommand:aurahelper.metadata.profile.retrieve",
-		"onCommand:aurahelper.metadata.permissionset.retrieve",
+		"onCommand:aurahelper.metadata.retrieve.special",
 		"onCommand:aurahelper.metadata.package.generate",
-		"onCommand:aurahelper.metadata.org.match",
+		"onCommand:aurahelper.metadata.org.compare",
 		"onCommand:aurahelper.metadata.customlabels.open",
 		"onCommand:aurahelper.documentation.project.create",
 		"onCommand:aurahelper.completion.apex.implement.interface",
@@ -169,6 +168,11 @@
 						"Open English GUI by default",
 						"Open Spanish GUI by default"
 					]
+				},
+				"aurahelper.graphicUserInterface.enableAdvanceGUI": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable the Advance Graphic User Interface"
 				},
 				"aurahelper.metadata.compressXMLFilesOnChange": {
 					"type": "boolean",
@@ -339,11 +343,11 @@
 			},
 			{
 				"command": "aurahelper.metadata.refresh.index",
-				"title": "AuraHelper: Refresh Metadata Index"
+				"title": "AuraHelper: Refresh All SObjects Index"
 			},
 			{
 				"command": "aurahelper.metadata.refresh.object",
-				"title": "AuraHelper: Refresh Metadata Index for Object"
+				"title": "AuraHelper: Refresh SObject Index"
 			},
 			{
 				"command": "aurahelper.fileExplorer.refresh",
@@ -394,24 +398,16 @@
 				"title": "AuraHelper: Open Permission Set on UI"
 			},
 			{
-				"command": "aurahelper.metadata.profile.retrieve",
-				"title": "AuraHelper: Retrieve Full Profile(s)"
-			},
-			{
-				"command": "aurahelper.metadata.permissionset.retrieve",
-				"title": "AuraHelper: Retrieve Full Permission Set(s)"
-			},
-			{
-				"command": "aurahelper.metadata.recordtype.retrieve",
-				"title": "AuraHelper: Retrieve Full Record Type(s)"
+				"command": "aurahelper.metadata.retrieve.special",
+				"title": "AuraHelper: Retrieve Special Types"
 			},
 			{
 				"command": "aurahelper.metadata.package.generate",
 				"title": "AuraHelper: Package Generator"
 			},
 			{
-				"command": "aurahelper.metadata.org.match",
-				"title": "AuraHelper: Match Org with Local"
+				"command": "aurahelper.metadata.org.compare",
+				"title": "AuraHelper: Compare Org With Local"
 			},
 			{
 				"command": "aurahelper.metadata.customlabels.open",
@@ -507,16 +503,6 @@
 					"when": "resource =~ /./labels/ && resourceExtname == .xml",
 					"command": "aurahelper.metadata.customlabels.open",
 					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./profiles/",
-					"command": "aurahelper.metadata.profile.retrieve",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./permissionsets/",
-					"command": "aurahelper.metadata.permissionset.retrieve",
-					"group": "auraHelper@1"
 				}
 			],
 			"editor/context": [
@@ -543,11 +529,6 @@
 				{
 					"when": "resource =~ /./labels/ && resourceExtname == .xml",
 					"command": "aurahelper.metadata.customlabels.open",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.profile.retrieve",
 					"group": "auraHelper@1"
 				},
 				{

@@ -1,11 +1,10 @@
 const vscode = require('vscode');
-const NotificationManager = require('../main/notificationManager');
+const NotificationManager = require('../output/notificationManager');
 const languages = require('../languages');
 const fileSystem = require('../fileSystem');
-const Config = require('../main/config');
-const ApplicationContext = require('../main/applicationContext');
+const Config = require('../core/config');
+const ApplicationContext = require('../core/applicationContext');
 const Window = vscode.window;
-const ApexParser = languages.ApexParser;
 const Tokenizer = languages.Tokenizer;
 const TokenType = languages.TokenType;
 const langUtils = languages.Utils;
@@ -76,7 +75,7 @@ function createDocumentation(folderPath) {
     });
 }
 
-function createDocumentationForApexClasses(folderPath, callback) {
+function createDocumentationForApexClasses(folderPath) {
     Object.keys(classes).forEach(function (nameToLower) {
         let apexClass = classes[nameToLower];
         if (apexClass.annotation && apexClass.annotation.toLowerCase() === '@istest') {

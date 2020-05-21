@@ -1,4 +1,4 @@
-const Logger = require('../main/logger');
+const Logger = require('../utils/logger');
 const fileSystem = require('../fileSystem');
 const FileReader = fileSystem.FileReader;
 const Paths = fileSystem.Paths;
@@ -92,7 +92,7 @@ class Utils {
                 folderMetadataMap[metadataType.directoryName + '/listViews'] = metadataType;
             } else if (metadataType.xmlName === MetadataType.FIELD_SET) {
                 folderMetadataMap[metadataType.directoryName + '/fieldSets'] = metadataType;
-            } else if(!folderMetadataMap[metadataType.directoryName]){
+            } else if (!folderMetadataMap[metadataType.directoryName]) {
                 folderMetadataMap[metadataType.directoryName] = metadataType;
             }
         }
@@ -170,30 +170,43 @@ class Utils {
         }
     }
 
+    static countCheckedChilds(object) {
+        let count = 0;
+        if (object && Utils.haveChilds(object)) {
+            Object.keys(object.childs).forEach(function (key) {
+                if (object.childs[key].checked)
+                    count++;
+            });
+        }
+        return count;
+    }
+
     static combineMetadata(metadataTarget, metadataSource) {
         Object.keys(metadataSource).forEach(function (key) {
-            let metadataTypeSource = metadataSource[key];
-            let metadataTypeTarget = metadataTarget[key];
+            const metadataTypeSource = metadataSource[key];
+            const metadataTypeTarget = metadataTarget[key];
             if (metadataTypeTarget) {
-                let childKeys = Object.keys(metadataTypeSource.childs);
+                const childKeys = Object.keys(metadataTypeSource.childs);
                 if (childKeys.length > 0) {
                     Object.keys(metadataTypeSource.childs).forEach(function (childKey) {
-                        let metadataObjectSource = metadataTypeSource.childs[childKey];
-                        let metadataObjectTarget = metadataTypeTarget.childs[childKey];
+                        const metadataObjectSource = metadataTypeSource.childs[childKey];
+                        const metadataObjectTarget = metadataTypeTarget.childs[childKey];
                         if (metadataObjectTarget) {
-                            let grandChildKeys = Object.keys(metadataObjectSource.childs);
+                            const grandChildKeys = Object.keys(metadataObjectSource.childs);
                             if (grandChildKeys.length > 0) {
                                 Object.keys(metadataObjectSource.childs).forEach(function (grandChildKey) {
-                                    let metadataItemSource = metadataObjectSource.childs[grandChildKey];
-                                    let metadataItemTarget = metadataObjectTarget.childs[grandChildKey];
-                                    if (metadataItemTarget && metadataItemSource.checked)
-                                    metadataTarget[key].childs[childKey].childs[grandChildKey].checked = true;
-                                    else
+                                    const metadataItemSource = metadataObjectSource.childs[grandChildKey];
+                                    const metadataItemTarget = metadataObjectTarget.childs[grandChildKey];
+                                    if (metadataItemTarget && metadataItemSource.checked) {
+                                        metadataTarget[key].childs[childKey].childs[grandChildKey].checked = true;
+                                    } else {
                                         metadataTarget[key].childs[childKey].childs[grandChildKey] = metadataItemSource;
+                                    }
                                 });
                                 metadataTarget[key].childs[childKey].checked = Utils.isAllChecked(metadataTarget[key].childs[childKey].childs);
                             } else {
-                                metadataTarget[key].childs[childKey].checked = metadataObjectSource.checked;                            }
+                                metadataTarget[key].childs[childKey].checked = metadataObjectSource.checked;
+                            }
                         } else {
                             metadataTarget[key].childs[childKey] = metadataObjectSource;
                         }
@@ -203,7 +216,7 @@ class Utils {
                     metadataTarget[key].checked = metadataTypeSource.checked;
                 }
             } else {
-                metadataTarget[key] = metadataSource;
+                metadataTarget[key] = metadataSource[key];
             }
         });
         return metadataTarget;
@@ -241,7 +254,7 @@ class Utils {
             return '<' + tagName.trim() + '/>';
     }
 
-    static escapeChars(value) { 
+    static escapeChars(value) {
         value = value.split('&amp;').join('&');
         value = value.split('&quot;').join('"');
         value = value.split('&apos;').join('\'');
@@ -410,6 +423,31 @@ class Utils {
                 result.push(element);
         }
         return result;
+    }
+
+    static haveChilds(object) {
+        return object && object.childs && Object.keys(object.childs).length > 0;
+    }
+
+    static getTypesForAuraHelperCommands(metadata){
+        let types = [];
+        Object.keys(metadata).forEach(function (typeKey) {
+            if (metadata[typeKey].checked) {
+                types.push(typeKey);
+            } else {
+                Object.keys(metadata[typeKey].childs).forEach(function (objectKey) {
+                    if (metadata[typeKey].childs[objectKey].checked) {
+                        types.push(typeKey + ':' + objectKey);
+                    } else {
+                        Object.keys(metadata[typeKey].childs[objectKey].childs).forEach(function (itemKey) {
+                            if (metadata[typeKey].childs[objectKey].childs[itemKey].checked)
+                            types.push(typeKey + ':' + objectKey + ':' + itemKey);
+                        });
+                    }
+                });
+            }
+        });
+        return types;
     }
 
 }

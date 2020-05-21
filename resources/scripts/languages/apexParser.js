@@ -1,13 +1,13 @@
-const logger = require('../main/logger');
+const logger = require('../utils/logger');
 const Tokenizer = require('./tokenizer').Tokenizer;
 const TokenType = require('./tokenTypes');
-const Utils = require('./Utils').Utils;
+const Utils = require('./utils').Utils;
 const fileSystem = require('../fileSystem');
 const FileReader = fileSystem.FileReader;
 const FileChecker = fileSystem.FileChecker;
 const FileWriter = fileSystem.FileWriter;
 const Paths = fileSystem.Paths;
-const applicationContext = require('../main/applicationContext');
+const applicationContext = require('../core/applicationContext');
 const StrUtils = require('../utils/strUtils');
 
 let batches;
@@ -1673,7 +1673,6 @@ class ApexParser {
         /*await ApexParser.compileClass(classesFolder + '/a_AccountTriggerHandler.cls', Paths.getCompiledClassesPath());
         if (callback)
             callback.call(this);*/
-        console.time('compileClasses');
         for (const batchToProcess of batches) {
             await ApexParser.compileAllClasses(batchToProcess.records).then(function () {
                 batchToProcess.completed = true;
@@ -1683,7 +1682,6 @@ class ApexParser {
                         nCompleted++;
                 }
                 if (nCompleted === batches.length) {
-                    console.timeEnd('compileClasses');
                     if (callback)
                         callback.call(this);
                 }

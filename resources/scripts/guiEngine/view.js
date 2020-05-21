@@ -1,9 +1,9 @@
 const vscode = require('vscode');
-const Logger = require('../main/logger');
+const Logger = require('../utils/logger');
 const StrUtils = require('../utils/strUtils');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
-const Config = require('../main/config');
+const Config = require('../core/config');
 const Factory = require('./viewFactory');
 const FileReader = fileSystem.FileReader;
 const Paths = fileSystem.Paths;
@@ -85,9 +85,8 @@ class View {
         return content;
     }
 
-    render(callback) {
-        if (this.closed) { 
-            callback.call(this);
+    render(model, extraData) {
+        if (this.closed) {
             return;
         }
         this.loadContent();
@@ -95,9 +94,7 @@ class View {
         let thisPanel = this.panel;
         thisPanel.webview.html = this.content;
         setTimeout(() => {
-            callback.call(this, function (model, extraData) {
-                thisPanel.webview.postMessage({ command: "open", model: model, extraData: extraData });
-            });
+            thisPanel.webview.postMessage({ command: "open", model: model, extraData: extraData });
         }, 1500);
 
     }

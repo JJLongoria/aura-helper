@@ -1,8 +1,11 @@
 const vscode = require('vscode');
-const applicationContext = require('../main/applicationContext');
+const applicationContext = require('../core/applicationContext');
 const StrUtils = require('../utils/strUtils');
 const path = require('path');
 class Paths {
+    static getGUIEnginePath(){
+        return applicationContext.context.storagePath + "\\GUIEngine";
+    }
     static getResourcesPath() { 
         return applicationContext.context.asAbsolutePath("./resources");
     }

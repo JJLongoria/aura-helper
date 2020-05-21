@@ -1,4 +1,4 @@
-const appContext = require('./applicationContext');
+const appContext = require('../core/applicationContext');
 class NotificationManager { 
 
     static showStatusBar(content) { 

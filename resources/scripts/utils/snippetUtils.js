@@ -1,4 +1,4 @@
-const logger = require('../main/logger');
+const logger = require('./logger');
 const fileSystem = require('../fileSystem');
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;

@@ -1,4 +1,4 @@
-const logger = require('../main/logger');
+const logger = require('../utils/logger');
 const snippetUtils = require('../utils/snippetUtils');
 const inputValidator = require('../inputs/inputValidator');
 const fileSystem = require('../fileSystem');

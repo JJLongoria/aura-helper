@@ -2,8 +2,8 @@ const tokenizer = require('./lexer');
 const TokenType = require('./tokenTypes');
 const fileSystem = require('../../fileSystem');
 const langUtils = require('../utils').Utils;
-const Config = require('../../main/config');
-const applicationContext = require('../../main/applicationContext');
+const Config = require('../../core/config');
+const applicationContext = require('../../core/applicationContext');
 const StrUtils = require('../../utils/strUtils');
 const FileReader = fileSystem.FileReader;
 
@@ -213,6 +213,10 @@ function formatApex(tokens) {
             beforeWhitespaces = 0;
         if (nextToken && nextToken.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR)
             afterWhitespaces = 0;
+        if(token.type === TokenType.OPERATOR.LOGICAL.INSTANCE_OF){
+            afterWhitespaces = 1;
+            beforeWhitespaces = 1;
+        }
         if (indent > 0 && indent !== mainBodyIndent && token.type !== TokenType.KEYWORD.DECLARATION.PROPERTY_GETTER && token.type !== TokenType.KEYWORD.DECLARATION.PROPERTY_SETTER) {
             if (newLines > 0 && originalNewLines > 1) {
                 if (Config.getConfig().apexFormat.punctuation.maxBlankLines === -1)
@@ -221,6 +225,8 @@ function formatApex(tokens) {
                     newLines = 1;
                 else if (Config.getConfig().apexFormat.punctuation.maxBlankLines > 0 && originalNewLines > Config.getConfig().apexFormat.punctuation.maxBlankLines) {
                     newLines = Config.getConfig().apexFormat.punctuation.maxBlankLines + 1;
+                } else if (Config.getConfig().apexFormat.punctuation.maxBlankLines > 0 && originalNewLines <= Config.getConfig().apexFormat.punctuation.maxBlankLines) {
+                    newLines = originalNewLines;
                 }
             }
         }
