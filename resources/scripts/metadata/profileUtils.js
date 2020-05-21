@@ -1,5 +1,5 @@
 const Utils = require('./utils');
-const AuraParser = require('../languages').AuraParser;
+const XMLParser = require('../languages').XMLParser;
 
 class ProfileUtils {
 
@@ -546,7 +546,7 @@ class ProfileUtils {
                 profileLines.push('</Profile>');
 
             } else {
-                return AuraParser.toXML(profile);
+                return XMLParser.toXML(profile);
             }
 
         }

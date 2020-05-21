@@ -1,5 +1,5 @@
 const Utils = require('./utils');
-const AuraParser = require('../languages').AuraParser;
+const XMLParser = require('../languages').XMLParser;
 
 class CustomLabelsUtils {
 
@@ -40,7 +40,7 @@ class CustomLabelsUtils {
                 }
                 xmlLines.push('</CustomLabels>');
             } else {
-                return AuraParser.toXML(customLabels);
+                return XMLParser.toXML(customLabels);
             }
         }
         return xmlLines.join('\n');

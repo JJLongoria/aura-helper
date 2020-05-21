@@ -1,4 +1,4 @@
-const logger = require('../main/logger');
+const logger = require('../utils/logger');
 const Tokenizer = require('./tokenizer').Tokenizer;
 const TokenType = require('./tokenTypes');
 const utils = require('./utils').Utils;
@@ -112,23 +112,6 @@ class AuraParser {
             index++;
         }
         return fileStructure;
-    }
-
-    static parseXML(content, parseComments) {
-        if (content && content.length > 0) {
-            if (parseComments) {
-                content = content.split('<!--').join('«!--');
-                content = content.split('-->').join('--»');
-            }
-            return parser.parse(content, AuraParser.getParserXMLToJSONOptions());
-        }
-        return {};
-        
-    }
-
-    static toXML(jsonObj) {
-        let xmlParser = new parser.j2xParser(AuraParser.getParserJSONToXMLOptions());
-        return xmlParser.parse(jsonObj);
     }
 
     static getTagData(tokens, index, position) {

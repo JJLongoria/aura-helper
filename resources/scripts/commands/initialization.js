@@ -1,20 +1,14 @@
 const https = require('https');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
-const Metadata = require('../metadata');
-const Config = require('../main/config');
 const languages = require('../languages');
-const NotificationManager = require('../main/notificationManager');
+const NotificationManager = require('../output/notificationManager');
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
-const PackageGenerator = Metadata.PackageGenerator;
-const MetadataConnection = Metadata.Connection;
 const ApexParser = languages.ApexParser;
-const MetadataCompressor = Metadata.MetadataCompressor;
-const ApexFormatter = languages.Apex.Formatter;
-const applicationContext = require('../main/applicationContext');
+const applicationContext = require('../core/applicationContext');
 
 exports.run = function (context) {
     // Register File Watcher
@@ -37,24 +31,17 @@ exports.run = function (context) {
     });
     var xmlWatcher = vscode.workspace.createFileSystemWatcher("**/*.xml");
     xmlWatcher.onDidChange(async function (uri) {
-        if (Config.getConfig().metadata.compressXMLFilesOnChange) {
-            let content = MetadataCompressor.compress(uri.fsPath);
-            if (content) {
-                FileWriter.createFileSync(uri.fsPath, content);
-            }
+        if (applicationContext.diagnosticCollection.has(uri)) {
+            //console.log(applicationContext.diagnosticCollection.get(uri));
         }
     });
-    xmlWatcher.onDidCreate(async function (uri) {
-        if (Config.getConfig().metadata.compressXMLFilesOnChange) {
-            let content = MetadataCompressor.compress(uri.fsPath);
-            if (content) {
-                FileWriter.createFileSync(uri.fsPath, content);
-            }
-        }
-    });
+    // Diagnostics
+    let diagnosticCollection = vscode.languages.createDiagnosticCollection('xml');
+    context.subscriptions.push(diagnosticCollection);
     let statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
     applicationContext.statusBar = statusBar;
     applicationContext.context = context;
+    applicationContext.diagnosticCollection = diagnosticCollection;
     applicationContext.outputChannel = vscode.window.createOutputChannel("Aura Helper");
     applicationContext.outputChannel.appendLine('Aura Helper Extension is now active');
     applicationContext.outputChannel.appendLine('Start loading init files');
@@ -63,7 +50,7 @@ exports.run = function (context) {
     });
 }
 
-async function init(context, callback) {
+async function init(context) {
     return new Promise(async function (resolve) {
         applicationContext.componentsDetail = JSON.parse(FileReader.readFileSync(Paths.getBaseComponentsDetailPath()));
         applicationContext.outputChannel.appendLine('Loading Snippets');
@@ -88,21 +75,15 @@ async function init(context, callback) {
         if (FileChecker.isExists(Paths.getOldAuraDocumentUserTemplatePath()) && !FileChecker.isExists(Paths.getAuraDocumentUserTemplatePath()))
             FileWriter.copyFileSync(Paths.getOldAuraDocumentUserTemplatePath(), Paths.getAuraDocumentUserTemplatePath());
         applicationContext.outputChannel.appendLine('Environment Prepared');
-        let user = await Config.getAuthUsername();
-        MetadataConnection.getMetadataObjectsListFromOrg(user, true, undefined, undefined, function () {
-            applicationContext.outputChannel.appendLine('Metadata Types updated');
-        });
         applicationContext.allNamespaces = getNamespacesMetadataFile();
         applicationContext.namespacesMetadata = getNamespacesData();
-        applicationContext.sObjects = getSObjects(true);
+        applicationContext.sObjects = getSObjects(false);
         applicationContext.outputChannel.appendLine('Getting Apex Classes Info');
         NotificationManager.showStatusBar('$(sync~spin) Getting Apex Classes Info...');
         ApexParser.compileAllApexClasses(function () {
             applicationContext.outputChannel.appendLine('Getting Apex Classes Info Finished');
             applicationContext.userClasses = getClassesFromCompiledClasses();
             NotificationManager.hideStatusBar();
-            if (callback)
-                callback.call(this);
             resolve();
         });
     });
@@ -121,19 +102,6 @@ function getClassesFromCompiledClasses() {
 function getNamespacesMetadataFile() {
     let nsMetadataPath = Paths.getSystemClassesPath() + '/namespacesMetadata.json';
     return JSON.parse(FileReader.readFileSync(nsMetadataPath));
-}
-
-function getUserClasses() {
-    let classes = {};
-    let classesPath = Paths.getMetadataRootFolder() + '/classes';
-    let files = FileReader.readDirSync(classesPath);
-    if (files && files.length > 0) {
-        for (const fileName of files) {
-            let objName = fileName.substring(0, fileName.indexOf('.'));
-            classes[objName.toLowerCase()] = objName;
-        }
-    }
-    return classes;
 }
 
 function getSObjects(fromSFDX) {
@@ -163,6 +131,23 @@ function getSObjects(fromSFDX) {
                 let obj = JSON.parse(FileReader.readFileSync(metadataPath + '/' + fileName));
                 sObjects[obj.name.toLowerCase()] = obj;
             }
+        } else {
+            let customObjectsFolder = Paths.getSFDXFolderPath() + '/tools/sobjects/customObjects';
+            let standardObjectsFolder = Paths.getSFDXFolderPath() + '/tools/sobjects/standardObjects';
+            let customObjectsFiles = FileReader.readDirSync(customObjectsFolder);
+            if (customObjectsFiles && customObjectsFiles.length > 0) {
+                for (const fileName of customObjectsFiles) {
+                    let objName = fileName.substring(0, fileName.indexOf('.'));
+                    sObjects[objName.toLowerCase()] = objName;
+                }
+            }
+            let standardObjectFiles = FileReader.readDirSync(standardObjectsFolder);
+            if (standardObjectFiles && standardObjectFiles.length > 0) {
+                for (const fileName of standardObjectFiles) {
+                    let objName = fileName.substring(0, fileName.indexOf('.'));
+                    sObjects[objName.toLowerCase()] = objName;
+                }
+            }
         }
     }
 
@@ -181,15 +166,6 @@ function getNamespacesData() {
 function getNamespaceMetadataFile(namespace) {
     let nsMetadataPath = Paths.getSystemClassesPath() + '/' + namespace + "/namespaceMetadata.json";
     return JSON.parse(FileReader.readFileSync(nsMetadataPath));
-}
-
-function mergePackages(context) {
-    console.log("Mergin Packages started");
-    let package1XML = context.asAbsolutePath('./resources/package01.xml');
-    let package2XML = context.asAbsolutePath('./resources/package02.xml');
-    let result = PackageGenerator.mergePackages([package1XML, package2XML]);
-    FileWriter.createFileSync(context.asAbsolutePath('./resources/packageResult.xml'), result);
-    console.log("Mergin Packages finished");
 }
 
 function repairSystemClasses(context, ns, className) {

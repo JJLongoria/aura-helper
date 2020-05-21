@@ -3,9 +3,10 @@ const ProcessEvent = require('../processes').ProcessEvent;
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const FileWriter = fileSystem.FileWriter;
-const Config = require('../main/config');
+const Config = require('../core/config');
+const AppContext = require('../core/applicationContext');
 const Metadata = require('../metadata');
-const Logger = require('../main/logger');
+const Logger = require('../utils/logger');
 const MetadataFactory = Metadata.Factory;
 const Paths = fileSystem.Paths;
 const window = vscode.window;
@@ -23,86 +24,74 @@ exports.run = function () {
 
 function onButtonClick(selected) {
     if (selected === 'Ok') {
-        console.time('refreshMetadataIndex');
         window.withProgress({
             location: ProgressLocation.Notification,
             title: "Refreshing Metadata Index",
             cancellable: true
         }, (objProgress, cancelToken) => {
             return new Promise(async resolve => {
-                let buffer = [];
-                let bufferError = [];
-                let user = await Config.getAuthUsername();
-                ProcessManager.describeMetadata(user, 'CustomObject', undefined, cancelToken, async function (event, data) {
-                    switch (event) {
-                        case ProcessEvent.STD_OUT:
-                            buffer = buffer.concat(data);
-                            break;
-                        case ProcessEvent.END:
-                            await processCustomObjectsOut(user, buffer.toString(), objProgress, cancelToken);
-                            console.timeEnd('refreshMetadataIndex');
-                            window.showInformationMessage("Metadata Index refreshed Succesfully");
-                            resolve();
-                            break;
-                        default:
-                            break;
+                let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: false, types: ['CustomObject'] }, false, cancelToken);
+                if (!out) {
+                    vscode.window.showWarningMessage('Operation Cancelled by User');
+                    resolve();
+                } else if (out.stdOut) {
+                    let response = JSON.parse(out.stdOut);
+                    if (response.status === 0) {
+                        let user = await Config.getAuthUsername();
+                        await processCustomObjectsOut(user, response.result.data, objProgress, cancelToken);
+                        resolve();
+                    } else {
+                        vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + response.error.message);
+                        resolve();
                     }
-                });
+                } else {
+                    vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+                    resolve();
+                }
             });
         });
     }
 }
 
-function processCustomObjectsOut(user, stdOut, objProgress, cancelToken) {
+function processCustomObjectsOut(user, objects, objProgress, cancelToken) {
     return new Promise(function (resolve) {
-        let data = JSON.parse(stdOut);
-        if (data.status === 0) {
-            let objNames = [];
-            let dataList = [];
-            if (Array.isArray(data.result))
-                dataList = data.result
-            else
-                dataList.push(data.result);
-            for (const data of dataList) {
-                objNames.push(data.fullName);
-            }
-            increment = 100 / objNames.length;
-            let nBatches = 4;
-            let recordsPerBatch = Math.ceil(objNames.length / nBatches);
-            batches = [];
-            let counter = 0;
-            let batch;
-            for (const object of objNames) {
-                if (!batch) {
-                    batch = {
-                        batchId: 'Bacth_' + counter,
-                        records: [],
-                        completed: false
-                    }
-                    counter++;
+        let objNames = Object.keys(objects['CustomObject'].childs);
+        increment = 100 / objNames.length;
+        let nBatches = 4;
+        let recordsPerBatch = Math.ceil(objNames.length / nBatches);
+        batches = [];
+        let counter = 0;
+        let batch;
+        for (const object of objNames) {
+            if (!batch) {
+                batch = {
+                    batchId: 'Bacth_' + counter,
+                    records: [],
+                    completed: false
                 }
-                if (batch) {
-                    batch.records.push(object);
-                    if (batch.records.length === recordsPerBatch) {
-                        batches.push(batch);
-                        batch = undefined;
-                    }
+                counter++;
+            }
+            if (batch) {
+                batch.records.push(object);
+                if (batch.records.length === recordsPerBatch) {
+                    batches.push(batch);
+                    batch = undefined;
                 }
             }
-            if (batch)
-                batches.push(batch);
-            for (const batchToProcess of batches) {
-                refreshMetadataIndexForObjects(batchToProcess.records, user, objProgress, cancelToken, function () {
-                    batchToProcess.completed = true;
-                    let nCompleted = 0;
-                    for (const resultBatch of batches) {
-                        if (resultBatch.completed)
-                            nCompleted++;
-                    }
-                    if (nCompleted === batches.length)
-                        resolve();
-                });
-            }
+        }
+        if (batch)
+            batches.push(batch);
+        for (const batchToProcess of batches) {
+            refreshMetadataIndexForObjects(batchToProcess.records, user, objProgress, cancelToken, function () {
+                batchToProcess.completed = true;
+                let nCompleted = 0;
+                for (const resultBatch of batches) {
+                    if (resultBatch.completed)
+                        nCompleted++;
+                }
+                if (nCompleted === batches.length)
+                    resolve();
+            });
         }
     });
 }
@@ -140,6 +129,7 @@ function processPromise(user, objName, cancelToken) {
                         if (metadataIndex) {
                             FileWriter.createFileSync(Paths.getMetadataIndexPath() + "/" + objName + ".json", JSON.stringify(metadataIndex, null, 2));
                         }
+                        AppContext.sObjects = MetadataFactory.getSObjects(false);
                         resolve();
                     }
                     break;

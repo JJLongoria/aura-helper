@@ -1,3 +1,8 @@
+# Configuration Guide
+For use Aura Helper with all its features, you must to install Aura Helper CLI. [Click here](https://github.com/JJLongoria/aura-helper-CLI) and follow the instructions. 
+
+
+
 # Aura Helper Features
 Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation.
 
@@ -37,10 +42,12 @@ Through the graphical interface, Aura Helper provides a tool to create <code>pac
 
 Another feature implemented through the interface is the ability to manage metadata files as if it were Salesforce. Add similar validations and behavior, taking into account the context and possibilities offered by VSCode.
 
+You can enable or disable advance GUI from Aura Helper Settings, by default is disabled.
+
 The currently available Views are:
 - View to view and edit profiles
 - View to view and edit permission sets
-- Package Generator
+- Package Generator.
 - View to view, create and edit Custom Labels
 - Help
 

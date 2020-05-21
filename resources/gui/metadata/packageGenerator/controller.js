@@ -30,8 +30,8 @@ window.addEventListener('message', event => {
             showContent();
             break;
         case 'metadataLoaded':
-            metadataForDeploy = JSON.parse(JSON.stringify(eventData.metadata));
-            metadataForDelete = JSON.parse(JSON.stringify(eventData.metadata));
+            metadataForDeploy = eventData.metadata.metadataForDeploy;
+            metadataForDelete = eventData.metadata.metadataForDelete;
             if (isDestructive)
                 metadata = metadataForDelete;
             else
@@ -619,7 +619,7 @@ function createFullPackage() {
             anyCheckedForDeploy = true;
     }
     if (anyCheckedForDeploy || anyCheckedForDelete)
-        vscode.postMessage({ command: "createFullPackage", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: 'forDeploy', saveOn: saveOn });
+        vscode.postMessage({ command: "createFullPackage", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn });
     else {
         // @ts-ignore
         showPageMessage('error', '{!label.not_metadata_selected_for_full_package_error}');

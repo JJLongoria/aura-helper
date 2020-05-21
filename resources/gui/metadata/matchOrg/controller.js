@@ -18,7 +18,7 @@ window.addEventListener('message', event => {
     let eventData = event.data;
     switch (eventData.command) {
         case 'open':
-            metadata = eventData.model.metadataOnOrg;
+            metadata = eventData.model;
             document.getElementById('metadataContainer').style.display = 'block';
             drawMetadataTypes(true);
             // @ts-ignore

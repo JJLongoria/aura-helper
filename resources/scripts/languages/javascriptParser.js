@@ -1,4 +1,4 @@
-const logger = require('../main/logger');
+const logger = require('../utils/logger');
 const Tokenizer = require('./tokenizer').Tokenizer;
 const TokenType = require('./tokenTypes');
 const utils = require('./utils').Utils;

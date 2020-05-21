@@ -1,4 +1,4 @@
-const Logger = require('../../main/logger');
+const Logger = require('../../utils/logger');
 const fileSystem = require('../../fileSystem');
 const Node = require('./nodes/node');
 const CommentNode = require('./nodes/commentNode');

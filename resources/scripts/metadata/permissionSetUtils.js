@@ -1,5 +1,5 @@
 const Utils = require('./utils');
-const AuraParser = require('../languages').AuraParser;
+const XMLParser = require('../languages').XMLParser;
 
 class PermissionSetUtils {
 
@@ -389,7 +389,7 @@ class PermissionSetUtils {
                 }
                 xmlLines.push('</PermissionSet>');
             } else {
-                return AuraParser.toXML(permissionSet);
+                return XMLParser.toXML(permissionSet);
             }
 
         }

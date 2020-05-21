@@ -1,10 +1,10 @@
 const vscode = require('vscode');
-const Config = require('../main/config');
+const Config = require('../core/config');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
 const Metadata = require('../metadata');
 const GUIEngine = require('../guiEngine');
-const AuraParser = languages.AuraParser;
+const XMLParser = languages.XMLParser;
 const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
 const FileChecker = fileSystem.FileChecker;
@@ -40,30 +40,22 @@ exports.run = function (fileUri) {
         viewOptions.actions.push(Engine.createButtonAction('saveCompressBtn', '{!label.compress_and_save}', ["w3-btn altSave"], "compressAndSave()"));
         viewOptions.actions.push(Engine.createButtonAction('cancelBtn', '{!label.cancel}', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
         view = Engine.createView((isPermissionSet) ? Routing.PermissionSet : Routing.Profile, viewOptions);
-        view.render(function (resolve) {
-            if (profileRaw) {
-                if (isPermissionSet) {
-                    let permSet = PermissionSetUtils.createPermissionSet(profileRaw);
-                    if (Config.getConfig().metadata.mergeLocalDataPermissions)
-                        permSet = PermissionSetUtils.mergePermissionSetWithLocalData(permSet, storageMetadata);
-                    resolve(permSet, {
-                        name: profileName,
-                    });
-                } else {
-                    let profile = ProfileUtils.createProfile(profileRaw);
-                    if (Config.getConfig().metadata.mergeLocalDataPermissions)
-                        profile = ProfileUtils.mergeProfileWithLocalData(profile, storageMetadata);
-                    resolve(profile, {
-                        name: profileName,
-                    });
-                }
+        let model;
+        let extraData = { name: profileName };
+        if (profileRaw) {
+            if (isPermissionSet) {
+                let permSet = PermissionSetUtils.createPermissionSet(profileRaw);
+                if (Config.getConfig().metadata.mergeLocalDataPermissions)
+                    permSet = PermissionSetUtils.mergePermissionSetWithLocalData(permSet, storageMetadata);
+                model = permSet;
             } else {
-                resolve(undefined, {
-                    name: profileName,
-                });
+                let profile = ProfileUtils.createProfile(profileRaw);
+                if (Config.getConfig().metadata.mergeLocalDataPermissions)
+                    profile = ProfileUtils.mergeProfileWithLocalData(profile, storageMetadata);
+                model = profile;
             }
-
-        });
+        }
+        view.render(model, extraData);
         view.onReceiveMessage(function (message) {
             if (message.command == 'cancel') {
                 view.close();
@@ -85,5 +77,5 @@ exports.run = function (fileUri) {
 }
 
 function readProfile(filePath) {
-    return AuraParser.parseXML(FileReader.readFileSync(filePath));
+    return XMLParser.parseXML(FileReader.readFileSync(filePath));
 }
