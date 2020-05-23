@@ -1,12 +1,24 @@
 # Configuration Guide
 For use Aura Helper with all its features, you must to install Aura Helper CLI. [Click here](https://github.com/JJLongoria/aura-helper-CLI) and follow the instructions. 
 
-
-
 # Aura Helper Features
 Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation.
 
 From code autocomplete tools, to an advanced graphical interface that allows you to perform more powerful tasks, through formatting Apex code or offering views for file structure. Aura Helper is the **most complete extension** for work with salesforce, is undoubtedly one of the necessary applications for any Salaesforce developer.
+
+- **Write code faster** with the complete code suggestion tools that Aura Helper provide. Code completion for Apex, lightning, javascript... (*User Classes, System Classes,Custom and Standard Objects, Methods, Fields, Picklist values, implement intefaces and extends classes automatically, Custom Labels, Aura attribute suggested values... and too much more*.)
+- **Apex Code formatter** with *configurable options* from Aura Helper settings (spaces beetwen operators, max allowed blank lines, open curly brackets on new lines... and more options to format your code as you want)
+- More than **100 snipets** for create Aura Components with less effort
+- Create **package and destructive** files quickly with the powerfull **Package Generator**. Select metadata manually or create the files from two **git branches, commits or tags differences**.
+- **Compress XML Files** for make easy the *git conflict handling* and make work more with git more faster.
+- **Edit XML Files easy without errors** from VSCode with the Aura Helper tools.
+- Work with **special metadata** types like *Profiles, Permission Sets, Translations...*
+- **Create documentation** for Aura components easy and faster based on a user defined template
+- Create a **entire Apex Classes navigable documentation** with only one command
+- Create your own **Apex comment template** for adding to apex code easy with autocompletion tools (type /** for create apex comments based on template)
+- **Views** for see the files structure like *Apex Classes Fields, Methods...*
+- An **Advance Graphic User Interface** for make powerfull task provide a graphic interface for edit metadata files
+- And too much more tools for make your work more easy and faster with less erros.
 
 ## Code Completion Tools
 Aura Helper offers the user multiple code autocomplete tools to facilitate coding, which can be activated or disabled from the extension settings.

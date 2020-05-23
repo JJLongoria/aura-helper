@@ -35,7 +35,7 @@ function provideJSCompletion(document, position) {
     let snippets;
     let queryData = langUtils.getQueryData(document, position);
     let classes = applicationContext.userClasses;
-    let allNamespaces = applicationContext.allNamespaces;
+    let allNamespaces = applicationContext.namespacesMetadata;
     let systemMetadata = allNamespaces['system'];
     let sObjects = applicationContext.sObjects;
     let componentStructure = BundleAnalizer.getComponentStructure(document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp'));

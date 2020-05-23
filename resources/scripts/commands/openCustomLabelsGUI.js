@@ -1,5 +1,4 @@
 const vscode = require('vscode');
-const Logger = require('../utils/logger');
 const Config = require('../core/config');
 const GUIEngine = require('../guiEngine');
 const fileSystem = require('../fileSystem');
@@ -7,7 +6,6 @@ const languages = require('../languages');
 const metadata = require('../metadata');
 const ProcessManager = require('../processes').ProcessManager;
 const ProcessEvent = require('../processes').ProcessEvent;
-const StrUtils = require('../utils/strUtils');
 const Window = vscode.window;
 const Engine = GUIEngine.Engine;
 const Routing = GUIEngine.Routing;
@@ -91,34 +89,19 @@ async function deleteLabel(labels, index) {
         title: "Deleting Custom Label " + labelToDelete.fullName + " from Org",
         cancellable: true
     }, (progress, cancelToken) => {
-        return new Promise(promiseResolve => {
+        return new Promise(async resolve => {
             try {
-                let buffer = [];
-                let bufferError = [];
-                ProcessManager.destructiveChanges(user, Paths.getPackageFolder(), cancelToken, function (event, data) {
-                    switch (event) {
-                        case ProcessEvent.ERR_OUT:
-                        case ProcessEvent.ERROR:
-                            bufferError = bufferError.concat(data);
-                            break;
-                        case ProcessEvent.STD_OUT:
-                            buffer = buffer.concat(data);
-                            break;
-                        case ProcessEvent.END:
-                            if (bufferError.length > 0) {
-                                view.postMessage({ command: "deletedError", model: CustomLabels, error: bufferError.toString() });
-                                promiseResolve();
-                            } else {
-                                processResponse(user, buffer.toString(), cancelToken, promiseResolve);
-                            }
-                            break;
-                        case ProcessEvent.KILLED:
-                            view.postMessage({ command: 'processKilled' });
-                            break;
-                        default:
-                            break;
+                let out = await ProcessManager.destructiveChanges(user, Paths.getPackageFolder(), cancelToken);
+                if (out) {
+                    if (out.stdOut) {
+                        processResponse(user, out.stdOut, cancelToken, resolve);
+                    } else {
+                        view.postMessage({ command: "deletedError", model: CustomLabels, error: out.stdErr });
+                        resolve();
                     }
-                });
+                } else {
+                    view.postMessage({ command: 'processKilled' });
+                }
             } catch (error) {
                 view.postMessage({ command: "deletedError", error: error });
             }
@@ -205,7 +188,7 @@ function cancelDeploy(user, deployJobId) {
         location: ProgressLocation.Notification,
         title: "Canceling Destructive Deploy Job with Id: " + deployJobId,
         cancellable: false
-    }, (progress, cancelToken) => {
+    }, () => {
         return new Promise(promiseResolve => {
             try {
                 let buffer = [];

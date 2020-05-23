@@ -369,5 +369,9 @@
     "GUI_settings": "GUI Settings",
     "GUI_settings_paragraph_1": "Configuration options for the graphical user interface. The group they belong to is Graphic User Interface",
     "code_completion_settings": "Code Completion Settings",
-    "code_completion_settings_paragraph_1": "In this section you can enable or disable most of the code autocompletion options that Aura Helper contains. These options are grouped together as Auto Completion Tools"
+    "code_completion_settings_paragraph_1": "In this section you can enable or disable most of the code autocompletion options that Aura Helper contains. These options are grouped together as Auto Completion Tools",
+    "match_metadata_with_local": "Match Org Metadata with Local",
+    "delete_order": "Delete Order",
+    "after": "After",
+    "before": "Before"
 }

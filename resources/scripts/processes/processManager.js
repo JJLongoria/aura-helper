@@ -20,16 +20,26 @@ class ProcessManager {
         return process;
     }
 
-    static describeSchemaMetadata(user, metadataType, cancelToken, callback) {
+    static describeSchemaMetadata(user, metadataType, cancelToken) {
         let process = new Process('cmd', ['/c', 'sfdx', 'force:schema:sobject:describe', '--json', '-u', user, '-s', metadataType], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        process.run(callback);
-        return process;
+        return new Promise(function (resolve) {
+            runProcess(process).then(function (stdOut) {
+                resolve({ stdOut: stdOut, stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
     }
 
-    static destructiveChanges(user, destructiveFolder, cancelToken, callback) {
+    static destructiveChanges(user, destructiveFolder, cancelToken) {
         let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:deploy', '--json', '-u', user, '-d', '' + destructiveFolder + '', '-w', '-1'], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        process.run(callback);
-        return process;
+        return new Promise(function (resolve) {
+            runProcess(process).then(function (stdOut) {
+                resolve({ stdOut: stdOut, stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
     }
 
     static deployReport(user, jobId, cancelToken, callback) {

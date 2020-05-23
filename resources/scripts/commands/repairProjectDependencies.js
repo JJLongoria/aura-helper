@@ -67,7 +67,7 @@ async function repair(option, typesForRepair, callback) {
         location: vscode.ProgressLocation.Notification,
         title: "Repair Project Dependencies",
         cancellable: true
-    }, (progress, cancelToken) => {
+    }, () => {
         return new Promise(async function (resolve) {
             try {
                 let options = {

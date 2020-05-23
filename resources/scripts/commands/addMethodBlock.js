@@ -1,4 +1,3 @@
-const logger = require('../utils/logger');
 const snippetUtils = require('../utils/snippetUtils');
 const languages = require('../languages');
 const fileSystem = require('../fileSystem');

@@ -8,7 +8,7 @@ const Window = vscode.window;
 const SnippetString = vscode.SnippetString;
 const Position = vscode.Position;
 
-exports.run = function (fileUri) {
+exports.run = function () {
     try {
         let filePath;
         let editor = Window.activeTextEditor;

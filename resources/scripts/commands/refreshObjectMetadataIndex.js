@@ -1,5 +1,4 @@
 const ProcessManager = require('../processes').ProcessManager;
-const ProcessEvent = require('../processes').ProcessEvent;
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const Config = require('../core/config');
@@ -23,7 +22,7 @@ async function onButtonClick(selected) {
 	if (selected === 'Ok') {
 		window.withProgress({
 			location: ProgressLocation.Notification,
-			title: "Loading available Metadata for refresh",
+			title: "Loading available Sobjects for refresh",
 			cancellable: true
 		}, (progress, cancelToken) => {
 			return new Promise(async resolve => {
@@ -35,7 +34,7 @@ async function onButtonClick(selected) {
 					let response = JSON.parse(out.stdOut);
 					if (response.status === 0) {
 						let user = await Config.getAuthUsername();
-						await processCustomObjectsOut(user, response.result.data);
+						processCustomObjectsOut(user, response.result.data);
 						resolve();
 					} else {
 						vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + response.error.message);
@@ -62,39 +61,26 @@ function processCustomObjectsOut(user, objects) {
 function refreshObjectMetadataIndex(object, user) {
 	window.withProgress({
 		location: ProgressLocation.Notification,
-		title: "Refreshing Index for " + object,
+		title: "Refreshing Definition for " + object,
 		cancellable: false
 	}, (objProgress, cancelToken) => {
-		return new Promise(resolve => {
-			let buffer = [];
-			let bufferError = [];
-			ProcessManager.describeSchemaMetadata(user, object, cancelToken, function (event, data) {
-				switch (event) {
-					case ProcessEvent.STD_OUT:
-						buffer = buffer.concat(data);
-						break;
-					case ProcessEvent.ERR_OUT:
-					case ProcessEvent.ERROR:
-						bufferError = bufferError.concat(data);
-						break;
-					case ProcessEvent.END:
-						if (buffer.length > 0) {
-							let metadataIndex = MetadataFactory.createMetadataFromJSONSchema(buffer.toString());
-							if (metadataIndex) {
-								FileWriter.createFileSync(Paths.getMetadataIndexPath() + "/" + object + ".json", JSON.stringify(metadataIndex, null, 2));
-								window.showInformationMessage("Metadata Index for " + object + " refreshed Succesfully");
-							}
-							AppContext.sObjects = MetadataFactory.getSObjects(false);
-							resolve();
-						} else {
-							window.showErrorMessage("Error refreshing index for object " + object + ". Error: " + bufferError.toString());
-							resolve();
-						}
-						break;
-					default:
-						break;
+		return new Promise(async resolve => {
+			let out = await ProcessManager.describeSchemaMetadata(user, object, cancelToken);
+			if (out) {
+				if (out.stdOut) {
+					let metadataIndex = MetadataFactory.createMetadataFromJSONSchema(out.stdOut);
+					if (metadataIndex) {
+						FileWriter.createFileSync(Paths.getMetadataIndexPath() + "/" + object + ".json", JSON.stringify(metadataIndex, null, 2));
+					}
+					AppContext.sObjects = MetadataFactory.getSObjects(false);
+					window.showInformationMessage("Metadata Index for " + object + " refreshed Succesfully");
+				} else {
+					vscode.window.showErrorMessage(out.stdErr);
 				}
-			});
+			} else {
+				vscode.window.showErrorMessage('Operation Cancelled by User');
+			}
+			resolve();
 		});
 	});
 }

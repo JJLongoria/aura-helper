@@ -1,4 +1,3 @@
-const Logger = require('../utils/logger');
 const fileSystem = require('../fileSystem');
 const vscode = require('vscode');
 const Processes = require('../processes');

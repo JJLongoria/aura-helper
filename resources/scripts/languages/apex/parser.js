@@ -365,7 +365,7 @@ class Parser {
                 node = newNode;
                 nFlowControls++;
             } else if (isVariableDeclaration(token)) { 
-                let newNode = new VariableNode(node.getId() + '.' + token.textToLower + '.function', token.text, token);
+                let newNode = new VariableNode(node.getId() + '.' + token.textToLower + '.variable', token.text, token);
                 newNode.setAccessModifier(accessModifier);
                 newNode.setDefinitionModifier(definitionModifier);
                 newNode.setParentNodeId(node.getId());

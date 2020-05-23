@@ -190,7 +190,7 @@ function selectCompress() {
 
 function selectFrom() {
     return new Promise(async function (resolve) {
-        let options = ['From Org (Include All Data from Org)', 'From Local (Include Only Data from Local)', 'Mixed (Include Data from Local and Org)'];
+        let options = ['From Local (Include Only Data from Local)', 'From Org (Include All Data from Org)', 'Mixed (Include Data from Local and Org)'];
         let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Select source for get types to download' });
         resolve(selectedOption);
     });

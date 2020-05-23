@@ -45,7 +45,7 @@ function provideApexCompletion(document, position) {
             items = Utils.getQueryCompletionItems(activationTokens, activationInfo, queryData, position, 'aurahelper.completion.apex');
         } else if (activationTokens.length > 0 && activationTokens[0].toLowerCase() === 'label') {
             items = getLabelsCompletionItems(activationTokens, position);
-        } else if (activationTokens.length > 1) {
+        }   else if (activationTokens.length > 1) {
             items = Utils.getApexCompletionItems(position, activationTokens, activationInfo, fileStructure, classes, systemMetadata, allNamespaces, sObjects);
         } else {
             items = Utils.getAllAvailableCompletionItems(position, fileStructure, classes, systemMetadata, allNamespaces, sObjects);

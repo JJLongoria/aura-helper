@@ -450,5 +450,26 @@ class Utils {
         return types;
     }
 
+    static deleteCheckedMetadata(metadata){
+        Object.keys(metadata).forEach(function (typeKey) {
+            Object.keys(metadata[typeKey].childs).forEach(function (objectKey) {
+                if (Utils.haveChilds(metadata[typeKey].childs[objectKey])) {
+                    Object.keys(metadata[typeKey].childs[objectKey].childs).forEach(function (itemKey) {
+                        if (metadata[typeKey].childs[objectKey].childs[itemKey].checked)
+                            delete metadata[typeKey].childs[objectKey].childs[itemKey];
+                    });
+                    if (metadata[typeKey].childs[objectKey].checked)
+                        delete metadata[typeKey].childs[objectKey];
+                } else {
+                    if (metadata[typeKey].childs[objectKey].checked)
+                        delete metadata[typeKey].childs[objectKey];
+                }
+            });
+            if (!Utils.haveChilds(metadata[typeKey]))
+                delete metadata[typeKey];
+        });
+        return metadata;
+    }
+
 }
 module.exports = Utils;
