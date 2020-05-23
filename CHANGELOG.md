@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 - Added Aura Helper CLI into Aura Helper for support complex operation and make more powerfull and optimize Aura Helper
 - Added a new system for select metadata types and create packages without Advance GUI.
 - Optimized for single core or multi core CPU's
+- Added new setting for update the SObject Index when VSCode start and Aura Helper extension is active.
 
 ### Changed
 - Change **AuraHelper: Compress XML File** command for use *Aura Helper CLI*. Now its more faster and use less resources.
@@ -14,14 +15,21 @@ All notable changes to this project will be documented in this file.
 - Change Commands **AuraHelper: Retrieve Full Profile(s)**, **AuraHelper: Retrieve Full Permission Set(s)**, **AuraHelper: Retrieve Full Record Type(s)** for **AuraHelper: Retrieve Special Types**
 - Chage **AuraHelper: Retrieve Special Types** for use *Aura Helper CLI* for make it more faster and optimize resources. Now support more types for retrieve (*Record Types, Profiles, Permission Sets, Translations and only Custom Object XML File*). Also support retrieve All types at time, select multiple types or a single type selection.
 - Change **AuraHelper: Repair Project Dependencies** for use *Aura Helper CLI*. Now its more powerfull and can repair errors automatically or only check errors and show it to the user on Problems panel for repair manually.
-- Change **AuraHelper: Refresh Metadata Index** for **AuraHelper:Refresh All SObjects Index** and modify command for use  Aura Helper CLI.
-- Change **AuraHelper: Refresh Metadata Index for Object** for **"AuraHelper:Refresh SObject Index** and modify command for use  Aura Helper CLI.
+- Change **AuraHelper: Refresh Metadata Index** for **AuraHelper:Refresh All SObjects Definitions** and modify command for use  Aura Helper CLI.
+- Change **AuraHelper: Refresh Metadata Index for Object** for **"AuraHelper:Refresh SObject Definition** and modify command for use  Aura Helper CLI.
 - Change **AuraHelper: Package Generator** for use *Aura Helper CLI*. Now its more powerfull and use less resources. Also, the option for select metadata from git its more accurate for create packages from git differences.
 - Change **AuraHelper: Open Custom Labels on UI** for use *Aura Helper CLI*. Now its more powerfull and use less resources.
+
+- Change **AuraHelper: Compare Org With Local** for work with Advance GUI or Standard GUI
+- Change **AuraHelper: Package Generator** for work with Advance GUI or Standard GUI
+- Enhance commands **AuraHelper: Retrieve Special Types** and **AuraHelper: Repair Project Dependencies** for give more control and granularity to the user for select elements
 
 
 ### Fixed
 - Fixed Apex formatter for correct format of instanceof operator
+- Fixed Apex formatter for correct format for string on mutiple lines
+- Fixed Apex formatter for correct format comments  on enums
+- Fixed Apex formatter for correct format  SObejcts on first line of a body (after curly bracket)
 - Fixed some bugs with autocompletion tools on apex and queries
 
 ## [1.9.4 - 2020-04-15]

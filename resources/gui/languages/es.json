@@ -369,5 +369,9 @@
     "GUI_settings": "Interfaz Gráfica",
     "GUI_settings_paragraph_1": "Opciones de configuración para la interfaz gráfica de usuario. El grupo al que pertenecen es Graphic User Interface",
     "code_completion_settings": "Configuración de Autocompletado",
-    "code_completion_settings_paragraph_1": "En esta sección se pueden activar o desactivar la mayoría de opciones de autocompletado de código que contiene Aura Helper. Estas opciones se encuentran agrupadas como Auto Completion Tools"
+    "code_completion_settings_paragraph_1": "En esta sección se pueden activar o desactivar la mayoría de opciones de autocompletado de código que contiene Aura Helper. Estas opciones se encuentran agrupadas como Auto Completion Tools",
+    "match_metadata_with_local": "Match Org Metadata with Local",
+    "delete_order": "Order de Eliminación",
+    "after": "Después",
+    "before": "Antes"
 }

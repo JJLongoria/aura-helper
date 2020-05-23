@@ -5,3 +5,5 @@ exports.CustomLabelsUtils = require('./customLabelsUtils');
 exports.PermissionSetUtils = require('./permissionSetUtils');
 exports.ProfileUtils = require('./profileUtils');
 exports.CustomObjectUtils = require('./customObjectUtils');
+exports.Connection = require('./connection');
+

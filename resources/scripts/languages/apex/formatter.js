@@ -25,6 +25,7 @@ function formatApex(tokens) {
     let index = 0;
     let indent = 0;
     let indentOffset = 0;
+    let strIndex;
     let lines = [];
     let line = [];
     let beforeWhitespaces = 0;
@@ -33,6 +34,7 @@ function formatApex(tokens) {
     let mainBodyIndent = 0;
     let queryOpenIndex = 0;
     let querySelectIndex = 0;
+    let complexString = false;
     while (index < tokens.length) {
         let token = tokens[index];
         let lastToken = langUtils.getLastToken(tokens, index);
@@ -75,8 +77,11 @@ function formatApex(tokens) {
             afterWhitespaces = token.startIndex - lastToken.endIndex;
         if (lastToken && isCommentToken(lastToken) && (token.type === TokenType.COMMENT.BLOCK_START || token.type === TokenType.COMMENT.LINE || token.type === TokenType.COMMENT.LINE_DOC) && !isOnSameLine(token, lastToken))
             newLines = Config.getConfig().apexFormat.comment.newLinesBewteenComments + 1;
-        if (isStringToken(token) && nextToken && isStringToken(nextToken) && isOnSameLine(token, nextToken))
+        if (isStringToken(token) && nextToken && isStringToken(nextToken) && isOnSameLine(token, nextToken)) {
             afterWhitespaces = nextToken.startIndex - token.endIndex;
+            if (!strIndex)
+                strIndex = token.startIndex;
+        }
         if (lastToken && lastToken.type === TokenType.BRACKET.CURLY_OPEN)
             newLines = 1;
         if (lastToken && lastToken.type === TokenType.BRACKET.CURLY_CLOSE)
@@ -92,6 +97,7 @@ function formatApex(tokens) {
             indentOffset = -1;
         }
         if (lastToken && lastToken.type === TokenType.PUNCTUATION.SEMICOLON && !guardOpen && token.type !== TokenType.BRACKET.CURLY_CLOSE) {
+            strIndex = undefined;
             if (isCommentToken(token) && isOnSameLine(token, lastToken)) {
                 if (Config.getConfig().apexFormat.comment.holdAfterWhitespacesOnLineComment)
                     beforeWhitespaces = token.startIndex - lastToken.endIndex;
@@ -213,9 +219,28 @@ function formatApex(tokens) {
             beforeWhitespaces = 0;
         if (nextToken && nextToken.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR)
             afterWhitespaces = 0;
-        if(token.type === TokenType.OPERATOR.LOGICAL.INSTANCE_OF){
+        if (token.type === TokenType.OPERATOR.LOGICAL.INSTANCE_OF) {
             afterWhitespaces = 1;
             beforeWhitespaces = 1;
+        }
+        if (lastToken && lastToken.type === TokenType.PUNCTUATION.COMMA && isCommentToken(token) && originalNewLines > 0) {
+            newLines = 1;
+        }
+        if ((lastToken && isOperator(lastToken) && isStringToken(token) && originalNewLines > 0) || complexString) {
+            complexString = false;
+            if (strIndex) {
+                let rest = strIndex % 4;
+                indentOffset = (strIndex - (indent * 4)) / 4;
+                if (rest > 0) {
+                    indentOffset -= 1;
+                    beforeWhitespaces = rest - 1;
+                }
+            }
+            newLines = 1;
+        }
+        if (lastToken && isStringToken(lastToken) && isOperator(token) && originalNewLines > 0) {
+            newLines = 0;
+            complexString = true;
         }
         if (indent > 0 && indent !== mainBodyIndent && token.type !== TokenType.KEYWORD.DECLARATION.PROPERTY_GETTER && token.type !== TokenType.KEYWORD.DECLARATION.PROPERTY_SETTER) {
             if (newLines > 0 && originalNewLines > 1) {

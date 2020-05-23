@@ -837,10 +837,6 @@ function getRecordTypesSelect(obj, layout, recordtypes) {
 
 
 function clickOnElementCheck(section, elementName, elementCheckField) {
-    console.log('clickOnElementCheck');
-    console.log('section => ' + section);
-    console.log('elementName => ' + elementName);
-    console.log('elementCheckField => ' + elementCheckField);
     if (section === 'applicationVisibilities') {
         // @ts-ignore
         if (elementCheckField === 'default' && document.getElementById('app_' + elementName + '_' + elementCheckField).checked) {

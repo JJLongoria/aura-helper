@@ -1,12 +1,8 @@
 const vscode = require('vscode');
-const Logger = require('../utils/logger');
-const Config = require('../core/config');
 const GUIEngine = require('../guiEngine');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
 const metadata = require('../metadata');
-const ProcessManager = require('../processes').ProcessManager;
-const ProcessEvent = require('../processes').ProcessEvent;
 const Window = vscode.window;
 const Engine = GUIEngine.Engine;
 const Routing = GUIEngine.Routing;
@@ -14,9 +10,6 @@ const FileReader = fileSystem.FileReader;
 const Paths = fileSystem.Paths;
 const XMLParser = languages.XMLParser;
 const FileChecker = fileSystem.FileChecker;
-const FileWriter = fileSystem.FileWriter;
-const MetadataFactory = metadata.Factory;
-const ProgressLocation = vscode.ProgressLocation;
 const CustomObjectUtils = metadata.CustomObjectUtils;
 
 let filePath;

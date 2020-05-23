@@ -10,83 +10,106 @@ const RESULT_STEP = 4;
 class MetadataSelector {
 
     constructor(title, metadata) {
-        this.title = title;
+        this._title = title;
         this._metadata = metadata;
-        this.step = TYPE_STEP;
-        this.totalSteps = 4;
-        this.currentIntput = undefined;
+        this._step = TYPE_STEP;
+        this._totalSteps = 4;
+        this._currentIntput = undefined;
         this._selectedType = undefined;
         this._selectedObject = undefined;
         this._lastStep = undefined;
-        this.onAcceptCallback = undefined;
-        this.onCancelCallback = undefined;
+        this._onAcceptCallback = undefined;
+        this._onCancelCallback = undefined;
+        this._onDeleteCallback = undefined;
+        this._allowDelete = false;
+    }
+
+    allowDelete(allow) {
+        this._allowDelete = allow;
     }
 
     onAccept(callback) {
-        this.onAcceptCallback = callback;
+        this._onAcceptCallback = callback;
     }
 
     onCancel(callback) {
-        this.onCancelCallback = callback;
+        this._onCancelCallback = callback;
+    }
+
+    onDelete(callback) {
+        this._onDeleteCallback = callback;
+    }
+
+    setMetadata(metadata){
+        this._metadata = metadata;
+    }   
+
+    reset() {
+        this._step = 1;
+        if (this._currentIntput)
+            this._currentIntput.dispose();
+        this.show();
     }
 
     show() {
         let input;
         try {
-            switch (this.step) {
+            switch (this._step) {
                 case TYPE_STEP:
-                    this._lastStep = this.step;
+                    this._lastStep = this._step;
                     input = createMetadataTypeInput(this._metadata);
                     break;
                 case OBJECT_STEP:
-                    this._lastStep = this.step;
+                    this._lastStep = this._step;
                     input = createMetadataObjectInput(this._selectedType, this._metadata);
                     break;
                 case ITEM_STEP:
-                    this._lastStep = this.step;
+                    this._lastStep = this._step;
                     input = createMetadataItemInput(this._selectedType, this._selectedObject, this._metadata);
                     break;
                 case RESULT_STEP:
-                    input = createResultInput(this._metadata);
+                    input = createResultInput(this._metadata, this._allowDelete);
                     break;
             }
             input.onDidAccept(item => {
-                this.step--;
+                this._step--;
                 this.show();
             });
             input.onDidTriggerButton((item) => {
                 if (item.tooltip === 'Ok') {
-                    if (this.step === RESULT_STEP) {
-                        if (this.onAcceptCallback) {
-                            this.onAcceptCallback.call(this, this._metadata);
-                            this.currentIntput.dispose();
+                    if (this._step === RESULT_STEP) {
+                        if (this._onAcceptCallback) {
+                            this._onAcceptCallback.call(this, this._metadata);
+                            this._currentIntput.dispose();
                         }
                     } else {
-                        this.step = RESULT_STEP;
+                        this._step = RESULT_STEP;
                         this.show();
                     }
+                } else if (item.tooltip === 'Delete') {
+                    this._onDeleteCallback.call(this, this._metadata);
                 } else {
-                    if(this.step === RESULT_STEP)
-                        this.step = this._lastStep;
+                    if (this._step === RESULT_STEP)
+                        this._step = this._lastStep;
                     else
-                        this.step--;
+                        this._step--;
                     this.show();
                 }
             });
             input.onDidHide(() => {
-                if (this.currentIntput)
-                    this.currentIntput.dispose();
-                if (this.onCancelCallback) {
-                    this.onCancelCallback.call(this);
+                if (this._currentIntput)
+                    this._currentIntput.dispose();
+                if (this._onCancelCallback) {
+                    this._onCancelCallback.call(this);
                 }
             });
             input.onDidChangeSelection(items => {
                 let selectedType;
                 let metadata;
-                switch (this.step) {
+                switch (this._step) {
                     case TYPE_STEP:
                         this._selectedType = items[0].label;
-                        this.step = OBJECT_STEP;
+                        this._step = OBJECT_STEP;
                         this.show();
                         break;
                     case OBJECT_STEP:
@@ -111,7 +134,7 @@ class MetadataSelector {
                             this._metadata = metadata;
                         } else {
                             this._selectedObject = items[0].label;
-                            this.step = ITEM_STEP;
+                            this._step = ITEM_STEP;
                             this.show();
                         }
                         break;
@@ -134,28 +157,30 @@ class MetadataSelector {
                         break;
                 }
             });
-            if (this.currentIntput)
-                this.currentIntput.dispose();
-            this.currentIntput = input;
-            this.currentIntput.show();
+            if (this._currentIntput)
+                this._currentIntput.dispose();
+            this._currentIntput = input;
+            this._currentIntput.show();
         } catch (error) {
-            if (this.currentIntput)
-                this.currentIntput.dispose();
+            if (this._currentIntput)
+                this._currentIntput.dispose();
             throw error;
         }
     }
 }
 module.exports = MetadataSelector;
 
-function createMetadataTypeInput(types) {
+function createMetadataTypeInput(types, allowDelete) {
     let input = vscode.window.createQuickPick();
     input.title = 'Metadata Types';
     input.step = TYPE_STEP;
     input.totalSteps = 4;
     input.placeholder = 'Choose an Element';
-    input.buttons = [
-        getOkButton()
-    ];
+    let buttons = [];
+    if (allowDelete)
+        buttons.push(getDeleteButton());
+    buttons.push(getOkButton());
+    input.buttons = buttons;
     let items = [];
     Object.keys(types).forEach(function (type) {
         let nSelected = Metadata.Utils.countCheckedChilds(types[type]);
@@ -166,12 +191,12 @@ function createMetadataTypeInput(types) {
     return input;
 }
 
-function createMetadataObjectInput(selectedType, types) {
+function createMetadataObjectInput(selectedType, types, allowDelete) {
     let input = vscode.window.createQuickPick();
     input.title = selectedType + ' Metadata Type Elements';
     input.step = OBJECT_STEP;
     input.totalSteps = 4;
-    input.buttons = getButtons();
+    input.buttons = getButtons(allowDelete);
     let items = [];
     let metadataType = types[selectedType];
     let selectedItems = [];
@@ -199,13 +224,13 @@ function createMetadataObjectInput(selectedType, types) {
     return input;
 }
 
-function createMetadataItemInput(selectedType, selectedObject, types) {
+function createMetadataItemInput(selectedType, selectedObject, types, allowDelete) {
     let input = vscode.window.createQuickPick();
     input.title = 'Elements from ' + selectedObject + ' (' + selectedType + ')';
     input.step = TYPE_STEP;
     input.totalSteps = 4;
     input.placeholder = 'Select Elements';
-    input.buttons = getButtons();
+    input.buttons = getButtons(allowDelete);
     let items = [];
     let selectedItems = [];
     let metadataObject = types[selectedType].childs[selectedObject];
@@ -222,13 +247,13 @@ function createMetadataItemInput(selectedType, selectedObject, types) {
     return input;
 }
 
-function createResultInput(types) {
+function createResultInput(types, allowDelete) {
     let input = vscode.window.createQuickPick();
     input.title = 'Selected Elements';
     input.step = RESULT_STEP;
     input.totalSteps = 4;
     input.placeholder = 'Showing a summary of the selected elements';
-    input.buttons = getButtons();
+    input.buttons = getButtons(allowDelete);
     let items = [];
     Object.keys(types).forEach(function (typeKey) {
         let addedType = false;
@@ -264,11 +289,30 @@ function createResultInput(types) {
     return input;
 }
 
-function getButtons() {
-    return [
-        vscode.QuickInputButtons.Back,
-        getOkButton()
-    ];
+function getButtons(allowDelete) {
+    if (allowDelete) {
+        return [
+            vscode.QuickInputButtons.Back,
+            getDeleteButton(),
+            getOkButton()
+        ];
+    } else {
+        return [
+            vscode.QuickInputButtons.Back,
+            getOkButton()
+        ];
+    }
+
+}
+
+function getDeleteButton() {
+    return {
+        tooltip: "Delete",
+        iconPath: {
+            light: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/light/delete-black-18dp.svg')),
+            dark: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/dark/delete-white-18dp.svg')),
+        }
+    };
 }
 
 function getOkButton() {

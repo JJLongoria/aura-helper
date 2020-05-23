@@ -2,6 +2,7 @@ const https = require('https');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
+const Metadata = require('../metadata');
 const NotificationManager = require('../output/notificationManager');
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
@@ -9,6 +10,7 @@ const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
 const ApexParser = languages.ApexParser;
 const applicationContext = require('../core/applicationContext');
+const Config = require('../core/config');
 
 exports.run = function (context) {
     // Register File Watcher
@@ -45,9 +47,7 @@ exports.run = function (context) {
     applicationContext.outputChannel = vscode.window.createOutputChannel("Aura Helper");
     applicationContext.outputChannel.appendLine('Aura Helper Extension is now active');
     applicationContext.outputChannel.appendLine('Start loading init files');
-    init(context).then(function () {
-        applicationContext.outputChannel.appendLine('Files loaded succesfully');
-    });
+    init(context).then(function () {});
 }
 
 async function init(context) {
@@ -78,11 +78,25 @@ async function init(context) {
         applicationContext.allNamespaces = getNamespacesMetadataFile();
         applicationContext.namespacesMetadata = getNamespacesData();
         applicationContext.sObjects = getSObjects(false);
-        applicationContext.outputChannel.appendLine('Getting Apex Classes Info');
-        NotificationManager.showStatusBar('$(sync~spin) Getting Apex Classes Info...');
+        applicationContext.outputChannel.appendLine('Refreshing Apex Classes Definitions');
+        NotificationManager.showStatusBar('$(sync~spin) Refreshing Apex Classes Definitions...');
         ApexParser.compileAllApexClasses(function () {
-            applicationContext.outputChannel.appendLine('Getting Apex Classes Info Finished');
+            applicationContext.outputChannel.appendLine('Refreshing Apex Classes Defintions Finished');
             applicationContext.userClasses = getClassesFromCompiledClasses();
+            NotificationManager.hideStatusBar();
+            if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart)
+                refreshSObjectsIndex();
+            resolve();
+        });
+    });
+}
+
+function refreshSObjectsIndex() {
+    return new Promise(function (resolve) {
+        applicationContext.outputChannel.appendLine('Refreshing SObject Defintions');
+        NotificationManager.showStatusBar('$(sync~spin) Refreshing SObjects Definitions...');
+        Metadata.Connection.refreshSObjectsIndex().then(function(){
+            applicationContext.outputChannel.appendLine('Refreshing SObject Defintions Finished');
             NotificationManager.hideStatusBar();
             resolve();
         });

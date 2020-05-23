@@ -355,22 +355,18 @@ class Utils {
             lastClass = fileStructure;
         let parentStruct;
         let index = 0;
-        console.log(activationTokens);
         for (let actToken of activationTokens) {
             if (index < activationTokens.length - 1) {
                 let actType = Utils.getActivationType(actToken);
                 let datatype;
                 let className;
                 if (sObject) {
-                    console.log(actToken);
                     if (actToken.endsWith('__r'))
                         actToken = actToken.substring(0, actToken.length - 3) + '__c';
                     let fielData = Utils.getFieldData(sObject, actToken);
-                    console.log(fielData);
                     if (fielData) {
                         if (fielData.referenceTo.length === 1) {
                             sObject = sObjects[fielData.referenceTo[0].toLowerCase()];
-                            console.log(sObject);
                         } else {
                             datatype = fielData.type;
                             if (datatype.indexOf('<') !== -1)
