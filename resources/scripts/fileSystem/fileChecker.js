@@ -14,7 +14,7 @@ class FileChecker{
         return filePath.endsWith('.auradoc');
     }
     static isAuraComponent(filePath){
-        return filePath.endsWith('.cmp');
+        return filePath.endsWith('.cmp') || filePath.endsWith('.app') || filePath.endsWith('.evt');
     }
     static isAuraComponentFolder(filePath){
         return filePath.indexOf('/aura/') !== -1 || filePath.indexOf('\\aura\\') !== -1;

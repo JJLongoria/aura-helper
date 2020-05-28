@@ -24,7 +24,6 @@ All notable changes to this project will be documented in this file.
 - Change **AuraHelper: Package Generator** for work with Advance GUI or Standard GUI
 - Enhance commands **AuraHelper: Retrieve Special Types** and **AuraHelper: Repair Project Dependencies** for give more control and granularity to the user for select elements
 
-
 ### Fixed
 - Fixed Apex formatter for correct format of instanceof operator
 - Fixed Apex formatter for correct format for string on mutiple lines

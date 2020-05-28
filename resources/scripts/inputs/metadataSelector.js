@@ -157,6 +157,7 @@ class MetadataSelector {
                         break;
                 }
             });
+            input.ignoreFocusOut = true;
             if (this._currentIntput)
                 this._currentIntput.dispose();
             this._currentIntput = input;

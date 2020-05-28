@@ -253,8 +253,8 @@
     "load_metadata_from_auth_org": "Load Metadata From Auth Org",
     "overwrite_project_package": "Overwrite Project Package",
     "choose_directory_to_save": "Choose Directory to Save",
-    "create_for_retrieve": "Create for Retrieve",
-    "create_for_deploy":"Create For Deploy",
+    "create_for_retrieve": "Explicit Names",
+    "create_for_deploy":"Use Wildcard (*)",
     "delete": "Delete",
     "collapse": "Collapse",
     "hide_fields": "Hide Fields",
@@ -372,6 +372,6 @@
     "code_completion_settings_paragraph_1": "In this section you can enable or disable most of the code autocompletion options that Aura Helper contains. These options are grouped together as Auto Completion Tools",
     "match_metadata_with_local": "Match Org Metadata with Local",
     "delete_order": "Delete Order",
-    "after": "After",
-    "before": "Before"
+    "after": "After Deploy",
+    "before": "Before Deploy"
 }
