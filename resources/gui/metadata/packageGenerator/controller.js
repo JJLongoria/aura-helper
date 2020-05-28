@@ -17,6 +17,7 @@ let isDestructive = false;
 let createFor = 'forRetrieve';
 let selectFromGitValue = 'twoLastCommits';
 let selectedOptionToDownload = 'owned';
+let deleteOrderValue = 'after';
 let commits = [];
 let branches = [];
 // @ts-ignore
@@ -533,7 +534,7 @@ function createPackage() {
             anyChecked = true;
     }
     if (anyChecked)
-        vscode.postMessage({ command: "createPackage", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn });
+        vscode.postMessage({ command: "createPackage", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn, deleteOrder: deleteOrderValue });
     else {
         // @ts-ignore
         showPageMessage('error', '{!label.not_metadata_selected_for_package_error}');
@@ -562,7 +563,7 @@ function createDestructive() {
             anyChecked = true;
     }
     if (anyChecked)
-        vscode.postMessage({ command: "createDestructive", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn });
+        vscode.postMessage({ command: "createDestructive", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn, deleteOrder: deleteOrderValue });
     else {
         // @ts-ignore
         showPageMessage('error', '{!label.not_metadata_selected_for_destructive_package_error}');
@@ -609,7 +610,7 @@ function createFullPackage() {
             anyCheckedForDeploy = true;
     }
     if (anyCheckedForDeploy || anyCheckedForDelete)
-        vscode.postMessage({ command: "createFullPackage", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn });
+        vscode.postMessage({ command: "createFullPackage", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn, deleteOrder: deleteOrderValue });
     else {
         // @ts-ignore
         showPageMessage('error', '{!label.not_metadata_selected_for_full_package_error}');
@@ -997,6 +998,15 @@ function changeCreateFor(inputId) {
     let checked = document.getElementById(inputId).checked;
     if (checked)
         createFor = value;
+}
+
+function deleteOrder(inputId){
+    // @ts-ignore
+    let value = document.getElementById(inputId).value;
+    // @ts-ignore
+    let checked = document.getElementById(inputId).checked;
+    if (checked)
+        deleteOrderValue = value;
 }
 
 function changeDownloadMetadataOptions(inputId) {

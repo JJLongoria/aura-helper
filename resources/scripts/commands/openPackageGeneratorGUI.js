@@ -199,10 +199,10 @@ function onReceiveMessage(message) {
             createPackage(message.metadata.metadataForDeploy, message.createFor === 'forRetrieve', message.saveOn === 'saveOnProject', undefined, true);
             break;
         case 'createDestructive':
-            createDestructive(message.metadata.metadataForDelete, message.saveOn === 'saveOnProject', 'after', undefined, true);
+            createDestructive(message.metadata.metadataForDelete, message.saveOn === 'saveOnProject', message.deleteOrder, undefined, true);
             break;
         case 'createFullPackage':
-            createFullPackage(message.metadata.metadataForDeploy, message.metadata.metadataForDelete, message.saveOn, message.createFor);
+            createFullPackage(message.metadata.metadataForDeploy, message.metadata.metadataForDelete, message.saveOn, message.createFor, message.deleteOrder);
             break;
         case 'selectFromPackage':
             selectFromPackage();
@@ -418,7 +418,7 @@ function createDestructive(metadata, saveOnManifest, deleteOrder, path, fromAdva
     });
 }
 
-async function createFullPackage(metadataForDeploy, metadataForDelete, saveOn, createFor) {
+async function createFullPackage(metadataForDeploy, metadataForDelete, saveOn, createFor, deleteOrder) {
     let packagePath;
     if (saveOn === 'saveOnProject') {
         packagePath = Paths.getManifestPath();
@@ -435,7 +435,7 @@ async function createFullPackage(metadataForDeploy, metadataForDelete, saveOn, c
     }
     if (packagePath) {
         createPackage(metadataForDeploy, createFor === 'forRetrieve', undefined, packagePath, true);
-        createDestructive(metadataForDelete, undefined, 'after' ,packagePath, false);
+        createDestructive(metadataForDelete, undefined, deleteOrder ,packagePath, false);
     }
 }
 

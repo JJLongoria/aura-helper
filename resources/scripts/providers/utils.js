@@ -169,7 +169,7 @@ class Utils {
                         picklistItem.documentation = "Label: " + pickVal.label + '\n';
                         picklistItem.documentation = "Active: " + pickVal.active + '\n';
                         picklistItem.documentation = "Is Default: " + pickVal.defaultValue;
-                        picklistItem.insertText = field.name + '.' + pickVal.value;
+                        picklistItem.insertText = pickVal.value;
                         picklistItem.preselect = true;
                         picklistItem.command = {
                             title: 'sObject',
