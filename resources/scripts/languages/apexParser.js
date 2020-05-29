@@ -3,6 +3,8 @@ const Tokenizer = require('./tokenizer').Tokenizer;
 const TokenType = require('./tokenTypes');
 const Utils = require('./utils').Utils;
 const fileSystem = require('../fileSystem');
+const Output = require('../output');
+const OutputChannel = Output.OutputChannel;
 const FileReader = fileSystem.FileReader;
 const FileChecker = fileSystem.FileChecker;
 const FileWriter = fileSystem.FileWriter;
@@ -1686,7 +1688,7 @@ class ApexParser {
                         callback.call(this);
                 }
             }).catch(function (error) {
-                applicationContext.outputChannel.appendLine('Error When Getting Apex Classes Info: \n' + error);
+                OutputChannel.output('Error When Getting Apex Classes Info: \n' + error);
                 if (callback)
                     callback.call(this, error);
             });

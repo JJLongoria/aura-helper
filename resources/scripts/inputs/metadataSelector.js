@@ -172,6 +172,8 @@ class MetadataSelector {
 module.exports = MetadataSelector;
 
 function createMetadataTypeInput(types, allowDelete) {
+    if(!types || Object.keys(types).length == 0)
+        return;
     let input = vscode.window.createQuickPick();
     input.title = 'Metadata Types';
     input.step = TYPE_STEP;

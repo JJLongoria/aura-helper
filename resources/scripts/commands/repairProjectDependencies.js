@@ -1,8 +1,9 @@
 const vscode = require('vscode');
-const AppContext = require('../core/applicationContext');
 const Metadata = require('../metadata');
 const ProcessManager = require('../processes').ProcessManager;
 const MetadataSelectorInput = require('../inputs/metadataSelector');
+const Output = require('../output');
+const DiagnosticsMananger = Output.DiagnosticsManager;
 
 const SUPPORTED_TYPES = [
     Metadata.MetadataTypes.PROFILE,
@@ -62,7 +63,7 @@ async function repair(option, typesForRepair, callback) {
     let compress = 'No';
     if (option === 'Repair')
         compress = await selectCompress();
-    AppContext.diagnosticCollection.clear();
+    DiagnosticsMananger.clearDiagnostic("xml");
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: "Repair Project Dependencies",
@@ -157,7 +158,7 @@ async function showErrors(errors) {
                 diagnostic.code = type + ':' + obj;
                 diags.push(diagnostic);
             }
-            AppContext.diagnosticCollection.set(vscode.Uri.parse(path), diags);
+            DiagnosticsMananger.setDiagnostics("xml", vscode.Uri.parse(path), diags);
         });
     });
 }
