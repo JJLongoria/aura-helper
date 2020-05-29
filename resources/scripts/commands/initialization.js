@@ -3,14 +3,17 @@ const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
 const Metadata = require('../metadata');
-const NotificationManager = require('../output/notificationManager');
+const Output = require('../output');
+const applicationContext = require('../core/applicationContext');
+const Config = require('../core/config');
+const NotificationManager = Output.NotificationMananger;
+const OutputChannel = Output.OutputChannel;
+const DiagnosticsMananger = Output.DiagnosticsManager;
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
 const ApexParser = languages.ApexParser;
-const applicationContext = require('../core/applicationContext');
-const Config = require('../core/config');
 
 exports.run = function (context) {
     // Register File Watcher
@@ -37,29 +40,23 @@ exports.run = function (context) {
             //console.log(applicationContext.diagnosticCollection.get(uri));
         }
     });
-    // Diagnostics
-    let diagnosticCollection = vscode.languages.createDiagnosticCollection('xml');
-    context.subscriptions.push(diagnosticCollection);
-    let statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
-    applicationContext.statusBar = statusBar;
     applicationContext.context = context;
-    applicationContext.diagnosticCollection = diagnosticCollection;
-    applicationContext.outputChannel = vscode.window.createOutputChannel("Aura Helper");
-    applicationContext.outputChannel.appendLine('Aura Helper Extension is now active');
-    applicationContext.outputChannel.appendLine('Start loading init files');
+    DiagnosticsMananger.createCollection(context, "xml");
+    OutputChannel.output('Aura Helper Extension is now active');
+    OutputChannel.output('Start loading init files');
     init(context).then(function () {});
 }
 
 async function init(context) {
     return new Promise(async function (resolve) {
         applicationContext.componentsDetail = JSON.parse(FileReader.readFileSync(Paths.getBaseComponentsDetailPath()));
-        applicationContext.outputChannel.appendLine('Loading Snippets');
+        OutputChannel.output('Loading Snippets');
         let loadedSnippets = loadSnippets();
-        applicationContext.outputChannel.appendLine('Snippets Loaded');
+        OutputChannel.output('Snippets Loaded');
         applicationContext.auraSnippets = loadedSnippets.auraSnippets;
         applicationContext.jsSnippets = loadedSnippets.jsSnippets;
         applicationContext.sldsSnippets = loadedSnippets.sldsSnippets;
-        applicationContext.outputChannel.appendLine('Prepare Environment');
+        OutputChannel.output('Prepare Environment');
         if (!FileChecker.isExists(context.storagePath))
             FileWriter.createFolderSync(context.storagePath);
         if (!FileChecker.isExists(Paths.getUserTemplatesPath()))
@@ -74,14 +71,14 @@ async function init(context) {
             FileWriter.copyFileSync(Paths.getOldApexCommentTemplatePath(), Paths.getApexCommentUserTemplatePath());
         if (FileChecker.isExists(Paths.getOldAuraDocumentUserTemplatePath()) && !FileChecker.isExists(Paths.getAuraDocumentUserTemplatePath()))
             FileWriter.copyFileSync(Paths.getOldAuraDocumentUserTemplatePath(), Paths.getAuraDocumentUserTemplatePath());
-        applicationContext.outputChannel.appendLine('Environment Prepared');
+            OutputChannel.output('Environment Prepared');
         applicationContext.allNamespaces = getNamespacesMetadataFile();
         applicationContext.namespacesMetadata = getNamespacesData();
         applicationContext.sObjects = getSObjects(false);
-        applicationContext.outputChannel.appendLine('Refreshing Apex Classes Definitions');
+        OutputChannel.output('Refreshing Apex Classes Definitions');
         NotificationManager.showStatusBar('$(sync~spin) Refreshing Apex Classes Definitions...');
         ApexParser.compileAllApexClasses(function () {
-            applicationContext.outputChannel.appendLine('Refreshing Apex Classes Defintions Finished');
+            OutputChannel.output('Refreshing Apex Classes Defintions Finished');
             applicationContext.userClasses = getClassesFromCompiledClasses();
             NotificationManager.hideStatusBar();
             if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart)
@@ -93,10 +90,10 @@ async function init(context) {
 
 function refreshSObjectsIndex() {
     return new Promise(function (resolve) {
-        applicationContext.outputChannel.appendLine('Refreshing SObject Defintions');
+        OutputChannel.output('Refreshing SObject Defintions');
         NotificationManager.showStatusBar('$(sync~spin) Refreshing SObjects Definitions...');
         Metadata.Connection.refreshSObjectsIndex().then(function(){
-            applicationContext.outputChannel.appendLine('Refreshing SObject Defintions Finished');
+            OutputChannel.output('Refreshing SObject Defintions Finished');
             NotificationManager.hideStatusBar();
             resolve();
         });

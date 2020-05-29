@@ -11,7 +11,6 @@ exports.run = function (uri) {
         if (uri) {
             folderPath = uri.fsPath;
         }
-        Logger.output("Compressing All XML files from " + folderPath);
         vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
             title: "Compressing All XML Files",

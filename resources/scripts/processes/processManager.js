@@ -4,6 +4,8 @@ const fileSystem = require('../fileSystem');
 const Paths = fileSystem.Paths;
 const ProcessEvent = require('./processEvent');
 const Config = require('../core/config');
+const Output = require('../output');
+const OutputChannel = Output.OutputChannel;
 
 const BUFFER_SIZE = 1024 * 500000;
 let process;
@@ -261,7 +263,7 @@ function runProcess(process, output) {
     return new Promise(function (resolve, rejected) {
         process.run(function (event, data) {
             if (output && data && data.length > 0)
-                Logger.output(data.toString());
+                OutputChannel.output(data.toString());
             switch (event) {
                 case ProcessEvent.STD_OUT:
                     stdOut = stdOut.concat(data);
