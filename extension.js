@@ -3,6 +3,8 @@
 const vscode = require('vscode');
 const providers = require('./resources/scripts/providers');
 const commands = require('./resources/scripts/commands');
+const Output = require('./resources/scripts/output');
+const DiagnosticsMananger = Output.DiagnosticsManager;
 let fileStructureProvider;
 
 // this method is called when your extension is activated
@@ -32,8 +34,7 @@ function activate(context) {
 	let refreshMetadataIndexForObject = vscode.commands.registerCommand('aurahelper.metadata.refresh.object', commands.refreshObjectMetadataIndex);
 	let compressXML = vscode.commands.registerCommand('aurahelper.metadata.compress.xml', commands.compressXML);
 	let compressAllXML = vscode.commands.registerCommand('aurahelper.metadata.compress.xml.all', commands.compressAllXML);
-	let openProfile = vscode.commands.registerCommand('aurahelper.metadata.profile.open', commands.openProfilePermSetGUI);
-	let openPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissionset.open', commands.openProfilePermSetGUI);
+	let permissionEditor = vscode.commands.registerCommand('aurahelper.metadata.permission.editor', commands.openPermissionEditor);
 	let retrieveSpecialTypes = vscode.commands.registerCommand('aurahelper.metadata.retrieve.special', commands.retrieveSpecialTypes);
 	let packageGenerator = vscode.commands.registerCommand('aurahelper.metadata.package.generate', commands.packageGenerator);
 	let orgCompare = vscode.commands.registerCommand('aurahelper.metadata.org.compare', commands.orgCompare);
@@ -43,6 +44,9 @@ function activate(context) {
 	let implementInterfaces = vscode.commands.registerCommand('aurahelper.completion.apex.implement.interface', commands.implementInterfaces);
 	let implementExtendedClasses = vscode.commands.registerCommand('aurahelper.completion.apex.implement.extend', commands.implementExtendedClasses);
 	let repairProjectDependencies = vscode.commands.registerCommand('aurahelper.metadata.project.repair', commands.repairProjectDependencies);
+	let clearProblemsOutput = vscode.commands.registerCommand('aurahelper.output.problems.clear', function(){
+		DiagnosticsMananger.clearDiagnostics();
+	});
 
 	vscode.commands.registerCommand('aurahelper.completion.apex', commands.apexCodeCompletion);
 	vscode.commands.registerCommand('aurahelper.completion.aura', commands.auraCodeCompletion);
@@ -76,8 +80,7 @@ function activate(context) {
 	context.subscriptions.push(refreshMetadataIndexForObject);
 	context.subscriptions.push(compressXML);
 	context.subscriptions.push(compressAllXML);
-	context.subscriptions.push(openProfile);
-	context.subscriptions.push(openPermissionSet);
+	context.subscriptions.push(permissionEditor);
 	context.subscriptions.push(retrieveSpecialTypes);
 	context.subscriptions.push(packageGenerator);
 	context.subscriptions.push(orgCompare);
@@ -87,6 +90,7 @@ function activate(context) {
 	context.subscriptions.push(implementInterfaces);
 	context.subscriptions.push(implementExtendedClasses);
 	context.subscriptions.push(repairProjectDependencies);
+	context.subscriptions.push(clearProblemsOutput);
 }
 exports.activate = activate;
 

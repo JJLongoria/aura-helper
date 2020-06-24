@@ -65,7 +65,7 @@
 		"onCommand:aurahelper.metadata.compress.xml",
 		"onCommand:aurahelper.metadata.compress.xml.all",
 		"onCommand:aurahelper.metadata.profile.open",
-		"onCommand:aurahelper.metadata.permissionset.open",
+		"onCommand:aurahelper.metadata.permission.editor",
 		"onCommand:aurahelper.metadata.retrieve.special",
 		"onCommand:aurahelper.metadata.package.generate",
 		"onCommand:aurahelper.metadata.org.compare",
@@ -179,11 +179,6 @@
 					"default": false,
 					"description": "Refresh the Aura Helper's SObject Definitions when VSCode Start"
 				},
-				"aurahelper.metadata.compressXMLFilesOnChange": {
-					"type": "boolean",
-					"default": false,
-					"description": "Compres XML Files Automatically when the file has any change (manually or by download)"
-				},
 				"aurahelper.metadata.useCustomAPIVersion": {
 					"type": "boolean",
 					"default": false,
@@ -197,8 +192,8 @@
 				},
 				"aurahelper.metadata.mergeLocalDataPermissions": {
 					"type": "boolean",
-					"default": false,
-					"description": "When you open a permission set or profile on GUI, Aura Helper can merge your local data with your permissions files for add the metadata that not exists on the file for modify permissions"
+					"default": true,
+					"description": "When you open profile for edit on Advance or Standard GUI, Aura Helper can merge your local data with your permissions files for add the metadata that not exists on the file for modify permissions"
 				},
 				"aurahelper.apexFormat.punctuation.maxBlankLines": {
 					"type": "integer",
@@ -399,8 +394,8 @@
 				"title": "AuraHelper: Open Profile on UI"
 			},
 			{
-				"command": "aurahelper.metadata.permissionset.open",
-				"title": "AuraHelper: Open Permission Set on UI"
+				"command": "aurahelper.metadata.permission.editor",
+				"title": "AuraHelper: Open Permission Editor"
 			},
 			{
 				"command": "aurahelper.metadata.retrieve.special",
@@ -433,6 +428,10 @@
 			{
 				"command": "aurahelper.completion.apex.implement.extend",
 				"title": "AuraHelper: Implement Extended Methods"
+			},
+			{
+				"command": "aurahelper.output.problems.clear",
+				"title": "AuraHelper: Clear Problems Panel"
 			}
 		],
 		"languages": [
@@ -501,7 +500,7 @@
 				},
 				{
 					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.permissionset.open",
+					"command": "aurahelper.metadata.permission.editor",
 					"group": "auraHelper@1"
 				},
 				{
@@ -538,7 +537,7 @@
 				},
 				{
 					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.permissionset.open",
+					"command": "aurahelper.metadata.permission.editor",
 					"group": "auraHelper@1"
 				},
 				{

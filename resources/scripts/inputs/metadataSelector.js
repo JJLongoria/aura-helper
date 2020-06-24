@@ -1,193 +1,145 @@
 const vscode = require('vscode');
+const MultiStepInput = require('./multiStepInput');
 const Metadata = require('../metadata');
-const FileSystem = require('../fileSystem');
 
 const TYPE_STEP = 1;
 const OBJECT_STEP = 2;
 const ITEM_STEP = 3;
 const RESULT_STEP = 4;
 
-class MetadataSelector {
+class MetadataSelector extends MultiStepInput {
 
     constructor(title, metadata) {
-        this._title = title;
+        super(title, TYPE_STEP, 4);
         this._metadata = metadata;
-        this._step = TYPE_STEP;
-        this._totalSteps = 4;
-        this._currentIntput = undefined;
         this._selectedType = undefined;
         this._selectedObject = undefined;
-        this._lastStep = undefined;
-        this._onAcceptCallback = undefined;
-        this._onCancelCallback = undefined;
-        this._onDeleteCallback = undefined;
         this._allowDelete = false;
+        this._finalStep = RESULT_STEP;
     }
 
     allowDelete(allow) {
         this._allowDelete = allow;
     }
 
-    onAccept(callback) {
-        this._onAcceptCallback = callback;
-    }
-
-    onCancel(callback) {
-        this._onCancelCallback = callback;
-    }
-
-    onDelete(callback) {
-        this._onDeleteCallback = callback;
-    }
-
-    setMetadata(metadata){
+    setMetadata(metadata) {
         this._metadata = metadata;
-    }   
-
-    reset() {
-        this._step = 1;
-        if (this._currentIntput)
-            this._currentIntput.dispose();
-        this.show();
     }
 
-    show() {
+    onCreateInputRequest() {
         let input;
-        try {
-            switch (this._step) {
-                case TYPE_STEP:
-                    this._lastStep = this._step;
-                    input = createMetadataTypeInput(this._metadata);
-                    break;
-                case OBJECT_STEP:
-                    this._lastStep = this._step;
-                    input = createMetadataObjectInput(this._selectedType, this._metadata);
-                    break;
-                case ITEM_STEP:
-                    this._lastStep = this._step;
-                    input = createMetadataItemInput(this._selectedType, this._selectedObject, this._metadata);
-                    break;
-                case RESULT_STEP:
-                    input = createResultInput(this._metadata, this._allowDelete);
-                    break;
-            }
-            input.onDidAccept(item => {
-                this._step--;
+        switch (this._step) {
+            case TYPE_STEP:
+                this._lastStep = this._step;
+                input = createMetadataTypeInput(this._title, this._metadata);
+                break;
+            case OBJECT_STEP:
+                this._lastStep = this._step;
+                input = createMetadataObjectInput(this._selectedType, this._metadata);
+                break;
+            case ITEM_STEP:
+                this._lastStep = this._step;
+                input = createMetadataItemInput(this._selectedType, this._selectedObject, this._metadata);
+                break;
+            case RESULT_STEP:
+                input = createResultInput(this._metadata, this._allowDelete);
+                break;
+        }
+        return input;
+    }
+
+    onButtonPressed(buttonName) {
+        if (buttonName === 'Accept') {
+            if (this._step === RESULT_STEP) {
+                if (this._onAcceptCallback) {
+                    this._onAcceptCallback.call(this, this._metadata);
+                    this._currentInput.dispose();
+                }
+            } else {
+                this._step = RESULT_STEP;
                 this.show();
-            });
-            input.onDidTriggerButton((item) => {
-                if (item.tooltip === 'Ok') {
-                    if (this._step === RESULT_STEP) {
-                        if (this._onAcceptCallback) {
-                            this._onAcceptCallback.call(this, this._metadata);
-                            this._currentIntput.dispose();
-                        }
-                    } else {
-                        this._step = RESULT_STEP;
-                        this.show();
+            }
+        } else if (buttonName === 'Delete') {
+            this._onDeleteCallback.call(this, this._metadata);
+        }
+    }
+
+    onChangeSelection(items) {
+        let selectedType;
+        let metadata;
+        switch (this._step) {
+            case TYPE_STEP:
+                this._selectedType = items[0].label;
+                this._step = OBJECT_STEP;
+                this.show();
+                break;
+            case OBJECT_STEP:
+                let withChilds = false;
+                selectedType = this._selectedType;
+                metadata = this._metadata;
+                Object.keys(metadata[selectedType].childs).forEach(function (objectKey) {
+                    if (!withChilds)
+                        withChilds = Metadata.Utils.haveChilds(metadata[selectedType].childs[objectKey]);
+                });
+                if (!withChilds) {
+                    let labels = [];
+                    for (const item of items) {
+                        labels.push(item.label);
                     }
-                } else if (item.tooltip === 'Delete') {
-                    this._onDeleteCallback.call(this, this._metadata);
+                    metadata = this._metadata;
+                    selectedType = this._selectedType;
+                    Object.keys(metadata[selectedType].childs).forEach(function (objectKey) {
+                        metadata[selectedType].childs[objectKey].checked = labels.includes(objectKey);
+                    });
+                    metadata[selectedType].checked = Metadata.Utils.isAllChecked(metadata[selectedType].childs);
+                    this._metadata = metadata;
                 } else {
-                    if (this._step === RESULT_STEP)
-                        this._step = this._lastStep;
-                    else
-                        this._step--;
+                    if(items.length > 0)
+                        this._selectedObject = items[0].label;
+                    this._step = ITEM_STEP;
                     this.show();
                 }
-            });
-            input.onDidHide(() => {
-                if (this._currentIntput)
-                    this._currentIntput.dispose();
-                if (this._onCancelCallback) {
-                    this._onCancelCallback.call(this);
+                break;
+            case ITEM_STEP:
+                let labels = [];
+                for (const item of items) {
+                    labels.push(item.label);
                 }
-            });
-            input.onDidChangeSelection(items => {
-                let selectedType;
-                let metadata;
-                switch (this._step) {
-                    case TYPE_STEP:
-                        this._selectedType = items[0].label;
-                        this._step = OBJECT_STEP;
-                        this.show();
-                        break;
-                    case OBJECT_STEP:
-                        let withChilds = false;
-                        selectedType = this._selectedType;
-                        metadata = this._metadata;
-                        Object.keys(metadata[selectedType].childs).forEach(function (objectKey) {
-                            if (!withChilds)
-                                withChilds = Metadata.Utils.haveChilds(metadata[selectedType].childs[objectKey]);
-                        });
-                        if (!withChilds) {
-                            let labels = [];
-                            for (const item of items) {
-                                labels.push(item.label);
-                            }
-                            metadata = this._metadata;
-                            selectedType = this._selectedType;
-                            Object.keys(metadata[selectedType].childs).forEach(function (objectKey) {
-                                metadata[selectedType].childs[objectKey].checked = labels.includes(objectKey);
-                            });
-                            metadata[selectedType].checked = Metadata.Utils.isAllChecked(metadata[selectedType].childs);
-                            this._metadata = metadata;
-                        } else {
-                            this._selectedObject = items[0].label;
-                            this._step = ITEM_STEP;
-                            this.show();
-                        }
-                        break;
-                    case ITEM_STEP:
-                        let labels = [];
-                        for (const item of items) {
-                            labels.push(item.label);
-                        }
-                        metadata = this._metadata;
-                        selectedType = this._selectedType;
-                        let selectedObject = this._selectedObject;
-                        Object.keys(metadata[selectedType].childs[selectedObject].childs).forEach(function (itemKey) {
-                            metadata[selectedType].childs[selectedObject].childs[itemKey].checked = labels.includes(itemKey);
-                        });
-                        metadata[selectedType].childs[selectedObject].checked = Metadata.Utils.isAllChecked(metadata[selectedType].childs[selectedObject].childs);
-                        metadata[selectedType].checked = Metadata.Utils.isAllChecked(metadata[selectedType].childs);
-                        this._metadata = metadata;
-                        break;
-                    case RESULT_STEP:
-                        break;
-                }
-            });
-            input.ignoreFocusOut = true;
-            if (this._currentIntput)
-                this._currentIntput.dispose();
-            this._currentIntput = input;
-            this._currentIntput.show();
-        } catch (error) {
-            if (this._currentIntput)
-                this._currentIntput.dispose();
-            throw error;
+                metadata = this._metadata;
+                selectedType = this._selectedType;
+                let selectedObject = this._selectedObject;
+                Object.keys(metadata[selectedType].childs[selectedObject].childs).forEach(function (itemKey) {
+                    metadata[selectedType].childs[selectedObject].childs[itemKey].checked = labels.includes(itemKey);
+                });
+                metadata[selectedType].childs[selectedObject].checked = Metadata.Utils.isAllChecked(metadata[selectedType].childs[selectedObject].childs);
+                metadata[selectedType].checked = Metadata.Utils.isAllChecked(metadata[selectedType].childs);
+                this._metadata = metadata;
+                break;
+            case RESULT_STEP:
+                break;
         }
     }
 }
 module.exports = MetadataSelector;
 
-function createMetadataTypeInput(types, allowDelete) {
-    if(!types || Object.keys(types).length == 0)
-        return;
-    let input = vscode.window.createQuickPick();
-    input.title = 'Metadata Types';
+function createMetadataTypeInput(title, types, allowDelete) {
+    let input;
+    if (!types || Object.keys(types).length == 0)
+        return input;
+    input = vscode.window.createQuickPick();
+    input.title = title;
     input.step = TYPE_STEP;
-    input.totalSteps = 4;
+    input.totalSteps = RESULT_STEP;
     input.placeholder = 'Choose an Element';
     let buttons = [];
     if (allowDelete)
-        buttons.push(getDeleteButton());
-    buttons.push(getOkButton());
+        buttons.push(MultiStepInput.getDeleteButton());
+    buttons.push(MultiStepInput.getAcceptButton());
     input.buttons = buttons;
     let items = [];
     Object.keys(types).forEach(function (type) {
         let nSelected = Metadata.Utils.countCheckedChilds(types[type]);
-        let item = getItem(type, undefined, undefined, types[type].checked);
+        let item = MultiStepInput.getItem(type, undefined, undefined, types[type].checked);
         items.push(item);
     });
     input.items = items;
@@ -198,7 +150,7 @@ function createMetadataObjectInput(selectedType, types, allowDelete) {
     let input = vscode.window.createQuickPick();
     input.title = selectedType + ' Metadata Type Elements';
     input.step = OBJECT_STEP;
-    input.totalSteps = 4;
+    input.totalSteps = RESULT_STEP;
     input.buttons = getButtons(allowDelete);
     let items = [];
     let metadataType = types[selectedType];
@@ -212,7 +164,7 @@ function createMetadataObjectInput(selectedType, types, allowDelete) {
     Object.keys(metadataType.childs).forEach(function (objectKey) {
         let metadataObject = metadataType.childs[objectKey];
         let checked = (canPickMany) ? metadataObject.checked : undefined;
-        let item = getItem(objectKey, selectedType, undefined, checked);
+        let item = MultiStepInput.getItem(objectKey, selectedType, undefined, checked);
         items.push(item);
         if (checked)
             selectedItems.push(item);
@@ -231,7 +183,7 @@ function createMetadataItemInput(selectedType, selectedObject, types, allowDelet
     let input = vscode.window.createQuickPick();
     input.title = 'Elements from ' + selectedObject + ' (' + selectedType + ')';
     input.step = TYPE_STEP;
-    input.totalSteps = 4;
+    input.totalSteps = RESULT_STEP;
     input.placeholder = 'Select Elements';
     input.buttons = getButtons(allowDelete);
     let items = [];
@@ -239,7 +191,7 @@ function createMetadataItemInput(selectedType, selectedObject, types, allowDelet
     let metadataObject = types[selectedType].childs[selectedObject];
     Object.keys(metadataObject.childs).forEach(function (itemKey) {
         let metadataItem = metadataObject.childs[itemKey];
-        let item = getItem(itemKey, selectedType + ':' + selectedObject, undefined, metadataItem.checked);
+        let item = MultiStepInput.getItem(itemKey, selectedType + ':' + selectedObject, undefined, metadataItem.checked);
         items.push(item);
         if (metadataItem.checked)
             selectedItems.push(item);
@@ -254,7 +206,7 @@ function createResultInput(types, allowDelete) {
     let input = vscode.window.createQuickPick();
     input.title = 'Selected Elements';
     input.step = RESULT_STEP;
-    input.totalSteps = 4;
+    input.totalSteps = RESULT_STEP;
     input.placeholder = 'Showing a summary of the selected elements';
     input.buttons = getButtons(allowDelete);
     let items = [];
@@ -266,23 +218,23 @@ function createResultInput(types, allowDelete) {
                 Object.keys(types[typeKey].childs[objectKey].childs).forEach(function (itemKey) {
                     if (types[typeKey].childs[objectKey].childs[itemKey].checked) {
                         if (!addedType) {
-                            items.push(getItem(typeKey));
+                            items.push(MultiStepInput.getItem(typeKey));
                             addedType = true;
                         }
                         if (!addedObject) {
-                            items.push(getItem('\t' + objectKey));
+                            items.push(MultiStepInput.getItem('\t' + objectKey));
                             addedObject = true;
                         }
-                        items.push(getItem('\t\t' + itemKey));
+                        items.push(MultiStepInput.getItem('\t\t' + itemKey));
                     }
                 });
             } else {
                 if (types[typeKey].childs[objectKey].checked) {
                     if (!addedType) {
-                        items.push(getItem(typeKey));
+                        items.push(MultiStepInput.getItem(typeKey));
                         addedType = true;
                     }
-                    items.push(getItem('\t' + objectKey));
+                    items.push(MultiStepInput.getItem('\t' + objectKey));
                 }
             }
         });
@@ -296,43 +248,15 @@ function getButtons(allowDelete) {
     if (allowDelete) {
         return [
             vscode.QuickInputButtons.Back,
-            getDeleteButton(),
-            getOkButton()
+            MultiStepInput.getDeleteButton(),
+            MultiStepInput.getAcceptButton()
         ];
     } else {
         return [
             vscode.QuickInputButtons.Back,
-            getOkButton()
+            MultiStepInput.getAcceptButton()
         ];
     }
 
 }
 
-function getDeleteButton() {
-    return {
-        tooltip: "Delete",
-        iconPath: {
-            light: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/light/delete-black-18dp.svg')),
-            dark: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/dark/delete-white-18dp.svg')),
-        }
-    };
-}
-
-function getOkButton() {
-    return {
-        tooltip: "Ok",
-        iconPath: {
-            light: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/light/done_outline-black-18dp.svg')),
-            dark: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/dark/done_outline-white-18dp.svg')),
-        }
-    };
-}
-
-function getItem(label, description, detail, picked) {
-    return {
-        description: description,
-        detail: detail,
-        label: label,
-        picked: picked
-    }
-}

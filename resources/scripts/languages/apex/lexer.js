@@ -571,7 +571,7 @@ class Lexer {
                         token.type = dateLiterals[token.textToLower];
                     } else if (sObjects && sObjects[token.textToLower] && (token.textToLower !== 'name')) {
                         token.type = TokenType.DATATYPE.SOBJECT;
-                        if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && (!reservedKeywords[token.textToLower] || reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
+                        if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.ENTITY.VARIABLE || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && (!reservedKeywords[token.textToLower] || reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
                             token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
                     } else if (lastToken && lastToken.type === TokenType.KEYWORD.DECLARATION.CLASS) {
                         token.type = TokenType.DECLARATION.ENTITY.CLASS;

@@ -89,7 +89,8 @@ class Connection {
             objectList.sort();
             for (const objName of objectList) {
                 try {
-                    objProgress.report({ increment: increment, message: "Refreshing Index for: " + objName });
+                    if(objProgress)
+                        objProgress.report({ increment: increment, message: "Refreshing Index for: " + objName });
                     await Connection.refresh(user, objName, cancelToken);
                 } catch (error) {
                     reject(error.message);

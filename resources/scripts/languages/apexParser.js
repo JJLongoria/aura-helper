@@ -1688,7 +1688,7 @@ class ApexParser {
                         callback.call(this);
                 }
             }).catch(function (error) {
-                OutputChannel.output('Error When Getting Apex Classes Info: \n' + error);
+                OutputChannel.output('Error When Getting Apex Classes Info: \n' + error + '\n');
                 if (callback)
                     callback.call(this, error);
             });

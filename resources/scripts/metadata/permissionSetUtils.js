@@ -1,250 +1,672 @@
 const Utils = require('./utils');
+const MetadataTypes = require('./metadataTypes');
 const XMLParser = require('../languages').XMLParser;
+const Config = require('../core/config');
+const AppContext = require('../core/applicationContext');
+
+const XML_METADATA = {
+    label: {
+        key: "label",
+        label: "Label",
+        editable: false,
+        datatype: "string",
+        minApi: 1,
+        maxApi: -1, // -1 means actual api version
+    },
+    userLicense: {
+        key: "userLicense",
+        label: "User License",
+        editable: false,
+        datatype: "string",
+        minApi: 38,
+        maxApi: -1,
+    },
+    license: {
+        key: "license",
+        label: "License",
+        editable: false,
+        datatype: "string",
+        minApi: 1,
+        maxApi: 37,
+    },
+    description: {
+        key: "description",
+        label: "Description",
+        editable: true,
+        datatype: "string",
+        minApi: 1,
+        maxApi: -1,
+    },
+    hasActivationRequired: {
+        key: "hasActivationRequired",
+        label: "Has Activation Required",
+        editable: false,
+        datatype: 'boolean',
+        minApi: 37,
+        maxApi: -1,
+    },
+    applicationVisibilities: {
+        key: "applicationVisibilities",
+        label: "Application Visibilities",
+        editable: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.CUSTOM_APPLICATION,
+        minApi: 1,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "application",
+            sortOrder: ["application"],
+            fields: {
+                application: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+                visible: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+            }
+        },
+        create: function (application, visible) {
+            return {
+                application: application,
+                visible: (visible) ? visible : false,
+            }
+        },
+    },
+    classAccesses: {
+        key: "classAccesses",
+        label: "Class Accesses",
+        editable: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.APEX_CLASS,
+        minApi: 1,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "apexClass",
+            sortOrder: ["apexClass"],
+            fields: {
+                apexClass: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+            }
+        },
+        create: function (apexClass, enabled) {
+            return {
+                apexClass: apexClass,
+                enabled: (enabled) ? enabled : false,
+            };
+        },
+    },
+    customMetadataTypeAccesses: {
+        key: "customMetadataTypeAccesses",
+        label: "Custom Metadata Type Accesses",
+        editable: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.CUSTOM_METADATA,
+        minApi: 47,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "name",
+            sortOrder: ["name"],
+            fields: {
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                name: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+            }
+        },
+        create: function (name, enabled) {
+            return {
+                enabled: (enabled) ? enabled : false,
+                name: name,
+            };
+        }
+    },
+    customPermissions: {
+        key: "customPermissions",
+        label: "Custom Permissions",
+        editable: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.CUSTOM_PERMISSION,
+        minApi: 31,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "name",
+            sortOrder: ["name"],
+            fields: {
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                name: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+            }
+        },
+        create: function (name, enabled) {
+            return {
+                enabled: (enabled) ? enabled : false,
+                name: name,
+            };
+        },
+    },
+    customSettingAccesses: {
+        key: "customSettingAccesses",
+        label: "Custom Settings Accesses",
+        editable: true,
+        merge: false,
+        datatype: 'array',
+        minApi: 47,
+        maxApi: -1,
+        metadataType: MetadataTypes.CUSTOM_OBJECT,
+        xmlData: {
+            fieldKey: "name",
+            sortOrder: ["name"],
+            fields: {
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                name: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+            }
+        },
+        create: function (name, enabled) {
+            return {
+                enabled: (enabled) ? enabled : false,
+                name: name,
+            };
+        },
+    },
+    externalDataSourceAccesses: {
+        key: "externalDataSourceAccesses",
+        label: "External Data Source Accesses",
+        editable: true,
+        datatype: 'array',
+        minApi: 27,
+        maxApi: -1,
+        metadataType: MetadataTypes.EXTERNAL_DATA_SOURCE,
+        xmlData: {
+            fieldKey: "externalDataSource",
+            sortOrder: ["externalDataSource"],
+            fields: {
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                externalDataSource: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}'
+                },
+            }
+        },
+        create: function (externalDataSource, enabled) {
+            return {
+                enabled: (enabled) ? enabled : false,
+                externalDataSource: externalDataSource,
+            };
+        },
+    },
+    fieldPermissions: {
+        key: "fieldPermissions",
+        label: "Field Permissions",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.CUSTOM_FIELDS,
+        minApi: 23,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "field",
+            sortOrder: ["field"],
+            fields: {
+                readable: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                field: {
+                    datatype: "string",
+                    separator: ".",
+                    unique: true,
+                    editable: false,
+                    default: "{!value}",
+                },
+                editable: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: false,
+                    controlledFields: [
+                        {
+                            field: "readable",
+                            valueToCompare: true,
+                            valueToSet: true
+                        }
+                    ]
+                },
+            }
+        },
+        create: function (field, readable, editable) {
+            return {
+                editable: (editable) ? editable : false,
+                field: field,
+                readable: (readable) ? readable : false,
+            };
+        },
+    },
+    objectPermissions: {
+        key: "objectPermissions",
+        label: "Object Permissions",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.CUSTOM_OBJECT,
+        minApi: 1,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "object",
+            sortOrder: ["object"],
+            fields: {
+                allowRead: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                    controlledFields: [
+                        {
+                            field: "allowCreate",
+                            valueToCompare: false,
+                            valueToSet: false
+                        },
+                        {
+                            field: "allowEdit",
+                            valueToCompare: false,
+                            valueToSet: false
+                        },
+                        {
+                            field: "allowDelete",
+                            valueToCompare: false,
+                            valueToSet: false
+                        },
+                        {
+                            field: "viewAllRecords",
+                            valueToCompare: false,
+                            valueToSet: false
+                        },
+                        {
+                            field: "modifyAllRecords",
+                            valueToCompare: false,
+                            valueToSet: false
+                        }
+                    ]
+                },
+                allowCreate: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                    controlledFields: [
+                        {
+                            field: "allowRead",
+                            valueToCompare: true,
+                            valueToSet: true
+                        }
+                    ]
+                },
+                allowEdit: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                    controlledFields: [
+                        {
+                            field: "allowRead",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "allowDelete",
+                            valueToCompare: false,
+                            valueToSet: false
+                        },
+                        {
+                            field: "modifyAllRecords",
+                            valueToCompare: false,
+                            valueToSet: false
+                        }
+                    ]
+                },
+                allowDelete: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: false,
+                    controlledFields: [
+                        {
+                            field: "allowRead",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "allowEdit",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "modifyAllRecords",
+                            valueToCompare: false,
+                            valueToSet: false
+                        }
+                    ]
+                },
+                viewAllRecords: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: false,
+                    controlledFields: [
+                        {
+                            field: "allowRead",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "modifyAllRecords",
+                            valueToCompare: false,
+                            valueToSet: false
+                        }
+                    ]
+                },
+                object: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+                modifyAllRecords: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: false,
+                    controlledFields: [
+                        {
+                            field: "allowRead",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "allowEdit",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "allowDelete",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "viewAllRecords",
+                            valueToCompare: true,
+                            valueToSet: true
+                        }
+                    ]
+                },
+            }
+        },
+        create: function (object, allowRead, allowCreate, allowEdit, allowDelete, viewAllRecords, modifyAllRecords) {
+            return {
+                allowCreate: (allowCreate) ? allowCreate : false,
+                allowDelete: (allowDelete) ? allowDelete : false,
+                allowEdit: (allowEdit) ? allowEdit : false,
+                allowRead: (allowRead) ? allowRead : false,
+                modifyAllRecords: (modifyAllRecords) ? modifyAllRecords : false,
+                object: object,
+                viewAllRecords: (viewAllRecords) ? viewAllRecords : false
+            };
+        },
+    },
+    pageAccesses: {
+        key: "pageAccesses",
+        label: "Visualforce Accesses",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.APEX_PAGE,
+        minApi: 1,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "apexPage",
+            sortOrder: ["apexPage"],
+            fields: {
+                apexPage: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}'
+                },
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+            }
+        },
+        create: function (apexPage, enabled) {
+            return {
+                apexPage: apexPage,
+                enabled: (enabled) ? enabled : false,
+            };
+        },
+    },
+    recordTypeVisibilities: {
+        key: "recordTypeVisibilities",
+        label: "Record Type Visibilities",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.RECORD_TYPE,
+        minApi: 29,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "recordType",
+            sortOrder: ["recordType"],
+            fields: {
+                recordType: {
+                    datatype: "string",
+                    separator: ".",
+                    unique: true,
+                    editable: false,
+                    default: "{!value}",
+                },
+                visible: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true
+                },
+            }
+        },
+        create: function (recordType, visible) {
+            return {
+                recordType: recordType,
+                visible: (visible) ? visible : false,
+            };
+        },
+    },
+    tabSettings: {
+        key: "tabSettings",
+        label: "Tab Settings",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.TAB,
+        minApi: 1,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "tab",
+            sortOrder: ["tab"],
+            fields: {
+                tab: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: "{!value}",
+                },
+                visibility: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: "DefaultOn",
+                    values: [
+                        {
+                            label: "Default On",
+                            value: "DefaultOn",
+                        },
+                        {
+                            label: "Default Off",
+                            value: "DefaultOff",
+                        },
+                        {
+                            label: "Hidden",
+                            value: "Hidden",
+                        }
+                    ],
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+            }
+        },
+        create: function (tab, visibility) {
+            return {
+                tab: tab,
+                visibility: (visibility) ? visibility : false,
+            };
+        },
+    },
+    userPermissions: {
+        key: "userPermissions",
+        label: "User Permissions",
+        editable: true,
+        merge: false,
+        datatype: 'array',
+        minApi: 29,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "name",
+            sortOrder: ["name"],
+            fields: {
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                name: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+            }
+        },
+        create: function (name, enabled) {
+            return {
+                enabled: (enabled) ? enabled : false,
+                name: name,
+            };
+        },
+    }
+}
 
 class PermissionSetUtils {
 
-    static createPermissionSet(permissionSet) {
-        let newPermissionSet = {};
-        if (permissionSet) {
-            newPermissionSet = Utils.prepareXML(permissionSet, PermissionSetUtils.createPermissionSet());
-        } else {
-            newPermissionSet = {
-                applicationVisibilities: [],
-                classAccesses: [],
-                customMetadataTypeAccesses: [],
-                customPermissions: [],
-                customSettingAccesses: [],
-                description: undefined,
-                externalDataSourceAccesses: [],
-                fieldPermissions: [],
-                hasActivationRequired: undefined,
-                label: undefined,
-                license: undefined,
-                objectPermissions: [],
-                pageAccesses: [],
-                recordTypeVisibilities: [],
-                tabSettings: [],
-                userLicense: undefined,
-                userPermissions: [],
-            };
-        }
-        return newPermissionSet;
+    static getXMLMetadata() {
+        return XML_METADATA;
     }
 
-    static mergePermissionSetWithLocalData(permissionSet, storageMetadata) {
+    static createPermissionSet(permissionSet) {
+        let result = {};
         if (permissionSet) {
-            Object.keys(permissionSet).forEach(function (key) {
-                let profileElement = permissionSet[key];
-                if (key === 'applicationVisibilities') {
-                    for (const application of storageMetadata.applications) {
-                        let found = false;
-                        for (const appVisibility of profileElement) {
-                            if (appVisibility.application === application) {
-                                found = true;;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(PermissionSetUtils.createPermissionSetApplicationVisibility(application, false, false));
-                        }
+            result = Utils.prepareXML(permissionSet, PermissionSetUtils.createPermissionSet());
+            Object.keys(result).forEach(function (elementKey) {
+                if (Array.isArray(result[elementKey])) {
+                    let elementData = XML_METADATA[elementKey];
+                    Utils.sort(result[elementKey], elementData.xmlData.sortOrder);
+                }
+            });
+        } else {
+            let lastVersion = Config.getLastVersion();
+            let orgVersion = parseInt(Config.getOrgVersion());
+            Object.keys(XML_METADATA).forEach(function (xmlField) {
+                let elementData = XML_METADATA[xmlField];
+                if (Utils.availableOnVersion(elementData, lastVersion, orgVersion)) {
+                    if (elementData.datatype === 'array') {
+                        result[xmlField] = [];
+                    } else if (elementData.datatype === 'object') {
+                        result[xmlField] = {};
+                    } else {
+                        result[xmlField] = undefined;
                     }
-                    profileElement.sort(function (a, b) {
-                        return a.application.toLowerCase().localeCompare(b.application.toLowerCase());
-                    });
-                    permissionSet[key] = profileElement;
-                } else if (key === 'classAccesses') {
-                    for (const apexClass of storageMetadata.classes) {
-                        let found = false;
-                        for (const classOnProfile of profileElement) {
-                            if (classOnProfile.apexClass === apexClass) {
-                                found = true;;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(PermissionSetUtils.createPermissionSetApexClassAccess(apexClass, false));
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.apexClass.toLowerCase().localeCompare(b.apexClass.toLowerCase());
-                    });
-                    permissionSet[key] = profileElement;
-                } else if (key === 'customMetadataTypeAccesses') {
-                    for (const storageCustomMetadata of storageMetadata.objects) {
-                        if (storageCustomMetadata.isCustomMetadata) {
-                            let found = false;
-                            for (const customMetadata of profileElement) {
-                                if (customMetadata.name === storageCustomMetadata) {
-                                    found = true;;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                profileElement.push(PermissionSetUtils.createPermissionSetCustomMetadataTypeAccess(storageCustomMetadata.name, false));
-                            }
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                    });
-                    permissionSet[key] = profileElement;
-                } else if (key === 'customPermissions') {
-                    for (const customPermission of storageMetadata.customPermissions) {
-                        let found = false;
-                        for (const permission of profileElement) {
-                            if (permission.name === customPermission) {
-                                found = true;;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(PermissionSetUtils.createPermissionSetCustomPermissions(customPermission, false));
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                    });
-                    permissionSet[key] = profileElement;
-                } else if (key === 'customSettingAccesses') {
-                    for (const obj of storageMetadata.objects) {
-                        if (obj.isCustomSetting) {
-                            let found = false;
-                            for (const customSetting of profileElement) {
-                                if (customSetting.name === obj.name) {
-                                    found = true;;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                profileElement.push(PermissionSetUtils.createPermissionSetCustomSettingAccesses(obj.name, false));
-                            }
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                    });
-                    permissionSet[key] = profileElement;
-                } else if (key === 'externalDataSourceAccesses') {
-
-                } else if (key === 'fieldPermissions') {
-                    for (const storageObj of storageMetadata.objects) {
-                        if (!storageObj.isCustomSetting && !storageObj.isCustomMetadata) {
-                            for (const storageField of storageObj.fields) {
-                                let found = false;
-                                for (const field of profileElement) {
-                                    if (field.field === storageObj.name + '.' + storageField) {
-                                        found = true;;
-                                        break;
-                                    }
-                                }
-                                if (!found) {
-                                    profileElement.push(PermissionSetUtils.createPermissionSetFieldPermissions(storageObj.name + '.' + storageField, false, false));
-                                }
-                            }
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.field.toLowerCase().localeCompare(b.field.toLowerCase());
-                    });
-                    permissionSet[key] = profileElement;
-                } else if (key === 'objectPermissions') {
-                    for (const storageObj of storageMetadata.objects) {
-                        if (!storageObj.isCustomSetting && !storageObj.isCustomMetadata) {
-                            let found = false;
-                            for (const object of profileElement) {
-                                if (object.object === storageObj.name) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                profileElement.push(PermissionSetUtils.createPermissionSetObjectPermissions(storageObj.name, false, false, false, false, false, false));
-                            }
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.object.toLowerCase().localeCompare(b.object.toLowerCase());
-                    });
-                    permissionSet[key] = profileElement;
-                } else if (key === 'pageAccesses') {
-                    for (const storagePage of storageMetadata.pages) {
-                        let found = false;
-                        for (const page of profileElement) {
-                            if (page.apexPage === storagePage) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(PermissionSetUtils.createPermissionSetApexPageAccess(storagePage, false));
-                        }
-
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.apexPage.toLowerCase().localeCompare(b.apexPage.toLowerCase());
-                    });
-                    permissionSet[key] = profileElement;
-                } else if (key === 'recordTypeVisibilities') {
-                    for (const storageObj of storageMetadata.objects) {
-                        if (!storageObj.isCustomSetting && !storageObj.isCustomMetadata) {
-                            if (storageObj.recordTypes) {
-                                for (const storageRecordType of storageObj.recordTypes) {
-                                    let found = false;
-                                    for (const recordType of profileElement) {
-                                        if (recordType.recordType === storageObj.name + '.' + storageRecordType) {
-                                            found = true;
-                                            break;
-                                        }
-                                    }
-                                    if (!found) {
-                                        profileElement.push(PermissionSetUtils.createPermissionSetRecordTypeVisibility(storageObj.name + '.' + storageRecordType, false));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.recordType.toLowerCase().localeCompare(b.recordType.toLowerCase());
-                    });
-                    permissionSet[key] = profileElement;
-                } else if (key === 'tabSettings') {
-                    for (const storageTabs of storageMetadata.tabs) {
-                        let found = false;
-                        for (const tab of profileElement) {
-                            if (tab.tab === storageTabs) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(PermissionSetUtils.createPermissionSetTabSetting(storageTabs, 'DefaultOff'));
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.tab.toLowerCase().localeCompare(b.tab.toLowerCase());
-                    });
-                    permissionSet[key] = profileElement;
-                } else if (key === 'userPermissions') {
-                    for (const storagePermission of PermissionSetUtils.getAllUserPermissions()) {
-                        let found = false;
-                        for (const userPermission of profileElement) {
-                            if (userPermission.name === storagePermission) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(PermissionSetUtils.createPermissionSetUserPermission(storagePermission, false));
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                    });
-                    permissionSet[key] = profileElement;
                 }
             });
         }
-        return permissionSet;
+        return result;
+    }
+
+    static getPermissionSetSectionName(profileSection) {
+        return XML_METADATA[profileSection].label;
     }
 
     static createPermissionSetApplicationVisibility(application, visible, def) {
@@ -269,7 +691,7 @@ class PermissionSetUtils {
         };
     }
 
-    static createPermissionSetCustomSettingAccesses(name, enabled) { 
+    static createPermissionSetCustomSettingAccesses(name, enabled) {
         return {
             name: name,
             enabled: enabled

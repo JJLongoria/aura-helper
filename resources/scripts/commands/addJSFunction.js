@@ -1,5 +1,5 @@
 const snippetUtils = require('../utils/snippetUtils');
-const inputValidator = require('../inputs/inputValidator');
+const InputValidator = require('../inputs/inputValidator');
 const fileSystem = require('../fileSystem');
 const vscode = require('vscode');
 const window = vscode.window;
@@ -25,7 +25,7 @@ exports.run = function() {
 function addJSFunction(editor){
     window.showInputBox({
         placeHolder: "Set the function params number",
-        validateInput: inputValidator.integerValidation
+        validateInput: InputValidator.isInteger
     }).then((numParams) => processInput(numParams, editor));
 }
 

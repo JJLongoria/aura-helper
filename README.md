@@ -10,14 +10,16 @@ From code autocomplete tools, to an advanced graphical interface that allows you
 - **Apex Code formatter** with *configurable options* from Aura Helper settings (spaces beetwen operators, max allowed blank lines, open curly brackets on new lines... and more options to format your code as you want)
 - More than **100 snipets** for create Aura Components with less effort
 - Create **package and destructive** files quickly with the powerfull **Package Generator**. Select metadata manually or create the files from two **git branches, commits or tags differences**.
+- **Repair Project Dependencies** for get less errors on deploy. Check your local metadata and repair files if is needed. Also you can only check errors. 
 - **Compress XML Files** for make easy the *git conflict handling* and make work more with git more faster.
 - **Edit XML Files easy without errors** from VSCode with the Aura Helper tools.
 - Work with **special metadata** types like *Profiles, Permission Sets, Translations...*
 - **Create documentation** for Aura components easy and faster based on a user defined template
 - Create a **entire Apex Classes navigable documentation** with only one command
 - Create your own **Apex comment template** for adding to apex code easy with autocompletion tools (type /** for create apex comments based on template)
-- **Views** for see the files structure like *Apex Classes Fields, Methods...*
-- An **Advance Graphic User Interface** for make powerfull task provide a graphic interface for edit metadata files
+- **Views** for see the files structure like *Apex Classes Fields or Methods, Profiles or Permission Sets permissions...*
+- An **Advance Graphic User Interface** for make powerfull task provide a graphic interface for edit metadata files. Also have powerfull interface tools with standard VSCode interface for use less resources.
+- For a complete work of all commands and have the better experience with Aura Helper you must **Refresh the SObjects Index** at least one time (recommended make it periodically when any object change). For this porpouse, you can choose to refresh SObjects Index at **VSCode Starts** for refresh it automatically and have the index updated (*Settings > AuraHeler > Metada > Refresh SObject Definitions On Start*).
 - And too much more tools for make your work more easy and faster with less erros.
 
 ## Code Completion Tools
@@ -85,6 +87,7 @@ Some of the tools are:
 - Possibility of updating the files that are created at runtime during the deployments depending on the content, such as profiles or permission sets, including all system information and without the need to update the other elements
 - Ability to check what elements exist in the environment and not locally, to be able to eliminate them and match the environment with the local content
 - If we want to perform metadata deployments or retrieves, we can use the Package Generator tools and the SFDX Deploy and Retrieve options. The Package Generator tool can list your stored metadata (on local and org) and allow to select them manally, from other package or from Git, for better metadata control (See the Package Generator Section).
+- Repair your project dependencies according your local metadata.
 
 Examples: 
 

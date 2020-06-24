@@ -80,10 +80,10 @@
                     </td>
                     <td>
                         <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="saveOnProjectPackage" type="radio" name="saveOn" value="saveOnProject" checked onclick="onChangeSaveOn('saveOnProjectPackage')"><span class="checkbox-custom circular"></span></label></div>
-                        <div class="w3-col w3-center" style="width: 90%;">{!label.before}</div>
+                        <div class="w3-col w3-center" style="width: 90%;">{!label.overwrite_project_package}</div>
                     </td>
                     <td>
-                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="deleteOrderBefore" type="radio" name="saveOn" value="before" onclick="deployOrder('deleteOrderBefore')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="deleteOrderBefore" type="radio" name="deleteOrder" value="before" onclick="deployOrder('deleteOrderBefore')"><span class="checkbox-custom circular"></span></label></div>
                         <div class="w3-col w3-center" style="width: 90%;">{!label.before}</div>
                     </td>
                 </tr>
@@ -105,7 +105,7 @@
                         <div class="w3-col w3-center" style="width: 90%;">{!label.choose_directory_to_save}</div>
                     </td>
                     <td>
-                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="deleteOrderAfter" type="radio" name="saveOn" value="after" checked onclick="deployOrder('deleteOrderAfter')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="deleteOrderAfter" type="radio" name="deleteOrder" value="after" checked onclick="deployOrder('deleteOrderAfter')"><span class="checkbox-custom circular"></span></label></div>
                         <div class="w3-col w3-center" style="width: 90%;">{!label.after}</div>
                     </td>
                 </tr>

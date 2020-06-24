@@ -1,449 +1,1520 @@
 const Utils = require('./utils');
+const MetadataTypes = require('./metadataTypes');
 const XMLParser = require('../languages').XMLParser;
+const Config = require('../core/config');
+const AppContext = require('../core/applicationContext');
+const InputValidator = require('../inputs/inputValidator');
+
+const XML_METADATA = {
+    description: {
+        key: "description",
+        label: "Description",
+        editable: true,
+        merge: false,
+        datatype: "string",
+        minApi: 30,
+        maxApi: -1, // -1 means actual api version
+    },
+    userLicense: {
+        key: "userLicense",
+        label: "User License",
+        editable: false,
+        merge: false,
+        datatype: "string",
+        minApi: 17,
+        maxApi: -1,
+    },
+    custom: {
+        key: "custom",
+        label: "Custom",
+        editable: false,
+        merge: false,
+        datatype: 'boolean',
+        minApi: 30,
+        maxApi: -1,
+    },
+    applicationVisibilities: {
+        key: "applicationVisibilities",
+        label: "Application Visibilities",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.CUSTOM_APPLICATION,
+        minApi: 1,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "application",
+            sortOrder: ["application"],
+            fields: {
+                application: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+                visible: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                default: {
+                    datatype: "boolean",
+                    unique: true,
+                    editable: true,
+                    default: false,
+                    controlledFields: [
+                        {
+                            field: "visible",
+                            valueToCompare: true,
+                            valueToSet: true
+                        }
+                    ]
+                },
+            }
+        },
+        create: function (application, visible, def) {
+            return {
+                application: application,
+                default: (def) ? def : false,
+                visible: (visible) ? visible : false,
+            }
+        },
+    },
+    categoryGroupVisibilities: {
+        key: "categoryGroupVisibilities",
+        label: "Category Group Visibilities",
+        editable: true,
+        merge: false,
+        datatype: 'array',
+        minApi: 41,
+        maxApi: -1,
+        metadataType: MetadataTypes.DATA_CATEGORY_GROUP,
+        xmlData: {
+            fieldKey: "dataCategoryGroup",
+            sortOrder: ["dataCategoryGroup"],
+            fields: {
+                dataCategories: {
+                    datatype: "array",
+                    unique: false,
+                    editable: true,
+                    default: [],
+                },
+                dataCategoryGroup: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+                visibility: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: 'ALL',
+                    values: [
+                        {
+                            label: "ALL",
+                            value: "ALL",
+                        },
+                        {
+                            label: "CUSTOM",
+                            value: "CUSTOM",
+                        },
+                        {
+                            label: "NONE",
+                            value: "NONE",
+                        }
+                    ],
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+            }
+        },
+        create: function (dataCategoryGroup, dataCategories, visibility) {
+            return {
+                dataCategories: dataCategories,
+                dataCategoryGroup: dataCategoryGroup,
+                visibility: (visibility) ? visibility : false,
+            }
+        },
+    },
+    classAccesses: {
+        key: "classAccesses",
+        label: "Class Accesses",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.APEX_CLASS,
+        minApi: 1,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "apexClass",
+            sortOrder: ["apexClass"],
+            fields: {
+                apexClass: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+            }
+        },
+        create: function (apexClass, enabled) {
+            return {
+                apexClass: apexClass,
+                enabled: (enabled) ? enabled : false,
+            };
+        },
+    },
+    customMetadataTypeAccesses: {
+        key: "customMetadataTypeAccesses",
+        label: "Custom Metadata Type Accesses",
+        editable: true,
+        merge: false,
+        datatype: 'array',
+        metadataType: MetadataTypes.CUSTOM_METADATA,
+        minApi: 47,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "name",
+            sortOrder: ["name"],
+            fields: {
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                name: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+            }
+        },
+        create: function (name, enabled) {
+            return {
+                enabled: (enabled) ? enabled : false,
+                name: name,
+            };
+        }
+    },
+    customPermissions: {
+        key: "customPermissions",
+        label: "Custom Permissions",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.CUSTOM_PERMISSION,
+        minApi: 31,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "name",
+            sortOrder: ["name"],
+            fields: {
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                name: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+            }
+        },
+        create: function (name, enabled) {
+            return {
+                enabled: (enabled) ? enabled : false,
+                name: name,
+            };
+        },
+    },
+    customSettingAccesses: {
+        key: "customSettingAccesses",
+        label: "Custom Settings Accesses",
+        editable: true,
+        merge: false,
+        datatype: 'array',
+        minApi: 47,
+        maxApi: -1,
+        metadataType: MetadataTypes.CUSTOM_OBJECT,
+        xmlData: {
+            fieldKey: "name",
+            sortOrder: ["name"],
+            fields: {
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                name: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+            }
+        },
+        create: function (name, enabled) {
+            return {
+                enabled: (enabled) ? enabled : false,
+                name: name,
+            };
+        },
+    },
+    externalDataSourceAccesses: {
+        key: "externalDataSourceAccesses",
+        label: "External Data Source Accesses",
+        editable: true,
+        merge: false,
+        datatype: 'array',
+        minApi: 27,
+        maxApi: -1,
+        metadataType: MetadataTypes.EXTERNAL_DATA_SOURCE,
+        xmlData: {
+            fieldKey: "externalDataSource",
+            sortOrder: ["externalDataSource"],
+            fields: {
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                externalDataSource: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}'
+                },
+            }
+        },
+        create: function (externalDataSource, enabled) {
+            return {
+                enabled: (enabled) ? enabled : false,
+                externalDataSource: externalDataSource,
+            };
+        },
+    },
+    fieldPermissions: {
+        key: "fieldPermissions",
+        label: "Field Permissions",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.CUSTOM_FIELDS,
+        minApi: 23,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "field",
+            sortOrder: ["field"],
+            fields: {
+                readable: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                field: {
+                    datatype: "string",
+                    separator: ".",
+                    unique: true,
+                    editable: false,
+                    default: "{!value}",
+                },
+                editable: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: false,
+                    controlledFields: [
+                        {
+                            field: "readable",
+                            valueToCompare: true,
+                            valueToSet: true
+                        }
+                    ]
+                },
+            }
+        },
+        create: function (field, readable, editable) {
+            return {
+                editable: (editable) ? editable : false,
+                field: field,
+                readable: (readable) ? readable : false,
+            };
+        },
+    },
+    fieldLevelSecurities: {
+        key: "fieldLevelSecurities",
+        label: "Field Level Securities",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.CUSTOM_FIELDS,
+        minApi: 1,
+        maxApi: 22,
+        xmlData: {
+            fieldKey: "field",
+            sortOrder: ["field"],
+            fields: {
+                readable: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                field: {
+                    datatype: "string",
+                    separator: ".",
+                    unique: true,
+                    default: '{!value}',
+                    editable: false,
+                },
+                editable: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: false,
+                    controlledFields: [
+                        {
+                            field: "readable",
+                            valueToCompare: true,
+                            valueToSet: true
+                        }
+                    ]
+                },
+                hidden: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: false,
+                    controlledFields: [
+                        {
+                            field: "readable",
+                            valueToCompare: true,
+                            valueToSet: false
+                        },
+                        {
+                            field: "editable",
+                            valueToCompare: true,
+                            valueToSet: false
+                        }
+                    ]
+                }
+            }
+        },
+        create: function (field, readable, editable, hidden) {
+            return {
+                editable: (editable) ? editable : false,
+                field: field,
+                hidden: (hidden) ? hidden : false,
+                readable: (readable) ? readable : false,
+            };
+        },
+    },
+    fullName: {
+        key: "fullName",
+        label: "Full Name",
+        editable: false,
+        merge: false,
+        datatype: 'string',
+        minApi: 1,
+        maxApi: -1,
+    },
+    layoutAssignments: {
+        key: "layoutAssignments",
+        label: "Layout Assignments",
+        editable: true,
+        merge: false,
+        datatype: 'array',
+        metadataType: MetadataTypes.LAYOUT,
+        minApi: 25,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "layout",
+            sortOrder: ["recordType"],
+            fields: {
+                layout: {
+                    datatype: "string",
+                    separator: "-",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+                recordType: {
+                    datatype: "string",
+                    separator: ".",
+                    metadataType: MetadataTypes.RECORD_TYPE,
+                    unique: true,
+                    editable: true,
+                    default: '{!value}',
+                },
+            }
+        },
+        create: function (layout, recordType) {
+            return {
+                layout: layout,
+                recordType: recordType,
+            };
+        },
+    },
+    loginHours: {
+        key: "loginHours",
+        label: "Login Hours",
+        editable: true,
+        merge: false,
+        datatype: 'object',
+        minApi: 25,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: undefined,
+            fields: {
+                mondayStart: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                mondayEnd: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                tuesdayStart: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                tuesdayEnd: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                wednesdayStart: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                wednesdayEnd: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                thursdayStart: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                thursdayEnd: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                fridayStart: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                fridayEnd: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                saturdayStart: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                saturdayEnd: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                sundayStart: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                sundayEnd: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: undefined,
+                    values: getLoginHoursEnumValues(),
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+            }
+        },
+        create: function (loginHours) {
+            return {
+                mondayStart: loginHours.mondayStart,
+                mondayEnd: loginHours.mondayEnd,
+                tuesdayStart: loginHours.tuesdayStart,
+                tuesdayEnd: loginHours.tuesdayEnd,
+                wednesdayStart: loginHours.wednesdayStart,
+                wednesdayEnd: loginHours.wednesdayEnd,
+                thursdayStart: loginHours.thursdayStart,
+                thursdayEnd: loginHours.thursdayEnd,
+                fridayStart: loginHours.fridayStart,
+                fridayEnd: loginHours.fridayEnd,
+                saturdayStart: loginHours.saturdayStart,
+                saturdayEnd: loginHours.saturdayEnd,
+                sundayStart: loginHours.sundayStart,
+                sundayEnd: loginHours.sundayEnd
+            };
+        }
+    },
+    loginIpRanges: {
+        key: "loginIpRanges",
+        label: "Login IP Ranges",
+        editable: true,
+        merge: false,
+        datatype: 'array',
+        minApi: 17,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "startAddress+endAddress",
+            sortOrder: ["startAddress", "endAddress"],
+            fields: {
+                description: {
+                    datatype: "string",
+                    unique: false,
+                    editable: true,
+                    default: "{!value}",
+                    validate: function(value){
+                        if(value && value.length > 255){
+                            return "Description to long. Remove at least " + (value.length - 255) + " characters";
+                        }
+                        return undefined;
+                    }
+                },
+                endAddress: {
+                    datatype: "string",
+                    unique: false,
+                    editable: true,
+                    default: "{!value}",
+                    validate: function(value){
+                        if(!InputValidator.isIPv4(value) && !InputValidator.isIPv6(value)){
+                            return "Wrong IPv4 or IPv6 format";
+                        }
+                        return undefined;
+                    }
+                },
+                startAddress: {
+                    datatype: "string",
+                    unique: false,
+                    editable: true,
+                    default: "{!value}",
+                    validate: function(value){
+                        if(!InputValidator.isIPv4(value) && !InputValidator.isIPv6(value)){
+                            return "Wrong IPv4 or IPv6 format";
+                        }
+                        return undefined;
+                    }
+                },
+            }
+        },
+        create: function (description, startAddress, endAddress) {
+            return {
+                description: description,
+                endAddress: endAddress,
+                startAddress: startAddress,
+            };
+        },
+    },
+    objectPermissions: {
+        key: "objectPermissions",
+        label: "Object Permissions",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.CUSTOM_OBJECT,
+        minApi: 1,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "object",
+            sortOrder: ["object"],
+            fields: {
+                allowRead: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                    controlledFields: [
+                        {
+                            field: "allowCreate",
+                            valueToCompare: false,
+                            valueToSet: false
+                        },
+                        {
+                            field: "allowEdit",
+                            valueToCompare: false,
+                            valueToSet: false
+                        },
+                        {
+                            field: "allowDelete",
+                            valueToCompare: false,
+                            valueToSet: false
+                        },
+                        {
+                            field: "viewAllRecords",
+                            valueToCompare: false,
+                            valueToSet: false
+                        },
+                        {
+                            field: "modifyAllRecords",
+                            valueToCompare: false,
+                            valueToSet: false
+                        }
+                    ]
+                },
+                allowCreate: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                    controlledFields: [
+                        {
+                            field: "allowRead",
+                            valueToCompare: true,
+                            valueToSet: true
+                        }
+                    ]
+                },
+                allowEdit: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                    controlledFields: [
+                        {
+                            field: "allowRead",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "allowDelete",
+                            valueToCompare: false,
+                            valueToSet: false
+                        },
+                        {
+                            field: "modifyAllRecords",
+                            valueToCompare: false,
+                            valueToSet: false
+                        }
+                    ]
+                },
+                allowDelete: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: false,
+                    controlledFields: [
+                        {
+                            field: "allowRead",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "allowEdit",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "modifyAllRecords",
+                            valueToCompare: false,
+                            valueToSet: false
+                        }
+                    ]
+                },
+                viewAllRecords: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: false,
+                    controlledFields: [
+                        {
+                            field: "allowRead",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "modifyAllRecords",
+                            valueToCompare: false,
+                            valueToSet: false
+                        }
+                    ]
+                },
+                object: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+                modifyAllRecords: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: false,
+                    controlledFields: [
+                        {
+                            field: "allowRead",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "allowEdit",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "allowDelete",
+                            valueToCompare: true,
+                            valueToSet: true
+                        },
+                        {
+                            field: "viewAllRecords",
+                            valueToCompare: true,
+                            valueToSet: true
+                        }
+                    ]
+                },
+            }
+        },
+        create: function (object, allowRead, allowCreate, allowEdit, allowDelete, viewAllRecords, modifyAllRecords) {
+            return {
+                allowCreate: (allowCreate) ? allowCreate : false,
+                allowDelete: (allowDelete) ? allowDelete : false,
+                allowEdit: (allowEdit) ? allowEdit : false,
+                allowRead: (allowRead) ? allowRead : false,
+                modifyAllRecords: (modifyAllRecords) ? modifyAllRecords : false,
+                object: object,
+                viewAllRecords: (viewAllRecords) ? viewAllRecords : false
+            };
+        },
+    },
+    pageAccesses: {
+        key: "pageAccesses",
+        label: "Visualforce Accesses",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.APEX_PAGE,
+        minApi: 1,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "apexPage",
+            sortOrder: ["apexPage"],
+            fields: {
+                apexPage: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}'
+                },
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+            }
+        },
+        create: function (apexPage, enabled) {
+            return {
+                apexPage: apexPage,
+                enabled: (enabled) ? enabled : false,
+            };
+        },
+    },
+    profileActionOverrides: {
+        key: "profileActionOverrides",
+        label: "Profile Action Overrides",
+        editable: false,
+        merge: false,
+        datatype: 'array',
+        minApi: 37,
+        maxApi: 44,
+        xmlData: {
+            fieldKey: undefined,
+            sortOrder: ["actionName", "pageOrSobjectType"],
+            fields: {
+                actionName: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: "{!value}",
+                    values: [
+                        {
+                            label: "Accept",
+                            value: "accept",
+                        },
+                        {
+                            label: "Clone",
+                            value: "clone",
+                        },
+                        {
+                            label: "Delete",
+                            value: "delete",
+                        },
+                        {
+                            label: "Edit",
+                            value: "edit",
+                        },
+                        {
+                            label: "List",
+                            value: "list",
+                        },
+                        {
+                            label: "New",
+                            value: "new",
+                        },
+                        {
+                            label: "Tab",
+                            value: "tab",
+                        },
+                        {
+                            label: "View",
+                            value: "view",
+                        }
+                    ],
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                pageOrSobjectType: {
+                    datatype: "string",
+                    editable: true,
+                    default: "{!value}",
+                    metadataType: MetadataTypes.CUSTOM_OBJECT,
+                    unique: false,
+                },
+                recordType: {
+                    datatype: "string",
+                    unique: false,
+                    editable: true,
+                    default: "{!value}",
+                    metadataType: MetadataTypes.RECORD_TYPE,
+                },
+                content: {
+                    datatype: "string",
+                    unique: false,
+                    editable: true,
+                    default: "{!value}",
+                },
+                formFactor: {
+                    datatype: "enum",
+                    unique: true,
+                    editable: true,
+                    default: "default",
+                    values: [
+                        {
+                            label: "Default",
+                            value: "default",
+                        },
+                        {
+                            label: "Flexi Page",
+                            value: "flexipage",
+                        },
+                        {
+                            label: "Lightning Component",
+                            value: "lightningcomponent",
+                        }
+                    ],
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+                type: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: "default",
+                    values: [
+                        {
+                            label: "Default",
+                            value: "default",
+                        },
+                        {
+                            label: "Flexi Page",
+                            value: "flexipage",
+                        },
+                        {
+                            label: "Lightning Component",
+                            value: "lightningcomponent",
+                        },
+                        {
+                            label: "S-Control",
+                            value: "scontrol",
+                        },
+                        {
+                            label: "Standard",
+                            value: "standard",
+                        },
+                        {
+                            label: "Visualforce",
+                            value: "visualforce",
+                        }
+                    ],
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+            }
+        },
+        create: function (actionName, pageOrSobjectType, recordType, content, formFactor, type) {
+            return {
+                actionName: actionName,
+                content: content,
+                formFactor: formFactor,
+                pageOrSobjectType: pageOrSobjectType,
+                recordType: recordType,
+                type: type,
+            };
+        },
+    },
+    recordTypeVisibilities: {
+        key: "recordTypeVisibilities",
+        label: "Record Type Visibilities",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.RECORD_TYPE,
+        minApi: 29,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "recordType",
+            sortOrder: ["recordType"],
+            fields: {
+                default: {
+                    datatype: "boolean",
+                    unique: true,
+                    editable: true,
+                    default: false,
+                },
+                personAccountDefault: {
+                    datatype: "boolean",
+                    unique: true,
+                    editable: true,
+                    default: false,
+                },
+                recordType: {
+                    datatype: "string",
+                    separator: ".",
+                    unique: true,
+                    editable: false,
+                    default: "{!value}",
+                },
+                visible: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true
+                },
+            }
+        },
+        create: function (recordType, def, personAccountDefault, visible) {
+            return {
+                default: (def) ? def : false,
+                personAccountDefault: personAccountDefault,
+                recordType: recordType,
+                visible: (visible) ? visible : false,
+            };
+        },
+    },
+    tabVisibilities: {
+        key: "tabVisibilities",
+        label: "Tab Visibilities",
+        editable: true,
+        merge: true,
+        datatype: 'array',
+        metadataType: MetadataTypes.TAB,
+        minApi: 1,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "tab",
+            sortOrder: ["tab"],
+            fields: {
+                tab: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: "{!value}",
+                },
+                visibility: {
+                    datatype: "enum",
+                    unique: false,
+                    editable: true,
+                    default: "DefaultOn",
+                    values: [
+                        {
+                            label: "Default On",
+                            value: "DefaultOn",
+                        },
+                        {
+                            label: "Default Off",
+                            value: "DefaultOff",
+                        },
+                        {
+                            label: "Hidden",
+                            value: "Hidden",
+                        }
+                    ],
+                    getValue: function (label) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.label === label)
+                                return enumVal.value;
+                        }
+                        return undefined;
+                    },
+                    getLabel: function (value) {
+                        for (let enumVal of this.values) {
+                            if (enumVal.value === value)
+                                return enumVal.label;
+                        }
+                        return undefined;
+                    }
+                },
+            }
+        },
+        create: function (tab, visibility) {
+            return {
+                tab: tab,
+                visibility: (visibility) ? visibility : false,
+            };
+        },
+    },
+    userPermissions: {
+        key: "userPermissions",
+        label: "User Permissions",
+        editable: true,
+        merge: false,
+        datatype: 'array',
+        minApi: 29,
+        maxApi: -1,
+        xmlData: {
+            fieldKey: "name",
+            sortOrder: ["name", "enabled"],
+            fields: {
+                enabled: {
+                    datatype: "boolean",
+                    unique: false,
+                    editable: true,
+                    default: true,
+                },
+                name: {
+                    datatype: "string",
+                    unique: true,
+                    editable: false,
+                    default: '{!value}',
+                },
+            }
+        },
+        create: function (name, enabled) {
+            return {
+                enabled: (enabled) ? enabled : false,
+                name: name,
+            };
+        },
+    }
+}
 
 class ProfileUtils {
+
+    static getXMLMetadata() {
+        return XML_METADATA;
+    }
 
     static createProfile(profile) {
         let result = {};
         if (profile) {
             result = ProfileUtils.createProfile();
             result = Utils.prepareXML(profile, result);
-            if (!result.loginHours)
-                result.loginHours = {};
-            if (result.loginHours) {
-                if (!result.loginHours.mondayStart)
-                    result.loginHours.mondayStart = -1;
-                if (!result.loginHours.mondayEnd)
-                    result.loginHours.mondayEnd = -1;
-                if (!result.loginHours.tuesdayStart)
-                    result.loginHours.tuesdayStart = -1;
-                if (!result.loginHours.tuesdayEnd)
-                    result.loginHours.tuesdayEnd = -1;
-                if (!result.loginHours.wednesdayStart)
-                    result.loginHours.wednesdayStart = -1;
-                if (!result.loginHours.wednesdayEnd)
-                    result.loginHours.wednesdayEnd = -1;
-                if (!result.loginHours.thursdayStart)
-                    result.loginHours.thursdayStart = -1;
-                if (!result.loginHours.thursdayEnd)
-                    result.loginHours.thursdayEnd = -1;
-                if (!result.loginHours.fridayStart)
-                    result.loginHours.fridayStart = -1;
-                if (!result.loginHours.fridayEnd)
-                    result.loginHours.fridayEnd = -1;
-                if (!result.loginHours.saturdayStart)
-                    result.loginHours.saturdayStart = -1;
-                if (!result.loginHours.saturdayEnd)
-                    result.loginHours.saturdayEnd = -1;
-                if (!result.loginHours.sundayStart)
-                    result.loginHours.sundayStart = -1;
-                if (!result.loginHours.sundayEnd)
-                    result.loginHours.sundayEnd = -1;
-            }
+            Object.keys(result).forEach(function (elementKey) {
+                if (Array.isArray(result[elementKey])) {
+                    let elementData = XML_METADATA[elementKey];
+                    Utils.sort(result[elementKey], elementData.xmlData.sortOrder);
+                }
+            });
         } else {
-            result = {
-                description: undefined,
-                userLicense: undefined,
-                custom: undefined,
-                applicationVisibilities: [],
-                categoryGroupVisibilities: [],
-                classAccesses: [],
-                customMetadataTypeAccesses: [],
-                customPermissions: [],
-                customSettingAccesses: [],
-                externalDataSourceAccesses: [],
-                fieldPermissions: [],
-                fieldLevelSecurities: [],
-                flowAccesses: [],
-                fullName: undefined,
-                layoutAssignments: [],
-                loginHours: undefined,
-                loginIpRanges: [],
-                objectPermissions: [],
-                pageAccesses: [],
-                profileActionOverrides: [],
-                recordTypeVisibilities: [],
-                tabVisibilities: [],
-                userPermissions: [],
-            };
+            let lastVersion = Config.getLastVersion();
+            let orgVersion = parseInt(Config.getOrgVersion());
+            Object.keys(XML_METADATA).forEach(function (xmlField) {
+                let elementData = XML_METADATA[xmlField];
+                if (Utils.availableOnVersion(elementData, lastVersion, orgVersion)) {
+                    if (elementData.datatype === 'array') {
+                        result[xmlField] = [];
+                    } else if (elementData.datatype === 'object') {
+                        result[xmlField] = {};
+                    } else {
+                        result[xmlField] = undefined;
+                    }
+                }
+            });
         }
         return result;
     }
 
-    static mergeProfileWithLocalData(profile, storageMetadata) {
+    static mergeProfileWithLocalData(profile, metadata) {
         if (profile) {
-            Object.keys(profile).forEach(function (key) {
-                let profileElement = profile[key];
-                if (key === 'applicationVisibilities') {
-                    for (const application of storageMetadata.applications) {
-                        let found = false;
-                        for (const appVisibility of profileElement) {
-                            if (appVisibility.application === application) {
-                                found = true;;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(ProfileUtils.getApplicationVisibilityObject(application, false, false));
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.application.toLowerCase().localeCompare(b.application.toLowerCase());
-                    });
-                    profile[key] = profileElement;
-                } else if (key === 'classAccesses') {
-                    for (const apexClass of storageMetadata.classes) {
-                        let found = false;
-                        for (const classOnProfile of profileElement) {
-                            if (classOnProfile.apexClass === apexClass) {
-                                found = true;;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(ProfileUtils.getClassAccessObject(apexClass, false));
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.apexClass.toLowerCase().localeCompare(b.apexClass.toLowerCase());
-                    });
-                    profile[key] = profileElement;
-                } else if (key === 'customMetadataTypeAccesses') {
-                    for (const storageCustomMetadata of storageMetadata.objects) {
-                        if (storageCustomMetadata.isCustomMetadata) {
-                            let found = false;
-                            for (const customMetadata of profileElement) {
-                                if (customMetadata.name === storageCustomMetadata) {
-                                    found = true;;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                profileElement.push(ProfileUtils.getCustomMetadataAccessObject(storageCustomMetadata.name, false));
-                            }
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                    });
-                    profile[key] = profileElement;
-                } else if (key === 'customPermissions') {
-                    for (const customPermission of storageMetadata.customPermissions) {
-                        let found = false;
-                        for (const permission of profileElement) {
-                            if (permission.name === customPermission) {
-                                found = true;;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(ProfileUtils.getCustomPermissionObject(customPermission, false));
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                    });
-                    profile[key] = profileElement;
-                } else if (key === 'customSettingAccesses') {
-                    for (const obj of storageMetadata.objects) {
-                        if (obj.isCustomSetting) {
-                            let found = false;
-                            for (const customSetting of profileElement) {
-                                if (customSetting.name === obj.name) {
-                                    found = true;;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                profileElement.push(ProfileUtils.getCustomSettingAccessObject(obj.name, false));
-                            }
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                    });
-                    profile[key] = profileElement;
-                } else if (key === 'externalDataSourceAccesses') {
-
-                } else if (key === 'fieldPermissions') {
-                    for (const storageObj of storageMetadata.objects) {
-                        if (!storageObj.isCustomSetting && !storageObj.isCustomMetadata) {
-                            for (const storageField of storageObj.fields) {
+            let lastVersion = Config.getLastVersion();
+            let orgVersion = parseInt(Config.getOrgVersion());
+            Object.keys(XML_METADATA).forEach(function (xmlField) {
+                let fieldData = XML_METADATA[xmlField];
+                let metadataType = (fieldData.metadataType === MetadataTypes.LAYOUT) ? MetadataTypes.RECORD_TYPE : fieldData.metadataType;
+                if (fieldData.merge && metadataType && metadata[metadataType] && Utils.haveChilds(metadata[metadataType]) && Utils.availableOnVersion(fieldData, lastVersion, orgVersion)) {
+                    let fieldKeys = Object.keys(fieldData.xmlData.fields);
+                    let metadataObjects = metadata[metadataType].childs;
+                    if (!profile[fieldData.key])
+                        profile[fieldData.key] = [];
+                    Object.keys(metadataObjects).forEach(function (objectKey) {
+                        let objData = AppContext.sObjects[objectKey.toLowerCase()];
+                        let metadataObject = metadataObjects[objectKey];
+                        if (Utils.haveChilds(metadataObject)) {
+                            Object.keys(metadataObject.childs).forEach(function (itemKey) {
+                                let field = (fieldData.metadataType === MetadataTypes.LAYOUT) ? fieldKeys[1] : fieldData.xmlData.fieldKey;
+                                let elementName = objectKey + fieldData.xmlData.fields[field].separator + itemKey;
                                 let found = false;
-                                for (const field of profileElement) {
-                                    if (field.field === storageObj.name + '.' + storageField) {
-                                        found = true;;
+                                let layoutToAssign;
+                                for (let xmlElement of profile[fieldData.key]) {
+                                    if (!layoutToAssign && fieldData.metadataType === MetadataTypes.LAYOUT && xmlElement[fieldData.xmlData.fieldKey].indexOf(objectKey + fieldData.xmlData.fields[fieldData.xmlData.fieldKey].separator) !== -1 && !xmlElement[field])
+                                        layoutToAssign = xmlElement[fieldData.xmlData.fieldKey];
+                                    if (xmlElement[field] === elementName) {
+                                        found = true;
                                         break;
                                     }
                                 }
                                 if (!found) {
-                                    profileElement.push(ProfileUtils.getFieldPermissionObject(storageObj.name + '.' + storageField, false, false));
+                                    let nullable = true;
+                                    if (metadataType === MetadataTypes.CUSTOM_FIELDS){
+                                        let fData;
+                                        if(objData && objData.fields)
+                                            fData= objData.fields[itemKey];
+                                        nullable = !fData || fData.nillable;
+                                    }
+                                    if (fieldData.metadataType === MetadataTypes.LAYOUT)
+                                        profile[fieldData.key].push(fieldData.create(layoutToAssign, elementName));
+                                    else if (metadataType !== MetadataTypes.CUSTOM_FIELDS || (metadataType === MetadataTypes.CUSTOM_FIELDS && nullable)){
+                                        let dataToAdd = {};
+                                        Object.keys(fieldData.xmlData.fields).forEach(function (field) {
+                                            let fData = fieldData.xmlData.fields[field];
+                                            if (fData.default === '{!value}')
+                                                dataToAdd[field] = elementName;
+                                            else
+                                                dataToAdd[field] = fData.default;
+                                        });
+                                        profile[fieldData.key].push(dataToAdd);
+                                    }
                                 }
-                            }
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.field.toLowerCase().localeCompare(b.field.toLowerCase());
-                    });
-                    profile[key] = profileElement;
-                } else if (key === 'fieldLevelSecurities') {
-
-                } else if (key === 'flowAccesses') {
-                    for (const storageFlow of storageMetadata.flows) {
-                        let found = false;
-                        for (const flow of profileElement) {
-                            if (flow.flow === storageFlow) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(ProfileUtils.getFlowAccessObject(storageFlow, false));
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.flow.toLowerCase().localeCompare(b.flow.toLowerCase());
-                    });
-                    profile[key] = profileElement;
-                } else if (key === 'layoutAssignments') {
-                    for (const storageLayout of storageMetadata.layouts) {
-                        let found = false;
-                        for (const layout of profileElement) {
-                            if (layout.layout === storageLayout) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(ProfileUtils.getLayoutAssignmentObject(storageLayout));
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.layout.toLowerCase().localeCompare(b.layout.toLowerCase());
-                    });
-                    profile[key] = profileElement;
-                } else if (key === 'objectPermissions') {
-                    for (const storageObj of storageMetadata.objects) {
-                        if (!storageObj.isCustomSetting && !storageObj.isCustomMetadata) {
+                            });
+                        } else {
                             let found = false;
-                            for (const object of profileElement) {
-                                if (object.object === storageObj.name) {
+                            for (let xmlElement of profile[fieldData.key]) {
+                                if (xmlElement[fieldData.xmlData.fieldKey] === objectKey) {
                                     found = true;
                                     break;
                                 }
                             }
                             if (!found) {
-                                profileElement.push(ProfileUtils.getObjectPermissionObject(storageObj.name, false, false, false, false, false, false));
+                                let dataToAdd = {};
+                                Object.keys(fieldData.xmlData.fields).forEach(function (field) {
+                                    let fData = fieldData.xmlData.fields[field];
+                                    if (fData.default === '{!value}')
+                                        dataToAdd[field] = objectKey;
+                                    else
+                                        dataToAdd[field] = fData.default;
+                                });
+                                profile[fieldData.key].push(dataToAdd);
                             }
                         }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.object.toLowerCase().localeCompare(b.object.toLowerCase());
                     });
-                    profile[key] = profileElement;
-                } else if (key === 'pageAccesses') {
-                    for (const storagePage of storageMetadata.pages) {
-                        let found = false;
-                        for (const page of profileElement) {
-                            if (page.apexPage === storagePage) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(ProfileUtils.getPageAccessObject(storagePage, false));
-                        }
-
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.apexPage.toLowerCase().localeCompare(b.apexPage.toLowerCase());
-                    });
-                    profile[key] = profileElement;
-                } else if (key === 'recordTypeVisibilities') {
-                    for (const storageObj of storageMetadata.objects) {
-                        if (!storageObj.isCustomSetting && !storageObj.isCustomMetadata) {
-                            if (storageObj.recordTypes) {
-                                for (const storageRecordType of storageObj.recordTypes) {
-                                    let found = false;
-                                    for (const recordType of profileElement) {
-                                        if (recordType.recordType === storageObj.name + '.' + storageRecordType) {
-                                            found = true;
-                                            break;
-                                        }
-                                    }
-                                    if (!found) {
-                                        profileElement.push(ProfileUtils.getRecordTypeVisibilityObject(storageObj.name + '.' + storageRecordType, false, false));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.recordType.toLowerCase().localeCompare(b.recordType.toLowerCase());
-                    });
-                    profile[key] = profileElement;
-                } else if (key === 'tabVisibilities') {
-                    for (const storageTabs of storageMetadata.tabs) {
-                        let found = false;
-                        for (const tab of profileElement) {
-                            if (tab.tab === storageTabs) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(ProfileUtils.getTabVisibilityObject(storageTabs, 'DefaultOff'));
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.tab.toLowerCase().localeCompare(b.tab.toLowerCase());
-                    });
-                    profile[key] = profileElement;
-                } else if (key === 'userPermissions') {
-                    for (const storagePermission of ProfileUtils.getAllUserPermissions()) {
-                        let found = false;
-                        for (const userPermission of profileElement) {
-                            if (userPermission.name === storagePermission) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            profileElement.push(ProfileUtils.getUserPermissionObject(storagePermission, false));
-                        }
-                    }
-                    profileElement.sort(function (a, b) {
-                        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                    });
-                    profile[key] = profileElement;
+                    Utils.sort(profile[fieldData.key], fieldData.xmlData.sortOrder);
                 }
             });
         }
         return profile;
     }
 
-    static getApplicationVisibilityObject(application, visible, def) {
-        return {
-            application: application,
-            visible: visible,
-            default: def
-        }
-    }
-
-    static getClassAccessObject(apexClass, enabled) {
-        return {
-            apexClass: apexClass,
-            enabled: enabled
-        };
-    }
-
-    static getCustomMetadataAccessObject(name, enabled) {
-        return {
-            name: name,
-            enabled: enabled
-        };
-    }
-
-    static getCustomPermissionObject(name, enabled) {
-        return {
-            name: name,
-            enabled: enabled
-        }
-    }
-
-    static getCustomSettingAccessObject(name, enabled) {
-        return {
-            name: name,
-            enabled: enabled
-        }
-    }
-
-    static getFieldPermissionObject(field, readable, editable) {
-        return {
-            field: field,
-            readable: readable,
-            editable: editable,
-        };
-    }
-
-    static getFlowAccessObject(flow, enabled) {
-        return {
-            flow: flow,
-            enabled: enabled
-        };
-    }
-
-    static getLayoutAssignmentObject(layout, recordType) {
-        return {
-            layout: layout,
-            recordType: recordType
-        };
-    }
-
-    static getObjectPermissionObject(object, allowRead, allowCreate, allowEdit, allowDelete, viewAllRecords, modifyAllRecords) {
-        return {
-            object: object,
-            allowRead: allowRead,
-            allowCreate: allowCreate,
-            allowEdit: allowEdit,
-            allowDelete: allowDelete,
-            viewAllRecords: viewAllRecords,
-            modifyAllRecords: modifyAllRecords
-        }
-    }
-
-    static getPageAccessObject(apexPage, enabled) {
-        return {
-            apexPage: apexPage,
-            enabled: enabled
-        };
-    }
-
-    static getRecordTypeVisibilityObject(recordType, visible, def) {
-        return {
-            recordType: recordType,
-            visible: visible,
-            default: def
-        };
-    }
-
-    static getTabVisibilityObject(tab, visibility) {
-        return {
-            tab: tab,
-            visibility: visibility,
-        }
-    }
-
-    static getUserPermissionObject(name, enabled) {
-        return {
-            name: name,
-            enabled: enabled
-        }
-    }
-
     static getProfileSectionName(profileSection) {
-        let profileSectionNames = {
-            applicationVisibilities: "Application Visibilities",
-            categoryGroupVisibilities: "Category Group Visibilities",
-            classAccesses: "Class Accesses",
-            customMetadataTypeAccesses: "Custom Metadata Type Accesses",
-            customPermissions: "Custom Permissions",
-            customSettingAccesses: "Custom Setting Accesses",
-            externalDataSourceAccesses: "External Data Source Accesses",
-            fieldPermissions: "Field Permissions",
-            fieldLevelSecurities: "Field Level Security",
-            flowAccesses: "Flow Accesses",
-            layoutAssignments: "Layout Assignments",
-            loginHours: "Login Hours",
-            loginIpRanges: "Login IP Ranges",
-            objectPermissions: "Object Permissions",
-            pageAccesses: "Page Accesses",
-            profileActionOverrides: "Profile Action Overrides",
-            recordTypeVisibilities: "Record Type Visibilities",
-            tabVisibilities: "Tab Visibilities",
-            userPermissions: "User Permissions"
-        };
-        return profileSectionNames[profileSection];
+        return XML_METADATA[profileSection].label;
     }
 
     static toXML(profile, compress) {
@@ -558,3 +1629,112 @@ class ProfileUtils {
     }
 }
 module.exports = ProfileUtils;
+
+function getLoginHoursEnumValues() {
+    return [
+        {
+            label: "-- None --",
+            value: undefined,
+        },
+        {
+            label: "12:00 AM",
+            value: 0,
+        },
+        {
+            label: "1:00 AM",
+            value: 60,
+        },
+        {
+            label: "2:00 AM",
+            value: 120,
+        },
+        {
+            label: "3:00 AM",
+            value: 180,
+        },
+        {
+            label: "4:00 AM",
+            value: 240,
+        },
+        {
+            label: "5:00 AM",
+            value: 300,
+        },
+        {
+            label: "6:00 AM",
+            value: 360,
+        },
+        {
+            label: "7:00 AM",
+            value: 420,
+        },
+        {
+            label: "8:00 AM",
+            value: 480,
+        },
+        {
+            label: "9:00 AM",
+            value: 540,
+        },
+        {
+            label: "10:00 AM",
+            value: 600,
+        },
+        {
+            label: "11:00 AM",
+            value: 660,
+        },
+        {
+            label: "12:00 PM",
+            value: 720,
+        },
+        {
+            label: "1:00 PM",
+            value: 780,
+        },
+        {
+            label: "2:00 PM",
+            value: 840,
+        },
+        {
+            label: "3:00 PM",
+            value: 900,
+        },
+        {
+            label: "4:00 PM",
+            value: 960,
+        },
+        {
+            label: "5:00 PM",
+            value: 1020,
+        },
+        {
+            label: "6:00 PM",
+            value: 1080,
+        },
+        {
+            label: "7:00 PM",
+            value: 1140,
+        },
+        {
+            label: "8:00 PM",
+            value: 1200,
+        },
+        {
+            label: "9:00 PM",
+            value: 1260,
+        },
+        {
+            label: "10:00 PM",
+            value: 1320,
+        },
+        {
+            label: "11:00 PM",
+            value: 1380,
+        },
+        {
+            label: "End of Day",
+            value: 1440,
+        }
+    ];
+}

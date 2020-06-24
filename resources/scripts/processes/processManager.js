@@ -194,6 +194,22 @@ class ProcessManager {
         });
     }
 
+    static auraHelperLoadPermissions(options, output) {
+        let command = ['/c', 'aura-helper', 'metadata:org:permissions', '-p', 'plaintext'];
+        if (options.version) {
+            command.push('-v');
+            command.push(options.version);
+        }
+        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        return new Promise(function (resolve) {
+            runProcess(process, output).then(function (stdOut) {
+                resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
     static auraHelperPackageGenerator(options, output) {
         let command = ['/c', 'aura-helper', 'metadata:local:package:create', '-p', 'plaintext'];
         if (options.version) {

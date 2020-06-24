@@ -18,7 +18,8 @@ class Utils {
 
     static getFieldData(sObject, fieldName) {
         if (sObject) {
-            for (const field of sObject.fields) {
+            for (const fieldKey of Object.keys(sObject.fields)) {
+                let field = sObject.fields[fieldKey];
                 if (field.name == fieldName)
                     return field;
             }
@@ -135,7 +136,8 @@ class Utils {
         let items = [];
         let picklistItems = [];
         if (sObject) {
-            for (const field of sObject.fields) {
+            for (const fieldKey of Object.keys(sObject.fields)) {
+                let field = sObject.fields[fieldKey];
                 let item = new CompletionItem(field.name, CompletionItemKind.Field);
                 let itemRel;
                 item.detail = sObject.name + ' Field';
