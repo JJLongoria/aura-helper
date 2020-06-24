@@ -7,6 +7,8 @@ const userClasses = {};
 const allNamespaces = {};
 const namespacesMetadata = {};
 const sObjects = {};
+const orgAvailableVersions = [];
+const availablePermissions = [];
 
 module.exports = {
     context,
@@ -17,5 +19,7 @@ module.exports = {
     userClasses,
     namespacesMetadata,
     allNamespaces,
-    sObjects
+    sObjects,
+    orgAvailableVersions,
+    availablePermissions
 }

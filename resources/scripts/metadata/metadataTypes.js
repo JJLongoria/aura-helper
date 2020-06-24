@@ -70,8 +70,14 @@ const CUSTOM_PAGE_WEB_LINK = "CustomPageWebLink";
 const S_CONTROL = "Scontrol";
 const TOPICS_FOR_OBJECT = "TopicsForObjects";
 const POST_TEMPLATE = "PostTemplate";
+const GROUP = "Group";
+const EXTERNAL_DATA_SOURCE = "ExternalDataSource";
+const DATA_CATEGORY_GROUP = "DataCategoryGroup";
 
 module.exports = {
+  DATA_CATEGORY_GROUP,
+  EXTERNAL_DATA_SOURCE,
+  GROUP,
   S_CONTROL,
   CUSTOM_PAGE_WEB_LINK,
   LWC,

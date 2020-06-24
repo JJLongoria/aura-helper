@@ -92,7 +92,7 @@ class MetadataFactory {
                custom: false,
                customSetting: false,
                namespace: undefined,
-               fields: [],
+               fields: {},
                recordTypes: []
           };
           let field = {
@@ -101,6 +101,7 @@ class MetadataFactory {
                length: undefined,
                type: undefined,
                custom: undefined,
+               nillable: undefined,
                relationshipName: undefined,
                namespace: undefined,
                picklistValues: [],
@@ -150,7 +151,7 @@ class MetadataFactory {
                                    namespace = splits[0].trim();
                               }
                               field.namespace = namespace;
-                              metadataIndex.fields.push(field);
+                              metadataIndex.fields[field.name] = field;
                          }
                          field = {
                               name: undefined,
@@ -158,6 +159,7 @@ class MetadataFactory {
                               length: undefined,
                               type: undefined,
                               custom: undefined,
+                              nillable: undefined,
                               relationshipName: undefined,
                               namespace: undefined,
                               picklistValues: [],
@@ -179,7 +181,7 @@ class MetadataFactory {
                                    namespace = splits[0].trim();
                               }
                               field.namespace = namespace;
-                              metadataIndex.fields.push(field);
+                              metadataIndex.fields[field.name] = field;
                          }
                          field = {
                               name: undefined,
@@ -187,6 +189,7 @@ class MetadataFactory {
                               length: undefined,
                               type: undefined,
                               custom: undefined,
+                              nillable: undefined,
                               relationshipName: undefined,
                               namespace: undefined,
                               picklistValues: [],
@@ -231,19 +234,19 @@ class MetadataFactory {
                     if (keyValue.name === 'keyPrefix')
                          metadataIndex.keyPrefix = keyValue.value;
                     if (keyValue.name === 'queryable')
-                         metadataIndex.queryable = keyValue.value;
+                         metadataIndex.queryable = keyValue.value === 'true';
                     if (keyValue.name === 'custom')
-                         metadataIndex.custom = keyValue.value;
+                         metadataIndex.custom = keyValue.value === 'true';
                     if (keyValue.name === 'customSetting')
-                         metadataIndex.customSetting = keyValue.value;
+                         metadataIndex.customSetting = keyValue.value === 'true';
                } else if (isOnReference && line.indexOf('[') === -1) {
                     field.referenceTo.push(line.replace(new RegExp('"', 'g'), "").trim());
                } else if (isOnPicklistVal && line.indexOf('[') === -1) {
                     let keyValue = MetadataFactory.getJSONNameValuePair(line);
                     if (keyValue.name === 'active')
-                         pickVal.active = keyValue.value;
+                         pickVal.active = keyValue.value === 'true';
                     if (keyValue.name === 'defaultValue')
-                         pickVal.defaultValue = keyValue.value;
+                         pickVal.defaultValue = keyValue.value === 'true';
                     if (keyValue.name === 'label')
                          pickVal.label = keyValue.value;
                     if (keyValue.name === 'value')
@@ -260,7 +263,9 @@ class MetadataFactory {
                          if (keyValue.name === 'length')
                               field.length = keyValue.value;
                          if (keyValue.name === 'custom')
-                              field.custom = keyValue.value;
+                              field.custom = keyValue.value === 'true';
+                         if (keyValue.name === 'nillable')
+                              field.nillable = keyValue.value === 'true';
                          if (keyValue.name === 'relationshipName' && keyValue.value != 'null')
                               field.relationshipName = keyValue.value;
                          if (keyValue.name === "referenceTo" && line.indexOf(']') === -1) {
@@ -280,7 +285,7 @@ class MetadataFactory {
                          if (keyValue.name === 'developerName')
                               rt.developerName = keyValue.value;
                          if (keyValue.name === 'defaultRecordTypeMapping')
-                              rt.default = keyValue.value;
+                              rt.default = keyValue.value === 'true';
                     }
                }
           }

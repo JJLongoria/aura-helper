@@ -40,7 +40,7 @@ async function openAdvanceGUI() {
     viewOptions.actions.push(Engine.createButtonAction('createDestructivePackageBtn', '{!label.create_destructive_package}', ["w3-btn", "warningBtn"], "createDestructive()"));
     viewOptions.actions.push(Engine.createButtonAction('cancelBtn', '{!label.close}', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
     view = Engine.createView(Routing.PackageGenerator, viewOptions);
-    view.render();
+    view.render({}, {});
     view.onReceiveMessage(onReceiveMessage);
     view.onClose(function () {
         ProcessManager.killProcess();

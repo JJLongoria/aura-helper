@@ -379,6 +379,8 @@ class Utils {
             if (source[key] !== undefined) {
                 if (Array.isArray(target[key])) {
                     target[key] = Utils.forceArray(source[key]);
+                } else if(typeof target[key] === 'object' && typeof source[key] !== 'object'){
+                    target[key] = {};
                 } else {
                     target[key] = source[key];
                 }
@@ -387,16 +389,16 @@ class Utils {
         return target;
     }
 
-    static sort(elements, fields) {
+    static sort(elements, fields, caseSensitive) {
         if (Array.isArray(elements)) {
             elements.sort(function (a, b) {
                 if (fields && fields.length > 0) {
                     let nameA = '';
                     let nameB = '';
                     let counter = 0;
-                    for (const iterator of fields) {
-                        let valA = (a[iterator] !== undefined) ? a[iterator] : "";
-                        let valB = (b[iterator] !== undefined) ? b[iterator] : "";
+                    for (const field of fields) {
+                        let valA = (a[field] !== undefined) ? a[field] : "";
+                        let valB = (b[field] !== undefined) ? b[field] : "";
                         if (counter == 0) {
                             nameA = valA;
                             nameB = valB;
@@ -406,9 +408,17 @@ class Utils {
                         }
                         counter++;
                     }
-                    return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
+                    if(caseSensitive){
+                        return nameA.localeCompare(nameB);
+                    } else {
+                        return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
+                    }
                 } else {
-                    return a.toLowerCase().localeCompare(b.toLowerCase());
+                    if(caseSensitive){
+                        return a.localeCompare(b);
+                    } else {
+                        return a.toLowerCase().localeCompare(b.toLowerCase());
+                    }
                 }
             });
         }
@@ -429,7 +439,7 @@ class Utils {
         return object && object.childs && Object.keys(object.childs).length > 0;
     }
 
-    static getTypesForAuraHelperCommands(metadata){
+    static getTypesForAuraHelperCommands(metadata) {
         let types = [];
         Object.keys(metadata).forEach(function (typeKey) {
             if (metadata[typeKey].checked) {
@@ -441,7 +451,7 @@ class Utils {
                     } else {
                         Object.keys(metadata[typeKey].childs[objectKey].childs).forEach(function (itemKey) {
                             if (metadata[typeKey].childs[objectKey].childs[itemKey].checked)
-                            types.push(typeKey + ':' + objectKey + ':' + itemKey);
+                                types.push(typeKey + ':' + objectKey + ':' + itemKey);
                         });
                     }
                 });
@@ -450,7 +460,7 @@ class Utils {
         return types;
     }
 
-    static deleteCheckedMetadata(metadata){
+    static deleteCheckedMetadata(metadata) {
         Object.keys(metadata).forEach(function (typeKey) {
             Object.keys(metadata[typeKey].childs).forEach(function (objectKey) {
                 if (Utils.haveChilds(metadata[typeKey].childs[objectKey])) {
@@ -471,5 +481,12 @@ class Utils {
         return metadata;
     }
 
+    static availableOnVersion(elementData, lastVersion, orgVersion) {
+        let maxVersion = (elementData.maxApi === -1) ? lastVersion : elementData.maxApi;
+        let minVersion = elementData.minApi;
+        if (!maxVersion)
+            maxVersion = orgVersion
+        return orgVersion >= minVersion && orgVersion <= maxVersion;
+    }
 }
 module.exports = Utils;

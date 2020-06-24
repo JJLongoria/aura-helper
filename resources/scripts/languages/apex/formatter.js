@@ -3,7 +3,6 @@ const TokenType = require('./tokenTypes');
 const fileSystem = require('../../fileSystem');
 const langUtils = require('../utils').Utils;
 const Config = require('../../core/config');
-const applicationContext = require('../../core/applicationContext');
 const StrUtils = require('../../utils/strUtils');
 const FileReader = fileSystem.FileReader;
 
@@ -361,6 +360,20 @@ function isOperator(token) {
         case TokenType.OPERATOR.LOGICAL.OR_ASSIGN:
         case TokenType.PUNCTUATION.EXMARK:
         case TokenType.PUNCTUATION.COLON:
+            return true;
+        default:
+            return false;
+    }
+}
+
+function isVarType(token) {
+    switch (token.type) {
+        case TokenType.DATATYPE.PRIMITIVE:
+        case TokenType.DATATYPE.COLLECTION:
+        case TokenType.DATATYPE.SOBJECT:
+        case TokenType.DATATYPE.CUSTOM_CLASS:
+        case TokenType.DATATYPE.SUPPORT_CLASS:
+        case TokenType.DATATYPE.SUPPORT_NAMESPACE:
             return true;
         default:
             return false;

@@ -4,9 +4,12 @@ const ProcessManager = require('../processes').ProcessManager;
 const ProcessEvent = require('../processes').ProcessEvent;
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
+const XMLParser = require('../languages/xmlParser');
+const HTTPConnection = require('./httpConnection');
+const AppContext = require('./applicationContext');
 const os = require('os');
 
-class  Config {
+class Config {
 
     static getConfig() {
         return vscode.workspace.getConfiguration('aurahelper');
@@ -60,7 +63,7 @@ class  Config {
                         let listOrgsResult = JSON.parse(buffer.toString());
                         if (listOrgsResult.status === 0) {
                             for (const org of listOrgsResult.result) {
-                                if (org.username === username) { 
+                                if (org.username === username) {
                                     resolve(org.instanceUrl);
                                 }
                             }
@@ -74,33 +77,45 @@ class  Config {
         });
     }
 
-    static getOrgAlias() { 
+    static getOrgAvailableVersions(instance) {
+        return new Promise(async function (resolve) {
+            let data = await HTTPConnection.makeGETRequest(instance + '/services/data');
+            resolve(JSON.parse(data));
+        });
+    }
+
+    static getLastVersion() {
+        let lastVersion = (AppContext.orgAvailableVersions && AppContext.orgAvailableVersions.length > 0) ? AppContext.orgAvailableVersions[AppContext.orgAvailableVersions.length - 1].version : undefined;
+        return (lastVersion) ? parseInt(lastVersion) : lastVersion;
+    }
+
+    static getOrgAlias() {
         return JSON.parse(FileReader.readFileSync(Paths.getSFDXFolderPath() + '/sfdx-config.json')).defaultusername;
     }
-    
+
     static getOrgVersion() {
         if (Config.getConfig().metadata.useCustomAPIVersion) {
             return (Config.getConfig().metadata.CustomAPIVersion).toString() + '.0';
         }
         return JSON.parse(FileReader.readFileSync(Paths.getWorkspaceFolder() + '/sfdx-project.json')).sourceApiVersion;
     }
-    
+
     static getOrgNamespace(authUser) {
         return JSON.parse(FileReader.readFileSync(Paths.getWorkspaceFolder() + '/.sfdx/orgs/' + authUser + '/metadata/metadataTypes.json')).result.organizationNamespace;
     }
 
-    static getAvailableCPUs(){
+    static getAvailableCPUs() {
         let cpus = os.cpus().length;
-        if(cpus > 1)
+        if (cpus > 1)
             cpus -= 1;
         return cpus;
     }
 
-    static isLinux(){
+    static isLinux() {
         return os.platform() === 'linux';
     }
 
-    static isWindows(){
+    static isWindows() {
         return os.platform() === 'win32';
     }
 

@@ -1,16 +1,17 @@
 const vscode = require('vscode');
+const AppContext = require('../core/applicationContext');
 const collections = {};
 
 class DiagnosticsManager {
 
-    static createCollection(context, collectionName){
-        if(collections[collectionName]){
-            collections[collectionName] = vscode.languages.createDiagnosticCollection(collectionName);
-            context.subscriptions.push(context);
-        }
+    static createCollection(collectionName){
+        collections[collectionName] = vscode.languages.createDiagnosticCollection(collectionName);
+        AppContext.context.subscriptions.push(collections[collectionName]);
     }
 
     static setDiagnostics(collectionName, uri, diagnostics){
+        if(!collections[collectionName])
+            DiagnosticsManager.createCollection(collectionName);
         if(collections[collectionName]){
             collections[collectionName].set(uri, diagnostics);
         }

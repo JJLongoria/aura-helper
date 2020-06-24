@@ -8,8 +8,8 @@ class OutputChannel {
     static output(text) {
         if (!channel)
             channel = vscode.window.createOutputChannel(CHANNEL_NAME);
-        channel.appendLine(text);
-        channel.show(false);
+        channel.append(text);
+        channel.show(true);
     }
 
 }
