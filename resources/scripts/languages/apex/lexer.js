@@ -200,7 +200,7 @@ const reservedKeywords = {
     "stat": TokenType.KEYWORD.FOR_FUTURE,
     "static": TokenType.KEYWORD.MODIFIER.STATIC,
     "super": TokenType.KEYWORD.OBJECT.SUPER,
-    "switch": TokenType.KEYWORD.FOR_FUTURE,
+    "switch": TokenType.KEYWORD.FLOW_CONTROL.SWITCH,
     "synchronized": TokenType.KEYWORD.FOR_FUTURE,
     "testmethod": TokenType.KEYWORD.MODIFIER.TEST_METHOD,
     "this": TokenType.KEYWORD.OBJECT.THIS,
@@ -217,6 +217,7 @@ const reservedKeywords = {
     "virtual": TokenType.KEYWORD.MODIFIER.DEFINITION,
     "webservice": TokenType.KEYWORD.MODIFIER.WEB_SERVICE,
     "while": TokenType.KEYWORD.FLOW_CONTROL.WHILE,
+    "when": TokenType.KEYWORD.FLOW_CONTROL.SWITCH_CASE,
 };
 
 const soqlFunctions = {
@@ -247,7 +248,7 @@ const soqlFunctions = {
     "min": TokenType.QUERY.FUNCTION,
     "sum": TokenType.QUERY.FUNCTION,
     "week_in_month": TokenType.QUERY.FUNCTION,
-    "week_in_year": TokenType.QUERY.FUNCTION
+    "week_in_year": TokenType.QUERY.FUNCTION,
 };
 
 const queryClauses = {

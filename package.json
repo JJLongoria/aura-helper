@@ -64,12 +64,11 @@
 		"onCommand:aurahelper.metadata.refresh.object",
 		"onCommand:aurahelper.metadata.compress.xml",
 		"onCommand:aurahelper.metadata.compress.xml.all",
-		"onCommand:aurahelper.metadata.profile.open",
 		"onCommand:aurahelper.metadata.permission.editor",
 		"onCommand:aurahelper.metadata.retrieve.special",
 		"onCommand:aurahelper.metadata.package.generate",
 		"onCommand:aurahelper.metadata.org.compare",
-		"onCommand:aurahelper.metadata.customlabels.open",
+		"onCommand:aurahelper.metadata.customlabels.editor",
 		"onCommand:aurahelper.documentation.project.create",
 		"onCommand:aurahelper.completion.apex.implement.interface",
 		"onCommand:aurahelper.completion.apex.implement.extend"
@@ -390,12 +389,8 @@
 				"title": "AuraHelper: Compress ALL XML Files"
 			},
 			{
-				"command": "aurahelper.metadata.profile.open",
-				"title": "AuraHelper: Open Profile on UI"
-			},
-			{
 				"command": "aurahelper.metadata.permission.editor",
-				"title": "AuraHelper: Open Permission Editor"
+				"title": "AuraHelper: Permission Editor"
 			},
 			{
 				"command": "aurahelper.metadata.retrieve.special",
@@ -410,8 +405,8 @@
 				"title": "AuraHelper: Compare Org With Local"
 			},
 			{
-				"command": "aurahelper.metadata.customlabels.open",
-				"title": "AuraHelper: Open Custom Labels on UI"
+				"command": "aurahelper.metadata.customlabels.editor",
+				"title": "AuraHelper: Custom Labels Editor"
 			},
 			{
 				"command": "aurahelper.metadata.project.repair",
@@ -495,7 +490,7 @@
 				},
 				{
 					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.profile.open",
+					"command": "aurahelper.metadata.permission.editor",
 					"group": "auraHelper@1"
 				},
 				{
@@ -505,7 +500,7 @@
 				},
 				{
 					"when": "resource =~ /./labels/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.customlabels.open",
+					"command": "aurahelper.metadata.customlabels.editor",
 					"group": "auraHelper@1"
 				}
 			],
@@ -527,12 +522,12 @@
 				},
 				{
 					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.profile.open",
+					"command": "aurahelper.metadata.permission.editor",
 					"group": "auraHelper@1"
 				},
 				{
 					"when": "resource =~ /./labels/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.customlabels.open",
+					"command": "aurahelper.metadata.customlabels.editor",
 					"group": "auraHelper@1"
 				},
 				{

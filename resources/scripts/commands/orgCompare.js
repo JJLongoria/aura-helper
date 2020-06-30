@@ -2,9 +2,11 @@ const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const ProcessManager = require('../processes').ProcessManager;
 const Config = require('../core/config');
+const AppContext = require('../core/applicationContext');
 const Metadata = require('../metadata');
 const GUIEngine = require('../guiEngine');
 const MetadataSelectorInput = require('../inputs/metadataSelector');
+const NotificationManager = require('../output/notificationManager');
 const Engine = GUIEngine.Engine;
 const Routing = GUIEngine.Routing;
 const Paths = fileSystem.Paths;
@@ -25,20 +27,20 @@ exports.run = function () {
                 } else if (out.stdOut) {
                     let response = JSON.parse(out.stdOut);
                     if (response.status === 0) {
-                        if (Config.getConfig().graphicUserInterface.enableAdvanceGUI) {
+                        if (Config.getConfig().graphicUserInterface.enableAdvanceGUI && AppContext.isAdvanceGUIAvailable) {
                             openAdvanceGUI(response.result.data);
                         } else {
                             openStandardGUI(response.result.data);
                         }
                     } else {
-                        vscode.window.showErrorMessage(response.error.message);
+                        NotificationManager.showError(response.error.message);
                     }
                 } else {
-                    vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+                    NotificationManager.showCommandError(out.stdErr);
                 }
                 resolve();
             }).catch(function (error) {
-                vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+                NotificationManager.showCommandError(error);
                 resolve();
             });
         });
@@ -52,7 +54,7 @@ function openAdvanceGUI(metadata) {
     viewOptions.actions.push(Engine.createButtonAction('deleteBtn', '{!label.delete}', ["w3-btn save"], "deleteMetadata()"));
     viewOptions.actions.push(Engine.createButtonAction('cancelBtn', '{!label.cancel}', ["w3-btn cancel"], "cancel()"));
     view = Engine.createView(Routing.MatchOrg, viewOptions);
-    view.render(metadata);
+    view.render(metadata, {});
     view.onReceiveMessage(function (message) {
         if (message.command === 'cancel')
             view.close();
@@ -67,10 +69,10 @@ function openStandardGUI(metadata) {
     input.onDelete(async metadata => {
         deleteMetadata(metadata, function (message, isError) {
             if (isError) {
-                vscode.window.showErrorMessage(message);
+                NotificationManager.showError(message);
             } else {
                 metadata  = Metadata.Utils.deleteCheckedMetadata(metadata);
-                vscode.window.showInformationMessage(message);
+                NotificationManager.showInfo(message);
                 input.setMetadata(metadata);
                 input.reset();
             }

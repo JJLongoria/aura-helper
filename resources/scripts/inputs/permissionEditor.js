@@ -17,7 +17,7 @@ class PermissionEditor extends XMLEditor {
 
     constructor(title, file, metadata, isPermissionSet) {
         super(title, ROOT_STEP, 3, file);
-        this._selectedKey = undefined;
+        this._selectedCollection = undefined;
         this._selectedElement = undefined;
         this._selectedSubElement = undefined;
         this._metadata = metadata;
@@ -33,7 +33,6 @@ class PermissionEditor extends XMLEditor {
         if (!this._isPermissionSet && Config.getConfig().metadata.mergeLocalDataPermissions)
             this._permissionsContent = Metadata.ProfileUtils.mergeProfileWithLocalData(this._permissionsContent, this._metadata);
         this._profileMetadata = extractMetadataFromProfile(this._permissionsContent, this._xmlMetadata);
-        this._isAddingMode = false;
         this._oldPermissionContent = JSON.parse(JSON.stringify(this._permissionsContent));
     }
 
@@ -53,7 +52,7 @@ class PermissionEditor extends XMLEditor {
                 this._lastStep = this._step;
                 return this.createSubElementInput();
             case RESULT_STEP:
-                return this.createResultStep();
+                return this.createResultInput();
         }
         return input;
     }
@@ -64,7 +63,7 @@ class PermissionEditor extends XMLEditor {
                 if (this._isAddingMode) {
                     this._step++;
                     this._isAddingMode = false;
-                    let elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+                    let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
                     let fieldKey = getFieldKey(elementData.xmlData.fieldKey);
                     if (Array.isArray(fieldKey)) {
                         this._permissionsContent[elementData.key].pop();
@@ -75,16 +74,17 @@ class PermissionEditor extends XMLEditor {
             if (this._step === ROOT_STEP) {
                 this._step = RESULT_STEP;
                 this.show();
-            } else if (this._step = RESULT_STEP) {
+            } else if (this._step === RESULT_STEP) {
                 if (this._isPermissionSet)
                     this._xmlContent.PermissionSet = this._permissionsContent;
                 else
                     this._xmlContent.Profile = this._permissionsContent;
                 this.save();
-                this._onAcceptCallback.call(this);
+                if(this._onAcceptCallback)
+                    this._onAcceptCallback.call(this);
                 this._currentInput.dispose();
             } else {
-                let elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+                let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
                 if (elementData.key === 'loginIpRanges') {
                     let element = this._permissionsContent[elementData.key][this._permissionsContent[elementData.key].length - 1];
                     let validationError = undefined;
@@ -93,9 +93,9 @@ class PermissionEditor extends XMLEditor {
                         let error = fieldData.validate(element[field]);
                         if (error) {
                             if (!validationError)
-                                validationError = field + ": " + error;
+                                validationError = error;
                             else
-                                validationError += '; ' + field + ": " + error;
+                                validationError += '; ' + error;
                         }
                     }
                     if (!validationError) {
@@ -114,18 +114,13 @@ class PermissionEditor extends XMLEditor {
             let elementData = {};
             let fieldKeys = [];
             let fieldKeysWithoutMain = [];
-            let selectedItems = [];
+            let selectedItems = this.getSelectedElements(this._currentInput.selectedItems);
             let items = [];
             switch (this._step) {
                 case PERMISSIONS_STEP:
-                    items = this._currentInput.selectedItems;
-                    elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+                    elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
                     fieldKeys = Object.keys(elementData.xmlData.fields);
                     fieldKeysWithoutMain = getFieldKeysWithoutKey(elementData);
-                    selectedItems = [];
-                    for (let item of items) {
-                        selectedItems.push(item.label);
-                    }
                     if (this._isAddingMode) {
                         this._isAddingMode = false;
                         this._step++;
@@ -149,13 +144,8 @@ class PermissionEditor extends XMLEditor {
                     }
                     break;
                 case ELEMENT_STEP:
-                    items = this._currentInput.selectedItems;
-                    elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+                    elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
                     fieldKeys = Object.keys(elementData.xmlData.fields);
-                    selectedItems = [];
-                    for (let item of items) {
-                        selectedItems.push(item.label);
-                    }
                     if (elementData.datatype === 'array') {
                         if (this._isAddingMode) {
                             this._isAddingMode = false;
@@ -206,13 +196,8 @@ class PermissionEditor extends XMLEditor {
                     }
                     break;
                 case SUB_ELEMENT_STEP:
-                    items = this._currentInput.selectedItems;
-                    elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+                    elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
                     fieldKeys = Object.keys(elementData.xmlData.fields);
-                    selectedItems = [];
-                    for (let item of items) {
-                        selectedItems.push(item.label);
-                    }
                     let uniqueFields = [];
                     for (let xmlElement of this._permissionsContent[elementData.key]) {
                         if (xmlElement[elementData.xmlData.fieldKey] === this._selectedElement + elementData.xmlData.fields[elementData.xmlData.fieldKey].separator + this._selectedSubElement) {
@@ -245,7 +230,7 @@ class PermissionEditor extends XMLEditor {
                     break;
             }
         } else if (buttonName === 'Add') {
-            let elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+            let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
             let fieldKey = getFieldKey(elementData.xmlData.fieldKey);
             let fieldKeys = Object.keys(elementData.xmlData.fields);
             switch (this._step) {
@@ -304,7 +289,7 @@ class PermissionEditor extends XMLEditor {
     }
 
     onValueSet(value) {
-        let elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+        let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
         switch (this._step) {
             case PERMISSIONS_STEP:
                 if (this._permissionsContent) {
@@ -358,22 +343,18 @@ class PermissionEditor extends XMLEditor {
     onChangeSelection(items) {
         let elementData = {};
         let fieldKeys = [];
-        let selectedItems = [];
+        let selectedItems = this.getSelectedElements(items);
         let fieldKeysWithoutMain = [];
         switch (this._step) {
             case ROOT_STEP:
-                this._selectedKey = items[0].label;
+                this._selectedCollection = items[0].label;
                 this._step = PERMISSIONS_STEP;
                 this.show();
                 break;
             case PERMISSIONS_STEP:
-                elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+                elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
                 fieldKeys = Object.keys(elementData.xmlData.fields);
                 fieldKeysWithoutMain = getFieldKeysWithoutKey(elementData);
-                selectedItems = [];
-                for (let item of items) {
-                    selectedItems.push(item.label);
-                }
                 if (this._isAddingMode && !this._currentInput.canSelectMany) {
                     this._selectedElement = selectedItems[0];
                     this._step = ELEMENT_STEP;
@@ -394,13 +375,9 @@ class PermissionEditor extends XMLEditor {
                 }
                 break;
             case ELEMENT_STEP:
-                elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+                elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
                 fieldKeys = Object.keys(elementData.xmlData.fields);
                 fieldKeysWithoutMain = getFieldKeysWithoutKey(elementData);
-                selectedItems = [];
-                for (let item of items) {
-                    selectedItems.push(item.label);
-                }
                 if (this._isAddingMode) {
 
                 } else {
@@ -466,13 +443,9 @@ class PermissionEditor extends XMLEditor {
                 }
                 break;
             case SUB_ELEMENT_STEP:
-                elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+                elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
                 fieldKeys = Object.keys(elementData.xmlData.fields);
                 fieldKeysWithoutMain = getFieldKeysWithoutKey(elementData);
-                selectedItems = [];
-                for (let item of items) {
-                    selectedItems.push(item.label);
-                }
                 if (elementData.metadataType === Metadata.MetadataTypes.LAYOUT) {
                     let rtField = elementData.xmlData.fields[fieldKeysWithoutMain[0]];
                     let mainFieldData = elementData.xmlData.fields[elementData.xmlData.fieldKey];
@@ -540,7 +513,7 @@ class PermissionEditor extends XMLEditor {
         let input;
         if (this._permissionsContent) {
             let buttons;
-            let elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+            let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
             let fieldKey = getFieldKey(elementData.xmlData.fieldKey);
             if (elementData.datatype === 'string') {
                 input = vscode.window.createInputBox();
@@ -711,7 +684,7 @@ class PermissionEditor extends XMLEditor {
     createElementInput() {
         let input;
         if (this._permissionsContent) {
-            let elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+            let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
             let buttons = [MultiStepInput.getBackButton()];
             if (elementData.xmlData.fieldKey !== undefined)
                 buttons.push(MultiStepInput.getAddButton());
@@ -881,7 +854,7 @@ class PermissionEditor extends XMLEditor {
     createSubElementInput() {
         let input;
         if (this._permissionsContent) {
-            let elementData = getXMLElementDataByLabel(this._selectedKey, this._xmlMetadata);
+            let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
             if (this._permissionsContent[elementData.key]) {
                 let items = [];
                 let selectedItems = [];
@@ -947,7 +920,7 @@ class PermissionEditor extends XMLEditor {
         return input;
     }
 
-    createResultStep() {
+    createResultInput() {
         let input;
         if (this._permissionsContent) {
             input = vscode.window.createQuickPick();
@@ -1003,13 +976,13 @@ class PermissionEditor extends XMLEditor {
                         if (!oldElement) {
                             items.push(MultiStepInput.getItem("\t" + xmlElementKey + " (New)"));
                             for (let field of Object.keys(newElement)) {
-                                items.push(MultiStepInput.getItem("\t\tField " + field + ": " + ((!newElement[field]) ? "null" : newElement[field])));
+                                items.push(MultiStepInput.getItem("\t\tField " + field + ": " + ((newElement[field] === undefined) ? "null" : newElement[field])));
                             }
                         } else {
                             items.push(MultiStepInput.getItem("\t" + xmlElementKey + " (Modified)"));
                             for (let field of Object.keys(newElement)) {
                                 if (newElement[field] !== oldElement[field]) {
-                                    items.push(MultiStepInput.getItem("\t\tField " + field + ": From " + ((!oldElement[field]) ? "null" : oldElement[field]) + " to " + ((!newElement[field]) ? "null" : newElement[field])));
+                                    items.push(MultiStepInput.getItem("\t\tField " + field + ": From " + ((oldElement[field] === undefined) ? "null" : oldElement[field]) + " to " + ((newElement[field] === undefined) ? "null" : newElement[field])));
                                 }
                             }
                         }

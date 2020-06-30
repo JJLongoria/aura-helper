@@ -6,6 +6,9 @@ const languages = require('../languages');
 const metadata = require('../metadata');
 const ProcessManager = require('../processes').ProcessManager;
 const ProcessEvent = require('../processes').ProcessEvent;
+const CustomLabelsEditor = require('../inputs/customLabelsEditor');
+const InputFactory = require('../inputs/factory');
+const NotificationManager = require('../output/notificationManager');
 const Window = vscode.window;
 const Engine = GUIEngine.Engine;
 const Routing = GUIEngine.Routing;
@@ -34,36 +37,76 @@ exports.run = function (fileUri) {
         if (!filePath)
             filePath = Paths.getMetadataRootFolder() + '/labels/CustomLabels.labels-meta.xml';
         if (FileChecker.isExists(filePath)) {
-            let customLabelsRoot = XMLParser.parseXML(FileReader.readFileSync(filePath));
-            CustomLabels = customLabelsRoot.CustomLabels;
-            let viewOptions = Engine.getViewOptions();
-            viewOptions.title = '{!label.custom_labels}';
-            viewOptions.showActionBar = true;
-            viewOptions.actions.push(Engine.createButtonAction('newCustomLabelBtn', '{!label.new_custom_label}', ["w3-btn w3-border w3-border-green save"], "onClickNewLabel()"));
-            viewOptions.actions.push(Engine.createButtonAction('cancelBtn', '{!label.cancel}', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
-            view = Engine.createView(Routing.CustomLabels, viewOptions);
-            let labels = [];
-            if (Array.isArray(CustomLabels.labels))
-                labels = CustomLabels.labels;
-            else
-                labels.push(CustomLabels.labels);
-            view.render(labels);
-            view.onReceiveMessage(function (message) {
-                if (message.command === 'delete')
-                    deleteLabel(message.labels, message.index);
-                else if (message.command === 'cancel')
-                    view.close();
-                else if (message.command === 'new')
-                    newLabel(message.labels, message.label);
-                else if (message.command === 'edit')
-                    editLabel(message.labels, message.label);
-            });
+            if (Config.getConfig().graphicUserInterface.enableAdvanceGUI) {
+                openAdvanceGUI(filePath);
+            } else {
+                openStandardGUI(filePath);
+            }
         } else {
-            Window.showErrorMessage('Custom Labels file not found in your local project. Retrieve them if you want to use this tool');
+            NotificationManager.showError('Custom Labels file not found in your local project. Retrieve them if you want to use this tool');
         }
     } catch (error) {
-        Window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
+}
+
+function openAdvanceGUI(filePath) {
+    let customLabelsRoot = XMLParser.parseXML(FileReader.readFileSync(filePath));
+    CustomLabels = customLabelsRoot.CustomLabels;
+    let viewOptions = Engine.getViewOptions();
+    viewOptions.title = '{!label.custom_labels}';
+    viewOptions.showActionBar = true;
+    viewOptions.actions.push(Engine.createButtonAction('newCustomLabelBtn', '{!label.new_custom_label}', ["w3-btn w3-border w3-border-green save"], "onClickNewLabel()"));
+    viewOptions.actions.push(Engine.createButtonAction('cancelBtn', '{!label.cancel}', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
+    view = Engine.createView(Routing.CustomLabels, viewOptions);
+    let labels = [];
+    if (Array.isArray(CustomLabels.labels))
+        labels = CustomLabels.labels;
+    else
+        labels.push(CustomLabels.labels);
+    view.render(labels, {});
+    view.onReceiveMessage(function (message) {
+        if (message.command === 'delete')
+            deleteLabel(message.labels, message.index);
+        else if (message.command === 'cancel')
+            view.close();
+        else if (message.command === 'new')
+            newLabel(message.labels, message.label);
+        else if (message.command === 'edit')
+            editLabel(message.labels, message.label);
+    });
+}
+
+function openStandardGUI(filePath) {
+    let input = new CustomLabelsEditor(filePath);
+    input.onValidationError(function (errorMessage) {
+        vscode.window.showErrorMessage("Validation Errors: \n" + errorMessage);
+    });
+    input.onReport(function (report) {
+        vscode.window.showInformationMessage(report);
+    });
+    input.onError(function (message) {
+        vscode.window.showInformationMessage("Error: " + message);
+    });
+    input.onAccept(async function () {
+        let compress = await InputFactory.createCompressSelector();
+        if (compress === 'Yes') {
+            ProcessManager.auraHelperCompressFile(filePath, true).then(function (out) {
+                if (out.stdOut) {
+                    let response = JSON.parse(out.stdOut);
+                    if (response.status === 0)
+                        NotificationManager.showInfo(response.result.message);
+                    else
+                        NotificationManager.showError(response.error.message);
+                } else {
+                    NotificationManager.showCommandError(out.stdErr);
+                }
+            }).catch(function (error) {
+                NotificationManager.showCommandError(error);
+            });
+        }
+    });
+    input.show();
 }
 
 async function deleteLabel(labels, index) {

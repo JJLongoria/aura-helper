@@ -6,6 +6,9 @@ const Metadata = require('../metadata');
 const GUIEngine = require('../guiEngine');
 const ProcessManager = require('../processes').ProcessManager;
 const MetadataSelectorInput = require('../inputs/metadataSelector');
+const InputFactory = require('../inputs/factory');
+const NotificationManager = require('../output/notificationManager');
+const AppContext = require('../core/applicationContext');
 const XMLParser = languages.XMLParser;
 const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
@@ -22,13 +25,13 @@ let downloadedMetadata = {};
 
 exports.run = function () {
     try {
-        if (Config.getConfig().graphicUserInterface.enableAdvanceGUI) {
+        if (Config.getConfig().graphicUserInterface.enableAdvanceGUI && AppContext.isAdvanceGUIAvailable) {
             openAdvanceGUI();
         } else {
             openStandardGUI();
         }
     } catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 
@@ -48,20 +51,20 @@ async function openAdvanceGUI() {
 }
 
 async function openStandardGUI() {
-    let from = await selectFrom();
+    let from = await InputFactory.createPackageSourcesSelector();
     if (!from)
         return;
     let orgNamespace = 'Yes';
     if (from === 'From Org')
-        orgNamespace = await selectOrgNamespace();
+        orgNamespace = await InputFactory.createIncludeOrgNamespaceSelector();
     if (!orgNamespace)
         return;
-    let createFor = await selectFor();
+    let createFor = await InputFactory.createPackageOptionSelector();
     if (!createFor)
         return;
     let deleteOrder = 'After Deploy';
     if (createFor === 'For Delete')
-        deleteOrder = await selectDeleteOrder();
+        deleteOrder = await InputFactory.createPackageDeleteOrderSelector();
     if (!deleteOrder)
         return;
     window.withProgress({
@@ -80,10 +83,10 @@ async function openStandardGUI() {
             input.onAccept(async metadata => {
                 let explicit = 'Yes';
                 if (createFor === 'For Deploy or Retrieve')
-                    explicit = await selectExplicit();
+                    explicit = await InputFactory.createPackageExplicitSelector();
                 if (!explicit)
                     return;
-                let saveOn = await selectSaveOn();
+                let saveOn = await InputFactory.createPackageSaveOnSelector();
                 if (!saveOn)
                     return;
                 if (createFor === 'For Deploy or Retrieve') {
@@ -100,70 +103,22 @@ async function openStandardGUI() {
 
 }
 
-function selectFrom() {
-    return new Promise(async function (resolve) {
-        let options = ['From Local', 'From Org'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Select source for get types metadata for create package' });
-        resolve(selectedOption);
-    });
-}
-
-function selectFor() {
-    return new Promise(async function (resolve) {
-        let options = ['For Deploy or Retrieve', 'For Delete'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Select if create package for deploy or delete metadata' });
-        resolve(selectedOption);
-    });
-}
-
-function selectDeleteOrder() {
-    return new Promise(async function (resolve) {
-        let options = ['Before Deploy', 'After Deploy'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Select if delete metadata before or after deploy changes' });
-        resolve(selectedOption);
-    });
-}
-
-function selectOrgNamespace() {
-    return new Promise(async function (resolve) {
-        let options = ['Yes', 'No'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Include data only from Org Namespace' });
-        resolve(selectedOption);
-    });
-}
-
-function selectExplicit() {
-    return new Promise(async function (resolve) {
-        let options = ['Yes', 'No'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Include object explicit on package (recommended for retrieve) or use wildcards when apply' });
-        resolve(selectedOption);
-    });
-}
-
-function selectSaveOn() {
-    return new Promise(async function (resolve) {
-        let options = ['Manifest folder', 'Select folder'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Save package on manifest folder or select other folder' });
-        resolve(selectedOption);
-    });
-}
-
 function getLocalMetadataForStandardGUI(cancelToken) {
     return new Promise(async function (resolve) {
         let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: false }, true, cancelToken);
         if (!out) {
-            vscode.window.showWarningMessage('Operation Cancelled by User');
+            NotificationManager.showInfo('Operation Cancelled by User');
             resolve();
         } else if (out.stdOut) {
             let response = JSON.parse(out.stdOut);
             if (response.status === 0) {
                 resolve(response.result.data);
             } else {
-                vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + response.error.message);
+                NotificationManager.showCommandError(response.error.message);
                 resolve();
             }
         } else {
-            vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+            NotificationManager.showCommandError(out.stdErr);
             resolve();
         }
     });
@@ -173,18 +128,18 @@ function getOrgMetadataForStandardGUI(orgNamespace, cancelToken) {
     return new Promise(async function (resolve) {
         let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: true, orgNamespace: orgNamespace }, true, cancelToken);
         if (!out) {
-            vscode.window.showWarningMessage('Operation Cancelled by User');
+            NotificationManager.showInfo('Operation Cancelled by User');
             resolve();
         } else if (out.stdOut) {
             let response = JSON.parse(out.stdOut);
             if (response.status === 0) {
                 resolve(response.result.data);
             } else {
-                vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + response.error.message);
+                NotificationManager.showCommandError(response.error.message);
                 resolve();
             }
         } else {
-            vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+            NotificationManager.showCommandError(out.stdErr);
             resolve();
         }
     });
@@ -255,10 +210,10 @@ function loadMetadataFromOrgForAdvanceGUI(selectedOptionToDownload) {
                     downloadedMetadata.metadataForDelete = JSON.parse(JSON.stringify(response.result.data));
                     view.postMessage({ command: "metadataLoaded", metadata: downloadedMetadata });
                 } else {
-                    vscode.window.showErrorMessage(response.error.message);
+                    NotificationManager.showError(response.error.message);
                 }
             } else {
-                vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+                NotificationManager.showCommandError(out.stdErr);
             }
             resolve();
         });
@@ -276,10 +231,10 @@ async function loadFromFileSystemForAdvanceGUI() {
             downloadedMetadata.metadataForDelete = JSON.parse(JSON.stringify(response.result.data));
             view.postMessage({ command: "metadataLoaded", metadata: downloadedMetadata });
         } else {
-            vscode.window.showErrorMessage(response.error.message);
+            NotificationManager.showError(response.error.message);
         }
     } else {
-        vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+        NotificationManager.showCommandError(out.stdErr);
     }
 }
 
@@ -325,18 +280,18 @@ function createPackage(metadata, explicit, saveOnManifest, path, fromAdvanceGUI)
                             if (fromAdvanceGUI)
                                 view.postMessage({ command: 'packageCreated' });
                             else
-                                vscode.window.showInformationMessage('package.xml file created successfully');
+                                NotificationManager.showInfo('package.xml file created successfully');
                         } else {
                             if (fromAdvanceGUI)
                                 view.postMessage({ command: 'packageError', data: { error: response.error.message } });
                             else
-                                vscode.window.showErrorMessage(response.error.message);
+                                NotificationManager.showError(response.error.message);
                         }
                     } else {
                         if (fromAdvanceGUI)
                             view.postMessage({ command: 'packageError', data: { error: out.stdErr } });
                         else
-                            vscode.window.showErrorMessage(out.stdErr);
+                            NotificationManager.showError(out.stdErr);
                     }
                 }
                 FileWriter.delete(jsonPath);
@@ -345,7 +300,7 @@ function createPackage(metadata, explicit, saveOnManifest, path, fromAdvanceGUI)
             if (fromAdvanceGUI)
                 view.postMessage({ command: 'packageError', data: { error: error } });
             else
-                vscode.window.showErrorMessage(error.message);
+                NotificationManager.showError(error.message);
         }
     });
 }
@@ -393,18 +348,18 @@ function createDestructive(metadata, saveOnManifest, deleteOrder, path, fromAdva
                             if (fromAdvanceGUI)
                                 view.postMessage({ command: 'destructivePackageCreated' });
                             else
-                                vscode.window.showInformationMessage('Destructive file created successfully');
+                                NotificationManager.showInfo('Destructive file created successfully');
                         } else {
                             if (fromAdvanceGUI)
                                 view.postMessage({ command: 'packageError', data: { error: response.error.message } });
                             else
-                                vscode.window.showErrorMessage(response.error.message);
+                                NotificationManager.showError(response.error.message);
                         }
                     } else {
                         if (fromAdvanceGUI)
                             view.postMessage({ command: 'packageError', data: { error: out.stdErr } });
                         else
-                            vscode.window.showErrorMessage(out.stdErr);
+                            NotificationManager.showError(out.stdErr);
                     }
                 }
                 FileWriter.delete(jsonPath);
@@ -413,7 +368,7 @@ function createDestructive(metadata, saveOnManifest, deleteOrder, path, fromAdva
             if (fromAdvanceGUI)
                 view.postMessage({ command: 'packageError', data: { error: error } });
             else
-                vscode.window.showErrorMessage(error.message);
+                NotificationManager.showError(error.message);
         }
     });
 }
@@ -435,7 +390,7 @@ async function createFullPackage(metadataForDeploy, metadataForDelete, saveOn, c
     }
     if (packagePath) {
         createPackage(metadataForDeploy, createFor === 'forRetrieve', undefined, packagePath, true);
-        createDestructive(metadataForDelete, undefined, deleteOrder ,packagePath, false);
+        createDestructive(metadataForDelete, undefined, deleteOrder, packagePath, false);
     }
 }
 

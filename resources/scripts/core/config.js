@@ -100,8 +100,8 @@ class Config {
         return JSON.parse(FileReader.readFileSync(Paths.getWorkspaceFolder() + '/sfdx-project.json')).sourceApiVersion;
     }
 
-    static getOrgNamespace(authUser) {
-        return JSON.parse(FileReader.readFileSync(Paths.getWorkspaceFolder() + '/.sfdx/orgs/' + authUser + '/metadata/metadataTypes.json')).result.organizationNamespace;
+    static getOrgNamespace() {
+        return JSON.parse(FileReader.readFileSync(Paths.getSFDXFolderPath() + '/sfdx-config.json')).namespace;
     }
 
     static getAvailableCPUs() {

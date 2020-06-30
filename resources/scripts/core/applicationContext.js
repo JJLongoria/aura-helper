@@ -9,6 +9,7 @@ const namespacesMetadata = {};
 const sObjects = {};
 const orgAvailableVersions = [];
 const availablePermissions = [];
+const isAdvanceGUIAvailable = false;
 
 module.exports = {
     context,
@@ -21,5 +22,6 @@ module.exports = {
     allNamespaces,
     sObjects,
     orgAvailableVersions,
-    availablePermissions
+    availablePermissions,
+    isAdvanceGUIAvailable
 }

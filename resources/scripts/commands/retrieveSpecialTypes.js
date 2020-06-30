@@ -3,6 +3,8 @@ const Metadata = require('../metadata');
 const MetadataTypes = Metadata.MetadataTypes;
 const ProcessManager = require('../processes').ProcessManager;
 const MetadataSelectorInput = require('../inputs/metadataSelector');
+const InputFactory = require('../inputs/factory');
+const NotificationManager = require('../output/notificationManager');
 
 const TYPES_FOR_RETRIEVE = {
     Profile: [
@@ -51,7 +53,7 @@ const TYPES_FOR_RETRIEVE = {
 };
 
 exports.run = async function () {
-    let from = await selectFrom();
+    let from = await InputFactory.createRetrieveSpecialsSourceSelector();
     if (from) {
         vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
@@ -70,10 +72,10 @@ exports.run = async function () {
                     input.onAccept(async metadata => {
                         let orgNamespace = 'Yes';
                         if (from !== 'From Local') {
-                            orgNamespace = await selectOrgNamespace();
+                            orgNamespace = await InputFactory.createIncludeOrgNamespaceSelector();
                         }
                         if (orgNamespace) {
-                            let compress = await selectCompress();
+                            let compress = await InputFactory.createCompressSelector();
                             if (compress) {
                                 let dataToRetrieve = Metadata.Utils.getTypesForAuraHelperCommands(metadata);
                                 retrieveMetadata(dataToRetrieve, from, orgNamespace, compress);
@@ -83,7 +85,7 @@ exports.run = async function () {
                     input.show();
                     resolve();
                 } catch (error) {
-                    vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+                    NotificationManager.showCommandError(error);
                     resolve();
                 }
             });
@@ -102,11 +104,11 @@ function getLocalMetadata(types, cancelToken) {
             if (response.status === 0) {
                 resolve(response.result.data);
             } else {
-                vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + response.error.message);
+                NotificationManager.showError(response.error.message);
                 resolve();
             }
         } else {
-            vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+            NotificationManager.showCommandError(out.stdErr);
             resolve();
         }
     });
@@ -116,18 +118,18 @@ function getOrgMetadata(types, orgNamespace, cancelToken) {
     return new Promise(async function (resolve) {
         let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: true, types: types, orgNamespace: orgNamespace }, true, cancelToken);
         if (!out) {
-            vscode.window.showWarningMessage('Operation Cancelled by User');
+            NotificationManager.showInfo('Operation Cancelled by User');
             resolve();
         } else if (out.stdOut) {
             let response = JSON.parse(out.stdOut);
             if (response.status === 0) {
                 resolve(response.result.data);
             } else {
-                vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + response.error.message);
+                NotificationManager.showError(response.error.message);
                 resolve();
             }
         } else {
-            vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+            NotificationManager.showCommandError(out.stdErr);
             resolve();
         }
     });
@@ -153,45 +155,21 @@ function retrieveMetadata(objects, from, orgNamespace, compress) {
                     if (out.stdOut) {
                         let response = JSON.parse(out.stdOut);
                         if (response.status === 0) {
-                            vscode.window.showInformationMessage(response.result.message);
+                            NotificationManager.showInfo(response.result.message);
                         } else {
-                            vscode.window.showErrorMessage(response.error.message);
+                            NotificationManager.showError(response.error.message);
                         }
                     } else {
-                        vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+                        NotificationManager.showCommandError(out.stdErr);
                     }
                 } else {
-                    vscode.window.showWarningMessage('Operation Canceled by user');
+                    NotificationManager.showInfo('Operation Canceled by user');
                 }
                 resolve();
             } catch (error) {
-                vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+                NotificationManager.showCommandError(error);
                 resolve();
             }
         });
-    });
-}
-
-function selectOrgNamespace() {
-    return new Promise(async function (resolve) {
-        let options = ['Yes', 'No'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Include data only from Org Namespace' });
-        resolve(selectedOption);
-    });
-}
-
-function selectCompress() {
-    return new Promise(async function (resolve) {
-        let options = ['Yes', 'No'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Do you want to compress retrieved files?' });
-        resolve(selectedOption);
-    });
-}
-
-function selectFrom() {
-    return new Promise(async function (resolve) {
-        let options = ['From Local (Include Only Data from Local)', 'From Org (Include All Data from Org)', 'Mixed (Include Data from Local and Org)'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Select source for get types to download' });
-        resolve(selectedOption);
     });
 }

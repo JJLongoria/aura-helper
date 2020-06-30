@@ -5,7 +5,10 @@ const languages = require('../languages');
 const Metadata = require('../metadata');
 const GUIEngine = require('../guiEngine');
 const PermissionEditor = require('../inputs/permissionEditor');
+const InputFactory = require('../inputs/factory');
 const ProcessManager = require('../processes').ProcessManager;
+const NotificationManager = require('../output/notificationManager');
+const AppContext = require('../core/applicationContext');
 const XMLParser = languages.XMLParser;
 const FileReader = fileSystem.FileReader;
 const FileWriter = fileSystem.FileWriter;
@@ -41,20 +44,20 @@ exports.run = function (fileUri) {
                 try {
                     let types = await getLocalMetadata(undefined, cancelToken);
                     progress.report({ message: "Loading Auth Org Data" });
-                    if (Config.getConfig().graphicUserInterface.enableAdvanceGUI) {
+                    if (Config.getConfig().graphicUserInterface.enableAdvanceGUI && AppContext.isAdvanceGUIAvailable) {
                         openAdvanceGUI(profileName, isPermissionSet, filePath, types);
                     } else {
                         openStandardGUI(profileName, isPermissionSet, filePath, types);
                     }
                     resolve();
                 } catch (error) {
-                    vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+                    NotificationManager.showCommandError(error);
                     resolve();
                 }
             });
         });
     } catch (error) {
-        Window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 
@@ -106,59 +109,51 @@ function openAdvanceGUI(profileName, isPermissionSet, filePath, types) {
 function openStandardGUI(profileName, isPermissionSet, filePath, types) {
     let input = new PermissionEditor('Edit ' + profileName + ' ' + ((isPermissionSet) ? "Permission Set" : "Profile"), filePath, types, isPermissionSet);
     input.onValidationError(function (errorMessage) {
-        vscode.window.showErrorMessage("Validation Errors: \n" + errorMessage);
+        NotificationManager.showError("Validation Errors: \n" + errorMessage);
     });
     input.onReport(function (report) {
-        vscode.window.showInformationMessage(report);
+        NotificationManager.showInfo(report);
     });
     input.onError(function (message) {
-        vscode.window.showInformationMessage("Error: " + message);
+        NotificationManager.showError("Error: " + message);
     });
     input.onAccept(async function () {
-        let compress = await selectCompress();
+        let compress = await InputFactory.createCompressSelector();
         if (compress === 'Yes') {
             ProcessManager.auraHelperCompressFile(filePath, true).then(function (out) {
                 if (out.stdOut) {
                     let response = JSON.parse(out.stdOut);
                     if (response.status === 0)
-                        vscode.window.showInformationMessage(response.result.message);
+                        NotificationManager.showInfo(response.result.message);
                     else
-                        vscode.window.showErrorMessage(response.error.message);
+                        NotificationManager.showError(response.error.message);
                 } else {
-                    vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+                    NotificationManager.showCommandError(out.stdErr);
                 }
             }).catch(function (error) {
-                vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+                NotificationManager.showCommandError(error);
             });
         }
     });
     input.show();
 }
 
-function selectCompress() {
-    return new Promise(async function (resolve) {
-        let options = ['Yes', 'No'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Do you want to compress the file?' });
-        resolve(selectedOption);
-    });
-}
-
 function getLocalMetadata(types, cancelToken) {
     return new Promise(async function (resolve) {
         let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: false, types: types }, true, cancelToken);
         if (!out) {
-            vscode.window.showWarningMessage('Operation Cancelled by User');
+            NotificationManager.showInfo('Operation Cancelled by User');
             resolve();
         } else if (out.stdOut) {
             let response = JSON.parse(out.stdOut);
             if (response.status === 0) {
                 resolve(response.result.data);
             } else {
-                vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + response.error.message);
+                NotificationManager.showCommandError(response.error.message);
                 resolve();
             }
         } else {
-            vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+            NotificationManager.showCommandError(out.stdErr);
             resolve();
         }
     });

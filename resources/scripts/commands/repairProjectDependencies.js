@@ -2,7 +2,9 @@ const vscode = require('vscode');
 const Metadata = require('../metadata');
 const ProcessManager = require('../processes').ProcessManager;
 const MetadataSelectorInput = require('../inputs/metadataSelector');
+const InputFactory = require('../inputs/factory');
 const Output = require('../output');
+const NotificationManager = require('../output/notificationManager');
 const DiagnosticsMananger = Output.DiagnosticsManager;
 
 const SUPPORTED_TYPES = [
@@ -12,7 +14,7 @@ const SUPPORTED_TYPES = [
 ];
 
 exports.run = async function () {
-    let option = await selectOptions();
+    let option = await InputFactory.createRepairOptionSelector();
     if (option) {
         vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
@@ -34,7 +36,7 @@ exports.run = async function () {
                     input.show();
                     resolve();
                 } catch (error) {
-                    vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+                    NotificationManager.showCommandError(error);
                     resolve();
                 }
             });
@@ -42,27 +44,10 @@ exports.run = async function () {
     }
 }
 
-function selectOptions() {
-    return new Promise(async function (resolve) {
-        let options = ['Repair', 'Check Errors'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Select repair automatically or only check errors' });
-        resolve(selectedOption);
-    });
-}
-
-function selectCompress() {
-    return new Promise(async function (resolve) {
-        let options = ['Yes', 'No'];
-        let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Do you want to compress repaired files?' });
-        resolve(selectedOption);
-    });
-}
-
-
 async function repair(option, typesForRepair, callback) {
     let compress = 'No';
     if (option === 'Repair')
-        compress = await selectCompress();
+        compress = await InputFactory.createCompressSelector();
     DiagnosticsMananger.clearDiagnostic("xml");
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
@@ -78,7 +63,7 @@ async function repair(option, typesForRepair, callback) {
                 };
                 let out = await ProcessManager.auraHelperRepairDependencies(options, true);
                 if (!out) {
-                    vscode.window.showWarningMessage('Operation Cancelled by User');
+                    NotificationManager.showInfo('Operation Cancelled by User');
                     resolve();
                     if (callback)
                         callback.call(this);
@@ -86,26 +71,26 @@ async function repair(option, typesForRepair, callback) {
                     let response = JSON.parse(out.stdOut);
                     if (response.status === 0) {
                         if (option !== 'Repair')
-                            vscode.window.showInformationMessage("Checking errors finished. See the result in problems window");
+                            NotificationManager.showInfo("Checking errors finished. See the result in problems window");
                         else
-                            vscode.window.showInformationMessage(response.result.message);
+                            NotificationManager.showInfo(response.result.message);
                         resolve();
                         if (callback)
                             callback.call(this, response.result.data);
                     } else {
-                        vscode.window.showErrorMessage(response.error.message);
+                        NotificationManager.showError(response.error.message);
                         resolve();
                         if (callback)
                             callback.call(this);
                     }
                 } else {
-                    vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+                    NotificationManager.showCommandError(out.stdErr);
                     resolve();
                     if (callback)
                         callback.call(this);
                 }
             } catch (error) {
-                vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+                NotificationManager.showCommandError(error);
                 resolve();
                 if (callback)
                     callback.call(this);
@@ -116,20 +101,25 @@ async function repair(option, typesForRepair, callback) {
 
 function getLocalMetadata(types, cancelToken) {
     return new Promise(async function (resolve) {
-        let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: false, types: types }, true, cancelToken);
-        if (!out) {
-            vscode.window.showWarningMessage('Operation Cancelled by User');
-            resolve();
-        } else if (out.stdOut) {
-            let response = JSON.parse(out.stdOut);
-            if (response.status === 0) {
-                resolve(response.result.data);
+        try {
+            let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: false, types: types }, true, cancelToken);
+            if (!out) {
+                NotificationManager.showInfo('Operation Cancelled by User');
+                resolve();
+            } else if (out.stdOut) {
+                let response = JSON.parse(out.stdOut);
+                if (response.status === 0) {
+                    resolve(response.result.data);
+                } else {
+                    NotificationManager.showError(response.error.message);
+                    resolve();
+                }
             } else {
-                vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + response.error.message);
+                NotificationManager.showCommandError(out.stdErr);
                 resolve();
             }
-        } else {
-            vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+        } catch (error) {
+            NotificationManager.showCommandError(error);
             resolve();
         }
     });

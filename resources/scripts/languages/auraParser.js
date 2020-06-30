@@ -103,7 +103,7 @@ class AuraParser {
                 isOnValue = false;
                 endValueToken = token;
                 if (position && startValueToken && endValueToken) {
-                    if (startValueToken.relativeStartColumn <= position.character && position.character <= endValueToken.relativeStartColumn) {
+                    if (startValueToken.startColumn <= position.character && position.character <= endValueToken.endColumn) {
                         isOnAttributeValue = true;
                         attributeName = paramName;
                     }
@@ -118,7 +118,7 @@ class AuraParser {
                 endValueToken = undefined;
 
             } else if (isOnValue) {
-                paramValue += utils.getWhitespaces(token.relativeStartColumn - lastToken.relativeEndColumn) + token.content;
+                paramValue += utils.getWhitespaces(token.startColumn - lastToken.endColumn) + token.content;
             }
             index++;
         }

@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
+const NotificationManager = require('../output/notificationManager');
 const ApexParser = languages.ApexParser;
 const FileReader = fileSystem.FileReader;
 const FileChecker = fileSystem.FileChecker;
@@ -17,10 +18,10 @@ exports.run = function () {
         if (FileChecker.isApexClass(filePath)) {
             implementIntefaces(editor, ApexParser.getFileStructure(FileReader.readDocument(editor.document)));
         } else {
-            Window.showErrorMessage("The selected file isn't an Apex Class");
+            NotificationManager.showError("The selected file isn't an Apex Class");
         }
     } catch (error) {
-        Window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 
@@ -72,7 +73,7 @@ function implementIntefaces(editor, apexClass) {
             editor.insertSnippet(new SnippetString(content), new Position(lastClassToken.line, 0));
         }
     } else {
-        Window.showInformationMessage("This Class has no methods to implement");
+        NotificationManager.showInfo("This Class has no methods to implement");
     }
 }
 

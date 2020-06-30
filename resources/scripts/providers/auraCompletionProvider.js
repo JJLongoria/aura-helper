@@ -140,7 +140,7 @@ function provideAuraComponentCompletion(document, position) {
 
 function getLabelsCompletionItems(activationTokens, position) {
     let items = [];
-    if (activationTokens.length == 2) {
+    if (activationTokens.length == 1 || activationTokens.length == 2) {
         let labels = Utils.getCustomLabels();
         for (const label of labels) {
             let doc = 'Name: ' + label.fullName + '\n';

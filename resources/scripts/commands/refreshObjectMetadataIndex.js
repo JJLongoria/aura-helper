@@ -3,6 +3,7 @@ const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const Config = require('../core/config');
 const AppContext = require('../core/applicationContext');
+const NotificationManager = require('../output/notificationManager');
 const Metadata = require('../metadata');
 const MetadataFactory = Metadata.Factory;
 const window = vscode.window;
@@ -12,41 +13,41 @@ const FileWriter = fileSystem.FileWriter;
 
 exports.run = function () {
 	try {
-		window.showInformationMessage('Refresh metadata index can will take several minutes. Do you want to continue?', 'Cancel', 'Ok').then((selected) => onButtonClick(selected));
+		NotificationManager.showConfirmDialog('Refresh metadata index can will take several minutes. Do you want to continue?', function(){
+			refreshIndex();
+		});
 	} catch (error) {
-		window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+		NotificationManager.showCommandError(error);
 	}
 }
 
-async function onButtonClick(selected) {
-	if (selected === 'Ok') {
-		window.withProgress({
-			location: ProgressLocation.Notification,
-			title: "Loading available Sobjects for refresh",
-			cancellable: true
-		}, (progress, cancelToken) => {
-			return new Promise(async resolve => {
-				let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: false, types: ['CustomObject'] }, false, cancelToken);
-				if (!out) {
-					vscode.window.showWarningMessage('Operation Cancelled by User');
+async function refreshIndex() {
+	window.withProgress({
+		location: ProgressLocation.Notification,
+		title: "Loading available Sobjects for refresh",
+		cancellable: true
+	}, (progress, cancelToken) => {
+		return new Promise(async resolve => {
+			let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: false, types: ['CustomObject'] }, false, cancelToken);
+			if (!out) {
+				NotificationManager.showInfo('Operation Cancelled by User');
+				resolve();
+			} else if (out.stdOut) {
+				let response = JSON.parse(out.stdOut);
+				if (response.status === 0) {
+					let user = await Config.getAuthUsername();
+					processCustomObjectsOut(user, response.result.data);
 					resolve();
-				} else if (out.stdOut) {
-					let response = JSON.parse(out.stdOut);
-					if (response.status === 0) {
-						let user = await Config.getAuthUsername();
-						processCustomObjectsOut(user, response.result.data);
-						resolve();
-					} else {
-						vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + response.error.message);
-						resolve();
-					}
 				} else {
-					vscode.window.showErrorMessage('An error ocurred while processing command. Error: \n' + out.stdErr);
+					NotificationManager.showCommandError(response.error.message);
 					resolve();
 				}
-			});
+			} else {
+				NotificationManager.showCommandError(out.stdErr);
+				resolve();
+			}
 		});
-	}
+	});
 }
 
 function processCustomObjectsOut(user, objects) {
@@ -73,12 +74,12 @@ function refreshObjectMetadataIndex(object, user) {
 						FileWriter.createFileSync(Paths.getMetadataIndexPath() + "/" + object + ".json", JSON.stringify(metadataIndex, null, 2));
 					}
 					AppContext.sObjects = MetadataFactory.getSObjects(false);
-					window.showInformationMessage("Metadata Index for " + object + " refreshed Succesfully");
+					NotificationManager.showInfo("Metadata Index for " + object + " refreshed Succesfully");
 				} else {
-					vscode.window.showErrorMessage(out.stdErr);
+					NotificationManager.showError(out.stdErr);
 				}
 			} else {
-				vscode.window.showErrorMessage('Operation Cancelled by User');
+				NotificationManager.showInfo('Operation Cancelled by User');
 			}
 			resolve();
 		});
