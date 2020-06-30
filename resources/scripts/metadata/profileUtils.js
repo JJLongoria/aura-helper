@@ -1,9 +1,9 @@
 const Utils = require('./utils');
 const MetadataTypes = require('./metadataTypes');
 const XMLParser = require('../languages').XMLParser;
-const Config = require('../core/config');
 const AppContext = require('../core/applicationContext');
 const InputValidator = require('../inputs/inputValidator');
+const Config = require('../core/config');
 
 const XML_METADATA = {
     description: {
@@ -1407,7 +1407,7 @@ class ProfileUtils {
         let result = {};
         if (profile) {
             result = ProfileUtils.createProfile();
-            result = Utils.prepareXML(profile, result);
+            result = Utils.prepareXML(profile, result,);
             Object.keys(result).forEach(function (elementKey) {
                 if (Array.isArray(result[elementKey])) {
                     let elementData = XML_METADATA[elementKey];
@@ -1415,20 +1415,7 @@ class ProfileUtils {
                 }
             });
         } else {
-            let lastVersion = Config.getLastVersion();
-            let orgVersion = parseInt(Config.getOrgVersion());
-            Object.keys(XML_METADATA).forEach(function (xmlField) {
-                let elementData = XML_METADATA[xmlField];
-                if (Utils.availableOnVersion(elementData, lastVersion, orgVersion)) {
-                    if (elementData.datatype === 'array') {
-                        result[xmlField] = [];
-                    } else if (elementData.datatype === 'object') {
-                        result[xmlField] = {};
-                    } else {
-                        result[xmlField] = undefined;
-                    }
-                }
-            });
+            result = Utils.createXMLFile(XML_METADATA);
         }
         return result;
     }

@@ -9,12 +9,13 @@ class XMLEditor extends MultiStepInput {
         this._file = file;
         this._fileName = getFileName(this._file);
         this._xmlContent = readFile(this._file);
+        this._isAddingMode = false;
+        this._xmlMetadata = undefined;
     }
 
     save(){
         FileSystem.FileWriter.createFileSync(this._file, XMLParser.toXML(this._xmlContent));
     }
-
 }
 module.exports = XMLEditor;
 

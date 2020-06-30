@@ -2,6 +2,7 @@ const snippetUtils = require('../utils/snippetUtils');
 const languages = require('../languages');
 const fileSystem = require('../fileSystem');
 const vscode = require('vscode');
+const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
@@ -17,10 +18,10 @@ exports.run = function() {
         if (FileChecker.isAuraDoc(editor.document.uri.fsPath)) {
             addMethodBlock(editor);
         } else {
-            window.showErrorMessage('The selected file is not an Apex Class');
+            NotificationManager.showError('The selected file is not an Apex Class');
         }
     } catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 

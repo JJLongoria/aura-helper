@@ -263,6 +263,18 @@ class ProcessManager {
             });
         });
     }
+
+    static isAuraHelperInstalled(){
+        let command = ['/c', 'aura-helper'];
+        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        return new Promise(function (resolve) {
+            runProcess(process, false).then(function (stdOut) {
+                resolve(true);
+            }).catch(function (stdErr) {
+                resolve(false);
+            });
+        });
+    }
 }
 module.exports = ProcessManager;
 

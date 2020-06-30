@@ -87,6 +87,8 @@ module.exports = {
     KEYWORD: {
         FLOW_CONTROL: {
             IF: "keyword.flowcontrol.if",
+            SWITCH: "keyword.flowcontrol.switch",
+            SWITCH_CASE: "keyword.flowcontrol.switch.case",
             ELSE_IF: "keyword.flowcontrol.elseif",
             ELSE: "keyword.flowcontrol.else",
             BREAK: "keyword.flowcontrol.break",

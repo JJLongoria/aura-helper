@@ -1648,6 +1648,12 @@ class ApexParser {
     static async compileAllApexClasses(callback) {
         let classesFolder = Paths.getMetadataRootFolder() + '/' + 'classes'
         let files = FileReader.readDirSync(classesFolder, { onlyFiles: true, extensions: ['.cls'] });
+        let compiledFiles = FileReader.readDirSync(Paths.getCompiledClassesPath());
+        if (compiledFiles.length > 0) {
+            if (callback)
+                callback.call(this);
+            return;
+        }
         let nBatches = 1;
         let recordsPerBatch = 200;
         batches = [];

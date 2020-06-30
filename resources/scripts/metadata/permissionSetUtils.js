@@ -1,8 +1,6 @@
 const Utils = require('./utils');
 const MetadataTypes = require('./metadataTypes');
 const XMLParser = require('../languages').XMLParser;
-const Config = require('../core/config');
-const AppContext = require('../core/applicationContext');
 
 const XML_METADATA = {
     label: {
@@ -647,20 +645,7 @@ class PermissionSetUtils {
                 }
             });
         } else {
-            let lastVersion = Config.getLastVersion();
-            let orgVersion = parseInt(Config.getOrgVersion());
-            Object.keys(XML_METADATA).forEach(function (xmlField) {
-                let elementData = XML_METADATA[xmlField];
-                if (Utils.availableOnVersion(elementData, lastVersion, orgVersion)) {
-                    if (elementData.datatype === 'array') {
-                        result[xmlField] = [];
-                    } else if (elementData.datatype === 'object') {
-                        result[xmlField] = {};
-                    } else {
-                        result[xmlField] = undefined;
-                    }
-                }
-            });
+            result = Utils.createXMLFile(XML_METADATA);
         }
         return result;
     }

@@ -53,14 +53,30 @@ class MetadataSelector extends MultiStepInput {
             if (this._step === RESULT_STEP) {
                 if (this._onAcceptCallback) {
                     this._onAcceptCallback.call(this, this._metadata);
-                    this._currentInput.dispose();
                 }
+                this._currentInput.dispose();
             } else {
                 this._step = RESULT_STEP;
                 this.show();
             }
         } else if (buttonName === 'Delete') {
             this._onDeleteCallback.call(this, this._metadata);
+        } else if (buttonName === 'Select All') {
+            if (this._step === TYPE_STEP) {
+                changeCheckedState(this._metadata, undefined, true);
+                this.show();
+            } else if (this._step === OBJECT_STEP) {
+                changeCheckedState(this._metadata, this._selectedType, true);
+                this.show();
+            }
+        } else if (buttonName === 'Clear Selection') {
+            if (this._step === TYPE_STEP) {
+                changeCheckedState(this._metadata, undefined, false);
+                this.show();
+            } else if (this._step === OBJECT_STEP) {
+                changeCheckedState(this._metadata, this._selectedType, false);
+                this.show();
+            }
         }
     }
 
@@ -69,7 +85,7 @@ class MetadataSelector extends MultiStepInput {
         let metadata;
         switch (this._step) {
             case TYPE_STEP:
-                this._selectedType = items[0].label;
+                this._selectedType = items[0].label.split(')')[1].trim();
                 this._step = OBJECT_STEP;
                 this.show();
                 break;
@@ -94,8 +110,8 @@ class MetadataSelector extends MultiStepInput {
                     metadata[selectedType].checked = Metadata.Utils.isAllChecked(metadata[selectedType].childs);
                     this._metadata = metadata;
                 } else {
-                    if(items.length > 0)
-                        this._selectedObject = items[0].label;
+                    if (items.length > 0)
+                        this._selectedObject = items[0].label.split(')')[1].trim();
                     this._step = ITEM_STEP;
                     this.show();
                 }
@@ -122,6 +138,27 @@ class MetadataSelector extends MultiStepInput {
 }
 module.exports = MetadataSelector;
 
+function changeCheckedState(metadata, selectedType, state) {
+    if (selectedType) {
+        Object.keys(metadata[selectedType].childs).forEach(function (objectKey) {
+            metadata[selectedType].childs[objectKey].checked = state;
+            Object.keys(metadata[selectedType].childs[objectKey].childs).forEach(function (itemKey) {
+                metadata[selectedType].childs[objectKey].childs[itemKey].checked = state;
+            });
+        });
+    } else {
+        Object.keys(metadata).forEach(function (typeKey) {
+            metadata[typeKey].checked = state;
+            Object.keys(metadata[typeKey].childs).forEach(function (objectKey) {
+                metadata[typeKey].childs[objectKey].checked = state;
+                Object.keys(metadata[typeKey].childs[objectKey].childs).forEach(function (itemKey) {
+                    metadata[typeKey].childs[objectKey].childs[itemKey].checked = state;
+                });
+            });
+        });
+    }
+}
+
 function createMetadataTypeInput(title, types, allowDelete) {
     let input;
     if (!types || Object.keys(types).length == 0)
@@ -134,14 +171,40 @@ function createMetadataTypeInput(title, types, allowDelete) {
     let buttons = [];
     if (allowDelete)
         buttons.push(MultiStepInput.getDeleteButton());
-    buttons.push(MultiStepInput.getAcceptButton());
-    input.buttons = buttons;
     let items = [];
+    let allChecked = true;
     Object.keys(types).forEach(function (type) {
-        let nSelected = Metadata.Utils.countCheckedChilds(types[type]);
-        let item = MultiStepInput.getItem(type, undefined, undefined, types[type].checked);
+        let childsData = Metadata.Utils.getChildsData(types[type]);
+        let description = '';
+        if (childsData.selectedItems !== -1) {
+            description += 'Objects: ' + childsData.selectedItems + ' / ' + childsData.totalItems;
+        }
+        if (childsData.selectedSubItems !== -1) {
+            description += ' -- Items: ' + childsData.selectedSubItems + ' / ' + childsData.totalSubItems;
+        }
+        let icon;
+        if(childsData.totalSubItems > 0 && childsData.selectedItems === childsData.totalItems && childsData.selectedSubItems === childsData.totalSubItems){
+            icon = '$(verified)  ';
+        } else if(childsData.totalSubItems === 0 && childsData.selectedItems === childsData.totalItems){
+            icon = '$(verified)  ';
+        } else if(childsData.selectedItems > 0 || childsData.selectedSubItems > 0){
+            icon = '$(check)  ';
+            allChecked = false;
+        } else if(childsData.selectedItems === -1 && childsData.selectedSubItems === -1){
+            icon = '$(dash)  ';
+        } else {
+            icon = '$(dash)  ';
+            allChecked = false;
+        }
+        let label = icon + type;
+        let item = MultiStepInput.getItem(label, description, undefined, types[type].checked);
         items.push(item);
     });
+    buttons.push(MultiStepInput.getClearSelectionButton());
+    if (!allChecked)
+        buttons.push(MultiStepInput.getSelectAllButton());
+    buttons.push(MultiStepInput.getAcceptButton());
+    input.buttons = buttons;
     input.items = items;
     return input;
 }
@@ -151,7 +214,9 @@ function createMetadataObjectInput(selectedType, types, allowDelete) {
     input.title = selectedType + ' Metadata Type Elements';
     input.step = OBJECT_STEP;
     input.totalSteps = RESULT_STEP;
-    input.buttons = getButtons(allowDelete);
+    let buttons = [vscode.QuickInputButtons.Back];
+    if (allowDelete)
+        buttons.push(MultiStepInput.getDeleteButton());
     let items = [];
     let metadataType = types[selectedType];
     let selectedItems = [];
@@ -161,10 +226,30 @@ function createMetadataObjectInput(selectedType, types, allowDelete) {
         if (Metadata.Utils.haveChilds(metadataObject))
             canPickMany = false;
     });
+    let allChecked = true;
     Object.keys(metadataType.childs).forEach(function (objectKey) {
         let metadataObject = metadataType.childs[objectKey];
+        let description = '';
+        let label = objectKey;
+        if (!canPickMany) {
+            let childsData = Metadata.Utils.getChildsData(metadataObject);
+            if (childsData.selectedItems !== -1) {
+                description += 'Items: ' + childsData.selectedItems + ' / ' + childsData.totalItems;
+            }
+            let icon;
+            if(childsData.selectedItems === childsData.totalItems){
+                icon = '$(verified)  ';
+            } else if(childsData.selectedItems > 0){
+                allChecked = false;
+                icon = '$(check)  ';
+            } else {
+                allChecked = false;
+                icon = '$(dash)  ';
+            }
+            label = icon + objectKey;
+        }
         let checked = (canPickMany) ? metadataObject.checked : undefined;
-        let item = MultiStepInput.getItem(objectKey, selectedType, undefined, checked);
+        let item = MultiStepInput.getItem(label, description, undefined, checked);
         items.push(item);
         if (checked)
             selectedItems.push(item);
@@ -172,10 +257,18 @@ function createMetadataObjectInput(selectedType, types, allowDelete) {
     input.canSelectMany = canPickMany;
     if (input.canSelectMany)
         input.placeholder = 'Select Elements';
-    else
+    else {
+        buttons.push(MultiStepInput.getClearSelectionButton());
+        if(!allChecked){
+            buttons.push(MultiStepInput.getSelectAllButton());
+        }
         input.placeholder = 'Choose an Element';
+    }
+    buttons.push(MultiStepInput.getAcceptButton());
+    input.buttons = buttons;
     input.items = items;
-    input.selectedItems = selectedItems;
+    if (selectedItems.length > 0)
+        input.selectedItems = selectedItems;
     return input;
 }
 
@@ -185,7 +278,10 @@ function createMetadataItemInput(selectedType, selectedObject, types, allowDelet
     input.step = TYPE_STEP;
     input.totalSteps = RESULT_STEP;
     input.placeholder = 'Select Elements';
-    input.buttons = getButtons(allowDelete);
+    let buttons = [vscode.QuickInputButtons.Back];
+    if (allowDelete)
+        buttons.push(MultiStepInput.getDeleteButton());
+    buttons.push(MultiStepInput.getAcceptButton());
     let items = [];
     let selectedItems = [];
     let metadataObject = types[selectedType].childs[selectedObject];
@@ -198,7 +294,9 @@ function createMetadataItemInput(selectedType, selectedObject, types, allowDelet
     });
     input.canSelectMany = true;
     input.items = items;
-    input.selectedItems = selectedItems;
+    if (selectedItems.length > 0)
+        input.selectedItems = selectedItems;
+    input.buttons = buttons;
     return input;
 }
 
@@ -208,7 +306,10 @@ function createResultInput(types, allowDelete) {
     input.step = RESULT_STEP;
     input.totalSteps = RESULT_STEP;
     input.placeholder = 'Showing a summary of the selected elements';
-    input.buttons = getButtons(allowDelete);
+    let buttons = [vscode.QuickInputButtons.Back];
+    if (allowDelete)
+        buttons.push(MultiStepInput.getDeleteButton());
+    buttons.push(MultiStepInput.getAcceptButton());
     let items = [];
     Object.keys(types).forEach(function (typeKey) {
         let addedType = false;
@@ -241,22 +342,7 @@ function createResultInput(types, allowDelete) {
 
     });
     input.items = items;
+    input.buttons = buttons;
     return input;
-}
-
-function getButtons(allowDelete) {
-    if (allowDelete) {
-        return [
-            vscode.QuickInputButtons.Back,
-            MultiStepInput.getDeleteButton(),
-            MultiStepInput.getAcceptButton()
-        ];
-    } else {
-        return [
-            vscode.QuickInputButtons.Back,
-            MultiStepInput.getAcceptButton()
-        ];
-    }
-
 }
 

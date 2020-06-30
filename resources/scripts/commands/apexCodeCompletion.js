@@ -2,6 +2,7 @@ const languages = require('../languages');
 const snippetUtils = require('../utils/snippetUtils');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
+const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const Position = vscode.Position;
 const Range = vscode.Range;
@@ -20,9 +21,9 @@ exports.run = function (position, type, data) {
         if (FileChecker.isApexClass(editor.document.uri.fsPath))
             processApexCodeCompletion(position, type, editor, data);
         else
-            window.showErrorMessage('The selected file is not an Apex Class File');
+            NotificationManager.showError('The selected file is not an Apex Class File');
     } catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 
@@ -71,7 +72,7 @@ function processCommentCompletion(position, editor) {
     }
 }
 
-function processPicklistValue(position, editor, data) { 
+function processPicklistValue(position, editor, data) {
     let firstWord = data.activations[0];
     let activationInfo = data.activationInfo;
     let field = data.field;
@@ -84,7 +85,7 @@ function processPicklistValue(position, editor, data) {
     let content = '';
     if (lineData.isOnText) {
         content = pickVal.value;
-    } else { 
+    } else {
         content = '\'' + pickVal.value + '\'';
     }
     FileWriter.replaceEditorContent(editor, new Range(startPosition, endPosition), content);

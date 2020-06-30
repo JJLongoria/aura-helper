@@ -3,6 +3,522 @@ const fileSystem = require('../fileSystem');
 const FileReader = fileSystem.FileReader;
 const Paths = fileSystem.Paths;
 const MetadataType = require('./metadataTypes');
+const Config = require('../core/config');
+
+const availableLanguages = [
+    {
+        label: "Albanian",
+        value: "sq",
+    },
+    {
+        label: "Afrikaans",
+        value: "af",
+    },
+    {
+        label: "Arabic",
+        value: "ar",
+    },
+    {
+        label: "Arabic (Algeria)",
+        value: "ar_DZ",
+    },
+    {
+        label: "Arabic (Bahrain)",
+        value: "ar_BH",
+    },
+    {
+        label: "Arabic (Egypt)",
+        value: "ar_EG",
+    },
+    {
+        label: "Arabic (Jordan)",
+        value: "ar_JO",
+    },
+    {
+        label: "Arabic (Kuwait)",
+        value: "ar_KW",
+    },
+    {
+        label: "Arabic (Lebanon)",
+        value: "ar_LB",
+    },
+    {
+        label: "Arabic (Libya)",
+        value: "ar_LY",
+    },
+    {
+        label: "Arabic (Morocco)",
+        value: "ar_MA",
+    },
+    {
+        label: "Arabic (Oman)",
+        value: "ar_OM",
+    },
+    {
+        label: "Arabic (Saudi Arabia)",
+        value: "ar_SA",
+    },
+    {
+        label: "Arabic (Sudan)",
+        value: "ar_SD",
+    },
+    {
+        label: "Arabic (Syria)",
+        value: "ar_SY",
+    },
+    {
+        label: "Arabic (Tunisia)",
+        value: "ar_TN",
+    },
+    {
+        label: "Arabic (United Arab Emirates)",
+        value: "ar_AE",
+    },
+    {
+        label: "Arabic (Yemen)",
+        value: "ar_YE",
+    },
+    {
+        label: "Armenian",
+        value: "hy",
+    },
+    {
+        label: "Basque",
+        value: "eu",
+    },
+    {
+        label: "Bosnian",
+        value: "bs",
+    },
+    {
+        label: "Bengali",
+        value: "bn",
+    },
+    {
+        label: "Bulgarian",
+        value: "bg",
+    },
+    {
+        label: "Burmese",
+        value: "my",
+    },
+    {
+        label: "Catalan",
+        value: "ca",
+    },
+    {
+        label: "Chinese (Simplified)",
+        value: "zh_CN",
+    },
+    {
+        label: "Chinese (Traditional)",
+        value: "zh_TW",
+    },
+    {
+        label: "Chinese (Hong Kong)",
+        value: "zh_HK",
+    },
+    {
+        label: "Chinese (Singapore)",
+        value: "zh_SG",
+    },
+    {
+        label: "Croatian",
+        value: "hr",
+    },
+    {
+        label: "Czech",
+        value: "cs",
+    },
+    {
+        label: "Danish",
+        value: "da",
+    },
+    {
+        label: "Dutch",
+        value: "nl_NL",
+    },
+    {
+        label: "Dutch (Belgium)",
+        value: "nl_BE",
+    },
+    {
+        label: "English",
+        value: "en_US",
+    },
+    {
+        label: "English (UK)",
+        value: "en_GB",
+    },
+    {
+        label: "English (Australia)",
+        value: "en_AU",
+    },
+    {
+        label: "English (Canada)",
+        value: "en_CA",
+    },
+    {
+        label: "English (Hong Kong)",
+        value: "en_HK",
+    },
+    {
+        label: "English (India)",
+        value: "en_IN",
+    },
+    {
+        label: "English (Ireland)",
+        value: "en_IE",
+    },
+    {
+        label: "English (Malaysia)",
+        value: "en_MY",
+    },
+    {
+        label: "English (New Zealand)",
+        value: "en_NZ",
+    },
+    {
+        label: "English (Philippines)",
+        value: "en_PH",
+    },
+    {
+        label: "English (Singapore)",
+        value: "en_SG",
+    },
+    {
+        label: "English (South Africa)",
+        value: "en_ZA",
+    },
+    {
+        label: "Estonian",
+        value: "et",
+    },
+    {
+        label: "Farsi",
+        value: "fa",
+    },
+    {
+        label: "Finnish",
+        value: "fi",
+    },
+    {
+        label: "French",
+        value: "fr",
+    },
+    {
+        label: "French (Belgium)",
+        value: "fr_BE",
+    },
+    {
+        label: "French (Canada)",
+        value: "fr_CA",
+    },
+    {
+        label: "French (Luxembourg)",
+        value: "fr_LU",
+    },
+    {
+        label: "French (Switzerland)",
+        value: "fr_CH",
+    },
+    {
+        label: "Georgian",
+        value: "ka",
+    },
+    {
+        label: "German",
+        value: "de",
+    },
+    {
+        label: "German (Austria)",
+        value: "de_AT",
+    },
+    {
+        label: "German (Belgium)",
+        value: "de_BE",
+    },
+    {
+        label: "German (Luxembourg)",
+        value: "de_LU",
+    },
+    {
+        label: "German (Switzerland)",
+        value: "de_CH",
+    },
+    {
+        label: "Greek",
+        value: "el",
+    },
+    {
+        label: "Gujarati",
+        value: "gu",
+    },
+    {
+        label: "Hebrew",
+        value: "iw",
+    },
+    {
+        label: "Hungarian",
+        value: "hu",
+    },
+    {
+        label: "Hindi",
+        value: "hi",
+    },
+    {
+        label: "Icelandic",
+        value: "is",
+    },
+    {
+        label: "Indonesian",
+        value: "in",
+    },
+    {
+        label: "Irish",
+        value: "ga",
+    },
+    {
+        label: "Italian",
+        value: "it",
+    },
+    {
+        label: "Italian (Switzerland)",
+        value: "it_CH",
+    },
+    {
+        label: "Japanese",
+        value: "ja",
+    },
+    {
+        label: "Kannada",
+        value: "kn",
+    },
+    {
+        label: "Korean",
+        value: "ko",
+    },
+    {
+        label: "Latvian",
+        value: "lv",
+    },
+    {
+        label: "Lithuanian",
+        value: "lt",
+    },
+    {
+        label: "Luxembourgish",
+        value: "lb",
+    },
+    {
+        label: "Macedonian",
+        value: "mk",
+    },
+    {
+        label: "Malay",
+        value: "ms",
+    },
+    {
+        label: "Malayalam",
+        value: "ml",
+    },
+    {
+        label: "Maltese",
+        value: "mt",
+    },
+    {
+        label: "Marathi",
+        value: "mr",
+    },
+    {
+        label: "Montenegrin",
+        value: "sh_ME",
+    },
+    {
+        label: "Norwegian",
+        value: "no",
+    },
+    {
+        label: "Polish",
+        value: "pl",
+    },
+    {
+        label: "Portuguese (European)",
+        value: "pt_PT",
+    },
+    {
+        label: "Portuguese (Brazil)",
+        value: "pt_BR",
+    },
+    {
+        label: "Romanian",
+        value: "ro",
+    },
+    {
+        label: "Romanian (Moldova)",
+        value: "ro_MD",
+    },
+    {
+        label: "Romansh",
+        value: "rm",
+    },
+    {
+        label: "Russian",
+        value: "ru",
+    },
+    {
+        label: "Serbian (Cyrillic)",
+        value: "sr",
+    },
+    {
+        label: "Serbian (Latin)",
+        value: "sh",
+    },
+    {
+        label: "Slovak",
+        value: "sk",
+    },
+    {
+        label: "Slovenian",
+        value: "sl",
+    },
+    {
+        label: "Spanish",
+        value: "es",
+    },
+    {
+        label: "Spanish (Argentina)",
+        value: "es_AR",
+    },
+    {
+        label: "Spanish (Bolivia)",
+        value: "es_BO",
+    },
+    {
+        label: "Spanish (Chile)",
+        value: "es_CL",
+    },
+    {
+        label: "Spanish (Colombia)",
+        value: "es_CO",
+    },
+    {
+        label: "Spanish (Costa Rica)",
+        value: "es_CR",
+    },
+    {
+        label: "Spanish (Dominican Republic)",
+        value: "es_DO",
+    },
+    {
+        label: "Spanish (Ecuador)",
+        value: "es_EC",
+    },
+    {
+        label: "Spanish (El Salvador)",
+        value: "es_SV",
+    },
+    {
+        label: "Spanish (Guatemala)",
+        value: "es_GT",
+    },
+    {
+        label: "Spanish (Honduras)",
+        value: "es_HN",
+    },
+    {
+        label: "Spanish (Mexico)",
+        value: "es_MX ",
+    },
+    {
+        label: "Spanish (Nicaragua)",
+        value: "es_NI",
+    },
+    {
+        label: "Spanish (Panama)",
+        value: "es_PA",
+    },
+    {
+        label: "Spanish (Paraguay)",
+        value: "es_PY",
+    },
+    {
+        label: "Spanish (Peru)",
+        value: "es_PE",
+    },
+    {
+        label: "Spanish (Puerto Rico)",
+        value: "es_PR",
+    },
+    {
+        label: "Spanish (United States)",
+        value: "es_US",
+    },
+    {
+        label: "Spanish (Uruguay)",
+        value: "es_UY",
+    },
+    {
+        label: "Spanish (Venezuela)",
+        value: "es_VE",
+    },
+    {
+        label: "Swahili",
+        value: "sw",
+    },
+    {
+        label: "Swedish",
+        value: "sv ",
+    },
+    {
+        label: "Tagalog",
+        value: "tl",
+    },
+    {
+        label: "Tamil",
+        value: "ta",
+    },
+    {
+        label: "Te reo",
+        value: "mi",
+    },
+    {
+        label: "Telugu",
+        value: "te",
+    },
+    {
+        label: "Thai",
+        value: "th ",
+    },
+    {
+        label: "Turkish",
+        value: "tr",
+    },
+    {
+        label: "Ukrainian",
+        value: "uk",
+    },
+    {
+        label: "Urdu",
+        value: "ur",
+    },
+    {
+        label: "Vietnamese",
+        value: "vi",
+    },
+    {
+        label: "Welsh",
+        value: "cy",
+    },
+    {
+        label: "Xhosa",
+        value: "xh",
+    },
+    {
+        label: "Zulu",
+        value: "zu",
+    },
+];
 
 class Utils {
 
@@ -170,15 +686,35 @@ class Utils {
         }
     }
 
-    static countCheckedChilds(object) {
-        let count = 0;
+    static getChildsData(object) {
+        let nChilds = -1;
+        let totalItems = 0;
+        let nSubChild = -1;
+        let totalChilds = 0;
         if (object && Utils.haveChilds(object)) {
+            if (nChilds === -1)
+                nChilds = 0;
             Object.keys(object.childs).forEach(function (key) {
+                totalItems++;
                 if (object.childs[key].checked)
-                    count++;
+                    nChilds++;
+                if (Utils.haveChilds(object.childs[key])) {
+                    if (nSubChild === -1)
+                        nSubChild = 0;
+                    Object.keys(object.childs[key].childs).forEach(function (childKey) {
+                        totalChilds++;
+                        if (object.childs[key].childs[childKey].checked)
+                            nSubChild++;
+                    });
+                }
             });
         }
-        return count;
+        return {
+            selectedItems: nChilds,
+            selectedSubItems: nSubChild,
+            totalItems: totalItems,
+            totalSubItems: totalChilds
+        };
     }
 
     static combineMetadata(metadataTarget, metadataSource) {
@@ -379,7 +915,7 @@ class Utils {
             if (source[key] !== undefined) {
                 if (Array.isArray(target[key])) {
                     target[key] = Utils.forceArray(source[key]);
-                } else if(typeof target[key] === 'object' && typeof source[key] !== 'object'){
+                } else if (typeof target[key] === 'object' && typeof source[key] !== 'object') {
                     target[key] = {};
                 } else {
                     target[key] = source[key];
@@ -408,13 +944,13 @@ class Utils {
                         }
                         counter++;
                     }
-                    if(caseSensitive){
+                    if (caseSensitive) {
                         return nameA.localeCompare(nameB);
                     } else {
                         return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
                     }
                 } else {
-                    if(caseSensitive){
+                    if (caseSensitive) {
                         return a.localeCompare(b);
                     } else {
                         return a.toLowerCase().localeCompare(b.toLowerCase());
@@ -487,6 +1023,37 @@ class Utils {
         if (!maxVersion)
             maxVersion = orgVersion
         return orgVersion >= minVersion && orgVersion <= maxVersion;
+    }
+
+    static createXMLFile(xmlMetadata) {
+        let result = {};
+        let lastVersion = Config.getLastVersion();
+        let orgVersion = parseInt(Config.getOrgVersion());
+        Object.keys(xmlMetadata).forEach(function (xmlField) {
+            let elementData = xmlMetadata[xmlField];
+            if (Utils.availableOnVersion(elementData, lastVersion, orgVersion)) {
+                if (elementData.datatype === 'array') {
+                    result[xmlField] = [];
+                } else if (elementData.datatype === 'object') {
+                    result[xmlField] = {};
+                } else {
+                    result[xmlField] = undefined;
+                }
+            }
+        });
+        return result;
+    }
+
+    static getAvailableLanguages() {
+        return availableLanguages;
+    }
+
+    static getLanguageByLabel(label) {
+        for (let lang of availableLanguages) {
+            if (lang.label === label)
+                return lang;
+        }
+        return undefined;
     }
 }
 module.exports = Utils;

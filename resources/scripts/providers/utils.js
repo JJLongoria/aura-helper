@@ -59,7 +59,7 @@ class Utils {
         let startColumn;
         while (index < lineTokens.length) {
             token = lineTokens[index];
-            if (position.character > token.startColumn) {
+            if (position.character >= token.startColumn) {
                 tokenPos = index;
             }
             index++;

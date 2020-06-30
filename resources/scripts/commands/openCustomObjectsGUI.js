@@ -3,6 +3,8 @@ const GUIEngine = require('../guiEngine');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
 const metadata = require('../metadata');
+const NotificationManager = require('../output/notificationManager');
+const AppContext = require('../core/applicationContext');
 const Window = vscode.window;
 const Engine = GUIEngine.Engine;
 const Routing = GUIEngine.Routing;
@@ -44,15 +46,15 @@ exports.run = function (fileUri) {
             viewOptions.showActionBar = true;
             viewOptions.actions.push(Engine.createButtonAction('cancelBtn', '{!label.cancel}', ["w3-btn w3-border w3-border-red cancel"], "cancel()"));
             view = Engine.createView(Routing.CustomObjects, viewOptions);
-            view.render(objData);
+            view.render(objData, {});
             view.onReceiveMessage(function (message) {
                 if (message.command === 'cancel')
                     view.close();
             });
         } else {
-            Window.showErrorMessage('Objects folder not found in your local project. Retrieve them if you want to use this tool');
+            NotificationManager.showError('Objects folder not found in your local project. Retrieve them if you want to use this tool');
         }
     } catch (error) {
-        Window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }

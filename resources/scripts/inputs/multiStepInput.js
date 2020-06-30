@@ -48,6 +48,26 @@ class MultiStepOutput {
         };
     }
 
+    static getSelectAllButton() {
+        return {
+            tooltip: "Select All",
+            iconPath: {
+                light: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/light/select_all-black-18dp.svg')),
+                dark: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/dark/select_all-white-18dp.svg')),
+            }
+        };
+    }
+
+    static getClearSelectionButton() {
+        return {
+            tooltip: "Clear Selection",
+            iconPath: {
+                light: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/light/clear-black-18dp.svg')),
+                dark: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/dark/clear-white-18dp.svg')),
+            }
+        };
+    }
+
     static getBackButton() {
         return vscode.QuickInputButtons.Back;
     }
@@ -112,6 +132,24 @@ class MultiStepOutput {
         this._onReportCallback = callback;
     }
 
+    truncate(value){
+        let maxLength = 255;
+        let addToTruncate = ' [...]';
+        if(value && value.length > maxLength){
+            value = value.substring(0, maxLength - addToTruncate.length);
+            value += addToTruncate;
+        }
+        return value;
+    }
+
+    getSelectedElements(items) {
+        let selectedItems = [];
+        for (let item of items) {
+            selectedItems.push(item.label);
+        }
+        return selectedItems;
+    }
+
     show() {
         try {
             let input = this.onCreateInputRequest();
@@ -122,7 +160,7 @@ class MultiStepOutput {
                 input.ignoreFocusOut = true;
                 input.onDidAccept(item => {
                     if (!input.items) {
-                        if (input.value.trim().length === 0)
+                        if (input.value && input.value.trim().length === 0)
                             input.value = undefined;
                         this.onValueSet(input.value);
                     }

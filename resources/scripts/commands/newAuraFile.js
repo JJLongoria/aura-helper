@@ -3,6 +3,7 @@ const snippetUtils = require('../utils/snippetUtils');
 const languages = require('../languages');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
+const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
@@ -45,10 +46,10 @@ exports.run = function(uri) {
             );
         }
         else {
-            window.showErrorMessage('The selected file is not an Aura Component File or Folder');
+            NotificationManager.showError('The selected file is not an Aura Component File or Folder');
         }
     } catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 
@@ -62,7 +63,7 @@ function onFileCreated(fileCreated, error){
     if(fileCreated){
         window.showTextDocument(Paths.asUri(fileCreated));
     } else{
-        window.showErrorMessage('An error ocurred while creating file. Error: \n' + error);
+        NotificationManager.showError('An error ocurred while creating file. Error: \n' + error);
     }
 }
 
@@ -144,6 +145,6 @@ function createNewAuraDocumentation(fileForCreate, callback){
         FileWriter.createFile(fileForCreate, snippet, callback);
     }
     else {
-        window.showErrorMessage("Aura Documentation Template does not exists. Run Edit Aura Documentation command for create it");
+        NotificationManager.showError("Aura Documentation Template does not exists. Run Edit Aura Documentation command for create it");
     }
 }

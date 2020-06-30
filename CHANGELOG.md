@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 - **Optimized** for *single core* or *multi core* CPU's
 - Added **AuraHelper: Clear Problems Panel** command for *clear problems output panel* 
 - Added **new component** for *Edit XML Files without Advance GUI*. Use VSCode standard interface for *use less resources*.
+- Enhance XML treatments for **support all Salesforce API Versions** (Supported at the moment: Profiles, Permission Sets, Custom Labels).
+- Added support for format switch statemets on Apex
 
 ### Changed
 - Change **AuraHelper: Compress XML File** command for use *Aura Helper CLI*. Now its more faster and use less resources.
@@ -22,12 +24,14 @@ All notable changes to this project will be documented in this file.
 - Change **AuraHelper: Refresh Metadata Index for Object** for **"AuraHelper: Refresh SObject Definition** and modify command for use  Aura Helper CLI.
 - Change **AuraHelper: Package Generator** for use *Aura Helper CLI*. Now its more powerfull and use less resources. Also, the option for select metadata from git its more accurate for create packages from git differences.
 - Change **AuraHelper: Open Custom Labels on UI** for use *Aura Helper CLI*. Now its more powerfull and use less resources.
-- Change **AuraHelper: Compare Org With Local** for work with Advance GUI or Standard GUI
+- Change **AuraHelper: Compare Org With Local** for work with Advance GUI or Standard GUI.
 - Change **AuraHelper: Package Generator** for work with Advance GUI or Standard GUI
 - Enhance commands **AuraHelper: Retrieve Special Types** and **AuraHelper: Repair Project Dependencies** for give more control and granularity to the user for select elements
-- Change **AuraHelper: Open Permission Set on UI** and **AuraHelper: Open Profile on UI** for combine on one command **AuraHelper: Open Permission Editor**
-- Change **AuraHelper: Open Permission Editor** command for use Aura Helper CLI and optinally, the new Permission Editor Component with Standard VSCode for use less resources.
-- Enhance XML treatments for **support all Salesforce API Versions** (Supported at the moment: Profiles, Permission Sets).
+- Change **AuraHelper: Open Permission Set on UI** and **AuraHelper: Open Profile on UI** for combine on one command **AuraHelper: Permission Editor**
+- Change **AuraHelper: Permission Editor** command for use Aura Helper CLI, and optionally, the new Permission Editor Component with Standard VSCode GUI for use less resources.
+- Change **AuraHelper: Open Custom Labels on UI** command for **AuraHelper: Custom Labels Editor** and use Aura Helper CLI and optinally, the new Custom Labels Editor Component with Standard VSCode GUI for use less resources.
+- **Advance GUI are disabled** until improve it to use less resources and make it better, more flexible and accesible.
+
 
 ### Fixed
 - Fixed **Apex formatter** for correct format inner class fields.

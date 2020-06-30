@@ -38,7 +38,7 @@ function activate(context) {
 	let retrieveSpecialTypes = vscode.commands.registerCommand('aurahelper.metadata.retrieve.special', commands.retrieveSpecialTypes);
 	let packageGenerator = vscode.commands.registerCommand('aurahelper.metadata.package.generate', commands.packageGenerator);
 	let orgCompare = vscode.commands.registerCommand('aurahelper.metadata.org.compare', commands.orgCompare);
-	let openCustomLabelsGUI = vscode.commands.registerCommand('aurahelper.metadata.customlabels.open', commands.openCustomLabelsGUI);
+	let openCustomLabelsEditor = vscode.commands.registerCommand('aurahelper.metadata.customlabels.editor', commands.openCustomLabelsEditor);
 	//let openCustomObjectsGUI = vscode.commands.registerCommand('aurahelper.metadata.customobjects.open', commands.openCustomObjectsGUI);
 	let createProjectDocumentation = vscode.commands.registerCommand('aurahelper.documentation.project.create', commands.createProjectDocumentation);
 	let implementInterfaces = vscode.commands.registerCommand('aurahelper.completion.apex.implement.interface', commands.implementInterfaces);
@@ -84,7 +84,7 @@ function activate(context) {
 	context.subscriptions.push(retrieveSpecialTypes);
 	context.subscriptions.push(packageGenerator);
 	context.subscriptions.push(orgCompare);
-	context.subscriptions.push(openCustomLabelsGUI);
+	context.subscriptions.push(openCustomLabelsEditor);
 	//context.subscriptions.push(openCustomObjectsGUI);
 	context.subscriptions.push(createProjectDocumentation);
 	context.subscriptions.push(implementInterfaces);

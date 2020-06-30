@@ -3,6 +3,7 @@ const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
 const Metadata = require('../metadata');
+const ProcessManager = require('../processes/processManager');
 const Output = require('../output');
 const applicationContext = require('../core/applicationContext');
 const Config = require('../core/config');
@@ -72,6 +73,10 @@ async function init(context) {
         applicationContext.orgAvailableVersions = await Config.getOrgAvailableVersions(serverInstance);
         OutputChannel.output('Refreshing Apex Classes Definitions\n');
         NotificationManager.showStatusBar('$(sync~spin) Refreshing Apex Classes Definitions...');
+        let isAuraHelperInstalled = await ProcessManager.isAuraHelperInstalled();
+        if(!isAuraHelperInstalled){
+            NotificationManager.showWarning("Aura Helper CLI is not installed and some features are not availables. Please go to https://github.com/JJLongoria/aura-helper-CLI or https://www.npmjs.com/package/aura-helper-cli and follow the instructions to install");
+        }
         ApexParser.compileAllApexClasses(function () {
             OutputChannel.output('Refreshing Apex Classes Defintions Finished\n');
             applicationContext.userClasses = getClassesFromCompiledClasses();

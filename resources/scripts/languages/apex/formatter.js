@@ -515,6 +515,8 @@ function isKeyword(token) {
         case TokenType.DATABASE.TRIGGER_EXEC:
         case TokenType.DATABASE.DML:
         case TokenType.KEYWORD.FLOW_CONTROL.BREAK:
+        case TokenType.KEYWORD.FLOW_CONTROL.SWITCH:
+        case TokenType.KEYWORD.FLOW_CONTROL.SWITCH_CASE:
         case TokenType.KEYWORD.FLOW_CONTROL.CONTINUE:
         case TokenType.KEYWORD.FLOW_CONTROL.RETURN:
         case TokenType.KEYWORD.FLOW_CONTROL.THROW:
