@@ -1,6 +1,54 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [1.9.4 - 2020-03-18]
+## [2.0.0 - 2020-07-06]
+### Added
+- Added **Aura Helper CLI** into Aura Helper for support complex operation and make *more powerfull* and *optimize* Aura Helper
+- Added **new setting** for update the SObject Index when VSCode start and Aura Helper extension is active.
+- Added **new setting** for select if use *Advance GUI* or *Standard GUI* (Standard GUI by defaut because use less resources and VSCode standard components)
+- Added a **new system for select metadata** types and create packages without Advance GUI.
+- **Optimized** for *single core* or *multi core* CPU's
+- Added **AuraHelper: Clear Problems Panel** command for *clear problems output panel* 
+- Added **new component** for *Edit XML Files without Advance GUI*. Use VSCode standard interface for *use less resources*.
+- Enhance XML treatments for **support all Salesforce API Versions** (Supported at the moment: Profiles, Permission Sets, Custom Labels).
+- Added support for format switch statemets on Apex
+
+### Changed
+- Change **AuraHelper: Compress XML File** command for use *Aura Helper CLI*. Now its more faster and use less resources.
+- Change **AuraHelper: Compress ALL XML Files** command for use *Aura Helper CLI*. Now its more faster and use less resources.
+- Change Command **"AuraHelper: Match Org with Local** for **AuraHelper: Compare Org With Local**
+- Change **AuraHelper: Compare Org With Local** command for use *Aura Helper CLI* for optimize resources and make it more faster
+- Change Commands **AuraHelper: Retrieve Full Profile(s)**, **AuraHelper: Retrieve Full Permission Set(s)**, **AuraHelper: Retrieve Full Record Type(s)** for **AuraHelper: Retrieve Special Types**
+- Chage **AuraHelper: Retrieve Special Types** for use *Aura Helper CLI* for make it more faster and optimize resources. Now support more types for retrieve (*Record Types, Profiles, Permission Sets, Translations and only Custom Object XML File*). Also support retrieve All types at time, select multiple types or a single type selection.
+- Change **AuraHelper: Repair Project Dependencies** for use *Aura Helper CLI*. Now its more powerfull and can repair errors automatically or only check errors and show it to the user on Problems panel for repair manually.
+- Change **AuraHelper: Refresh Metadata Index** for **AuraHelper: Refresh All SObjects Definitions** and modify command for use  Aura Helper CLI.
+- Change **AuraHelper: Refresh Metadata Index for Object** for **"AuraHelper: Refresh SObject Definition** and modify command for use  Aura Helper CLI.
+- Change **AuraHelper: Package Generator** for use *Aura Helper CLI*. Now its more powerfull and use less resources. Also, the option for select metadata from git its more accurate for create packages from git differences.
+- Change **AuraHelper: Open Custom Labels on UI** for use *Aura Helper CLI*. Now its more powerfull and use less resources.
+- Change **AuraHelper: Compare Org With Local** for work with Advance GUI or Standard GUI.
+- Change **AuraHelper: Package Generator** for work with Advance GUI or Standard GUI
+- Enhance commands **AuraHelper: Retrieve Special Types** and **AuraHelper: Repair Project Dependencies** for give more control and granularity to the user for select elements
+- Change **AuraHelper: Open Permission Set on UI** and **AuraHelper: Open Profile on UI** for combine on one command **AuraHelper: Permission Editor**
+- Change **AuraHelper: Permission Editor** command for use Aura Helper CLI, and optionally, the new Permission Editor Component with Standard VSCode GUI for use less resources.
+- Change **AuraHelper: Open Custom Labels on UI** command for **AuraHelper: Custom Labels Editor** and use Aura Helper CLI and optinally, the new Custom Labels Editor Component with Standard VSCode GUI for use less resources.
+- **Advance GUI are disabled** until improve it to use less resources and make it better, more flexible and accesible.
+- **Increase Apex Formatter performance**. Now is 100% faster.
+
+
+### Fixed
+- Fixed **Apex formatter** for correct format inner class fields.
+- Fixed **Apex formatter** for correct format of instanceof operator.
+- Fixed **Apex formatter** for correct format of string on mutiple lines.
+- Fixed **Apex formatter** for correct format comments on enums.
+- Fixed **Apex formatter** for correct format SObejcts on first line of a body (after curly bracket).
+- Fixed **Apex formatter** for correct format unary operators (+X, -X, ++X, --X, X--, X++)
+- Fixed some bugs with **autocompletion tools** on apex and queries.
+
+## [1.9.4 - 2020-04-15]
+### Fixed
+- Fixed problems with repair project dependencies
+- Fixed problems with retrieve full profiles and permission sets
+
+## [1.9.4 - 2020-03-12]
 ### Added
 - Add repair dependencies command
 - Add Retrieve Full RecordTypes command (work like Retrieve full profiles)

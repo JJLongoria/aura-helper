@@ -1,14 +1,9 @@
-const logger = require('../main/logger');
 const fileSystem = require('../fileSystem');
 const vscode = require('vscode');
-const metadata = require('../metadata');
-const window = vscode.window;
-const Range = vscode.Range;
-const FileChecker = fileSystem.FileChecker;
-const FileReader = fileSystem.FileReader;
-const FileWriter = fileSystem.FileWriter;
+const Processes = require('../processes');
+const NotificationManager = require('../output/notificationManager');
 const Paths = fileSystem.Paths;
-const MetadataCompressor = metadata.MetadataCompressor;
+const ProcessManager = Processes.ProcessManager;
 
 exports.run = function (fileUri) {
     try {
@@ -16,35 +11,40 @@ exports.run = function (fileUri) {
         if (fileUri) {
             filePath = fileUri.fsPath;
         } else {
-            let editor = window.activeTextEditor;
+            let editor = vscode.window.activeTextEditor;
             if (editor)
                 filePath = editor.document.uri.fsPath;
         }
-        if (filePath && filePath.endsWith('.xml') && filePath.indexOf('force-app') != -1)
+        if (filePath)
             compressFile(filePath);
         else
-            window.showErrorMessage("The selected file isn't a XML Salesforce project file");
+            NotificationManager.showError('Any file selected or opened on editor for compress');
     } catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 
 function compressFile(filePath) {
-    let editor = window.activeTextEditor;
+    let editor = vscode.window.activeTextEditor;
     if (editor && editor.document.uri.fsPath === filePath) {
-        compress(filePath, editor);
+        compress(filePath);
     } else {
-        window.showTextDocument(Paths.asUri(filePath)).then((editor) => compress(filePath, editor));
+        vscode.window.showTextDocument(Paths.asUri(filePath)).then(() => compress(filePath));
     }
 }
 
-function compress(filePath, editor) {
-    let content = MetadataCompressor.compress(filePath);
-    if (content) {
-        let replaceRange = new Range(0, 0, editor.document.lineCount - 1, editor.document.lineAt(editor.document.lineCount - 1).range.end.character);
-        FileWriter.replaceEditorContent(editor, replaceRange, content);
-        editor.revealRange(editor.document.lineAt(0).range);
-    } else {
-        window.showInformationMessage("The selected file not support XML compression");
-    }
+function compress(filePath) {
+    ProcessManager.auraHelperCompressFile(filePath, true).then(function (out) {
+        if (out.stdOut) {
+            let response = JSON.parse(out.stdOut);
+            if (response.status === 0)
+                NotificationManager.showInfo(response.result.message);
+            else
+                NotificationManager.showError(response.error.message);
+        } else {
+            NotificationManager.showCommandError(out.stdErr);
+        }
+    }).catch(function (error) {
+        NotificationManager.showCommandError(error);
+    });
 }

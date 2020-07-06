@@ -1,9 +1,9 @@
 const fileSystem = require('../fileSystem');
 const language = require('../languages');
-const logger = require('../main/logger');
-const config = require('../main/config');
+const logger = require('../utils/logger');
+const config = require('../core/config');
 const vscode = require('vscode');
-const applicationContext = require('../main/applicationContext');
+const applicationContext = require('../core/applicationContext');
 const CompletionItemKind = vscode.CompletionItemKind;
 const CompletionItem = vscode.CompletionItem;
 const SnippetString = vscode.SnippetString;
@@ -12,13 +12,14 @@ const Paths = fileSystem.Paths;
 const FileChecker = fileSystem.FileChecker;
 const Tokenizer = language.Tokenizer;
 const TokenType = language.TokenType;
-const AuraParser = language.AuraParser;
+const XMLParser = language.XMLParser;
 
 class Utils {
 
     static getFieldData(sObject, fieldName) {
         if (sObject) {
-            for (const field of sObject.fields) {
+            for (const fieldKey of Object.keys(sObject.fields)) {
+                let field = sObject.fields[fieldKey];
                 if (field.name == fieldName)
                     return field;
             }
@@ -58,7 +59,7 @@ class Utils {
         let startColumn;
         while (index < lineTokens.length) {
             token = lineTokens[index];
-            if (position.character > token.relativeStartColumn) {
+            if (position.character >= token.startColumn) {
                 tokenPos = index;
             }
             index++;
@@ -99,7 +100,7 @@ class Utils {
                     activation = token.content + activation;
                     startColumn = token.startColumn;
                 }
-            } else if (!isOnParams && token && (token.tokenType === TokenType.COMMA || token.tokenType === TokenType.QUOTTE || token.tokenType === TokenType.SQUOTTE) && activation.length > 0) {
+            } else if (!isOnParams && token && (token.tokenType === TokenType.COMMA || token.tokenType === TokenType.QUOTTE || token.tokenType === TokenType.SQUOTTE)) {
                 endLoop = true;
             } else if (token.tokenType == TokenType.LBRACKET) {
                 endLoop = true;
@@ -135,7 +136,8 @@ class Utils {
         let items = [];
         let picklistItems = [];
         if (sObject) {
-            for (const field of sObject.fields) {
+            for (const fieldKey of Object.keys(sObject.fields)) {
+                let field = sObject.fields[fieldKey];
                 let item = new CompletionItem(field.name, CompletionItemKind.Field);
                 let itemRel;
                 item.detail = sObject.name + ' Field';
@@ -159,27 +161,25 @@ class Utils {
                         };
                     }
                 }
-                if (field.picklistValues.length > 0) {
+                if (field.picklistValues.length > 0 && activations[1] === field.name) {
                     picklistItems = [];
                     item.documentation += "Picklist Values: \n";
-                    if (activations[0] === sObject.name) {
-                        for (const pickVal of field.picklistValues) {
-                            let picklistItem = new CompletionItem(field.name + '.' + pickVal.value, CompletionItemKind.Value);
-                            picklistItem.detail = field.name + ' Picklist Value';
-                            picklistItem.documentation = "Value: " + pickVal.value + '\n';
-                            picklistItem.documentation = "Label: " + pickVal.label + '\n';
-                            picklistItem.documentation = "Active: " + pickVal.active + '\n';
-                            picklistItem.documentation = "Is Default: " + pickVal.defaultValue;
-                            picklistItem.insertText = field.name + '.' + pickVal.value;
-                            picklistItem.preselect = true;
-                            picklistItem.command = {
-                                title: 'sObject',
-                                command: command,
-                                arguments: [position, 'sObjectPickVal', { field: field, value: pickVal, activations: activations, activationInfo: activationInfo }]
-                            };
-                            picklistItems.push(picklistItem);
-                            item.documentation += pickVal.value + " (" + pickVal.label + ") \n";
-                        }
+                    for (const pickVal of field.picklistValues) {
+                        let picklistItem = new CompletionItem(pickVal.value, CompletionItemKind.Value);
+                        picklistItem.detail = field.name + ' Picklist Value';
+                        picklistItem.documentation = "Value: " + pickVal.value + '\n';
+                        picklistItem.documentation = "Label: " + pickVal.label + '\n';
+                        picklistItem.documentation = "Active: " + pickVal.active + '\n';
+                        picklistItem.documentation = "Is Default: " + pickVal.defaultValue;
+                        picklistItem.insertText = pickVal.value;
+                        picklistItem.preselect = true;
+                        picklistItem.command = {
+                            title: 'sObject',
+                            command: command,
+                            arguments: [position, 'sObjectPickVal', { field: field, value: pickVal, activations: activations, activationInfo: activationInfo }]
+                        };
+                        picklistItems.push(picklistItem);
+                        item.documentation += pickVal.value + " (" + pickVal.label + ") \n";
                     }
                 }
                 item.insertText = field.name;
@@ -352,7 +352,9 @@ class Utils {
     static getApexCompletionItems(position, activationTokens, activationInfo, fileStructure, classes, systemMetadata, allNamespaces, sObjects) {
         let items = [];
         let sObject = sObjects[activationTokens[0].toLowerCase()];
-        let lastClass = fileStructure || classes[activationTokens[0].toLowerCase()] || systemMetadata[activationTokens[0].toLowerCase()];
+        let lastClass = classes[activationTokens[0].toLowerCase()] || systemMetadata[activationTokens[0].toLowerCase()] || fileStructure;
+        if (lastClass && activationTokens[0].toLowerCase() === fileStructure.name.toLowerCase())
+            lastClass = fileStructure;
         let parentStruct;
         let index = 0;
         for (let actToken of activationTokens) {
@@ -366,7 +368,7 @@ class Utils {
                     let fielData = Utils.getFieldData(sObject, actToken);
                     if (fielData) {
                         if (fielData.referenceTo.length === 1) {
-                            sObject = sObjects[fielData.referenceTo[0]];
+                            sObject = sObjects[fielData.referenceTo[0].toLowerCase()];
                         } else {
                             datatype = fielData.type;
                             if (datatype.indexOf('<') !== -1)
@@ -548,10 +550,10 @@ class Utils {
             }
             index++;
         }
-        if (lastClass && config.getConfig().autoCompletion.activeApexSuggestion) {
+        if (sObject && config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
+            items = items.concat(Utils.getSobjectsFieldsCompletionItems(position, sObject, 'aurahelper.completion.apex', activationTokens, activationInfo));
+        } else if (lastClass && config.getConfig().autoCompletion.activeApexSuggestion) {
             items = Utils.getApexClassCompletionItems(position, lastClass);
-        } else if (sObject && config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
-            items = Utils.getSobjectsFieldsCompletionItems(position, sObject, 'aurahelper.completion.apex', activationTokens, activationInfo);
         }
         return items;
     }
@@ -582,7 +584,7 @@ class Utils {
                     let method = Utils.getMethod(apexClass, apexClass.posData.methodSignature);
                     for (const param of method.params) {
                         let description = '';
-                        if (method.comment && method.comment.params) { 
+                        if (method.comment && method.comment.params) {
                             let commentParam = method.comment.params[param.name];
                             if (commentParam) {
                                 if (commentParam.description && commentParam.description.length > 0)
@@ -835,7 +837,7 @@ class Utils {
         let labels = [];
         let labelsFile = Paths.getMetadataRootFolder() + '/labels/CustomLabels.labels-meta.xml';
         if (FileChecker.isExists(labelsFile)) {
-            let root = AuraParser.parseXML(FileReader.readFileSync(labelsFile));
+            let root = XMLParser.parseXML(FileReader.readFileSync(labelsFile));
             if (root.CustomLabels) {
                 if (Array.isArray(root.CustomLabels.labels))
                     labels = root.CustomLabels.labels;

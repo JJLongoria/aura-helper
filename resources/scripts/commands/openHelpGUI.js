@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const GUIEngine = require('../guiEngine');
+const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const FileReader = fileSystem.FileReader;
 const Paths = fileSystem.Paths;
@@ -25,21 +26,18 @@ exports.run = function () {
                 viewOptions.showActionBar = false;
                 viewOptions.lang = lang;
                 view = Engine.createView(Routing.Help, viewOptions);
-                view.render(function (resolve) {
-                    let auraSnippets = JSON.parse(FileReader.readFileSync(Paths.getAuraSnippetsPath()));
-                    let jsSnippets = JSON.parse(FileReader.readFileSync(Paths.getJSSnippetsPath()));
-                    let sldsSnippets = JSON.parse(FileReader.readFileSync(Paths.getSLDSSnippetsPath()));
-
-                    resolve(undefined, {
-                        auraSnippets: auraSnippets,
-                        jsSnippets: jsSnippets,
-                        sldsSnippets: sldsSnippets
-                    });
+                let auraSnippets = JSON.parse(FileReader.readFileSync(Paths.getAuraSnippetsPath()));
+                let jsSnippets = JSON.parse(FileReader.readFileSync(Paths.getJSSnippetsPath()));
+                let sldsSnippets = JSON.parse(FileReader.readFileSync(Paths.getSLDSSnippetsPath()));
+                view.render(undefined, {
+                    auraSnippets: auraSnippets,
+                    jsSnippets: jsSnippets,
+                    sldsSnippets: sldsSnippets
                 });
             }
         });
 
     } catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }

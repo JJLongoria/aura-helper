@@ -1,4 +1,4 @@
-const logger = require('../main/logger');
+const logger = require('../utils/logger');
 const Tokenizer = require('./tokenizer').Tokenizer;
 const TokenType = require('./tokenTypes');
 const utils = require('./utils').Utils;
@@ -67,6 +67,7 @@ class JavaScriptParser {
                         }
                         func.auraSignature = func.name + ' : function(' + paramNames.join(', ') + ')';
                         func.signature = func.name + '(' + paramNames.join(', ') + ')';
+                        func.snippet = getFunctionSnippet(func.name, paramNames);
                         fileStructure.functions.push(func);
                     }
                 }
@@ -135,7 +136,7 @@ class JavaScriptParser {
         return fileStructure.functions;
     }
 
-    static analizeForPutSnippets(content, activation){
+    static analizeForPutSnippets(content, activation) {
         let tokens = Tokenizer.tokenize(content);
         let index = 0;
         let startColumn = 0
@@ -143,7 +144,7 @@ class JavaScriptParser {
         while (index < tokens.length) {
             let token = tokens[index];
             let lastToken = utils.getLastToken(tokens, index);
-            if(token.tokenType === TokenType.DOT && lastToken && lastToken.tokenType === TokenType.IDENTIFIER && lastToken.content === activation){
+            if (token.tokenType === TokenType.DOT && lastToken && lastToken.tokenType === TokenType.IDENTIFIER && lastToken.content === activation) {
                 startColumn = lastToken.startColumn;
                 endColum = token.endColum;
             }
@@ -155,7 +156,7 @@ class JavaScriptParser {
         };
     }
 
-    static analizeForPutApexParams(content){
+    static analizeForPutApexParams(content) {
         let tokens = Tokenizer.tokenize(content);
         let index = 0;
         let startColumn = 0;
@@ -183,3 +184,16 @@ class JavaScriptParser {
     }
 }
 exports.JavaScriptParser = JavaScriptParser;
+
+function getFunctionSnippet(funcName, params) {
+    let snippet = funcName + "(";
+    let counter = 0;
+    for (let param of params) {
+        if (counter === 0)
+            snippet = "${" + (counter + 1) + ":" + param + "}";
+        else
+            snippet = ", ${" + (counter + 1) + ":" + param + "}";
+    }
+    snippet += ")$0";
+    return snippet;
+}

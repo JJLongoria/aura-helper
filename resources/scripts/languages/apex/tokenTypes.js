@@ -87,6 +87,8 @@ module.exports = {
     KEYWORD: {
         FLOW_CONTROL: {
             IF: "keyword.flowcontrol.if",
+            SWITCH: "keyword.flowcontrol.switch",
+            SWITCH_CASE: "keyword.flowcontrol.switch.case",
             ELSE_IF: "keyword.flowcontrol.elseif",
             ELSE: "keyword.flowcontrol.else",
             BREAK: "keyword.flowcontrol.break",
@@ -211,7 +213,9 @@ module.exports = {
             MULTIPLY_ASSIGN: "operator.arithmetic.multiply.assign",
             DIVIDE_ASSIGN: "operator.arithmetic.divide.assign",
             ADD: "operator.arithmetic.add",
+            ADD_UNARY: "operator.arithmetic.add.unary",
             SUBSTRACT: "operator.arithmetic.substract",
+            SUBSTRACT_UNARY: "operator.arithmetic.substract.unary",
             MULTIPLY: "operator.arithmetic.multiply",
             DIVIDE: "operator.arithmetic.divide",
             PARENTHESIS_OPEN: "operator.parenthesis.open",

@@ -1,11 +1,20 @@
+const Logger = require('../utils/logger');
 const Process = require('./process');
 const fileSystem = require('../fileSystem');
 const Paths = fileSystem.Paths;
 const ProcessEvent = require('./processEvent');
+const Config = require('../core/config');
+const Output = require('../output');
+const OutputChannel = Output.OutputChannel;
 
 const BUFFER_SIZE = 1024 * 500000;
-
+let process;
 class ProcessManager {
+
+    static killProcess() {
+        if (process)
+            process.kill();
+    }
 
     static listAuthOurgs(callback) {
         let process = new Process('cmd', ['/c', 'sfdx', 'force:auth:list', '--json'], { maxBuffer: BUFFER_SIZE });
@@ -13,36 +22,8 @@ class ProcessManager {
         return process;
     }
 
-    // Method for replace listMetadata()
-    static listMetadataTypes(user, cancelToken) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:describemetadata', '--json', '-u', user], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        return new Promise(function (resolve) {
-            runProcess(process).then(function (stdOut) {
-                resolve({ stdOut: stdOut, stdErr: undefined });
-            }).catch(function (stdErr) {
-                resolve({ stdOut: undefined, stdErr: stdErr });
-            });
-        });
-    }
-
-    static listMetadata(user, cancelToken, callback) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:describemetadata', '--json', '-u', user], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        process.run(callback);
-        return process;
-    }
-
-    static describeSchemaMetadata(user, metadataType, cancelToken, callback) {
+    static describeSchemaMetadata(user, metadataType, cancelToken) {
         let process = new Process('cmd', ['/c', 'sfdx', 'force:schema:sobject:describe', '--json', '-u', user, '-s', metadataType], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        process.run(callback);
-        return process;
-    }
-
-    static mdApiDescribeMetadata(user, metadata, folderName, cancelToken) {
-        let process;
-        if (folderName)
-            process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:listmetadata', '--json', '-u', user, '-m', metadata, '--folder', folderName], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        else
-            process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:listmetadata', '--json', '-u', user, '-m', metadata], { maxBuffer: BUFFER_SIZE }, cancelToken);
         return new Promise(function (resolve) {
             runProcess(process).then(function (stdOut) {
                 resolve({ stdOut: stdOut, stdErr: undefined });
@@ -52,38 +33,15 @@ class ProcessManager {
         });
     }
 
-    static describeMetadata(user, metadata, folderName, cancelToken, callback) {
-        let process;
-        if (folderName)
-            process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:listmetadata', '--json', '-u', user, '-m', metadata, '--folder', folderName], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        else
-            process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:listmetadata', '--json', '-u', user, '-m', metadata], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        process.run(callback);
-        return process;
-    }
-
-    static retrieve(user, packageFolder, packageFile, cancelToken, callback) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:retrieve', '--json', '-u', user, '-s', '-r', '' + packageFolder + '', '-k', '' + packageFile + ''], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        process.run(callback);
-        return process;
-    }
-
-    static retrieveSFDX(user, packageFile, projectFolder, cancelToken) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:source:retrieve', '--json', '-u', user, '-x', '' + packageFile + ''], { maxBuffer: BUFFER_SIZE, cwd: projectFolder }, cancelToken);
-        return new Promise(function (resolve) {
-            runProcess(process).then(function (stdOut) {
-                resolve({ stdOut: stdOut, stdErr: undefined });
-            }).catch(function (stdErr) {
-                resolve({ stdOut: undefined, stdErr: stdErr });
-            });
-        });
-    }
-
-
-    static destructiveChanges(user, destructiveFolder, cancelToken, callback) {
+    static destructiveChanges(user, destructiveFolder, cancelToken) {
         let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:deploy', '--json', '-u', user, '-d', '' + destructiveFolder + '', '-w', '-1'], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        process.run(callback);
-        return process;
+        return new Promise(function (resolve) {
+            runProcess(process).then(function (stdOut) {
+                resolve({ stdOut: stdOut, stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
     }
 
     static deployReport(user, jobId, cancelToken, callback) {
@@ -98,56 +56,30 @@ class ProcessManager {
         return process;
     }
 
-    static query(user, query, cancelToken, callback) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:data:soql:query', '--json', '-u', user, '-q', query], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        process.run(callback);
-        return process;
-    }
-
-    static queryToolingAPI(user, query, cancelToken, callback) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:data:soql:query', '--json', '-u', user, '-q', query, '-t'], { maxBuffer: BUFFER_SIZE }, cancelToken);
-        process.run(callback);
-        return process;
-    }
-
-    static gitLog(callback) {
+    static gitLog() {
         let process = new Process('cmd', ['/c', 'git', 'log', '--pretty=medium'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
-        process.run(callback);
-        return process;
+        return new Promise(function (resolve) {
+            runProcess(process).then(function (stdOut) {
+                resolve({ stdOut: stdOut, stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
     }
 
-    static gitGetBranches(callback) {
+    static gitGetBranches() {
         let process = new Process('cmd', ['/c', 'git', 'branch', '-a'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
-        process.run(callback);
-        return process;
+        return new Promise(function (resolve) {
+            runProcess(process).then(function (stdOut) {
+                resolve({ stdOut: stdOut, stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
     }
 
-    static gitDiffSource(source, callback) {
-        let process = new Process('cmd', ['/c', 'git', 'diff', source], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
-        process.run(callback);
-        return process;
-    }
-
-    static gitDiff(source, target, callback) {
-        let process = new Process('cmd', ['/c', 'git', 'diff', source, target], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
-        process.run(callback);
-        return process;
-    }
-
-    static gitFetch(callback) {
+    static gitFetch() {
         let process = new Process('cmd', ['/c', 'git', 'fetch'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
-        process.run(callback);
-        return process;
-    }
-
-    static convertToSFDX(packageFolder, packageFile, targetFolder, callback) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:convert', '-r', '' + packageFolder + '', '--manifest', '' + packageFile + '', '-d', '' + targetFolder + ''], { maxBuffer: BUFFER_SIZE });
-        process.run(callback);
-        return process;
-    }
-
-    static createSFDXProject(projectName, projectFolder, cancelToken) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:project:create', '-n', projectName, '-d', '' + projectFolder + '', '--manifest', '--template', 'empty'], { maxBuffer: BUFFER_SIZE }, cancelToken);
         return new Promise(function (resolve) {
             runProcess(process).then(function (stdOut) {
                 resolve({ stdOut: stdOut, stdErr: undefined });
@@ -157,25 +89,209 @@ class ProcessManager {
         });
     }
 
-    static setDefaultOrg(orgAlias, cwd, cancelToken) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:config:set', '--json', 'defaultusername=' + orgAlias], { maxBuffer: BUFFER_SIZE, cwd: cwd }, cancelToken);
+    static auraHelperCompressFolder(folder, output) {
+        process = new Process('cmd', ['/c', 'aura-helper', 'metadata:local:compress', '-d', '' + folder + '', '-p', 'plaintext'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
         return new Promise(function (resolve) {
-            runProcess(process).then(function (stdOut) {
-                resolve({ stdOut: stdOut, stdErr: undefined });
+            runProcess(process, output).then(function (stdOut) {
+                resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
             }).catch(function (stdErr) {
                 resolve({ stdOut: undefined, stdErr: stdErr });
             });
         });
     }
 
+    static auraHelperCompressFile(file, output) {
+        process = new Process('cmd', ['/c', 'aura-helper', 'metadata:local:compress', '-f', '' + file + '', '-p', 'plaintext'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        return new Promise(function (resolve) {
+            runProcess(process, output).then(function (stdOut) {
+                resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
+    static auraHelperOrgCompare(output, cancelToken) {
+        process = new Process('cmd', ['/c', 'aura-helper', 'metadata:org:compare', '-p', 'plaintext'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() }, cancelToken);
+        return new Promise(function (resolve) {
+            runProcess(process, output).then(function (stdOut) {
+                resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
+    static auraHelperDescribeMetadata(options, output, cancelToken) {
+        let command;
+        if (options.fromOrg)
+            command = ['/c', 'aura-helper', 'metadata:org:describe', '-p', 'plaintext'];
+        else
+            command = ['/c', 'aura-helper', 'metadata:local:describe', '-p', 'plaintext'];
+        if (options.types) {
+            command.push('-t');
+            command.push(options.types.join(','));
+        } else {
+            command.push('-a');
+        }
+        if (options.orgNamespace)
+            command.push('-o');
+        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() }, cancelToken);
+        return new Promise(function (resolve) {
+            runProcess(process, output).then(function (stdOut) {
+                resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
+    static auraHelperRetriveAllSpecials(options, output, cancelToken) {
+        let command;
+        if (options.fromOrg)
+            command = ['/c', 'aura-helper', 'metadata:org:retrieve:special', '-p', 'plaintext'];
+        else
+            command = ['/c', 'aura-helper', 'metadata:local:retrieve:special', '-p', 'plaintext'];
+        if (options.orgNamespace)
+            command.push('-o');
+        if (options.compress)
+            command.push('-c');
+        if (options.includeOrg)
+            command.push('-i');
+        if (options.types) {
+            command.push('-t');
+            command.push(options.types.join(','));
+        } else
+            command.push('-a');
+        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() }, cancelToken);
+        return new Promise(function (resolve) {
+            runProcess(process, output).then(function (stdOut) {
+                resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
+    static auraHelperRepairDependencies(options, output) {
+        let command = ['/c', 'aura-helper', 'metadata:local:repair', '-p', 'plaintext'];
+        if (options.onlyCheck)
+            command.push('-o');
+        if (options.compress)
+            command.push('-c');
+        if (options.types) {
+            command.push('-t');
+            command.push(options.types.join(','));
+        } else
+            command.push('-a');
+        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        return new Promise(function (resolve) {
+            runProcess(process, output).then(function (stdOut) {
+                resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
+    static auraHelperLoadPermissions(options, output) {
+        let command = ['/c', 'aura-helper', 'metadata:org:permissions', '-p', 'plaintext'];
+        if (options.version) {
+            command.push('-v');
+            command.push(options.version);
+        }
+        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        return new Promise(function (resolve) {
+            runProcess(process, output).then(function (stdOut) {
+                resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
+    static auraHelperPackageGenerator(options, output) {
+        let command = ['/c', 'aura-helper', 'metadata:local:package:create', '-p', 'plaintext'];
+        if (options.version) {
+            command.push('-v');
+            command.push(options.version);
+        }
+        if (options.outputPath) {
+            command.push('-o');
+            command.push(options.outputPath);
+        }
+        if (options.createType) {
+            command.push('-c');
+            command.push(options.createType);
+        }
+        if (options.createFrom) {
+            command.push('-f');
+            command.push(options.createFrom);
+        }
+        if (options.deleteOrder) {
+            command.push('-d');
+            command.push(options.deleteOrder);
+        }
+        if (options.source) {
+            command.push('-s');
+            command.push(options.source);
+        }
+        if (options.target) {
+            command.push('-t');
+            command.push(options.target);
+        }
+        if (options.useIgnore) {
+            command.push('-u');
+            command.push(options.useIgnore);
+        }
+        if (options.ignoreFile) {
+            command.push('-i');
+            command.push(options.ignoreFile);
+        }
+        if (options.raw) {
+            command.push('-r');
+        }
+        if (options.explicit) {
+            command.push('-e');
+        }
+        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        return new Promise(function (resolve) {
+            runProcess(process, output).then(function (stdOut) {
+                resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
+    static isAuraHelperInstalled(){
+        let command = ['/c', 'aura-helper'];
+        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        return new Promise(function (resolve) {
+            runProcess(process, false).then(function (stdOut) {
+                resolve(true);
+            }).catch(function (stdErr) {
+                resolve(false);
+            });
+        });
+    }
 }
 module.exports = ProcessManager;
 
-function runProcess(process) {
+function getResponse(out) {
+    if (out) {
+        return out.substring(out.indexOf('{'));
+    }
+    return out;
+}
+
+function runProcess(process, output) {
     let stdOut = [];
     let stdErr = [];
     return new Promise(function (resolve, rejected) {
         process.run(function (event, data) {
+            if (output && data && data.length > 0)
+                OutputChannel.output(data.toString());
             switch (event) {
                 case ProcessEvent.STD_OUT:
                     stdOut = stdOut.concat(data);

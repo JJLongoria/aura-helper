@@ -1,6 +1,7 @@
 const snippetUtils = require("../utils/snippetUtils");
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
+const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
@@ -16,7 +17,7 @@ exports.run = function() {
         }
     }
     catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 
@@ -24,5 +25,5 @@ function onFileCreated(fileCreated, error) {
     if (fileCreated)
         window.showTextDocument(Paths.asUri(fileCreated));
     else
-        window.showErrorMessage("An error ocurred while creating template. Error: \n" + error);
+        NotificationManager.showError("An error ocurred while creating template. Error: \n" + error);
 }

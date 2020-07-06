@@ -1,9 +1,9 @@
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
-const config = require('../main/config');
+const config = require('../core/config');
 const languages = require('../languages');
 const Utils = require('./utils').Utils;
-const applicationContext = require('../main/applicationContext');
+const applicationContext = require('../core/applicationContext');
 const FileChecker = fileSystem.FileChecker;
 const BundleAnalizer = languages.BundleAnalizer;
 const CompletionItemKind = vscode.CompletionItemKind;
@@ -35,7 +35,7 @@ function provideJSCompletion(document, position) {
     let snippets;
     let queryData = langUtils.getQueryData(document, position);
     let classes = applicationContext.userClasses;
-    let allNamespaces = applicationContext.allNamespaces;
+    let allNamespaces = applicationContext.namespacesMetadata;
     let systemMetadata = allNamespaces['system'];
     let sObjects = applicationContext.sObjects;
     let componentStructure = BundleAnalizer.getComponentStructure(document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp'));
@@ -52,6 +52,8 @@ function provideJSCompletion(document, position) {
     } else if (similarJSSnippetsNs.length > 0 && FileChecker.isJavaScript(document.uri.fsPath)) {
         // Code for completions when user types a similar words of snippets activations (au (aura.) ...)
         items = getSimilarCompletionItems(position, similarJSSnippetsNs);
+    } else if (activationTokens.length > 0 && activationTokens[0].toLowerCase() === 'label') {
+        items = getLabelsCompletionItems(activationTokens, position);
     } else if (activationTokens[0] === 'v' || activationTokens[0] === 'c' || activationTokens[0] === 'helper') {
         // Code for completions when user types v. c. or helper.
         if (activationTokens[0] === 'v') {
@@ -75,15 +77,13 @@ function provideJSCompletion(document, position) {
                 return [];
             items = getHelperFunctions(componentStructure, position);
         }
-    } else if (activationTokens.length > 0 && activationTokens[0].toLowerCase() === 'label') {
-        items = getLabelsCompletionItems(activationTokens, position);
     } else if (activationTokens.length > 1) {
         // Code for completions when position is on empty line or withot components
         items = Utils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, classes, systemMetadata, allNamespaces, sObjects);
 
     } else if (activationTokens.length > 0) {
         // Code for completions when position is on empty line or withot components
-        items = Utils.getAllAvailableCompletionItems(position, classes, systemMetadata, allNamespaces, sObjects);
+        items = Utils.getAllAvailableCompletionItems(position, undefined,classes, systemMetadata, allNamespaces, sObjects);
 
     }
     return items;
@@ -124,7 +124,7 @@ function getComponentAttributeMembersCompletionItems(attribute, activationTokens
 
 function getLabelsCompletionItems(activationTokens, position) {
     let items = [];
-    if (activationTokens.length == 2) {
+    if (activationTokens.length == 1 || activationTokens.length == 2) {
         let labels = Utils.getCustomLabels();
         for (const label of labels) {
             let doc = 'Name: ' + label.fullName + '\n';
@@ -213,7 +213,7 @@ function getHelperFunctions(componentStructure, position) {
         }
         item.preselect = true;
         item.documentation = func.auraSignature;
-        item.insertText = func.signature;
+        item.insertText = func.snippet;
         item.command = {
             title: 'Aura Helper Function',
             command: 'aurahelper.completion.aura',

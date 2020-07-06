@@ -1,49 +1,9 @@
-const logger = require('../main/logger');
+const logger = require('../utils/logger');
 const Tokenizer = require('./tokenizer').Tokenizer;
 const TokenType = require('./tokenTypes');
 const utils = require('./utils').Utils;
-const parser = require('fast-xml-parser');
-var he = require('he');
 
 class AuraParser {
-
-    static getParserXMLToJSONOptions() {
-        return {
-            attributeNamePrefix: "",
-            attrNodeName: "@attrs", //default is 'false'
-            textNodeName: "#text",
-            ignoreAttributes: false,
-            ignoreNameSpace: false,
-            allowBooleanAttributes: false,
-            parseNodeValue: true,
-            parseAttributeValue: false,
-            trimValues: true,
-            cdataTagName: "__cdata", //default is 'false'
-            cdataPositionChar: "\\c",
-            localeRange: "", //To support non english character in tag/attribute values.
-            parseTrueNumberOnly: false,
-            arrayMode: false, //"strict"
-            attrValueProcessor: (val, attrName) => he.decode(val, { isAttributeValue: true }),//default is a=>a
-            tagValueProcessor: (val, tagName) => he.decode(val), //default is a=>a
-            stopNodes: ["parse-me-as-string"]
-        };
-    }
-
-    static getParserJSONToXMLOptions() {
-        return {
-            attributeNamePrefix: "",
-            attrNodeName: "attrs", //default is false
-            textNodeName: "content",
-            ignoreAttributes: false,
-            cdataTagName: "__cdata", //default is false
-            cdataPositionChar: "\\c",
-            format: false,
-            indentBy: "\t",
-            supressEmptyNode: false,
-            tagValueProcessor: a => he.encode(a, { useNamedReferences: true }),// default is a=>a
-            attrValueProcessor: a => he.encode(a, { useNamedReferences: true })// default is a=>a
-        };
-    }
 
     static parse(content) {
         let tokens = Tokenizer.tokenize(content);
@@ -83,11 +43,11 @@ class AuraParser {
                         }
                     }
                     if (fileStruc.abstract)
-                        fileStructure.abstract = fileStruc.abstract;
+                        fileStructure.abstract = fileStruc.abstract.trim();
                     if (fileStruc.extends)
-                        fileStructure.extends = fileStruc.extends;
+                        fileStructure.extends = fileStruc.extends.trim();
                     if (fileStruc.controller)
-                        fileStructure.controller = fileStruc.controller;
+                        fileStructure.controller = fileStruc.controller.trim();
                 }
                 else if (token.tokenType === TokenType.COLON && lastToken && lastToken.tokenType === TokenType.IDENTIFIER && lastToken.content === 'aura' && nextToken && nextToken.tokenType === TokenType.IDENTIFIER && nextToken.content === 'attribute') {
                     // Is on Attribute
@@ -112,23 +72,6 @@ class AuraParser {
             index++;
         }
         return fileStructure;
-    }
-
-    static parseXML(content, parseComments) {
-        if (content && content.length > 0) {
-            if (parseComments) {
-                content = content.split('<!--').join('«!--');
-                content = content.split('-->').join('--»');
-            }
-            return parser.parse(content, AuraParser.getParserXMLToJSONOptions());
-        }
-        return {};
-        
-    }
-
-    static toXML(jsonObj) {
-        let xmlParser = new parser.j2xParser(AuraParser.getParserJSONToXMLOptions());
-        return xmlParser.parse(jsonObj);
     }
 
     static getTagData(tokens, index, position) {
@@ -160,7 +103,7 @@ class AuraParser {
                 isOnValue = false;
                 endValueToken = token;
                 if (position && startValueToken && endValueToken) {
-                    if (startValueToken.startColumn <= position.character && position.character <= endValueToken.startColumn) {
+                    if (startValueToken.startColumn <= position.character && position.character <= endValueToken.endColumn) {
                         isOnAttributeValue = true;
                         attributeName = paramName;
                     }
@@ -168,7 +111,7 @@ class AuraParser {
                 if ((!paramValue || paramValue.length === 0) && paramName === attributeName)
                     isParamEmpty = true;
                 if (paramName)
-                    tagData[paramName] = paramValue;
+                    tagData[paramName.trim()] = paramValue.trim();
                 paramName = undefined;
                 paramValue = '';
                 startValueToken = undefined;
@@ -182,7 +125,7 @@ class AuraParser {
         data.tagData = tagData;
         data.index = index;
         data.isOnAttributeValue = isOnAttributeValue;
-        data.attributeName = attributeName;
+        data.attributeName = (attributeName) ? attributeName.trim() : attributeName;
         data.isParamEmpty = isParamEmpty;
         return data;
     }

@@ -1,6 +1,6 @@
 const vscode = require('vscode');
 const path = require("path");
-const logger = require("../main/logger");
+const logger = require("../utils/logger");
 const fileSystem = require('../fileSystem');
 const languages = require('../languages');
 const FileReader = fileSystem.FileReader;
@@ -8,6 +8,7 @@ const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
 const langUtils = languages.Utils;
 const ApexParser = languages.ApexParser;
+const XMLParser = languages.XMLParser;
 const AuraParser = languages.AuraParser;
 const JavaScriptParser = languages.JavaScriptParser;
 
@@ -1011,7 +1012,7 @@ class FileStructureTreeProvider {
                 }
                 return nodes;
             } else if (FileChecker.isProfile(editor.document.uri.fsPath) || FileChecker.isPermissionSet(editor.document.uri.fsPath)) {
-                let root = AuraParser.parseXML(FileReader.readDocument(editor.document));
+                let root = XMLParser.parseXML(FileReader.readDocument(editor.document));
                 let nodes = [];
                 let profileRaw = (root.Profile) ? root.Profile : root.PermissionSet;
                 if (profileRaw)

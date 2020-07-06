@@ -1,4 +1,4 @@
-const logger = require('../main/logger');
+const logger = require('./logger');
 const fileSystem = require('../fileSystem');
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
@@ -26,7 +26,7 @@ function getApexComment(data, commentTemplate) {
         let varIndex = 0;
         let params = [];
         for (let variable of data.methodData.params) {
-            let paramBody = commentTemplate.methodComment.paramBody.replace(`{!param.name}`, `\${${snippetNum}:{!param.name}}`).replace(`{!param.description}`, `\${${snippetNum}:{!param.name} description}`);
+            let paramBody = commentTemplate.methodComment.paramBody.replace(`{!param.name}`, `\${${snippetNum}:{!param.name}}`).replace(`{!param.description}`, `\${${snippetNum}:!param.name description}`);
             paramBody = paramBody.replace('{!param.name}', variable.name).replace('{!param.type}', variable.type);
             if (varIndex != 0)
                 paramBody = startParamsCharacters + paramBody;
