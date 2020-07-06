@@ -1,6 +1,6 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [2.0.0 - 2020-XX-XX]
+## [2.0.0 - 2020-07-06]
 ### Added
 - Added **Aura Helper CLI** into Aura Helper for support complex operation and make *more powerfull* and *optimize* Aura Helper
 - Added **new setting** for update the SObject Index when VSCode start and Aura Helper extension is active.
@@ -31,6 +31,7 @@ All notable changes to this project will be documented in this file.
 - Change **AuraHelper: Permission Editor** command for use Aura Helper CLI, and optionally, the new Permission Editor Component with Standard VSCode GUI for use less resources.
 - Change **AuraHelper: Open Custom Labels on UI** command for **AuraHelper: Custom Labels Editor** and use Aura Helper CLI and optinally, the new Custom Labels Editor Component with Standard VSCode GUI for use less resources.
 - **Advance GUI are disabled** until improve it to use less resources and make it better, more flexible and accesible.
+- **Increase Apex Formatter performance**. Now is 100% faster.
 
 
 ### Fixed
@@ -39,6 +40,7 @@ All notable changes to this project will be documented in this file.
 - Fixed **Apex formatter** for correct format of string on mutiple lines.
 - Fixed **Apex formatter** for correct format comments on enums.
 - Fixed **Apex formatter** for correct format SObejcts on first line of a body (after curly bracket).
+- Fixed **Apex formatter** for correct format unary operators (+X, -X, ++X, --X, X--, X++)
 - Fixed some bugs with **autocompletion tools** on apex and queries.
 
 ## [1.9.4 - 2020-04-15]
