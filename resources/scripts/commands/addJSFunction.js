@@ -1,6 +1,6 @@
-const logger = require('../main/logger');
 const snippetUtils = require('../utils/snippetUtils');
-const inputValidator = require('../inputs/inputValidator');
+const InputValidator = require('../inputs/inputValidator');
+const NotificationManager = require('../output/notificationManager');
 const fileSystem = require('../fileSystem');
 const vscode = require('vscode');
 const window = vscode.window;
@@ -15,18 +15,18 @@ exports.run = function() {
         if (FileChecker.isJavaScript(editor.document.uri.fsPath)) {
             addJSFunction(editor);
         } else {
-            window.showErrorMessage('The selected file is not a JavaScript File');
+            NotificationManager.showError('The selected file is not a JavaScript File');
         }
     }
     catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 
 function addJSFunction(editor){
     window.showInputBox({
         placeHolder: "Set the function params number",
-        validateInput: inputValidator.integerValidation
+        validateInput: InputValidator.isInteger
     }).then((numParams) => processInput(numParams, editor));
 }
 

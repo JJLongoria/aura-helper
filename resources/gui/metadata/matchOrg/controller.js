@@ -18,7 +18,7 @@ window.addEventListener('message', event => {
     let eventData = event.data;
     switch (eventData.command) {
         case 'open':
-            metadata = eventData.model.metadataOnOrg;
+            metadata = eventData.model;
             document.getElementById('metadataContainer').style.display = 'block';
             drawMetadataTypes(true);
             // @ts-ignore
@@ -28,6 +28,8 @@ window.addEventListener('message', event => {
             selectFromPackage(eventData.package);
             break;
         case 'metadataDeleted':
+            metadata = eventData.data.metadata;
+            drawMetadataTypes(true);
             // @ts-ignore
             showPageMessage('success', '{!label.metadata_deleted_succesfully}');
             break;
@@ -47,7 +49,6 @@ window.addEventListener('message', event => {
 });
 
 function drawMetadataTypes(deleteChilds) {
-    console.log("Draw Metadata Types");
     let content = [];
     if (metadata) {
         content.push('<ul class="metadataList">');
@@ -78,7 +79,6 @@ function drawMetadataTypes(deleteChilds) {
 }
 
 function drawMetadataObjects(typeName, objects, deleteChilds) {
-    console.log("Draw Metadata Objects");
     let content = [];
     if (objects) {
         content.push('<ul class="metadataList">');
@@ -105,7 +105,6 @@ function drawMetadataObjects(typeName, objects, deleteChilds) {
 }
 
 function drawMetadataItems(typeName, objectName, items) {
-    console.log("Draw Metadata Items");
     let content = [];
     if (items) {
         content.push('<ul class="metadataList">');
@@ -129,7 +128,6 @@ function drawMetadataItems(typeName, objectName, items) {
 }
 
 function clickOnMetadataType(typeName) {
-    console.log('Click on Metadata Type: ' + typeName);
     nClicksOnObject = 0;
     lastObjectClicked = undefined;
     if (lastTypeClicked === typeName)
@@ -140,7 +138,6 @@ function clickOnMetadataType(typeName) {
     if (metadata) {
         let metadataType = metadata[typeName];
         if (metadataType) {
-            console.log('metadataType: ' + metadataType.name);
             if (Object.keys(metadataType.childs).length > 0) {
                 if (nClicksOnMetadata > 0) {
                     metadataType.checked = !metadataType.checked;
@@ -171,7 +168,6 @@ function clickOnMetadataType(typeName) {
 }
 
 function clickOnMetadataObject(typeName, objName) {
-    console.log('Click on Metadata Object: ' + typeName + '.' + objName);
     nClicksOnMetadata = 0;
     lastTypeClicked = undefined;
     if (lastObjectClicked === objName)
@@ -181,10 +177,8 @@ function clickOnMetadataObject(typeName, objName) {
     selectedMetadataObject = objName;
     if (metadata) {
         let metadataType = metadata[typeName];
-        console.log('metadataType: ' + metadataType.name);
         if (metadataType) {
             let metadataObject = metadataType.childs[objName];
-            console.log('metadataObject: ' + metadataObject.name);
             if (metadataObject) {
                 if (Object.keys(metadataObject.childs).length > 0) {
                     if (nClicksOnObject > 0) {
@@ -452,7 +446,6 @@ function selectAll() {
     let component = document.getElementById('selectAll');
     let selectAll = (component.innerHTML === 'All') ? true : false;
     let linkText = (component.innerHTML === 'All') ? 'None' : 'All';
-    console.log(component.innerHTML);
     if (metadata) {
         if (selectAll) {
             checkAll(metadata);

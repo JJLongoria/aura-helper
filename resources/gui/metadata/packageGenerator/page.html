@@ -56,13 +56,14 @@
     <!-- METADATA CONTAINER END -->
     <!-- PACKAGE OPTIONS START -->
     <div class="w3-container">
-        <div class="w3-row-padding" style="width: 900px; margin-left: auto; margin-right: auto; margin-top: 40px;">
+        <div class="w3-row-padding" style="width: 1200px; margin-left: auto; margin-right: auto; margin-top: 40px;">
             <table class="w3-table table">
                 <tr>
                     <th class="w3-center">{!label.download_metadata_options}</th>
                     <th class="w3-center">{!label.select_metadata_for}</th>
                     <th class="w3-center">{!label.create_package_options}</th>
                     <th class="w3-center">{!label.save_package_options}</th>
+                    <th class="w3-center">{!label.delete_order}</th>
                 </tr>
                 <tr>
                     <td>
@@ -81,6 +82,10 @@
                         <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="saveOnProjectPackage" type="radio" name="saveOn" value="saveOnProject" checked onclick="onChangeSaveOn('saveOnProjectPackage')"><span class="checkbox-custom circular"></span></label></div>
                         <div class="w3-col w3-center" style="width: 90%;">{!label.overwrite_project_package}</div>
                     </td>
+                    <td>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="deleteOrderBefore" type="radio" name="deleteOrder" value="before" onclick="deployOrder('deleteOrderBefore')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col w3-center" style="width: 90%;">{!label.before}</div>
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -98,6 +103,10 @@
                     <td>
                         <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="saveOnCustomFolder" type="radio" name="saveOn" value="saveOnCustom" onclick="onChangeSaveOn('saveOnCustomFolder')"><span class="checkbox-custom circular"></span></label></div>
                         <div class="w3-col w3-center" style="width: 90%;">{!label.choose_directory_to_save}</div>
+                    </td>
+                    <td>
+                        <div class="w3-col" style="width: 10%;"><label class="checkbox-label"><input id="deleteOrderAfter" type="radio" name="deleteOrder" value="after" checked onclick="deployOrder('deleteOrderAfter')"><span class="checkbox-custom circular"></span></label></div>
+                        <div class="w3-col w3-center" style="width: 90%;">{!label.after}</div>
                     </td>
                 </tr>
             </table>

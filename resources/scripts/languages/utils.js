@@ -1,6 +1,6 @@
 const Tokenizer = require('./tokenizer').Tokenizer;
 const TokenType = require('./tokenTypes');
-const logger = require('../main/logger');
+const logger = require('../utils/logger');
 const vscode = require('vscode');
 const Position = vscode.Position;
 const fileSystem = require('../fileSystem');

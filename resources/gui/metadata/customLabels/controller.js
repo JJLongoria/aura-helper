@@ -302,7 +302,6 @@ function closeLabelModal() {
 
 function orderBy(iconId, field) {
     let icon = document.getElementById(iconId);
-    console.log(icon);
     if (icon) {
         if (icon.innerHTML === 'expand_more') {
             orderInverse = true;
@@ -316,9 +315,6 @@ function orderBy(iconId, field) {
         orderInverse = false;
     }
     orderByValue = field;
-    console.log(iconId);
-    console.log(field);
-    console.log(orderInverse);
     customLabels.sort(function (labelA, labelB) {
         let fieldA = (labelA[orderByValue]) ? labelA[orderByValue] : '';
         let fieldB = (labelB[orderByValue]) ? labelB[orderByValue] : '';

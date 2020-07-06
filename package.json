@@ -3,9 +3,9 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions for work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "1.9.4",
+	"version": "2.0.0",
 	"engines": {
-		"vscode": "^1.37.0",
+		"vscode": "^1.46.0",
 		"node": ">=12.0.0"
 	},
 	"icon": "resources/images/icon.png",
@@ -64,13 +64,11 @@
 		"onCommand:aurahelper.metadata.refresh.object",
 		"onCommand:aurahelper.metadata.compress.xml",
 		"onCommand:aurahelper.metadata.compress.xml.all",
-		"onCommand:aurahelper.metadata.profile.open",
-		"onCommand:aurahelper.metadata.permissionset.open",
-		"onCommand:aurahelper.metadata.profile.retrieve",
-		"onCommand:aurahelper.metadata.permissionset.retrieve",
+		"onCommand:aurahelper.metadata.permission.editor",
+		"onCommand:aurahelper.metadata.retrieve.special",
 		"onCommand:aurahelper.metadata.package.generate",
-		"onCommand:aurahelper.metadata.org.match",
-		"onCommand:aurahelper.metadata.customlabels.open",
+		"onCommand:aurahelper.metadata.org.compare",
+		"onCommand:aurahelper.metadata.customlabels.editor",
 		"onCommand:aurahelper.documentation.project.create",
 		"onCommand:aurahelper.completion.apex.implement.interface",
 		"onCommand:aurahelper.completion.apex.implement.extend"
@@ -170,10 +168,15 @@
 						"Open Spanish GUI by default"
 					]
 				},
-				"aurahelper.metadata.compressXMLFilesOnChange": {
+				"aurahelper.graphicUserInterface.enableAdvanceGUI": {
 					"type": "boolean",
 					"default": false,
-					"description": "Compres XML Files Automatically when the file has any change (manually or by download)"
+					"description": "Enable the Advance Graphic User Interface"
+				},
+				"aurahelper.metadata.refreshSObjectDefinitionsOnStart": {
+					"type": "boolean",
+					"default": false,
+					"description": "Refresh the Aura Helper's SObject Definitions when VSCode Start"
 				},
 				"aurahelper.metadata.useCustomAPIVersion": {
 					"type": "boolean",
@@ -188,8 +191,8 @@
 				},
 				"aurahelper.metadata.mergeLocalDataPermissions": {
 					"type": "boolean",
-					"default": false,
-					"description": "When you open a permission set or profile on GUI, Aura Helper can merge your local data with your permissions files for add the metadata that not exists on the file for modify permissions"
+					"default": true,
+					"description": "When you open profile for edit on Advance or Standard GUI, Aura Helper can merge your local data with your permissions files for add the metadata that not exists on the file for modify permissions"
 				},
 				"aurahelper.apexFormat.punctuation.maxBlankLines": {
 					"type": "integer",
@@ -339,11 +342,11 @@
 			},
 			{
 				"command": "aurahelper.metadata.refresh.index",
-				"title": "AuraHelper: Refresh Metadata Index"
+				"title": "AuraHelper: Refresh All SObjects Definitions"
 			},
 			{
 				"command": "aurahelper.metadata.refresh.object",
-				"title": "AuraHelper: Refresh Metadata Index for Object"
+				"title": "AuraHelper: Refresh SObject Definition"
 			},
 			{
 				"command": "aurahelper.fileExplorer.refresh",
@@ -386,36 +389,24 @@
 				"title": "AuraHelper: Compress ALL XML Files"
 			},
 			{
-				"command": "aurahelper.metadata.profile.open",
-				"title": "AuraHelper: Open Profile on UI"
+				"command": "aurahelper.metadata.permission.editor",
+				"title": "AuraHelper: Permission Editor"
 			},
 			{
-				"command": "aurahelper.metadata.permissionset.open",
-				"title": "AuraHelper: Open Permission Set on UI"
-			},
-			{
-				"command": "aurahelper.metadata.profile.retrieve",
-				"title": "AuraHelper: Retrieve Full Profile(s)"
-			},
-			{
-				"command": "aurahelper.metadata.permissionset.retrieve",
-				"title": "AuraHelper: Retrieve Full Permission Set(s)"
-			},
-			{
-				"command": "aurahelper.metadata.recordtype.retrieve",
-				"title": "AuraHelper: Retrieve Full Record Type(s)"
+				"command": "aurahelper.metadata.retrieve.special",
+				"title": "AuraHelper: Retrieve Special Types"
 			},
 			{
 				"command": "aurahelper.metadata.package.generate",
 				"title": "AuraHelper: Package Generator"
 			},
 			{
-				"command": "aurahelper.metadata.org.match",
-				"title": "AuraHelper: Match Org with Local"
+				"command": "aurahelper.metadata.org.compare",
+				"title": "AuraHelper: Compare Org With Local"
 			},
 			{
-				"command": "aurahelper.metadata.customlabels.open",
-				"title": "AuraHelper: Open Custom Labels on UI"
+				"command": "aurahelper.metadata.customlabels.editor",
+				"title": "AuraHelper: Custom Labels Editor"
 			},
 			{
 				"command": "aurahelper.metadata.project.repair",
@@ -432,6 +423,10 @@
 			{
 				"command": "aurahelper.completion.apex.implement.extend",
 				"title": "AuraHelper: Implement Extended Methods"
+			},
+			{
+				"command": "aurahelper.output.problems.clear",
+				"title": "AuraHelper: Clear Problems Panel"
 			}
 		],
 		"languages": [
@@ -495,27 +490,17 @@
 				},
 				{
 					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.profile.open",
+					"command": "aurahelper.metadata.permission.editor",
 					"group": "auraHelper@1"
 				},
 				{
 					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.permissionset.open",
+					"command": "aurahelper.metadata.permission.editor",
 					"group": "auraHelper@1"
 				},
 				{
 					"when": "resource =~ /./labels/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.customlabels.open",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./profiles/",
-					"command": "aurahelper.metadata.profile.retrieve",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./permissionsets/",
-					"command": "aurahelper.metadata.permissionset.retrieve",
+					"command": "aurahelper.metadata.customlabels.editor",
 					"group": "auraHelper@1"
 				}
 			],
@@ -537,22 +522,17 @@
 				},
 				{
 					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.profile.open",
+					"command": "aurahelper.metadata.permission.editor",
 					"group": "auraHelper@1"
 				},
 				{
 					"when": "resource =~ /./labels/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.customlabels.open",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.profile.retrieve",
+					"command": "aurahelper.metadata.customlabels.editor",
 					"group": "auraHelper@1"
 				},
 				{
 					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.permissionset.open",
+					"command": "aurahelper.metadata.permission.editor",
 					"group": "auraHelper@1"
 				},
 				{
@@ -599,22 +579,20 @@
 		"email": "juanjoselongoria@gmail.com"
 	},
 	"dependencies": {
-		"fast-xml-parser": "^3.15.0",
-		"he": "1.2.0",
-		"unzip": "^0.1.11",
-		"unzipper": "^0.10.5"
+		"fast-xml-parser": "^3.17.4",
+		"he": "1.2.0"
 	},
 	"devDependencies": {
-		"@types/glob": "^7.1.1",
+		"@types/glob": "^7.1.2",
 		"@types/mocha": "^5.2.6",
-		"@types/node": "^12.0.0",
-		"@types/vscode": "^1.37.0",
+		"@types/node": "^12.12.47",
+		"@types/vscode": "^1.46.0",
 		"eslint": "^5.13.0",
-		"glob": "^7.1.4",
-		"mocha": "^6.1.4",
-		"sqlite3": "^4.1.1",
-		"typescript": "^3.3.1",
-		"vscode-test": "^1.0.2"
+		"glob": "^7.1.6",
+		"mocha": "^6.2.3",
+		"sqlite3": "^4.2.0",
+		"typescript": "^3.9.6",
+		"vscode-test": "^1.4.0"
 	},
 	"extensionDependencies": [
 		"salesforce.salesforcedx-vscode"

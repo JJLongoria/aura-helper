@@ -1,7 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const rimraf = require("rimraf");
-const unzipper = require('unzipper');
 
 class FileWriter {
     static replaceEditorContent(editor, range, content) {
@@ -48,15 +46,6 @@ class FileWriter {
                 fs.unlinkSync(pathToDelete);
             }
         }
-    }
-    static async unzip(zipFile, targetPath, callback) {
-        let rstream = fs.createReadStream(zipFile).pipe(unzipper.Extract({
-            path: targetPath
-        }));
-        rstream.on('close', (fd) => {
-            if (callback)
-                callback.call(this, fd);
-        });
     }
 }
 exports.FileWriter = FileWriter;

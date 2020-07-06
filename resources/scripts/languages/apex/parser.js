@@ -1,4 +1,4 @@
-const Logger = require('../../main/logger');
+const Logger = require('../../utils/logger');
 const StrUils = require('../../utils/strUtils');
 const annotations = require('./annotations');
 const keywords = require('./keywords');
@@ -36,7 +36,7 @@ const FlowStructureNode = require('./nodes/flowStructureNode');
 const GetAccesorNode = require('./nodes/getAccesorNode');
 const SetAccesorNode = require('./nodes/setAccesorNode');
 const StatementNode = require('./nodes/statementNode');
-const ApplicationContext = require('../../main/applicationContext');
+const ApplicationContext = require('../../core/applicationContext');
 const AnnotationNode = require('./nodes/annotationNode');
 
 let nodesMap = {};
@@ -365,7 +365,7 @@ class Parser {
                 node = newNode;
                 nFlowControls++;
             } else if (isVariableDeclaration(token)) { 
-                let newNode = new VariableNode(node.getId() + '.' + token.textToLower + '.function', token.text, token);
+                let newNode = new VariableNode(node.getId() + '.' + token.textToLower + '.variable', token.text, token);
                 newNode.setAccessModifier(accessModifier);
                 newNode.setDefinitionModifier(definitionModifier);
                 newNode.setParentNodeId(node.getId());

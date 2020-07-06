@@ -112,14 +112,12 @@
         }
 
         function showToast(message, millis) {
-            console.log('showToast method');
             if (!millis)
                 millis = 3000;
             document.getElementById("toast").innerHTML = message;
             var toast = document.getElementById("toast");
             toast.className += " showToast";
             setTimeout(function () {
-                console.log('showToast Close');
                 toast.className = "toast"
             }, millis);
         }

@@ -1,17 +1,18 @@
-const logger = require('../main/logger');
+const logger = require('../utils/logger');
 const snippetUtils = require('../utils/snippetUtils');
 const languages = require('../languages');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
+const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const Range = vscode.Range;
 const FileChecker = fileSystem.FileChecker;
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
-const FileWriter= fileSystem.FileWriter;
+const FileWriter = fileSystem.FileWriter;
 const JavaScriptParser = languages.JavaScriptParser;
 
-exports.run = function(fileUri) {
+exports.run = function (fileUri) {
     try {
         let filePath;
         if (fileUri) {
@@ -25,10 +26,10 @@ exports.run = function(fileUri) {
         if (filePath)
             generateDocumentation(filePath);
         else
-            window.showErrorMessage("Not file selected for generate documentation");
+            NotificationManager.showError("Not file selected for generate documentation");
     }
     catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 
@@ -62,6 +63,6 @@ function createDoc(editor) {
         editor.revealRange(editor.document.lineAt(0).range);
     }
     else {
-        window.showErrorMessage("Aura Documentation Template does not exists. Run Edit Aura Documentation Template command for create it");
+        NotificationManager.showError("Aura Documentation Template does not exists. Run Edit Aura Documentation Template command for create it");
     }
 }

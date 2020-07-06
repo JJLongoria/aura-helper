@@ -1,7 +1,7 @@
 const languages = require('../languages');
-const logger = require('../main/logger');
-const applicationContext = require('../main/applicationContext');
-const config = require('../main/config');
+const logger = require('../utils/logger');
+const applicationContext = require('../core/applicationContext');
+const config = require('../core/config');
 const fileSystem = require('../fileSystem');
 const vscode = require('vscode');
 const Utils = require('./utils').Utils;
@@ -124,7 +124,7 @@ function provideAuraComponentCompletion(document, position) {
         } else if (activationTokens.length > 1) {
             items = Utils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, classes, systemMetadata, allNamespaces, sObjects);
         } else {
-            items = Utils.getAllAvailableCompletionItems(position, classes, systemMetadata, allNamespaces, sObjects);
+            items = Utils.getAllAvailableCompletionItems(position, undefined, classes, systemMetadata, allNamespaces, sObjects);
         }
     } else if (activationTokens.length > 1) {
         // Code for completions when position is on empty line or withot components
@@ -132,7 +132,7 @@ function provideAuraComponentCompletion(document, position) {
 
     } else if (activationTokens.length > 0) {
         // Code for completions when position is on empty line or withot components
-        items = Utils.getAllAvailableCompletionItems(position, classes, systemMetadata, allNamespaces, sObjects);
+        items = Utils.getAllAvailableCompletionItems(position, undefined, classes, systemMetadata, allNamespaces, sObjects);
 
     }
     return items;
@@ -140,7 +140,7 @@ function provideAuraComponentCompletion(document, position) {
 
 function getLabelsCompletionItems(activationTokens, position) {
     let items = [];
-    if (activationTokens.length == 2) {
+    if (activationTokens.length == 1 || activationTokens.length == 2) {
         let labels = Utils.getCustomLabels();
         for (const label of labels) {
             let doc = 'Name: ' + label.fullName + '\n';
@@ -215,7 +215,7 @@ function getAttributeTypesCompletionItems(activationTokens, activationInfo, docu
             if (activationTokens.length > 1) {
                 items = items.concat(Utils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, classes, systemMetadata, allNamespaces, sObjects));
             } else {
-                items = items.concat(Utils.getAllAvailableCompletionItems(position, classes, systemMetadata, allNamespaces, sObjects));
+                items = items.concat(Utils.getAllAvailableCompletionItems(position, undefined, classes, systemMetadata, allNamespaces, sObjects));
             }
         } else if ((attributeData.name === 'pullToBoundary' || attributeData.name === 'size' || attributeData.name === 'iconSize') && attributeData.type.toLowerCase() === 'string') {
             for (const size of baseComponentsDetail.sizes) {
@@ -620,7 +620,7 @@ function getAttributeTypesCompletionItems(activationTokens, activationInfo, docu
         } else if (activationTokens.length > 1) {
             items = items.concat(Utils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, classes, systemMetadata, allNamespaces, sObjects));
         } else {
-            items = items.concat(Utils.getAllAvailableCompletionItems(position, classes, systemMetadata, allNamespaces, sObjects));
+            items = items.concat(Utils.getAllAvailableCompletionItems(position, undefined, classes, systemMetadata, allNamespaces, sObjects));
         }
     }
     return items;

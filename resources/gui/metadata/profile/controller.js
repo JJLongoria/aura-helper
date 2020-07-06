@@ -16,7 +16,6 @@ window.addEventListener('message', event => {
     setCustomPermissionsData(permissionSet);
     setCustomSettingAccessesData(permissionSet);
     setFieldPermissionsData(permissionSet);
-    setFlowAccessesData(permissionSet);
     setLayoutAssignmentData(permissionSet);
     setLoginHoursData(permissionSet);
     setLoginIpRangesData(permissionSet);
@@ -184,16 +183,6 @@ function redrawFieldPermissionsForObject(obj) {
     }
     contentLines.push('</table>');
     document.getElementById(obj + '_fieldsContainer').innerHTML = contentLines.join('\n');
-}
-
-function setFlowAccessesData(profile) {
-    document.getElementById("flowAccessesTitle").innerHTML = getPermissionSetSectionName('flowAccesses');
-    let contentLines = [];
-    contentLines = contentLines.concat(getFlowAccessesSectionElement())
-    for (const flowAccess of profile.flowAccesses) {
-        contentLines = contentLines.concat(getFlowAccessesSectionElement(flowAccess));
-    }
-    document.getElementById("flowAccessesBody").innerHTML = contentLines.join('\n');
 }
 
 function setLayoutAssignmentData(profile) {
@@ -596,25 +585,6 @@ function getFieldPermissionsSectionElement(obj, field) {
     return contentLines;
 }
 
-function getFlowAccessesSectionElement(flowAccess) {
-    let contentLines = [];
-    if (flowAccess) {
-        let filter = elementsFiltered['flowAccesses'];
-        if (!filter || flowAccess.flow.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
-            contentLines.push('<tr class="tableRow">');
-            contentLines.push('<td class="tableCell">' + flowAccess.flow + '</td>');
-            contentLines.push('<td class="tableCell">' + getCheckbox('flowAccess_' + flowAccess.flow + '_enabled', 'clickOnElementCheck(\'flowAccesses\', \'' + flowAccess.flow + '\', \'enabled\')', flowAccess.enabled) + '</td>');
-            contentLines.push('</tr>');
-        }
-    } else {
-        contentLines.push('<tr class="tableHeaderRow">');
-        contentLines.push('<th class="tableHeaderCell">{!label.flow_name}</th>');
-        contentLines.push('<th class="tableHeaderCell">{!label.enabled}</th>');
-        contentLines.push('</tr>');
-    }
-    return contentLines;
-}
-
 function getLayoutAssignmentSectionElement(obj, layoutAssignment, recordtypes) {
     let contentLines = [];
     if (layoutAssignment) {
@@ -837,10 +807,6 @@ function getRecordTypesSelect(obj, layout, recordtypes) {
 
 
 function clickOnElementCheck(section, elementName, elementCheckField) {
-    console.log('clickOnElementCheck');
-    console.log('section => ' + section);
-    console.log('elementName => ' + elementName);
-    console.log('elementCheckField => ' + elementCheckField);
     if (section === 'applicationVisibilities') {
         // @ts-ignore
         if (elementCheckField === 'default' && document.getElementById('app_' + elementName + '_' + elementCheckField).checked) {
@@ -905,15 +871,6 @@ function clickOnElementCheck(section, elementName, elementCheckField) {
                     // @ts-ignore
                     document.getElementById('fieldPermission_' + fieldPermission.field + '_readable').checked = true;
                 }
-            }
-        }
-    }
-    if (section === 'flowAccesses') {
-        // @ts-ignore
-        for (let flowAccess of permissionSet.flowAccesses) {
-            if (flowAccess.flow == elementName) {
-                // @ts-ignore
-                flowAccess[elementCheckField] = document.getElementById('flowAccess_' + flowAccess.flow + '_' + elementCheckField).checked;
             }
         }
     }
@@ -1128,7 +1085,6 @@ function getPermissionSetSectionName(profileSection) {
         externalDataSourceAccesses: "{!label.external_data_source_accesses}",
         fieldPermissions: "{!label.field_permissions}",
         fieldLevelSecurities: "{!label.field_level_securities}",
-        flowAccesses: "{!label.flow_accesses}",
         layoutAssignments: "{!label.layout_assignments}",
         loginHours: "{!label.login_hours}",
         loginIpRanges: "{!label.login_ip_ranges}",
@@ -1173,9 +1129,6 @@ function onFilterElement(inputId, filterElement) {
             break;
         case 'fieldPermissions':
             redrawFieldPermissionsForObject(filterItem);
-            break;
-        case 'flowAccesses':
-            setFlowAccessesData(permissionSet);
             break;
         case 'layoutAssignments':
             redrawLayoutAssignmentForObject(filterItem);

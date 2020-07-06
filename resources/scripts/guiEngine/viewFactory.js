@@ -2,7 +2,7 @@ const fileSystem = require('../fileSystem');
 const languages = require('../languages');
 const FileReader = fileSystem.FileReader;
 const Paths = fileSystem.Paths;
-const AuraParser = languages.AuraParser;
+const XMLParser = languages.XMLParser;
 
 class ViewFactory { 
 
@@ -22,7 +22,7 @@ class ViewFactory {
     static createView(viewData) { 
         let content = [];
         let templateContent = FileReader.readFileSync(viewData.template);
-        let templateJSON = AuraParser.parseXML(templateContent);
+        let templateJSON = XMLParser.parseXML(templateContent);
         content = this.processObject('ah:page', templateJSON['ah:page']);
         return content.join('\n');
     }

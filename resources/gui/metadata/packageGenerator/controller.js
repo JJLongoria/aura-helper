@@ -17,21 +17,21 @@ let isDestructive = false;
 let createFor = 'forRetrieve';
 let selectFromGitValue = 'twoLastCommits';
 let selectedOptionToDownload = 'owned';
+let deleteOrderValue = 'after';
 let commits = [];
 let branches = [];
 // @ts-ignore
 const vscode = acquireVsCodeApi();
 window.addEventListener('message', event => {
     let eventData = event.data;
-    console.log('eventData\n' + JSON.stringify(event.data, null, 2));
     switch (eventData.command) {
         case 'open':
             // @ts-ignore
             showContent();
             break;
         case 'metadataLoaded':
-            metadataForDeploy = JSON.parse(JSON.stringify(eventData.metadata));
-            metadataForDelete = JSON.parse(JSON.stringify(eventData.metadata));
+            metadataForDeploy = eventData.metadata.metadataForDeploy;
+            metadataForDelete = eventData.metadata.metadataForDelete;
             if (isDestructive)
                 metadata = metadataForDelete;
             else
@@ -105,14 +105,12 @@ window.addEventListener('message', event => {
 function loadMetadata(loadFrom) {
     // @ts-ignore
     closeAllPageMessages();
-    console.log('@@Load Metadata');
     // @ts-ignore
     openSpinnerModal();
     vscode.postMessage({ command: "loadMetadata", loadFrom: loadFrom, selectedOptionToDownload: selectedOptionToDownload });
 }
 
 function drawMetadataTypes(deleteChilds) {
-    console.log("Draw Metadata Types");
     let content = [];
     if (metadata) {
         content.push('<ul class="metadataList">');
@@ -143,7 +141,6 @@ function drawMetadataTypes(deleteChilds) {
 }
 
 function drawMetadataObjects(typeName, objects, deleteChilds) {
-    console.log("Draw Metadata Objects");
     let content = [];
     if (objects) {
         content.push('<ul class="metadataList">');
@@ -170,7 +167,6 @@ function drawMetadataObjects(typeName, objects, deleteChilds) {
 }
 
 function drawMetadataItems(typeName, objectName, items) {
-    console.log("Draw Metadata Items");
     let content = [];
     if (items) {
         content.push('<ul class="metadataList">');
@@ -194,7 +190,6 @@ function drawMetadataItems(typeName, objectName, items) {
 }
 
 function clickOnMetadataType(typeName) {
-    console.log('Click on Metadata Type: ' + typeName);
     nClicksOnObject = 0;
     lastObjectClicked = undefined;
     if (lastTypeClicked === typeName)
@@ -205,7 +200,6 @@ function clickOnMetadataType(typeName) {
     if (metadata) {
         let metadataType = metadata[typeName];
         if (metadataType) {
-            console.log('metadataType: ' + metadataType.name);
             if (Object.keys(metadataType.childs).length > 0) {
                 if (nClicksOnMetadata > 0) {
                     metadataType.checked = !metadataType.checked;
@@ -236,7 +230,6 @@ function clickOnMetadataType(typeName) {
 }
 
 function clickOnMetadataObject(typeName, objName) {
-    console.log('Click on Metadata Object: ' + typeName + '.' + objName);
     nClicksOnMetadata = 0;
     lastTypeClicked = undefined;
     if (lastObjectClicked === objName)
@@ -246,10 +239,8 @@ function clickOnMetadataObject(typeName, objName) {
     selectedMetadataObject = objName;
     if (metadata) {
         let metadataType = metadata[typeName];
-        console.log('metadataType: ' + metadataType.name);
         if (metadataType) {
             let metadataObject = metadataType.childs[objName];
-            console.log('metadataObject: ' + metadataObject.name);
             if (metadataObject) {
                 if (Object.keys(metadataObject.childs).length > 0) {
                     if (nClicksOnObject > 0) {
@@ -543,7 +534,7 @@ function createPackage() {
             anyChecked = true;
     }
     if (anyChecked)
-        vscode.postMessage({ command: "createPackage", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn });
+        vscode.postMessage({ command: "createPackage", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn, deleteOrder: deleteOrderValue });
     else {
         // @ts-ignore
         showPageMessage('error', '{!label.not_metadata_selected_for_package_error}');
@@ -572,7 +563,7 @@ function createDestructive() {
             anyChecked = true;
     }
     if (anyChecked)
-        vscode.postMessage({ command: "createDestructive", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn });
+        vscode.postMessage({ command: "createDestructive", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn, deleteOrder: deleteOrderValue });
     else {
         // @ts-ignore
         showPageMessage('error', '{!label.not_metadata_selected_for_destructive_package_error}');
@@ -619,7 +610,7 @@ function createFullPackage() {
             anyCheckedForDeploy = true;
     }
     if (anyCheckedForDeploy || anyCheckedForDelete)
-        vscode.postMessage({ command: "createFullPackage", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: 'forDeploy', saveOn: saveOn });
+        vscode.postMessage({ command: "createFullPackage", metadata: { metadataForDeploy: metadataForDeploy, metadataForDelete: metadataForDelete }, createFor: createFor, saveOn: saveOn, deleteOrder: deleteOrderValue });
     else {
         // @ts-ignore
         showPageMessage('error', '{!label.not_metadata_selected_for_full_package_error}');
@@ -630,7 +621,6 @@ function selectAll() {
     let component = document.getElementById('selectAll');
     let selectAll = (component.innerHTML === 'All') ? true : false;
     let linkText = (component.innerHTML === 'All') ? 'None' : 'All';
-    console.log(component.innerHTML);
     if (metadata) {
         if (selectAll) {
             checkAll(metadata);
@@ -646,7 +636,6 @@ function selectFromPackage(pkg) {
         vscode.postMessage({ command: "selectFromPackage" });
     }
     else if (metadata) {
-        console.log(JSON.stringify(pkg, null, 2));
         Object.keys(pkg).forEach(function (type) {
             if (metadata[type]) {
                 if (pkg[type].includes('*')) {
@@ -820,14 +809,11 @@ function changeMetadataForSelect(inputId) {
 }
 
 function onChangeSaveOn(elementId) {
-    console.log(elementId);
     let element = document.getElementById(elementId);
-    console.log(element);
     // @ts-ignore
     if (element.checked)
         // @ts-ignore
         saveOn = element.value;
-    console.log(saveOn);
 }
 
 function onClickChangeFromGit(inputId) {
@@ -1012,6 +998,15 @@ function changeCreateFor(inputId) {
     let checked = document.getElementById(inputId).checked;
     if (checked)
         createFor = value;
+}
+
+function deleteOrder(inputId){
+    // @ts-ignore
+    let value = document.getElementById(inputId).value;
+    // @ts-ignore
+    let checked = document.getElementById(inputId).checked;
+    if (checked)
+        deleteOrderValue = value;
 }
 
 function changeDownloadMetadataOptions(inputId) {

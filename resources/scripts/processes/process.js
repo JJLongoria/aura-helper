@@ -1,5 +1,5 @@
 const childProcess = require('child_process');
-const Logger = require('../main/logger');
+const Logger = require('../utils/logger');
 const ProcessEvent = require('./processEvent');
 
 

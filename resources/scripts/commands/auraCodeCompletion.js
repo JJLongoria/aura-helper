@@ -2,7 +2,8 @@ const languages = require('../languages');
 const snippetUtils = require('../utils/snippetUtils');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
-const Config = require('../main/config');
+const Config = require('../core/config');
+const NotificationManager = require('../output/notificationManager');
 const FileChecker = fileSystem.FileChecker;
 const FileWriter = fileSystem.FileWriter;
 const window = vscode.window;
@@ -19,7 +20,7 @@ exports.run = function (position, selected, data, componentTagData) {
             return;
         processAuraCodeCompletion(position, selected, data, componentTagData);
     } catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 
@@ -65,8 +66,7 @@ function processPicklistValue(position, editor, data) {
 async function processCustomLabelCompletionInJS(position, data, editor) {
     if (!FileChecker.isJavaScript(editor.document.uri.fsPath))
         return;
-    let user = await Config.getAuthUsername();
-    let orgNamespace = Config.getOrgNamespace(user);
+    let orgNamespace = Config.getOrgNamespace();
     if (!orgNamespace || orgNamespace.length === 0)
         orgNamespace = 'c';
     let lineEditor = editor.document.lineAt(position.line);
@@ -81,8 +81,7 @@ async function processCustomLabelCompletionInJS(position, data, editor) {
 async function processCustomLabelCompletionInAura(position, data, editor) {
     if (!FileChecker.isAuraComponent(editor.document.uri.fsPath))
         return;
-    let user = await Config.getAuthUsername();
-    let orgNamespace = Config.getOrgNamespace(user);
+    let orgNamespace = Config.getOrgNamespace();
     if (!orgNamespace || orgNamespace.length === 0)
         orgNamespace = 'c';
     let lineEditor = editor.document.lineAt(position.line);

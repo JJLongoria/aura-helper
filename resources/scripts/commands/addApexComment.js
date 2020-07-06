@@ -1,8 +1,8 @@
-const logger = require('../main/logger');
 const snippetUtils = require('../utils/snippetUtils');
 const languages = require('../languages');
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
+const NotificationManager = require('../output/notificationManager');
 const FileChecker = fileSystem.FileChecker
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
@@ -21,11 +21,11 @@ exports.run =  function(position) {
         if (FileChecker.isApexClass(editor.document.uri.fsPath)) {
             addApexComment(editor, position);
         } else {
-            window.showErrorMessage('The selected file is not an Apex Class');
+            NotificationManager.showError('The selected file is not an Apex Class');
         }
     }
     catch (error) {
-        window.showErrorMessage('An error ocurred while processing command. Error: \n' + error);
+        NotificationManager.showCommandError(error);
     }
 }
 

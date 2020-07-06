@@ -2,8 +2,7 @@ const tokenizer = require('./lexer');
 const TokenType = require('./tokenTypes');
 const fileSystem = require('../../fileSystem');
 const langUtils = require('../utils').Utils;
-const Config = require('../../main/config');
-const applicationContext = require('../../main/applicationContext');
+const Config = require('../../core/config');
 const StrUtils = require('../../utils/strUtils');
 const FileReader = fileSystem.FileReader;
 
@@ -22,18 +21,19 @@ class Formatter {
 module.exports = Formatter;
 
 function formatApex(tokens) {
-    let index = 0;
     let indent = 0;
     let indentOffset = 0;
-    let lines = [];
-    let line = [];
+    let strIndex;
+    let lines = '';
+    let line = '';
     let beforeWhitespaces = 0;
     let afterWhitespaces = 0;
     let guardOpen = false;
     let mainBodyIndent = 0;
     let queryOpenIndex = 0;
     let querySelectIndex = 0;
-    while (index < tokens.length) {
+    let complexString = false;
+    for (let len = tokens.length, index = 0; index < len; index++) {
         let token = tokens[index];
         let lastToken = langUtils.getLastToken(tokens, index);
         let twoLastToken = langUtils.getTwoLastToken(tokens, index);
@@ -52,10 +52,10 @@ function formatApex(tokens) {
             guardOpen = false;
         }
         if (lastToken && lastToken.type === TokenType.BRACKET.QUERY_START) {
-            queryOpenIndex = StrUtils.replace(line.join(''), '\t', '    ').length - (indent * 4);
+            queryOpenIndex = StrUtils.replace(line, '\t', '    ').length - (indent * 4);
         }
         if (lastToken && lastToken.type === TokenType.QUERY.CLAUSE.SELECT) {
-            querySelectIndex = StrUtils.replace(line.join(''), '\t', '    ').length - (indent * 4);
+            querySelectIndex = StrUtils.replace(line, '\t', '    ').length - (indent * 4);
         }
 
         if (token.type === TokenType.KEYWORD.DECLARATION.CLASS || token.type === TokenType.KEYWORD.DECLARATION.ENUM || token.type === TokenType.KEYWORD.DECLARATION.INTERFACE)
@@ -75,8 +75,11 @@ function formatApex(tokens) {
             afterWhitespaces = token.startIndex - lastToken.endIndex;
         if (lastToken && isCommentToken(lastToken) && (token.type === TokenType.COMMENT.BLOCK_START || token.type === TokenType.COMMENT.LINE || token.type === TokenType.COMMENT.LINE_DOC) && !isOnSameLine(token, lastToken))
             newLines = Config.getConfig().apexFormat.comment.newLinesBewteenComments + 1;
-        if (isStringToken(token) && nextToken && isStringToken(nextToken) && isOnSameLine(token, nextToken))
+        if (isStringToken(token) && nextToken && isStringToken(nextToken) && isOnSameLine(token, nextToken)) {
             afterWhitespaces = nextToken.startIndex - token.endIndex;
+            if (!strIndex)
+                strIndex = token.startIndex;
+        }
         if (lastToken && lastToken.type === TokenType.BRACKET.CURLY_OPEN)
             newLines = 1;
         if (lastToken && lastToken.type === TokenType.BRACKET.CURLY_CLOSE)
@@ -92,6 +95,7 @@ function formatApex(tokens) {
             indentOffset = -1;
         }
         if (lastToken && lastToken.type === TokenType.PUNCTUATION.SEMICOLON && !guardOpen && token.type !== TokenType.BRACKET.CURLY_CLOSE) {
+            strIndex = undefined;
             if (isCommentToken(token) && isOnSameLine(token, lastToken)) {
                 if (Config.getConfig().apexFormat.comment.holdAfterWhitespacesOnLineComment)
                     beforeWhitespaces = token.startIndex - lastToken.endIndex;
@@ -213,6 +217,29 @@ function formatApex(tokens) {
             beforeWhitespaces = 0;
         if (nextToken && nextToken.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR)
             afterWhitespaces = 0;
+        if (token.type === TokenType.OPERATOR.LOGICAL.INSTANCE_OF) {
+            afterWhitespaces = 1;
+            beforeWhitespaces = 1;
+        }
+        if (lastToken && lastToken.type === TokenType.PUNCTUATION.COMMA && isCommentToken(token) && originalNewLines > 0) {
+            newLines = 1;
+        }
+        if ((lastToken && isOperator(lastToken) && isStringToken(token) && originalNewLines > 0) || complexString) {
+            complexString = false;
+            if (strIndex) {
+                let rest = strIndex % 4;
+                indentOffset = (strIndex - (indent * 4)) / 4;
+                if (rest > 0) {
+                    indentOffset -= 1;
+                    beforeWhitespaces = rest - 1;
+                }
+            }
+            newLines = 1;
+        }
+        if (lastToken && isStringToken(lastToken) && isOperator(token) && originalNewLines > 0) {
+            newLines = 0;
+            complexString = true;
+        }
         if (indent > 0 && indent !== mainBodyIndent && token.type !== TokenType.KEYWORD.DECLARATION.PROPERTY_GETTER && token.type !== TokenType.KEYWORD.DECLARATION.PROPERTY_SETTER) {
             if (newLines > 0 && originalNewLines > 1) {
                 if (Config.getConfig().apexFormat.punctuation.maxBlankLines === -1)
@@ -221,6 +248,8 @@ function formatApex(tokens) {
                     newLines = 1;
                 else if (Config.getConfig().apexFormat.punctuation.maxBlankLines > 0 && originalNewLines > Config.getConfig().apexFormat.punctuation.maxBlankLines) {
                     newLines = Config.getConfig().apexFormat.punctuation.maxBlankLines + 1;
+                } else if (Config.getConfig().apexFormat.punctuation.maxBlankLines > 0 && originalNewLines <= Config.getConfig().apexFormat.punctuation.maxBlankLines) {
+                    newLines = originalNewLines;
                 }
             }
         }
@@ -229,21 +258,25 @@ function formatApex(tokens) {
             beforeWhitespaces = 0;
             newLines = 1;
         }
+        if(isUnaryOperator(token)){
+            beforeWhitespaces = 0;
+            afterWhitespaces = 0;
+        }
         if (newLines > 0) {
             if (newLines > 1)
-                line.push(getNewLines(newLines - 1));
-            lines.push(line.join(''));
-            line = [];
-            line.push(getIndent(indent + indentOffset));
+                line += getNewLines(newLines - 1);
+            lines += line + '\n';
+            line = '';
+            line += getIndent(indent + indentOffset);
 
             if (token.type === TokenType.COMMENT.CONTENT || token.type === TokenType.COMMENT.BLOCK_END)
                 beforeWhitespaces = 1;
             if (!token.isAux()) {
                 if (beforeWhitespaces > 0)
-                    line.push(getWhitespaces(beforeWhitespaces));
-                line.push(token.text);
+                    line += getWhitespaces(beforeWhitespaces);
+                line += token.text;
                 if (afterWhitespaces > 0)
-                    line.push(getWhitespaces(afterWhitespaces));
+                    line += getWhitespaces(afterWhitespaces);
             }
             beforeWhitespaces = 0;
             afterWhitespaces = 0;
@@ -252,19 +285,18 @@ function formatApex(tokens) {
         } else {
             if (!token.isAux()) {
                 if (beforeWhitespaces > 0)
-                    line.push(getWhitespaces(beforeWhitespaces));
-                line.push(token.text);
+                    line += getWhitespaces(beforeWhitespaces);
+                line += token.text;
                 if (afterWhitespaces > 0)
-                    line.push(getWhitespaces(afterWhitespaces));
+                    line += getWhitespaces(afterWhitespaces);
             }
             beforeWhitespaces = 0;
             afterWhitespaces = 0;
             indentOffset = 0;
         }
-        index++;
     }
-    lines.push(line.join(''));
-    return lines.join('\n');
+    lines += line;
+    return lines;
 }
 
 function getNewLines(number) {
@@ -296,10 +328,8 @@ function isOperator(token) {
     switch (token.type) {
         case TokenType.OPERATOR.ARITHMETIC.ADD:
         case TokenType.OPERATOR.ARITHMETIC.ADD_ASSIGN:
-        case TokenType.OPERATOR.ARITHMETIC.DECREMENT:
         case TokenType.OPERATOR.ARITHMETIC.DIVIDE:
         case TokenType.OPERATOR.ARITHMETIC.DIVIDE_ASSIGN:
-        case TokenType.OPERATOR.ARITHMETIC.INCREMENT:
         case TokenType.OPERATOR.ARITHMETIC.MULTIPLY:
         case TokenType.OPERATOR.ARITHMETIC.MULTIPLY_ASSIGN:
         case TokenType.OPERATOR.ARITHMETIC.SUBSTRACT:
@@ -330,6 +360,20 @@ function isOperator(token) {
         case TokenType.OPERATOR.LOGICAL.OR_ASSIGN:
         case TokenType.PUNCTUATION.EXMARK:
         case TokenType.PUNCTUATION.COLON:
+            return true;
+        default:
+            return false;
+    }
+}
+
+function isVarType(token) {
+    switch (token.type) {
+        case TokenType.DATATYPE.PRIMITIVE:
+        case TokenType.DATATYPE.COLLECTION:
+        case TokenType.DATATYPE.SOBJECT:
+        case TokenType.DATATYPE.CUSTOM_CLASS:
+        case TokenType.DATATYPE.SUPPORT_CLASS:
+        case TokenType.DATATYPE.SUPPORT_NAMESPACE:
             return true;
         default:
             return false;
@@ -385,22 +429,24 @@ function isOnSameLine(tokenA, tokenB) {
 
 function isFieldInstructionDeclaration(tokens, index) {
     let token = tokens[index];
-    while (token.type !== TokenType.BRACKET.CURLY_CLOSE && token.type !== TokenType.BRACKET.CURLY_OPEN) {
+    for (; index >= 0; index--) {
         token = tokens[index];
         if (isFieldDeclaration(token))
             return true;
-        index--;
+        if (token.type === TokenType.BRACKET.CURLY_CLOSE || token.type === TokenType.BRACKET.CURLY_OPEN)
+            break;
     }
     return false;
 }
 
 function isNextInstructionFieldDeclaration(tokens, index) {
     let token = tokens[index];
-    while (token.type !== TokenType.PUNCTUATION.SEMICOLON) {
+    for (let len = tokens.length; index < len; index++) {
         token = tokens[index];
         if (isFieldDeclaration(token))
             return true;
-        index++;
+        if (token.type === TokenType.PUNCTUATION.SEMICOLON)
+            break;
     }
     return false;
 }
@@ -435,10 +481,10 @@ function isMemberDeclaration(token) {
 
 function isUnaryOperator(token) {
     switch (token.type) {
-        case TokenType.OPERATOR.ARITHMETIC.ADD:
+        case TokenType.OPERATOR.ARITHMETIC.ADD_UNARY:
         case TokenType.OPERATOR.ARITHMETIC.DECREMENT:
         case TokenType.OPERATOR.ARITHMETIC.INCREMENT:
-        case TokenType.OPERATOR.ARITHMETIC.SUBSTRACT:
+        case TokenType.OPERATOR.ARITHMETIC.SUBSTRACT_UNARY:
             return true;
         default:
             return false;
@@ -471,6 +517,8 @@ function isKeyword(token) {
         case TokenType.DATABASE.TRIGGER_EXEC:
         case TokenType.DATABASE.DML:
         case TokenType.KEYWORD.FLOW_CONTROL.BREAK:
+        case TokenType.KEYWORD.FLOW_CONTROL.SWITCH:
+        case TokenType.KEYWORD.FLOW_CONTROL.SWITCH_CASE:
         case TokenType.KEYWORD.FLOW_CONTROL.CONTINUE:
         case TokenType.KEYWORD.FLOW_CONTROL.RETURN:
         case TokenType.KEYWORD.FLOW_CONTROL.THROW:
