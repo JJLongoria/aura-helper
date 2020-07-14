@@ -1648,11 +1648,14 @@ class ApexParser {
     static async compileAllApexClasses(callback) {
         let classesFolder = Paths.getMetadataRootFolder() + '/' + 'classes'
         let files = FileReader.readDirSync(classesFolder, { onlyFiles: true, extensions: ['.cls'] });
-        let compiledFiles = FileReader.readDirSync(Paths.getCompiledClassesPath());
-        if (compiledFiles.length > 0) {
-            if (callback)
-                callback.call(this);
-            return;
+        
+        if (FileChecker.isExists(Paths.getCompiledClassesPath())) {
+            let compiledFiles = FileReader.readDirSync(Paths.getCompiledClassesPath());
+            if (compiledFiles.length > 0) {
+                if (callback)
+                    callback.call(this);
+                return;
+            }
         }
         let nBatches = 1;
         let recordsPerBatch = 200;
@@ -1678,9 +1681,6 @@ class ApexParser {
         }
         if (batch)
             batches.push(batch);
-        /*await ApexParser.compileClass(classesFolder + '/a_AccountTriggerHandler.cls', Paths.getCompiledClassesPath());
-        if (callback)
-            callback.call(this);*/
         for (const batchToProcess of batches) {
             await ApexParser.compileAllClasses(batchToProcess.records).then(function () {
                 batchToProcess.completed = true;
