@@ -50,3 +50,7 @@ const repairProjectDependencies = require('./repairProjectDependencies');
 exports.repairProjectDependencies = repairProjectDependencies.run;
 const retrieveSpecialTypes = require('./retrieveSpecialTypes');
 exports.retrieveSpecialTypes = retrieveSpecialTypes.run;
+const addToProfile = require('./addToProfile');
+exports.addToProfile = addToProfile.run;
+const addToPermissionSet = require('./addToPermissionSet');
+exports.addToPermissionSet = addToPermissionSet.run;

@@ -1,5 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [2.0.0 - 2020-07-15]
+### Fixed
+    - Fixed a problem when refreshing apex classes definitions at first time. 
+
 ## [2.0.0 - 2020-07-06]
 ### Added
 - Added **Aura Helper CLI** into Aura Helper for support complex operation and make *more powerfull* and *optimize* Aura Helper
