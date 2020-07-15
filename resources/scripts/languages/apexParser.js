@@ -1647,8 +1647,17 @@ class ApexParser {
 
     static async compileAllApexClasses(callback) {
         let classesFolder = Paths.getMetadataRootFolder() + '/' + 'classes'
+        if (!FileChecker.isExists(classesFolder)) {
+            if (callback)
+                callback.call(this);
+            return;
+        }
         let files = FileReader.readDirSync(classesFolder, { onlyFiles: true, extensions: ['.cls'] });
-        
+        if (!files || files.length === 0) {
+            if (callback)
+                callback.call(this);
+            return;
+        }
         if (FileChecker.isExists(Paths.getCompiledClassesPath())) {
             let compiledFiles = FileReader.readDirSync(Paths.getCompiledClassesPath());
             if (compiledFiles.length > 0) {
@@ -1721,6 +1730,8 @@ class ApexParser {
     static compileClass(file, targetFolder) {
         return new Promise(function (resolve, reject) {
             try {
+                if(!FileChecker.isExists(targetFolder))
+                    FileWriter.createFolderSync(targetFolder);
                 FileReader.readFile(file, function (errorRead, data) {
                     if (errorRead) {
                         reject(errorRead);

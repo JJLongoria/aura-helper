@@ -1,8 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [2.0.0 - 2020-07-15]
+## [2.0.2 - 2020-07-15]
 ### Fixed
-    - Fixed a problem when refreshing apex classes definitions at first time. 
+- Fixed a problem when refreshing apex classes definitions.
+
+## [2.0.1 - 2020-07-15]
+### Fixed
+- Fixed a problem when refreshing apex classes definitions at first time. 
 
 ## [2.0.0 - 2020-07-06]
 ### Added
