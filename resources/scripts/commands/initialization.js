@@ -74,7 +74,7 @@ async function init(context) {
         OutputChannel.output('Refreshing Apex Classes Definitions\n');
         NotificationManager.showStatusBar('$(sync~spin) Refreshing Apex Classes Definitions...');
         let isAuraHelperInstalled = await ProcessManager.isAuraHelperInstalled();
-        if(!isAuraHelperInstalled){
+        if (!isAuraHelperInstalled) {
             NotificationManager.showWarning("Aura Helper CLI is not installed and some features are not availables. Please go to https://github.com/JJLongoria/aura-helper-CLI or https://www.npmjs.com/package/aura-helper-cli and follow the instructions to install");
         }
         ApexParser.compileAllApexClasses(function () {
@@ -105,10 +105,12 @@ function refreshSObjectsIndex() {
 
 function getClassesFromCompiledClasses() {
     let classes = {};
-    let files = FileReader.readDirSync(Paths.getCompiledClassesPath());
-    for (const file of files) {
-        let objName = file.substring(0, file.indexOf('.'));
-        classes[objName.toLowerCase()] = JSON.parse(FileReader.readFileSync(Paths.getCompiledClassesPath() + '/' + file));
+    if (FileChecker.isExists(Paths.getCompiledClassesPath())) {
+        let files = FileReader.readDirSync(Paths.getCompiledClassesPath());
+        for (const file of files) {
+            let objName = file.substring(0, file.indexOf('.'));
+            classes[objName.toLowerCase()] = JSON.parse(FileReader.readFileSync(Paths.getCompiledClassesPath() + '/' + file));
+        }
     }
     return classes;
 }
