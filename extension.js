@@ -37,13 +37,14 @@ function activate(context) {
 	let permissionEditor = vscode.commands.registerCommand('aurahelper.metadata.permission.editor', commands.openPermissionEditor);
 	let retrieveSpecialTypes = vscode.commands.registerCommand('aurahelper.metadata.retrieve.special', commands.retrieveSpecialTypes);
 	let packageGenerator = vscode.commands.registerCommand('aurahelper.metadata.package.generate', commands.packageGenerator);
-	let orgCompare = vscode.commands.registerCommand('aurahelper.metadata.org.compare', commands.orgCompare);
+	let orgCompare = vscode.commands.registerCommand('aurahelper.metadata.org.comparator', commands.orgCompare);
 	let openCustomLabelsEditor = vscode.commands.registerCommand('aurahelper.metadata.customlabels.editor', commands.openCustomLabelsEditor);
 	//let openCustomObjectsGUI = vscode.commands.registerCommand('aurahelper.metadata.customobjects.open', commands.openCustomObjectsGUI);
 	let createProjectDocumentation = vscode.commands.registerCommand('aurahelper.documentation.project.create', commands.createProjectDocumentation);
 	let implementInterfaces = vscode.commands.registerCommand('aurahelper.completion.apex.implement.interface', commands.implementInterfaces);
 	let implementExtendedClasses = vscode.commands.registerCommand('aurahelper.completion.apex.implement.extend', commands.implementExtendedClasses);
 	let repairProjectDependencies = vscode.commands.registerCommand('aurahelper.metadata.project.repair', commands.repairProjectDependencies);
+	let ignoreMetadata = vscode.commands.registerCommand('aurahelper.metadata.ignore', commands.ignoreMetadata);
 	//let addToProfile = vscode.commands.registerCommand('aurahelper.metadata.permissions.profile.add', commands.addToProfile);
 	//let addToPermissionSet = vscode.commands.registerCommand('aurahelper.metadata.permissions.permissionset.add', commands.addToProfile);
 	let clearProblemsOutput = vscode.commands.registerCommand('aurahelper.output.problems.clear', function(){
@@ -93,6 +94,7 @@ function activate(context) {
 	context.subscriptions.push(implementExtendedClasses);
 	context.subscriptions.push(repairProjectDependencies);
 	context.subscriptions.push(clearProblemsOutput);
+	context.subscriptions.push(ignoreMetadata);
 	//context.subscriptions.push(addToProfile);
 	//context.subscriptions.push(addToPermissionSet);
 }

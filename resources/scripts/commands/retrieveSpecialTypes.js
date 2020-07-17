@@ -145,7 +145,7 @@ function retrieveMetadata(objects, from, orgNamespace, compress) {
             try {
                 let options = {
                     fromOrg: from.startsWith('From Org'),
-                    orgNamespace: orgNamespace === 'Yes',
+                    orgNamespace: orgNamespace === 'Org Namespace',
                     compress: compress === 'Yes',
                     types: objects,
                     includeOrg: from.startsWith('Mixed')

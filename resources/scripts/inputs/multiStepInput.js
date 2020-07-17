@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const FileSystem = require('../fileSystem');
+const Factory = require('./factory');
 
 class MultiStepOutput {
 
@@ -73,12 +74,7 @@ class MultiStepOutput {
     }
 
     static getItem(label, description, detail, picked) {
-        return {
-            description: description,
-            detail: detail,
-            label: label,
-            picked: picked
-        }
+        return Factory.createQuickPickItem(label, description, detail, picked);
     }
 
     onAccept(callback) {

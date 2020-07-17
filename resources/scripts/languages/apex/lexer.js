@@ -638,7 +638,7 @@ class Lexer {
                                 token.type = TokenType.ENTITY.CLASS_MEMBER;
                             } else if (token.type !== TokenType.KEYWORD.FLOW_CONTROL.ELSE_IF) {
                                 token.type = TokenType.ENTITY.VARIABLE;
-                                if (lastToken && lastToken.type === TokenType.ENTITY.VARIABLE) {
+                                if (lastToken && (lastToken.type === TokenType.ENTITY.VARIABLE || lastToken.type === TokenType.ENTITY.ENUM_VALUE)) {
                                     token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
                                     tokens[tokens.length - 1].type = TokenType.DATATYPE.CUSTOM_CLASS;
                                 } else if (lastToken && lastToken.type === TokenType.BRACKET.CURLY_OPEN) {

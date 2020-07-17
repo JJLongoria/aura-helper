@@ -3,7 +3,7 @@ const Process = require('./process');
 const fileSystem = require('../fileSystem');
 const Paths = fileSystem.Paths;
 const ProcessEvent = require('./processEvent');
-const Config = require('../core/config');
+var Config = require('../core/config');
 const Output = require('../output');
 const OutputChannel = Output.OutputChannel;
 
@@ -16,14 +16,51 @@ class ProcessManager {
             process.kill();
     }
 
-    static listAuthOurgs(callback) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:auth:list', '--json'], { maxBuffer: BUFFER_SIZE });
-        process.run(callback);
-        return process;
+    static getAuthOrgs() {
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('sfdx');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'sfdx';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('force:auth:list');
+        commandArgs.push('--json');
+        let process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE });
+        return new Promise(function (resolve) {
+            runProcess(process).then(function (stdOut) {
+                resolve({ stdOut: stdOut, stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
     }
 
     static describeSchemaMetadata(user, metadataType, cancelToken) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:schema:sobject:describe', '--json', '-u', user, '-s', metadataType], { maxBuffer: BUFFER_SIZE }, cancelToken);
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('sfdx');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'sfdx';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('force:schema:sobject:describe');
+        commandArgs.push('--json');
+        commandArgs.push('-u');
+        commandArgs.push(user);
+        commandArgs.push('-s');
+        commandArgs.push(metadataType);
+        let process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE }, cancelToken);
         return new Promise(function (resolve) {
             runProcess(process).then(function (stdOut) {
                 resolve({ stdOut: stdOut, stdErr: undefined });
@@ -34,7 +71,27 @@ class ProcessManager {
     }
 
     static destructiveChanges(user, destructiveFolder, cancelToken) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:deploy', '--json', '-u', user, '-d', '' + destructiveFolder + '', '-w', '-1'], { maxBuffer: BUFFER_SIZE }, cancelToken);
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('sfdx');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'sfdx';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('force:mdapi:deploy');
+        commandArgs.push('--json');
+        commandArgs.push('-u');
+        commandArgs.push(user);
+        commandArgs.push('-d');
+        commandArgs.push('' + destructiveFolder + '');
+        commandArgs.push('-w');
+        commandArgs.push('-1');
+        let process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE }, cancelToken);
         return new Promise(function (resolve) {
             runProcess(process).then(function (stdOut) {
                 resolve({ stdOut: stdOut, stdErr: undefined });
@@ -45,19 +102,69 @@ class ProcessManager {
     }
 
     static deployReport(user, jobId, cancelToken, callback) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'force:mdapi:deploy:report', '--json', '-u', user, '-i', jobId], { maxBuffer: BUFFER_SIZE }, cancelToken);
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('sfdx');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'sfdx';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('force:mdapi:deploy:report');
+        commandArgs.push('--json');
+        commandArgs.push('-u');
+        commandArgs.push(user);
+        commandArgs.push('-i');
+        commandArgs.push(jobId);
+        let process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE }, cancelToken);
         process.run(callback);
         return process;
     }
 
     static cancelDeploy(user, jobId, cancelToken, callback) {
-        let process = new Process('cmd', ['/c', 'sfdx', 'mdapi:deploy:cancel', '--json', '-u', user, '-i', jobId], { maxBuffer: BUFFER_SIZE }, cancelToken);
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('sfdx');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'sfdx';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('mdapi:deploy:cancel');
+        commandArgs.push('--json');
+        commandArgs.push('-u');
+        commandArgs.push(user);
+        commandArgs.push('-i');
+        commandArgs.push(jobId);
+        let process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE }, cancelToken);
         process.run(callback);
         return process;
     }
 
     static gitLog() {
-        let process = new Process('cmd', ['/c', 'git', 'log', '--pretty=medium'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('git');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'git';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('log');
+        commandArgs.push('--pretty=medium');
+        let process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
         return new Promise(function (resolve) {
             runProcess(process).then(function (stdOut) {
                 resolve({ stdOut: stdOut, stdErr: undefined });
@@ -68,7 +175,21 @@ class ProcessManager {
     }
 
     static gitGetBranches() {
-        let process = new Process('cmd', ['/c', 'git', 'branch', '-a'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('git');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'git';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('branch');
+        commandArgs.push('-a');
+        let process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
         return new Promise(function (resolve) {
             runProcess(process).then(function (stdOut) {
                 resolve({ stdOut: stdOut, stdErr: undefined });
@@ -79,7 +200,20 @@ class ProcessManager {
     }
 
     static gitFetch() {
-        let process = new Process('cmd', ['/c', 'git', 'fetch'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('git');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'git';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('fetch');
+        let process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
         return new Promise(function (resolve) {
             runProcess(process).then(function (stdOut) {
                 resolve({ stdOut: stdOut, stdErr: undefined });
@@ -90,7 +224,25 @@ class ProcessManager {
     }
 
     static auraHelperCompressFolder(folder, output) {
-        process = new Process('cmd', ['/c', 'aura-helper', 'metadata:local:compress', '-d', '' + folder + '', '-p', 'plaintext'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('metadata:local:compress');
+        commandArgs.push('--json');
+        commandArgs.push('-d');
+        commandArgs.push('' + folder + '');
+        commandArgs.push('-p');
+        commandArgs.push('plaintext');
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
         return new Promise(function (resolve) {
             runProcess(process, output).then(function (stdOut) {
                 resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
@@ -101,7 +253,24 @@ class ProcessManager {
     }
 
     static auraHelperCompressFile(file, output) {
-        process = new Process('cmd', ['/c', 'aura-helper', 'metadata:local:compress', '-f', '' + file + '', '-p', 'plaintext'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('metadata:local:compress');
+        commandArgs.push('-f');
+        commandArgs.push('' + file + '');
+        commandArgs.push('-p');
+        commandArgs.push('plaintext');
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
         return new Promise(function (resolve) {
             runProcess(process, output).then(function (stdOut) {
                 resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
@@ -112,7 +281,56 @@ class ProcessManager {
     }
 
     static auraHelperOrgCompare(output, cancelToken) {
-        process = new Process('cmd', ['/c', 'aura-helper', 'metadata:org:compare', '-p', 'plaintext'], { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() }, cancelToken);
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('metadata:org:compare');
+        commandArgs.push('-p');
+        commandArgs.push('plaintext');
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() }, cancelToken);
+        return new Promise(function (resolve) {
+            runProcess(process, output).then(function (stdOut) {
+                resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
+    static auraHelperOrgCompareBetween(options, output, cancelToken) {
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('metadata:org:compare:between');
+        commandArgs.push('-p');
+        commandArgs.push('plaintext');
+        if (options.source) {
+            commandArgs.push('-s');
+            commandArgs.push(options.source);
+        }
+        if (options.target) {
+            commandArgs.push('-t');
+            commandArgs.push(options.target);
+        }
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() }, cancelToken);
         return new Promise(function (resolve) {
             runProcess(process, output).then(function (stdOut) {
                 resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
@@ -123,20 +341,33 @@ class ProcessManager {
     }
 
     static auraHelperDescribeMetadata(options, output, cancelToken) {
+        Config = require('../core/config');
         let command;
-        if (options.fromOrg)
-            command = ['/c', 'aura-helper', 'metadata:org:describe', '-p', 'plaintext'];
-        else
-            command = ['/c', 'aura-helper', 'metadata:local:describe', '-p', 'plaintext'];
-        if (options.types) {
-            command.push('-t');
-            command.push(options.types.join(','));
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
         } else {
-            command.push('-a');
+            throw new Error('Operative System Not Supported');
+        }
+        if (options.fromOrg)
+            commandArgs.push('metadata:org:describe');
+        else
+            commandArgs.push('metadata:local:describe');
+        commandArgs.push('-p');
+        commandArgs.push('plaintext');
+        if (options.types) {
+            commandArgs.push('-t');
+            commandArgs.push(options.types.join(','));
+        } else {
+            commandArgs.push('-a');
         }
         if (options.orgNamespace)
-            command.push('-o');
-        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() }, cancelToken);
+            commandArgs.push('-o');
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() }, cancelToken);
         return new Promise(function (resolve) {
             runProcess(process, output).then(function (stdOut) {
                 resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
@@ -147,23 +378,36 @@ class ProcessManager {
     }
 
     static auraHelperRetriveAllSpecials(options, output, cancelToken) {
+        Config = require('../core/config');
         let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
         if (options.fromOrg)
-            command = ['/c', 'aura-helper', 'metadata:org:retrieve:special', '-p', 'plaintext'];
+            commandArgs.push('metadata:org:retrieve:special');
         else
-            command = ['/c', 'aura-helper', 'metadata:local:retrieve:special', '-p', 'plaintext'];
+            commandArgs.push('metadata:local:retrieve:special');
+        commandArgs.push('-p');
+        commandArgs.push('plaintext');
         if (options.orgNamespace)
-            command.push('-o');
+            commandArgs.push('-o');
         if (options.compress)
-            command.push('-c');
+            commandArgs.push('-c');
         if (options.includeOrg)
-            command.push('-i');
+            commandArgs.push('-i');
         if (options.types) {
-            command.push('-t');
-            command.push(options.types.join(','));
+            commandArgs.push('-t');
+            commandArgs.push(options.types.join(','));
         } else
-            command.push('-a');
-        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() }, cancelToken);
+            commandArgs.push('-a');
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() }, cancelToken);
         return new Promise(function (resolve) {
             runProcess(process, output).then(function (stdOut) {
                 resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
@@ -174,17 +418,31 @@ class ProcessManager {
     }
 
     static auraHelperRepairDependencies(options, output) {
-        let command = ['/c', 'aura-helper', 'metadata:local:repair', '-p', 'plaintext'];
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('metadata:local:repair');
+        commandArgs.push('-p');
+        commandArgs.push('plaintext');
         if (options.onlyCheck)
-            command.push('-o');
+            commandArgs.push('-o');
         if (options.compress)
-            command.push('-c');
+            commandArgs.push('-c');
         if (options.types) {
-            command.push('-t');
-            command.push(options.types.join(','));
+            commandArgs.push('-t');
+            commandArgs.push(options.types.join(','));
         } else
-            command.push('-a');
-        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+            commandArgs.push('-a');
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
         return new Promise(function (resolve) {
             runProcess(process, output).then(function (stdOut) {
                 resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
@@ -195,12 +453,26 @@ class ProcessManager {
     }
 
     static auraHelperLoadPermissions(options, output) {
-        let command = ['/c', 'aura-helper', 'metadata:org:permissions', '-p', 'plaintext'];
-        if (options.version) {
-            command.push('-v');
-            command.push(options.version);
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
         }
-        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        commandArgs.push('metadata:org:permissions');
+        commandArgs.push('-p');
+        commandArgs.push('plaintext');
+        if (options.version) {
+            commandArgs.push('-v');
+            commandArgs.push(options.version);
+        }
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
         return new Promise(function (resolve) {
             runProcess(process, output).then(function (stdOut) {
                 resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
@@ -211,50 +483,64 @@ class ProcessManager {
     }
 
     static auraHelperPackageGenerator(options, output) {
-        let command = ['/c', 'aura-helper', 'metadata:local:package:create', '-p', 'plaintext'];
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('metadata:local:package:create');
+        commandArgs.push('-p');
+        commandArgs.push('plaintext');
         if (options.version) {
-            command.push('-v');
-            command.push(options.version);
+            commandArgs.push('-v');
+            commandArgs.push(options.version);
         }
         if (options.outputPath) {
-            command.push('-o');
-            command.push(options.outputPath);
+            commandArgs.push('-o');
+            commandArgs.push(options.outputPath);
         }
         if (options.createType) {
-            command.push('-c');
-            command.push(options.createType);
+            commandArgs.push('-c');
+            commandArgs.push(options.createType);
         }
         if (options.createFrom) {
-            command.push('-f');
-            command.push(options.createFrom);
+            commandArgs.push('-f');
+            commandArgs.push(options.createFrom);
         }
         if (options.deleteOrder) {
-            command.push('-d');
-            command.push(options.deleteOrder);
+            commandArgs.push('-d');
+            commandArgs.push(options.deleteOrder);
         }
         if (options.source) {
-            command.push('-s');
-            command.push(options.source);
+            commandArgs.push('-s');
+            commandArgs.push(options.source);
         }
         if (options.target) {
-            command.push('-t');
-            command.push(options.target);
+            commandArgs.push('-t');
+            commandArgs.push(options.target);
         }
         if (options.useIgnore) {
-            command.push('-u');
-            command.push(options.useIgnore);
+            commandArgs.push('-u');
+            commandArgs.push(options.useIgnore);
         }
         if (options.ignoreFile) {
-            command.push('-i');
-            command.push(options.ignoreFile);
+            commandArgs.push('-i');
+            commandArgs.push(options.ignoreFile);
         }
         if (options.raw) {
-            command.push('-r');
+            commandArgs.push('-r');
         }
         if (options.explicit) {
-            command.push('-e');
+            commandArgs.push('-e');
         }
-        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
         return new Promise(function (resolve) {
             runProcess(process, output).then(function (stdOut) {
                 resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
@@ -264,9 +550,57 @@ class ProcessManager {
         });
     }
 
-    static isAuraHelperInstalled(){
-        let command = ['/c', 'aura-helper'];
-        process = new Process('cmd', command, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+    static auraHelperIgnore(options, output) {
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('metadata:local:ignore');
+        commandArgs.push('-p');
+        commandArgs.push('plaintext');
+        if (options.types) {
+            commandArgs.push('-t');
+            commandArgs.push(options.types);
+        }
+        if (options.ignoreFile) {
+            commandArgs.push('-i');
+            commandArgs.push(options.ignoreFile);
+        }
+        if (options.compress) {
+            commandArgs.push('-c');
+        }
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
+        return new Promise(function (resolve) {
+            runProcess(process, output).then(function (stdOut) {
+                resolve({ stdOut: getResponse(stdOut), stdErr: undefined });
+            }).catch(function (stdErr) {
+                resolve({ stdOut: undefined, stdErr: stdErr });
+            });
+        });
+    }
+
+    static isAuraHelperInstalled() {
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE, cwd: Paths.getWorkspaceFolder() });
         return new Promise(function (resolve) {
             runProcess(process, false).then(function (stdOut) {
                 resolve(true);
