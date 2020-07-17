@@ -54,3 +54,5 @@ const addToProfile = require('./addToProfile');
 exports.addToProfile = addToProfile.run;
 const addToPermissionSet = require('./addToPermissionSet');
 exports.addToPermissionSet = addToPermissionSet.run;
+const ignoreMetadata = require('./ignoreMetadata');
+exports.ignoreMetadata = ignoreMetadata.run;

@@ -54,7 +54,7 @@ async function openStandardGUI() {
     let from = await InputFactory.createPackageSourcesSelector();
     if (!from)
         return;
-    let orgNamespace = 'Yes';
+    let orgNamespace = 'Org Namespace';
     if (from === 'From Org')
         orgNamespace = await InputFactory.createIncludeOrgNamespaceSelector();
     if (!orgNamespace)
@@ -75,13 +75,13 @@ async function openStandardGUI() {
         return new Promise(async resolve => {
             let types;
             if (from === 'From Org') {
-                types = await getOrgMetadataForStandardGUI(false, cancelToken);
+                types = await getOrgMetadataForStandardGUI(orgNamespace == 'Org Namespace', cancelToken);
             } else {
                 types = await getLocalMetadataForStandardGUI(cancelToken);
             }
             let input = new MetadataSelectorInput('Select Metadata Types', types);
             input.onAccept(async metadata => {
-                let explicit = 'Yes';
+                let explicit = 'Explicit';
                 if (createFor === 'For Deploy or Retrieve')
                     explicit = await InputFactory.createPackageExplicitSelector();
                 if (!explicit)
@@ -90,7 +90,7 @@ async function openStandardGUI() {
                 if (!saveOn)
                     return;
                 if (createFor === 'For Deploy or Retrieve') {
-                    createPackage(metadata, explicit === 'Yes', saveOn === 'Manifest folder', undefined, false);
+                    createPackage(metadata, explicit === 'Explicit', saveOn === 'Manifest folder', undefined, false);
                 } else {
                     let order = (deleteOrder === 'After Deploy') ? 'after' : 'before';
                     createDestructive(metadata, saveOn === 'Manifest folder', order, false);

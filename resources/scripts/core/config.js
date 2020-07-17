@@ -1,10 +1,8 @@
 const vscode = require('vscode');
 const fileSystem = require('../fileSystem');
 const ProcessManager = require('../processes').ProcessManager;
-const ProcessEvent = require('../processes').ProcessEvent;
 const Paths = fileSystem.Paths;
 const FileReader = fileSystem.FileReader;
-const XMLParser = require('../languages/xmlParser');
 const HTTPConnection = require('./httpConnection');
 const AppContext = require('./applicationContext');
 const os = require('os');
@@ -16,64 +14,56 @@ class Config {
     }
 
     static getAuthUsername() {
-        return new Promise(function (resolve) {
+        return new Promise(async function (resolve, reject) {
             let defaultUsername = JSON.parse(FileReader.readFileSync(Paths.getSFDXFolderPath() + '/sfdx-config.json')).defaultusername;
-            let buffer = [];
-            let bufferError = [];
-            ProcessManager.listAuthOurgs(function (event, data) {
-                switch (event) {
-                    case ProcessEvent.STD_OUT:
-                        buffer = buffer.concat(data);
-                        break;
-                    case ProcessEvent.END:
-                        let listOrgsResult = JSON.parse(buffer.toString());
-                        let username;
-                        if (listOrgsResult.status === 0) {
-                            for (const org of listOrgsResult.result) {
-                                if (defaultUsername.indexOf('@') !== -1) {
-                                    if (org.username && org.username.toLowerCase().trim() === defaultUsername.toLowerCase().trim())
-                                        username = org.username;
-                                } else {
-                                    if (org.alias && org.alias.toLowerCase().trim() === defaultUsername.toLowerCase().trim())
-                                        username = org.username;
-                                }
-                                if (!username && ((org.username && org.username.toLowerCase().trim() === defaultUsername.toLowerCase().trim()) || (org.alias && org.alias.toLowerCase().trim() === defaultUsername.toLowerCase().trim())))
+            let out = await ProcessManager.getAuthOrgs();
+            if (out) {
+                if (out.stdOut) {
+                    let listOrgsResult = JSON.parse(out.stdOut);
+                    let username;
+                    if (listOrgsResult.status === 0) {
+                        for (const org of listOrgsResult.result) {
+                            if (defaultUsername.indexOf('@') !== -1) {
+                                if (org.username && org.username.toLowerCase().trim() === defaultUsername.toLowerCase().trim())
+                                    username = org.username;
+                            } else {
+                                if (org.alias && org.alias.toLowerCase().trim() === defaultUsername.toLowerCase().trim())
                                     username = org.username;
                             }
+                            if (!username && ((org.username && org.username.toLowerCase().trim() === defaultUsername.toLowerCase().trim()) || (org.alias && org.alias.toLowerCase().trim() === defaultUsername.toLowerCase().trim())))
+                                username = org.username;
                         }
-                        resolve(username);
-                        break;
-                    default:
-                        break;
+                    }
+                    resolve(username);
+                } else {
+                    reject(out.stdErr);
                 }
-            });
+            } else {
+                reject('Unknown Error');
+            }
         });
     }
 
     static getServerInstance(username) {
-        return new Promise(function (resolve) {
-            let buffer = [];
-            let bufferError = [];
-            ProcessManager.listAuthOurgs(function (event, data) {
-                switch (event) {
-                    case ProcessEvent.STD_OUT:
-                        buffer = buffer.concat(data);
-                        break;
-                    case ProcessEvent.END:
-                        let listOrgsResult = JSON.parse(buffer.toString());
-                        if (listOrgsResult.status === 0) {
-                            for (const org of listOrgsResult.result) {
-                                if (org.username === username) {
-                                    resolve(org.instanceUrl);
-                                }
+        return new Promise(async function (resolve, reject) {
+            let out = await ProcessManager.getAuthOrgs();
+            if (out) {
+                if (out.stdOut) {
+                    let listOrgsResult = JSON.parse(out.stdOut);
+                    if (listOrgsResult.status === 0) {
+                        for (const org of listOrgsResult.result) {
+                            if (org.username === username) {
+                                resolve(org.instanceUrl);
                             }
                         }
-                        resolve(undefined);
-                        break;
-                    default:
-                        break;
+                    }
+                    resolve(undefined);
+                } else {
+                    reject(out.stdErr);
                 }
-            });
+            } else {
+                reject('Unknown Error');
+            }
         });
     }
 
@@ -118,6 +108,11 @@ class Config {
     static isWindows() {
         return os.platform() === 'win32';
     }
+
+    static isMac() {
+        return os.platform() === 'darwin';
+    }
+
 
 }
 module.exports = Config;

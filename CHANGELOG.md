@@ -1,5 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [2.1.0 - 2020-07-XX]
+### Added
+- Added support to compare metadata between two Salesforce Organizations to the command **AuraHelper: Metadata Comparator**
+- Added new command **AuraHelper: Ignore Metadata from Project** for ignore metadata types from your local project.
+- Added Support for linux and mac operative systems.
+
+### Changed
+- Changed command **AuraHelper: Compare Org With Local** for **AuraHelper: Metadata Comparator** and added support for compare metadata between orgs.
+
+### Fixed
+- Fixed bug with whitespaces in some cases with apex formatter.
+
 ## [2.0.2 - 2020-07-15]
 ### Fixed
 - Fixed a problem when refreshing apex classes definitions.

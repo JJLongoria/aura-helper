@@ -6,6 +6,7 @@ const AppContext = require('../core/applicationContext');
 const Metadata = require('../metadata');
 const GUIEngine = require('../guiEngine');
 const MetadataSelectorInput = require('../inputs/metadataSelector');
+const InputFactory = require('../inputs/factory');
 const NotificationManager = require('../output/notificationManager');
 const Engine = GUIEngine.Engine;
 const Routing = GUIEngine.Routing;
@@ -14,14 +15,45 @@ const FileWriter = fileSystem.FileWriter;
 const FileChecker = fileSystem.FileChecker;
 
 let view;
-exports.run = function () {
+exports.run = async function () {
+    let loadMessage = 'Comparing Org Metadata with your local metadata -- (Only affects metadata types that you have in your local project)';
+    let compareOptions = await InputFactory.createCompareOptioniSelector();
+    let sourceOrg;
+    let targetOrg;
+    if (!compareOptions)
+        return;
+    if (compareOptions === 'Compare Different Orgs') {
+        let authOrgs = await getAuthOrgs();
+        sourceOrg = await InputFactory.createAuthOrgsSelector(authOrgs, true);
+        if (!sourceOrg)
+            return;
+        if (sourceOrg.indexOf(')') !== -1)
+            sourceOrg = sourceOrg.split(')')[1].trim();
+        let targetOrgs = [];
+        for (let org of authOrgs) {
+            if (org.alias !== sourceOrg)
+                targetOrgs.push(org);
+        }
+        targetOrg = await InputFactory.createAuthOrgsSelector(targetOrgs, false);
+        if (!targetOrg)
+            return;
+        if (targetOrg.indexOf(')') !== -1)
+            targetOrg = targetOrg.split(')')[1].trim();
+        loadMessage = 'Comparing between Orgs. Source: ' + sourceOrg + ' --  Target: ' + targetOrg;
+    }
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
-        title: "Comparing Org Metadata with your local metadata \n (Only affects metadata types that you have in your local project)",
+        title: loadMessage,
         cancellable: true
     }, (progress, cancelToken) => {
         return new Promise(async function (resolve) {
-            ProcessManager.auraHelperOrgCompare(true, cancelToken).then(function (out) {
+            try {
+                let out;
+                if (compareOptions === 'Compare Different Orgs') {
+                    out = await ProcessManager.auraHelperOrgCompareBetween({ source: sourceOrg, target: targetOrg }, true, cancelToken);
+                } else {
+                    out = await ProcessManager.auraHelperOrgCompare(true, cancelToken);                    
+                }
                 if (!out) {
                     vscode.window.showWarningMessage('Operation cancelled by user');
                 } else if (out.stdOut) {
@@ -39,9 +71,38 @@ exports.run = function () {
                     NotificationManager.showCommandError(out.stdErr);
                 }
                 resolve();
-            }).catch(function (error) {
+            } catch (error) {
                 NotificationManager.showCommandError(error);
                 resolve();
+            }
+        });
+    });
+}
+
+function getAuthOrgs() {
+    return new Promise((resolve) => {
+        vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
+            title: "Loading Auth Orgs",
+            cancellable: false
+        }, (progress, cancelToken) => {
+            return new Promise(async (loadResolve) => {
+                let authOrgs = [];
+                let username = await Config.getAuthUsername();
+                let orgsOut = await ProcessManager.getAuthOrgs();
+                if (orgsOut.stdOut) {
+                    let response = JSON.parse(orgsOut.stdOut);
+                    for (let org of response.result) {
+                        authOrgs.push({
+                            alias: org.alias,
+                            username: org.username,
+                            active: org.username === username,
+                            instanceUrl: org.instanceUrl
+                        });
+                    }
+                }
+                loadResolve();
+                resolve(authOrgs);
             });
         });
     });
@@ -71,7 +132,7 @@ function openStandardGUI(metadata) {
             if (isError) {
                 NotificationManager.showError(message);
             } else {
-                metadata  = Metadata.Utils.deleteCheckedMetadata(metadata);
+                metadata = Metadata.Utils.deleteCheckedMetadata(metadata);
                 NotificationManager.showInfo(message);
                 input.setMetadata(metadata);
                 input.reset();
