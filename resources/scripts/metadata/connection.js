@@ -93,7 +93,7 @@ class Connection {
                         objProgress.report({ increment: increment, message: "Refreshing Index for: " + objName });
                     await Connection.refresh(user, objName, cancelToken);
                 } catch (error) {
-                    reject(error.message);
+                    reject(error);
                 }
             }
             resolve();
