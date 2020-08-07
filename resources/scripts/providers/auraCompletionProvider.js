@@ -105,7 +105,7 @@ function provideAuraComponentCompletion(document, position) {
             if (lineSplits.length >= 2) {
                 let componentName = lineSplits[1].split(' ')[0];
                 if (componentName) {
-                    let filePath = Paths.getFolderPath(Paths.getFolderPath(document.uri.fsPath)) + '\\' + componentName + '\\' + componentName + '.cmp';
+                    let filePath = Paths.getFolderPath(Paths.getFolderPath(document.uri.fsPath)) + '/' + componentName + '/' + componentName + '.cmp';
                     let componentStructure = BundleAnalizer.getComponentStructure(filePath);
                     items = getComponentAttributesCompletionItems(componentStructure, componentTagData, position);
                 }
@@ -958,7 +958,7 @@ function getComponentsCompletionItems(position, document, componentTagData) {
     let auraFolder = Paths.getFolderPath(Paths.getFolderPath(document.uri.fsPath));
     let folders = FileReader.readDirSync(auraFolder);
     for (const folder of folders) {
-        let files = FileReader.readDirSync(auraFolder + '\\' + folder);
+        let files = FileReader.readDirSync(auraFolder + '/' + folder);
         let isAppEvent;
         let isCompEvent;
         let isComponent;
@@ -968,8 +968,8 @@ function getComponentsCompletionItems(position, document, componentTagData) {
                 isComponent = true;
                 break;
             } else if (file.indexOf('.evt') !== -1) {
-                isCompEvent = FileReader.readFileSync(auraFolder + '\\' + folder + '\\' + file).toLowerCase().indexOf('type="component"')
-                isAppEvent = FileReader.readFileSync(auraFolder + '\\' + folder + '\\' + file).toLowerCase().indexOf('type="application"');
+                isCompEvent = FileReader.readFileSync(auraFolder + '/' + folder + '/' + file).toLowerCase().indexOf('type="component"')
+                isAppEvent = FileReader.readFileSync(auraFolder + '/' + folder + '/' + file).toLowerCase().indexOf('type="application"');
                 break;
             } else if (file.indexOf('.app') !== -1) {
                 isApp = true;

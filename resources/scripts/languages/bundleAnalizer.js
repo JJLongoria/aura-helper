@@ -23,7 +23,7 @@ class BundleAnalizer {
         componentStructure.controllerFunctions = BundleAnalizer.getControllerFunctions(componentPath);
         componentStructure.helperFunctions = BundleAnalizer.getHelperFunctions(componentPath);
         if (componentStructure.controller) {
-            let classPath = componentPath.replace('aura\\' + componentName + '\\' + componentName + '.cmp', 'classes\\' + componentStructure.controller + '.cls');
+            let classPath = componentPath.replace('aura/' + componentName + '/' + componentName + '.cmp', 'classes/' + componentStructure.controller + '.cls');
             let classStructure = ApexParser.getFileStructure(FileReader.readFileSync(classPath));
             componentStructure.apexFunctions = classStructure.methods;
         }
@@ -35,7 +35,7 @@ class BundleAnalizer {
             parentComponentStructure.controllerFunctions = BundleAnalizer.getControllerFunctions(parentFileName);
             parentComponentStructure.helperFunctions = BundleAnalizer.getHelperFunctions(parentFileName);
             if (parentComponentStructure.controller) {
-                let classPath = componentPath.replace('aura\\' + componentName + '\\' + componentName + '.cmp', 'classes\\' + parentComponentStructure.controller + '.cls');
+                let classPath = componentPath.replace('aura/' + componentName + '/' + componentName + '.cmp', 'classes\/' + parentComponentStructure.controller + '.cls');
                 let classStructure = ApexParser.getFileStructure(FileReader.readFileSync(classPath));
                 for (const method of classStructure.methods) {
                     let existing = false;

@@ -23,10 +23,10 @@ class FileReader {
         if (filters) {
             let result = [];
             for (const contentPath of folderContent) {
-                if (filters.onlyFolders && fs.lstatSync(folderPath + '\\' + contentPath).isDirectory()) {
+                if (filters.onlyFolders && fs.lstatSync(folderPath + '/' + contentPath).isDirectory()) {
                     result.push(contentPath);
                 } else if (filters.onlyFiles) {
-                    if (fs.lstatSync(folderPath + '\\' + contentPath).isFile()) {
+                    if (fs.lstatSync(folderPath + '/' + contentPath).isFile()) {
                         if (filters.extensions && filters.extensions.length > 0) {
                             if (filters.extensions.includes(path.extname(contentPath)))
                                 result.push(contentPath);
