@@ -14,7 +14,7 @@ class Connection {
 
     static refreshSObjectsIndex(objProgress, cancelToken) {
         return new Promise(async function (resolve, reject) {
-            let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: false, types: ['CustomObject'] }, false, cancelToken);
+            let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: true, types: ['CustomObject'] }, false, cancelToken);
             if (!out) {
                 reject('Operation Cancelled by User');
             } else if (out.stdOut) {
@@ -112,10 +112,10 @@ class Connection {
                     AppContext.sObjects = MetadataFactory.getSObjects(false);
                     resolve();
                 } else {
-                    reject(out.stdErr);
+                    resolve();
                 }
             } else {
-                reject('Operation Cancelled by User');
+                resolve();
             }
         });
     }
