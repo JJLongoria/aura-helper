@@ -1463,7 +1463,7 @@ class ApexParser {
             let token = tokens[index];
             let lastToken = Utils.getLastToken(tokens, index);
             let nextToken = Utils.getNextToken(tokens, index);
-            if (token.tokenType !== TokenType.SEMICOLON && token.tokenType !== TokenType.LBRACKET) {
+            if (token &&  token.tokenType !== TokenType.SEMICOLON && token.tokenType !== TokenType.LBRACKET) {
                 if (isClass) {
                     if (token.tokenType === TokenType.IDENTIFIER && (token.content.toLowerCase() === 'public' || token.content.toLowerCase() === 'global' || token.content.toLowerCase() === 'private'))
                         data.classData.modifier = token.content;
@@ -1477,23 +1477,23 @@ class ApexParser {
                         data.classData.isVirtual = true;
                     else if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'implements') {
                         var interfaceName = "";
-                        while (token.content !== 'extends' || token.tokenType !== TokenType.LBRACKET) {
+                        while (token && (token.content !== 'extends' || token.tokenType !== TokenType.LBRACKET)) {
                             token = tokens[index];
-                            if (token.tokenType === TokenType.LABRACKET) {
+                            if (token && token.tokenType === TokenType.LABRACKET) {
                                 aBracketIndent++;
                             }
-                            else if (token.tokenType === TokenType.RABRACKET) {
+                            else if (token && token.tokenType === TokenType.RABRACKET) {
                                 aBracketIndent--;
                             }
-                            if (token.tokenType === TokenType.COMMA && aBracketIndent == 0) {
+                            if (token && token.tokenType === TokenType.COMMA && aBracketIndent == 0) {
                                 data.classData.interfaces.push(interfaceName);
                                 interfaceName = "";
-                            } else {
+                            } else if(token) {
                                 interfaceName += token.content;
                             }
                             index++;
                         }
-                        if (token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'extends') {
+                        if (token && token.tokenType === TokenType.IDENTIFIER && token.content.toLowerCase() === 'extends') {
                             var extendsName = "";
                             while (token.tokenType !== TokenType.LBRACKET) {
                                 token = tokens[index];
@@ -1560,7 +1560,7 @@ class ApexParser {
                             else if (token.tokenType === TokenType.RABRACKET) {
                                 aBracketIndent--;
                             }
-                            if ((nextToken.tokenType === TokenType.COMMA || nextToken.tokenType === TokenType.RPAREN) && token.tokenType !== TokenType.LPAREN && aBracketIndent == 0) {
+                            if (nextToken && (nextToken.tokenType === TokenType.COMMA || nextToken.tokenType === TokenType.RPAREN) && token.tokenType !== TokenType.LPAREN && aBracketIndent == 0) {
                                 param.name = token.content;
                                 data.methodData.params.push(param);
                                 param = {
