@@ -620,27 +620,27 @@ function getResponse(out) {
 }
 
 function runProcess(process, output) {
-    let stdOut = [];
-    let stdErr = [];
+    let stdOut = '';
+    let stdErr = '';
     return new Promise(function (resolve, rejected) {
         process.run(function (event, data) {
             if (output && data && data.length > 0)
                 OutputChannel.output(data.toString());
             switch (event) {
                 case ProcessEvent.STD_OUT:
-                    stdOut = stdOut.concat(data);
+                    stdOut += data;
                     break;
                 case ProcessEvent.ERR_OUT:
-                    stdErr = stdErr.concat(data);
+                    stdErr += data;
                     break;
                 case ProcessEvent.KILLED:
                     resolve();
                     break;
                 case ProcessEvent.END:
                     if (stdErr.length > 0) {
-                        rejected(stdErr.toString());
+                        rejected(stdErr);
                     } else {
-                        resolve(stdOut.toString());
+                        resolve(stdOut);
                     }
                     break;
                 default:

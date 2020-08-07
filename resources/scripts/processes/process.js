@@ -23,6 +23,7 @@ class Process {
             });
         }
         this.process = childProcess.spawn(this.command, this.args, this.options);
+        this.process.stdout.setEncoding('utf8');
         this.process.stdout.on('data', (data) => {
             let dataStr = data.toString();
             Logger.log(dataStr);
