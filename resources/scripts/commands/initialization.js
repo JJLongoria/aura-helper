@@ -7,6 +7,7 @@ const ProcessManager = require('../processes/processManager');
 const Output = require('../output');
 const applicationContext = require('../core/applicationContext');
 const Config = require('../core/config');
+const StrUtils = require('../utils/strUtils');
 const NotificationManager = Output.NotificationMananger;
 const OutputChannel = Output.OutputChannel;
 const FileChecker = fileSystem.FileChecker;
@@ -71,22 +72,24 @@ async function init(context) {
         let username = await Config.getAuthUsername();
         let serverInstance = await Config.getServerInstance(username);
         applicationContext.orgAvailableVersions = await Config.getOrgAvailableVersions(serverInstance);
-        OutputChannel.output('Refreshing Apex Classes Definitions\n');
-        NotificationManager.showStatusBar('$(sync~spin) Refreshing Apex Classes Definitions...');
+        OutputChannel.output('Checking Aura Helper CLI\n');
         let isAuraHelperInstalled = await ProcessManager.isAuraHelperInstalled();
         if (!isAuraHelperInstalled) {
             NotificationManager.showWarning("Aura Helper CLI is not installed and some features are not availables. Please go to https://github.com/JJLongoria/aura-helper-CLI or https://www.npmjs.com/package/aura-helper-cli and follow the instructions to install");
+        } else {
+            checkAuraHelperVersion();
         }
-        ApexParser.compileAllApexClasses(function () {
-            OutputChannel.output('Refreshing Apex Classes Defintions Finished\n');
-            applicationContext.userClasses = getClassesFromCompiledClasses();
-            NotificationManager.hideStatusBar();
-            if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart)
-                refreshSObjectsIndex();
-            else
-                applicationContext.sObjects = getSObjects(false);
-            resolve();
-        });
+        OutputChannel.output('Refreshing Apex Classes Definitions\n');
+        NotificationManager.showStatusBar('$(sync~spin) Refreshing Apex Classes Definitions...');
+        await ApexParser.compileAllApexClasses();
+        OutputChannel.output('Refreshing Apex Classes Defintions Finished\n');
+        applicationContext.userClasses = getClassesFromCompiledClasses();
+        NotificationManager.hideStatusBar();
+        if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart)
+            refreshSObjectsIndex();
+        else
+            applicationContext.sObjects = getSObjects(false);
+        resolve();
     });
 }
 
@@ -100,6 +103,47 @@ function refreshSObjectsIndex() {
             NotificationManager.hideStatusBar();
             resolve();
         });
+    });
+}
+
+function checkAuraHelperVersion() {
+    return new Promise((resolve) => {
+        try {
+            ProcessManager.auraHelperVersion().then((stdOut) => {
+                const splits = stdOut.split(':');
+                const versionSplits = StrUtils.replace(splits[1].trim(), 'v', '').split('.');
+                const requiredVersionSplits = applicationContext.MIN_AH_CLI_VERSION.split('.')
+                const majorVersion = parseInt(versionSplits[0]);
+                const minorVersion = parseInt(versionSplits[1]);
+                const patchVersion = parseInt(versionSplits[2]);
+                const requiredMajorVersion = parseInt(requiredVersionSplits[0]);
+                const requiredMinorVersion = parseInt(requiredVersionSplits[1]);
+                const requiredPatchVersion = parseInt(requiredVersionSplits[2]);
+                if (!(majorVersion >= requiredMajorVersion && minorVersion >= requiredMinorVersion && patchVersion >= requiredPatchVersion)) {
+                    showDialogsForAuraHelperCLI();
+                }
+
+            }).catch((sdtErr) => {
+                showDialogsForAuraHelperCLI();
+            });
+        } catch (error) {
+            resolve();
+        }
+    });
+}
+
+function showDialogsForAuraHelperCLI() {
+    NotificationManager.showWarning('Old Aura Helper CLI Version Installed. For a correct work of Aura Helper Extension, you must update the client. Press Ok for update now or Cancel for update later', () => {
+        NotificationManager.showStatusBar('$(sync~spin) Updating Aura Helper CLI...');
+        ProcessManager.updateAuraHelper().then(() => {
+            NotificationManager.hideStatusBar();
+            NotificationManager.showInfo('Aura Helper CLI Updated. Enjoy it!');
+        }).catch((stdErr) => {
+            NotificationManager.hideStatusBar();
+            NotificationManager.showError('An Error ocurred while updating Aura Helper CLI. You can update manually with command "aura-helper update" or "npm update -g aura-helper-cli"');
+        });
+    }, () => {
+        NotificationManager.showInfo("You may experience errors with the Aura Helper until you update the Aura Helper CLI.");
     });
 }
 
@@ -173,15 +217,23 @@ function getSObjects(fromSFDX) {
 function getNamespacesData() {
     let namespaceMetadata = {};
     Object.keys(applicationContext.allNamespaces).forEach(function (key) {
-        let nsData = getNamespaceMetadataFile(applicationContext.allNamespaces[key].name);
+        let nsData = getNamespaceClasses(key);
         namespaceMetadata[key.toLowerCase()] = nsData;
     });
     return namespaceMetadata;
 }
 
-function getNamespaceMetadataFile(namespace) {
-    let nsMetadataPath = Paths.getSystemClassesPath() + '/' + namespace + "/namespaceMetadata.json";
-    return JSON.parse(FileReader.readFileSync(nsMetadataPath));
+function getNamespaceClasses(namespace) {
+    const nsMetadataPath = Paths.getSystemClassesPath() + '/' + namespace;
+    const files = FileReader.readDirSync(nsMetadataPath);
+    const data = {};
+    for (const file of files) {
+        if (file.indexOf('namespaceMetadata') !== -1)
+            continue;
+        let cls = JSON.parse(FileReader.readFileSync(nsMetadataPath + '/' + file))
+        data[cls.name.toLowerCase()] = cls;
+    }
+    return data;
 }
 /*
 function repairSystemClasses(context, ns, className) {

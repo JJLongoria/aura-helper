@@ -33,6 +33,8 @@ function formatApex(tokens) {
     let queryOpenIndex = 0;
     let querySelectIndex = 0;
     let complexString = false;
+    let onProperty = false;
+    let emptyProperty = false;
     for (let len = tokens.length, index = 0; index < len; index++) {
         let token = tokens[index];
         let lastToken = langUtils.getLastToken(tokens, index);
@@ -253,12 +255,28 @@ function formatApex(tokens) {
                 }
             }
         }
+        if (lastToken && lastToken.type === TokenType.DECLARATION.ENTITY.PROPERTY) {
+            onProperty = true;
+            emptyProperty = isEmptyProperty(tokens, index);
+        }
+        if(token.type === TokenType.BRACKET.CURLY_CLOSE && onProperty && emptyProperty && Config.getConfig().apexFormat.classMembers.singleLineProperties){
+            onProperty = false;
+            emptyProperty = false;
+            newLines = 0;
+            beforeWhitespaces = 1;
+        }
+        if (onProperty && emptyProperty && Config.getConfig().apexFormat.classMembers.singleLineProperties) {
+            newLines = 0;
+            if(token.type === TokenType.KEYWORD.DECLARATION.PROPERTY_GETTER || token.type === TokenType.KEYWORD.DECLARATION.PROPERTY_SETTER){
+                beforeWhitespaces = 1;
+            }
+        } 
         if (isInitializer(token, lastToken)) {
             indentOffset = -1;
             beforeWhitespaces = 0;
             newLines = 1;
         }
-        if(isUnaryOperator(token)){
+        if (isUnaryOperator(token)) {
             beforeWhitespaces = 0;
             afterWhitespaces = 0;
         }
@@ -542,4 +560,20 @@ function getWhitespaces(number) {
         ws += ' ';
     }
     return ws;
+}
+
+function isEmptyProperty(tokens, index) {
+    let isEmptyProperty = true;
+    for (; index < tokens.length; index++) {
+        let token = tokens[index];
+        let nextToken = langUtils.getNextToken(tokens, index);
+        if ((token.type === TokenType.KEYWORD.DECLARATION.PROPERTY_GETTER || token.type === TokenType.KEYWORD.DECLARATION.PROPERTY_SETTER) && nextToken && nextToken.type !== TokenType.PUNCTUATION.SEMICOLON) {
+            isEmptyProperty = false;
+            break;
+        }
+        if (token.type === TokenType.BRACKET.CURLY_CLOSE) {
+            break;
+        }
+    }
+    return isEmptyProperty;
 }

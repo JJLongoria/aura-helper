@@ -10,6 +10,7 @@ const sObjects = {};
 const orgAvailableVersions = [];
 const availablePermissions = [];
 const isAdvanceGUIAvailable = false;
+const MIN_AH_CLI_VERSION = '2.2.0';
 
 module.exports = {
     context,
@@ -23,5 +24,6 @@ module.exports = {
     sObjects,
     orgAvailableVersions,
     availablePermissions,
-    isAdvanceGUIAvailable
+    isAdvanceGUIAvailable,
+    MIN_AH_CLI_VERSION
 }

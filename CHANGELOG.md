@@ -1,5 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [2.1.1 - 2020-07-XX]
+### Added
+- Added new **Apex Formatter Setting** to format properties on a single line when has no body. *Settings > Aura Helper > Apex Format > Class Members > Single Line Properties*
+- Added new control for check the Aura Helper CLI installed version for suggest an update for compatibility reasons.
+
+### Fixed
+- Fixed some on MAC OS X  to  improve compatibility. Now have fully support for Windows, Linux and Mac Systems.
+- Fixed bug on apex formatter with some reserved keywords used as identifier
+- Fixed a bug with implements interfaces command with salesforce system classes
+
 ## [2.1.0 - 2020-07-XX]
 ### Added
 - Added support to compare metadata between two Salesforce Organizations to the command **AuraHelper: Metadata Comparator**

@@ -1645,69 +1645,66 @@ class ApexParser {
         return signature;
     }
 
-    static async compileAllApexClasses(callback) {
-        let classesFolder = Paths.getMetadataRootFolder() + '/' + 'classes'
-        if (!FileChecker.isExists(classesFolder)) {
-            if (callback)
-                callback.call(this);
-            return;
-        }
-        let files = FileReader.readDirSync(classesFolder, { onlyFiles: true, extensions: ['.cls'] });
-        if (!files || files.length === 0) {
-            if (callback)
-                callback.call(this);
-            return;
-        }
-        if (FileChecker.isExists(Paths.getCompiledClassesPath())) {
-            let compiledFiles = FileReader.readDirSync(Paths.getCompiledClassesPath());
-            if (compiledFiles.length > 0) {
-                if (callback)
-                    callback.call(this);
+    static async compileAllApexClasses() {
+        return new Promise(async  (resolve, reject) => {
+            let classesFolder = Paths.getMetadataRootFolder() + '/' + 'classes'
+            if (!FileChecker.isExists(classesFolder)) {
+                resolve();
                 return;
             }
-        }
-        let nBatches = 1;
-        let recordsPerBatch = 200;
-        batches = [];
-        let counter = 0;
-        let batch;
-        for (const file of files) {
-            if (!batch) {
-                batch = {
-                    batchId: 'Bacth_' + counter,
-                    records: [],
-                    completed: false
-                }
-                counter++;
+            let files = FileReader.readDirSync(classesFolder, { onlyFiles: true, extensions: ['.cls'] });
+            if (!files || files.length === 0) {
+                resolve();
+                return;
             }
-            if (batch) {
-                batch.records.push(file);
-                if (batch.records.length === recordsPerBatch) {
-                    batches.push(batch);
-                    batch = undefined;
+            if (FileChecker.isExists(Paths.getCompiledClassesPath())) {
+                let compiledFiles = FileReader.readDirSync(Paths.getCompiledClassesPath());
+                if (compiledFiles.length > 0) {
+                    resolve();
+                    return;
                 }
             }
-        }
-        if (batch)
-            batches.push(batch);
-        for (const batchToProcess of batches) {
-            await ApexParser.compileAllClasses(batchToProcess.records).then(function () {
-                batchToProcess.completed = true;
-                let nCompleted = 0;
-                for (const resultBatch of batches) {
-                    if (resultBatch.completed)
-                        nCompleted++;
+            let nBatches = 1;
+            let recordsPerBatch = 200;
+            batches = [];
+            let counter = 0;
+            let batch;
+            for (const file of files) {
+                if (!batch) {
+                    batch = {
+                        batchId: 'Bacth_' + counter,
+                        records: [],
+                        completed: false
+                    }
+                    counter++;
                 }
-                if (nCompleted === batches.length) {
-                    if (callback)
-                        callback.call(this);
+                if (batch) {
+                    batch.records.push(file);
+                    if (batch.records.length === recordsPerBatch) {
+                        batches.push(batch);
+                        batch = undefined;
+                    }
                 }
-            }).catch(function (error) {
-                OutputChannel.output('Error When Getting Apex Classes Info: \n' + error + '\n');
-                if (callback)
-                    callback.call(this, error);
-            });
-        }
+            }
+            if (batch)
+                batches.push(batch);
+            for (const batchToProcess of batches) {
+                await ApexParser.compileAllClasses(batchToProcess.records).then(function () {
+                    batchToProcess.completed = true;
+                    let nCompleted = 0;
+                    for (const resultBatch of batches) {
+                        if (resultBatch.completed)
+                            nCompleted++;
+                    }
+                    if (nCompleted === batches.length) {
+                        resolve();
+                    }
+                }).catch(function (error) {
+                    OutputChannel.output('Error When Getting Apex Classes Info: \n' + error + '\n');
+                    resolve();
+                });
+            }
+        });
     }
 
     static compileAllClasses(files) {
@@ -1730,7 +1727,7 @@ class ApexParser {
     static compileClass(file, targetFolder) {
         return new Promise(function (resolve, reject) {
             try {
-                if(!FileChecker.isExists(targetFolder))
+                if (!FileChecker.isExists(targetFolder))
                     FileWriter.createFolderSync(targetFolder);
                 FileReader.readFile(file, function (errorRead, data) {
                     if (errorRead) {
