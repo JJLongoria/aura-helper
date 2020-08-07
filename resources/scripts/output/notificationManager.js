@@ -38,8 +38,14 @@ class NotificationManager {
         vscode.window.showInformationMessage(message);
     }
 
-    static showWarning(message) {
-        vscode.window.showWarningMessage(message);
+    static showWarning(message, onAccept, onCancel) {
+        vscode.window.showWarningMessage(message, (onCancel !==  undefined) ? 'Cancel' : undefined, (onAccept !==  undefined) ? 'Ok' : undefined).then((selected) => {
+            if (selected === 'Ok' && onAccept) {
+                onAccept.call(this);
+            } else if (onCancel) {
+                onCancel.call(this);
+            }
+        });
     }
 
 }

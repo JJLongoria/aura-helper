@@ -119,13 +119,13 @@ class Utils {
         let items = [];
         for (const sobject of similarSobjects) {
             let objName = sObjectsMap[sobject];
-            let item = new CompletionItem(objName, CompletionItemKind.Class);
-            item.detail = objName + ' SObject';
-            item.insertText = objName;
+            let item = new CompletionItem(objName.name, CompletionItemKind.Class);
+            item.detail = objName.name + ' SObject';
+            item.insertText = objName.name;
             item.command = {
                 title: 'sObject',
                 command: command,
-                arguments: [position, 'sObject', objName]
+                arguments: [position, 'sObject', objName.name]
             };
             items.push(item);
         }
@@ -138,57 +138,41 @@ class Utils {
         if (sObject) {
             for (const fieldKey of Object.keys(sObject.fields)) {
                 let field = sObject.fields[fieldKey];
-                let item = new CompletionItem(field.name, CompletionItemKind.Field);
                 let itemRel;
-                item.detail = sObject.name + ' Field';
-                item.documentation = "Label: " + field.label + '\n';
-                item.documentation += "Length: " + field.length + '\n';
-                item.documentation += "Type: " + field.type + '\n';
-                item.documentation += "Is Custom: " + field.custom + '\n';
+                let detail = sObject.name + ' Field';
+                let documentation = "Label: " + field.label + '\n';
+                documentation += "Length: " + field.length + '\n';
+                documentation += "Type: " + field.type + '\n';
+                documentation += "Is Custom: " + field.custom + '\n';
                 if (field.referenceTo.length > 0) {
-                    item.documentation += "Reference To: " + field.referenceTo.join(", ") + '\n';
+                    documentation += "Reference To: " + field.referenceTo.join(", ") + '\n';
                     let name = field.name;
                     if (name.endsWith('__c')) {
                         name = name.substring(0, name.length - 3) + '__r';
-                        itemRel = new CompletionItem(name, CompletionItemKind.Field);
-                        itemRel.detail = sObject.name + " Relationsip Field";
-                        itemRel.insertText = name;
-                        itemRel.preselect = true;
-                        itemRel.command = {
-                            title: 'sObject',
-                            command: command,
-                            arguments: [position, 'sObjectRelField', field]
-                        };
+                        let options = Utils.getCompletionItemOptions(sObject.name + " Relationsip Field", 'Relationship with ' + field.referenceTo.join(", ") + ' field(s)', name, true, CompletionItemKind.Field);
+                        let comm = Utils.getCommand('sObject', command, [position, 'sObjectRelField', field]);
+                        itemRel = Utils.createItemForCompletion(name, options, comm);
                     }
                 }
                 if (field.picklistValues.length > 0 && activations[1] === field.name) {
                     picklistItems = [];
-                    item.documentation += "Picklist Values: \n";
+                    documentation += "Picklist Values: \n";
                     for (const pickVal of field.picklistValues) {
-                        let picklistItem = new CompletionItem(pickVal.value, CompletionItemKind.Value);
-                        picklistItem.detail = field.name + ' Picklist Value';
-                        picklistItem.documentation = "Value: " + pickVal.value + '\n';
-                        picklistItem.documentation = "Label: " + pickVal.label + '\n';
-                        picklistItem.documentation = "Active: " + pickVal.active + '\n';
-                        picklistItem.documentation = "Is Default: " + pickVal.defaultValue;
-                        picklistItem.insertText = pickVal.value;
-                        picklistItem.preselect = true;
-                        picklistItem.command = {
-                            title: 'sObject',
-                            command: command,
-                            arguments: [position, 'sObjectPickVal', { field: field, value: pickVal, activations: activations, activationInfo: activationInfo }]
-                        };
-                        picklistItems.push(picklistItem);
-                        item.documentation += pickVal.value + " (" + pickVal.label + ") \n";
+                        let pickDetail = field.name + ' Picklist Value';
+                        let pickDoc = "Value: " + pickVal.value + '\n';
+                        pickDoc += "Label: " + pickVal.label + '\n';
+                        pickDoc += "Active: " + pickVal.active + '\n';
+                        pickDoc += "Is Default: " + pickVal.defaultValue;
+                        let options = Utils.getCompletionItemOptions(pickDetail, pickDoc, pickVal.value, true, CompletionItemKind.Value);
+                        let comm = Utils.getCommand('sObject', command, [position, 'sObjectPickVal', { field: field, value: pickVal, activations: activations, activationInfo: activationInfo }]);
+                        let pickItem = Utils.createItemForCompletion(pickVal.value, options, comm);
+                        picklistItems.push(pickItem);
+                        documentation += pickVal.value + " (" + pickVal.label + ") \n";
                     }
                 }
-                item.insertText = field.name;
-                item.preselect = true;
-                item.command = {
-                    title: 'sObject',
-                    command: command,
-                    arguments: [position, 'sObjectField', field]
-                };
+                let options = Utils.getCompletionItemOptions(detail, documentation, field.name, true, CompletionItemKind.Field);
+                let comm = Utils.getCommand('sObject', command, [position, 'sObjectField', field]);
+                let item = Utils.createItemForCompletion(field.name, options, comm);
                 items.push(item);
                 if (itemRel)
                     items.push(itemRel);
@@ -764,6 +748,9 @@ class Utils {
 
     static createItemForCompletion(name, options, command) {
         let type = CompletionItemKind.Value;
+        if (!options.documentation)
+            options.documentation = '';
+        options.documentation += '\n\nPowered by Aura Helper';
         if (options && options.type)
             type = options.type;
         let item = new CompletionItem(name, type);
@@ -786,9 +773,10 @@ class Utils {
             items = Utils.getApexClassCompletionItems(position, fileStructure)
             Object.keys(classes).forEach(function (key) {
                 let userClass = classes[key];
-                let options = Utils.getCompletionItemOptions(userClass, (userClass.comment) ? userClass.comment : 'Custom Class', userClass, true, CompletionItemKind.Class);
-                let command = Utils.getCommand('UserClass', 'aurahelper.completion.apex', [position, 'UserClass', userClass]);
-                items.push(Utils.createItemForCompletion(userClass, options, command));
+                let className = (userClass.name) ? userClass.name : userClass;
+                let options = Utils.getCompletionItemOptions(className, (userClass.comment) ? userClass.comment : 'Custom Class', className, true, CompletionItemKind.Class);
+                let command = Utils.getCommand('UserClass', 'aurahelper.completion.apex', [position, 'UserClass', className]);
+                items.push(Utils.createItemForCompletion(className, options, command));
             });
             Object.keys(systemMetadata).forEach(function (key) {
                 let systemClass = systemMetadata[key];

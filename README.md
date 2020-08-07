@@ -10,6 +10,7 @@ From code autocomplete tools, to an advanced graphical interface that allows you
 - **Apex Code formatter** with *configurable options* from Aura Helper settings (spaces beetwen operators, max allowed blank lines, open curly brackets on new lines... and more options to format your code as you want)
 - More than **100 snipets** for create Aura Components with less effort
 - Create **package and destructive** files quickly with the powerfull **Package Generator**. Select metadata manually or create the files from two **git branches, commits or tags differences**.
+- **Compare Metadata** between *local  project and Auth org* or between *two different orgs* for get the differences.
 - **Repair Project Dependencies** for get less errors on deploy. Check your local metadata and repair files if is needed. Also you can only check errors. 
 - **Compress XML Files** for make easy the *git conflict handling* and make work more with git more faster.
 - **Edit XML Files easy without errors** from VSCode with the Aura Helper tools.

@@ -609,6 +609,81 @@ class ProcessManager {
             });
         });
     }
+
+    static auraHelperVersion() {
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('version');
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE });
+        return new Promise(function (resolve) {
+            runProcess(process, false).then(function (stdOut) {
+                resolve(stdOut);
+            }).catch(function (stdErr) {
+                resolve(stdErr);
+            });
+        });
+    }
+
+    static updateAuraHelper() {
+        Config = require('../core/config');
+        let command;
+        let commandArgs = [];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('aura-helper');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'aura-helper';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        commandArgs.push('update');
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE });
+        return new Promise(function (resolve) {
+            runProcess(process, false).then(function (stdOut) {
+                resolve(stdOut);
+            }).catch(function (stdErr) {
+                ProcessManager.updateAuraHelperNPM().then((childStdOut) => {
+                    resolve(childStdOut);
+                }).catch((childStdErr) => {
+                    resolve(childStdErr);
+                });
+            });
+        });
+    }
+
+    static updateAuraHelperNPM() {
+        Config = require('../core/config');
+        let command;
+        let commandArgs = ['update', '-g', 'aura-helper-cli'];
+        if (Config.isWindows()) {
+            command = 'cmd';
+            commandArgs.push('/c');
+            commandArgs.push('npm');
+        } else if (Config.isLinux() || Config.isMac()) {
+            command = 'npm';
+        } else {
+            throw new Error('Operative System Not Supported');
+        }
+        process = new Process(command, commandArgs, { maxBuffer: BUFFER_SIZE });
+        return new Promise(function (resolve) {
+            runProcess(process, false).then(function (stdOut) {
+                resolve(stdOut);
+            }).catch(function (stdErr) {
+                resolve(stdErr);
+            });
+        });
+    }
 }
 module.exports = ProcessManager;
 
