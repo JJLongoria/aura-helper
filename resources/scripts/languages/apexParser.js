@@ -1735,7 +1735,7 @@ class ApexParser {
                     } else {
                         try {
                             let fileStructure = ApexParser.getFileStructure(data.toString());
-                            FileWriter.createFile(targetFolder + '\\' + fileStructure.name + '.json', JSON.stringify(fileStructure, null, 2), function (path, errorWrite) {
+                            FileWriter.createFile(targetFolder + '/' + fileStructure.name + '.json', JSON.stringify(fileStructure, null, 2), function (path, errorWrite) {
                                 if (errorWrite)
                                     reject(errorWrite);
                                 else
