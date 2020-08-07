@@ -119,10 +119,12 @@ function checkAuraHelperVersion() {
                 const requiredMajorVersion = parseInt(requiredVersionSplits[0]);
                 const requiredMinorVersion = parseInt(requiredVersionSplits[1]);
                 const requiredPatchVersion = parseInt(requiredVersionSplits[2]);
-                if (!(majorVersion >= requiredMajorVersion && minorVersion >= requiredMinorVersion && patchVersion >= requiredPatchVersion)) {
+                if(majorVersion < requiredMajorVersion)
                     showDialogsForAuraHelperCLI();
-                }
-
+                else if(majorVersion == requiredMajorVersion && minorVersion < requiredMinorVersion)
+                    showDialogsForAuraHelperCLI();
+                else if(majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion)
+                    showDialogsForAuraHelperCLI();
             }).catch((sdtErr) => {
                 showDialogsForAuraHelperCLI();
             });

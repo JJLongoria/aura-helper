@@ -10,7 +10,7 @@ const sObjects = {};
 const orgAvailableVersions = [];
 const availablePermissions = [];
 const isAdvanceGUIAvailable = false;
-const MIN_AH_CLI_VERSION = '2.2.0';
+const MIN_AH_CLI_VERSION = '2.1.1';
 
 module.exports = {
     context,
