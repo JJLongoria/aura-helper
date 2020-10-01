@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [2.1.1 - 2020-07-XX]
+## [2.3.0 - 2020-XX-XX]
+### Added
+- Added new commands for modify permission from one element on one or several (or all) permission sets or profiles. For instance, modify enabled permission on apex classes on all profiles. This commands are **AuraHelper: Add To Profile(s)** or **AuraHelper: Add To PermissionSet(s)**
+- Updated Aura Helper CLI minimum supported version.
+
+
+## [2.2.1 - 2020-08-07]
+### Added
+- Fixed some problems when check if Aura Helper CLI has the correct version
+
+## [2.2.0 - 2020-08-07]
 ### Added
 - Added new **Apex Formatter Setting** to format properties on a single line when has no body. *Settings > Aura Helper > Apex Format > Class Members > Single Line Properties*
 - Added new control for check the Aura Helper CLI installed version for suggest an update for compatibility reasons.
@@ -10,7 +20,7 @@ All notable changes to this project will be documented in this file.
 - Fixed bug on apex formatter with some reserved keywords used as identifier
 - Fixed a bug with implements interfaces command with salesforce system classes
 
-## [2.1.0 - 2020-07-XX]
+## [2.1.0 - 2020-07-17]
 ### Added
 - Added support to compare metadata between two Salesforce Organizations to the command **AuraHelper: Metadata Comparator**
 - Added new command **AuraHelper: Ignore Metadata from Project** for ignore metadata types from your local project.

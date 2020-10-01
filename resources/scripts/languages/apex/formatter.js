@@ -146,12 +146,13 @@ function formatApex(tokens) {
             newLines = 1;
         if (isKeyword(token) && lastToken && lastToken.type === TokenType.DECLARATION.ENTITY.VARIABLE)
             beforeWhitespaces = 1;
-        if (isQueryClause(token) && Config.getConfig().apexFormat.query.oneClausePerLine && lastToken && lastToken.type !== TokenType.BRACKET.QUERY_START) {
+        if (isQueryClause(token) && Config.getConfig().apexFormat.query.oneClausePerLine && lastToken && lastToken.type !== TokenType.BRACKET.QUERY_START && lastToken.type !== TokenType.BRACKET.INNER_QUERY_START) {
             newLines = 1;
             beforeWhitespaces = queryOpenIndex;
         }
-        if (isQueryClause(token))
+        if (isQueryClause(token)){
             afterWhitespaces = 1;
+        }
         if (token.type === TokenType.QUERY.OPERATOR && lastToken && lastToken.type !== TokenType.QUERY.OPERATOR) {
             beforeWhitespaces = 1;
         }

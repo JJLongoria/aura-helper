@@ -156,6 +156,8 @@ module.exports = {
         INIT_VALUES_CLOSE: "bracket.curly.init.values.close",
         QUERY_START: "bracket.square.query.open",
         QUERY_END: "bracket.square.query.close",
+        INNER_QUERY_START: "bracket.parenthesis.query.open",
+        INNER_QUERY_END: "bracket.parenthesis.query.close",
         PARENTHESIS_PARAM_OPEN: "bracket.parenthesis.params.open",
         PARENTHESIS_PARAM_CLOSE: "bracket.parenthesis.params.close",
         PARENTHESIS_GUARD_OPEN: "bracket.parenthesis.guard.open",

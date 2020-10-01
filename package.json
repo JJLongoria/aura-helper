@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions for work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "2.2.1",
+	"version": "2.3.0",
 	"engines": {
 		"vscode": "^1.46.0",
 		"node": ">=12.0.0"
@@ -436,6 +436,14 @@
 			{
 				"command": "aurahelper.metadata.ignore",
 				"title": "AuraHelper: Ignore Metadata from Project"
+			},
+			{
+				"command": "aurahelper.metadata.permission.profile.add",
+				"title": "AuraHelper: Add to Profile(s)"
+			},
+			{
+				"command": "aurahelper.metadata.permission.permissionset.add",
+				"title": "AuraHelper: Add to Permission Set(s)"
 			}
 		],
 		"languages": [
@@ -488,7 +496,7 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./force-app/",
+					"when": "resource =~ /./force-app/ && resourceExtname == ''",
 					"command": "aurahelper.metadata.compress.xml.all",
 					"group": "auraHelper@1"
 				},
@@ -498,18 +506,24 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"when": "resource =~ /.+\\.profile-meta.xml/ || resource =~ /.+\\.permissionset-meta.xml/",
 					"command": "aurahelper.metadata.permission.editor",
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.permission.editor",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./labels/ && resourceExtname == .xml",
+					"when": "resource =~ /.+\\.labels-meta.xml/",
 					"command": "aurahelper.metadata.customlabels.editor",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/ || resource =~ /.+\\.layout-meta.xml/",
+					"command": "aurahelper.metadata.permission.profile.add",
+					"group": "auraHelper@1"
+				}
+				,
+				{
+					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/ || resource =~ /.+\\.layout-meta.xml/",
+					"command": "aurahelper.metadata.permission.permissionset.add",
 					"group": "auraHelper@1"
 				}
 			],
@@ -530,27 +544,32 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./profiles/ && resourceExtname == .xml",
+					"when": "resource =~ /.+\\.profile-meta.xml/ || resource =~ /.+\\.permissionset-meta.xml/",
 					"command": "aurahelper.metadata.permission.editor",
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./labels/ && resourceExtname == .xml",
+					"when": "resource =~ /.+\\.labels-meta.xml/",
 					"command": "aurahelper.metadata.customlabels.editor",
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./permissionsets/ && resourceExtname == .xml",
-					"command": "aurahelper.metadata.permission.editor",
+					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/ || resource =~ /.+\\.layout-meta.xml/",
+					"command": "aurahelper.metadata.permission.profile.add",
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./classes/ && resourceExtname == .cls",
+					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/ || resource =~ /.+\\.layout-meta.xml/",
+					"command": "aurahelper.metadata.permission.permissionset.add",
+					"group": "auraHelper@1"
+				},
+				{
+					"when": "resourceExtname == .cls",
 					"command": "aurahelper.completion.apex.implement.interface",
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./classes/ && resourceExtname == .cls",
+					"when": "resourceExtname == .cls",
 					"command": "aurahelper.completion.apex.implement.extend",
 					"group": "auraHelper@1"
 				}
