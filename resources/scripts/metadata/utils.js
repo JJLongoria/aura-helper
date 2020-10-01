@@ -520,6 +520,7 @@ const availableLanguages = [
     },
 ];
 
+
 class Utils {
 
     static getMetadataFromFileSystem() {
@@ -772,7 +773,7 @@ class Utils {
         }
         let keys = Object.keys(xmlValue);
         let onlyAttrs = false;
-        if (keys.length == 1 && keys.includes('@attrs'))
+        if (keys.length == 1 && keys.includes('@attr'))
             onlyAttrs = true;
         if (xmlValue !== undefined && xmlValue !== '' && !onlyAttrs) {
             if (typeof xmlValue === 'string' && !isJSONValue) {
@@ -859,7 +860,7 @@ class Utils {
                     lineData.push(text);
                 } else {
                     for (const key of orderedKeys) {
-                        if (key !== '@attrs' && key !== '#text') {
+                        if (key !== '@attr' && key !== '#text') {
                             lineData.push(Utils.getXMLTag(key, data[key]));
                         }
                     }
@@ -887,9 +888,9 @@ class Utils {
 
     static getAttributes(data) {
         let attributes = [];
-        if (data['@attrs'] !== undefined) {
-            Object.keys(data['@attrs']).forEach(function (key) {
-                attributes.push(key + '="' + data['@attrs'][key] + '"');
+        if (data['@attr'] !== undefined) {
+            Object.keys(data['@attr']).forEach(function (key) {
+                attributes.push(key + '="' + data['@attr'][key] + '"');
             });
         }
         return attributes;
@@ -1025,7 +1026,7 @@ class Utils {
         return orgVersion >= minVersion && orgVersion <= maxVersion;
     }
 
-    static createXMLFile(xmlMetadata) {
+    static createXMLFile(xmlMetadata, attributes) {
         let result = {};
         let lastVersion = Config.getLastVersion();
         let orgVersion = parseInt(Config.getOrgVersion());
@@ -1041,6 +1042,9 @@ class Utils {
                 }
             }
         });
+        if (attributes) {
+            result['@attr'] = attributes;
+        }
         return result;
     }
 
@@ -1054,6 +1058,62 @@ class Utils {
                 return lang;
         }
         return undefined;
+    }
+
+    static handleUniqueFields(xmlFile, elementData, uniqueFields, xmlElementName, xmlSubelementName) {
+        if (uniqueFields.length > 0) {
+            for (let xmlElement of xmlFile[elementData.key]) {
+                if (!xmlSubelementName && xmlElement[elementData.xmlData.fieldKey] !== xmlElementName) {
+                    for (let uniqueField of uniqueFields) {
+                        if (xmlElement[uniqueField.field] === uniqueField.value) {
+                            if (uniqueField.datatype === 'boolean') {
+                                xmlElement[uniqueField.field] = !uniqueField.value;
+                            } else {
+                                // throw Error
+                            }
+                        }
+                    }
+                } else if (xmlSubelementName && xmlElement[elementData.xmlData.fieldKey] !== xmlElementName + elementData.xmlData.fields[elementData.xmlData.fieldKey].separator + xmlSubelementName && xmlElement[elementData.xmlData.fieldKey].startsWith(xmlElementName)) {
+                    for (let uniqueField of uniqueFields) {
+                        if (xmlElement[uniqueField.field] === uniqueField.value) {
+                            if (uniqueField.datatype === 'boolean') {
+                                xmlElement[uniqueField.field] = !uniqueField.value;
+                            } else {
+                                // throw Error
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    static handleControlledFields(xmlFile, elementData, checkedOrUncheckedItems, xmlElementName, xmlSubelementName) {
+        for (let item of checkedOrUncheckedItems) {
+            if (elementData.xmlData.fields[item] && elementData.xmlData.fields[item].controlledFields && elementData.xmlData.fields[item].controlledFields.length > 0) {
+                for (let xmlElement of xmlFile[elementData.key]) {
+                    if (!xmlSubelementName) {
+                        if (xmlElement[elementData.xmlData.fieldKey] === xmlElementName) {
+                            for (let controlledField of elementData.xmlData.fields[item].controlledFields) {
+                                if (xmlElement[controlledField.field] !== undefined && xmlElement[item] === controlledField.valueToCompare) {
+                                    xmlElement[controlledField.field] = controlledField.valueToSet;
+                                }
+                            }
+                            break;
+                        }
+                    } else {
+                        if (xmlElement[elementData.xmlData.fieldKey] === xmlElementName + elementData.xmlData.fields[elementData.xmlData.fieldKey].separator + xmlSubelementName) {
+                            for (let controlledField of elementData.xmlData.fields[item].controlledFields) {
+                                if (xmlElement[controlledField.field] !== undefined && xmlElement[item] === controlledField.valueToCompare) {
+                                    xmlElement[controlledField.field] = controlledField.valueToSet;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 module.exports = Utils;

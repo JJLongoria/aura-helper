@@ -237,7 +237,6 @@ class ProcessManager {
             throw new Error('Operative System Not Supported');
         }
         commandArgs.push('metadata:local:compress');
-        commandArgs.push('--json');
         commandArgs.push('-d');
         commandArgs.push('' + folder + '');
         commandArgs.push('-p');

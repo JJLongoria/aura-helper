@@ -1397,6 +1397,10 @@ const XML_METADATA = {
     }
 }
 
+const ATTRIBUTES = {
+    xmlns: 'http://soap.sforce.com/2006/04/metadata'
+}
+
 class ProfileUtils {
 
     static getXMLMetadata() {
@@ -1407,7 +1411,7 @@ class ProfileUtils {
         let result = {};
         if (profile) {
             result = ProfileUtils.createProfile();
-            result = Utils.prepareXML(profile, result,);
+            result = Utils.prepareXML(profile, result);
             Object.keys(result).forEach(function (elementKey) {
                 if (Array.isArray(result[elementKey])) {
                     let elementData = XML_METADATA[elementKey];
@@ -1415,7 +1419,7 @@ class ProfileUtils {
                 }
             });
         } else {
-            result = Utils.createXMLFile(XML_METADATA);
+            result = Utils.createXMLFile(XML_METADATA, ATTRIBUTES);
         }
         return result;
     }

@@ -80,7 +80,7 @@ class PermissionEditor extends XMLEditor {
                 else
                     this._xmlContent.Profile = this._permissionsContent;
                 this.save();
-                if(this._onAcceptCallback)
+                if (this._onAcceptCallback)
                     this._onAcceptCallback.call(this);
                 this._currentInput.dispose();
             } else {
@@ -189,9 +189,9 @@ class PermissionEditor extends XMLEditor {
                             let uncheckedNow = getUncheckedItems(selectedItems, this._currentInput.items);
                             if (checkedNow.length === 0 && uncheckedNow.length === 0)
                                 checkedNow = selectedItems;
-                            handleUniqueFields(uniqueFields, elementData, this._permissionsContent, this._selectedElement);
-                            handleControlledFields(checkedNow, elementData, this._permissionsContent, this._selectedElement);
-                            handleControlledFields(uncheckedNow, elementData, this._permissionsContent, this._selectedElement);
+                            Utils.handleUniqueFields(this._permissionsContent, elementData, uniqueFields, this._selectedElement);
+                            Utils.handleControlledFields(this._permissionsContent, elementData, checkedNow, this._selectedElement);
+                            Utils.handleControlledFields(this._permissionsContent, elementData, uncheckedNow, this._selectedElement);
                         }
                     }
                     break;
@@ -222,9 +222,9 @@ class PermissionEditor extends XMLEditor {
                     let uncheckedNow = getUncheckedItems(selectedItems, this._currentInput.items);
                     if (checkedNow.length === 0 && uncheckedNow.length === 0)
                         checkedNow = selectedItems;
-                    handleUniqueFields(uniqueFields, elementData, this._permissionsContent, this._selectedElement, this._selectedSubElement);
-                    handleControlledFields(checkedNow, elementData, this._permissionsContent, this._selectedElement, this._selectedSubElement);
-                    handleControlledFields(uncheckedNow, elementData, this._permissionsContent, this._selectedElement, this._selectedSubElement);
+                    Utils.handleUniqueFields(this._permissionsContent, elementData, uniqueFields, this._selectedElement, this._selectedSubElement);
+                    Utils.handleControlledFields(this._permissionsContent, elementData, checkedNow, this._selectedElement, this._selectedSubElement);
+                    Utils.handleControlledFields(this._permissionsContent, elementData, uncheckedNow, this._selectedElement, this._selectedSubElement);
                     break;
                 default:
                     break;
@@ -1222,62 +1222,6 @@ function canPickMany(elementData) {
         }
     }
     return allBoolean;
-}
-
-function handleUniqueFields(uniqueFields, elementData, profileContent, selectedElement, selectedSubElement) {
-    if (uniqueFields.length > 0) {
-        for (let xmlElement of profileContent[elementData.key]) {
-            if (!selectedSubElement && xmlElement[elementData.xmlData.fieldKey] !== selectedElement) {
-                for (let uniqueField of uniqueFields) {
-                    if (xmlElement[uniqueField.field] === uniqueField.value) {
-                        if (uniqueField.datatype === 'boolean') {
-                            xmlElement[uniqueField.field] = !uniqueField.value;
-                        } else {
-                            // throw Error
-                        }
-                    }
-                }
-            } else if (selectedSubElement && xmlElement[elementData.xmlData.fieldKey] !== selectedElement + elementData.xmlData.fields[elementData.xmlData.fieldKey].separator + this._selectedSubElement) {
-                for (let uniqueField of uniqueFields) {
-                    if (xmlElement[uniqueField.field] === uniqueField.value) {
-                        if (uniqueField.datatype === 'boolean') {
-                            xmlElement[uniqueField.field] = !uniqueField.value;
-                        } else {
-                            // throw Error
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-function handleControlledFields(items, elementData, profileContent, selectedElement, selectedSubElement) {
-    for (let selectedItem of items) {
-        if (elementData.xmlData.fields[selectedItem] && elementData.xmlData.fields[selectedItem].controlledFields && elementData.xmlData.fields[selectedItem].controlledFields.length > 0) {
-            for (let xmlElement of profileContent[elementData.key]) {
-                if (!selectedSubElement) {
-                    if (xmlElement[elementData.xmlData.fieldKey] === selectedElement) {
-                        for (let controlledField of elementData.xmlData.fields[selectedItem].controlledFields) {
-                            if (xmlElement[controlledField.field] !== undefined && xmlElement[selectedItem] === controlledField.valueToCompare) {
-                                xmlElement[controlledField.field] = controlledField.valueToSet;
-                            }
-                        }
-                        break;
-                    }
-                } else {
-                    if (xmlElement[elementData.xmlData.fieldKey] === selectedElement + elementData.xmlData.fields[elementData.xmlData.fieldKey].separator + selectedSubElement) {
-                        for (let controlledField of elementData.xmlData.fields[selectedItem].controlledFields) {
-                            if (xmlElement[controlledField.field] !== undefined && xmlElement[selectedItem] === controlledField.valueToCompare) {
-                                xmlElement[controlledField.field] = controlledField.valueToSet;
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-    }
 }
 
 function getTypeDifferences(metadata, metadataFromProfile, collectionName, xmlMetadata) {
