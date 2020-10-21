@@ -3,12 +3,12 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions for work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "2.3.0",
+	"version": "2.2.9",
 	"engines": {
 		"vscode": "^1.46.0",
 		"node": ">=12.0.0"
 	},
-	"icon": "resources/images/icon.png",
+	"icon": "resources/images/blue_icon.png",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/JJLongoria/aura-helper"
@@ -312,7 +312,13 @@
 				"aurahelper.apexFormat.query.oneProjectionFieldPerLine": {
 					"type": "boolean",
 					"default": false,
-					"description": "Set every query clause on a new line"
+					"description": "Set every projection field on a new line (Deprecated. Use Max Projection Field Per Line setting instead)"
+				},
+				"aurahelper.apexFormat.query.maxProjectionFieldPerLine": {
+					"type": "integer",
+					"default": 0,
+					"minimum": 0,
+					"description": "Set the maximum projection fields per line. 0 to put all fields on the same line"
 				}
 			}
 		},
@@ -522,7 +528,7 @@
 				}
 				,
 				{
-					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/ || resource =~ /.+\\.layout-meta.xml/",
+					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/",
 					"command": "aurahelper.metadata.permission.permissionset.add",
 					"group": "auraHelper@1"
 				}
@@ -559,7 +565,7 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/ || resource =~ /.+\\.layout-meta.xml/",
+					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/",
 					"command": "aurahelper.metadata.permission.permissionset.add",
 					"group": "auraHelper@1"
 				},
