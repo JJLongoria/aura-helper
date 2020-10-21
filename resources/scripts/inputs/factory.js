@@ -3,6 +3,28 @@ const { Factory } = require('../metadata');
 
 class InputFactory {
 
+    static createSingleSelectorInput(values, placeholder, alwaysOnTop) {
+        const items = [];
+        for (const value of values) {
+            items.push(InputFactory.createQuickPickItem(value, undefined, undefined, false));
+        }
+        return createQuickPick(items, placeholder, false, alwaysOnTop);
+    }
+
+    static createMultiSelectorInput(values, placeholder, alwaysOnTop) {
+        const items = [];
+        for (const value of values) {
+            if (typeof value === 'string')
+                items.push(InputFactory.createQuickPickItem(value));
+            else {
+                if (value.type === 'boolean') {
+                    items.push(InputFactory.createQuickPickItem(value.name, undefined, undefined, value.value));
+                }
+            }
+        }
+        return createQuickPick(items, placeholder, true, alwaysOnTop);
+    }
+
     static createCompressSelector() {
         return new Promise(async function (resolve) {
             let options = ['Yes', 'No'];
@@ -93,7 +115,7 @@ class InputFactory {
         return createQuickPick(items);
     }
 
-    static createCompareOptioniSelector() {
+    static createCompareOptionSelector() {
         let items = [
             InputFactory.createQuickPickItem('Compare Local and Org', undefined, 'Compare your local project with your auth org for get the differences'),
             InputFactory.createQuickPickItem('Compare Different Orgs', undefined, 'Compare two different orgs for get the differences')
@@ -130,10 +152,17 @@ module.exports = InputFactory;
 function createQuickPick(items, placeholder, pickMany, alwaysOnTop) {
     if (!placeholder)
         placeholder = 'Select an option';
+    const selectedItems = [];
     return new Promise((resolve) => {
         let input = vscode.window.createQuickPick();
         input.placeholder = placeholder;
         input.items = items;
+        for (const item of items) {
+            if (item.picked)
+                selectedItems.push(item);
+        }
+        if (selectedItems.length > 0)
+            input.selectedItems = selectedItems;
         input.canSelectMany = pickMany;
         input.ignoreFocusOut = alwaysOnTop;
         input.onDidChangeSelection((items) => {

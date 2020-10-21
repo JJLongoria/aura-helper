@@ -346,6 +346,7 @@ class Lexer {
         let parentIndex = [];
         let bracketIndex = [];
         let auxBracketIndex = [];
+        let innerQueryIndex = [];
         for (let charIndex = 0, len = content.length; charIndex < len; charIndex++) {
             let fourChars = content.substring(charIndex, charIndex + 4);
             let threeChars = content.substring(charIndex, charIndex + 3);
@@ -474,7 +475,6 @@ class Lexer {
                         if (tokens[index].getParentToken())
                             token.setParentToken(tokens[index]);
                     }
-
                 } else if (token.type === TokenType.OPERATOR.ASSIGN.ASSIGN && onQuery) {
                     token.type = TokenType.OPERATOR.LOGICAL.EQUALITY;
                 } else if (token.type === TokenType.BRACKET.SQUARE_OPEN) {
@@ -496,8 +496,8 @@ class Lexer {
                         tokens[tokens.length - 1].type = TokenType.DATATYPE.SUPPORT_CLASS;
                 } else if (token.type === TokenType.IDENTIFIER) {
                     if (reservedKeywords[token.textToLower] && reservedKeywords[token.textToLower] !== TokenType.KEYWORD.FOR_FUTURE && (!lastToken || (lastToken && lastToken.type !== TokenType.PUNCTUATION.OBJECT_ACCESSOR))) {
-                        if (!onQuery || (onQuery && lastToken.type !== TokenType.QUERY.VALUE_BIND)){
-                            if(lastToken && isDatatypeToken(lastToken)){
+                        if (!onQuery || (onQuery && lastToken.type !== TokenType.QUERY.VALUE_BIND)) {
+                            if (lastToken && isDatatypeToken(lastToken)) {
                                 token.type = TokenType.DECLARATION.ENTITY.VARIABLE
                             } else {
                                 token.type = reservedKeywords[token.textToLower];
@@ -516,6 +516,8 @@ class Lexer {
                     } else if (!onQuery && (token.type === TokenType.QUERY.CLAUSE.SELECT || token.type === TokenType.QUERY.CLAUSE.FIND) && lastToken.type === TokenType.BRACKET.SQUARE_OPEN && sqBracketIndent === 1) {
                         onQuery = true;
                         tokens[tokens.length - 1].type = TokenType.BRACKET.QUERY_START;
+                    } else if (onQuery && token.type === TokenType.QUERY.CLAUSE.SELECT && lastToken && lastToken.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
+                        tokens[tokens.length - 1].type = TokenType.BRACKET.INNER_QUERY_START;
                     } else if (onQuery && soqlFunctions[token.textToLower] && lastToken && lastToken.type !== TokenType.QUERY.VALUE_BIND && lastToken.type !== TokenType.PUNCTUATION.OBJECT_ACCESSOR) {
                         token.type = soqlFunctions[token.textToLower];
                     } else if (onQuery && soqlOperators[token.textToLower] && lastToken && lastToken.type !== TokenType.QUERY.VALUE_BIND && lastToken.type !== TokenType.PUNCTUATION.OBJECT_ACCESSOR) {
@@ -582,6 +584,10 @@ class Lexer {
                         token.type = TokenType.DATATYPE.SOBJECT;
                         if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.ENTITY.VARIABLE || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && (!reservedKeywords[token.textToLower] || reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
                             token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
+                        if (onQuery && lastToken && lastToken.type === TokenType.QUERY.CLAUSE.SELECT)
+                            token.type = TokenType.ENTITY.SOBJECT_PROJECTION_FIELD;
+                        else if (onQuery && twoLastToken && twoLastToken.type === TokenType.ENTITY.SOBJECT_PROJECTION_FIELD)
+                            token.type = TokenType.ENTITY.SOBJECT_PROJECTION_FIELD;
                     } else if (lastToken && lastToken.type === TokenType.KEYWORD.DECLARATION.CLASS) {
                         token.type = TokenType.DECLARATION.ENTITY.CLASS;
                     } else if (lastToken && lastToken.type === TokenType.KEYWORD.DECLARATION.ENUM) {
@@ -710,6 +716,8 @@ class Lexer {
                                 token.setParentToken(tokens[index]);
                             } else if (tokens[index] && tokens[index].type === TokenType.BRACKET.TRIGGER_GUARD_OPEN) {
                                 token.type = TokenType.BRACKET.TRIGGER_GUARD_CLOSE;
+                            } else if (tokens[index] && tokens[index].type === TokenType.BRACKET.INNER_QUERY_START) {
+                                token.type = TokenType.BRACKET.INNER_QUERY_END;
                             }
                         }
                     }

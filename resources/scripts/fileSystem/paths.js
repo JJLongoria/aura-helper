@@ -109,7 +109,7 @@ class Paths {
         return StrUtils.replace(filePath.replace('.cmp', '').replace('.auradoc', '').replace('.svg', '').replace('.css', '').replace('.design', '').replace('.app', '').replace('.app', 'Controller.js').replace('.app', 'Helper.js') + 'Renderer.js', '\\', '/');
     }
     static asUri(filePath) {
-        return StrUtils.replace(vscode.Uri.file(filePath), '\\', '/');
+        return vscode.Uri.file(StrUtils.replace(filePath, '\\', '/'));
     }
     static getImagesPath(){
         return StrUtils.replace(applicationContext.context.asAbsolutePath("./resources/images"), '\\', '/');
