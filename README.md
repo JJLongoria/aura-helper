@@ -120,7 +120,10 @@ Examples:
 
 ![Help 1](https://i.imgur.com/sPqmwS6.gif)
 
+## Contributions
 
+### Logo Design: 
+- Isabel García Sánchez - Ib (igarciasanchez00@gmail.com).
 
 <!-- 
 ## Working with Markdown

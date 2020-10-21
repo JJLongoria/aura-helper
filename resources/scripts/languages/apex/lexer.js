@@ -584,6 +584,10 @@ class Lexer {
                         token.type = TokenType.DATATYPE.SOBJECT;
                         if (lastToken && (isDatatypeToken(lastToken) || lastToken.type === TokenType.ENTITY.VARIABLE || lastToken.type === TokenType.BRACKET.PARAMETRIZED_TYPE_CLOSE || lastToken.type === TokenType.BRACKET.SQUARE_CLOSE) && (!reservedKeywords[token.textToLower] || reservedKeywords[token.textToLower] === TokenType.KEYWORD.FOR_FUTURE))
                             token.type = TokenType.DECLARATION.ENTITY.VARIABLE;
+                        if (onQuery && lastToken && lastToken.type === TokenType.QUERY.CLAUSE.SELECT)
+                            token.type = TokenType.ENTITY.SOBJECT_PROJECTION_FIELD;
+                        else if (onQuery && twoLastToken && twoLastToken.type === TokenType.ENTITY.SOBJECT_PROJECTION_FIELD)
+                            token.type = TokenType.ENTITY.SOBJECT_PROJECTION_FIELD;
                     } else if (lastToken && lastToken.type === TokenType.KEYWORD.DECLARATION.CLASS) {
                         token.type = TokenType.DECLARATION.ENTITY.CLASS;
                     } else if (lastToken && lastToken.type === TokenType.KEYWORD.DECLARATION.ENUM) {
