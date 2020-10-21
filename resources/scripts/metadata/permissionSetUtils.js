@@ -628,6 +628,10 @@ const XML_METADATA = {
     }
 }
 
+const ATTRIBUTES = {
+    xmlns: 'http://soap.sforce.com/2006/04/metadata'
+}
+
 class PermissionSetUtils {
 
     static getXMLMetadata() {
@@ -645,7 +649,7 @@ class PermissionSetUtils {
                 }
             });
         } else {
-            result = Utils.createXMLFile(XML_METADATA);
+            result = Utils.createXMLFile(XML_METADATA, ATTRIBUTES);
         }
         return result;
     }

@@ -30,11 +30,12 @@ function formatApex(tokens) {
     let afterWhitespaces = 0;
     let guardOpen = false;
     let mainBodyIndent = 0;
-    let queryOpenIndex = 0;
-    let querySelectIndex = 0;
+    let queryOpenIndex = [];
+    let querySelectIndex = [];
     let complexString = false;
     let onProperty = false;
     let emptyProperty = false;
+    let projectionFieldsOnLine = [];
     for (let len = tokens.length, index = 0; index < len; index++) {
         let token = tokens[index];
         let lastToken = langUtils.getLastToken(tokens, index);
@@ -53,11 +54,23 @@ function formatApex(tokens) {
         } else if (token.type === TokenType.BRACKET.PARENTHESIS_GUARD_CLOSE) {
             guardOpen = false;
         }
-        if (lastToken && lastToken.type === TokenType.BRACKET.QUERY_START) {
-            queryOpenIndex = StrUtils.replace(line, '\t', '    ').length - (indent * 4);
+        if (lastToken && lastToken.type === TokenType.BRACKET.QUERY_START || lastToken && lastToken.type === TokenType.BRACKET.INNER_QUERY_START) {
+            queryOpenIndex.push(StrUtils.replace(line, '\t', '    ').length - (indent * 4));
+            projectionFieldsOnLine.push(0);
+        }
+        if (token.type === TokenType.BRACKET.INNER_QUERY_START) {
+            if (Config.getConfig().apexFormat.query.maxProjectionFieldPerLine > 0) {
+                if (projectionFieldsOnLine[projectionFieldsOnLine.length - 1] === Config.getConfig().apexFormat.query.maxProjectionFieldPerLine) {
+                    newLines = 1;
+                    beforeWhitespaces = querySelectIndex[querySelectIndex.length - 1];
+                    projectionFieldsOnLine[projectionFieldsOnLine.length - 1] = 1;
+                } else {
+                    projectionFieldsOnLine[projectionFieldsOnLine.length - 1] = projectionFieldsOnLine[projectionFieldsOnLine.length - 1] + 1;
+                }
+            }
         }
         if (lastToken && lastToken.type === TokenType.QUERY.CLAUSE.SELECT) {
-            querySelectIndex = StrUtils.replace(line, '\t', '    ').length - (indent * 4);
+            querySelectIndex.push(StrUtils.replace(line, '\t', '    ').length - (indent * 4));
         }
 
         if (token.type === TokenType.KEYWORD.DECLARATION.CLASS || token.type === TokenType.KEYWORD.DECLARATION.ENUM || token.type === TokenType.KEYWORD.DECLARATION.INTERFACE)
@@ -146,12 +159,13 @@ function formatApex(tokens) {
             newLines = 1;
         if (isKeyword(token) && lastToken && lastToken.type === TokenType.DECLARATION.ENTITY.VARIABLE)
             beforeWhitespaces = 1;
-        if (isQueryClause(token) && Config.getConfig().apexFormat.query.oneClausePerLine && lastToken && lastToken.type !== TokenType.BRACKET.QUERY_START) {
+        if (isQueryClause(token) && Config.getConfig().apexFormat.query.oneClausePerLine && lastToken && lastToken.type !== TokenType.BRACKET.QUERY_START && lastToken.type !== TokenType.BRACKET.INNER_QUERY_START) {
             newLines = 1;
-            beforeWhitespaces = queryOpenIndex;
+            beforeWhitespaces = queryOpenIndex[queryOpenIndex.length - 1];
         }
-        if (isQueryClause(token))
+        if (isQueryClause(token)) {
             afterWhitespaces = 1;
+        }
         if (token.type === TokenType.QUERY.OPERATOR && lastToken && lastToken.type !== TokenType.QUERY.OPERATOR) {
             beforeWhitespaces = 1;
         }
@@ -164,13 +178,23 @@ function formatApex(tokens) {
             beforeWhitespaces = 1;
         if (lastToken && (isLiteral(lastToken) || lastToken.type === TokenType.ENTITY.SOBJECT_FIELD || lastToken.type === TokenType.ENTITY.SOBJECT_PROJECTION_FIELD || lastToken.type === TokenType.PUNCTUATION.QUOTTES_END || lastToken.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE || lastToken.type === TokenType.ENTITY.VARIABLE) && isQueryClause(token) && newLines === 0)
             beforeWhitespaces = 1;
-        if (lastToken && lastToken.type === TokenType.QUERY.CLAUSE.SELECT && Config.getConfig().apexFormat.query.oneProjectionFieldPerLine) {
-            newLines = 1;
-            beforeWhitespaces = querySelectIndex - 1;
+        if (lastToken && lastToken.type === TokenType.QUERY.CLAUSE.SELECT && Config.getConfig().apexFormat.query.maxProjectionFieldPerLine > 0) {
+            if (projectionFieldsOnLine[projectionFieldsOnLine.length - 1] === Config.getConfig().apexFormat.query.maxProjectionFieldPerLine) {
+                newLines = 1;
+                beforeWhitespaces = querySelectIndex[querySelectIndex.length - 1];
+                projectionFieldsOnLine[projectionFieldsOnLine.length - 1] = 1;
+            } else {
+                projectionFieldsOnLine[projectionFieldsOnLine.length - 1] = projectionFieldsOnLine[projectionFieldsOnLine.length - 1] + 1;
+            }
         }
-        if (twoLastToken && twoLastToken.type === TokenType.ENTITY.SOBJECT_PROJECTION_FIELD && lastToken && (lastToken.type === TokenType.PUNCTUATION.COMMA) && Config.getConfig().apexFormat.query.oneProjectionFieldPerLine) {
-            newLines = 1;
-            beforeWhitespaces = querySelectIndex - 1;
+        if (twoLastToken && twoLastToken.type === TokenType.ENTITY.SOBJECT_PROJECTION_FIELD && lastToken && (lastToken.type === TokenType.PUNCTUATION.COMMA) && Config.getConfig().apexFormat.query.maxProjectionFieldPerLine > 0) {
+            if (projectionFieldsOnLine[projectionFieldsOnLine.length - 1] === Config.getConfig().apexFormat.query.maxProjectionFieldPerLine) {
+                newLines = 1;
+                beforeWhitespaces = querySelectIndex[querySelectIndex.length - 1];
+                projectionFieldsOnLine[projectionFieldsOnLine.length - 1] = 1;
+            } else {
+                projectionFieldsOnLine[projectionFieldsOnLine.length - 1] = projectionFieldsOnLine[projectionFieldsOnLine.length - 1] + 1;
+            }
         }
         if (token.type === TokenType.QUERY.VALUE_BIND && lastToken && lastToken !== TokenType.QUERY.OPERATOR && !isOperator(lastToken) && !isKeyword(lastToken) && !isQueryClause(lastToken)) {
             beforeWhitespaces = 1;
@@ -242,6 +266,11 @@ function formatApex(tokens) {
             newLines = 0;
             complexString = true;
         }
+        if (token.type === TokenType.BRACKET.QUERY_END || token.type === TokenType.BRACKET.INNER_QUERY_END) {
+            querySelectIndex.pop();
+            queryOpenIndex.pop();
+            projectionFieldsOnLine.pop();
+        }
         if (indent > 0 && indent !== mainBodyIndent && token.type !== TokenType.KEYWORD.DECLARATION.PROPERTY_GETTER && token.type !== TokenType.KEYWORD.DECLARATION.PROPERTY_SETTER) {
             if (newLines > 0 && originalNewLines > 1) {
                 if (Config.getConfig().apexFormat.punctuation.maxBlankLines === -1)
@@ -259,7 +288,7 @@ function formatApex(tokens) {
             onProperty = true;
             emptyProperty = isEmptyProperty(tokens, index);
         }
-        if(token.type === TokenType.BRACKET.CURLY_CLOSE && onProperty && emptyProperty && Config.getConfig().apexFormat.classMembers.singleLineProperties){
+        if (token.type === TokenType.BRACKET.CURLY_CLOSE && onProperty && emptyProperty && Config.getConfig().apexFormat.classMembers.singleLineProperties) {
             onProperty = false;
             emptyProperty = false;
             newLines = 0;
@@ -267,10 +296,10 @@ function formatApex(tokens) {
         }
         if (onProperty && emptyProperty && Config.getConfig().apexFormat.classMembers.singleLineProperties) {
             newLines = 0;
-            if(token.type === TokenType.KEYWORD.DECLARATION.PROPERTY_GETTER || token.type === TokenType.KEYWORD.DECLARATION.PROPERTY_SETTER){
+            if (token.type === TokenType.KEYWORD.DECLARATION.PROPERTY_GETTER || token.type === TokenType.KEYWORD.DECLARATION.PROPERTY_SETTER) {
                 beforeWhitespaces = 1;
             }
-        } 
+        }
         if (isInitializer(token, lastToken)) {
             indentOffset = -1;
             beforeWhitespaces = 0;

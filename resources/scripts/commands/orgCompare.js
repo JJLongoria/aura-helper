@@ -17,7 +17,7 @@ const FileChecker = fileSystem.FileChecker;
 let view;
 exports.run = async function () {
     let loadMessage = 'Comparing Org Metadata with your local metadata -- (Only affects metadata types that you have in your local project)';
-    let compareOptions = await InputFactory.createCompareOptioniSelector();
+    let compareOptions = await InputFactory.createCompareOptionSelector();
     let sourceOrg;
     let targetOrg;
     if (!compareOptions)
