@@ -1,11 +1,10 @@
-const snippetUtils = require('../utils/snippetUtils');
+const SnippetUtils = require('../utils/snippetUtils');
 const InputValidator = require('../inputs/inputValidator');
+const { FileChecker } = require('@ah/core').FileSystem;
 const NotificationManager = require('../output/notificationManager');
-const fileSystem = require('../fileSystem');
 const vscode = require('vscode');
 const window = vscode.window;
 const SnippetString = vscode.SnippetString;
-const FileChecker = fileSystem.FileChecker;
 
 exports.run = function() {
     try {
@@ -32,7 +31,7 @@ function addJSFunction(editor){
 
 function processInput(numParams, editor){
     if (numParams >= 0) {
-        const funcBody = snippetUtils.getJSFunctionSnippet(numParams);
+        const funcBody = SnippetUtils.getJSFunctionSnippet(numParams);
         editor.insertSnippet(new SnippetString(`${funcBody}`), editor.selection);
     }
 }

@@ -1,13 +1,13 @@
 const vscode = require('vscode');
 const NotificationManager = require('../output/notificationManager');
 const InputFactory = require('../inputs/factory');
-const fileSystem = require('../fileSystem');
-const metadata = require('../metadata');
-const ProcessManager = require('../processes/processManager');
-const FileChecker = fileSystem.FileChecker;
-const FileReader = fileSystem.FileReader;
-const Paths = fileSystem.Paths;
-const MetadataUtils = metadata.Utils;
+const { FileReader, FileChecker } = require('@ah/core').FileSystem;
+const { MetadataUtils } = require('@ah/core').CoreUtils;
+const Paths = require('../core/paths');
+const Config = require('../core/config');
+const CLIManager = require('@ah/cli-manager');
+const Ignore = require('@ah/ignore');
+const Connection = require('@ah/connector');
 
 exports.run = async function () {
     let ignoreOption = await InputFactory.createIgnoreOptionsSelector();
@@ -15,10 +15,15 @@ exports.run = async function () {
         return;
     let ignoreFilePath;
     if (ignoreOption === 'Use Custom Ignore File') {
-        ignoreFilePath = await getCustomIgnoreFile();
-    } else {
-        ignoreFilePath = Paths.getWorkspaceFolder() + '/.ahignore.json';
+        ignoreFilePath = await InputFactory.createFileDialog('Select ahignore', false, { 'JSON files': ['json'] });
+        if (ignoreFilePath && ignoreFilePath[0])
+            ignoreFilePath = ignoreFilePath[0].fsPath;
+        else {
+            return;
+        }
     }
+    else
+        ignoreFilePath = Paths.getAHIgnoreFile();
     if (!FileChecker.isExists(ignoreFilePath)) {
         NotificationManager.showError('Ignore File does not exists (' + ignoreFilePath + ')');
         return;
@@ -35,49 +40,61 @@ exports.run = async function () {
         let compress = await InputFactory.createCompressSelector();
         if (!compress)
             return;
-        let options = {
-            compress: compress,
-            types: items.join(','),
-            ignoreFile: ignoreFilePath
-        };
+        const sortOrder = Config.getXMLSortOrder();
         vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
             title: 'Ignoring metadata from your local project',
-            cancellable: false
-        }, () => {
+            cancellable: true
+        }, (progress, cancelToken) => {
             return new Promise(async (resolve) => {
-                let out = await ProcessManager.auraHelperIgnore(options, true);
-                if (out) {
-                    if (out.stdOut) {
-                        NotificationManager.showInfo('Metadata Ignored successfully');
-                    } else {
-                        NotificationManager.showError(out.stdErr);
-                    }
+                if (Config.useAuraHelperCLI()) {
+                    const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+                    cancelToken.onCancellationRequested(() => {
+                        NotificationManager.showInfo('Operation Cancelled');
+                        cliManager.abortProcess();
+                    });
+                    cliManager.setIgnoreFile(ignoreFilePath);
+                    cliManager.setCompressFiles(compress === 'Yes');
+                    cliManager.setSortOrder(sortOrder);
+                    cliManager.onProgress((status) => {
+                        progress.report({
+                            message: status.message
+                        });
+                    });
+                    cliManager.ignoreMetadata(items).then(() => {
+                        NotificationManager.showInfo('Ignored Metadata finished succesfully');
+                        resolve();
+                    }).catch((error) => {
+                        NotificationManager.showError(error.message);
+                        resolve();
+                    });
                 } else {
-                    NotificationManager.showError('Unknown error');
+                    const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                    cancelToken.onCancellationRequested(() => {
+                        NotificationManager.showInfo('Operation Cancelled');
+                        connection.abortConnection();
+                    });
+                    progress.report({
+                        message: 'Getting All Available Metadata Types'
+                    });
+                    connection.listMetadataTypes().then((metadataDetails) => {
+                        const ignore = new Ignore(ignoreFilePath);
+                        ignore.setCompress(compress === 'Yes').setSortOrder(sortOrder).setTypesToIgnore(items);
+                        ignore.onStartProcessType((metadataTypeName) => {
+                            progress.report({
+                                message: 'Processing ' + metadataTypeName + ' Metadata Type'
+                            });
+                        });
+                        ignore.ignoreProjectMetadata(Paths.getProjectFolder(), metadataDetails);
+                        resolve();
+                    }).catch((error) => {
+                        NotificationManager.showError(error.message);
+                        resolve();
+                    });
                 }
-                resolve();
             });
         });
     } catch (error) {
-        NotificationManager.showError('Ignore File does not exists (' + ignoreFilePath + ')');
+        NotificationManager.showError(error.message);
     }
-}
-
-function getCustomIgnoreFile() {
-    return new Promise((resolve) => {
-        vscode.window.showOpenDialog({
-            canSelectFiles: true,
-            canSelectMany: false,
-            canSelectFolders: false,
-            openLabel: "Select ahignore",
-            filters: { 'JSON files': ['json'] }
-        }).then(function (uri) {
-            if (uri && uri.length > 0) {
-                resolve(uri[0].fsPath);
-            } else {
-                resolve(undefined);
-            }
-        });
-    });
 }

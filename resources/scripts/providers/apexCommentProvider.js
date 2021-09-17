@@ -1,10 +1,9 @@
 const vscode = require('vscode');
-const fileSystem = require('../fileSystem');
 const config = require('../core/config');
-const logger = require('../utils/logger');
-const FileChecker = fileSystem.FileChecker;
+const { FileChecker } = require('@ah/core').FileSystem;
 const CompletionItem = vscode.CompletionItem;
 const CompletionItemKind = vscode.CompletionItemKind;
+const ProviderUtils = require('./utils');
 
 exports.provider = {
     provideCompletionItems(document, position) {
@@ -28,17 +27,12 @@ function provideApexCompletion(document, position) {
 }
 
 function getCommentCompletionItem(position) {
-    let items = [];
+    const items = [];
     if (!config.getConfig().autoCompletion.activeApexCommentSuggestion)
         return Promise.resolve(undefined);
-    let item = new CompletionItem('/** */', CompletionItemKind.Snippet);
-    item.detail = 'Apex Comment';
-    item.insertText = '';
-    item.command = {
-        title: 'Apex Comment',
-        command: 'aurahelper.completion.apex',
-        arguments: [position, "comment"]
-    };
+    const options = ProviderUtils.getCompletionItemOptions('Apex Comment', 'Add an Apex Comment with the user defined template', '', true, CompletionItemKind.Snippet);
+    const command = ProviderUtils.getCommand('Apex Comment', 'aurahelper.completion.apex', [position, "comment"]);
+    const item = ProviderUtils.createItemForCompletion('/** */', options, command);
     items.push(item);
     return items;
 }

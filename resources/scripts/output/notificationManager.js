@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 var statusBar;
+const { Utils } = require('@ah/core').CoreUtils;
 
 
 class NotificationManager {
@@ -39,7 +40,7 @@ class NotificationManager {
     }
 
     static showWarning(message, onAccept, onCancel) {
-        vscode.window.showWarningMessage(message, (onCancel !==  undefined) ? 'Cancel' : undefined, (onAccept !==  undefined) ? 'Ok' : undefined).then((selected) => {
+        vscode.window.showWarningMessage(message, (!Utils.isNull(onCancel)) ? 'Cancel' : undefined, (!Utils.isNull(onAccept)) ? 'Ok' : undefined).then((selected) => {
             if (selected === 'Ok' && onAccept) {
                 onAccept.call(this);
             } else if (onCancel) {

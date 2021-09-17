@@ -1,15 +1,11 @@
 const logger = require('../utils/logger');
 const snippetUtils = require('../utils/snippetUtils');
-const languages = require('../languages');
 const vscode = require('vscode');
-const fileSystem = require('../fileSystem');
+const { FileChecker, FileReader, FileWriter, PathUtils } = require('@ah/core').FileSystem;
 const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
-const FileChecker = fileSystem.FileChecker;
-const Paths = fileSystem.Paths;
-const FileReader = fileSystem.FileReader;
-const FileWriter = fileSystem.FileWriter;
-const JavaScriptParser = languages.JavaScriptParser;
+const Paths = require('../core/paths');
+const { JSParser } = require('@ah/languages').JavaScript;
 
 const AURA_FILE_TYPES = [
     { type: '.auradoc', name: "Aura Documentation File" },
@@ -38,7 +34,7 @@ exports.run = function(uri) {
         }
         if (FileChecker.isAuraComponent(path) || FileChecker.isAuraComponentFolder(path)) {
             if (FileChecker.isAuraComponent(path))
-                path = Paths.getFolderPath(path);
+                path = PathUtils.getDirname(path);
             let filesOnDir = FileReader.readDirSync(path);
             var filesForCreate = getNotExistsAuraFiles(filesOnDir);
             window.showQuickPick(filesForCreate, { placeHolder: "Select an Aura File for Create" }).then((selected) =>
@@ -61,7 +57,7 @@ function onSelectedFile(path, selected){
 
 function onFileCreated(fileCreated, error){
     if(fileCreated){
-        window.showTextDocument(Paths.asUri(fileCreated));
+        window.showTextDocument(Paths.toURI(fileCreated));
     } else{
         NotificationManager.showError('An error ocurred while creating file. Error: \n' + error);
     }
@@ -100,7 +96,7 @@ function createAuraFile(folderPath, selected, callback) {
 	var content;
 	var fileType = getAuraFileTypeFromName(selected);
 	if (fileType)
-		fileForCreate = Paths.getBasename(folderPath) + fileType;
+		fileForCreate = PathUtils.getBasename(folderPath) + fileType;
 	if (fileForCreate) {
 		fileForCreate = folderPath + '/' + fileForCreate;
 		if (fileForCreate.indexOf('.auradoc') !== -1) {
@@ -128,16 +124,16 @@ function createAuraFile(folderPath, selected, callback) {
 }
 
 function createNewAuraDocumentation(fileForCreate, callback){
-    let helperPath = Paths.getBundleHelperPath(fileForCreate);
-    let controllerPath = Paths.getBundleControllerPath(fileForCreate);
-    let templatePath = Paths.getAuraDocumentUserTemplatePath();
+    let helperPath = Paths.getAuraBundleHelperPath(fileForCreate);
+    let controllerPath = Paths.getAuraBundleControllerPath(fileForCreate);
+    let templatePath = Paths.getAuraDocUserTemplate();
     let helper;
     let controller;
     if (FileChecker.isExists(helperPath)) {
-        helper = JavaScriptParser.parse(FileReader.readFileSync(helperPath));
+        helper = new JSParser(helperPath).parse().methods;
     }
     if (FileChecker.isExists(controllerPath)) {
-        controller = JavaScriptParser.parse(FileReader.readFileSync(controllerPath));
+        controller = new JSParser(controllerPath).parse().methods;
     }
     if (FileChecker.isExists(templatePath)) {
         let templateContent = FileReader.readFileSync(templatePath);

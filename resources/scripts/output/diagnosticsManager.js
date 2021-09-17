@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const AppContext = require('../core/applicationContext');
+const { Utils } = require('@ah/core').CoreUtils;
 const collections = {};
 
 class DiagnosticsManager {
@@ -10,7 +11,7 @@ class DiagnosticsManager {
     }
 
     static setDiagnostics(collectionName, uri, diagnostics){
-        if(!collections[collectionName])
+        if(Utils.isNull(collections[collectionName]))
             DiagnosticsManager.createCollection(collectionName);
         if(collections[collectionName]){
             collections[collectionName].set(uri, diagnostics);
@@ -18,7 +19,7 @@ class DiagnosticsManager {
     }
 
     static clearDiagnostic(collectionName){
-        if(collections[collectionName])
+        if(!Utils.isNull(collections[collectionName]))
             collections[collectionName].clear();
     }
 

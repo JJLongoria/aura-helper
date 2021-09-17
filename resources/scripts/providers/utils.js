@@ -1,28 +1,48 @@
-const fileSystem = require('../fileSystem');
-const language = require('../languages');
 const logger = require('../utils/logger');
-const config = require('../core/config');
+const Config = require('../core/config');
 const vscode = require('vscode');
+const Paths = require('../core/paths');
+const Range = vscode.Range;
+const Position = vscode.Position;
+const { FileChecker, FileReader } = require('@ah/core').FileSystem;
+const { XMLParser } = require('@ah/languages').XML;
+const { Tokenizer, TokenType } = require('@ah/languages').System;
+const { ApexParser } = require('@ah/languages').Apex;
+const { ApexNodeTypes } = require('@ah/core').Values;
 const applicationContext = require('../core/applicationContext');
+const { StrUtils, Utils } = require('@ah/core').CoreUtils;
+const LanguageUtils = require('@ah/languages').LanguageUtils;
 const CompletionItemKind = vscode.CompletionItemKind;
 const CompletionItem = vscode.CompletionItem;
 const SnippetString = vscode.SnippetString;
-const FileReader = fileSystem.FileReader;
-const Paths = fileSystem.Paths;
-const FileChecker = fileSystem.FileChecker;
-const Tokenizer = language.Tokenizer;
-const TokenType = language.TokenType;
-const XMLParser = language.XMLParser;
 
-class Utils {
+class ProviderUtils {
+
+    static fixPositionOffset(document, position) {
+        const insertSpaces = vscode.window.activeTextEditor.options.insertSpaces;
+        if (!insertSpaces) {
+            const line = document.lineAt(position.line);
+            const nTabs = StrUtils.countStartTabs(line.text);
+            const tabSize = vscode.window.activeTextEditor.options.tabSize;
+            if (nTabs > 0)
+                return new Position(position.line, position.character + ((nTabs * Number(tabSize)) - nTabs));
+            else
+                return position;
+        } else {
+            const line = document.lineAt(position.line);
+            const nTabs = StrUtils.countStartTabs(line.text);
+            const tabSize = vscode.window.activeTextEditor.options.tabSize;
+            if (nTabs > 0)
+                return new Position(position.line, position.character + ((nTabs * Number(tabSize)) - nTabs));
+            else
+                return position;
+        }
+
+    }
 
     static getFieldData(sObject, fieldName) {
-        if (sObject) {
-            for (const fieldKey of Object.keys(sObject.fields)) {
-                let field = sObject.fields[fieldKey];
-                if (field.name == fieldName)
-                    return field;
-            }
+        if (sObject && sObject.fields) {
+            return sObject.fields[fieldName.toLowerCase()];
         }
         return undefined;
     }
@@ -44,173 +64,287 @@ class Utils {
     }
 
     static getActivation(document, position) {
-        let activation = "";
-        let line = document.lineAt(position.line);
-        let lineText = line.text;
+        const correctedPos = ProviderUtils.fixPositionOffset(document, position);
+        const difference = correctedPos.character - position.character;
+        const result = {
+            activation: "",
+            startColumn: 0,
+            lastToken: undefined,
+            twoLastToken: undefined,
+            nextToken: undefined,
+            twoNextToken: undefined,
+        }
+        const line = document.lineAt(correctedPos.line);
+        const lineText = line.text;
         if (line.isEmptyOrWhitespace)
-            return {
-                activation: activation,
-                startColumn: 0
-            };
-        let lineTokens = Tokenizer.tokenize(lineText);
+            return result;
+        const lineTokens = Tokenizer.tokenize(lineText);
         let index = 0;
         let tokenPos = -1;
         let token;
-        let startColumn;
         while (index < lineTokens.length) {
             token = lineTokens[index];
-            if (position.character >= token.startColumn) {
+            if (token.range.end.character <= correctedPos.character) {
                 tokenPos = index;
             }
             index++;
         }
-        if (token.tokenType == TokenType.RBRACKET)
+        if (token.type == TokenType.BRACKET.CURLY_CLOSE)
             tokenPos--;
         let endLoop = false;
         let isOnParams = false;
         if (tokenPos === -1)
-            return {
-                activation: activation,
-                startColumn: 0
-            };
+            return result;
+        result.nextToken = LanguageUtils.getNextToken(lineTokens, tokenPos);
+        result.lastToken = LanguageUtils.getTwoNextToken(lineTokens, tokenPos);
         while (!endLoop) {
             token = lineTokens[tokenPos];
-            let lastToken = (tokenPos - 1 > 0) ? lineTokens[tokenPos - 1] : undefined;
-            if (token && token.tokenType === TokenType.RPAREN && !isOnParams) {
+            const nextToken = LanguageUtils.getNextToken(lineTokens, tokenPos);
+            const lastToken = LanguageUtils.getLastToken(lineTokens, tokenPos);
+            const twoLastToken = LanguageUtils.getTwoLastToken(lineTokens, tokenPos);
+            if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE && !isOnParams) {
                 isOnParams = true;
-                activation = token.content + activation;
-                startColumn = token.startColumn;
-            } else if (token && token.tokenType === TokenType.LPAREN && isOnParams) {
+                result.activation = token.text + result.activation;
+                result.startColumn = token.range.start.character;
+                result.lastToken = lastToken;
+                result.twoLastToken = twoLastToken;
+            } else if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN && isOnParams) {
                 isOnParams = false;
-                activation = token.content + activation;
-                startColumn = token.startColumn;
-            } else if (token && token.tokenType === TokenType.LPAREN && !isOnParams) {
+                result.activation = token.text + result.activation;
+                result.startColumn = token.range.start.character;
+                result.lastToken = lastToken;
+                result.twoLastToken = twoLastToken;
+            } else if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN && !isOnParams) {
                 endLoop = true;
-            } else if (token && (token.tokenType === TokenType.DOT || token.tokenType === TokenType.IDENTIFIER || token.tokenType === TokenType.COLON || isOnParams)) {
+            } else if (token && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR || token.type === TokenType.IDENTIFIER || token.type === TokenType.PUNCTUATION.COLON || isOnParams)) {
                 if (!isOnParams) {
-                    if (lastToken && lastToken.endColumn != token.startColumn) {
+                    if (lastToken && lastToken.range.end.character != token.range.start.character) {
                         endLoop = true;
-                        activation = token.content + activation;
-                        startColumn = token.startColumn;
+                        result.activation = token.text + result.activation;
+                        result.startColumn = token.range.start.character;
+                        result.lastToken = lastToken;
+                        result.twoLastToken = twoLastToken;
                     } else {
-                        activation = token.content + activation;
-                        startColumn = token.startColumn;
+                        result.activation = token.text + result.activation;
+                        result.startColumn = token.range.start.character;
+                        result.lastToken = lastToken;
+                        result.twoLastToken = twoLastToken;
                     }
                 } else {
-                    activation = token.content + activation;
-                    startColumn = token.startColumn;
+                    result.activation = token.text + result.activation;
+                    result.startColumn = token.range.start.character;
+                    result.lastToken = lastToken;
+                    result.twoLastToken = twoLastToken;
                 }
-            } else if (!isOnParams && token && (token.tokenType === TokenType.COMMA || token.tokenType === TokenType.QUOTTE || token.tokenType === TokenType.SQUOTTE)) {
+            } else if (!isOnParams && token && (token.type === TokenType.PUNCTUATION.COMMA || token.type === TokenType.PUNCTUATION.QUOTTES || token.type === TokenType.PUNCTUATION.QUOTTES_END || token.type === TokenType.PUNCTUATION.QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END)) {
                 endLoop = true;
-            } else if (token.tokenType == TokenType.LBRACKET) {
+                if (token.type === TokenType.PUNCTUATION.QUOTTES || token.type === TokenType.PUNCTUATION.QUOTTES_END || token.type === TokenType.PUNCTUATION.QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END) {
+                    if (nextToken && (nextToken.type === TokenType.PUNCTUATION.QUOTTES || nextToken.type === TokenType.PUNCTUATION.QUOTTES_END || nextToken.type === TokenType.PUNCTUATION.QUOTTES_START || nextToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || nextToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || nextToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END)) {
+                        endLoop = true;
+                        result.lastToken = lastToken;
+                        result.twoLastToken = twoLastToken;
+                        result.startColumn = nextToken.range.start.character;
+                    }
+                }
+            } else if (token.type == TokenType.BRACKET.CURLY_OPEN) {
                 endLoop = true;
+            } else if (token.type === TokenType.PUNCTUATION.QUOTTES || token.type === TokenType.PUNCTUATION.QUOTTES_END || token.type === TokenType.PUNCTUATION.QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END) {
+                if (lastToken && (lastToken.type === TokenType.PUNCTUATION.QUOTTES || lastToken.type === TokenType.PUNCTUATION.QUOTTES_END || lastToken.type === TokenType.PUNCTUATION.QUOTTES_START || lastToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || lastToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || lastToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END)) {
+                    endLoop = true;
+                    result.lastToken = lastToken;
+                    result.twoLastToken = twoLastToken;
+                    result.startColumn = token.range.start.character;
+                }
             }
             tokenPos--
             if (tokenPos < 0)
                 endLoop = true;
         }
-        return {
-            activation: activation,
-            startColumn: startColumn
-        };
+        if (difference > 0 && result.startColumn >= difference)
+            result.startColumn = result.startColumn - difference;
+        return result;
     }
 
-    static getSObjectsCompletionItems(position, similarSobjects, sObjectsMap, command) {
+    static getSObjectFieldCompletionItems(position, activationInfo, activationTokens, sObject, field, positionData) {
+        if (!sObject || !field)
+            return [];
         let items = [];
-        for (const sobject of similarSobjects) {
-            let objName = sObjectsMap[sobject];
-            let item = new CompletionItem(objName.name, CompletionItemKind.Class);
-            item.detail = objName.name + ' SObject';
-            item.insertText = objName.name;
-            item.command = {
-                title: 'sObject',
-                command: command,
-                arguments: [position, 'sObject', objName.name]
-            };
-            items.push(item);
+        let pickItems = [];
+        let itemRel;
+        let detail = sObject.name + ' Field';
+        let documentation = "  - **Label**: " + field.label + '\n';
+        if (field.length)
+            documentation += "  - **Length**: " + field.length + '\n';
+        if (field.type)
+            documentation += "  - **Datatype**: " + field.type + '\n';
+        if (field.custom !== undefined)
+            documentation += "  - **Is Custom**: " + field.custom + '\n';
+        if (field.referenceTo.length > 0) {
+            documentation += "  - **Reference To**: " + field.referenceTo.join(", ") + '\n';
+            let name = field.name;
+            if (name.endsWith('__c')) {
+                name = name.substring(0, name.length - 3) + '__r';
+                const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Relationsip Field", 'Relationship with ' + field.referenceTo.join(", ") + ' field(s)', name, true, CompletionItemKind.Field);
+                itemRel = ProviderUtils.createItemForCompletion(name, options);
+            } else if (name.endsWith('Id')) {
+                name = name.substring(0, name.length - 2);
+                const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Relationsip Field", 'Relationship with ' + field.referenceTo.join(", ") + ' field(s)', name, true, CompletionItemKind.Field);
+                itemRel = ProviderUtils.createItemForCompletion(name, options);
+            }
+        }
+        if (field.picklistValues.length > 0 && activationTokens.length <= 3) {
+            pickItems = [];
+            documentation += "\n**Picklist Values**: \n";
+            for (const pickVal of field.picklistValues) {
+                let pickDoc = "  - **Value**: " + pickVal.value + '\n';
+                pickDoc += "  - **Label**: " + pickVal.label + '\n';
+                pickDoc += "  - **Active**: " + pickVal.active + '\n';
+                pickDoc += "  - **Is Default**: " + pickVal.defaultValue;
+                let pickValue;
+                if (positionData && positionData.onText) {
+                    pickValue = pickVal.value;
+                } else if (positionData && (positionData.source === 'Apex') && (!positionData.lastToken || positionData.lastToken.text !== "'") && (!positionData.nextToken || positionData.nextToken.text !== "'")) {
+                    pickValue = "'" + pickVal.value + "'";
+                } else if (positionData && (positionData.source === 'Aura') && (!positionData.lastToken || positionData.lastToken.text !== '"') && (!positionData.nextToken || positionData.nextToken.text !== '"')) {
+                    pickValue = '"' + pickVal.value + '"';
+                } else if (positionData && (positionData.source === 'JS') && (!positionData.lastToken || (positionData.lastToken.text !== "'" && positionData.lastToken.text !== '"')) && (!positionData.nextToken || (positionData.nextToken.text !== "'" && positionData.nextToken.text !== '"'))) {
+                    pickValue = "'" + pickVal.value + "'";
+                } else {
+                    pickValue = pickVal.value;
+                }
+                const pickDetail = field.name + ' Picklist Value. Select this option to replace with the picklist value. Replace ' + activationTokens.join('.') + ' with ' + pickValue;
+                const options = ProviderUtils.getCompletionItemOptions(pickDetail, pickDoc, pickValue.toString(), true, CompletionItemKind.Value);
+                const pickItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + field.name + '.' + pickVal.value, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    pickItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                pickItems.push(pickItem);
+                documentation += '  - ' + pickVal.value + " (" + pickVal.label + ") \n";
+            }
+        }
+        const options = ProviderUtils.getCompletionItemOptions(detail, documentation, field.name, true, CompletionItemKind.Field);
+        const item = ProviderUtils.createItemForCompletion(field.name, options);
+        items.push(item);
+        if (itemRel)
+            items.push(itemRel);
+        if (pickItems.length > 0) {
+            items = items.concat(pickItems);
+            pickItems = [];
         }
         return items;
     }
 
-    static getSobjectsFieldsCompletionItems(position, sObject, command, activations, activationInfo) {
+    static getSobjectsFieldsCompletionItems(position, activationInfo, activationTokens, sObject, positionData) {
         let items = [];
-        let picklistItems = [];
-        if (sObject) {
+        if (sObject && sObject.fields) {
             for (const fieldKey of Object.keys(sObject.fields)) {
                 let field = sObject.fields[fieldKey];
-                let itemRel;
-                let detail = sObject.name + ' Field';
-                let documentation = "Label: " + field.label + '\n';
-                documentation += "Length: " + field.length + '\n';
-                documentation += "Type: " + field.type + '\n';
-                documentation += "Is Custom: " + field.custom + '\n';
-                if (field.referenceTo.length > 0) {
-                    documentation += "Reference To: " + field.referenceTo.join(", ") + '\n';
-                    let name = field.name;
-                    if (name.endsWith('__c')) {
-                        name = name.substring(0, name.length - 3) + '__r';
-                        let options = Utils.getCompletionItemOptions(sObject.name + " Relationsip Field", 'Relationship with ' + field.referenceTo.join(", ") + ' field(s)', name, true, CompletionItemKind.Field);
-                        let comm = Utils.getCommand('sObject', command, [position, 'sObjectRelField', field]);
-                        itemRel = Utils.createItemForCompletion(name, options, comm);
+                items = items.concat(ProviderUtils.getSObjectFieldCompletionItems(position, activationInfo, activationTokens, sObject, field, positionData));
+            }
+            if (Utils.hasKeys(sObject.recordTypes) && activationTokens.length <= 2) {
+                for (const rtKey of Object.keys(sObject.recordTypes)) {
+                    const rt = sObject.recordTypes[rtKey];
+                    let rtDoc = "  - **Name**: " + rt.name + '\n';
+                    rtDoc += "  - **Developer Name**: " + rt.developerName + '\n';
+                    if (rt.default !== undefined)
+                        rtDoc += "  - **Default**: " + rt.default + '\n';
+                    if (rt.master !== undefined)
+                        rtDoc += "  - **Master**: " + rt.master;
+                    let nameValue;
+                    let devNameValue;
+                    if (positionData && positionData.onText) {
+                        nameValue = rt.name;
+                        devNameValue = rt.developerName;
+                    } else if (positionData && (positionData.source === 'Apex') && (!positionData.lastToken || positionData.lastToken.text !== "'") && (!positionData.nextToken || positionData.nextToken.text !== "'")) {
+                        nameValue = "'" + rt.name + "'";
+                        devNameValue = "'" + rt.developerName + "'";
+                    } else if (positionData && (positionData.source === 'Aura') && (!positionData.lastToken || positionData.lastToken.text !== '"') && (!positionData.nextToken || positionData.nextToken.text !== '"')) {
+                        nameValue = '"' + rt.name + '"';
+                        devNameValue = '"' + rt.developerName + '"';
+                    } else if (positionData && (positionData.source === 'JS') && (!positionData.lastToken || (positionData.lastToken.text !== "'" && positionData.lastToken.text !== '"')) && (!positionData.nextToken || (positionData.nextToken.text !== "'" && positionData.nextToken.text !== '"'))) {
+                        nameValue = "'" + rt.name + "'";
+                        devNameValue = "'" + rt.developerName + "'";
+                    } else {
+                        nameValue = rt.name;
+                        devNameValue = rt.developerName;
                     }
+                    const rtNameDetail = rt.name + ' Record Type Name. Select this option to replace with the record type name value. Replace ' + activationTokens.join('.') + ' with ' + nameValue;
+                    const nameOptions = ProviderUtils.getCompletionItemOptions(rtNameDetail, rtDoc, nameValue, true, CompletionItemKind.Variable);
+                    const nameRtItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + rt.name, nameOptions);
+                    const rtDevNameDetail = rt.developerName + ' Record Type Developer Name. Select this option to replace with the record type developer name value. Replace ' + activationTokens.join('.') + ' with ' + devNameValue;
+                    const devNameoptions = ProviderUtils.getCompletionItemOptions(rtDevNameDetail, rtDoc, devNameValue, true, CompletionItemKind.Variable);
+                    const devNameRtItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + rt.developerName, devNameoptions);
+                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                        nameRtItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                        devNameRtItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    items.push(nameRtItem);
+                    items.push(devNameRtItem);
                 }
-                if (field.picklistValues.length > 0 && activations[1] === field.name) {
-                    picklistItems = [];
-                    documentation += "Picklist Values: \n";
-                    for (const pickVal of field.picklistValues) {
-                        let pickDetail = field.name + ' Picklist Value';
-                        let pickDoc = "Value: " + pickVal.value + '\n';
-                        pickDoc += "Label: " + pickVal.label + '\n';
-                        pickDoc += "Active: " + pickVal.active + '\n';
-                        pickDoc += "Is Default: " + pickVal.defaultValue;
-                        let options = Utils.getCompletionItemOptions(pickDetail, pickDoc, pickVal.value, true, CompletionItemKind.Value);
-                        let comm = Utils.getCommand('sObject', command, [position, 'sObjectPickVal', { field: field, value: pickVal, activations: activations, activationInfo: activationInfo }]);
-                        let pickItem = Utils.createItemForCompletion(pickVal.value, options, comm);
-                        picklistItems.push(pickItem);
-                        documentation += pickVal.value + " (" + pickVal.label + ") \n";
-                    }
-                }
-                let options = Utils.getCompletionItemOptions(detail, documentation, field.name, true, CompletionItemKind.Field);
-                let comm = Utils.getCommand('sObject', command, [position, 'sObjectField', field]);
-                let item = Utils.createItemForCompletion(field.name, options, comm);
-                items.push(item);
-                if (itemRel)
-                    items.push(itemRel);
-                if (picklistItems.length > 0) {
-                    items = items.concat(picklistItems);
-                    picklistItems = [];
-                }
+            }
+            const systemMetadata = applicationContext.parserData.namespacesData['system'];
+            if (systemMetadata && systemMetadata['sobject']) {
+                items = items.concat(ProviderUtils.getApexClassCompletionItems(position, systemMetadata['sobject']));
             }
         }
         return items;
     }
 
-    static getQueryCompletionItems(activationTokens, activationInfo, queryData, position, command) {
-        if (!config.getConfig().autoCompletion.activeQuerySuggestion)
-            return Promise.resolve(undefined);
-        let sObjects = applicationContext.sObjects;
-        let items;
-        if (sObjects[queryData.from.toLowerCase()]) {
-            let sObject = sObjects[queryData.from.toLowerCase()];
-            if (activationTokens.length === 0) {
-                items = Utils.getSobjectsFieldsCompletionItems(position, sObject, command, activationTokens, activationInfo);
-            } else {
-                let lastObject = sObject;
+    static getQueryCompletionItems(position, activationInfo, activationTokens, positionData) {
+        if (!Config.getConfig().autoCompletion.activeQuerySuggestion)
+            return [];
+        let sObjects = applicationContext.parserData.sObjectsData;
+        let items = [];
+        let sObject = positionData.query.from ? sObjects[positionData.query.from.textToLower] : undefined;
+        if (sObject) {
+            const existingFields = [];
+            for (const projectionField of positionData.query.projection) {
+                existingFields.push(projectionField.name.toLowerCase());
+            }
+            if (activationTokens.length > 0) {
                 for (const activationToken of activationTokens) {
                     let actToken = activationToken;
+                    let fielData;
+                    let idField = actToken + 'Id';
                     if (actToken.endsWith('__r'))
                         actToken = actToken.substring(0, actToken.length - 3) + '__c';
-                    let fielData = Utils.getFieldData(lastObject, actToken);
+                    fielData = ProviderUtils.getFieldData(sObject, idField.toLowerCase()) || ProviderUtils.getFieldData(sObject, actToken);
                     if (fielData) {
                         if (fielData.referenceTo.length === 1) {
-                            lastObject = sObjects[queryData.from.toLowerCase()];
+                            sObject = sObjects[fielData.referenceTo[0]];
                         } else {
-                            lastObject = undefined;
+                            sObject = undefined;
                         }
                     }
                 }
-                items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, command, activationTokens, activationInfo);
             }
+            if (sObject) {
+                for (const fieldKey of Object.keys(sObject.fields)) {
+                    const field = sObject.fields[fieldKey];
+                    if (existingFields.includes(fieldKey)) {
+                        if (!StrUtils.contains(fieldKey, '.') && fieldKey.endsWith('__c')) {
+                            continue;
+                        }
+                        if (!field.referenceTo || field.referenceTo.length === 0)
+                            continue;
+                    }
+                    items = items.concat(ProviderUtils.getSObjectFieldCompletionItems(position, activationInfo, activationTokens, sObject, field, positionData));
+                }
+            }
+        } else {
+            Object.keys(applicationContext.parserData.sObjectsData).forEach(function (key) {
+                const sObject = applicationContext.parserData.sObjectsData[key];
+                let description = 'Standard SObject';
+                if (sObject.custom)
+                    description = 'Custom SObject';
+                if (sObject.namespace) {
+                    description += '\nNamespace: ' + sObject.namespace;
+                }
+                const options = ProviderUtils.getCompletionItemOptions(sObject.name, description, sObject.name, true, CompletionItemKind.Class);
+                const item = ProviderUtils.createItemForCompletion(sObject.name, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                items.push(item);
+            });
         }
         return items;
     }
@@ -238,10 +372,12 @@ class Utils {
         return memberData;
     }
 
-    static getAttribute(componentStructure, attributeName) {
-        if (componentStructure) {
-            for (const attribute of componentStructure.attributes) {
-                if (attribute.name === attributeName)
+    static getAttribute(component, attributeName) {
+        if (component) {
+            for (const attribute of component.attributes) {
+                if (Utils.isString(attribute.name) && attribute.name === attributeName)
+                    return attribute;
+                else if (Utils.isObject(attribute.name) && attribute.name.value.text === attributeName)
                     return attribute;
             }
         }
@@ -250,46 +386,27 @@ class Utils {
 
     static getVariable(method, varName) {
         if (method) {
-            for (const param of method.params) {
-                if (param.name.toLowerCase() === varName.toLowerCase())
-                    return param;
-            }
-            for (const variable of method.declaredVariables) {
-                if (variable.name.toLowerCase() === varName.toLowerCase())
-                    return variable;
-            }
+            if (method.params[varName])
+                return method.params[varName];
+            if (method.variables[varName])
+                return method.variables[varName];
         }
         return undefined;
     }
 
-    static getClassField(fielStructure, varName) {
-        if (fielStructure) {
-            for (const field of fielStructure.fields) {
-                if (field.name.toLowerCase() === varName.toLowerCase())
-                    return field;
-            }
+    static getClassField(node, varName) {
+        if (node) {
+            return node.variables[varName];
         }
         return undefined;
     }
 
-    static getMethod(fileStructure, methodSignature) {
-        if (fileStructure) {
-            for (const method of fileStructure.methods) {
-                if (method.signature.toLowerCase() === methodSignature.toLowerCase())
-                    return method;
-            }
-            if (fileStructure.constructors) {
-                for (const method of fileStructure.constructors) {
-                    if (method.signature.toLowerCase() === methodSignature.toLowerCase())
-                        return method;
-                }
-            }
-            if (fileStructure.constuctors) {
-                for (const method of fileStructure.constuctors) {
-                    if (method.signature.toLowerCase() === methodSignature.toLowerCase())
-                        return method;
-                }
-            }
+    static getMethod(node, methodSignature) {
+        if (node) {
+            if (node.methods[methodSignature.toLowerCase()])
+                return node.methods[methodSignature.toLowerCase()];
+            else if (node.constructors[methodSignature.toLowerCase()])
+                return node.constructors[methodSignature.toLowerCase()];
         }
         return undefined;
     }
@@ -308,18 +425,18 @@ class Utils {
     }
 
     static isUserClass(className) {
-        let classes = applicationContext.userClasses;
+        let classes = applicationContext.parserData.userClassesData;
         return classes && classes[className.toLowerCase()];
     }
 
     static isSystemClass(className) {
-        let classes = applicationContext.namespacesMetadata['system'];
+        let classes = applicationContext.parserData.namespacesData['system'];
         return classes && classes[className.toLowerCase()];
     }
 
     static getSystemClass(ns, className) {
-        if (applicationContext.namespacesMetadata[ns.toLowerCase])
-            return applicationContext.namespacesMetadata[ns.toLowerCase][className];
+        if (applicationContext.parserData.namespacesData[ns.toLowerCase])
+            return applicationContext.parserData.namespacesData[ns.toLowerCase][className];
         return undefined;
     }
 
@@ -333,26 +450,29 @@ class Utils {
         return false;
     }
 
-    static getApexCompletionItems(position, activationTokens, activationInfo, fileStructure, classes, systemMetadata, allNamespaces, sObjects) {
+    static getApexCompletionItems(position, activationTokens, activationInfo, node, positionData) {
         let items = [];
-        let sObject = sObjects[activationTokens[0].toLowerCase()];
-        let lastClass = classes[activationTokens[0].toLowerCase()] || systemMetadata[activationTokens[0].toLowerCase()] || fileStructure;
-        if (lastClass && activationTokens[0].toLowerCase() === fileStructure.name.toLowerCase())
-            lastClass = fileStructure;
+        const systemMetadata = applicationContext.parserData.namespacesData['system'];
+        let sObject = applicationContext.parserData.sObjectsData[activationTokens[0].toLowerCase()];
+        let lastClass = applicationContext.parserData.userClassesData[activationTokens[0].toLowerCase()] || systemMetadata[activationTokens[0].toLowerCase()] || node;
+        if (lastClass && activationTokens[0].toLowerCase() === node.name.toLowerCase())
+            lastClass = node;
         let parentStruct;
         let index = 0;
         for (let actToken of activationTokens) {
             if (index < activationTokens.length - 1) {
-                let actType = Utils.getActivationType(actToken);
+                let actType = ProviderUtils.getActivationType(actToken);
                 let datatype;
                 let className;
                 if (sObject) {
+                    let fielData;
+                    let idField = actToken + 'Id';
                     if (actToken.endsWith('__r'))
                         actToken = actToken.substring(0, actToken.length - 3) + '__c';
-                    let fielData = Utils.getFieldData(sObject, actToken);
+                    fielData = ProviderUtils.getFieldData(sObject, idField.toLowerCase()) || ProviderUtils.getFieldData(sObject, actToken);
                     if (fielData) {
                         if (fielData.referenceTo.length === 1) {
-                            sObject = sObjects[fielData.referenceTo[0].toLowerCase()];
+                            sObject = applicationContext.parserData.sObjectsData[fielData.referenceTo[0].toLowerCase()];
                         } else {
                             datatype = fielData.type;
                             if (datatype.indexOf('<') !== -1)
@@ -364,8 +484,8 @@ class Utils {
                                 if (splits.length === 2) {
                                     let parentClassOrNs = splits[0];
                                     className = splits[1];
-                                    if (allNamespaces[parentClassOrNs.toLowerCase()]) {
-                                        let namespaceMetadata = applicationContext.namespacesMetadata[parentClassOrNs.toLowerCase()];
+                                    if (applicationContext.parserData.namespacesData[parentClassOrNs.toLowerCase()]) {
+                                        let namespaceMetadata = applicationContext.parserData.namespacesData[parentClassOrNs.toLowerCase()];
                                         if (namespaceMetadata[className.toLowerCase()]) {
                                             lastClass = namespaceMetadata[className.toLowerCase()];
                                             parentStruct = undefined;
@@ -379,8 +499,8 @@ class Utils {
                                     let nsName = splits[0];
                                     let parentClassName = splits[1];
                                     className = splits[2];
-                                    if (allNamespaces[nsName.toLowerCase()]) {
-                                        let namespaceMetadata = applicationContext.namespacesMetadata[nsName.toLowerCase()];
+                                    if (applicationContext.parserData.namespacesData[nsName.toLowerCase()]) {
+                                        let namespaceMetadata = applicationContext.parserData.namespacesData[nsName.toLowerCase()];
                                         if (namespaceMetadata[parentClassName.toLowerCase()]) {
                                             lastClass = undefined;
                                             parentStruct = namespaceMetadata[parentClassName.toLowerCase()];
@@ -416,41 +536,41 @@ class Utils {
                         }
                     }
                 } else if (lastClass) {
-                    if (!lastClass.isEnum) {
+                    if (lastClass.nodeType !== ApexNodeTypes.ENUM) {
                         if (actType.type === 'field') {
-                            if (lastClass.posData && lastClass.posData.isOnMethod) {
-                                let method = Utils.getMethod(lastClass, lastClass.posData.methodSignature);
-                                let methodVar = Utils.getVariable(method, actToken);
-                                let classVar = Utils.getClassField(lastClass, actToken);
+                            if (lastClass.positionData && lastClass.positionData.nodeType === ApexNodeTypes.METHOD) {
+                                const method = ProviderUtils.getMethod(lastClass, lastClass.positionData.signature);
+                                const methodVar = ProviderUtils.getVariable(method, actToken.toLowerCase());
+                                const classVar = ProviderUtils.getClassField(lastClass, actToken.toLowerCase());
                                 if (methodVar)
-                                    datatype = methodVar.datatype;
+                                    datatype = methodVar.datatype.name;
                                 else if (classVar)
-                                    datatype = classVar.datatype;
+                                    datatype = classVar.datatype.name;
                             } else {
-                                let classVar = Utils.getClassField(lastClass, actToken);
+                                const classVar = ProviderUtils.getClassField(lastClass, actToken.toLowerCase());
                                 if (classVar)
-                                    datatype = classVar.datatype;
+                                    datatype = classVar.datatype.name;
                             }
                         } else if (actType.type === 'method') {
-                            let method = Utils.getMethodFromCall(lastClass, actType.name, actType.params);
+                            const method = ProviderUtils.getMethodFromCall(lastClass, actType.name, actType.params);
                             if (method)
-                                datatype = method.datatype;
+                                datatype = method.datatype.name;
                         }
                         if (!datatype) {
-                            if (lastClass.parentClass) {
-                                parentStruct = classes[lastClass.parentClass.toLowerCase()];
+                            if (lastClass.parentName) {
+                                parentStruct = applicationContext.parserData.userClassesData[lastClass.parentName.toLowerCase()];
                                 className = actToken;
                             } else {
-                                if (classes[actToken.toLowerCase()]) {
-                                    lastClass = classes[actToken.toLowerCase()];
+                                if (applicationContext.parserData.userClassesData[actToken.toLowerCase()]) {
+                                    lastClass = applicationContext.parserData.userClassesData[actToken.toLowerCase()];
                                     parentStruct = undefined;
                                     sObject = undefined;
                                 } else if (systemMetadata[actToken.toLowerCase()]) {
                                     lastClass = systemMetadata[actToken.toLowerCase()];
                                     parentStruct = undefined;
                                     sObject = undefined;
-                                } else if (sObjects[actToken.toLowerCase()]) {
-                                    sObject = sObjects[actToken.toLowerCase()];
+                                } else if (applicationContext.parserData.sObjectsData[actToken.toLowerCase()]) {
+                                    sObject = applicationContext.parserData.sObjectsData[actToken.toLowerCase()];
                                     parentStruct = undefined;
                                     lastClass = undefined;
                                 }
@@ -465,10 +585,10 @@ class Utils {
                                 if (splits.length === 2) {
                                     let parentClassOrNs = splits[0];
                                     className = splits[1];
-                                    if (classes[parentClassOrNs.toLowerCase()]) {
-                                        parentStruct = classes[parentClassOrNs.toLowerCase()];
-                                    } else if (allNamespaces[parentClassOrNs.toLowerCase()]) {
-                                        let namespaceMetadata = applicationContext.namespacesMetadata[parentClassOrNs.toLowerCase()];
+                                    if (applicationContext.parserData.userClassesData[parentClassOrNs.toLowerCase()]) {
+                                        parentStruct = applicationContext.parserData.userClassesData[parentClassOrNs.toLowerCase()];
+                                    } else if (applicationContext.parserData.namespacesData[parentClassOrNs.toLowerCase()]) {
+                                        let namespaceMetadata = applicationContext.parserData.namespacesData[parentClassOrNs.toLowerCase()];
                                         if (namespaceMetadata[className.toLowerCase()]) {
                                             lastClass = namespaceMetadata[className.toLowerCase()];
                                             parentStruct = undefined;
@@ -482,10 +602,10 @@ class Utils {
                                     let nsName = splits[0];
                                     let parentClassName = splits[1];
                                     className = splits[2];
-                                    if (classes[parentClassName.toLowerCase()]) {
-                                        parentStruct = classes[parentClassName.toLowerCase()];
-                                    } else if (allNamespaces[nsName.toLowerCase()]) {
-                                        let namespaceMetadata = applicationContext[nsName.toLowerCase()];
+                                    if (applicationContext.parserData.userClassesData[parentClassName.toLowerCase()]) {
+                                        parentStruct = applicationContext.parserData.userClassesData[parentClassName.toLowerCase()];
+                                    } else if (applicationContext.parserData.namespacesData[nsName.toLowerCase()]) {
+                                        let namespaceMetadata = applicationContext.parserData.namespacesData[nsName.toLowerCase()];
                                         if (namespaceMetadata[parentClassName.toLowerCase()]) {
                                             lastClass = undefined;
                                             parentStruct = namespaceMetadata[parentClassName.toLowerCase()];
@@ -499,16 +619,16 @@ class Utils {
                             } else {
                                 parentStruct = undefined;
                                 if (lastClass.parentClass && datatype !== 'List') {
-                                    parentStruct = classes[lastClass.parentClass.toLowerCase()];
+                                    parentStruct = applicationContext.parserData.userClassesData[lastClass.parentClass.toLowerCase()];
                                     className = datatype;
-                                } else if (classes[datatype.toLowerCase()]) {
-                                    lastClass = classes[datatype.toLowerCase()];
+                                } else if (applicationContext.parserData.userClassesData[datatype.toLowerCase()]) {
+                                    lastClass = applicationContext.parserData.userClassesData[datatype.toLowerCase()];
                                     sObject = undefined;
                                 } if (systemMetadata[datatype.toLowerCase()]) {
                                     lastClass = systemMetadata[datatype.toLowerCase()];
                                     sObject = undefined;
-                                } else if (sObjects[datatype.toLowerCase()]) {
-                                    sObject = sObjects[datatype.toLowerCase()];
+                                } else if (applicationContext.parserData.sObjectsData[datatype.toLowerCase()]) {
+                                    sObject = applicationContext.parserData.sObjectsData[datatype.toLowerCase()];
                                     parentStruct = undefined;
                                     lastClass = undefined;
                                 }
@@ -534,88 +654,107 @@ class Utils {
             }
             index++;
         }
-        if (sObject && config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
-            items = items.concat(Utils.getSobjectsFieldsCompletionItems(position, sObject, 'aurahelper.completion.apex', activationTokens, activationInfo));
-        } else if (lastClass && config.getConfig().autoCompletion.activeApexSuggestion) {
-            items = Utils.getApexClassCompletionItems(position, lastClass);
+        if (sObject && Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
+            items = items.concat(ProviderUtils.getSobjectsFieldsCompletionItems(position, activationInfo, activationTokens, sObject, positionData));
+        } else if (lastClass && Config.getConfig().autoCompletion.activeApexSuggestion) {
+            items = ProviderUtils.getApexClassCompletionItems(position, lastClass);
         }
+        Utils.sort(items, ['label']);
         return items;
     }
 
     static getMethodFromCall(apexClass, name, params) {
-        for (const method of apexClass.methods) {
-            if (method.name.toLowerCase() === name.toLowerCase() && method.params.length === params.length)
+        for (const methodName of Object.keys(apexClass.methods)) {
+            const method = apexClass.methods[methodName];
+            if (method.name.toLowerCase() === name.toLowerCase() && Utils.countKeys(method.params) === params.length)
                 return method;
         }
-        for (const method of apexClass.constructors) {
-            if (method.name.toLowerCase() === name.toLowerCase() && method.params.length === params.length)
-                return method;
+        for (const constructName of Object.keys(apexClass.constructors)) {
+            const construct = apexClass.constructors[constructName];
+            if (construct.name.toLowerCase() === name.toLowerCase() && Utils.countKeys(construct.params) === params.length)
+                return construct;
         }
         return undefined;
     }
 
-    static getApexClassCompletionItems(position, apexClass) {
+    static getApexClassCompletionItems(position, node) {
         let items = [];
-        if (apexClass) {
-            if (apexClass.isEnum) {
-                for (const value of apexClass.enumValues) {
-                    let options = Utils.getCompletionItemOptions('Enum Member', '', value, true, CompletionItemKind.EnumMember);
-                    let command = Utils.getCommand('EnumMember', 'aurahelper.completion.apex', [position, 'EnumMember', value]);
-                    items.push(Utils.createItemForCompletion(value, options, command));
+        if (node) {
+            if (node.nodeType === ApexNodeTypes.ENUM) {
+                for (const value of node.values) {
+                    const options = ProviderUtils.getCompletionItemOptions('Enum Member', '', value, true, CompletionItemKind.EnumMember);
+                    items.push(ProviderUtils.createItemForCompletion(value, options));
                 }
             } else {
-                if (apexClass.posData && apexClass.posData.isOnMethod) {
-                    let method = Utils.getMethod(apexClass, apexClass.posData.methodSignature);
-                    for (const param of method.params) {
+                if (node.positionData && (node.positionData.nodeType === ApexNodeTypes.METHOD || node.positionData.nodeType === ApexNodeTypes.CONSTRUCTOR)) {
+                    const method = node.methods[node.positionData.signature.toLowerCase()];
+                    for (const paramName of Object.keys(method.params)) {
+                        const param = method.params[paramName];
+                        const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
                         let description = '';
-                        if (method.comment && method.comment.params) {
-                            let commentParam = method.comment.params[param.name];
+                        /*if (method.comment && method.comment.params) {
+                            const commentParam = method.comment.params[param.name];
                             if (commentParam) {
                                 if (commentParam.description && commentParam.description.length > 0)
                                     description += ' :' + commentParam.description + '  \n\n';
                             }
-                        }
-                        description += 'Type: ' + param.datatype;
-                        let options = Utils.getCompletionItemOptions(param.datatype + ' ' + param.name, description, param.name, true, CompletionItemKind.Variable);
-                        let command = Utils.getCommand('MethodParam', 'aurahelper.completion.apex', [position, 'MethodParam', param]);
-                        items.push(Utils.createItemForCompletion(param.name, options, command));
+                        }*/
+                        description += 'Type: ' + datatype;
+                        const options = ProviderUtils.getCompletionItemOptions(datatype + ' ' + param.name, description, param.name, true, CompletionItemKind.Variable);
+                        items.push(ProviderUtils.createItemForCompletion(param.name, options));
                     }
-                    for (const variable of method.declaredVariables) {
-                        let options = Utils.getCompletionItemOptions('Method declared variable', 'Datatype: ' + variable.datatype, variable.name, true, CompletionItemKind.Variable);
-                        let command = Utils.getCommand('DeclaredVar', 'aurahelper.completion.apex', [position, 'DeclaredVar', variable]);
-                        items.push(Utils.createItemForCompletion(variable.name, options, command));
+                    for (const varName of Object.keys(method.variables)) {
+                        const variable = method.variables[varName];
+                        const datatype = StrUtils.replace(variable.datatype.name, ',', ', ');
+                        let description = '';
+                        description += 'Type: ' + datatype;
+                        const options = ProviderUtils.getCompletionItemOptions(datatype + ' ' + variable.name, description, variable.name, true, CompletionItemKind.Variable);
+                        items.push(ProviderUtils.createItemForCompletion(variable.name, options));
                     }
                 }
-                for (const field of apexClass.fields) {
+                for (const varName of Object.keys(node.variables)) {
+                    const variable = node.variables[varName];
+                    const datatype = StrUtils.replace(variable.datatype.name, ',', ', ');
                     let description = '';
-                    if (field.comment && field.comment.description && field.comment.description.length > 0)
-                        description += '### ' + field.comment.description + '  \n';
-                    description += 'Type: ' + field.datatype;
-                    let options = Utils.getCompletionItemOptions('Class field', description, field.name, true, CompletionItemKind.Field);
-                    let command = Utils.getCommand('ClassField', 'aurahelper.completion.apex', [position, 'ClassField', field.name]);
-                    items.push(Utils.createItemForCompletion(field.name, options, command));
+                    /*if (field.comment && field.comment.description && field.comment.description.length > 0)
+                        description += '### ' + field.comment.description + '  \n';*/
+                    if (variable.description && variable.description.length > 0)
+                        description += ' ' + variable.description
+                    description += 'Type: ' + datatype;
+                    if (variable.nodeType === ApexNodeTypes.PROPERTY) {
+                        const options = ProviderUtils.getCompletionItemOptions('Class Property', description, variable.name, true, CompletionItemKind.Property);
+                        items.push(ProviderUtils.createItemForCompletion(variable.name, options));
+                    } else if (variable.final) {
+                        const options = ProviderUtils.getCompletionItemOptions('Class field', description, variable.name, true, CompletionItemKind.Constant);
+                        items.push(ProviderUtils.createItemForCompletion(variable.name, options));
+                    } else {
+                        const options = ProviderUtils.getCompletionItemOptions('Class field', description, variable.name, true, CompletionItemKind.Field);
+                        items.push(ProviderUtils.createItemForCompletion(variable.name, options));
+                    }
                 }
-                for (const method of apexClass.constructors) {
-                    let insertText = method.name + "(";
+                for (const constructorName of Object.keys(node.constructors)) {
+                    const construct = node.constructors[constructorName];
+                    let insertText = construct.name + "(";
                     let snippetNum = 1;
-                    let name = method.name + "(";
+                    let name = construct.name + "(";
                     let description = '';
-                    if (method.comment && method.comment.description && method.comment.description.length > 0)
-                        description += '### ' + method.comment.description + '  \n';
-                    else if (method.description)
-                        description += '### ' + method.description + '  \n';
-                    if (method.params.length > 0)
+                    /*if (construct.comment && construct.comment.description && construct.comment.description.length > 0)
+                        description += '### ' + construct.comment.description + '  \n';
+                    else */if (construct.description)
+                        description += ' ' + construct.description + '  \n';
+                    if (Utils.hasKeys(construct.params)) {
                         description += '*Parameters:*   \n\n';
-                    if (method.params) {
-                        for (const param of method.params) {
-                            description += '> **' + param.name + '** (*' + param.datatype + '*)';
-                            if (method.comment && method.comment.params) {
-                                let commentParam = method.comment.params[param.name];
+                        for (const paramName of Object.keys(construct.params)) {
+                            const param = construct.params[paramName];
+                            const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
+                            description += '> **' + param.name + '** (*' + datatype + '*)';
+                            /*if (construct.comment && construct.comment.params) {
+                                let commentParam = construct.comment.params[param.name];
                                 if (commentParam) {
                                     if (commentParam.description && commentParam.description.length > 0)
                                         description += ' :' + commentParam.description + '  \n\n';
                                 }
-                            } else if (param.description) {
+                            } else */if (param.description) {
                                 description += ' :' + param.description + '  \n\n';
                             }
                             if (snippetNum === 1) {
@@ -628,8 +767,38 @@ class Utils {
                             }
                             snippetNum++;
                         }
-                    } else if (method.methodParams) {
-                        for (const param of method.methodParams) {
+                    }
+                    name += ")";
+                    insertText += ")";
+                    let options = ProviderUtils.getCompletionItemOptions(construct.signature, description, new SnippetString(insertText), true, CompletionItemKind.Constructor);
+                    items.push(ProviderUtils.createItemForCompletion(name, options));
+                }
+                for (const methodName of Object.keys(node.methods)) {
+                    const method = node.methods[methodName];
+                    const datatype = StrUtils.replace(method.datatype.name, ',', ', ');
+                    let insertText = method.name + "(";
+                    let snippetNum = 1;
+                    let name = method.name + "(";
+                    let description = '';
+                    /*if (method.comment && method.comment.description && method.comment.description.length > 0)
+                        description += '### ' + method.comment.description + '  \n';
+                    else */if (method.description)
+                        description += ' ' + method.description + '  \n';
+                    if (Utils.hasKeys(method.params)) {
+                        description += '*Parameters:*   \n\n';
+                        for (const paramName of Object.keys(method.params)) {
+                            const param = method.params[paramName];
+                            const paramDatatype = StrUtils.replace(param.datatype.name, ',', ', ');
+                            description += '> **' + param.name + '** (*' + paramDatatype + '*)';
+                            /*if (method.comment && method.comment.params) {
+                                let commentParam = method.comment.params[param.name];
+                                if (commentParam) {
+                                    if (commentParam.description && commentParam.description.length > 0)
+                                        description += ' :' + commentParam.description + '  \n\n';
+                                }
+                            } else*/ if (param.description) {
+                                description += ' :' + param.description + '  \n\n';
+                            }
                             if (snippetNum === 1) {
                                 name += param.name;
                                 insertText += "${" + snippetNum + ":" + param.name + "}";
@@ -641,86 +810,45 @@ class Utils {
                             snippetNum++;
                         }
                     }
-                    name += ")";
-                    insertText += ")";
-                    let options = Utils.getCompletionItemOptions(method.signature, description, new SnippetString(insertText), true, CompletionItemKind.Constructor);
-                    let command = Utils.getCommand('ClassConstructor', 'aurahelper.completion.apex', [position, 'ClassConstructor', method]);
-                    items.push(Utils.createItemForCompletion(name, options, command));
-                }
-                for (const method of apexClass.methods) {
-                    let insertText = method.name + "(";
-                    let snippetNum = 1;
-                    let name = method.name + "(";
-                    let description = '';
-                    if (method.comment && method.comment.description && method.comment.description.length > 0)
-                        description += '### ' + method.comment.description + '  \n';
-                    else if (method.description)
-                        description += '### ' + method.description + '  \n';
-                    if (method.params.length > 0)
-                        description += '*Parameters:*   \n\n';
-                    for (const param of method.params) {
-                        description += '> **' + param.name + '** (*' + param.datatype + '*)';
-                        if (method.comment && method.comment.params) {
-                            let commentParam = method.comment.params[param.name];
-                            if (commentParam) {
-                                if (commentParam.description && commentParam.description.length > 0)
-                                    description += ' :' + commentParam.description + '  \n\n';
-                            }
-                        } else if (param.description) {
-                            description += ' :' + param.description + '  \n\n';
-                        }
-                        if (snippetNum === 1) {
-                            name += param.name;
-                            insertText += "${" + snippetNum + ":" + param.name + "}";
-                        }
-                        else {
-                            name += ", " + param.name;
-                            insertText += ", ${" + snippetNum + ":" + param.name + "}";
-                        }
-                        snippetNum++;
-                    }
-                    if (method.comment && method.comment.return && method.datatype.toLowerCase() !== 'void') {
+                    /*if (method.comment && method.comment.return && method.datatype.toLowerCase() !== 'void') {
                         description += '*Return*:  \n'
                         if (method.comment.return.description && method.comment.return.description.length > 0) {
                             description += '> ' + method.comment.return.description + '  \n';
                         }
                         description += '> *' + method.comment.return.type + '*  \n';
-                    }
+                    }*/
                     name += ")";
                     insertText += ")";
-                    if (method.datatype.toLowerCase() === 'void')
+                    if (datatype === 'void')
                         insertText += ';';
-                    let options = Utils.getCompletionItemOptions(method.signature, description, new SnippetString(insertText), true, CompletionItemKind.Method);
-                    let command = Utils.getCommand('ClassMethod', 'aurahelper.completion.apex', [position, 'ClassMethod', method]);
-                    items.push(Utils.createItemForCompletion(name, options, command));
+                    const options = ProviderUtils.getCompletionItemOptions(method.signature, description, new SnippetString(insertText), true, CompletionItemKind.Method);
+                    items.push(ProviderUtils.createItemForCompletion(name, options));
                 }
-                Object.keys(apexClass.classes).forEach(function (key) {
-                    let innerClass = apexClass.classes[key];
-                    let options;
-                    if (innerClass.isInterface) {
-                        options = Utils.getCompletionItemOptions('Internal Interface from : ' + apexClass.name, (innerClass.comment) ? innerClass.comment : '', innerClass.name, true, CompletionItemKind.Interface);
-                    } else {
-                        options = Utils.getCompletionItemOptions('Internal Class from : ' + apexClass.name, (innerClass.comment) ? innerClass.comment : '', innerClass.name, true, CompletionItemKind.Class);
-                    }
-                    let command = Utils.getCommand('InnerClass', 'aurahelper.completion.apex', [position, 'InnerClass', innerClass]);
-                    items.push(Utils.createItemForCompletion(innerClass.name, options, command));
-                });
-                Object.keys(apexClass.enums).forEach(function (key) {
-                    let innerEnum = apexClass.enums[key];
-                    let options = Utils.getCompletionItemOptions(innerEnum.name + ' Enum', (innerEnum.comment) ? innerEnum.comment : '', innerEnum.name, true, CompletionItemKind.Enum);
-                    let command = Utils.getCommand('InnerEnum', 'aurahelper.completion.apex', [position, 'InnerEnum', innerEnum]);
-                    items.push(Utils.createItemForCompletion(innerEnum.name, options, command));
-                });
-                if (apexClass.extends) {
-                    let parentClasss = apexClass;
+                for (const className of Object.keys(node.classes)) {
+                    const innerClass = node.classes[className];
+                    const options = ProviderUtils.getCompletionItemOptions('Internal Class from : ' + node.name, (innerClass.description) ? innerClass.description : '', innerClass.name, true, CompletionItemKind.Class);
+                    items.push(ProviderUtils.createItemForCompletion(innerClass.name, options));
+                }
+                for (const interfaceName of Object.keys(node.interfaces)) {
+                    const innerInterface = node.interfaces[interfaceName];
+                    const options = ProviderUtils.getCompletionItemOptions('Internal Interface from : ' + node.name, (innerInterface.description) ? innerInterface.description : '', innerInterface.name, true, CompletionItemKind.Interface);
+                    items.push(ProviderUtils.createItemForCompletion(innerInterface.name, options));
+                }
+                for (const enumName of Object.keys(node.enums)) {
+                    const innerEnum = node.enums[enumName];
+                    const options = ProviderUtils.getCompletionItemOptions(innerEnum.name + ' Enum', (innerEnum.comment) ? innerEnum.comment : '', innerEnum.name, true, CompletionItemKind.Enum);
+                    items.push(ProviderUtils.createItemForCompletion(innerEnum.name, options));
+                }
+                if (node.extends) {
+                    let parentClasss = node;
                     while (!parentClasss.extends) {
-                        items = items.concat(Utils.getApexClassCompletionItems(position, parentClasss));
+                        items = items.concat(ProviderUtils.getApexClassCompletionItems(position, parentClasss));
                         parentClasss = parentClasss.extends;
                     }
                 }
-                if (apexClass.implements.length > 0) {
-                    for (const imp of apexClass.implements) {
-                        items = items.concat(Utils.getApexClassCompletionItems(position, imp));
+                if (Utils.hasKeys(node.implements)) {
+                    for (const imp of Object.keys(node.implements)) {
+                        items = items.concat(ProviderUtils.getApexClassCompletionItems(position, node.implements[imp]));
                     }
                 }
             }
@@ -750,10 +878,10 @@ class Utils {
         let type = CompletionItemKind.Value;
         if (!options.documentation)
             options.documentation = '';
-        options.documentation += '\n\nPowered by Aura Helper';
+        options.documentation += '\n\n**Powered by Aura Helper**';
         if (options && options.type)
             type = options.type;
-        let item = new CompletionItem(name, type);
+        const item = new CompletionItem(name, type);
         if (options && options.detail)
             item.detail = options.detail;
         if (options && options.documentation)
@@ -767,63 +895,76 @@ class Utils {
         return item;
     }
 
-    static getAllAvailableCompletionItems(position, fileStructure, classes, systemMetadata, allNamespaces, sObjects) {
+    static getAllAvailableCompletionItems(position, activationInfo, node) {
         let items = [];
-        if (config.getConfig().autoCompletion.activeApexSuggestion) {
-            items = Utils.getApexClassCompletionItems(position, fileStructure)
-            Object.keys(classes).forEach(function (key) {
-                let userClass = classes[key];
-                let className = (userClass.name) ? userClass.name : userClass;
-                let options = Utils.getCompletionItemOptions(className, (userClass.comment) ? userClass.comment : 'Custom Class', className, true, CompletionItemKind.Class);
-                let command = Utils.getCommand('UserClass', 'aurahelper.completion.apex', [position, 'UserClass', className]);
-                items.push(Utils.createItemForCompletion(className, options, command));
+        if (Config.getConfig().autoCompletion.activeApexSuggestion) {
+            const systemMetadata = applicationContext.parserData.namespacesData['system'];
+            items = ProviderUtils.getApexClassCompletionItems(position, node)
+            Object.keys(applicationContext.parserData.userClassesData).forEach(function (key) {
+                const userClass = applicationContext.parserData.userClassesData[key];
+                const className = (userClass.name) ? userClass.name : userClass;
+                const options = ProviderUtils.getCompletionItemOptions(className, 'Custom Class', className, true, CompletionItemKind.Class);
+                const item = ProviderUtils.createItemForCompletion(className, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                items.push(item);
             });
             Object.keys(systemMetadata).forEach(function (key) {
-                let systemClass = systemMetadata[key];
-                if (systemClass.isEnum) {
-                    let description = systemClass.description + ((systemClass.link) ? ' Documentation:\n ' + systemClass.link : '') + '\nEnum Values: \n' + systemClass.enumValues.join('\n');
-                    let options = Utils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Enum);
-                    let command = Utils.getCommand('SystemEnum', 'aurahelper.completion.apex', [position, 'SystemEnum', systemClass]);
-                    items.push(Utils.createItemForCompletion(systemClass.name, options, command));
-                } else if (systemClass.isInterface) {
-                    let description = systemClass.description + ((systemClass.link) ? ' Documentation:\n ' + systemClass.link : '');
-                    let options = Utils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Interface);
-                    let command = Utils.getCommand('SystemInterface', 'aurahelper.completion.apex', [position, 'SystemInterface', systemClass]);
-                    items.push(Utils.createItemForCompletion(systemClass.name, options, command));
+                const systemClass = systemMetadata[key];
+                if (systemClass.nodeType === ApexNodeTypes.ENUM) {
+                    const description = systemClass.description + ((systemClass.documentation) ? ' Documentation:\n ' + systemClass.documentation : '') + '\nEnum Values: \n' + systemClass.values.join('\n');
+                    const options = ProviderUtils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Enum);
+                    const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
+                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    items.push(item);
+                } else if (systemClass.nodeType === ApexNodeTypes.INTERFACE) {
+                    const description = systemClass.description + ((systemClass.documentation) ? ' Documentation:\n ' + systemClass.documentation : '');
+                    const options = ProviderUtils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Interface);
+                    const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
+                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    items.push(item);
                 } else {
-                    let description = systemClass.description + ((systemClass.link) ? ' Documentation:\n ' + systemClass.link : '');
-                    let options = Utils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Class);
-                    let command = Utils.getCommand('SystemClass', 'aurahelper.completion.apex', [position, 'SystemClass', systemClass]);
-                    items.push(Utils.createItemForCompletion(systemClass.name, options, command));
+                    const description = systemClass.description + ((systemClass.documentation) ? ' Documentation:\n ' + systemClass.documentation : '');
+                    const options = ProviderUtils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Class);
+                    const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
+                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    items.push(item);
                 }
             });
-            Object.keys(allNamespaces).forEach(function (key) {
-                let nsMetadata = allNamespaces[key];
-                let options = Utils.getCompletionItemOptions(nsMetadata.description, ' Documentation:\n ' + nsMetadata.docLink, nsMetadata.name, true, CompletionItemKind.Module);
-                let command = Utils.getCommand('Namespace', 'aurahelper.completion.apex', [position, 'Namespace', nsMetadata]);
-                items.push(Utils.createItemForCompletion(nsMetadata.name, options, command));
-            });
+            for (const ns of applicationContext.parserData.namespaces) {
+                const options = ProviderUtils.getCompletionItemOptions('Salesforce Namespace', undefined, ns, true, CompletionItemKind.Module);
+                const item = ProviderUtils.createItemForCompletion(ns, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                items.push(item);
+            }
         }
-        if (config.getConfig().autoCompletion.activeSObjectSuggestion) {
-            Object.keys(sObjects).forEach(function (key) {
-                let sObject = sObjects[key];
+        if (Config.getConfig().autoCompletion.activeSObjectSuggestion) {
+            Object.keys(applicationContext.parserData.sObjectsData).forEach(function (key) {
+                const sObject = applicationContext.parserData.sObjectsData[key];
                 let description = 'Standard SObject';
                 if (sObject.custom)
                     description = 'Custom SObject';
                 if (sObject.namespace) {
                     description += '\nNamespace: ' + sObject.namespace;
                 }
-                let options = Utils.getCompletionItemOptions(sObject.name, description, sObject.name, true, CompletionItemKind.Class);
-                let command = Utils.getCommand('SObject', 'aurahelper.completion.apex', [position, 'SObject', sObject.name]);
-                items.push(Utils.createItemForCompletion(sObject.name, options, command));
+                const options = ProviderUtils.getCompletionItemOptions(sObject.name, description, sObject.name, true, CompletionItemKind.Class);
+                const item = ProviderUtils.createItemForCompletion(sObject.name, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                items.push(item);
             });
         }
+        Utils.sort(items, ['label']);
         return items;
     }
 
     static getCustomLabels() {
         let labels = [];
-        let labelsFile = Paths.getMetadataRootFolder() + '/labels/CustomLabels.labels-meta.xml';
+        let labelsFile = Paths.getProjectMetadataFolder() + '/labels/CustomLabels.labels-meta.xml';
         if (FileChecker.isExists(labelsFile)) {
             let root = XMLParser.parseXML(FileReader.readFileSync(labelsFile));
             if (root.CustomLabels) {
@@ -836,4 +977,4 @@ class Utils {
         return labels;
     }
 }
-exports.Utils = Utils;
+module.exports = ProviderUtils;

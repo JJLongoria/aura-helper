@@ -1,10 +1,11 @@
 const vscode = require('vscode');
-const fileSystem = require('../fileSystem');
-const languages = require('../languages');
 const NotificationManager = require('../output/notificationManager');
-const ApexParser = languages.ApexParser;
-const FileReader = fileSystem.FileReader;
-const FileChecker = fileSystem.FileChecker;
+const { FileReader, FileChecker } = require('@ah/core').FileSystem;
+const { Utils, StrUtils } = require('@ah/core').CoreUtils;
+const { ApexConstructor } = require('@ah/core').Types;
+const { ApexNodeTypes } = require('@ah/core').Values;
+const { ApexParser } = require('@ah/languages').Apex;
+const applicationContext = require('../core/applicationContext');
 const Window = vscode.window;
 const SnippetString = vscode.SnippetString;
 const Position = vscode.Position;
@@ -16,7 +17,8 @@ exports.run = function () {
         if (editor)
             filePath = editor.document.uri.fsPath;
         if (FileChecker.isApexClass(filePath)) {
-            implementIntefaces(editor, ApexParser.getFileStructure(FileReader.readDocument(editor.document)));
+            const node = new ApexParser().setContent(FileReader.readDocument(editor.document)).setSystemData(applicationContext.parserData).resolveReferences();
+            implementIntefaces(editor, node);
         } else {
             NotificationManager.showError("The selected file isn't an Apex Class");
         }
@@ -26,77 +28,66 @@ exports.run = function () {
 }
 
 function implementIntefaces(editor, apexClass) {
-    let inheritedMethods = [];
-    let methodsForCreate = [];
-    if (apexClass.implements && apexClass.implements.length > 0) {
-        for (const imp of apexClass.implements) {
-            if (imp.constructors && imp.constructors.length > 0) {
-                inheritedMethods = inheritedMethods.concat(imp.constructors);
+    const methodsToCreate = [];
+    const constructorsToCreate = [];
+    if (Utils.hasKeys(apexClass.implements)) {
+        for (const impKey of Object.keys(apexClass.implements)) {
+            const imp = apexClass.implements[impKey];
+            if (Utils.hasKeys(imp.methods)) {
+                for (const method of imp.getOrderedChilds(ApexNodeTypes.METHOD)) {
+                    if (!ApexParser.isMethodExists(apexClass, method)) {
+                        methodsToCreate.push(method);
+                    }
+                }
             }
-            if (imp.methods && imp.methods.length > 0) {
-                inheritedMethods = inheritedMethods.concat(imp.methods);
+            if (Utils.hasKeys(imp.constructors)) {
+                for (const constructor of imp.getOrderedChilds(ApexNodeTypes.CONSTRUCTOR)) {
+                    const tmp = new ApexConstructor(constructor);
+                    tmp.name = apexClass.name;
+                    tmp.simplifiedSignature = StrUtils.replace(tmp.simplifiedSignature, constructor.name, apexClass.name).toLowerCase();
+                    tmp.signature = StrUtils.replace(tmp.signature, constructor.name, apexClass.name).toLowerCase();
+                    if (!ApexParser.isConstructorExists(apexClass, tmp))
+                        constructorsToCreate.push(tmp);
+                }
             }
-            if (imp.extends && imp.extends.methods && imp.extends.methods.length > 0) {
-                inheritedMethods = inheritedMethods.concat(imp.extends.methods);
-            }
-        }
-    }
-    for (const inheritedMethod of inheritedMethods) {
-        if (!isMethodExists(inheritedMethod, apexClass.methods) && !isMethodExists(inheritedMethod, apexClass.constructors)) {
-            methodsForCreate.push(inheritedMethod);
         }
     }
     let lastMethodToken;
-    let lastClassToken = apexClass.lastToken;
-    if (apexClass.methods && apexClass.methods.length > 0) {
-        let lastMethod = apexClass.methods[apexClass.methods.length - 1];
-        lastMethodToken = lastMethod.lastToken;
+    const lastClassToken = apexClass.endToken;
+    const startClassToken = apexClass.startToken;
+    const lastMethod = apexClass.getLastChild(ApexNodeTypes.METHOD);
+    const lastConstructor = apexClass.getLastChild(ApexNodeTypes.CONSTRUCTOR);
+    if (lastMethod && lastConstructor) {
+        if (lastMethod.endToken.range.start.isBefore(lastConstructor.endToken.range.start.isBefore())) {
+            lastMethodToken = lastConstructor.endToken;
+        } else {
+            lastMethodToken = lastMethod.endToken;
+        }
+    } else if (lastMethod) {
+        lastMethodToken = lastMethod.endToken;
+    } else if (lastConstructor) {
+        lastMethodToken = lastConstructor.endToken;
     }
-    if (methodsForCreate.length > 0) {
+    if (methodsToCreate.length > 0 || constructorsToCreate.length > 0) {
+        let content = '';
+        if (lastMethodToken)
+            content = '\n\n';
+        for (const constructor of constructorsToCreate) {
+            content += ((!lastMethodToken) ? '\t' : '') + constructor.signature + ' {\n\t\n' + ((!lastMethodToken) ? '\t' : '') + '}\n\n';
+        }
+        for (const method of methodsToCreate) {
+            if (method.datatype && method.datatype.name.toLowerCase() !== 'void')
+                content += ((!lastMethodToken) ? '\t' : '') + method.signature + ' {\n\t' + ((!lastMethodToken) ? '\t' : '') + method.datatype.name + ' returnedValue = null;\n\t\n\t' + ((!lastMethodToken) ? '\t' : '') + 'return returnedValue;\n' + ((!lastMethodToken) ? '\t' : '') + '}\n\n';
+            else
+                content += ((!lastMethodToken) ? '\t' : '') + method.signature + ' {\n\t\n' + ((!lastMethodToken) ? '\t' : '') + '}\n\n';
+        }
         if (lastMethodToken) {
-            let content = '\n\n';
-            for (const method of methodsForCreate) {
-                if (method.datatype && method.datatype.toLowerCase() !== 'void')
-                    content += method.signature + ' {\n\t\t' + method.datatype + ' returnedValue = null;\n\t\t\n\t\treturn returnedValue;\n\t}\n\n';
-                else
-                    content += method.signature + ' {\n\t\t\n\t}\n\n';
-            }
-            editor.insertSnippet(new SnippetString(content), new Position(lastMethodToken.line, lastMethodToken.endColumn));
+            editor.insertSnippet(new SnippetString(content), new Position(lastMethodToken.range.end.line, lastMethodToken.range.end.character));
         } else if (lastClassToken) {
-            let content = '';
-            for (const method of methodsForCreate) {
-                if (method.datatype && method.datatype.toLowerCase() !== 'void')
-                    content += '\t' + method.signature + ' {\n\t\t' + method.datatype + ' returnedValue = null;\n\t\t\n\t\treturn returnedValue;\n\t}\n\n';
-                else
-                    content += '\t' + method.signature + ' {\n\t\t\n\t}\n\n';
-            }
-            editor.insertSnippet(new SnippetString(content), new Position(lastClassToken.line, 0));
+            content = '\n\n' + content + '\n';
+            editor.insertSnippet(new SnippetString(content), new Position(startClassToken.range.start.line, startClassToken.range.end.character));
         }
     } else {
-        NotificationManager.showInfo("This Class has no methods to implement");
+        NotificationManager.showInfo("This Interface has no methods to implement");
     }
-}
-
-function isMethodExists(method, methods) {
-    if (methods && methods.length > 0) {
-        for (const existingMethod of methods) {
-            let existingSignature = getSortSignature(existingMethod);
-            let signature = getSortSignature(method);
-            if (existingSignature.toLowerCase() === signature.toLowerCase())
-                return true;
-        }
-    }
-    return false;
-}
-
-function getSortSignature(method) {
-    let signature = method.name;
-    let params = [];
-    if (method.params && method.params.length > 0) {
-        for (const param of method.params) {
-            params.push(param.datatype + ' ' + param.name);
-        }
-    }
-    signature += '(' + params.join(', ') + ')';
-    return signature;
 }

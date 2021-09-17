@@ -1,14 +1,12 @@
-const snippetUtils = require('../utils/snippetUtils');
-const languages = require('../languages');
-const fileSystem = require('../fileSystem');
+const SnippetUtils = require('../utils/snippetUtils');
 const vscode = require('vscode');
+const Editor = require('../output/editor');
 const NotificationManager = require('../output/notificationManager');
+const Paths = require('../core/paths');
+const { FileChecker, FileReader } = require('@ah/core').FileSystem;
+const { StrUtils } = require('@ah/core').CoreUtils;
+const { JSParser } = require('@ah/languages').JavaScript;
 const window = vscode.window;
-const FileChecker = fileSystem.FileChecker;
-const Paths = fileSystem.Paths;
-const FileReader = fileSystem.FileReader;
-const FileWriter = fileSystem.FileWriter;
-const JavaScriptParser = languages.JavaScriptParser;
 
 exports.run = function() {
     try {
@@ -18,7 +16,7 @@ exports.run = function() {
         if (FileChecker.isAuraDoc(editor.document.uri.fsPath)) {
             addMethodBlock(editor);
         } else {
-            NotificationManager.showError('The selected file is not an Apex Class');
+            NotificationManager.showError('The selected file is not an Aura Doc');
         }
     } catch (error) {
         NotificationManager.showCommandError(error);
@@ -27,65 +25,65 @@ exports.run = function() {
 
 function addMethodBlock(editor) {
     let filePath = editor.document.uri.fsPath;
-    let helperPath = Paths.getBundleHelperPath(filePath);
-    let controllerPath = Paths.getBundleControllerPath(filePath);
-    let helper;
-    let controller;
+    let helperPath = Paths.getAuraBundleHelperPath(filePath);
+    let controllerPath = Paths.getAuraBundleControllerPath(filePath);
+    let helperMethods;
+    let controllerMethods;
     if (FileChecker.isExists(helperPath)) {
-        helper = JavaScriptParser.parse(FileReader.readFileSync(helperPath));
+        helperMethods = new JSParser(helperPath).parse().methods;
     }
     if (FileChecker.isExists(controllerPath)) {
-        controller = JavaScriptParser.parse(FileReader.readFileSync(controllerPath));
+        controllerMethods = new JSParser(controllerPath).parse().methods;
     }
     let options = [];
-    if (controller)
+    if (controllerMethods && controllerMethods.length > 0)
         options.push("Controller Functions");
-    if (helper)
+    if (helperMethods && helperMethods.length > 0)
         options.push("Helper Functions");
     if (options.length > 0) {
-        window.showQuickPick(options, { placeHolder: "Select file for get functions" }).then((fileSelected) => processFileSelected(fileSelected, controller, helper, editor));
+        window.showQuickPick(options, { placeHolder: "Select file for get functions" }).then((fileSelected) => processFileSelected(fileSelected, controllerMethods, helperMethods, editor));
     } else {
-        window.showInformationMessage("Nor JavaScript files found on bundle");
+        window.showInformationMessage("Not JavaScript files found on bundle");
     }
 
 }
 
-function processFileSelected(fileSelected, controller, helper, editor) {
+function processFileSelected(fileSelected, controllerMethods, helperMethods, editor) {
     let funcNames = [];
     if (fileSelected == "Controller Functions") {
-        for (let i = 0; i < controller.functions.length; i++) {
-            const method = controller.functions[i];
+        for (let i = 0; i < controllerMethods.length; i++) {
+            const method = controllerMethods[i];
             funcNames.push(method.signature);
         }
     }
     else if (fileSelected == "Helper Functions") {
-        for (let i = 0; i < helper.functions.length; i++) {
-            const method = helper.functions[i];
+        for (let i = 0; i < helperMethods.length; i++) {
+            const method = helperMethods[i];
             funcNames.push(method.signature);
         }
     }
     if (funcNames.length > 0) {
-        window.showQuickPick(funcNames, { placeHolder: "Select the method for add on Documentation file" }).then((funcSelected) => processFunctionSelected(fileSelected, funcSelected, controller, helper, editor));
+        window.showQuickPick(funcNames, { placeHolder: "Select the method for add on Documentation file" }).then((funcSelected) => processFunctionSelected(fileSelected, funcSelected, controllerMethods, helperMethods, editor));
     } else {
         window.showInformationMessage("Not methods found in selected file");
     }
 }
 
-function processFunctionSelected(fileSelected, funcSelected, controller, helper, editor) {
-    let docTemplateContent = FileReader.readFileSync(Paths.getAuraDocumentUserTemplatePath());
+function processFunctionSelected(fileSelected, funcSelected, controllerMethods, helperMethods, editor) {
+    let docTemplateContent = FileReader.readFileSync(Paths.getAuraDocUserTemplate());
     var methods = [];
     if (fileSelected == "Controller Functions") {
-        methods = controller.functions;
+        methods = controllerMethods;
     }
     else if (fileSelected == "Helper Functions") {
-        methods = helper.functions;
+        methods = helperMethods;
     }
     for (let i = 0; i < methods.length; i++) {
         const method = methods[i];
         if (method.signature == funcSelected) {
             let auraDocTemplateJSON = JSON.parse(docTemplateContent);
-            var methodContent = snippetUtils.getMethodContent(method, auraDocTemplateJSON.methodBody, auraDocTemplateJSON.paramBody, snippetUtils.getWhitespaces(editor.selection.start.character)).trimLeft();
-            FileWriter.replaceEditorContent(editor, editor.selection, methodContent);
+            var methodContent = SnippetUtils.getMethodContent(method, auraDocTemplateJSON.methodBody, auraDocTemplateJSON.paramBody, auraDocTemplateJSON.returnBody, StrUtils.getWhitespaces(editor.selection.start.character)).trimLeft();
+            Editor.replaceEditorContent(editor, editor.selection, methodContent);
         }
     }
 }
