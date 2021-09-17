@@ -1,29 +1,47 @@
-const languages = require('../languages');
 const logger = require('../utils/logger');
 const applicationContext = require('../core/applicationContext');
-const config = require('../core/config');
-const fileSystem = require('../fileSystem');
+const { AuraAttribute, Token } = require('@ah/core').Types;
+const Config = require('../core/config');
 const vscode = require('vscode');
-const Utils = require('./utils').Utils;
-const Paths = fileSystem.Paths;
-const FileReader = fileSystem.FileReader;
-const FileChecker = fileSystem.FileChecker;
+const Range = vscode.Range;
+const Position = vscode.Position;
+const ProviderUtils = require('./utils');
+const { FileChecker, FileReader, PathUtils } = require('@ah/core').FileSystem;
+const { AuraBundleAnalyzer, AuraParser, AuraTokenType } = require('@ah/languages').Aura;
+const LanguageUtils = require('@ah/languages').LanguageUtils;
+const { AuraNodeTypes } = require('@ah/core').Values;
+const { Utils } = require('@ah/core').CoreUtils;
 const SnippetString = vscode.SnippetString;
 const CompletionItemKind = vscode.CompletionItemKind;
-const CompletionItem = vscode.CompletionItem;
-const MarkdownString = vscode.MarkdownString;
-const BundleAnalizer = languages.BundleAnalizer;
-const AuraParser = languages.AuraParser;
-const Tokenizer = languages.Tokenizer;
-const langUtils = languages.Utils;
+const auraIdAttribute = new AuraAttribute();
+auraIdAttribute.name = {
+    name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, 'name', new Position(0, 0), new Position(0, 'name'.length)),
+    value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, 'aura:id', new Position(0, 0), new Position(0, 'aura:id'.length)),
+};
+auraIdAttribute.type = {
+    name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, 'type', new Position(0, 0), new Position(0, 'type'.length)),
+    value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, 'String', new Position(0, 0), new Position(0, 'String'.length)),
+};
+auraIdAttribute.description = {
+    name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, 'description', new Position(0, 0), new Position(0, 'description'.length)),
+    value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, 'Aura ID of the component', new Position(0, 0), new Position(0, 'Aura ID of the component'.length)),
+};
+auraIdAttribute.access = {
+    name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, 'access', new Position(0, 0), new Position(0, 'access'.length)),
+    value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, 'global', new Position(0, 0), new Position(0, 'global'.length)),
+};
+auraIdAttribute.namespace = 'aura';
 
 exports.provider = {
     provideCompletionItems(document, position) {
         return new Promise(function (resolve) {
             let items;
-            if (FileChecker.isAuraComponent(document.uri.fsPath)) {
-                items = provideAuraComponentCompletion(document, position);
-                items.sort();
+            try {
+                if (FileChecker.isAuraComponent(document.uri.fsPath)) {
+                    items = provideAuraComponentCompletion(document, position);
+                }
+            } catch (error) {
+                logger.error(error);
             }
             resolve(items);
         });
@@ -31,149 +49,122 @@ exports.provider = {
 }
 
 function provideAuraComponentCompletion(document, position) {
-    let items;
-    const line = document.lineAt(position.line).text;
-    let isComponentTag = onComponentTag(document, position);
-    let componentTagData;
-    if (isComponentTag)
-        componentTagData = analizeComponentTag(document, position);
-    let activationInfo = Utils.getActivation(document, position);
-    let activation = activationInfo.activation;
-    let activationTokens = activation.split('.');
-    let activationOption1 = line.substring(position.character - 2, position.character);
-    let similarAuraSnippetsNs = getSimilarSnippetsNS(applicationContext.auraSnippets, activationTokens[0]);
-    let similarSldsSnippetsNs = getSimilarSnippetsNS(applicationContext.sldsSnippets, activationTokens[0]);
-    let componentStructure = BundleAnalizer.getComponentStructure(document.fileName);
-    let classes = applicationContext.userClasses;
-    let allNamespaces = applicationContext.allNamespaces;
-    let systemMetadata = allNamespaces['system'];
-    let sObjects = applicationContext.sObjects;
-    let queryData = langUtils.getQueryData(document, position);
-    let snippets;
-    if (FileChecker.isAuraComponent(document.uri.fsPath) && applicationContext.auraSnippets[activationTokens[0]] && applicationContext.auraSnippets[activationTokens[0]].length > 0) {
-        snippets = applicationContext.auraSnippets[activationTokens[0]];
-    } else if (FileChecker.isAuraComponent(document.uri.fsPath) && applicationContext.sldsSnippets[activationTokens[0]] && applicationContext.sldsSnippets[activationTokens[0]].length > 0) {
-        snippets = applicationContext.sldsSnippets[activationTokens[0]];
-    }
-    if (queryData) {
+    let items = [];
+    const orgNamespace = Config.getNamespace();
+    const componentInitTag = (orgNamespace) ? orgNamespace + ':' : 'c:';
+    const activationInfo = ProviderUtils.getActivation(document, position);
+    const activation = activationInfo.activation;
+    const activationTokens = activation.split('.');
+    const auraSnippets = getSnippets(applicationContext.snippets.aura, activationTokens[0]);
+    const sldsSnippets = getSnippets(applicationContext.snippets.slds, activationTokens[0]);
+    const component = new AuraBundleAnalyzer(document.uri.fsPath, applicationContext.parserData).setContent(FileReader.readDocument(document)).analize(ProviderUtils.fixPositionOffset(document, position));
+    if (component.positionData && component.positionData.query) {
         // Code for support completion on queries
-        items = Utils.getQueryCompletionItems(activationTokens, activationInfo, queryData, position, 'aurahelper.completion.aura');
-    } else if (snippets && snippets.length > 0) {
+        items = ProviderUtils.getQueryCompletionItems(position, activationInfo, activationTokens, component.positionData);
+    } else if (auraSnippets || sldsSnippets) {
         // Code for completions when user types any snippets activation preffix (ltn., slds., ltng. ...)
-        items = getSnippetsCompletionItems(position, snippets);
-    } else if (similarAuraSnippetsNs.length > 0 && FileChecker.isAuraComponent(document.uri.fsPath)) {
-        // Code for completions when user types a similar words of snippets activations (lt (ltn.), (ltng.) ...)
-        items = getSimilarCompletionItems(position, similarAuraSnippetsNs);
-    } else if (similarSldsSnippetsNs.length > 0 && FileChecker.isAuraComponent(document.uri.fsPath)) {
-        // Code for completions when user types a similar words of snippets activations (sl (slds.) ...)
-        items = getSimilarCompletionItems(position, similarSldsSnippetsNs);
+        items = getSnippetsCompletionItems(position, activationInfo, auraSnippets || sldsSnippets);
     } else if (activationTokens.length > 0 && activationTokens[0].toLowerCase() === 'label') {
-        items = getLabelsCompletionItems(activationTokens, position);
-    } else if ((activationTokens[0] === 'v' || activationTokens[0] === 'c')) {
-        if (activationTokens[0] === 'v' && activationTokens.length > 1) {
-            // Code for completions when user types v.
-            if (!config.getConfig().autoCompletion.activeAttributeSuggest)
-                return [];
-            let attribute = Utils.getAttribute(componentStructure, activationTokens[1]);
-            if (attribute) {
-                items = getComponentAttributeMembersCompletionItems(attribute, activationTokens, activationInfo, sObjects, position);
-            } else if (activationTokens.length === 2) {
-                items = getAttributesCompletionItems(componentStructure, position, componentTagData);
-            }
-        } else if (activationTokens[0] === 'c' && activationTokens.length === 2) {
-            // Code for completions when user types c.
-            if (!config.getConfig().autoCompletion.activeControllerFunctionsSuggest)
-                return [];
-            items = getControllerFunctionsCompletionItems(componentStructure, position, componentTagData);
+        items = getLabelsCompletionItems(position, activationInfo, activationTokens);
+    } else if (activationTokens[0] === 'v' && activationTokens.length > 1) {
+        // Code for completions when user types v.
+        if (!Config.getConfig().autoCompletion.activeAttributeSuggest)
+            return [];
+        let attribute = ProviderUtils.getAttribute(component, activationTokens[1]);
+        if (attribute) {
+            items = getComponentAttributeMembersCompletionItems(position, activationInfo, activationTokens, attribute, component.positionData);
+        } else if (activationTokens.length === 2) {
+            items = getAttributesCompletionItems(position, activationInfo, component);
         }
-    } else if (activationOption1 === 'c:') {
-        if (!config.getConfig().autoCompletion.activeComponentSuggest)
+    } else if (activationTokens[0] === 'c' && activationTokens.length === 2) {
+        // Code for completions when user types c.
+        if (!Config.getConfig().autoCompletion.activeControllerFunctionsSuggest)
+            return [];
+        items = getControllerFunctionsCompletionItems(position, activationInfo, component);
+    } else if (activationTokens[0] === componentInitTag && activationTokens.length === 1) {
+        if (!Config.getConfig().autoCompletion.activeComponentSuggest)
             return [];
         // Code for completions when user types c:
-        items = getComponentsCompletionItems(position, document, componentTagData);
-    } else if (line.indexOf('<c:') !== -1) {
-        if (line.toLowerCase().trim() === '<c:' && !isComponentTag) {
-            // Code for completions when user types <c:
-            if (!config.getConfig().autoCompletion.activeComponentSuggest)
-                return [];
-            items = getComponentsCompletionItems(position, document, componentTagData);
-        } else if (isComponentTag) {
-            // Code for completions when position is on a start custom component tag <c:componentName >
-            if (!config.getConfig().autoCompletion.activeCustomComponentCallSuggest)
-                return [];
-            let lineSplits = line.split(':');
-            if (lineSplits.length >= 2) {
-                let componentName = lineSplits[1].split(' ')[0];
-                if (componentName) {
-                    let filePath = Paths.getFolderPath(Paths.getFolderPath(document.uri.fsPath)) + '/' + componentName + '/' + componentName + '.cmp';
-                    let componentStructure = BundleAnalizer.getComponentStructure(filePath);
-                    items = getComponentAttributesCompletionItems(componentStructure, componentTagData, position);
-                }
-            }
-        }
-    } else if (isComponentTag) {
+        items = getComponentsCompletionItems(position, document, activationInfo);
+    } else if (component.positionData && component.positionData.tagData) {
         // Code for completions when position is on a start standard component tag <ns:componentName >
-        if (!config.getConfig().autoCompletion.activeComponentCallSuggest)
+        if (!Config.getConfig().autoCompletion.activeComponentCallSuggest)
             return [];
-        if (!componentTagData.isOnAttributeValue) {
+        if (!component.positionData.isOnAttributeValue) {
             // Code for completions when position is on attribute value (position to put attributes) <ns:componentName attr="value" [thispos] attr="value">
-            items = getBaseComponentsAttributesCompletionItems(componentTagData, position);
-        } else if (componentTagData.isOnAttributeValue && componentTagData.isParamEmpty) {
+            items = getBaseComponentsAttributesCompletionItems(position, activationInfo, component);
+        } else if (component.positionData.isOnAttributeValue) {
             // Code for completions when position is on attribute param value and value is empty <ns:componentName attr="[thispos]" attr="value">
-            items = getAttributeTypesCompletionItems(activationTokens, activationInfo, document, position, componentTagData, componentStructure, getBaseComponentAttributes(componentTagData), classes, systemMetadata, allNamespaces, sObjects);
+            items = getAttributeTypesCompletionItems(position, activationInfo, activationTokens, component);
         } else if (activationTokens.length > 1) {
-            items = Utils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, classes, systemMetadata, allNamespaces, sObjects);
+            items = ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, component.positionData);
         } else {
-            items = Utils.getAllAvailableCompletionItems(position, undefined, classes, systemMetadata, allNamespaces, sObjects);
+            items = ProviderUtils.getAllAvailableCompletionItems(position, activationInfo);
         }
     } else if (activationTokens.length > 1) {
         // Code for completions when position is on empty line or withot components
-        items = Utils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, classes, systemMetadata, allNamespaces, sObjects);
+        items = ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, component.positionData);
 
     } else if (activationTokens.length > 0) {
         // Code for completions when position is on empty line or withot components
-        items = Utils.getAllAvailableCompletionItems(position, undefined, classes, systemMetadata, allNamespaces, sObjects);
-
+        items = ProviderUtils.getAllAvailableCompletionItems(position, activationInfo);
     }
     return items;
 }
 
-function getLabelsCompletionItems(activationTokens, position) {
-    let items = [];
+function getSnippetsCompletionItems(position, activationInfo, snippets) {
+    const items = [];
+    for (const snippet of snippets) {
+        const options = ProviderUtils.getCompletionItemOptions(snippet.name + '\n' + snippet.description, snippet.body.join('\n'), new SnippetString(snippet.body.join('\n')), true, CompletionItemKind.Snippet);
+        const item = ProviderUtils.createItemForCompletion(snippet.prefix, options);
+        if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+            item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+        items.push(item);
+    }
+    return items;
+}
+
+function getLabelsCompletionItems(position, activationInfo, activationTokens) {
+    const items = [];
+    const orgNamespace = Config.getNamespace() || 'c';
     if (activationTokens.length == 1 || activationTokens.length == 2) {
-        let labels = Utils.getCustomLabels();
+        let labels = ProviderUtils.getCustomLabels();
         for (const label of labels) {
-            let doc = 'Name: ' + label.fullName + '\n';
-            doc += 'Value: ' + label.value + '\n';
-            doc += 'Category: ' + label.categories + '\n';
-            doc += 'Language: ' + label.language + '\n';
-            doc += 'Protected: ' + label.protected;
-            let options = Utils.getCompletionItemOptions(label.shortDescription, doc, label.fullName, true, CompletionItemKind.Field);
-            let command = Utils.getCommand('CustomLabelAura', 'aurahelper.completion.aura', [position, 'CustomLabelAura', { label: label }]);
-            items.push(Utils.createItemForCompletion(label.fullName, options, command));
+            let doc = '  - **Name**: ' + label.fullName + '\n';
+            doc += '  - **Value**: ' + label.value + '\n';
+            doc += '  - **Category**: ' + label.categories + '\n';
+            doc += '  - **Language**: ' + label.language + '\n';
+            doc += '  - **Protected**: ' + label.protected;
+            const options = ProviderUtils.getCompletionItemOptions(label.shortDescription, doc, '{!$Label.' + orgNamespace + '.' + label.fullName + '}', true, CompletionItemKind.Field);
+            const item = ProviderUtils.createItemForCompletion('label.' + label.fullName, options);
+            if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+            items.push(item);
         }
     }
     return items;
 }
 
-function getComponentAttributeMembersCompletionItems(attribute, activationTokens, activationInfo, sObjects, position) {
+function getComponentAttributeMembersCompletionItems(position, activationInfo, activationTokens, attribute, positionData) {
     let items;
-    if (sObjects[attribute.type.toLowerCase()]) {
-        if (!config.getConfig().autoCompletion.activeSobjectFieldsSuggestion)
+    const sObject = applicationContext.parserData.sObjectsData[attribute.type.toLowerCase()];
+    if (sObject) {
+        if (!Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion)
             return [];
-        let sObject = sObjects[attribute.type.toLowerCase()];
         if (activationTokens.length >= 2) {
             let lastObject = sObject;
             let index = 0;
             for (const activationToken of activationTokens) {
                 let actToken = activationToken;
                 if (index > 1) {
+                    let fielData;
+                    let idField = actToken + 'Id';
                     if (actToken.endsWith('__r'))
                         actToken = actToken.substring(0, actToken.length - 3) + '__c';
-                    let fielData = Utils.getFieldData(lastObject, actToken);
+                    fielData = ProviderUtils.getFieldData(sObject, idField.toLowerCase()) || ProviderUtils.getFieldData(sObject, actToken);
                     if (fielData) {
                         if (fielData.referenceTo.length === 1) {
-                            lastObject = sObjects[fielData.referenceTo[0]];
+                            lastObject = applicationContext.parserData.sObjectsData[fielData.referenceTo[0].toLowerCase()];
                         } else {
                             lastObject = undefined;
                         }
@@ -181,687 +172,570 @@ function getComponentAttributeMembersCompletionItems(attribute, activationTokens
                 }
                 index++;
             }
-            items = Utils.getSobjectsFieldsCompletionItems(position, lastObject, 'aurahelper.completion.aura', activationTokens, activationInfo);
+            items = ProviderUtils.getSobjectsFieldsCompletionItems(position, activationInfo, activationTokens, lastObject, positionData);
         }
     } else {
         // include Apex Classes Completion
     }
+    Utils.sort(items, ['label']);
     return items;
 }
 
-function getAttributeTypesCompletionItems(activationTokens, activationInfo, document, position, componentTagData, componentStructure, componentAttributes, classes, systemMetadata, allNamespaces, sObjects) {
-    let items = [];
-    let attributeData;
+function getAttributesCompletionItems(position, activationInfo, component) {
+    const items = [];
+    for (const attribute of component.attributes) {
+        let detail;
+        let doc;
+        if (attribute.type && attribute.type.value.text)
+            detail = 'Type: ' + attribute.type.value.text;
+        if (attribute.description && attribute.description.value.text)
+            doc = attribute.description.value.text;
+        let insertText = '';
+        if (!activationInfo.twoLastToken || (activationInfo.twoLastToken && activationInfo.twoLastToken.text != '{')) {
+            insertText += '{';
+        }
+        if (!activationInfo.lastToken || (activationInfo.lastToken && activationInfo.lastToken.text != '!')) {
+            insertText += '!';
+        }
+        insertText += 'v.' + attribute.name.value.text;
+        if (!activationInfo.nextToken || (activationInfo.nextToken && activationInfo.nextToken.text != '}'))
+            insertText += '}';
+        const options = ProviderUtils.getCompletionItemOptions(detail, doc, insertText, true, CompletionItemKind.Field);
+        const item = ProviderUtils.createItemForCompletion('v.' + attribute.name.value.text, options);
+        if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+            item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+        items.push(item);
+    }
+    Utils.sort(items, ['label']);
+    return items;
+}
+
+function getControllerFunctionsCompletionItems(position, activationInfo, component) {
+    const items = [];
+    for (const func of component.controllerFunctions) {
+        let detail;
+        let doc;
+        if (func.comment) {
+            detail = func.comment.description + '\n';
+            /*for (const commentParam of func.comment.params) {
+                detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
+            }*/
+        }
+        else {
+            detail = "Aura Controller Function";
+        }
+        let insertText = '';
+        if (!activationInfo.twoLastToken || (activationInfo.twoLastToken && activationInfo.twoLastToken.text != '{')) {
+            insertText += '{';
+        }
+        if (!activationInfo.lastToken || (activationInfo.lastToken && activationInfo.lastToken.text != '!')) {
+            insertText += '!';
+        }
+        insertText += 'c.' + func.name;
+        if (!activationInfo.nextToken || (activationInfo.nextToken && activationInfo.nextToken.text != '}'))
+            insertText += '}';
+        doc = func.auraSignature;
+        const options = ProviderUtils.getCompletionItemOptions(detail, doc, insertText, true, CompletionItemKind.Function);
+        const item = ProviderUtils.createItemForCompletion('c.' + func.name, options);
+        if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+            item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+        items.push(item);
+    }
+    Utils.sort(items, ['label']);
+    return items;
+}
+
+function getComponentsCompletionItems(position, document, activationInfo) {
+    const items = [];
+    const auraFolder = PathUtils.getDirname(PathUtils.getDirname(document.uri.fsPath));
+    const folders = FileReader.readDirSync(auraFolder);
+    const orgNamespace = Config.getNamespace();
+    for (const folder of folders) {
+        let files = FileReader.readDirSync(auraFolder + '/' + folder);
+        let isApp;
+        let node;
+        for (const file of files) {
+            if (file.indexOf('.cmp') !== -1) {
+                node = new AuraParser(auraFolder + '/' + folder + '/' + file).parse();
+                break;
+            } else if (file.indexOf('.evt') !== -1) {
+                node = new AuraParser(auraFolder + '/' + folder + '/' + file).parse();
+                break;
+            } else if (file.indexOf('.app') !== -1) {
+                node = new AuraParser(auraFolder + '/' + folder + '/' + file).parse();
+                break;
+            }
+        }
+
+        let name = (orgNamespace ? orgNamespace : 'c') + ':' + folder;
+        let detail = '';
+        let documentation = '';
+        if (node.nodeType === AuraNodeTypes.COMPONENT) {
+            documentation = 'Aura Component ' + folder;
+            detail = 'Aura Component';
+        } else if (node.nodeType === AuraNodeTypes.APPLICATION && node.type && node.type.value.textToLower === 'component') {
+            documentation = 'Aura Component Event ' + folder;
+            detail = 'Aura Component Event';
+        } else if (node.nodeType === AuraNodeTypes.APPLICATION && node.type && node.type.value.textToLower === 'application') {
+            documentation = 'Aura Application Event ' + folder;
+            detail = 'Aura Application Event';
+        } else if (isApp) {
+            documentation = 'Aura Application ' + folder;
+            detail = 'Aura Application';
+        }
+        let insertText = '';
+        if (!activationInfo.lastToken || (activationInfo.lastToken && activationInfo.lastToken.text != '<' && activationInfo.lastToken.text != '"')) {
+            insertText += '<';
+        }
+        insertText += activationInfo.activation + folder
+        if (activationInfo.nextToken && activationInfo.nextToken.text != '"') {
+            insertText += ' ';
+        }
+        insertText += '$0';
+        if (!activationInfo.nextToken)
+            insertText += '/>';
+        const options = ProviderUtils.getCompletionItemOptions(detail, documentation, new SnippetString(insertText), true, CompletionItemKind.Module);
+        const item = ProviderUtils.createItemForCompletion(name, options);
+        if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+            item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+        items.push(item);
+    }
+    Utils.sort(items, ['label']);
+    return items;
+}
+
+function getBaseComponentsAttributesCompletionItems(position, activationInfo, component) {
     let baseComponentsDetail = applicationContext.componentsDetail;
-    for (const attribute of componentAttributes) {
-        if (attribute.name === componentTagData.attributeName) {
-            attributeData = attribute;
+    let items = [];
+    if (!component.positionData.tagData.attributes['aura:id'])
+        items.push(getCodeCompletionItemAttribute(position, activationInfo, auraIdAttribute));
+    if (baseComponentsDetail.notRoot[component.namespace] && !baseComponentsDetail.notRoot[component.namespace].includes(component.name)) {
+        for (const attribute of baseComponentsDetail['root']['component']) {
+            const newAttribute = new AuraAttribute();
+            for (const field of Object.keys(attribute)) {
+                newAttribute[field] = {
+                    name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, field, new Position(0, 0), new Position(0, field.length)),
+                    value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, attribute[field].toString(), new Position(0, 0), new Position(0, attribute[field].length)),
+                };
+            }
+            items.push(getCodeCompletionItemAttribute(position, activationInfo, newAttribute));
         }
     }
+    if (baseComponentsDetail[component.positionData.tagData.namespace]) {
+        let baseComponentNS = baseComponentsDetail[component.positionData.tagData.namespace];
+        if (baseComponentNS[component.positionData.tagData.name]) {
+            for (const attribute of baseComponentNS[component.positionData.tagData.name]) {
+                const existingAttributes = component.positionData.tagData.attributes;
+                if (!existingAttributes[attribute.name.toLowerCase()]) {
+                    const newAttribute = new AuraAttribute();
+                    for (const field of Object.keys(attribute)) {
+                        newAttribute[field] = {
+                            name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, field, new Position(0, 0), new Position(0, field.length)),
+                            value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, attribute[field].toString(), new Position(0, 0), new Position(0, attribute[field].length)),
+                        };
+                    }
+                    items.push(getCodeCompletionItemAttribute(position, activationInfo, newAttribute));
+                }
+            }
+        }
+    }
+    for (const rootElement of getRootItems(position, activationInfo, component, 'css')) {
+        items.push(rootElement);
+    }
+    for (const rootElement of getRootItems(position, activationInfo, component, 'input')) {
+        items.push(rootElement);
+    }
+    for (const rootElement of getRootItems(position, activationInfo, component, 'html')) {
+        items.push(rootElement);
+    }
+    for (const rootElement of getRootItems(position, activationInfo, component, 'select')) {
+        items.push(rootElement);
+    }
+    for (const rootElement of getRootItems(position, activationInfo, component, 'inputField')) {
+        items.push(rootElement);
+    }
+    Utils.sort(items, ['label']);
+    return items;
+}
+
+function getCodeCompletionItemAttribute(position, activationInfo, attribute) {
+    const detail = (attribute.type && attribute.type.value.text) ? ('Type: ' + attribute.type.value.text) : '';
+    const doc = (attribute.description && attribute.description.value.text) ? attribute.description.value.text : '';
+    let insertText;
+    if (attribute.type && attribute.type.value.text === 'action') {
+        insertText = new SnippetString(attribute.name.value.text + '="${1:jsAction}" $0');
+    } else {
+        insertText = new SnippetString(attribute.name.value.text + '="$1" $0');
+    }
+    const options = ProviderUtils.getCompletionItemOptions(detail, doc, insertText, true, CompletionItemKind.Field);
+    const item = ProviderUtils.createItemForCompletion(attribute.name.value.text, options);
+    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+    return item;
+}
+
+function getRootItems(position, activationInfo, component, rootElement) {
+    const items = [];
+    if (applicationContext.componentsDetail.components[component.positionData.tagData.namespace] && applicationContext.componentsDetail.components[component.positionData.tagData.namespace][rootElement]) {
+        let rootAttributes = applicationContext.componentsDetail.components[component.positionData.tagData.namespace][rootElement];
+        if (rootAttributes.includes(component.positionData.tagData.name)) {
+            for (const attribute of applicationContext.componentsDetail['root'][rootElement]) {
+                const existingAttributes = component.positionData.tagData.attributes;
+                if (!existingAttributes[attribute.name.toLowerCase()]) {
+                    const newAttribute = new AuraAttribute();
+                    for (const field of Object.keys(attribute)) {
+                        newAttribute[field] = {
+                            name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, field, new Position(0, 0), new Position(0, field.length)),
+                            value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, attribute[field].toString(), new Position(0, 0), new Position(0, attribute[field].length)),
+                        };
+                    }
+                    items.push(getCodeCompletionItemAttribute(position, activationInfo, newAttribute));
+                }
+            }
+        }
+    }
+    return items;
+}
+
+function getAttributeTypesCompletionItems(position, activationInfo, activationTokens, component) {
+    let items = [];
+    const baseComponentsDetail = applicationContext.componentsDetail;
+    const baseAttributes = getBaseComponentAttributes(component.positionData.tagData);
+    const attributeData = baseAttributes[component.positionData.activeAttributeName];
     if (attributeData) {
-        if (componentTagData.namespace === "aura" && componentTagData.name === "attribute" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
+        if (component.positionData.tagData.namespace === "aura" && component.positionData.tagData.name === "attribute" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
             for (const dataType of baseComponentsDetail.datatypes) {
-                let item = new CompletionItem(dataType, CompletionItemKind.Value);
-                item.detail = "Attribute Datatype";
-                item.insertText = dataType;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'attrDataType', dataType]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("Attribute Datatype", '', dataType, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(dataType, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
             if (activationTokens.length > 1) {
-                items = items.concat(Utils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, classes, systemMetadata, allNamespaces, sObjects));
+                items = items.concat(ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo));
             } else {
-                items = items.concat(Utils.getAllAvailableCompletionItems(position, undefined, classes, systemMetadata, allNamespaces, sObjects));
+                items = items.concat(ProviderUtils.getAllAvailableCompletionItems(position, activationInfo));
             }
         } else if ((attributeData.name === 'pullToBoundary' || attributeData.name === 'size' || attributeData.name === 'iconSize') && attributeData.type.toLowerCase() === 'string') {
             for (const size of baseComponentsDetail.sizes) {
-                if (componentTagData.namespace === "lightning" && (componentTagData.name === "avatar" || componentTagData.name === "buttonIcon") && size === "x-smal" && size !== 'small' && size !== 'medium' && size !== 'large')
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "avatar" || component.positionData.tagData.name === "buttonIcon") && size === "x-smal" && size !== 'small' && size !== 'medium' && size !== 'large')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "buttonIconStateful" && size !== 'xx-small' && size === "x-smal" && size !== 'small' && size !== 'medium')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonIconStateful" && size !== 'xx-small' && size === "x-smal" && size !== 'small' && size !== 'medium')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "buttonMenu" && size === "x-smal" && size !== 'small' && size !== 'medium' && size !== 'large')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonMenu" && size === "x-smal" && size !== 'small' && size !== 'medium' && size !== 'large')
                     continue;
-                if (componentTagData.namespace === "lightning" && (componentTagData.name === "layout" || componentTagData.name === "spinner") && size !== 'small' && size !== 'medium' && size !== 'large')
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "layout" || component.positionData.tagData.name === "spinner") && size !== 'small' && size !== 'medium' && size !== 'large')
                     continue;
-                let item = new CompletionItem(size, CompletionItemKind.Value);
-                item.detail = "SLDS " + size + " Size";
-                item.insertText = size;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'attrSize', size]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("SLDS " + size + " Size", undefined, size, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(size, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if (attributeData.name === 'access' && attributeData.type.toLowerCase() === 'string') {
             for (const access of baseComponentsDetail.access) {
-                let item = new CompletionItem(access, CompletionItemKind.Value);
-                item.detail = "Attribute / Component access";
-                item.insertText = access;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'attrAccess', access]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("Attribute / Component access", undefined, access, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(access, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if (attributeData.name === 'flexibility' && attributeData.type.toLowerCase() === 'object') {
             for (const flexibility of baseComponentsDetail.flexibilities) {
-                let item = new CompletionItem(flexibility, CompletionItemKind.Value);
-                item.detail = "Flexibility Value";
-                item.insertText = flexibility;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'flexibilityValue', flexibility]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("Flexibility Value", undefined, flexibility, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(flexibility, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if (attributeData.name === 'timeZoneName' && attributeData.type.toLowerCase() === 'string') {
             for (const timeZoneName of baseComponentsDetail.timeZoneNames) {
-                let item = new CompletionItem(timeZoneName, CompletionItemKind.Value);
-                item.detail = "Time Zone Style";
-                item.insertText = timeZoneName;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'timeZoneStyle', timeZoneName]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("Time Zone Style", undefined, timeZoneName, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(timeZoneName, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if (attributeData.name === 'padding' && attributeData.type.toLowerCase() === 'string') {
             for (const padding of baseComponentsDetail.paddings) {
-                let item = new CompletionItem(padding, CompletionItemKind.Value);
-                item.detail = "Padding Value";
-                item.insertText = padding;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'paddingValue', padding]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("Padding Value", undefined, padding, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(padding, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if (attributeData.name === 'density' && attributeData.type.toLowerCase() === 'string') {
             for (const density of baseComponentsDetail.densities) {
-                let item = new CompletionItem(density, CompletionItemKind.Value);
-                item.detail = "Density Value";
-                item.insertText = density;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'densityValue', density]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("Density Value", undefined, density, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(density, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if (attributeData.name === 'severity' && attributeData.type.toLowerCase() === 'string') {
             for (const severity of baseComponentsDetail.severities) {
-                let item = new CompletionItem(severity, CompletionItemKind.Value);
-                item.detail = "Severity Value";
-                item.insertText = severity;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'severityValue', severity]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("Severity Value", undefined, severity, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(severity, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if ((attributeData.name === 'sortedDirection' || attributeData.name === 'defaultSortDirection') && attributeData.type.toLowerCase() === 'string') {
             for (const sort of baseComponentsDetail.sortValues) {
-                let item = new CompletionItem(sort, CompletionItemKind.Value);
-                item.detail = "Sort Value";
-                item.insertText = sort;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'attrAccess', sort]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("Sort Value", undefined, sort, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(sort, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if (attributeData.type.toLowerCase() === 'boolean') {
             for (const boolValue of baseComponentsDetail.booleans) {
-                let item = new CompletionItem(boolValue, CompletionItemKind.Value);
-                item.detail = "Boolean Value";
-                item.insertText = boolValue;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'boolValue', boolValue]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("Boolean Value", undefined, boolValue, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(boolValue, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if (attributeData.type.toLowerCase() === 'action') {
-            for (const func of componentStructure.controllerFunctions) {
-                let item = new CompletionItem(func.name, CompletionItemKind.Function);
-                if (func.comment) {
-                    item.detail = func.comment.description + '\n';
-                    for (const commentParam of func.comment.params) {
-                        item.detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
-                    }
-                }
-                else {
-                    item.detail = "Aura Controller Function";
-                }
-                item.preselect = true;
-                item.documentation = func.auraSignature;
-                item.insertText = '{!c.' + func.name + '}';
-                item.command = {
-                    title: 'Aura Controller Function',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'function', func, componentTagData]
-                };
+            for (const func of component.controllerFunctions) {
+                const options = ProviderUtils.getCompletionItemOptions("Aura Controller Function", func.auraSignature, '{!c.' + func.name + '}', true, CompletionItemKind.Function);
+                const item = ProviderUtils.createItemForCompletion(func.name, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if (attributeData.name === 'variant' && attributeData.type.toLowerCase() === 'string') {
             for (const variant of baseComponentsDetail.variants) {
-                if (componentTagData.namespace === "lightning" && (componentTagData.name === "outputField" || componentTagData.name === "slider") && variant !== 'standard' && variant !== 'label-hidden')
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "outputField" || component.positionData.tagData.name === "slider") && variant !== 'standard' && variant !== 'label-hidden')
                     continue;
-                if (componentTagData.namespace === "lightning" && (componentTagData.name === "path" || componentTagData.name === "picklistPath") && variant !== 'linear' && variant !== 'non-linear')
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "path" || component.positionData.tagData.name === "picklistPath") && variant !== 'linear' && variant !== 'non-linear')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "avatar" && variant !== 'circle' && variant !== 'square')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "avatar" && variant !== 'circle' && variant !== 'square')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "spinner" && variant !== 'base' && variant !== 'brand' && variant !== 'inverse')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "spinner" && variant !== 'base' && variant !== 'brand' && variant !== 'inverse')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "tabset" && variant !== 'default' && variant !== 'scoped' && variant !== 'vertical')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "tabset" && variant !== 'default' && variant !== 'scoped' && variant !== 'vertical')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "progressIndicator" && variant !== 'base' && variant !== 'shaded')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "progressIndicator" && variant !== 'base' && variant !== 'shaded')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "progressBar" && variant !== 'base' && variant !== 'circular')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "progressBar" && variant !== 'base' && variant !== 'circular')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "inputRichText" && variant !== 'bottom-toolbar')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "inputRichText" && variant !== 'bottom-toolbar')
                     continue;
-                if (componentTagData.namespace === "lightning" && (componentTagData.name === "textarea" || componentTagData.name === "select" || componentTagData.name === "radioGroup" || componentTagData.name === "inputName" || componentTagData.name === "inputLocation" || componentTagData.name === "checkboxGroup" || componentTagData.name === "combobox" || componentTagData.name === "input" || componentTagData.name === "inputAddress") && variant !== 'standard' && variant !== 'label-hidden' && variant !== 'label-inline' && variant !== 'label-stacked')
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "textarea" || component.positionData.tagData.name === "select" || component.positionData.tagData.name === "radioGroup" || component.positionData.tagData.name === "inputName" || component.positionData.tagData.name === "inputLocation" || component.positionData.tagData.name === "checkboxGroup" || component.positionData.tagData.name === "combobox" || component.positionData.tagData.name === "input" || component.positionData.tagData.name === "inputAddress") && variant !== 'standard' && variant !== 'label-hidden' && variant !== 'label-inline' && variant !== 'label-stacked')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "card" && variant !== 'base' && variant !== 'narrow')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "card" && variant !== 'base' && variant !== 'narrow')
                     continue;
-                if (componentTagData.namespace === "lightning" && (componentTagData.name === "button" || componentTagData.name === "buttonStateful") && variant !== 'base' && variant !== 'neutral' && variant !== 'brand' && variant !== 'destructive' && variant !== 'inverse' && variant !== 'success')
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "button" || component.positionData.tagData.name === "buttonStateful") && variant !== 'base' && variant !== 'neutral' && variant !== 'brand' && variant !== 'destructive' && variant !== 'inverse' && variant !== 'success')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "buttonIcon" && variant !== 'bare' && variant !== 'container' && variant !== 'brand' && variant !== 'border' && variant !== 'border-filled' && variant !== 'bare-inverse' && variant !== 'border-inverse')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonIcon" && variant !== 'bare' && variant !== 'container' && variant !== 'brand' && variant !== 'border' && variant !== 'border-filled' && variant !== 'bare-inverse' && variant !== 'border-inverse')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "buttonIconStateful" && variant !== 'border' && variant !== 'border-filled' && variant !== 'border-inverse')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonIconStateful" && variant !== 'border' && variant !== 'border-filled' && variant !== 'border-inverse')
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "buttonMenu" && variant !== 'bare' && variant !== 'container' && variant !== 'border' && variant !== 'border-filled' && variant !== 'bare-inverse' && variant !== 'border-inverse')
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonMenu" && variant !== 'bare' && variant !== 'container' && variant !== 'border' && variant !== 'border-filled' && variant !== 'bare-inverse' && variant !== 'border-inverse')
                     continue;
-                let item = new CompletionItem(variant, CompletionItemKind.Value);
-                item.detail = "Variant Value";
-                item.insertText = variant;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'variantValue', variant]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("Variant Value", undefined, variant, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(variant, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if ((attributeData.name === 'type' || attributeData.name === 'buttonType') && attributeData.type.toLowerCase() === 'string') {
             for (const type of baseComponentsDetail.buttonTypes) {
-                if (componentTagData.namespace === "lightning" && (componentTagData.name === "button" || componentTagData.name === "buttonIcon") && type !== 'button' && type !== 'reset' && type !== 'submit')
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "button" || component.positionData.tagData.name === "buttonIcon") && type !== 'button' && type !== 'reset' && type !== 'submit')
                     continue;
-                if (componentTagData.namespace === "ui" && (componentTagData.name === "button") && type !== 'button' && type !== 'reset' && type !== 'submit')
+                if (component.positionData.tagData.namespace === "ui" && (component.positionData.tagData.name === "button") && type !== 'button' && type !== 'reset' && type !== 'submit')
                     continue;
-                let item = new CompletionItem(type, CompletionItemKind.Value);
-                item.detail = "Button Type Value";
-                item.insertText = type;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'buttonTypeValue', type]
-                };
+                const options = ProviderUtils.getCompletionItemOptions("Button Type Value", undefined, type, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(type, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if ((attributeData.name === 'alignmentBump' || attributeData.name === 'verticalAlign' || attributeData.name === 'horizontalAlign' || attributeData.name === 'menuAlignment' || attributeData.name === 'iconPosition' || attributeData.name === 'dropdownAlignment') && attributeData.type.toLowerCase() === 'string') {
             for (const componentPosition of baseComponentsDetail.positions) {
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "button" && componentPosition !== "left" && componentPosition !== "right")
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "button" && componentPosition !== "left" && componentPosition !== "right")
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "layoutItem" && componentPosition !== "left" && componentPosition !== "right" && componentPosition !== "top" && componentPosition !== "bottom")
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "layoutItem" && componentPosition !== "left" && componentPosition !== "right" && componentPosition !== "top" && componentPosition !== "bottom")
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "layoutcomponent" && attributeData.name === 'horizontalAlign' && componentPosition !== "center" && componentPosition !== "space" && componentPosition !== "spread" && componentPosition !== "end")
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "layoutcomponent" && attributeData.name === 'horizontalAlign' && componentPosition !== "center" && componentPosition !== "space" && componentPosition !== "spread" && componentPosition !== "end")
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "layoutcomponent" && attributeData.name === 'verticalAlign' && componentPosition !== "start" && componentPosition !== "center" && componentPosition !== "end" && componentPosition !== "stretch")
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "layoutcomponent" && attributeData.name === 'verticalAlign' && componentPosition !== "start" && componentPosition !== "center" && componentPosition !== "end" && componentPosition !== "stretch")
                     continue;
-                if (componentTagData.namespace === "lightning" && componentTagData.name === "buttonMenu" && componentPosition !== "left" && componentPosition !== "right" && componentPosition !== "auto" && componentPosition !== "center" && componentPosition !== "bottom-left" && componentPosition !== "bottom-center" && position !== "bottom-right")
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonMenu" && componentPosition !== "left" && componentPosition !== "right" && componentPosition !== "auto" && componentPosition !== "center" && componentPosition !== "bottom-left" && componentPosition !== "bottom-center" && position !== "bottom-right")
                     continue;
-                let item = new CompletionItem(componentPosition, CompletionItemKind.Value);
+                let detail;
                 if (attributeData.name === 'alignmentBump' || attributeData.name === 'verticalAlign' || attributeData.name === 'horizontalAlign' || attributeData.name === 'menuAlignment' || attributeData.name === 'dropdownAlignment')
-                    item.detail = "Allignment Value";
+                    detail = "Allignment Value";
                 else
-                    item.detail = "Icon Position Value";
-                item.insertText = componentPosition;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'positionValue', componentPosition]
-                };
+                    detail = "Icon Position Value";
+                const options = ProviderUtils.getCompletionItemOptions(detail, undefined, componentPosition, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(componentPosition, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "lightning" && componentTagData.name === "dynamicIcon" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "dynamicIcon" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
             for (const type of baseComponentsDetail.dynamicIcons) {
-                let item = new CompletionItem(type, CompletionItemKind.Value);
-                item.detail = "Dynamic Icon Type";
-                item.insertText = type;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'dynamicIconType', type]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Dynamic Icon Type', undefined, type, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(type, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "lightning" && componentTagData.name === "formattedName" && attributeData.name === 'format' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "formattedName" && attributeData.name === 'format' && attributeData.type.toLowerCase() === 'string') {
             for (const format of baseComponentsDetail.nameFormats) {
-                let item = new CompletionItem(format, CompletionItemKind.Value);
-                item.detail = "Name Format";
-                item.insertText = format;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'nameFormat', format]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Name Format', undefined, format, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(format, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "lightning" && componentTagData.name === "formattedNumber" && attributeData.name === 'style' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "formattedNumber" && attributeData.name === 'style' && attributeData.type.toLowerCase() === 'string') {
             for (const style of baseComponentsDetail.numberStyles) {
-                let item = new CompletionItem(style, CompletionItemKind.Value);
-                item.detail = "Number Style";
-                item.insertText = style;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'numberStyle', style]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Number Style', undefined, style, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(style, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "lightning" && componentTagData.name === "formattedNumber" && attributeData.name === 'currencyDisplayAs' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "formattedNumber" && attributeData.name === 'currencyDisplayAs' && attributeData.type.toLowerCase() === 'string') {
             for (const display of baseComponentsDetail.currencyDisplays) {
-                let item = new CompletionItem(display, CompletionItemKind.Value);
-                item.detail = "Currency Display";
-                item.insertText = display;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'currencyDisplay', display]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Currency Display', undefined, display, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(display, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "lightning" && componentTagData.name === "formattedUrl" && attributeData.name === 'target' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "formattedUrl" && attributeData.name === 'target' && attributeData.type.toLowerCase() === 'string') {
             for (const target of baseComponentsDetail.urlTargets) {
-                let item = new CompletionItem(target, CompletionItemKind.Value);
-                item.detail = "Target Value";
-                item.insertText = target;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'urlTarget', target]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Target Value', undefined, target, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(target, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "lightning" && componentTagData.name === "progressIndicator" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "progressIndicator" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
             for (const type of baseComponentsDetail.progressTypes) {
-                let item = new CompletionItem(type, CompletionItemKind.Value);
-                item.detail = "Progress Type Value";
-                item.insertText = type;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'progressTypeValue', type]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Progress Type Value', undefined, type, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(type, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "lightning" && componentTagData.name === "radioGroup" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "radioGroup" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
             for (const type of baseComponentsDetail.inputTypes) {
-                let item = new CompletionItem(type, CompletionItemKind.Value);
-                item.detail = "Input Type Value";
-                item.insertText = type;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'inputTypeValues', type]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Input Type Value', undefined, type, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(type, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "lightning" && componentTagData.name === "slider" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "slider" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
             for (const componentPosition of baseComponentsDetail.positions) {
-                let item = new CompletionItem(componentPosition, CompletionItemKind.Value);
-                item.detail = "Input Type Value";
-                item.insertText = componentPosition;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'positionValue', componentPosition]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Component Position Value', undefined, componentPosition, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(componentPosition, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "force" && componentTagData.name === "recordData" && attributeData.name === 'mode' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "force" && component.positionData.tagData.name === "recordData" && attributeData.name === 'mode' && attributeData.type.toLowerCase() === 'string') {
             for (const mode of baseComponentsDetail.recordModes) {
-                let item = new CompletionItem(mode, CompletionItemKind.Value);
-                item.detail = "Record Mode";
-                item.insertText = mode;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'positionValue', mode]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Record Mode', undefined, mode, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(mode, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "forceChatter" && componentTagData.name === "feed" && attributeData.name === 'feedDesign' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "forceChatter" && component.positionData.tagData.name === "feed" && attributeData.name === 'feedDesign' && attributeData.type.toLowerCase() === 'string') {
             for (const feed of baseComponentsDetail.feedDesigns) {
-                let item = new CompletionItem(feed, CompletionItemKind.Value);
-                item.detail = "Feed Design";
-                item.insertText = feed;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'feedDesignValue', feed]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Feed Design', undefined, feed, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(feed, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "forceChatter" && componentTagData.name === "feed" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "forceChatter" && component.positionData.tagData.name === "feed" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
             for (const feed of baseComponentsDetail.feedTypes) {
-                let item = new CompletionItem(feed, CompletionItemKind.Value);
-                item.detail = "Feed Type";
-                item.insertText = feed;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'feedTypeValue', feed]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Feed Type', undefined, feed, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(feed, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "forceChatter" && componentTagData.name === "fullFeed" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "forceChatter" && component.positionData.tagData.name === "fullFeed" && attributeData.name === 'type' && attributeData.type.toLowerCase() === 'string') {
             for (const feed of baseComponentsDetail.fullFeedTypes) {
-                let item = new CompletionItem(feed, CompletionItemKind.Value);
-                item.detail = "Full Feed Type";
-                item.insertText = feed;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'fullFeedTypeValue', feed]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Full Feed Type', undefined, feed, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(feed, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
-        } else if (componentTagData.namespace === "forceChatter" && componentTagData.name === "publisher" && attributeData.name === 'context' && attributeData.type.toLowerCase() === 'string') {
+        } else if (component.positionData.tagData.namespace === "forceChatter" && component.positionData.tagData.name === "publisher" && attributeData.name === 'context' && attributeData.type.toLowerCase() === 'string') {
             for (const ctx of baseComponentsDetail.publisherContexts) {
-                let item = new CompletionItem(ctx, CompletionItemKind.Value);
-                item.detail = "Publisher Context";
-                item.insertText = ctx;
-                item.preselect = true;
-                item.command = {
-                    title: 'Aura Code Completion',
-                    command: 'aurahelper.completion.aura',
-                    arguments: [position, 'fullFeedTypeValue', ctx]
-                };
+                const options = ProviderUtils.getCompletionItemOptions('Publisher Context', undefined, ctx, true, CompletionItemKind.Value);
+                const item = ProviderUtils.createItemForCompletion(ctx, options);
+                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if (activationTokens.length > 1) {
-            items = items.concat(Utils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, classes, systemMetadata, allNamespaces, sObjects));
+            items = items.concat(ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo));
         } else {
-            items = items.concat(Utils.getAllAvailableCompletionItems(position, undefined, classes, systemMetadata, allNamespaces, sObjects));
+            items = items.concat(ProviderUtils.getAllAvailableCompletionItems(position, activationInfo));
         }
     }
     return items;
 }
 
-function getSimilarCompletionItems(position, similars) {
-    let items = [];
-    for (const similar of similars) {
-        for (const snippet of similar) {
-            let item = new CompletionItem(snippet.prefix, CompletionItemKind.Snippet);
-            item.detail = snippet.name + '\n' + snippet.description;
-            item.documentation = new MarkdownString(snippet.body.join('\n'));
-            item.insertText = new SnippetString(snippet.body.join('\n'));
-            item.preselect = true;
-            item.command = {
-                title: 'Aura Code Completion',
-                command: 'aurahelper.completion.aura',
-                arguments: [position, 'snippet', snippet]
-            };
-            items.push(item);
-        }
-    }
-    return items;
-}
-
-function getSnippetsCompletionItems(position, snippets) {
-    let items = [];
-    for (const snippet of snippets) {
-        let item = new CompletionItem(snippet.prefix, CompletionItemKind.Snippet);
-        item.detail = snippet.name + '\n' + snippet.description;
-        item.documentation = new MarkdownString(snippet.body.join('\n'));
-        item.insertText = new SnippetString(snippet.body.join('\n'));
-        item.preselect = true;
-        item.command = {
-            title: 'Aura Code Completion',
-            command: 'aurahelper.completion.aura',
-            arguments: [position, 'snippet', snippet]
-        };
-        items.push(item);
-    }
-    return items;
-}
-
-function onComponentTag(document, position) {
-    let endLoop = false;
-    let line = position.line;
-    while (!endLoop) {
-        if (line <= 0)
-            endLoop = true;
-        let lineText = document.lineAt(line).text;
-        let lineTokens = Tokenizer.tokenize(lineText);
-        if (line == position.line) {
-            let index = 0;
-            let fromIndex = 0;
-            while (index < lineTokens.length) {
-                let token = lineTokens[index];
-                if (position.character > token.startColumn)
-                    fromIndex = index;
-                index++;
-            }
-            index = fromIndex;
-            if (fromIndex > 0) {
-                while (index >= 0) {
-                    let token = lineTokens[index];
-                    if (token.tokenType === 'lABracket')
-                        return true;
-                    if (token.tokenType === 'rABracket')
-                        return false;
-                    index--;
-                }
-            }
-        }
-        else {
-            let index = lineTokens.length - 1;
-            while (index >= 0) {
-                let token = lineTokens[index];
-                if (token.tokenType === 'lABracket')
-                    return true;
-                if (token.tokenType === 'rABracket')
-                    return false;
-                index--;
-            }
-        }
-        line--;
-    }
-    return false;
-}
-
-function analizeComponentTag(document, position) {
-    let componentTag = "";
-    let line = position.line;
-    let startTagLine = line;
-    let endLoop = false;
-    while (!endLoop) {
-        let lineText = document.lineAt(line).text;
-        if (lineText.indexOf('<') !== -1) {
-            startTagLine = line;
-            endLoop = true;
-        }
-        line--
-        if (line < 0)
-            endLoop = true;
-    }
-    endLoop = false;
-    line = startTagLine;
-    while (!endLoop) {
-        let lineText = document.lineAt(line).text;
-        if (lineText.indexOf('>') !== -1) {
-            componentTag += lineText + '\n';
-            endLoop = true;
-        } else {
-            componentTag += lineText + '\n';
-        }
-        line++;
-    }
-    let componentTagData = AuraParser.componentTagData(componentTag, position);
-    return componentTagData;
-}
-
-function getBaseComponentAttributes(componentTagData) {
-    let attributes = [];
-    let baseComponentsDetail = applicationContext.componentsDetail;
-    attributes.push({
+function getBaseComponentAttributes(tagData) {
+    const attributes = {};
+    const baseComponentsDetail = applicationContext.componentsDetail;
+    attributes['aura:id'] = {
         name: "aura:id",
         access: "global",
         type: "String",
         description: "Aura ID of the component",
         required: false,
         default: false,
-    });
-    let notRoot = baseComponentsDetail.notRoot;
-    if (notRoot[componentTagData.namespace] && !notRoot[componentTagData.namespace].includes(componentTagData.name)) {
-        for (const attribute of baseComponentsDetail['root']['component']) {
-            attributes.push(attribute);
-        }
-    }
-    if (baseComponentsDetail[componentTagData.namespace]) {
-        let baseComponentNS = baseComponentsDetail[componentTagData.namespace];
-        if (baseComponentNS[componentTagData.name]) {
-            for (const attribute of baseComponentNS[componentTagData.name]) {
-                attributes.push(attribute);
-            }
-        }
-    }
-    for (const rootElement of getRootAttributes(baseComponentsDetail, 'css', componentTagData)) {
-        attributes.push(rootElement);
-    }
-    for (const rootElement of getRootAttributes(baseComponentsDetail, 'input', componentTagData)) {
-        attributes.push(rootElement);
-    }
-    for (const rootElement of getRootAttributes(baseComponentsDetail, 'html', componentTagData)) {
-        attributes.push(rootElement);
-    }
-    for (const rootElement of getRootAttributes(baseComponentsDetail, 'select', componentTagData)) {
-        attributes.push(rootElement);
-    }
-    for (const rootElement of getRootAttributes(baseComponentsDetail, 'inputField', componentTagData)) {
-        attributes.push(rootElement);
-    }
-    return attributes;
-}
-
-function getBaseComponentsAttributesCompletionItems(componentTagData, position) {
-    logger.logJSON("componentTagData", componentTagData);
-    let baseComponentsDetail = applicationContext.componentsDetail;
-    let items = [];
-    let haveAuraId = false;
-    Object.keys(componentTagData.attributes).forEach(function (key) {
-        if (key === 'aura:id') {
-            haveAuraId = true;
-        }
-    });
-    if (!haveAuraId)
-        items.push(getCodeCompletionItemAttribute('aura:id', 'Type: String', 'Aura ID of the component', 'String', position, 'aura:id'));
-    let notRoot = baseComponentsDetail.notRoot;
-    if (notRoot[componentTagData.namespace] && !notRoot[componentTagData.namespace].includes(componentTagData.name)) {
-        for (const attribute of baseComponentsDetail['root']['component']) {
-            let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
-            items.push(item);
-        }
-    }
-    if (baseComponentsDetail[componentTagData.namespace]) {
-        let baseComponentNS = baseComponentsDetail[componentTagData.namespace];
-        if (baseComponentNS[componentTagData.name]) {
-            for (const attribute of baseComponentNS[componentTagData.name]) {
-                let exists = false;
-                let existingAttributes = componentTagData.attributes;
-                Object.keys(existingAttributes).forEach(function (key) {
-                    if (key === attribute.name) {
-                        exists = true;
-                    }
-                });
-                if (!exists) {
-                    let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
-                    items.push(item);
-                }
-            }
-        }
-    }
-    for (const rootElement of getRootItems(baseComponentsDetail, 'css', componentTagData, position)) {
-        items.push(rootElement);
-    }
-    for (const rootElement of getRootItems(baseComponentsDetail, 'input', componentTagData, position)) {
-        items.push(rootElement);
-    }
-    for (const rootElement of getRootItems(baseComponentsDetail, 'html', componentTagData, position)) {
-        items.push(rootElement);
-    }
-    for (const rootElement of getRootItems(baseComponentsDetail, 'select', componentTagData, position)) {
-        items.push(rootElement);
-    }
-    for (const rootElement of getRootItems(baseComponentsDetail, 'inputField', componentTagData, position)) {
-        items.push(rootElement);
-    }
-    return items;
-}
-
-function getCodeCompletionItemAttribute(name, detail, description, datatype, position, data) {
-    let item = new CompletionItem(name, CompletionItemKind.Variable);
-    item.detail = detail;
-    item.documentation = description;
-    if (datatype === 'action') {
-        item.insertText = new SnippetString(name + '="${1:jsAction}" ');
-    }
-    else {
-        item.insertText = new SnippetString(name + '="$1" $0');
-    }
-    item.preselect = true;
-    item.command = {
-        title: 'Aura Code Completion',
-        command: 'aurahelper.completion.aura',
-        arguments: [position, 'itemAttribute', data]
     };
-    return item;
+    const notRoot = baseComponentsDetail.notRoot;
+    if (notRoot[tagData.namespace] && !notRoot[tagData.namespace].includes(tagData.name)) {
+        for (const attribute of baseComponentsDetail['root']['component']) {
+            attributes[attribute.name] = attribute;
+        }
+    }
+    if (baseComponentsDetail[tagData.namespace]) {
+        const baseComponentNS = baseComponentsDetail[tagData.namespace];
+        if (baseComponentNS[tagData.name]) {
+            for (const attribute of baseComponentNS[tagData.name]) {
+                attributes[attribute.name] = attribute;
+            }
+        }
+    }
+    for (const rootElement of getRootAttributes(baseComponentsDetail, 'css', tagData)) {
+        attributes[rootElement.name] = rootElement;
+    }
+    for (const rootElement of getRootAttributes(baseComponentsDetail, 'input', tagData)) {
+        attributes[rootElement.name] = rootElement;
+    }
+    for (const rootElement of getRootAttributes(baseComponentsDetail, 'html', tagData)) {
+        attributes[rootElement.name] = rootElement;
+    }
+    for (const rootElement of getRootAttributes(baseComponentsDetail, 'select', tagData)) {
+        attributes[rootElement.name] = rootElement;
+    }
+    for (const rootElement of getRootAttributes(baseComponentsDetail, 'inputField', tagData)) {
+        attributes[rootElement.name] = rootElement;
+    }
+    return attributes;
 }
 
-function getRootAttributes(baseComponentsDetail, rootElement, componentTagData) {
-    let attributes = [];
-    if (baseComponentsDetail.components[componentTagData.namespace] && baseComponentsDetail.components[componentTagData.namespace][rootElement]) {
-        let rootAttributes = baseComponentsDetail.components[componentTagData.namespace][rootElement];
-        if (rootAttributes.includes(componentTagData.name)) {
+function getRootAttributes(baseComponentsDetail, rootElement, tagData) {
+    const attributes = [];
+    if (baseComponentsDetail.components[tagData.namespace] && baseComponentsDetail.components[tagData.namespace][rootElement]) {
+        const rootAttributes = baseComponentsDetail.components[tagData.namespace][rootElement];
+        if (rootAttributes.includes(tagData.name)) {
             for (const attribute of baseComponentsDetail['root'][rootElement]) {
                 attributes.push(attribute);
             }
@@ -870,150 +744,8 @@ function getRootAttributes(baseComponentsDetail, rootElement, componentTagData) 
     return attributes;
 }
 
-function getRootItems(baseComponentsDetail, rootElement, componentTagData, position) {
-    let items = [];
-    if (baseComponentsDetail.components[componentTagData.namespace] && baseComponentsDetail.components[componentTagData.namespace][rootElement]) {
-        let rootAttributes = baseComponentsDetail.components[componentTagData.namespace][rootElement];
-        if (rootAttributes.includes(componentTagData.name)) {
-            for (const attribute of baseComponentsDetail['root'][rootElement]) {
-                let exists = false;
-                let existingAttributes = componentTagData.attributes;
-                Object.keys(existingAttributes).forEach(function (key) {
-                    if (key === attribute.name) {
-                        exists = true;
-                    }
-                });
-                if (!exists) {
-                    let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
-                    items.push(item);
-                }
-            }
-        }
-    }
-    return items;
-}
-
-function getComponentAttributesCompletionItems(componentStructure, componentTagData, position) {
-    let items = [];
-    for (const attribute of componentStructure.attributes) {
-        let exists = false;
-        Object.keys(componentTagData.attributes).forEach(function (key) {
-            if (key === attribute.name) {
-                exists = true;
-            }
-        });
-        if (!exists) {
-            let item = getCodeCompletionItemAttribute(attribute.name, 'Type: ' + attribute.type, attribute.description, attribute.type.toLowerCase(), position, attribute);
-            items.push(item);
-        }
-    }
-    return items;
-}
-
-function getAttributesCompletionItems(componentStructure, position, componentTagData) {
-    let items = [];
-    for (const attribute of componentStructure.attributes) {
-        let item = new CompletionItem('v.' + attribute.name, CompletionItemKind.Field);
-        item.detail = 'Type: ' + attribute.type;
-        item.documentation = attribute.description;
-        item.insertText = attribute.name;
-        item.command = {
-            title: 'Aura Component Attribute',
-            command: 'aurahelper.completion.aura',
-            arguments: [position, 'attribute', attribute, componentTagData]
-        };
-        items.push(item);
-    }
-    return items;
-}
-
-function getControllerFunctionsCompletionItems(componentStructure, position, componentTagData) {
-    let items = [];
-    for (const func of componentStructure.controllerFunctions) {
-        let item = new CompletionItem('c.' + func.name, CompletionItemKind.Function);
-        if (func.comment) {
-            item.detail = func.comment.description + '\n';
-            for (const commentParam of func.comment.params) {
-                item.detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
-            }
-        }
-        else {
-            item.detail = "Aura Controller Function";
-        }
-        item.preselect = true;
-        item.documentation = func.auraSignature;
-        item.insertText = func.name;
-        item.command = {
-            title: 'Aura Controller Function',
-            command: 'aurahelper.completion.aura',
-            arguments: [position, 'function', func, componentTagData]
-        };
-        items.push(item);
-    }
-    return items;
-}
-
-function getComponentsCompletionItems(position, document, componentTagData) {
-    let items = [];
-    let auraFolder = Paths.getFolderPath(Paths.getFolderPath(document.uri.fsPath));
-    let folders = FileReader.readDirSync(auraFolder);
-    for (const folder of folders) {
-        let files = FileReader.readDirSync(auraFolder + '/' + folder);
-        let isAppEvent;
-        let isCompEvent;
-        let isComponent;
-        let isApp;
-        for (const file of files) {
-            if (file.indexOf('.cmp') !== -1) {
-                isComponent = true;
-                break;
-            } else if (file.indexOf('.evt') !== -1) {
-                isCompEvent = FileReader.readFileSync(auraFolder + '/' + folder + '/' + file).toLowerCase().indexOf('type="component"')
-                isAppEvent = FileReader.readFileSync(auraFolder + '/' + folder + '/' + file).toLowerCase().indexOf('type="application"');
-                break;
-            } else if (file.indexOf('.app') !== -1) {
-                isApp = true;
-                break;
-            }
-        }
-        let item = new CompletionItem('c:' + folder, CompletionItemKind.Module);
-        let title = '';
-        if (isComponent) {
-            item.documentation = 'Aura Component ' + folder;
-            title = 'Aura Component';
-        } else if (isCompEvent) {
-            item.documentation = 'Aura Component Event ' + folder;
-            title = 'Aura Component Event';
-        } else if (isAppEvent) {
-            item.documentation = 'Aura Application Event ' + folder;
-            title = 'Aura Application Event';
-        } else if (isApp) {
-            item.documentation = 'Aura Application ' + folder;
-            title = 'Aura Application';
-        }
-        item.preselect = true;
-        item.detail = title;
-        item.insertText = folder;
-        let data = {
-            name: folder
-        };
-        item.command = {
-            title: title,
-            command: 'aurahelper.completion.aura',
-            arguments: [position, title, data, componentTagData]
-        };
-        items.push(item);
-    }
-    return items;
-}
-
-function getSimilarSnippetsNS(snippets, activationToken) {
-    let similarSnippets = [];
+function getSnippets(snippets, activationToken) {
     if (!activationToken || activationToken.length === 0)
-        return similarSnippets;
-    Object.keys(snippets).forEach(function (key) {
-        if (key.startsWith(activationToken))
-            similarSnippets.push(snippets[key]);
-    });
-    return similarSnippets;
+        return undefined;
+    return snippets[activationToken];
 }

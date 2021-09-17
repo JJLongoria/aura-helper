@@ -1,19 +1,15 @@
-const ProcessManager = require('../processes').ProcessManager;
 const vscode = require('vscode');
-const fileSystem = require('../fileSystem');
-const Config = require('../core/config');
-const AppContext = require('../core/applicationContext');
+const Connection = require('@ah/connector');
 const NotificationManager = require('../output/notificationManager');
-const Metadata = require('../metadata');
-const MetadataFactory = Metadata.Factory;
-const window = vscode.window;
-const ProgressLocation = vscode.ProgressLocation;
-const Paths = fileSystem.Paths;
-const FileWriter = fileSystem.FileWriter;
+const { FileChecker, FileWriter } = require('@ah/core').FileSystem;
+const { MetadataTypes } = require('@ah/core').Values;
+const Config = require('../core/config');
+const Paths = require('../core/paths');
+const applicationContext = require('../core/applicationContext');
 
 exports.run = function () {
 	try {
-		NotificationManager.showConfirmDialog('Refresh metadata index can will take several minutes. Do you want to continue?', function(){
+		NotificationManager.showConfirmDialog('Refresh metadata index can will take several minutes. Do you want to continue?', function () {
 			refreshIndex();
 		});
 	} catch (error) {
@@ -22,66 +18,55 @@ exports.run = function () {
 }
 
 async function refreshIndex() {
-	window.withProgress({
-		location: ProgressLocation.Notification,
+	vscode.window.withProgress({
+		location: vscode.ProgressLocation.Notification,
 		title: "Loading available Sobjects for refresh",
 		cancellable: true
 	}, (progress, cancelToken) => {
 		return new Promise(async resolve => {
-			let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: false, types: ['CustomObject'] }, false, cancelToken);
-			if (!out) {
-				NotificationManager.showInfo('Operation Cancelled by User');
+			const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+			connection.setMultiThread();
+			connection.describeMetadataTypes([MetadataTypes.CUSTOM_OBJECT], true).then((metadataTypes) => {
+				processCustomObjectsOut(metadataTypes);
+			}).catch((error) => {
+				NotificationManager.showError(error);
 				resolve();
-			} else if (out.stdOut) {
-				let response = JSON.parse(out.stdOut);
-				if (response.status === 0) {
-					let user = await Config.getAuthUsername();
-					processCustomObjectsOut(user, response.result.data);
-					resolve();
-				} else {
-					NotificationManager.showCommandError(response.error.message);
-					resolve();
-				}
-			} else {
-				NotificationManager.showCommandError(out.stdErr);
-				resolve();
-			}
+			});
 		});
 	});
 }
 
-function processCustomObjectsOut(user, objects) {
-	let objNames = Object.keys(objects['CustomObject'].childs);
-	window.showQuickPick(objNames).then((selected) => {
+function processCustomObjectsOut(objects) {
+	let objNames = Object.keys(objects[MetadataTypes.CUSTOM_OBJECT].childs);
+	vscode.window.showQuickPick(objNames).then((selected) => {
 		if (objNames.includes(selected)) {
-			refreshObjectMetadataIndex(selected, user);
+			refreshObjectMetadataIndex(selected);
 		}
 	});
 }
 
-function refreshObjectMetadataIndex(object, user) {
-	window.withProgress({
-		location: ProgressLocation.Notification,
+function refreshObjectMetadataIndex(object) {
+	vscode.window.withProgress({
+		location: vscode.ProgressLocation.Notification,
 		title: "Refreshing Definition for " + object,
 		cancellable: false
-	}, (objProgress, cancelToken) => {
+	}, (progress, cancelToken) => {
 		return new Promise(async resolve => {
-			let out = await ProcessManager.describeSchemaMetadata(user, object, cancelToken);
-			if (out) {
-				if (out.stdOut) {
-					let metadataIndex = MetadataFactory.createMetadataFromJSONSchema(out.stdOut);
-					if (metadataIndex) {
-						FileWriter.createFileSync(Paths.getMetadataIndexPath() + "/" + object + ".json", JSON.stringify(metadataIndex, null, 2));
-					}
-					AppContext.sObjects = MetadataFactory.getSObjects(false);
-					NotificationManager.showInfo("Metadata Index for " + object + " refreshed Succesfully");
-				} else {
-					NotificationManager.showError(out.stdErr);
+			const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+			connection.setMultiThread();
+			connection.onAfterDownloadSObject((status) => {
+				if (status.data) {
+					if (!FileChecker.isExists(Paths.getMetadataIndexFolder()))
+						FileWriter.createFolderSync(Paths.getMetadataIndexFolder());
+					FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + status.data.name, JSON.stringify(status.data, null, 2));
 				}
-			} else {
-				NotificationManager.showInfo('Operation Cancelled by User');
-			}
-			resolve();
+			});
+			connection.describeSObjects([object]).then(function (sObjects) {
+				applicationContext.parserData.sObjectsData[object.toLowerCase()] = sObjects[object.toLowerCase()];
+				applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
+				NotificationManager.showInfo('Refreshing SObject Definitios finished Succesfully');
+				resolve();
+			});
 		});
 	});
 }

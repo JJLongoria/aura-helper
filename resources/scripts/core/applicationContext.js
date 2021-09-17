@@ -1,29 +1,46 @@
 const context = {};
 const componentsDetail = {};
-const auraSnippets = {};
-const jsSnippets = {};
-const sldsSnippets = {};
-const userClasses = {};
-const allNamespaces = {};
-const namespacesMetadata = {};
-const sObjects = {};
-const orgAvailableVersions = [];
-const availablePermissions = [];
 const isAdvanceGUIAvailable = false;
-const MIN_AH_CLI_VERSION = '2.1.2';
+const MIN_AH_CLI_VERSION = '3.0.0';
+const snippets = {
+    javascript: {},
+    slds: {},
+    aura: {},
+    lwc: {}
+}
+const gitData = {
+    username: '',
+    email: '',
+    authorName: '',
+    authorEmail: '',
+    committerName: '',
+    committerEmail: '',
+    branch: ''
+};
+const sfData = {
+    username: '',
+    serverInstance: '',
+    orgAvailableVersions: [],
+    availablePermissions: [],
+};
+const parserData = {
+    sObjects: [],
+    sObjectsData: {},
+    userClasses: [],
+    userClassesData: {}, 
+    namespaceSummary: {},
+    namespacesData: {},
+    template: {},
+    namespaces: [],
+};
 
 module.exports = {
     context,
     componentsDetail,
-    auraSnippets,
-    jsSnippets,
-    sldsSnippets,
-    userClasses,
-    namespacesMetadata,
-    allNamespaces,
-    sObjects,
-    orgAvailableVersions,
-    availablePermissions,
+    snippets: snippets,
+    parserData: parserData,
     isAdvanceGUIAvailable,
-    MIN_AH_CLI_VERSION
+    MIN_AH_CLI_VERSION,
+    gitData: gitData,
+    sfData: sfData
 }

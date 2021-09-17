@@ -1,0 +1,107 @@
+{
+    "template": {
+        "tags": {
+            "tagName": {
+                "equalsTo": "String",
+                "symbol": "String",
+                "keywords": "Array",
+                "template": "String",
+                "multiple": "Boolean",
+                "anywhere": "Boolean",
+                "source": "String"
+            }
+        },
+        "comments": {
+            "class": {
+                "tags": "Array",
+                "template": "Array"
+            },
+            "interface": {
+                "tags": "Array",
+                "template": "Array"
+            },
+            "enum": {
+                "tags": "Array",
+                "template": "Array"
+            },
+            "method": {
+                "tags": "Array",
+                "template": "Array"
+            },
+            "constructor": {
+                "tags": "Array",
+                "template": "Array"
+            },
+            "variable": {
+                "tags": "Array",
+                "template": "Array"
+            },
+            "property": {
+                "tags": "Array",
+                "template": "Array"
+            }
+        }
+    },
+    "sources": {
+        "git": [
+            "user.name",
+            "user.email",
+            "author.name",
+            "author.email",
+            "committer.name",
+            "committer.email",
+            "branch",
+            "input"
+        ],
+        "salesforce": [
+            "username",
+            "alias",
+            "instance",
+            "input"
+        ],
+        "user": [
+            "input"
+        ],
+        "path": [
+            "file",
+            "folder",
+            "doc",
+            "root",
+            "input"
+        ],
+        "parent": [
+            "file",
+            "folder",
+            "doc",
+            "comment",
+            "input"
+        ],
+        "method": [
+            "name",
+            "signature",
+            "reference",
+            "input"
+        ],
+        "class": [
+            "name",
+            "reference",
+            "extends",
+            "implements",
+            "input"
+        ],
+        "params": [
+            "name",
+            "type",
+            "input"
+        ],
+        "return": [
+            "type",
+            "input"
+        ],
+        "variable": [
+            "name",
+            "type",
+            "input"
+        ]
+    }
+}

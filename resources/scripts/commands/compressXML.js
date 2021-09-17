@@ -1,9 +1,10 @@
-const fileSystem = require('../fileSystem');
 const vscode = require('vscode');
-const Processes = require('../processes');
+const OutputChannel = require('../output/outputChannnel');
+const Config = require('../core/config');
 const NotificationManager = require('../output/notificationManager');
-const Paths = fileSystem.Paths;
-const ProcessManager = Processes.ProcessManager;
+const Paths = require('../core/paths');
+const CLIManager = require('@ah/cli-manager');
+const XMLCompressor = require('@ah/xml-compressor');
 
 exports.run = function (fileUri) {
     try {
@@ -29,22 +30,25 @@ function compressFile(filePath) {
     if (editor && editor.document.uri.fsPath === filePath) {
         compress(filePath);
     } else {
-        vscode.window.showTextDocument(Paths.asUri(filePath)).then(() => compress(filePath));
+        vscode.window.showTextDocument(Paths.toURI(filePath)).then(() => compress(filePath));
     }
 }
 
 function compress(filePath) {
-    ProcessManager.auraHelperCompressFile(filePath, true).then(function (out) {
-        if (out.stdOut) {
-            let response = JSON.parse(out.stdOut);
-            if (response.status === 0)
-                NotificationManager.showInfo(response.result.message);
-            else
-                NotificationManager.showError(response.error.message);
-        } else {
-            NotificationManager.showCommandError(out.stdErr);
-        }
-    }).catch(function (error) {
-        NotificationManager.showCommandError(error);
-    });
+    const sortOrder = Config.getXMLSortOrder();
+    if (Config.useAuraHelperCLI()) {
+        const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+        cliManager.compress(filePath, sortOrder).then(() => {
+            OutputChannel.outputLine('XML file compressed successfully');
+        }).catch((error) => {
+            throw error;
+        });
+    } else {
+        const compressor = new XMLCompressor(filePath, sortOrder);
+        compressor.compress().then(() => {
+            OutputChannel.outputLine('XML file compressed successfully');
+        }).catch((error) => {
+            throw error;
+        });
+    }
 }

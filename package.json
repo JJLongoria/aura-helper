@@ -3,16 +3,12 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions for work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "2.3.0",
+	"version": "3.0.0",
 	"engines": {
 		"vscode": "^1.46.0",
 		"node": ">=12.0.0"
 	},
 	"icon": "resources/images/blue_icon.png",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/JJLongoria/aura-helper"
-	},
 	"categories": [
 		"Programming Languages",
 		"Snippets",
@@ -21,13 +17,27 @@
 		"Linters"
 	],
 	"keywords": [
-		"aura",
-		"aura helper",
-		"helper",
+		"aura-helper-framework",
+		"aura helper framework",
+		"Aura Helper Framework",
+		"ah-framework",
+		"AH Framework",
+		"Aura Helper",
+		"aura-helper",
+		"AuraHelper Library",
+		"AuraHelper Libraries",
+		"AH",
+		"ah",
+		"Salesforce",
+		"Salesforce Metadata",
+		"Salesforce Apps",
+		"Salesforce XML",
+		"Salesforce Tools",
+		"Apex",
+		"force.com",
+		"DevOps",
+		"devops",
 		"lightning",
-		"salesforce",
-		"apex",
-		"visualforce",
 		"documentation",
 		"javadoc",
 		"apexdoc",
@@ -75,26 +85,14 @@
 	],
 	"main": "./extension.js",
 	"contributes": {
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "fileStructure",
-					"title": "Outline",
-					"icon": "resources/images/code.svg"
-				}
-			]
-		},
-		"views": {
-			"fileStructure": [
-				{
-					"id": "fileExplorer",
-					"name": "Explorer"
-				}
-			]
-		},
 		"configuration": {
 			"title": "Aura Helper",
 			"properties": {
+				"aurahelper.api.useAuraHelperCLI": {
+					"type": "boolean",
+					"default": true,
+					"description": "Use Aura Helper CLI to execute some processes (Recommended to PCs with low resources). If not selected, all operation will be executed into VSCode context (faster but need more resources)"
+				},
 				"aurahelper.autoCompletion.activeAttributeSuggest": {
 					"type": "boolean",
 					"default": true,
@@ -155,28 +153,10 @@
 					"default": true,
 					"description": "Use Code Suggestion and autocompletion tools for Apex Code (variables, fields, methods...)"
 				},
-				"aurahelper.graphicUserInterface.defaultGUILanguage": {
-					"type": "string",
-					"default": "English",
-					"description": "Select the default language for the Aura Helper's Advance User Interface",
-					"enum": [
-						"English",
-						"Spanish"
-					],
-					"enumDescriptions": [
-						"Open English GUI by default",
-						"Open Spanish GUI by default"
-					]
-				},
-				"aurahelper.graphicUserInterface.enableAdvanceGUI": {
-					"type": "boolean",
-					"default": false,
-					"description": "Enable the Advance Graphic User Interface"
-				},
 				"aurahelper.metadata.refreshSObjectDefinitionsOnStart": {
 					"type": "boolean",
 					"default": false,
-					"description": "Refresh the Aura Helper's SObject Definitions when VSCode Start"
+					"description": "Refresh the Aura Helper's SObject Definitions when VSCode Start. Only will be refresh the not existing definitions. To force update all definitions, execute the command for it"
 				},
 				"aurahelper.metadata.useCustomAPIVersion": {
 					"type": "boolean",
@@ -189,10 +169,22 @@
 					"description": "Salesforce API Version for use if you select Use Custom API Version setting.",
 					"minimum": 0
 				},
-				"aurahelper.metadata.mergeLocalDataPermissions": {
-					"type": "boolean",
-					"default": true,
-					"description": "When you open profile for edit on Advance or Standard GUI, Aura Helper can merge your local data with your permissions files for add the metadata that not exists on the file for modify permissions"
+				"aurahelper.metadata.XmlSortOrder": {
+					"type": "string",
+					"default": "Simple XML Elements First",
+					"enum": [
+						"Simple XML Elements First",
+						"Complex XML Elements First",
+						"Alphabet Asc",
+						"Alphabet Desc"
+					],
+					"enumDescriptions": [
+						"Reorder the XML elements when simple elements (Strings, Booleans, Dates, Enums... without nested elements) as first elements (also use alphabetical asc order to order the simple and complex types)",
+						"Reorder the XML elements when complex elements (Arrays and Objects with nested elements) as first elements (also use alphabetical asc order to order the simple and complex types)",
+						"Reorder the XML elements on alphabetical ascending order (a, b, c...)",
+						"Reorder the XML elements on alphabetical descending order (z, y, x...)"
+					],
+					"description": "Sort Order for all XML files when choose compress option or run compress commands"
 				},
 				"aurahelper.apexFormat.punctuation.maxBlankLines": {
 					"type": "integer",
@@ -360,38 +352,6 @@
 				"title": "AuraHelper: Refresh SObject Definition"
 			},
 			{
-				"command": "aurahelper.fileExplorer.refresh",
-				"title": "AuraHelper: Refresh File Structure View",
-				"icon": {
-					"light": "resources/images/light/refresh.svg",
-					"dark": "resources/images/dark/refresh.svg"
-				}
-			},
-			{
-				"command": "aurahelper.fileExplorer.sort.default",
-				"title": "AuraHelper: Sort File Structure by Default",
-				"icon": {
-					"light": "resources/images/SortByType_16x.svg",
-					"dark": "resources/images/SortByType_16x.svg"
-				}
-			},
-			{
-				"command": "aurahelper.fileExplorer.sort.name.asc",
-				"title": "AuraHelper: Sort File Structure by Name ASC",
-				"icon": {
-					"light": "resources/images/SortAscendingFilter_16x.svg",
-					"dark": "resources/images/SortAscendingFilter_16x.svg"
-				}
-			},
-			{
-				"command": "aurahelper.fileExplorer.sort.name.desc",
-				"title": "AuraHelper: Sort File Structure by Name DESC",
-				"icon": {
-					"light": "resources/images/SortDescendingFilter_16x.svg",
-					"dark": "resources/images/SortDescendingFilter_16x.svg"
-				}
-			},
-			{
 				"command": "aurahelper.metadata.compress.xml",
 				"title": "AuraHelper: Compress XML File"
 			},
@@ -444,12 +404,8 @@
 				"title": "AuraHelper: Ignore Metadata from Project"
 			},
 			{
-				"command": "aurahelper.metadata.permission.profile.add",
-				"title": "AuraHelper: Add to Profile(s)"
-			},
-			{
-				"command": "aurahelper.metadata.permission.permissionset.add",
-				"title": "AuraHelper: Add to Permission Set(s)"
+				"command": "aurahelper.metadata.permission.modify",
+				"title": "AuraHelper: Modify Permissions"
 			}
 		],
 		"languages": [
@@ -465,10 +421,21 @@
 				]
 			},
 			{
+				"id": "apex-anon",
+				"extensions": [
+					".apex"
+				],
+				"aliases": [
+					"Apex Anonymous"
+				]
+			},
+			{
 				"id": "html",
 				"extensions": [
 					".auradoc",
-					".cmp"
+					".cmp",
+					".evt",
+					".app"
 				],
 				"aliases": [
 					"HTML"
@@ -523,13 +490,7 @@
 				},
 				{
 					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/ || resource =~ /.+\\.layout-meta.xml/",
-					"command": "aurahelper.metadata.permission.profile.add",
-					"group": "auraHelper@1"
-				}
-				,
-				{
-					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/",
-					"command": "aurahelper.metadata.permission.permissionset.add",
+					"command": "aurahelper.metadata.permission.modify",
 					"group": "auraHelper@1"
 				}
 			],
@@ -561,12 +522,7 @@
 				},
 				{
 					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/ || resource =~ /.+\\.layout-meta.xml/",
-					"command": "aurahelper.metadata.permission.profile.add",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/",
-					"command": "aurahelper.metadata.permission.permissionset.add",
+					"command": "aurahelper.metadata.permission.modify",
 					"group": "auraHelper@1"
 				},
 				{
@@ -579,42 +535,33 @@
 					"command": "aurahelper.completion.apex.implement.extend",
 					"group": "auraHelper@1"
 				}
-			],
-			"view/title": [
-				{
-					"command": "aurahelper.fileExplorer.refresh",
-					"when": "view == fileExplorer",
-					"group": "navigation"
-				},
-				{
-					"command": "aurahelper.fileExplorer.sort.default",
-					"when": "view == fileExplorer",
-					"group": "navigation"
-				},
-				{
-					"command": "aurahelper.fileExplorer.sort.name.asc",
-					"when": "view == fileExplorer",
-					"group": "navigation"
-				},
-				{
-					"command": "aurahelper.fileExplorer.sort.name.desc",
-					"when": "view == fileExplorer",
-					"group": "navigation"
-				}
 			]
 		}
 	},
 	"scripts": {
 		"test": "node ./test/runTest.js"
 	},
-	"license": "SEE LICENSE IN LICENSE.txt",
+	"license": "GPLv3",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JJLongoria/aura-helper-ignore"
+	},
 	"bugs": {
 		"url": "https://github.com/JJLongoria/aura-helper/issues",
 		"email": "juanjoselongoria@gmail.com"
 	},
 	"dependencies": {
-		"fast-xml-parser": "^3.17.4",
-		"he": "1.2.0"
+		"@ah/core": "../../NodeJS/Aura Helper Framework/ah-core",
+		"@ah/connector": "../../NodeJS/Aura Helper Framework/ah-connector",
+		"@ah/xml-compressor": "../../NodeJS/Aura Helper Framework/ah-xml-compressor",
+		"@ah/ignore": "../../NodeJS/Aura Helper Framework/ah-ignore",
+		"@ah/git-manager": "../../NodeJS/Aura Helper Framework/ah-git-manager",
+		"@ah/package-generator": "../../NodeJS/Aura Helper Framework/ah-package-generator",
+		"@ah/dependencies-manager": "../../NodeJS/Aura Helper Framework/ah-dependencies-manager",
+		"@ah/xml-definitions": "../../NodeJS/Aura Helper Framework/ah-xml-definitions",
+		"@ah/cli-manager": "../../NodeJS/Aura Helper Framework/ah-cli-manager",
+		"@ah/languages": "../../NodeJS/Aura Helper Framework/ah-languages",
+		"@ah/metadata-factory": "../../NodeJS/Aura Helper Framework/ah-metadata-factory"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.2",
@@ -624,7 +571,6 @@
 		"eslint": "^5.13.0",
 		"glob": "^7.1.6",
 		"mocha": "^6.2.3",
-		"sqlite3": "^4.2.0",
 		"typescript": "^3.9.6",
 		"vscode-test": "^1.4.0"
 	},

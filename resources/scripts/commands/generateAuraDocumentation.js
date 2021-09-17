@@ -1,16 +1,13 @@
 const logger = require('../utils/logger');
 const snippetUtils = require('../utils/snippetUtils');
-const languages = require('../languages');
+const { JSParser } = require('@ah/languages').JavaScript;
 const vscode = require('vscode');
-const fileSystem = require('../fileSystem');
+const { FileChecker, FileReader } = require('@ah/core').FileSystem;
 const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const Range = vscode.Range;
-const FileChecker = fileSystem.FileChecker;
-const Paths = fileSystem.Paths;
-const FileReader = fileSystem.FileReader;
-const FileWriter = fileSystem.FileWriter;
-const JavaScriptParser = languages.JavaScriptParser;
+const Paths = require('../core/paths');
+const Editor = require('../output/editor');
 
 exports.run = function (fileUri) {
     try {
@@ -38,28 +35,28 @@ function generateDocumentation(filePath) {
     if (editor && editor.document.uri.fsPath === filePath) {
         createDoc(editor);
     } else {
-        window.showTextDocument(Paths.asUri(filePath)).then((editor) => createDoc(editor));
+        window.showTextDocument(Paths.toURI(filePath)).then((editor) => createDoc(editor));
     }
 }
 
 function createDoc(editor) {
     let filePath = editor.document.uri.fsPath;
-    let helperPath = Paths.getBundleHelperPath(filePath);
-    let controllerPath = Paths.getBundleControllerPath(filePath);
-    let templatePath = Paths.getAuraDocumentUserTemplatePath();
+    let helperPath = Paths.getAuraBundleHelperPath(filePath);
+    let controllerPath = Paths.getAuraBundleControllerPath(filePath);
+    let templatePath = Paths.getAuraDocUserTemplate();
     let helper;
     let controller;
     if (FileChecker.isExists(helperPath)) {
-        helper = JavaScriptParser.parse(FileReader.readFileSync(helperPath));
+        helper = new JSParser(helperPath).parse().methods;
     }
     if (FileChecker.isExists(controllerPath)) {
-        controller = JavaScriptParser.parse(FileReader.readFileSync(controllerPath));
+        controller = new JSParser(controllerPath).parse().methods;
     }
     if (FileChecker.isExists(templatePath)) {
         let templateContent = FileReader.readFileSync(templatePath);
         var snippet = snippetUtils.getAuraDocumentationSnippet(controller, helper, templateContent);
         let replaceRange = new Range(0, 0, editor.document.lineCount - 1, editor.document.lineAt(editor.document.lineCount - 1).range.end.character);
-        FileWriter.replaceEditorContent(editor, replaceRange, snippet);
+        Editor.replaceEditorContent(editor, replaceRange, snippet);
         editor.revealRange(editor.document.lineAt(0).range);
     }
     else {
