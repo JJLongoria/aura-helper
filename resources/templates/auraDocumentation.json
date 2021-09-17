@@ -21,9 +21,13 @@
         "\t<ul>",
         "\t\t{!method.params}",
         "\t</ul>",
+        "\t{!method.return}",
         "</li>"
     ],
     "paramBody": [
         "<li><i>{!param.name} ({!param.type}): </li> {!param.description}"
+    ],
+    "returnBody": [
+        "<li><i>Return: {!return.type}: </li> {!return.description}"
     ]
 }

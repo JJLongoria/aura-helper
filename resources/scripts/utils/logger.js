@@ -1,10 +1,10 @@
-const appContext = require('../core/applicationContext');
-const DEBUG = false;
+const DEBUG = true;
+const { Utils } = require('@ah/core').CoreUtils;
 
 class Logger {
     static log(textOrParamName, paramValue) {
         if (DEBUG) {
-            if (paramValue === undefined)
+            if (Utils.isNull(paramValue))
                 console.log(textOrParamName);
             else
                 console.log('## ' + textOrParamName + ": " + paramValue);
@@ -13,15 +13,11 @@ class Logger {
 
     static logJSON(textOrParamName, paramValue) {
         if (DEBUG) {
-            if (paramValue === undefined)
+            if (Utils.isNull(paramValue))
                 console.log(JSON.stringify(textOrParamName, null, 2));
             else
                 console.log('## ' + textOrParamName + ": \n" + JSON.stringify(paramValue, null, 2));
         }
-    }
-
-    static output(output) {
-        appContext.outputChannel.append(output);
     }
 
     static error(text) {

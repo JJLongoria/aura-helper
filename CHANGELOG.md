@@ -1,13 +1,60 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [2.3.0 - 2020-10-XX]
+## [3.0.0 - 2021-07-XX]
+### Added
+- The v3.0.0 is the biggest Update of Aura Helper Extension. This versión implements the Aura Helper Framework created in nodeJS. This framework are robust, faster and better than the old Aura Helper Code, this framework are fully tested. Aura Helper Framework is an open source framework to provide tools to any developer to create applications for salesforce. Aura Helper Extension and Aura Helper CLI use it.
+
+- Added **Aura Helper Framework Modules** to enhance, reuse and optimize code and processes.
+- Enhance general Aura Helper performance and make it more stable.
+- Added **new configuration option: Aurahelper => Api => Use Aura Helper CLI** to use Aura Helper CLI or Aura Helper Framework in some processes. If use Aura Helper CLI, some processes will be execute outside VSCode (Recommended for PCs with low resources). If this options is not selected, all processes execute into VSCode context, faster but need more resources.
+- Added **new keyword on Aura Documentation Template** {method.return} to add return information from comment to Aura Documentation automatic generator based on your templates.
+- Added new **Apex Comment Template** system to create enhanced comments. You can create custom tags on comments to process information. Can select a data source to any tag and tag keyword to fill it automatically.
+- Added a **better Apex comment** processing to extract data from comments and tags with more precission.
+- Improve the **Refresing SObjects Index** on initialization to refresh only not existing definitions to load it faster.
+- Enhanced **VSCode Output Panel** with a Symbol Provider to provide *outline information* of **Metadata XML** Files, **Aura** Files (Components, Apps and Events) and **Apex Code** files. Show more and better information that the standard Apex Outline.
+- Added new configuration option to sort the Sort Order for XML Files. **aurahelper.metadata.XmlSortOrder** --> **Aurahelper › Metadata: Xml Sort Order**
+- Enhance **AuraHelper: Modify Permissions**. Now work better with several files and suggest the field values better according the rest of values in the other files to edit.
+- Added support to **Muting Permission Set** on  *Aura Helper: Modify Permissions* and *Aura Helper: Permission Editor*
+- Enhanced **AuraHelper: Custom Labels Editor** to work faster and better, maintenance fields integrity and prevent accidental changes. Can validate fields and labels to avoid errors and create, edit and remove Labels from file and org. Added better messages and information to the user to make it usefull.
+- Enhanced **AuraHelper: Package Generator** command to work better. Now has option windows to reduce the number of clicks and options to handle better. Metadata Loading are integrated into the component to make it more usefull. Changed icons and messages to make more easy to use.
+- Enhanced **AuraHelper: Metadata Comparator** To show the progress download and change icons and delete process to make it more usefull and faster.
+- Enhanced **AuraHelper: Permission Editor** to work better and add support to muting permission set, added new message and icons to make it more usefull. Added options menu to select compress or deploy the modified files. 
+- Enhanced **AuraHelper: Retrieve Special Types** to work better with VSCode GUI and the Metadata Selector Input from Aura Helper. Now its more usefull and easy. Also has new icons.
+- Enhanced **AuraHelper: Repair Project Dependencies** to work better with VSCode GUI and the Metadata Selector Input from Aura Helper. Now support more objects to repair or check dependencies and better menu options. Also has new icons.
+- Enhanced **Apex Code IntelliSense** provided by Aura Helper. Identify all nodes and provide better recomendations. Improve performance and stability and analize code faster. Probably one of the best IntelliSense recomendations for Salesforce Apex Code.
+- Enhanced **Aura Code IntelliSense** (Components and JavaScript Files) provided by Aura Helper. Identify all nodes and provide better recomendations. Improve performance and stability and analize code faster. Probably one of the best IntelliSense recomendations for Salesforce Aura Code.
+- Change Activation word to get Javascript Snippets. Now is **js.** instead **aura.**
+- Added synonym to **js.JSONPrettyConsole** snippet. Now can use also **js.PrintJSONPretty** 
+
+
+### Changed
+- Changed All commands to work with **Aura Helper Framework**
+- Removed the entire old code to replace with **Aura Helper Framework**
+- Change all Code Completion providers to work with **Aura Helper Framework Languages Modules** to enchange code analyzing to improve performance and make better recomendations.
+- Change Aura Helper **initialization** to improve performance and initialize faster and stable.
+- Changed **Apex Comment Template** to a *better and more complete system* to able use many tags into the comments (all tags available in Javadoc and Javascript standard) and your own defined tags. The old templates will be replaced with the new templated but trying to respect your latest defined templates format.
+- Changed **Icons** used by Aura Helper to addapt better to VSCode Style and make it clears.
+- Removed **Aura Helper Outline View** to change it to **VSCode Outline panel** and enhance it to show all Salesforce Metadata Files. (XML Files, Aura Files, Classes, Triggers...)
+- Remove **Aurahelper>Metadata>Merge Local Data Permissions** option because the profile editor works fine to add new elements.
+
+### Fixed
+- Fixed minor errors with some Aura Helper messages
+- Fixed all existing errors with the new Framework.
+
+## [2.3.1 - 2021-02-XX]
+### Changed
+- Changed commands **AuraHelper: Add To Profile(s)** and **AuraHelper: Add To PermissionSet(s)** to combine into one command **AuraHelper: Modify Permissions** to able to select modify profiles or permission sets. Also changed on contextual menus.
+
+### Fixed
+- Fixed some problems with Add to Profile and Add to Permissions commands
+
+
+## [2.3.0 - 2020-10-21]
 ### Added
 - Added **new commands** for modify permission from one element on one or several (or all) permission sets or profiles. For instance, modify enabled permission on apex classes on all profiles. This commands are **AuraHelper: Add To Profile(s)** or **AuraHelper: Add To PermissionSet(s)**
 - Added **Max Projection Field Per Line** setting to format queries on Apex. This setting allow select the max projection fields on queries. To format all fields on the same line set value 0. This setting replace *One Projection Field Per Line*.
 - **Better format on inner queries**.
 - **New Logo** designed by Isabel García Sánchez - Ib (igarciasanchez00@gmail.com)
-
-
 
 ### Changed
 - Updated minimum supported version for **Aura Helper CLI**.

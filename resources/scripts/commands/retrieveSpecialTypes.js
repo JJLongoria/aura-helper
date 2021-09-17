@@ -1,175 +1,134 @@
 const vscode = require('vscode');
-const Metadata = require('../metadata');
-const MetadataTypes = Metadata.MetadataTypes;
-const ProcessManager = require('../processes').ProcessManager;
 const MetadataSelectorInput = require('../inputs/metadataSelector');
 const InputFactory = require('../inputs/factory');
 const NotificationManager = require('../output/notificationManager');
-
-const TYPES_FOR_RETRIEVE = {
-    Profile: [
-        MetadataTypes.CUSTOM_APPLICATION,
-        MetadataTypes.APEX_CLASS,
-        MetadataTypes.APEX_PAGE,
-        MetadataTypes.CUSTOM_METADATA,
-        MetadataTypes.CUSTOM_OBJECT,
-        MetadataTypes.CUSTOM_FIELDS,
-        MetadataTypes.CUSTOM_PERMISSION,
-        MetadataTypes.TAB,
-        MetadataTypes.LAYOUT,
-        MetadataTypes.FLOWS,
-        MetadataTypes.RECORD_TYPE
-    ],
-    PermissionSet: [
-        MetadataTypes.CUSTOM_APPLICATION,
-        MetadataTypes.APEX_CLASS,
-        MetadataTypes.APEX_PAGE,
-        MetadataTypes.CUSTOM_METADATA,
-        MetadataTypes.CUSTOM_OBJECT,
-        MetadataTypes.CUSTOM_FIELDS,
-        MetadataTypes.CUSTOM_PERMISSION,
-        MetadataTypes.TAB,
-        MetadataTypes.RECORD_TYPE
-    ],
-    Translations: [
-        MetadataTypes.CUSTOM_APPLICATION,
-        MetadataTypes.CUSTOM_LABEL,
-        MetadataTypes.TAB,
-        MetadataTypes.FLOWS,
-        MetadataTypes.FLOW_DEFINITION,
-        MetadataTypes.CUSTOM_OBJECT,
-        MetadataTypes.CUSTOM_FIELDS,
-        MetadataTypes.QUICK_ACTION,
-        MetadataTypes.REPORT_TYPE,
-        MetadataTypes.CUSTOM_PAGE_WEB_LINK,
-        MetadataTypes.S_CONTROL
-    ],
-    RecordType: [
-        MetadataTypes.COMPACT_LAYOUT,
-        MetadataTypes.CUSTOM_FIELDS,
-        MetadataTypes.BUSINESS_PROCESS
-    ],
-    CustomObject: []
-};
+const { SpecialMetadata } = require('@ah/core').Values;
+const CLIManager = require('@ah/cli-manager');
+const Connection = require('@ah/connector');
+const MetadataFactory = require('@ah/metadata-factory');
+const Config = require('../core/config');
+const Paths = require('../core/paths');
 
 exports.run = async function () {
-    let from = await InputFactory.createRetrieveSpecialsSourceSelector();
-    if (from) {
-        vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: "Loading Metadata Types from " + ((from.startsWith('From Org')) ? 'Org' : 'Local'),
-            cancellable: true
-        }, (progress, cancelToken) => {
-            return new Promise(async function (resolve) {
-                try {
-                    let types;
-                    if (from.startsWith('From Org')) {
-                        types = await getOrgMetadata(Object.keys(TYPES_FOR_RETRIEVE), false, cancelToken);
-                    } else if (from.startsWith('From Local') || from.startsWith('Mixed')) {
-                        types = await getLocalMetadata(Object.keys(TYPES_FOR_RETRIEVE), cancelToken);
-                    }
-                    let input = new MetadataSelectorInput('Select Metadata Types from Retrieve', types);
-                    input.onAccept(async metadata => {
-                        let orgNamespace = 'Yes';
-                        if (from !== 'From Local') {
-                            orgNamespace = await InputFactory.createIncludeOrgNamespaceSelector();
-                        }
-                        if (orgNamespace) {
-                            let compress = await InputFactory.createCompressSelector();
-                            if (compress) {
-                                let dataToRetrieve = Metadata.Utils.getTypesForAuraHelperCommands(metadata);
-                                retrieveMetadata(dataToRetrieve, from, orgNamespace, compress);
-                            }
-                        }
-                    });
-                    input.show();
-                    resolve();
-                } catch (error) {
-                    NotificationManager.showCommandError(error);
-                    resolve();
-                }
-            });
+    try {
+        let input = new MetadataSelectorInput('Select Metadata Types for Retrieve', Object.keys(SpecialMetadata));
+        input.setSingleSelectionOptions(true);
+        input.addInitOption('From Local', 'Select to Retrieve Special types only with your local project metadata types', MetadataSelectorInput.getLocalAction());
+        input.addInitOption('From Org', 'Select to Retrieve Special types only with your Auth org metadata types', MetadataSelectorInput.getDownloadAction());
+        input.addInitOption('Mixed', 'Select to Retrieve Special types from yout local project with data from org', MetadataSelectorInput.getMixedAction());
+
+        input.addFinishOption('All Namespaces', 'Select to Download Metadata from All Namespaces (if not select, include only Org Namespaces Metadata.)', MetadataSelectorInput.getDownloadAllAction(), ['From Org', 'Mixed']);
+        input.addFinishOption('Compress', 'Select to Compress affected XML Files with Aura Helper Format', MetadataSelectorInput.getCompressAction());
+        input.onAccept(async (options, data) => {
+            if (options) {
+                retrieveMetadata(data, options);
+            }
         });
+        input.show();
+    } catch (error) {
+        NotificationManager.showCommandError(error);
     }
 }
 
-function getLocalMetadata(types, cancelToken) {
-    return new Promise(async function (resolve) {
-        let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: false, types: types }, true, cancelToken);
-        if (!out) {
-            vscode.window.showWarningMessage('Operation Cancelled by User');
-            resolve();
-        } else if (out.stdOut) {
-            let response = JSON.parse(out.stdOut);
-            if (response.status === 0) {
-                resolve(response.result.data);
-            } else {
-                NotificationManager.showError(response.error.message);
-                resolve();
-            }
-        } else {
-            NotificationManager.showCommandError(out.stdErr);
-            resolve();
-        }
-    });
-}
-
-function getOrgMetadata(types, orgNamespace, cancelToken) {
-    return new Promise(async function (resolve) {
-        let out = await ProcessManager.auraHelperDescribeMetadata({ fromOrg: true, types: types, orgNamespace: orgNamespace }, true, cancelToken);
-        if (!out) {
-            NotificationManager.showInfo('Operation Cancelled by User');
-            resolve();
-        } else if (out.stdOut) {
-            let response = JSON.parse(out.stdOut);
-            if (response.status === 0) {
-                resolve(response.result.data);
-            } else {
-                NotificationManager.showError(response.error.message);
-                resolve();
-            }
-        } else {
-            NotificationManager.showCommandError(out.stdErr);
-            resolve();
-        }
-    });
-}
-
-function retrieveMetadata(objects, from, orgNamespace, compress) {
+function retrieveMetadata(objects, options) {
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
-        title: "Retrieving Metadata",
+        title: "Retrieving Metadata. This operation can take several minutes",
         cancellable: true
     }, (progress, cancelToken) => {
-        return new Promise(async function (resolve) {
+        return new Promise(function (resolve, reject) {
+            const sortOrder = Config.getXMLSortOrder();
             try {
-                let options = {
-                    fromOrg: from.startsWith('From Org'),
-                    orgNamespace: orgNamespace === 'Org Namespace',
-                    compress: compress === 'Yes',
-                    types: objects,
-                    includeOrg: from.startsWith('Mixed')
-                };
-                let out = await ProcessManager.auraHelperRetriveAllSpecials(options, true, cancelToken);
-                if (out) {
-                    if (out.stdOut) {
-                        let response = JSON.parse(out.stdOut);
-                        if (response.status === 0) {
-                            NotificationManager.showInfo(response.result.message);
-                        } else {
-                            NotificationManager.showError(response.error.message);
-                        }
+                if (Config.useAuraHelperCLI()) {
+                    let dataToRetrieve = getTypesForAuraHelperCommands(objects);
+                    const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+                    cancelToken.onCancellationRequested(() => {
+                        cliManager.abortProcess();
+                    });
+                    cliManager.setCompressFiles(options[MetadataSelectorInput.getCompressAction()]);
+                    cliManager.setSortOrder(sortOrder);
+                    if (options[MetadataSelectorInput.getDownloadAction()]) {
+                        cliManager.retrieveOrgSpecialMetadata(options[MetadataSelectorInput.getDownloadAllAction()], dataToRetrieve).then((result) => {
+                            NotificationManager.showInfo("Data retrieved successfully");
+                            resolve();
+                        }).catch((error) => {
+                            NotificationManager.showError(error.message);
+                            reject(error);
+                        });
+                    } else if (options[MetadataSelectorInput.getMixedAction()]) {
+                        cliManager.retrieveMixedSpecialMetadata(options[MetadataSelectorInput.getDownloadAllAction()], dataToRetrieve).then((result) => {
+                            NotificationManager.showInfo("Data retrieved successfully");
+                            resolve();
+                        }).catch((error) => {
+                            NotificationManager.showError(error.message);
+                            reject(error);
+                        });
                     } else {
-                        NotificationManager.showCommandError(out.stdErr);
+                        cliManager.retrieveLocalSpecialMetadata(dataToRetrieve).then((result) => {
+                            NotificationManager.showInfo("Data retrieved successfully");
+                            resolve();
+                        }).catch((error) => {
+                            NotificationManager.showError(error.message);
+                            reject(error);
+                        });
                     }
                 } else {
-                    NotificationManager.showInfo('Operation Canceled by user');
+                    const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                    connection.setMultiThread();
+                    cancelToken.onCancellationRequested(() => {
+                        connection.abortConnection();
+                    });
+                    if (options[MetadataSelectorInput.getDownloadAction()]) {
+                        connection.retrieveOrgSpecialTypes(Paths.getTemporalFolder(), objects, options[MetadataSelectorInput.getDownloadAllAction()], options[MetadataSelectorInput.getCompressAction()], sortOrder).then((retrieveResult) => {
+                            NotificationManager.showInfo("Data retrieved successfully");
+                            resolve();
+                        }).catch((error) => {
+                            NotificationManager.showError(error.message);
+                            reject(error)
+                        });
+                    } else if (options[MetadataSelectorInput.getMixedAction()]) {
+                        connection.retrieveMixedSpecialTypes(Paths.getTemporalFolder(), objects, options[MetadataSelectorInput.getDownloadAllAction()], options[MetadataSelectorInput.getCompressAction()], sortOrder).then((retrieveResult) => {
+                            NotificationManager.showInfo("Data retrieved successfully");
+                            resolve();
+                        }).catch((error) => {
+                            NotificationManager.showError(error.message);
+                            reject(error)
+                        });
+                    } else {
+                        connection.retrieveLocalSpecialTypes(Paths.getTemporalFolder(), objects, options[MetadataSelectorInput.getCompressAction()], sortOrder).then((retrieveResult) => {
+                            NotificationManager.showInfo("Data retrieved successfully");
+                            resolve();
+                        }).catch((error) => {
+                            NotificationManager.showError(error.message);
+                            reject(error)
+                        });
+                    }
                 }
-                resolve();
             } catch (error) {
                 NotificationManager.showCommandError(error);
                 resolve();
             }
         });
     });
+}
+
+function getTypesForAuraHelperCommands(metadata) {
+    let types = [];
+    Object.keys(metadata).forEach(function (typeKey) {
+        if (metadata[typeKey].checked) {
+            types.push(typeKey);
+        } else {
+            Object.keys(metadata[typeKey].childs).forEach(function (objectKey) {
+                if (metadata[typeKey].childs[objectKey].checked) {
+                    types.push(typeKey + ':' + objectKey);
+                } else {
+                    Object.keys(metadata[typeKey].childs[objectKey].childs).forEach(function (itemKey) {
+                        if (metadata[typeKey].childs[objectKey].childs[itemKey].checked)
+                            types.push(typeKey + ':' + objectKey + ':' + itemKey);
+                    });
+                }
+            });
+        }
+    });
+    return types;
 }

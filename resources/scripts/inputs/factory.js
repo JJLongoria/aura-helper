@@ -1,5 +1,5 @@
 const vscode = require('vscode');
-const { Factory } = require('../metadata');
+const Paths = require('../core/paths');
 
 class InputFactory {
 
@@ -25,12 +25,12 @@ class InputFactory {
         return createQuickPick(items, placeholder, true, alwaysOnTop);
     }
 
-    static createCompressSelector() {
-        return new Promise(async function (resolve) {
-            let options = ['Yes', 'No'];
-            let selectedOption = await vscode.window.showQuickPick(options, { placeHolder: 'Do you want to compress the file(s)?' });
-            resolve(selectedOption);
-        });
+    static createCompressSelector(alwaysOnTop) {
+        let items = [
+            InputFactory.createQuickPickItem('Yes'),
+            InputFactory.createQuickPickItem('No'),
+        ];
+        return createQuickPick(items, 'Do you want to compress the file(s)?', false, alwaysOnTop);
     }
 
     static createIgnoreOptionsSelector() {
@@ -48,71 +48,6 @@ class InputFactory {
         }
         let placeholder = 'Select types for ignore';
         return createQuickPick(items, placeholder, true);
-    }
-
-    static createRetrieveSpecialsSourceSelector() {
-        let items = [
-            InputFactory.createQuickPickItem('From Local', undefined, 'Retrieve Special types only with your local project metadata types'),
-            InputFactory.createQuickPickItem('From Org', undefined, 'Retrieve Special types only with your Auth org metadata types'),
-            InputFactory.createQuickPickItem('Mixed', undefined, 'Retrieve Special types from yout local project with data from org')
-        ];
-        return createQuickPick(items);
-    }
-
-    static createPackageSourcesSelector() {
-        let items = [
-            InputFactory.createQuickPickItem('From Local', undefined, 'Get Metadata Types from your local project for create the package'),
-            InputFactory.createQuickPickItem('From Org', undefined, 'Get Metadata Types from your Auth Org for create the package')
-        ];
-        return createQuickPick(items);
-    }
-
-    static createPackageOptionSelector() {
-        let items = [
-            InputFactory.createQuickPickItem('For Deploy or Retrieve', undefined, 'Select metadata for create a package file for deploy or retrieve'),
-            InputFactory.createQuickPickItem('For Delete', undefined, 'Select metadata from create a destructive file for delete')
-        ];
-        return createQuickPick(items);
-    }
-
-    static createPackageDeleteOrderSelector() {
-        let items = [
-            InputFactory.createQuickPickItem('Before Deploy', undefined, 'Create destructive package for delete before deploy'),
-            InputFactory.createQuickPickItem('After Deploy', undefined, 'Create destructive package for delete after deploy')
-        ];
-        return createQuickPick(items);
-    }
-
-    static createIncludeOrgNamespaceSelector() {
-        let items = [
-            InputFactory.createQuickPickItem('Org Namespace', undefined, 'Include data only from the Org Namespace'),
-            InputFactory.createQuickPickItem('All Namespaces', undefined, 'Include data from All Namespaces')
-        ];
-        return createQuickPick(items);
-    }
-
-    static createPackageExplicitSelector() {
-        let items = [
-            InputFactory.createQuickPickItem('Explicit', undefined, 'Include objects explicit on package file (recommended for retrieve)'),
-            InputFactory.createQuickPickItem('Wildcards', undefined, 'Use wildcards on package when apply')
-        ];
-        return createQuickPick(items);
-    }
-
-    static createPackageSaveOnSelector() {
-        let items = [
-            InputFactory.createQuickPickItem('Manifest folder', undefined, 'Save package file on project\'s manifest folder'),
-            InputFactory.createQuickPickItem('Select folder', undefined, 'Select a custom folder for save the package file')
-        ];
-        return createQuickPick(items);
-    }
-
-    static createRepairOptionSelector() {
-        let items = [
-            InputFactory.createQuickPickItem('Repair', undefined, 'Fix dependency errors automatically'),
-            InputFactory.createQuickPickItem('Check Errors', undefined, 'Check for dependency errors in the project')
-        ];
-        return createQuickPick(items);
     }
 
     static createCompareOptionSelector() {
@@ -144,6 +79,28 @@ class InputFactory {
             label: label,
             picked: picked
         }
+    }
+
+    static createFileDialog(label, multipick, filters, defaultUri){
+        return vscode.window.showOpenDialog({
+            canSelectFiles: true,
+            canSelectMany: multipick,
+            canSelectFolders: false,
+            openLabel: label,
+            filters: filters,
+            defaultUri: (defaultUri) ? Paths.toURI(defaultUri) : Paths.toURI(Paths.getProjectFolder())
+        });
+    }
+
+    static createFolderDialog(label, multipick, filters, defaultUri){
+        return vscode.window.showOpenDialog({
+            canSelectFiles: false,
+            canSelectMany: multipick,
+            canSelectFolders: true,
+            openLabel: label,
+            filters: filters,
+            defaultUri: (defaultUri) ? Paths.toURI(defaultUri) : Paths.toURI(Paths.getProjectFolder())
+        });
     }
 
 }

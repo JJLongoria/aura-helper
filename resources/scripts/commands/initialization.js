@@ -1,117 +1,184 @@
-const https = require('https');
 const vscode = require('vscode');
-const fileSystem = require('../fileSystem');
-const languages = require('../languages');
-const Metadata = require('../metadata');
-const ProcessManager = require('../processes/processManager');
 const Output = require('../output');
+const ProvidersManager = require('../providers/providersManager');
+const ApexNodeWatcher = require('../watchers/apexCodeWatcher');
 const applicationContext = require('../core/applicationContext');
+const { FileChecker, FileReader, FileWriter, PathUtils } = require('@ah/core').FileSystem;
 const Config = require('../core/config');
-const StrUtils = require('../utils/strUtils');
+const Paths = require('../core/paths');
+const { StrUtils, ProjectUtils } = require('@ah/core').CoreUtils;
+const { ApexNodeTypes } = require('@ah/core').Values;
+const { SObject, ApexClass, ApexInterface, ApexEnum, ApexTrigger } = require('@ah/core').Types;
+const { ApexParser } = require('@ah/languages').Apex;
+const { System } = require('@ah/languages').System;
+const Connection = require('@ah/connector');
+const MetadataFactory = require('@ah/metadata-factory');
+const CLIManager = require('@ah/cli-manager');
+const GitManager = require('@ah/git-manager');
 const NotificationManager = Output.NotificationMananger;
 const OutputChannel = Output.OutputChannel;
-const FileChecker = fileSystem.FileChecker;
-const Paths = fileSystem.Paths;
-const FileReader = fileSystem.FileReader;
-const FileWriter = fileSystem.FileWriter;
-const ApexParser = languages.ApexParser;
+let cliManager;
+let connection;
 
-exports.run = function (context) {
-    // Register File Watcher
-    var classWatcher = vscode.workspace.createFileSystemWatcher("**/*.cls");
-    classWatcher.onDidChange(async function (uri) {
-        ApexParser.compileClass(uri.fsPath, Paths.getCompiledClassesPath()).then(function (apexClass) {
-            applicationContext.userClasses[apexClass.name.toLowerCase()] = apexClass;
-        });
-    });
-    classWatcher.onDidCreate(async function (uri) {
-        ApexParser.compileClass(uri.fsPath, Paths.getCompiledClassesPath()).then(function (apexClass) {
-            applicationContext.userClasses[apexClass.name.toLowerCase()] = apexClass;
-        });
-    });
-    classWatcher.onDidDelete(async function (uri) {
-        let fileName = Paths.getBasename(uri.fsPath);
-        let className = fileName.substring(0, fileName.indexOf('.'));
-        FileWriter.delete(Paths.getCompiledClassesPath() + '/' + className + '.json');
-        delete applicationContext.userClasses[className.toLowerCase()];
-    });
-    applicationContext.context = context;
-    OutputChannel.output('Aura Helper Extension is now active\n');
-    OutputChannel.output('Start loading init files\n');
-    init(context).then(function () { });
+exports.run = function () {
+    const context = applicationContext.context;
+    NotificationManager.showStatusBar('$(sync~spin) Loading System Data...');
+    OutputChannel.outputLine('Loading System Data');
+    OutputChannel.outputLine('Start loading init files');
+    init(context);
 }
 
-async function init(context) {
-    return new Promise(async function (resolve) {
-        applicationContext.componentsDetail = JSON.parse(FileReader.readFileSync(Paths.getBaseComponentsDetailPath()));
-        OutputChannel.output('Loading Snippets\n');
-        let loadedSnippets = loadSnippets();
-        OutputChannel.output('Snippets Loaded\n');
-        applicationContext.auraSnippets = loadedSnippets.auraSnippets;
-        applicationContext.jsSnippets = loadedSnippets.jsSnippets;
-        applicationContext.sldsSnippets = loadedSnippets.sldsSnippets;
-        OutputChannel.output('Prepare Environment\n');
-        if (!FileChecker.isExists(context.storagePath))
-            FileWriter.createFolderSync(context.storagePath);
-        if (!FileChecker.isExists(Paths.getUserTemplatesPath()))
-            FileWriter.createFolderSync(Paths.getUserTemplatesPath());
-        if (!FileChecker.isExists(Paths.getAuraDocumentUserTemplatePath()))
-            FileWriter.copyFileSync(Paths.getAuraDocumentTemplatePath(), Paths.getAuraDocumentUserTemplatePath());
-        if (!FileChecker.isExists(Paths.getApexCommentUserTemplatePath()))
-            FileWriter.copyFileSync(Paths.getApexCommentTemplatePath(), Paths.getApexCommentUserTemplatePath());
-        if (!FileChecker.isExists(Paths.getMetadataIndexPath()))
-            FileWriter.createFolderSync(Paths.getMetadataIndexPath());
-        if (FileChecker.isExists(Paths.getOldApexCommentTemplatePath()) && !FileChecker.isExists(Paths.getApexCommentUserTemplatePath()))
-            FileWriter.copyFileSync(Paths.getOldApexCommentTemplatePath(), Paths.getApexCommentUserTemplatePath());
-        if (FileChecker.isExists(Paths.getOldAuraDocumentUserTemplatePath()) && !FileChecker.isExists(Paths.getAuraDocumentUserTemplatePath()))
-            FileWriter.copyFileSync(Paths.getOldAuraDocumentUserTemplatePath(), Paths.getAuraDocumentUserTemplatePath());
-        OutputChannel.output('Environment Prepared\n');
-        applicationContext.allNamespaces = getNamespacesMetadataFile();
-        applicationContext.namespacesMetadata = getNamespacesData();
-        OutputChannel.output('Getting Org Data\n');
-        let username = await Config.getAuthUsername();
-        let serverInstance = await Config.getServerInstance(username);
-        applicationContext.orgAvailableVersions = await Config.getOrgAvailableVersions(serverInstance);
-        OutputChannel.output('Checking Aura Helper CLI\n');
-        let isAuraHelperInstalled = await ProcessManager.isAuraHelperInstalled();
-        if (!isAuraHelperInstalled) {
-            NotificationManager.showWarning("Aura Helper CLI is not installed and some features are not availables. Please go to https://github.com/JJLongoria/aura-helper-CLI or https://www.npmjs.com/package/aura-helper-cli and follow the instructions to install");
-        } else {
-            checkAuraHelperVersion();
-        }
-        OutputChannel.output('Refreshing Apex Classes Definitions\n');
-        NotificationManager.showStatusBar('$(sync~spin) Refreshing Apex Classes Definitions...');
-        await ApexParser.compileAllApexClasses();
-        OutputChannel.output('Refreshing Apex Classes Defintions Finished\n');
-        applicationContext.userClasses = getClassesFromCompiledClasses();
+function init(context) {
+    setTimeout(async () => {
+        const username = Config.getOrgAlias();
+        cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+        connection = new Connection(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+        connection.setMultiThread();
+        createTemplateFiles(context);
+        loadSnippets();
+        if (Config.useAuraHelperCLI())
+            await checkAuraHelperCLI();
+        await getSystemData();
+        await getGitData();
+        await getOrgData();
+        OutputChannel.outputLine('System Data Loaded');
         NotificationManager.hideStatusBar();
-        if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart)
-            refreshSObjectsIndex();
-        else
-            applicationContext.sObjects = getSObjects(false);
-        resolve();
+        if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart) {
+            vscode.commands.executeCommand('aurahelper.metadata.refresh.index', true);
+        } else {
+            ApexNodeWatcher.startWatching();
+            ProvidersManager.registerProviders();
+        }
+    }, 50);
+}
+
+function getGitData() {
+    return new Promise((resolve) => {
+        OutputChannel.outputLine('Getting GIT data...');
+        setTimeout(async () => {
+            try {
+                const gitManager = new GitManager(Paths.getProjectFolder());
+                applicationContext.gitData.username = await gitManager.getUserName();
+                applicationContext.gitData.email = await gitManager.getUserEmail();
+                applicationContext.gitData.authorName = await gitManager.getAuthorName();
+                applicationContext.gitData.authorEmail = await gitManager.getAuthorEmail();
+                applicationContext.gitData.committerName = await gitManager.getCommitterName();
+                applicationContext.gitData.committerEmail = await gitManager.getCommitterEmail();
+                const branches = await gitManager.getBranches();
+                for (const branch of branches) {
+                    if (branch.active) {
+                        applicationContext.gitData.branch = branch.name;
+                        break;
+                    }
+                }
+            } catch (error) {
+
+            }
+            resolve();
+        }, 50);
     });
 }
 
-function refreshSObjectsIndex() {
-    return new Promise(function (resolve) {
-        OutputChannel.output('Refreshing SObject Defintions\n');
-        NotificationManager.showStatusBar('$(sync~spin) Refreshing SObjects Definitions...');
-        Metadata.Connection.refreshSObjectsIndex().then(function () {
-            applicationContext.sObjects = getSObjects(false);
-            OutputChannel.output('Refreshing SObject Defintions Finished\n');
-            NotificationManager.hideStatusBar();
+function getSystemData() {
+    return new Promise((resolve) => {
+        OutputChannel.outputLine('Getting Apex Classes and System components data...');
+        setTimeout(async () => {
+            applicationContext.componentsDetail = System.getAuraComponentDetails();
+            applicationContext.parserData.namespaceSummary = System.getAllNamespacesSummary();
+            applicationContext.parserData.namespacesData = System.getAllNamespacesData();
+            applicationContext.parserData.namespaces = System.getAllNamespaces();
+            applicationContext.parserData.sObjectsData = getSObjects();
+            applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
+            applicationContext.parserData.userClasses = getClassNames(Paths.getProjectMetadataFolder() + '/classes');
+            await ApexParser.saveAllClassesData(Paths.getProjectMetadataFolder() + '/classes', Paths.getCompiledClassesFolder(), applicationContext.parserData, true);
+            applicationContext.parserData.userClassesData = getClassesFromCompiledClasses();
+            applicationContext.parserData.userClasses = Object.keys(applicationContext.parserData.userClassesData);
             resolve();
-        });
+        }, 50);
     });
+}
+
+function checkAuraHelperCLI() {
+    return new Promise((resolve) => {
+        OutputChannel.outputLine('Checking Aura Helper CLI...');
+        setTimeout(async () => {
+            const isAuraHelperInstalled = await cliManager.isAuraHelperCLIInstalled();
+            if (!isAuraHelperInstalled) {
+                NotificationManager.showWarning("Aura Helper CLI is not installed and some features are not availables. Please go to https://github.com/JJLongoria/aura-helper-CLI or https://www.npmjs.com/package/aura-helper-cli and follow the instructions to install");
+                resolve();
+            } else {
+                checkAuraHelperVersion().then(() => {
+                    resolve();
+                });
+            }
+        }, 50);
+    });
+}
+
+function getOrgData() {
+    return new Promise((resolve) => {
+        OutputChannel.outputLine('Getting Org data...');
+        setTimeout(async () => {
+            applicationContext.sfData.username = await connection.getAuthUsername();
+            applicationContext.sfData.serverInstance = await connection.getServerInstance();
+            resolve()
+        }, 50);
+    });
+}
+
+function createTemplateFiles(context) {
+    OutputChannel.outputLine('Prepare environment');
+    if (!FileChecker.isExists(context.storagePath))
+        FileWriter.createFolderSync(context.storagePath);
+    if (!FileChecker.isExists(Paths.getUserTemplatesFolder()))
+        FileWriter.createFolderSync(Paths.getUserTemplatesFolder());
+    if (!FileChecker.isExists(Paths.getMetadataIndexFolder()))
+        FileWriter.createFolderSync(Paths.getMetadataIndexFolder());
+    if (FileChecker.isExists(Paths.getOldApexCommentUserTemplate()) && !FileChecker.isExists(Paths.getApexCommentUserTemplate()))
+        FileWriter.createFileSync(Paths.getApexCommentUserTemplate(), adaptOldApexTemplateToNewTemplate())
+    if (FileChecker.isExists(Paths.getOldAuraDocUserTemplate()) && !FileChecker.isExists(Paths.getAuraDocUserTemplate()))
+        FileWriter.copyFileSync(Paths.getOldAuraDocUserTemplate(), Paths.getAuraDocUserTemplate());
+    if (!FileChecker.isExists(Paths.getApexCommentUserTemplate()))
+        FileWriter.copyFileSync(Paths.getApexCommentBaseTemplate(), Paths.getApexCommentUserTemplate());
+    if (!FileChecker.isExists(Paths.getAuraDocUserTemplate()))
+        FileWriter.copyFileSync(Paths.getAuraDocBaseTemplate(), Paths.getAuraDocUserTemplate());
+    applicationContext.parserData.template = JSON.parse(FileReader.readFileSync(Paths.getApexCommentUserTemplate()));
+    OutputChannel.outputLine('Environment prepared');
+}
+
+function adaptOldApexTemplateToNewTemplate() {
+    const newTemplate = JSON.parse(FileReader.readFileSync(Paths.getApexCommentBaseTemplate()));
+    const template = JSON.parse(FileReader.readFileSync(Paths.getOldApexCommentUserTemplate()));
+    if (template.methodComment) {
+        if (template.methodComment.commentBody) {
+            newTemplate.comments.method.template = [];
+            newTemplate.comments.constructor.template = [];
+            for (const line of template.methodComment.commentBody) {
+                let lineContent = StrUtils.replace(line, '{!method.params}', '{!tag.param}');
+                lineContent = StrUtils.replace(lineContent, '{!method.return}', '{!tag.return}');
+                lineContent = StrUtils.replace(lineContent, '{!method.description}', '{!description}');
+                newTemplate.comments.method.template.push(lineContent);
+                newTemplate.comments.constructor.template.push(lineContent);
+            }
+        }
+    }
+    if (template.classComment) {
+        if (template.classComment.commentBody) {
+            newTemplate.comments.class.template = [];
+            for (const line of template.classComment.commentBody) {
+                let lineContent = StrUtils.replace(line, '{!class.description}', '{!description}');
+                newTemplate.comments.class.template.push(lineContent);
+            }
+        }
+    }
+    return JSON.stringify(newTemplate, null, 2);
 }
 
 function checkAuraHelperVersion() {
     return new Promise((resolve) => {
         try {
-            ProcessManager.auraHelperVersion().then((stdOut) => {
-                const splits = stdOut.split(':');
-                const versionSplits = StrUtils.replace(splits[1].trim(), 'v', '').split('.');
+            cliManager.getAuraHelperCLIVersion().then((version) => {
+                const versionSplits = version.split('.');
                 const requiredVersionSplits = applicationContext.MIN_AH_CLI_VERSION.split('.')
                 const majorVersion = parseInt(versionSplits[0]);
                 const minorVersion = parseInt(versionSplits[1]);
@@ -119,13 +186,14 @@ function checkAuraHelperVersion() {
                 const requiredMajorVersion = parseInt(requiredVersionSplits[0]);
                 const requiredMinorVersion = parseInt(requiredVersionSplits[1]);
                 const requiredPatchVersion = parseInt(requiredVersionSplits[2]);
-                if(majorVersion < requiredMajorVersion)
+                if (majorVersion < requiredMajorVersion)
                     showDialogsForAuraHelperCLI();
-                else if(majorVersion == requiredMajorVersion && minorVersion < requiredMinorVersion)
+                else if (majorVersion == requiredMajorVersion && minorVersion < requiredMinorVersion)
                     showDialogsForAuraHelperCLI();
-                else if(majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion)
+                else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion)
                     showDialogsForAuraHelperCLI();
-            }).catch((sdtErr) => {
+                resolve();
+            }).catch((error) => {
                 showDialogsForAuraHelperCLI();
             });
         } catch (error) {
@@ -137,10 +205,10 @@ function checkAuraHelperVersion() {
 function showDialogsForAuraHelperCLI() {
     NotificationManager.showWarning('Old Aura Helper CLI Version Installed. For a correct work of Aura Helper Extension, you must update the client. Press Ok for update now or Cancel for update later', () => {
         NotificationManager.showStatusBar('$(sync~spin) Updating Aura Helper CLI...');
-        ProcessManager.updateAuraHelper().then(() => {
+        cliManager.updateAuraHelperCLI().then(() => {
             NotificationManager.hideStatusBar();
             NotificationManager.showInfo('Aura Helper CLI Updated. Enjoy it!');
-        }).catch((stdErr) => {
+        }).catch((error) => {
             NotificationManager.hideStatusBar();
             NotificationManager.showError('An Error ocurred while updating Aura Helper CLI. You can update manually with command "aura-helper update" or "npm update -g aura-helper-cli"');
         });
@@ -151,92 +219,184 @@ function showDialogsForAuraHelperCLI() {
 
 function getClassesFromCompiledClasses() {
     let classes = {};
-    if (FileChecker.isExists(Paths.getCompiledClassesPath())) {
-        let files = FileReader.readDirSync(Paths.getCompiledClassesPath());
+    if (FileChecker.isExists(Paths.getCompiledClassesFolder())) {
+        let files = FileReader.readDirSync(Paths.getCompiledClassesFolder());
         for (const file of files) {
-            let objName = file.substring(0, file.indexOf('.'));
-            classes[objName.toLowerCase()] = JSON.parse(FileReader.readFileSync(Paths.getCompiledClassesPath() + '/' + file));
+            const apexNode = JSON.parse(FileReader.readFileSync(Paths.getCompiledClassesFolder() + '/' + file));
+            if (apexNode.nodeType === ApexNodeTypes.CLASS) {
+                classes[apexNode.name.toLowerCase()] = new ApexClass(apexNode);
+            } else if (ApexNodeTypes.INTERFACE) {
+                classes[apexNode.name.toLowerCase()] = new ApexInterface(apexNode);
+            } else if (ApexNodeTypes.ENUM) {
+                classes[apexNode.name.toLowerCase()] = new ApexEnum(apexNode);
+            } else if (ApexNodeTypes.TRIGGER) {
+                classes[apexNode.name.toLowerCase()] = new ApexTrigger(apexNode);
+            }
         }
     }
     return classes;
 }
 
-function getNamespacesMetadataFile() {
-    let nsMetadataPath = Paths.getSystemClassesPath() + '/namespacesMetadata.json';
-    return JSON.parse(FileReader.readFileSync(nsMetadataPath));
-}
-
-function getSObjects(fromSFDX) {
+function getSObjects() {
     let sObjects = {};
-    if (fromSFDX) {
-        let customObjectsFolder = Paths.getSFDXFolderPath() + '/tools/sobjects/customObjects';
-        let standardObjectsFolder = Paths.getSFDXFolderPath() + '/tools/sobjects/standardObjects';
-        let customObjectsFiles = FileReader.readDirSync(customObjectsFolder);
-        if (customObjectsFiles && customObjectsFiles.length > 0) {
-            for (const fileName of customObjectsFiles) {
-                let objName = fileName.substring(0, fileName.indexOf('.'));
-                sObjects[objName.toLowerCase()] = objName;
-            }
+    const sObjectsFolder = Paths.getProjectMetadataFolder() + '/objects';
+    let objFolders = FileChecker.isExists(sObjectsFolder) ? FileReader.readDirSync(sObjectsFolder) : [];
+    let indexObjFiles = FileChecker.isExists(Paths.getMetadataIndexFolder()) ? FileReader.readDirSync(Paths.getMetadataIndexFolder()) : [];
+    let sfdxObjFiles = (FileChecker.isExists(Paths.getSFDXCustomSObjectsFolder()) && FileChecker.isExists(Paths.getSFDXStandardSObjectsFolder())) ? FileReader.readDirSync(Paths.getSFDXCustomSObjectsFolder()).concat(FileReader.readDirSync(Paths.getSFDXStandardSObjectsFolder())) : [];
+    if (objFolders.length > 0) {
+        sObjects = MetadataFactory.createSObjectsFromFileSystem(sObjectsFolder);
+        for (const objKey of Object.keys(sObjects)) {
+            const sObj = sObjects[objKey];
+            FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + sObj.name + '.json', JSON.stringify(sObj, null, 2));
         }
-        let standardObjectFiles = FileReader.readDirSync(standardObjectsFolder);
-        if (standardObjectFiles && standardObjectFiles.length > 0) {
-            for (const fileName of standardObjectFiles) {
-                let objName = fileName.substring(0, fileName.indexOf('.'));
-                sObjects[objName.toLowerCase()] = objName;
-            }
+    } else if (indexObjFiles.length > 0) {
+        for (const fileName of indexObjFiles) {
+            let obj = JSON.parse(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+            sObjects[obj.name.toLowerCase()] = new SObject(obj);
         }
-    } else {
-        let metadataPath = Paths.getMetadataIndexPath();
-        let files = FileReader.readDirSync(metadataPath);
-        if (files && files.length > 0) {
-            for (const fileName of files) {
-                let obj = JSON.parse(FileReader.readFileSync(metadataPath + '/' + fileName));
-                sObjects[obj.name.toLowerCase()] = obj;
-            }
-        } else {
-            let customObjectsFolder = Paths.getSFDXFolderPath() + '/tools/sobjects/customObjects';
-            let standardObjectsFolder = Paths.getSFDXFolderPath() + '/tools/sobjects/standardObjects';
-            let customObjectsFiles = FileReader.readDirSync(customObjectsFolder);
-            if (customObjectsFiles && customObjectsFiles.length > 0) {
-                for (const fileName of customObjectsFiles) {
-                    let objName = fileName.substring(0, fileName.indexOf('.'));
-                    sObjects[objName.toLowerCase()] = objName;
-                }
-            }
-            let standardObjectFiles = FileReader.readDirSync(standardObjectsFolder);
-            if (standardObjectFiles && standardObjectFiles.length > 0) {
-                for (const fileName of standardObjectFiles) {
-                    let objName = fileName.substring(0, fileName.indexOf('.'));
-                    sObjects[objName.toLowerCase()] = objName;
-                }
-            }
+    } else if (sfdxObjFiles.length > 0) {
+        for (const fileName of sfdxObjFiles) {
+            const objName = fileName.substring(0, fileName.indexOf('.'));
+            sObjects[objName] = new SObject(objName);
         }
     }
-
     return sObjects;
 }
 
-function getNamespacesData() {
-    let namespaceMetadata = {};
-    Object.keys(applicationContext.allNamespaces).forEach(function (key) {
-        let nsData = getNamespaceClasses(key);
-        namespaceMetadata[key.toLowerCase()] = nsData;
-    });
-    return namespaceMetadata;
+function getClassNames(classesPath) {
+    const names = [];
+    for (const file of FileReader.readDirSync(classesPath, { onlyFiles: true, extensions: ['.cls'] })) {
+        names.push(PathUtils.getBasename(file, '.cls'));
+    }
+    return names;
 }
 
-function getNamespaceClasses(namespace) {
-    const nsMetadataPath = Paths.getSystemClassesPath() + '/' + namespace;
-    const files = FileReader.readDirSync(nsMetadataPath);
-    const data = {};
-    for (const file of files) {
-        if (file.indexOf('namespaceMetadata') !== -1)
-            continue;
-        let cls = JSON.parse(FileReader.readFileSync(nsMetadataPath + '/' + file))
-        data[cls.name.toLowerCase()] = cls;
-    }
-    return data;
+function loadSnippets() {
+    OutputChannel.outputLine('Loading Snippets');
+    let auraSnippets = JSON.parse(FileReader.readFileSync(Paths.getAuraSnippetsPath()));
+    let jsSnippets = JSON.parse(FileReader.readFileSync(Paths.getJSSnippetsPath()));
+    let sldsSnippets = JSON.parse(FileReader.readFileSync(Paths.getSLDSSnippetsPath()));
+    let lwcSnippets = JSON.parse(FileReader.readFileSync(Paths.getLWCSnippetsPath()));
+    let auraActivations = {};
+    let jsActivations = {};
+    let sldsActivations = {};
+    let lwcActivations = {};
+    Object.keys(auraSnippets).forEach(function (key) {
+        let obj = auraSnippets[key];
+        let activation;
+        if (obj && obj.prefix && "string" === typeof obj.prefix) {
+            activation = obj.prefix.split(".")[0];
+            if (!auraActivations[activation])
+                auraActivations[activation] = [];
+            auraActivations[activation].push({
+                name: key,
+                prefix: obj.prefix,
+                body: obj.body,
+                description: obj.description,
+                alt: undefined
+            });
+        } else {
+            activation = obj.prefix[0].split(".")[0];
+            if (!auraActivations[activation])
+                auraActivations[activation] = [];
+            auraActivations[activation].push({
+                name: key,
+                prefix: obj.prefix[0],
+                body: obj.body,
+                description: obj.description,
+                alt: obj.prefix[1]
+            });
+        }
+    });
+    Object.keys(jsSnippets).forEach(function (key) {
+        let obj = jsSnippets[key];
+        let activation;
+        if (obj && obj.prefix && "string" === typeof obj.prefix) {
+            activation = obj.prefix.split(".")[0];
+            if (!jsActivations[activation])
+                jsActivations[activation] = [];
+            jsActivations[activation].push({
+                name: key,
+                prefix: obj.prefix,
+                body: obj.body,
+                description: obj.description,
+                alt: undefined
+            });
+        } else {
+            activation = obj.prefix[0].split(".")[0];
+            if (!jsActivations[activation])
+                jsActivations[activation] = [];
+            jsActivations[activation].push({
+                name: key,
+                prefix: obj.prefix[0],
+                body: obj.body,
+                description: obj.description,
+                alt: obj.prefix[1]
+            });
+        }
+    });
+    Object.keys(sldsSnippets).forEach(function (key) {
+        let obj = sldsSnippets[key];
+        let activation;
+        if (obj && obj.prefix && "string" === typeof obj.prefix) {
+            activation = obj.prefix.split(".")[0];
+            if (!sldsActivations[activation])
+                sldsActivations[activation] = [];
+            sldsActivations[activation].push({
+                name: key,
+                prefix: obj.prefix,
+                body: obj.body,
+                description: obj.description,
+                alt: undefined
+            });
+        } else {
+            activation = obj.prefix[0].split(".")[0];
+            if (!sldsActivations[activation])
+                sldsActivations[activation] = [];
+            sldsActivations[activation].push({
+                name: key,
+                prefix: obj.prefix[0],
+                body: obj.body,
+                description: obj.description,
+                alt: obj.prefix[1]
+            });
+        }
+    });
+    Object.keys(lwcSnippets).forEach(function (key) {
+        let obj = lwcSnippets[key];
+        let activation;
+        if (obj && obj.prefix && "string" === typeof obj.prefix) {
+            activation = obj.prefix.split(".")[0];
+            if (!lwcActivations[activation])
+                lwcActivations[activation] = [];
+            lwcActivations[activation].push({
+                name: key,
+                prefix: obj.prefix,
+                body: obj.body,
+                description: obj.description,
+                alt: undefined
+            });
+        } else {
+            activation = obj.prefix[0].split(".")[0];
+            if (!lwcActivations[activation])
+                lwcActivations[activation] = [];
+            lwcActivations[activation].push({
+                name: key,
+                prefix: obj.prefix[0],
+                body: obj.body,
+                description: obj.description,
+                alt: obj.prefix[1]
+            });
+        }
+    });
+    applicationContext.snippets.aura = auraActivations;
+    applicationContext.snippets.javascript = jsActivations;
+    applicationContext.snippets.slds = sldsActivations;
+    applicationContext.snippets.lwc = lwcActivations;
+    console.log("Total Snippets: " + (Object.keys(auraSnippets).length + Object.keys(jsSnippets).length + Object.keys(sldsSnippets).length + Object.keys(lwcSnippets).length));
+    OutputChannel.outputLine('Snippets Loaded');
 }
+
 /*
 function repairSystemClasses(context, ns, className) {
     let classPath;
@@ -822,98 +982,3 @@ function createMetadataFileForNamespaces(ns) {
     }
     FileWriter.createFileSync(Paths.getAbsolutePath("./resources/assets/apex/classes/" + ns) + '/namespaceMetadata.json', JSON.stringify(metadata, null, 2));
 }*/
-
-function loadSnippets() {
-    let auraSnippets = JSON.parse(FileReader.readFileSync(Paths.getAuraSnippetsPath()));
-    let jsSnippets = JSON.parse(FileReader.readFileSync(Paths.getJSSnippetsPath()));
-    let sldsSnippets = JSON.parse(FileReader.readFileSync(Paths.getSLDSSnippetsPath()));
-    let auraActivations = {};
-    let jsActivations = {};
-    let sldsActivations = {};
-    Object.keys(auraSnippets).forEach(function (key) {
-        let obj = auraSnippets[key];
-        let activation;
-        if (obj && obj.prefix && "string" === typeof obj.prefix) {
-            activation = obj.prefix.split(".")[0];
-            if (!auraActivations[activation])
-                auraActivations[activation] = [];
-            auraActivations[activation].push({
-                name: key,
-                prefix: obj.prefix,
-                body: obj.body,
-                description: obj.description,
-                alt: undefined
-            });
-        } else {
-            activation = obj.prefix[0].split(".")[0];
-            if (!auraActivations[activation])
-                auraActivations[activation] = [];
-            auraActivations[activation].push({
-                name: key,
-                prefix: obj.prefix[0],
-                body: obj.body,
-                description: obj.description,
-                alt: obj.prefix[1]
-            });
-        }
-    });
-    Object.keys(jsSnippets).forEach(function (key) {
-        let obj = jsSnippets[key];
-        let activation;
-        if (obj && obj.prefix && "string" === typeof obj.prefix) {
-            activation = obj.prefix.split(".")[0];
-            if (!jsActivations[activation])
-                jsActivations[activation] = [];
-            jsActivations[activation].push({
-                name: key,
-                prefix: obj.prefix,
-                body: obj.body,
-                description: obj.description,
-                alt: undefined
-            });
-        } else {
-            activation = obj.prefix[0].split(".")[0];
-            if (!jsActivations[activation])
-                jsActivations[activation] = [];
-            jsActivations[activation].push({
-                name: key,
-                prefix: obj.prefix[0],
-                body: obj.body,
-                description: obj.description,
-                alt: obj.prefix[1]
-            });
-        }
-    });
-    Object.keys(sldsSnippets).forEach(function (key) {
-        let obj = sldsSnippets[key];
-        let activation;
-        if (obj && obj.prefix && "string" === typeof obj.prefix) {
-            activation = obj.prefix.split(".")[0];
-            if (!sldsActivations[activation])
-                sldsActivations[activation] = [];
-            sldsActivations[activation].push({
-                name: key,
-                prefix: obj.prefix,
-                body: obj.body,
-                description: obj.description,
-                alt: undefined
-            });
-        } else {
-            activation = obj.prefix[0].split(".")[0];
-            if (!sldsActivations[activation])
-                sldsActivations[activation] = [];
-            sldsActivations[activation].push({
-                name: key,
-                prefix: obj.prefix[0],
-                body: obj.body,
-                description: obj.description,
-                alt: obj.prefix[1]
-            });
-        }
-    });
-    return {
-        auraSnippets: auraActivations,
-        jsSnippets: jsActivations,
-        sldsSnippets: sldsActivations
-    }
-}

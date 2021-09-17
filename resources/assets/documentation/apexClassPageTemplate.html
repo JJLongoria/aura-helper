@@ -118,6 +118,8 @@
         body {
             font-family: 'Nunito', sans-serif;
             text-decoration: none;
+            height: 100%;
+            width: 100%;
         }
 
 
@@ -170,12 +172,12 @@
         }
 
         function loadPage(apexClass) {
-            let content = '<object style="height: 100%; width:100%" type="text/html" data="classes/' + apexClass + '.html"></object>';
+            let content = '<object style="height: 80%; width:100%;" type="text/html" data="classes/' + apexClass + '.html"></object>';
             document.getElementById('pageContainer').innerHTML = content;
         }
     </script>
 
-    <body>
+    <body style="overflow: scroll;">
         {!classContent}
     </body>
 
