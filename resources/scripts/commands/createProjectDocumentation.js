@@ -1,18 +1,20 @@
 const vscode = require('vscode');
 const NotificationManager = require('../output/notificationManager');
-const languages = require('../languages');
-const fileSystem = require('../fileSystem');
+const { FileReader, FileWriter, FileChecker } = require('@ah/core').FileSystem;
 const Config = require('../core/config');
-const ApplicationContext = require('../core/applicationContext');
+const applicationContext = require('../core/applicationContext');
+const Paths = require('../core/paths');
+const { ApexParser } = require('@ah/languages').Apex;
+const { Tokenizer, TokenType } = require('@ah/languages').System;
+const LanguageUtils = require('@ah/languages').LanguageUtils;
+const { StrUtils, Utils } = require('@ah/core').CoreUtils;
+const { ApexNodeTypes } = require('@ah/core').Values;
+const { Token } = require('@ah/core').Types;
+const InputFactory = require('../inputs/factory');
 const Window = vscode.window;
-const Tokenizer = languages.Tokenizer;
-const TokenType = languages.TokenType;
-const langUtils = languages.Utils;
-const FileReader = fileSystem.FileReader;
-const FileWriter = fileSystem.FileWriter;
-const FileChecker = fileSystem.FileChecker;
-const Paths = fileSystem.Paths;
-const StrUtils = require('../utils/strUtils');
+
+
+// TODO. Review code
 
 let testClasses = {};
 let interfaces = {};
@@ -23,26 +25,18 @@ let queueables = {};
 let restClasses = {};
 let enumClasses = {};
 let classes;
-let namespacesMetadata;
-let allNamespaces;
-let apexTemplate
+let namespacesData;
+let classPageTemplate;
 let sObjects;
-let serverInstance;
-let username;
 let alias;
 exports.run = function () {
-    Window.showOpenDialog({
-        canSelectFiles: false,
-        canSelectFolders: true,
-        canSelectMany: false,
-        openLabel: "Select Folder"
-    }).then(function (uri) {
+    InputFactory.createFolderDialog('Select Folder', false).then(function (uri) {
         if (uri && uri.length > 0) {
             let errorShown = false;
-            classes = ApplicationContext.userClasses;
-            namespacesMetadata = ApplicationContext.namespacesMetadata;
-            allNamespaces = ApplicationContext.allNamespaces;
-            sObjects = ApplicationContext.sObjects;
+            classes = applicationContext.parserData.userClassesData;
+            namespacesData = applicationContext.parserData.namespacesData;
+            sObjects = applicationContext.parserData.sObjectsData;
+            applicationContext.parserData.template = JSON.parse(FileReader.readFileSync(Paths.getApexCommentUserTemplate()));
             createDocumentation(uri[0].fsPath).then(function () {
                 NotificationManager.hideStatusBar();
                 Window.showInformationMessage('Documentation Created Succesfully on ' + uri[0].fsPath);
@@ -60,11 +54,9 @@ exports.run = function () {
 function createDocumentation(folderPath) {
     return new Promise(async function (resolve, reject) {
         try {
-            NotificationManager.showStatusBar('$(sync~spin) Generating Project Doc');
-            apexTemplate = FileReader.readFileSync(Paths.getAssetsPath() + '/documentation/apexClassPageTemplate.html');
-            username = await Config.getAuthUsername();
-            serverInstance = await Config.getServerInstance(username);
             alias = Config.getOrgAlias();
+            NotificationManager.showStatusBar('$(sync~spin) Generating Project Doc');
+            classPageTemplate = FileReader.readFileSync(Paths.getAssetsPath() + '/documentation/apexClassPageTemplate.html');
             createDocumentationForApexClasses(folderPath);
             resolve();
         } catch (error) {
@@ -76,26 +68,26 @@ function createDocumentation(folderPath) {
 }
 
 function createDocumentationForApexClasses(folderPath) {
-    Object.keys(classes).forEach(function (nameToLower) {
-        let apexClass = classes[nameToLower];
-        if (apexClass.annotation && apexClass.annotation.toLowerCase() === '@istest') {
-            testClasses[apexClass.name] = apexClass;
-        } else if (apexClass.isInterface) {
-            interfaces[apexClass.name] = apexClass;
-        } else if (apexClass.isEnum) {
-            enumClasses[apexClass.name] = apexClass;
-        } else {
-            apexClasses[apexClass.name] = apexClass;
-        }
-        if (apexClass.annotation && apexClass.annotation.toLowerCase().indexOf('@restresource') !== -1)
-            restClasses[apexClass.name] = apexClass;
-        if (isBatchClass(apexClass))
-            batches[apexClass.name] = apexClass;
-        if (isScheduledClass(apexClass))
-            scheduled[apexClass.name] = apexClass;
-        if (isQueueableClass(apexClass))
-            queueables[apexClass.name] = apexClass;
-    });
+    for (const classNameToLower of Object.keys(classes)) {
+        let apexNode = classes[classNameToLower];
+        if (apexNode.annotation && apexNode.annotation.name.toLowerCase() === '@istest')
+            testClasses[apexNode.name] = apexNode;
+        else if (apexNode.nodeType === ApexNodeTypes.INTERFACE)
+            interfaces[apexNode.name] = apexNode;
+        else if (apexNode.nodeType === ApexNodeTypes.ENUM)
+            enumClasses[apexNode.name] = apexNode;
+        else
+            apexClasses[apexNode.name] = apexNode;
+
+        if (apexNode.annotation && apexNode.annotation.name.toLowerCase() === '@restresource')
+            restClasses[apexNode.name] = apexNode;
+        if (isBatchClass(apexNode))
+            batches[apexNode.name] = apexNode;
+        if (isScheduledClass(apexNode))
+            scheduled[apexNode.name] = apexNode;
+        if (isQueueableClass(apexNode))
+            queueables[apexNode.name] = apexNode;
+    }
     if (!FileChecker.isExists(folderPath))
         FileWriter.createFolderSync(folderPath);
     if (!FileChecker.isExists(folderPath + '/classes'))
@@ -106,7 +98,7 @@ function createDocumentationForApexClasses(folderPath) {
     FileWriter.createFileSync(folderPath + '/home.html', home);
     if (!FileChecker.isExists(folderPath + '/resources'))
         FileWriter.createFolderSync(folderPath + '/resources');
-    FileWriter.copyFile(Paths.getResourcesPath() + '/images/icon.png', folderPath + '/resources/aurahelper.png', function () {
+    FileWriter.copyFile(Paths.getImagesPath() + '/blue_icon.png', folderPath + '/resources/aurahelper.png', function () {
 
     });
     Object.keys(classes).forEach(function (className) {
@@ -116,90 +108,9 @@ function createDocumentationForApexClasses(folderPath) {
     });
 }
 
-function styleDatatype(datatype) {
-    let dataTypeTokens = Tokenizer.tokenize(datatype);
-    let index = 0;
-    let styledDatatype = [];
-    while (index < dataTypeTokens.length) {
-        let lastToken = langUtils.getLastToken(dataTypeTokens, index);
-        let token = dataTypeTokens[index];
-        let tokenChanged = false;
-        if (token.tokenType === TokenType.IDENTIFIER) {
-            if (lastToken && lastToken.content === '&' && (token.content === 'lt' || token.content === 'gt')) {
-                index++;
-                continue;
-            }
-            let contentToLower = token.content.toLowerCase();
-            if (!tokenChanged) {
-                Object.keys(allNamespaces).forEach(function (nsToLower) {
-                    let nsData = namespacesMetadata[nsToLower];
-                    if (contentToLower === nsToLower) {
-                        tokenChanged = true;
-                        styledDatatype.push('<b class="code datatype"><a target="_blank" style="text-decoration:none;" href="' + ((allNamespaces[nsToLower].docLink) ? allNamespaces[nsToLower].docLink : allNamespaces[nsToLower].link) + '">' + nsData.name + '</a></b>');
-                    } else if (nsData && nsData[contentToLower]) {
-                        tokenChanged = true;
-                        styledDatatype.push('<b class="code datatype"><a target="_blank" style="text-decoration:none;" href="' + ((nsData[contentToLower].docLink) ? nsData[contentToLower].docLink : nsData[contentToLower].link) + '">' + nsData[contentToLower].name + '</a></b>');
-                    }
-                });
-            }
-            if (!tokenChanged) {
-                let nsData = namespacesMetadata["system"];
-                if (nsData && nsData[contentToLower]) {
-                    tokenChanged = true;
-                    styledDatatype.push('<b class="code datatype"><a target="_blank" style="text-decoration:none;" href="' + ((nsData[contentToLower].docLink) ? nsData[contentToLower].docLink : nsData[contentToLower].link) + '">' + nsData[contentToLower].name + '</a></b>');
-                }
-            }
-            if (!tokenChanged) {
-                if (sObjects[contentToLower]) {
-                    tokenChanged = true;
-                    if (contentToLower.endsWith('__c')) {
-                        styledDatatype.push('<b class="code sobject"><a style="text-decoration:none;" href="' + serverInstance + '/' + sObjects[contentToLower].keyPrefix + '">' + sObjects[contentToLower].name + '</a></b>');
-                    } else if (contentToLower.endsWith('__mdt')) {
-                        styledDatatype.push('<b class="code sobject"><a target="_blank" style="text-decoration:none;" href="https://help.salesforce.com/articleView?id=custommetadatatypes_overview.htm&type=5">' + sObjects[contentToLower].name + '</a></b>');
-                    } else if (contentToLower.endsWith('__kav')) {
-                        styledDatatype.push('<b class="code sobject"><a target="_blank" style="text-decoration:none;" href="https://help.salesforce.com/articleView?id=knowledge_article_types_manage.htm&type=5">' + sObjects[contentToLower].name + '</a></b>');
-                    } else {
-                        styledDatatype.push('<b class="code sobject"><a target="_blank" style="text-decoration:none;" href="https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_' + contentToLower + '.htm">' + sObjects[contentToLower].name + '</a></b>');
-                    }
-                } else if (contentToLower === 'sobject') {
-                    tokenChanged = true;
-                    styledDatatype.push('<b class="code datatype"><a target="_blank" style="text-decoration:none;" href="https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_sobject.htm">SObject</a></b>');
-                }
-            }
-            if (!tokenChanged) {
-                Object.keys(classes).forEach(function (nameToLower) {
-                    let apexClass = classes[nameToLower];
-                    if (!tokenChanged) {
-                        if (nameToLower === contentToLower) {
-                            tokenChanged = true;
-                            styledDatatype.push('<b class="code datatype"><a style="text-decoration:none;" href="' + apexClass.name + '.html">' + apexClass.name + '</a></b>');
-                        } else if (apexClass.classes[contentToLower]) {
-                            styledDatatype.push('<b class="code datatype"><a style="text-decoration:none;" href="' + apexClass.name + '.html">' + apexClass.classes[contentToLower].name + '</a></b>');
-                            tokenChanged = true;
-                        } else if (apexClass.enums[contentToLower]) {
-                            styledDatatype.push('<b class="code datatype"><a style="text-decoration:none;" href="' + apexClass.name + '.html">' + apexClass.enums[contentToLower].name + '</a></b>');
-                            tokenChanged = true;
-                        }
-                    }
-                });
-            }
-            if (!tokenChanged) {
-                styledDatatype.push(token.content);
-            }
-        } else if (token.tokenType === TokenType.COMMA) {
-            styledDatatype.push(token.content + ' ');
-        } else {
-            styledDatatype.push(token.content);
-        }
-        index++;
-    }
-    return styledDatatype.join('');
-}
-
-
-function isBatchClass(apexClass) {
-    if (apexClass.implementTypes && apexClass.implementTypes.length > 0) {
-        for (const impType of apexClass.implementTypes) {
+function isBatchClass(apexNode) {
+    if (apexNode.implementTypes && apexNode.implementTypes.length > 0) {
+        for (const impType of apexNode.implementTypes) {
             if (impType.toLowerCase().indexOf('database.batchable') !== -1)
                 return true;
         }
@@ -207,9 +118,9 @@ function isBatchClass(apexClass) {
     return false;
 }
 
-function isScheduledClass(apexClass) {
-    if (apexClass.implementTypes && apexClass.implementTypes.length > 0) {
-        for (const impType of apexClass.implementTypes) {
+function isScheduledClass(apexNode) {
+    if (apexNode.implementTypes && apexNode.implementTypes.length > 0) {
+        for (const impType of apexNode.implementTypes) {
             if (impType.toLowerCase().indexOf('schedulable') !== -1)
                 return true;
         }
@@ -217,9 +128,9 @@ function isScheduledClass(apexClass) {
     return false;
 }
 
-function isQueueableClass(apexClass) {
-    if (apexClass.implementTypes && apexClass.implementTypes.length > 0) {
-        for (const impType of apexClass.implementTypes) {
+function isQueueableClass(apexNode) {
+    if (apexNode.implementTypes && apexNode.implementTypes.length > 0) {
+        for (const impType of apexNode.implementTypes) {
             if (impType.toLowerCase().indexOf('queueable') !== -1)
                 return true;
         }
@@ -227,18 +138,65 @@ function isQueueableClass(apexClass) {
     return false;
 }
 
+
+function styleDatatype(datatype) {
+    const styledDatatype = [];
+    const parser = new ApexParser();
+    parser.setSystemData(applicationContext.parserData);
+    const dataTypeTokens = Tokenizer.tokenize(datatype);
+    let index = 0;
+    while (index < dataTypeTokens.length) {
+        const lastToken = LanguageUtils.getLastToken(dataTypeTokens, index);
+        const token = dataTypeTokens[index];
+        if (token.type === TokenType.IDENTIFIER) {
+            if (lastToken && lastToken.text === '&' && (token.text === 'lt' || token.text === 'gt')) {
+                styledDatatype.push(token.text);
+                index++;
+                continue;
+            }
+            const node = parser.resolveDatatype(token.textToLower);
+            if (node) {
+                if (node.documentation) {
+                    styledDatatype.push('<b class="code datatype"><a target="_blank" style="text-decoration:none;" href="' + node.documentation + '">' + node.name + '</a></b>');
+                } else if (node.keyPrefix) {
+                    const nameToLower = node.name.toLowerCase();
+                    if (nameToLower.endsWith('__c')) {
+                        styledDatatype.push('<b class="code sobject"><a target="_blank" style="text-decoration:none;" href="' + applicationContext.sfData.serverInstance + '/' + node.keyPrefix + '">' + node.name + '</a></b>');
+                    } else if (nameToLower.endsWith('__mdt')) {
+                        styledDatatype.push('<b class="code sobject"><a target="_blank" style="text-decoration:none;" href="https://help.salesforce.com/articleView?id=custommetadatatypes_overview.htm&type=5">' + node.name + '</a></b>');
+                    } else if (nameToLower.endsWith('__kav')) {
+                        styledDatatype.push('<b class="code sobject"><a target="_blank" style="text-decoration:none;" href="https://help.salesforce.com/articleView?id=knowledge_article_types_manage.htm&type=5">' + node.name + '</a></b>');
+                    } else if (nameToLower === 'sobject') {
+                        styledDatatype.push('<b class="code datatype"><a target="_blank" style="text-decoration:none;" href="https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_sobject.htm">SObject</a></b>');
+                    } else {
+                        styledDatatype.push('<b class="code sobject"><a target="_blank" style="text-decoration:none;" href="https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_' + nameToLower + '.htm">' + node.name + '</a></b>');
+                    }
+                } else {
+                    styledDatatype.push('<b class="code datatype"><a style="text-decoration:none;" href="' + (node.parentName) ? node.parentName : node.name + '.html">' + node.name + '</a></b>');
+                }
+            } else {
+                styledDatatype.push(token.text);
+            }
+        } else if (token.type === TokenType.PUNCTUATION.COMMA) {
+            styledDatatype.push(token.text + ' ');
+        } else {
+            styledDatatype.push(token.text);
+        }
+        index++;
+    }
+    return styledDatatype.join('');
+}
+
 function createIndex() {
-    let navigationContent = getNavigationMenu();
     let pageContent = FileReader.readFileSync(Paths.getAssetsPath() + '/documentation/indexTemplate.html');
-    pageContent = StrUtils.replace(pageContent, '{!navbar}', navigationContent.join('\n'));
-    return pageContent;
+    return StrUtils.replace(pageContent, '{!navbar}', getNavigationMenu());
 }
 
 function getNavigationMenu() {
     let content = [];
     content.push('<a onclick="goToHome()" class="w3-bar-item menu"><b>Home</b></a>')
-    if (serverInstance) {
-        content.push('<a target="_blank" href="' + serverInstance + '/auradocs/reference.app" class="w3-bar-item menu"><b>Aura Documentation</b></a>')
+    if (applicationContext.sfData.serverInstance) {
+        content.push('<a target="_blank" href="' + applicationContext.sfData.serverInstance + '/auradocs/reference.app" class="w3-bar-item menu"><b>Aura Documentation</b></a>')
     }
     if (Object.keys(apexClasses).length > 0) {
         content.push('<a href="#" class="w3-bar-item menu" onclick="openCloseAccordion(\'apexClassesSection\')"><b>Classes</b><span class="w3-right">' + Object.keys(apexClasses).length + '</span></a>')
@@ -304,14 +262,14 @@ function getNavigationMenu() {
         });
         content.push('</div>');
     }
-    return content;
+    return content.join('\n');
 }
 
 function createHome() {
     let homeContent = getHome();
     let pageContent = FileReader.readFileSync(Paths.getAssetsPath() + '/documentation/homeTemplate.html');
-    pageContent = StrUtils.replace(pageContent, '{!homeTitle}', 'Organization: ' + alias + '<h5 class="sectionTitle">Server Instance: ' + serverInstance + '</h5>');
-    pageContent = StrUtils.replace(pageContent, '{!goToEnvironment}', serverInstance);
+    pageContent = StrUtils.replace(pageContent, '{!homeTitle}', 'Organization: ' + alias + '<h5 class="sectionTitle">Server Instance: <a target="_blank" href="' + applicationContext.sfData.serverInstance + '">' + applicationContext.sfData.serverInstance + '</a></h5>');
+    pageContent = StrUtils.replace(pageContent, '{!goToEnvironment}', applicationContext.sfData.serverInstance);
     pageContent = StrUtils.replace(pageContent, '{!docStructure}', homeContent.join('\n'));
     return pageContent;
 }
@@ -372,32 +330,32 @@ function getHome() {
 }
 
 function createDocumentationForClass(apexClass) {
-    let classBody = getClassBody(apexClass);
-    let content = StrUtils.replace(apexTemplate, '{!classContent}', classBody.join('\n'));
+    let classBody = getNodeBody(apexClass);
+    let content = StrUtils.replace(classPageTemplate, '{!classContent}', classBody.join('\n'));
     return content;
 }
 
-function getClassBody(apexClass) {
+function getNodeBody(apexNode) {
     let content = [];
     content.push('<div id="classNameSection">');
-    content.push('<h2 class="sectionTitle">' + apexClass.name + '</h2>');
-    if (apexClass.comment && apexClass.comment.length > 0)
-        content.push('<br/>' + StrUtils.replace(apexClass.comment, '\n', '<br/>'));
+    content.push('<h2 class="sectionTitle">' + apexNode.name + '</h2>');
+    if (apexNode.comment && apexNode.comment.description && apexNode.comment.description.length > 0)
+        content.push('<br/>' + StrUtils.replace(apexNode.comment.description, '\n', '<br/>'));
     content.push('</div>');
     content.push('<br/>');
-    if (!apexClass.isEnum) {
-        if (apexClass.extends) {
+    if (apexNode.nodeType !== ApexNodeTypes.ENUM) {
+        if (apexNode.extends) {
             content.push('<div id="extendsSection">');
             content.push('<h3 class="sectionTitle">Extends</h3>');
-            if (apexClass.extends.docLink)
-                content.push('<p style="padding-left:20px" class="code datatype"><a target="_blank" href="' + apexClass.extends.docLink + '">' + apexClass.extends.name + '</a></p>');
+            if (apexNode.extends.documentation)
+                content.push('<p style="padding-left:20px" class="code datatype"><a target="_blank" href="' + apexNode.extends.documentation + '">' + apexNode.extends.name + '</a></p>');
             else
-                content.push('<p style="padding-left:20px" class="code datatype"><a href="' + ((apexClass.extends.parentClass) ? apexClass.extends.parentClass : apexClass.extends.name) + '.html">' + apexClass.extends.name + '</a></p>');
+                content.push('<p style="padding-left:20px" class="code datatype"><a href="' + ((apexNode.extends.parentName) ? apexNode.extends.parentName : apexNode.extends.name) + '.html">' + apexNode.extends.name + '</a></p>');
             content.push('</div>');
             content.push('<br/>');
 
         }
-        let imps = getImplements(apexClass);
+        let imps = getImplements(apexNode);
         if (imps) {
             content.push('<div id="implementsSection">');
             content.push('<h3 class="sectionTitle">Implements</h3>');
@@ -405,7 +363,7 @@ function getClassBody(apexClass) {
             content.push('</div>');
             content.push('<br/>');
         }
-        let modifiers = getModifiers(apexClass);
+        let modifiers = getModifiers(apexNode);
         if (modifiers) {
             content.push('<div id="modifiersSection">');
             content.push('<h3 class="sectionTitle">Modifiers</h3>');
@@ -413,26 +371,27 @@ function getClassBody(apexClass) {
             content.push('</div>');
             content.push('<br/>');
         }
-        if (apexClass.annotation && apexClass.annotation.length > 0) {
+        if (apexNode.annotation) {
             content.push('<div id="annotationSection">');
             content.push('<h3 class="sectionTitle">Annotations</h3>');
-            content.push('<p style="padding-left:20px">' + apexClass.annotation + '</p>');
+            content.push('<p style="padding-left:20px">' + Token.toString(apexNode.annotation.tokens) + '</p>');
             content.push('</div>');
             content.push('<br/>');
         }
-        if (apexClass.fields && apexClass.fields.length > 0) {
+        if (apexNode.variables && Utils.hasKeys(apexNode.variables)) {
             content.push('<div id="fieldsSection">');
             content.push('<h3 class="sectionTitle">Fields</h3>');
             content.push('<ul>');
-            for (const field of apexClass.fields) {
+            for (const fieldNameToLower of Object.keys(apexNode.variables)) {
+                const field = apexNode.variables[fieldNameToLower];
                 content.push('<li style="margin-bottom: 10px">');
-                content.push('<a class="w3-bar-item menu" onclick="openCloseAccordion(\'' + apexClass.name + '.' + field.name + '\')"><b>' + field.name + '</b></a>');
-                if (field.comment && field.comment.length > 0)
-                    content.push('<br/>' + StrUtils.replace(field.comment, '\n', '<br/>'));
-                content.push('<div id="' + apexClass.name + '.' + field.name + '" class="w3-hide w3-margin-left">');
+                content.push('<a class="w3-bar-item menu" onclick="openCloseAccordion(\'' + apexNode.name + '.' + field.name + '\')"><b>' + field.name + '</b></a>');
+                if (field.comment && field.comment.description && field.comment.description.length > 0)
+                    content.push('<br/>' + StrUtils.replace(field.comment.description, '\n', '<br/>'));
+                content.push('<div id="' + apexNode.name + '.' + field.name + '" class="w3-hide w3-margin-left">');
                 content.push('<h4 class="sectionTitle"><b>Signature</b></h4>');
                 content.push('<p style="padding-left:20px"><b class="code">' + getSignature(field) + '</b></p>');
-                content.push('<p style="padding-left:20px">Type: <b class="code">' + styleDatatype(escape(field.datatype)) + '</b></p>');
+                content.push('<p style="padding-left:20px">Type: <b class="code">' + styleDatatype(escape(field.datatype.name)) + '</b></p>');
                 content.push('<br/>');
                 content.push('</div>');
                 content.push('</li>');
@@ -441,37 +400,62 @@ function getClassBody(apexClass) {
             content.push('</div>');
             content.push('<br/>');
         }
-        if (apexClass.constructors && apexClass.constructors.length > 0) {
+        if (apexNode.constructors && Utils.hasKeys(apexNode.constructors)) {
             content.push('<div id="constructorsSection">');
             content.push('<h3 class="sectionTitle">Constructors</h3>');
             content.push('<ul>');
             let index = 0;
-            for (const constructor of apexClass.constructors) {
-                let paramNames = [];
-                if (constructor.params && constructor.params.length > 0) {
-                    for (const param of constructor.params) {
+            for (const constructorKey of Object.keys(apexNode.constructors)) {
+                const constructor = apexNode.constructors[constructorKey];
+                const paramNames = [];
+                if (constructor.params && Utils.hasKeys(constructor.params)) {
+                    for (const paramKey of Object.keys(constructor.params)) {
+                        const param = constructor.params[paramKey];
                         paramNames.push(param.name);
                     }
                 }
-                let name = constructor.name + '(' + paramNames.join(', ') + ')';
+                const name = constructor.name + '(' + paramNames.join(', ') + ')';
                 content.push('<li style="margin-bottom: 10px">');
-                content.push('<a class="w3-bar-item menu" onclick="openCloseAccordion(\'' + apexClass.name + '.' + constructor.name + '_' + index + '\')"><b>' + name + '</b></a>');
+                content.push('<a class="w3-bar-item menu" onclick="openCloseAccordion(\'' + apexNode.name + '.' + constructor.name + '_' + index + '\')"><b>' + name + '</b></a>');
                 if (constructor.comment && constructor.comment.description && constructor.comment.description.length > 0) {
-                    content.push('<br/>' + constructor.comment.description);
+                    content.push('<br/>' + constructor.description);
                 }
-                content.push('<div id="' + apexClass.name + '.' + constructor.name + '_' + index + '" class="w3-hide w3-margin-left">');
+                content.push('<div id="' + apexNode.name + '.' + constructor.name + '_' + index + '" class="w3-hide w3-margin-left">');
                 content.push('<h4 class="sectionTitle"><b>Signature</b></h4>');
                 content.push('<p style="padding-left:20px">' + getSignature(constructor, true) + '</p>');
-                if (constructor.params && constructor.params.length > 0) {
+                if (constructor.params && Utils.hasKeys(constructor.params)) {
                     content.push('<h4 class="sectionTitle"><b>Parameters</b></h4>');
-                    for (const param of constructor.params) {
-                        if (constructor.comment && constructor.comment.params) {
-                            let paramComment = constructor.comment.params[param.name];
-                            if (paramComment)
-                                content.push('<p style="padding-left:20px">' + paramComment.description + '</p>');
+                    for (const param of constructor.getOrderedParams()) {
+                        if (applicationContext.parserData.template && Utils.hasKeys(applicationContext.parserData.template)) {
+                            if (constructor.comment && constructor.comment.tags && Utils.hasKeys(constructor.comment.tags)) {
+                                let tagName;
+                                let tagData;
+                                let tag;
+                                for (tagName of Object.keys(constructor.comment.tags)) {
+                                    tag = applicationContext.parserData.template.tags[tagName];
+                                    while (tag.equalsTo) {
+                                        tag = applicationContext.parserData.template.tags[tag.equalsTo];
+                                    }
+                                    tagData = constructor.comment.tags[tagName];
+                                    if (tag && tagData && tag.source === 'params') {
+                                        break;
+                                    }
+                                }
+                                if (tag && tagData && tagName) {
+                                    for (const data of tagData) {
+                                        if (data.keywords) {
+                                            for (const keyword of tag.keywords) {
+                                                if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                                    content.push('<p style="padding-left:20px">' + data.keywords[keyword.name] + '</p>');
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                         content.push('<p style="padding-left:20px"><b class="code identifier">' + param.name + '</b></p>');
-                        content.push('<p style="padding-left:30px">Type: <b class="code">' + styleDatatype(escape(param.datatype)) + '</b></p>');
+                        content.push('<p style="padding-left:30px">Type: <b class="code">' + styleDatatype(escape(param.datatype.name)) + '</b></p>');
                     }
                 }
                 content.push('<br/>');
@@ -484,42 +468,65 @@ function getClassBody(apexClass) {
             content.push('</div>');
             content.push('<br/>');
         }
-        if (apexClass.methods && apexClass.methods.length > 0) {
+        if (apexNode.methods && Utils.hasKeys(apexNode.methods)) {
             content.push('<div id="methodsSection">');
             content.push('<h3 class="sectionTitle">Methods</h3>');
             content.push('<ul>');
             let index = 0;
-            for (const method of apexClass.methods) {
-                let paramNames = [];
-                if (method.params && method.params.length > 0) {
-                    for (const param of method.params) {
+            for (const methodKey of Object.keys(apexNode.methods)) {
+                const method = apexNode.methods[methodKey];
+                const paramNames = [];
+                if (method.params && Utils.hasKeys(method.params)) {
+                    for (const paramKey of Object.keys(method.params)) {
+                        const param = method.params[paramKey];
                         paramNames.push(param.name);
                     }
                 }
-                let name = method.name + '(' + paramNames.join(', ') + ')';
+                const name = method.name + '(' + paramNames.join(', ') + ')';
                 content.push('<li style="margin-bottom: 10px">');
-                content.push('<a class="w3-bar-item menu" onclick="openCloseAccordion(\'' + apexClass.name + '.' + method.name + '_' + index + '\')"><b>' + name + '</b></a>');
-                if (method.comment && method.comment.description && method.comment.description.length > 0) {
-                    content.push('<br/>' + method.comment.description);
+                content.push('<a class="w3-bar-item menu" onclick="openCloseAccordion(\'' + apexNode.name + '.' + method.name + '_' + index + '\')"><b>' + name + '</b></a>');
+                if (method.description && method.description.length > 0) {
+                    content.push('<br/>' + method.description);
                 }
-                content.push('<div id="' + apexClass.name + '.' + method.name + '_' + index + '" class="w3-hide w3-margin-left">');
+                content.push('<div id="' + apexNode.name + '.' + method.name + '_' + index + '" class="w3-hide w3-margin-left">');
                 content.push('<h4 class="sectionTitle"><b>Signature</b></h4>');
                 content.push('<p style="padding-left:20px">' + getSignature(method, true) + '</p>');
-                if (method.params && method.params.length > 0) {
+                if (method.params && Utils.hasKeys(method.params)) {
                     content.push('<h4 class="sectionTitle"><b>Parameters</b></h4>');
-                    for (const param of method.params) {
-                        if (method.comment && method.comment.params) {
-                            let paramComment = method.comment.params[param.name];
-                            if (paramComment)
-                                content.push('<p style="padding-left:20px">' + paramComment.description + '</p>');
+                    for (const param of method.getOrderedParams()) {
+                        if (method.comment && method.comment.tags && Utils.hasKeys(method.comment.tags)) {
+                            let tagName;
+                            let tagData;
+                            let tag;
+                            for (tagName of Object.keys(method.comment.tags)) {
+                                tag = applicationContext.parserData.template.tags[tagName];
+                                while (tag.equalsTo) {
+                                    tag = applicationContext.parserData.template.tags[tag.equalsTo];
+                                }
+                                tagData = method.comment.tags[tagName];
+                                if (tag && tagData && tag.source === 'params') {
+                                    break;
+                                }
+                            }
+                            if (tag && tagData && tagName) {
+                                for (const data of tagData) {
+                                    if (data.keywords) {
+                                        for (const keyword of tag.keywords) {
+                                            if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                                content.push('<p style="padding-left:20px">' + data.keywords[keyword.name] + '</p>');
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                         content.push('<p style="padding-left:20px"><b class="code identifier">' + param.name + '</b></p>');
-                        content.push('<p style="padding-left:30px">Type: <b class="code">' + styleDatatype(escape(param.datatype)) + '</b></p>');
+                        content.push('<p style="padding-left:30px">Type: <b class="code">' + styleDatatype(escape(param.datatype.name)) + '</b></p>');
                     }
                 }
-                if (method.datatype && method.datatype !== 'void') {
+                if (method.datatype && method.datatype.name !== 'void') {
                     content.push('<h4 class="sectionTitle"><b>Return</b></h4>');
-                    content.push('<p style="padding-left:20px">Type: <b class="code">' + styleDatatype(escape(method.datatype)) + '</b></p>');
+                    content.push('<p style="padding-left:20px">Type: <b class="code">' + styleDatatype(escape(method.datatype.name)) + '</b></p>');
                     if (method.comment && method.comment.return && method.comment.return.description && method.comment.return.description.length > 0) {
                         content.push('<p style="padding-left:20px">' + method.comment.return.description + '</p>');
                     }
@@ -533,20 +540,29 @@ function getClassBody(apexClass) {
             content.push('</div>');
             content.push('<br/>');
         }
-        if (apexClass.enums && Object.keys(apexClass.enums).length > 0) {
+        if (apexNode.enums && Utils.hasKeys(apexNode.enums)) {
             content.push('<h3 class="sectionTitle">Enums</h3>');
             content.push('<div style="padding: 20px; margin-left: 30px; margin-right: 15px;" class="w3-card-4" id="enumsSection">');
-            Object.keys(apexClass.enums).forEach(function (key) {
-                content = content.concat(getClassBody(apexClass.enums[key]));
+            Object.keys(apexNode.enums).forEach(function (key) {
+                content = content.concat(getNodeBody(apexNode.enums[key]));
             });
             content.push('</div>');
             content.push('<br/>');
         }
-        if (apexClass.classes && Object.keys(apexClass.classes).length > 0) {
+        if (apexNode.interfaces && Utils.hasKeys(apexNode.interfaces)) {
             content.push('<h3 class="sectionTitle">Classes</h3>');
             content.push('<div style="padding: 20px; margin-left: 30px; margin-right: 15px;" class="w3-card-4" id="classesSection">');
-            Object.keys(apexClass.classes).forEach(function (key) {
-                content = content.concat(getClassBody(apexClass.classes[key]));
+            Object.keys(apexNode.interfaces).forEach(function (key) {
+                content = content.concat(getNodeBody(apexNode.interfaces[key]));
+            });
+            content.push('</div>');
+            content.push('<br/>');
+        }
+        if (apexNode.classes && Utils.hasKeys(apexNode.classes)) {
+            content.push('<h3 class="sectionTitle">Classes</h3>');
+            content.push('<div style="padding: 20px; margin-left: 30px; margin-right: 15px;" class="w3-card-4" id="classesSection">');
+            Object.keys(apexNode.classes).forEach(function (key) {
+                content = content.concat(getNodeBody(apexNode.classes[key]));
             });
             content.push('</div>');
             content.push('<br/>');
@@ -558,9 +574,9 @@ function getClassBody(apexClass) {
         content.push('<tr>');
         content.push('<th>Values</th>');
         content.push('</tr>');
-        for (const value of apexClass.enumValues) {
+        for (const value of apexNode.values) {
             content.push('<tr>');
-            content.push('<td class="code datatype">' + value.name + '</td>');
+            content.push('<td class="code datatype">' + value.text + '</td>');
             content.push('</tr>');
         }
         content.push('</table>');
@@ -585,43 +601,38 @@ function getSignature(obj, isMethod) {
             signature += modifiers.join(' ');
         if (obj.datatype) {
             if (obj.datatype === 'void')
-                signature += ' <b class="code keyword">' + obj.datatype + '</b>';
+                signature += ' <b class="code keyword">' + obj.datatype.name + '</b>';
             else
-                signature += ' <b class="code">' + styleDatatype(escape(obj.datatype)) + '</b>';
+                signature += ' <b class="code">' + styleDatatype(escape(obj.datatype.name)) + '</b>';
         }
         signature += ' ';
         signature += ' <b class="code identifier">' + obj.name + '</b>';
         let params = [];
-        for (const param of obj.params) {
-            params.push('<b class="code">' + styleDatatype(escape(param.datatype)) + '</b> <b class="code identifier">' + param.name + '</b>');
+        if (obj.params && Utils.hasKeys(obj.params)) {
+            for (const paramKey of Object.keys(obj.params)) {
+                const param = obj.params[paramKey];
+                params.push('<b class="code">' + styleDatatype(escape(param.datatype.name)) + '</b> <b class="code identifier">' + param.name + '</b>');
+            }
         }
         signature += '<b class="code">(' + params.join(', ') + ')</b>';
         return signature;
     } else {
         if (modifiers)
-            return modifiers.join(' ') + ' <b class="code">' + styleDatatype(escape(obj.datatype)) + '</b> <b class="code identifier">' + obj.name + '</b>';
-        return '<b class="code">' + styleDatatype(escape(obj.datatype)) + '</b> <b class="code identifier">' + obj.name + '</b>';
+            return modifiers.join(' ') + ' <b class="code">' + styleDatatype(escape(obj.datatype.name)) + '</b> <b class="code identifier">' + obj.name + '</b>';
+        return '<b class="code">' + styleDatatype(escape(obj.datatype.name)) + '</b> <b class="code identifier">' + obj.name + '</b>';
     }
 }
 
 function getModifiers(obj) {
     let modifiers = [];
     if (obj.accessModifier && obj.accessModifier.length > 0)
-        modifiers.push('<b class="code keyword">' + obj.accessModifier.toLowerCase() + '</b>');
+        modifiers.push('<b class="code keyword">' + obj.accessModifier.textToLower + '</b>');
     if (obj.definitionModifier && obj.definitionModifier.length > 0)
-        modifiers.push('<b class="code keyword">' + obj.definitionModifier.toLowerCase() + '</b>');
-    if (obj.inheritedSharing)
-        modifiers.push('<b class="code keyword">inherited sharing</b>');
-    if (obj.withSharing)
-        modifiers.push('<b class="code keyword">with sharing</b>');
-    else if (obj.withSharing !== undefined)
-        modifiers.push('<b class="code keyword">without sharing</b>');
+        modifiers.push('<b class="code keyword">' + obj.definitionModifier.textToLower + '</b>');
+    if (obj.sharingModifier)
+        modifiers.push('<b class="code keyword">' + obj.sharingModifier.textToLower + '</b>');
     if (obj.static)
         modifiers.push('<b class="code keyword">static</b>');
-    if (obj.virtual)
-        modifiers.push('<b class="code keyword">virtual</b>');
-    if (obj.abstract)
-        modifiers.push('<b class="code keyword">abstract</b>');
     if (obj.override)
         modifiers.push('<b class="code keyword">override</b>');
     if (obj.transient)
@@ -640,10 +651,10 @@ function getImplements(apexClass) {
     if (apexClass.implements && apexClass.implements.length > 0) {
         let imps = [];
         for (const imp of apexClass.implements) {
-            if (imp.docLink)
+            if (imp.documentation)
                 imps.push('<a target="_blank" href="' + imp.docLink + '">' + imp.name + '</a>');
             else
-                imps.push('<a href="' + ((imp.parentClass) ? imp.parentClass : imp.name) + '.html" href="#">' + imp.name + '</a>');
+                imps.push('<a href="' + ((imp.parentName) ? imp.parentName : imp.name) + '.html" href="#">' + imp.name + '</a>');
         }
         return imps.join(', ');
     }

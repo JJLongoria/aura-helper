@@ -1,30 +1,50 @@
+const EventEmitter = require('events').EventEmitter;
 const vscode = require('vscode');
-const FileSystem = require('../fileSystem');
+const Paths = require('../core/paths');
 const Factory = require('./factory');
+const MetadataFactory = require('@ah/metadata-factory');
+const CLIManager = require('@ah/cli-manager');
+const Connection = require('@ah/connector');
+const { NotificationMananger } = require('../output');
+const Config = require('../core/config');
 
-class MultiStepOutput {
+const EVENT = {
+    ACCEPT: 'accept',
+    CANCEL: 'cancel',
+    DELETE: 'delete',
+    VALIDATION: 'validation',
+    REPORT: 'report',
+    ERROR: 'error',
+};
+
+class MultiStepInput {
 
     constructor(title, initialStep, totalSteps) {
         this._title = title;
+        this._initialStep = initialStep;
         this._step = initialStep;
         this._totalSteps = totalSteps;
-        this._currentInput = undefined;
-        this._onAcceptCallback = undefined;
-        this._onCancelCallback = undefined;
-        this._onDeleteCallback = undefined;
-        this._onValidationErrorCallback = undefined;
-        this._onReportCallback = undefined;
-        this._onErrorCallback = undefined;
-        this._lastStep = undefined;
-        this._finalStep = undefined;
+        this._stepsBuffer = [];
+        this._metadata = undefined;
+        this._event = new EventEmitter();
     }
 
     static getDeleteButton() {
         return {
             tooltip: "Delete",
             iconPath: {
-                light: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/light/delete-black-18dp.svg')),
-                dark: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/dark/delete-white-18dp.svg')),
+                light: Paths.toURI(Paths.getImagesPath() + '/light/trash.svg'),
+                dark: Paths.toURI(Paths.getImagesPath() + '/dark/trash.svg'),
+            }
+        };
+    }
+
+    static getRemoveButton() {
+        return {
+            tooltip: "Remove",
+            iconPath: {
+                light: Paths.toURI(Paths.getImagesPath() + '/light/remove.svg'),
+                dark: Paths.toURI(Paths.getImagesPath() + '/dark/remove.svg'),
             }
         };
     }
@@ -33,8 +53,8 @@ class MultiStepOutput {
         return {
             tooltip: "Add",
             iconPath: {
-                light: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/light/add-black-18dp.svg')),
-                dark: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/dark/add-white-18dp.svg')),
+                light: Paths.toURI(Paths.getImagesPath() + '/light/add.svg'),
+                dark: Paths.toURI(Paths.getImagesPath() + '/dark/add.svg'),
             }
         };
     }
@@ -43,8 +63,8 @@ class MultiStepOutput {
         return {
             tooltip: "Accept",
             iconPath: {
-                light: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/light/done_outline-black-18dp.svg')),
-                dark: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/dark/done_outline-white-18dp.svg')),
+                light: Paths.toURI(Paths.getImagesPath() + '/light/pass.svg'),
+                dark: Paths.toURI(Paths.getImagesPath() + '/dark/pass.svg'),
             }
         };
     }
@@ -53,8 +73,8 @@ class MultiStepOutput {
         return {
             tooltip: "Select All",
             iconPath: {
-                light: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/light/select_all-black-18dp.svg')),
-                dark: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/dark/select_all-white-18dp.svg')),
+                light: Paths.toURI(Paths.getImagesPath() + '/light/checklist.svg'),
+                dark: Paths.toURI(Paths.getImagesPath() + '/dark/checklist.svg'),
             }
         };
     }
@@ -63,8 +83,18 @@ class MultiStepOutput {
         return {
             tooltip: "Clear Selection",
             iconPath: {
-                light: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/light/clear-black-18dp.svg')),
-                dark: vscode.Uri.file(FileSystem.Paths.getAbsolutePath('./resources/images/dark/clear-white-18dp.svg')),
+                light: Paths.toURI(Paths.getImagesPath() + '/light/clear-all.svg'),
+                dark: Paths.toURI(Paths.getImagesPath() + '/dark/clear-all.svg'),
+            }
+        };
+    }
+
+    static getFetchButton() {
+        return {
+            tooltip: "Fetch",
+            iconPath: {
+                light: Paths.toURI(Paths.getImagesPath() + '/light/sync.svg'),
+                dark: Paths.toURI(Paths.getImagesPath() + '/dark/sync.svg'),
             }
         };
     }
@@ -78,23 +108,56 @@ class MultiStepOutput {
     }
 
     onAccept(callback) {
-        this._onAcceptCallback = callback;
+        this._event.on(EVENT.ACCEPT, callback);
     }
 
     onCancel(callback) {
-        this._onCancelCallback = callback;
-    }
-
-    onDelete(callback) {
-        this._onDeleteCallback = callback;
+        this._event.on(EVENT.CANCEL, callback);
     }
 
     onError(callback) {
-        this._onErrorCallback = callback;
+        this._event.on(EVENT.ERROR, callback);
+    }
+
+    onValidationError(callback) {
+        this._event.on(EVENT.VALIDATION, callback);
+    }
+
+    onDelete(callback) {
+        this._event.on(EVENT.DELETE, callback);
+    }
+
+    onReport(callback) {
+        this._event.on(EVENT.REPORT, callback);
+    }
+
+    fireAcceptEvent(options, data) {
+        this._event.emit(EVENT.ACCEPT, options, data);
+    }
+
+    fireCancelEvent() {
+        this._event.emit(EVENT.CANCEL);
+    }
+
+    fireErrorEvent(message) {
+        this._event.emit(EVENT.ERROR, message);
+
+    }
+
+    fireValidationEvent(message) {
+        this._event.emit(EVENT.VALIDATION, message);
+    }
+
+    fireDeleteEvent(data) {
+        this._event.emit(EVENT.DELETE, data);
+    }
+
+    fireReportEvent(message) {
+        this._event.emit(EVENT.REPORT, message);
     }
 
     reset() {
-        this._step = 1;
+        this._step = this._initialStep;
         if (this._currentInput)
             this._currentInput.dispose();
         this.show();
@@ -120,18 +183,10 @@ class MultiStepOutput {
 
     }
 
-    onValidationError(callback) {
-        this._onValidationErrorCallback = callback;
-    }
-
-    onReport(callback) {
-        this._onReportCallback = callback;
-    }
-
-    truncate(value){
+    truncate(value) {
         let maxLength = 255;
         let addToTruncate = ' [...]';
-        if(value && value.length > maxLength){
+        if (value && value.length > maxLength) {
             value = value.substring(0, maxLength - addToTruncate.length);
             value += addToTruncate;
         }
@@ -150,8 +205,7 @@ class MultiStepOutput {
         try {
             let input = this.onCreateInputRequest();
             if (!input) {
-                if (this._onErrorCallback)
-                    this._onErrorCallback.call(this, 'Has no data to show');
+                this.fireErrorEvent('Has no data to show');
             } else {
                 input.ignoreFocusOut = true;
                 input.onDidAccept(item => {
@@ -159,20 +213,16 @@ class MultiStepOutput {
                         if (input.value && input.value.trim().length === 0)
                             input.value = undefined;
                         this.onValueSet(input.value);
+                        this.backStep();
                     }
-                    else
+                    else {
                         this.onButtonPressed('Ok');
-                    this._step--;
-                    this.show();
+                    }
                 });
                 input.onDidTriggerButton((item) => {
                     if (item === vscode.QuickInputButtons.Back) {
                         this.onButtonPressed("back");
-                        if (this._step === this._finalStep)
-                            this._step = this._lastStep;
-                        else
-                            this._step--;
-                        this.show();
+                        this.backStep();
                     } else {
                         this.onButtonPressed(item.tooltip);
                     }
@@ -180,9 +230,7 @@ class MultiStepOutput {
                 input.onDidHide(() => {
                     if (this._currentInput)
                         this._currentInput.dispose();
-                    if (this._onCancelCallback) {
-                        this._onCancelCallback.call(this);
-                    }
+                    this.fireCancelEvent();
                 });
                 if (input.onDidChangeSelection)
                     input.onDidChangeSelection(items => {
@@ -203,5 +251,131 @@ class MultiStepOutput {
         }
     }
 
+    backStep(step) {
+        if (step) {
+            let stepTmp = this._stepsBuffer.pop();
+            while (stepTmp != step) {
+                stepTmp = this._stepsBuffer.pop();
+            }
+            this._step = stepTmp;
+        }
+        else {
+            this._step = this._stepsBuffer.pop();
+        }
+        this.show();
+    }
+
+    nextStep(step) {
+        this._stepsBuffer.push(this._step);
+        this._step = step;
+        this.show();
+    }
+
+    sameStep() {
+        this._step = this._stepsBuffer[this._stepsBuffer.length - 1];
+        this.show();
+    }
+
+    async loadMetadata(fromOrg, downloadAll, types) {
+        setTimeout(() => {
+            vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                cancellable: false,
+                title: 'Loading Metadata Types'
+            }, (progress, cancelToken) => {
+                return new Promise((resolve) => {
+                    if (fromOrg) {
+                        getOrgMetadata(downloadAll, progress, types).then((metadataTypes) => {
+                            this._metadata = metadataTypes;
+                            resolve();
+                            this.show();
+                        }).catch((error) => {
+                            NotificationMananger.showError(error);
+                            resolve();
+                            this.show();
+                        });
+                    } else {
+                        getLocalMetadata(types).then((metadataTypes) => {
+                            this._metadata = metadataTypes;
+                            resolve();
+                            this.show();
+                        }).catch((error) => {
+                            NotificationMananger.showError(error);
+                            resolve();
+                            this.show();
+                        });
+                    }
+                });
+            });
+        }, 10);
+    }
 }
-module.exports = MultiStepOutput;
+module.exports = MultiStepInput;
+
+function getLocalMetadata(types) {
+    return new Promise(function (resolve, reject) {
+        if (Config.useAuraHelperCLI()) {
+            const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+            cliManager.describeLocalMetadata(types).then((metadataTypes) => {
+                resolve(metadataTypes);
+            }).catch((error) => {
+                reject(error);
+            });
+        } else {
+            const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder());
+            connection.listMetadataTypes().then((metadataDetails) => {
+                const folderMetadataMap = MetadataFactory.createFolderMetadataMap(metadataDetails);
+                const result = {};
+                const metadataTypes = MetadataFactory.createMetadataTypesFromFileSystem(folderMetadataMap, Paths.getProjectFolder());
+                for(const key of Object.keys(metadataTypes)){
+                    if(!types || types.includes(key))
+                        result[key] = metadataTypes[key];
+                }
+                resolve(result);
+            }).catch((error) => {
+                reject(error);
+            });
+
+        }
+    });
+}
+
+function getOrgMetadata(downloadAll, progressReport, types) {
+    return new Promise(function (resolve, reject) {
+        if (Config.useAuraHelperCLI()) {
+            const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+            cliManager.onProgress((status) => {
+                if (status.result.increment != undefined && status.result.increment > -1) {
+                    progressReport.report({
+                        message: status.message,
+                        increment: status.result.increment
+                    });
+                }
+            });
+            cliManager.describeOrgMetadata(downloadAll, types).then((metadataTypes) => {
+                resolve(metadataTypes);
+            }).catch((error) => {
+                reject(error);
+            });
+        } else {
+            const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder());
+            connection.setMultiThread();
+            connection.onAfterDownloadType((status) => {
+                progressReport.report({
+                    message: 'MetadataType: ' + status.entityType,
+                    increment: status.increment
+                });
+            })
+            connection.listMetadataTypes().then((metadataDetails) => {
+                connection.describeMetadataTypes(metadataDetails, downloadAll).then((metadataTypes) => {
+                    resolve(metadataTypes);
+                }).catch((error) => {
+                    reject(error);
+                });
+            }).catch((error) => {
+                reject(error);
+            });
+
+        }
+    });
+}

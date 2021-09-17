@@ -2,805 +2,419 @@ const vscode = require('vscode');
 const XMLEditor = require('./xmlEditor');
 const MultiStepInput = require('./xmlEditor');
 const Config = require('../core/config');
-const AppContext = require('../core/applicationContext');
-const Metadata = require('../metadata');
-const Utils = require('../metadata/utils');
-const ProcessManager = require('../processes/processManager');
+const Paths = require('../core/paths');
+const applicationContext = require('../core/applicationContext');
+const XMLDefinitions = require('@ah/xml-definitions');
+const { MetadataTypes, DataTypes } = require('@ah/core').Values;
+const { MetadataUtils, Utils } = require('@ah/core').CoreUtils;
+const { XMLUtils } = require('@ah/languages').XML;
+const { MetadataType, MetadataObject, MetadataItem } = require('@ah/core').Types;
+const Connection = require('@ah/connector');
+const CLIManager = require('@ah/cli-manager');
 
 const ROOT_STEP = 1;
 const PERMISSIONS_STEP = 2;
-const ELEMENT_STEP = 3;
-const SUB_ELEMENT_STEP = 4;
-const RESULT_STEP = 5;
+const ADD_PERMISSION_STEP = 3;
+const ADD_CHILD_PERMISSION_STEP = 4;
+const SET_VALUES_STEP = 5;
+const ELEMENT_STEP = 6;
+const SUB_ELEMENT_STEP = 7;
+const RESULT_STEP = 8;
+const OPTIONS_STEP = 9;
 
 class PermissionEditor extends XMLEditor {
 
-    constructor(title, file, metadata, isPermissionSet) {
-        super(title, ROOT_STEP, 3, file);
+    constructor(file) {
+        super(undefined, ROOT_STEP, RESULT_STEP, file);
         this._selectedCollection = undefined;
         this._selectedElement = undefined;
         this._selectedSubElement = undefined;
-        this._metadata = metadata;
-        this._finalStep = RESULT_STEP;
-        this._isPermissionSet = isPermissionSet;
-        if (this._isPermissionSet) {
-            this._permissionsContent = Metadata.PermissionSetUtils.createPermissionSet(this._xmlContent.PermissionSet);
-            this._xmlMetadata = Metadata.PermissionSetUtils.getXMLMetadata();
-        } else {
-            this._permissionsContent = Metadata.ProfileUtils.createProfile(this._xmlContent.Profile);
-            this._xmlMetadata = Metadata.ProfileUtils.getXMLMetadata();
-        }
-        if (!this._isPermissionSet && Config.getConfig().metadata.mergeLocalDataPermissions)
-            this._permissionsContent = Metadata.ProfileUtils.mergeProfileWithLocalData(this._permissionsContent, this._metadata);
-        this._profileMetadata = extractMetadataFromProfile(this._permissionsContent, this._xmlMetadata);
-        this._oldPermissionContent = JSON.parse(JSON.stringify(this._permissionsContent));
+        this._selectedElements = undefined;
+        this._permissionType = Object.keys(this._xmlContent)[0];
+        this._xmlDefinition = XMLDefinitions.getDefinition(this._permissionType, Config.getAPIVersion());
+        this._permissionsContent = XMLUtils.cleanXMLFile(this._xmlDefinition, this._xmlContent[this._permissionType]);
+        this._profileMetadata = extractMetadataFromFile(this._permissionsContent, this._xmlDefinition);
+        this._oldPermissionContent = Utils.clone(this._permissionsContent);
+        this._title = 'Permission Editor: ';
+        this.newElement = false;
+        this.addedElements = [];
+        this.hasChanges = false;
     }
 
     onCreateInputRequest() {
         let input;
         switch (this._step) {
             case ROOT_STEP:
-                this._lastStep = this._step;
                 return this.createRootInput();
             case PERMISSIONS_STEP:
-                this._lastStep = this._step;
                 return this.createPermissionsInput();
+            case ADD_PERMISSION_STEP:
+                return this.createAddPermissionInput();
+            case ADD_CHILD_PERMISSION_STEP:
+                return this.createAddChildPermissionInput();
+            case SET_VALUES_STEP:
+                return this.createSetValuesInput();
             case ELEMENT_STEP:
-                this._lastStep = this._step;
                 return this.createElementInput();
             case SUB_ELEMENT_STEP:
-                this._lastStep = this._step;
                 return this.createSubElementInput();
             case RESULT_STEP:
                 return this.createResultInput();
+            case OPTIONS_STEP:
+                return this.createOptionsInput();
         }
         return input;
     }
 
-    async onButtonPressed(buttonName) {
-        if (buttonName === 'back') {
-            if (this._step === PERMISSIONS_STEP) {
-                if (this._isAddingMode) {
-                    this._step++;
-                    this._isAddingMode = false;
-                    let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-                    let fieldKey = getFieldKey(elementData.xmlData.fieldKey);
-                    if (Array.isArray(fieldKey)) {
-                        this._permissionsContent[elementData.key].pop();
-                    }
-                }
-            }
-        } else if (buttonName === 'Accept') {
-            if (this._step === ROOT_STEP) {
-                this._step = RESULT_STEP;
-                this.show();
-            } else if (this._step === RESULT_STEP) {
-                if (this._isPermissionSet)
-                    this._xmlContent.PermissionSet = this._permissionsContent;
-                else
-                    this._xmlContent.Profile = this._permissionsContent;
-                this.save();
-                if (this._onAcceptCallback)
-                    this._onAcceptCallback.call(this);
-                this._currentInput.dispose();
-            } else {
-                let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-                if (elementData.key === 'loginIpRanges') {
-                    let element = this._permissionsContent[elementData.key][this._permissionsContent[elementData.key].length - 1];
-                    let validationError = undefined;
-                    for (let field of Object.keys(elementData.xmlData.fields)) {
-                        let fieldData = elementData.xmlData.fields[field];
-                        let error = fieldData.validate(element[field]);
-                        if (error) {
-                            if (!validationError)
-                                validationError = error;
-                            else
-                                validationError += '; ' + error;
-                        }
-                    }
-                    if (!validationError) {
-                        if (element.description === '-- None --')
-                            this._permissionsContent[elementData.key][this._permissionsContent[elementData.key].length - 1].description = undefined;
-                        Metadata.Utils.sort(this._permissionsContent[elementData.key], elementData.xmlData.sortOrder);
-                        this._isAddingMode = false;
-                        this.show();
-                    } else {
-                        if (this._onValidationErrorCallback)
-                            this._onValidationErrorCallback.call(this, validationError);
-                    }
-                }
-            }
-        } else if (buttonName === 'Ok') {
-            let elementData = {};
-            let fieldKeys = [];
-            let fieldKeysWithoutMain = [];
-            let selectedItems = this.getSelectedElements(this._currentInput.selectedItems);
-            let items = [];
-            switch (this._step) {
-                case PERMISSIONS_STEP:
-                    elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-                    fieldKeys = Object.keys(elementData.xmlData.fields);
-                    fieldKeysWithoutMain = getFieldKeysWithoutKey(elementData);
-                    if (this._isAddingMode) {
-                        this._isAddingMode = false;
-                        this._step++;
-                        for (let selectedItem of selectedItems) {
-                            let dataToAdd = {};
-                            for (let field of fieldKeys) {
-                                let fieldData = elementData.xmlData.fields[field];
-                                dataToAdd[field] = (fieldData.default == '{!value}') ? selectedItem : fieldData.default;
-                            }
-                            this._permissionsContent[elementData.key].push(dataToAdd);
-                        }
-                        Metadata.Utils.sort(this._permissionsContent[elementData.key], elementData.xmlData.sortOrder);
-                        this._profileMetadata = extractMetadataFromProfile(this._permissionsContent, this._xmlMetadata);
-                    } else if (fieldKeys.length === 2) {
-                        let fieldData = elementData.xmlData.fields[fieldKeysWithoutMain[0]];
-                        if (fieldData.datatype === 'boolean') {
-                            for (let xmlElement of this._permissionsContent[elementData.key]) {
-                                xmlElement[fieldKeysWithoutMain[0]] = selectedItems.includes(xmlElement[elementData.xmlData.fieldKey]);
-                            }
-                        }
-                    }
-                    break;
-                case ELEMENT_STEP:
-                    elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-                    fieldKeys = Object.keys(elementData.xmlData.fields);
-                    if (elementData.datatype === 'array') {
-                        if (this._isAddingMode) {
-                            this._isAddingMode = false;
-                            this._step++;
-                            for (let selectedItem of selectedItems) {
-                                let dataToAdd = {};
-                                for (let field of fieldKeys) {
-                                    let fieldData = elementData.xmlData.fields[field];
-                                    if (fieldData.separator) {
-                                        dataToAdd[field] = (fieldData.default == '{!value}') ? this._selectedElement + fieldData.separator + selectedItem : fieldData.default;
-                                    } else {
-                                        dataToAdd[field] = (fieldData.default == '{!value}') ? selectedItem : fieldData.default;
-                                    }
-                                }
-                                this._permissionsContent[elementData.key].push(dataToAdd);
-                            }
-                            Metadata.Utils.sort(this._permissionsContent[elementData.key], elementData.xmlData.sortOrder);
-                            this._profileMetadata = extractMetadataFromProfile(this._permissionsContent, this._xmlMetadata);
-                        } else {
-                            let uniqueFields = [];
-                            for (let xmlElement of this._permissionsContent[elementData.key]) {
-                                if (xmlElement[elementData.xmlData.fieldKey] === this._selectedElement) {
-                                    for (let fieldKey of fieldKeys) {
-                                        let fieldData = elementData.xmlData.fields[fieldKey];
-                                        if (fieldData.editable) {
-                                            if (fieldData.datatype === 'boolean') {
-                                                if (fieldData.unique && selectedItems.includes(fieldKey))
-                                                    uniqueFields.push({
-                                                        field: fieldKey,
-                                                        datatype: "boolean",
-                                                        value: true,
-                                                    });
-                                                xmlElement[fieldKey] = selectedItems.includes(fieldKey);
-                                            }
-                                        }
-                                    }
-                                    break;
-                                }
-                            }
-                            let checkedNow = getCheckedItems(selectedItems, this._currentInput.items);
-                            let uncheckedNow = getUncheckedItems(selectedItems, this._currentInput.items);
-                            if (checkedNow.length === 0 && uncheckedNow.length === 0)
-                                checkedNow = selectedItems;
-                            Utils.handleUniqueFields(this._permissionsContent, elementData, uniqueFields, this._selectedElement);
-                            Utils.handleControlledFields(this._permissionsContent, elementData, checkedNow, this._selectedElement);
-                            Utils.handleControlledFields(this._permissionsContent, elementData, uncheckedNow, this._selectedElement);
-                        }
-                    }
-                    break;
-                case SUB_ELEMENT_STEP:
-                    elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-                    fieldKeys = Object.keys(elementData.xmlData.fields);
-                    let uniqueFields = [];
-                    for (let xmlElement of this._permissionsContent[elementData.key]) {
-                        if (xmlElement[elementData.xmlData.fieldKey] === this._selectedElement + elementData.xmlData.fields[elementData.xmlData.fieldKey].separator + this._selectedSubElement) {
-                            for (let fieldKey of fieldKeys) {
-                                let fieldData = elementData.xmlData.fields[fieldKey];
-                                if (fieldData.editable) {
-                                    if (fieldData.datatype === 'boolean') {
-                                        if (fieldData.unique && selectedItems.includes(fieldKey))
-                                            uniqueFields.push({
-                                                field: fieldKey,
-                                                datatype: "boolean",
-                                                value: true,
-                                            });
-                                        xmlElement[fieldKey] = selectedItems.includes(fieldKey);
-                                    }
-                                }
-                            }
-                            break;
-                        }
-                    }
-                    let checkedNow = getCheckedItems(selectedItems, this._currentInput.items);
-                    let uncheckedNow = getUncheckedItems(selectedItems, this._currentInput.items);
-                    if (checkedNow.length === 0 && uncheckedNow.length === 0)
-                        checkedNow = selectedItems;
-                    Utils.handleUniqueFields(this._permissionsContent, elementData, uniqueFields, this._selectedElement, this._selectedSubElement);
-                    Utils.handleControlledFields(this._permissionsContent, elementData, checkedNow, this._selectedElement, this._selectedSubElement);
-                    Utils.handleControlledFields(this._permissionsContent, elementData, uncheckedNow, this._selectedElement, this._selectedSubElement);
-                    break;
-                default:
-                    break;
-            }
-        } else if (buttonName === 'Add') {
-            let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-            let fieldKey = getFieldKey(elementData.xmlData.fieldKey);
-            let fieldKeys = Object.keys(elementData.xmlData.fields);
-            switch (this._step) {
-                case PERMISSIONS_STEP:
-                case ELEMENT_STEP:
-                    if (elementData.metadataType || Array.isArray(fieldKey)) {
-                        if (this._metadata[elementData.metadataType]) {
-                            this._isAddingMode = true;
-                            this.show();
-                        } else if (Array.isArray(fieldKey)) {
-                            let dataToAdd = {};
-                            for (let field of fieldKeys) {
-                                let fieldData = elementData.xmlData.fields[field];
-                                dataToAdd[field] = (fieldData.default === '{!value}') ? '-- None --' : fieldData.default;
-                            }
-                            this._permissionsContent[elementData.key].push(dataToAdd);
-                            this._isAddingMode = true;
-                            this.show();
-                        } else {
-                            if (this._onReportCallback)
-                                this._onReportCallback.call(this, 'Not found ' + elementData.metadataType + " metadata on your local project");
-                        }
-                    } else if (elementData.key === "userPermissions") {
-                        this._currentInput.busy = true;
-                        this._currentInput.enabled = false;
-                        if (!AppContext.availablePermissions || AppContext.availablePermissions.length === 0) {
-                            try {
-                                AppContext.availablePermissions = await loadUserPermissions();
-                                this._isAddingMode = true;
-                                this._currentInput.busy = false;
-                                this._currentInput.enabled = true;
-                                this.show();
-                            } catch (error) {
-                                if (this._onErrorCallback)
-                                    this._onErrorCallback.call(this, "An error  ocurred while loading user permissions: " + error);
-                            }
-
-                        } else {
-                            this._currentInput.busy = false;
-                            this._currentInput.enabled = true;
-                            this._isAddingMode = true;
-                            this.show();
-                        }
-                    }
-                    break;
-                case ELEMENT_STEP:
-                    break;
-                case SUB_ELEMENT_STEP:
-                    break;
-            }
-        }
-    }
-
-    onChangeValue(value) {
-
-    }
-
-    onValueSet(value) {
-        let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-        switch (this._step) {
-            case PERMISSIONS_STEP:
-                if (this._permissionsContent) {
-                    if (elementData.key === 'description' && value && value.length > 255) {
-                        this._currentInput.validationMessage = "Description to long. Remove at least " + (value.length - 255) + " characters";
-                        return;
-                    }
-                    this._permissionsContent[elementData.key] = value;
-                }
-                break;
-            case ELEMENT_STEP:
-                if (this._permissionsContent) {
-                    if (elementData.key === 'loginIpRanges') {
-                        let fieldData = elementData.xmlData.fields[this._selectedElement];
-                        let error = fieldData.validate(value);
-                        if (error) {
-                            this._step++;
-                            if (this._onValidationErrorCallback)
-                                this._onValidationErrorCallback.call(this, error);
-                        }
-                        this._permissionsContent[elementData.key][this._permissionsContent[elementData.key].length - 1][this._selectedElement] = value;
-                    }
-                }
-                break;
-            case SUB_ELEMENT_STEP:
-                if (this._permissionsContent) {
-                    if (elementData.key === 'loginIpRanges') {
-                        let fieldData = elementData.xmlData.fields[this._selectedSubElement];
-                        let error = fieldData.validate(value);
-                        if (error) {
-                            this._step++;
-                            if (this._onValidationErrorCallback)
-                                this._onValidationErrorCallback.call(this, error);
-                        }
-                    }
-                    for (let xmlElement of this._permissionsContent[elementData.key]) {
-                        let fieldKeyValue = getValue(xmlElement, getFieldKey(elementData.xmlData.fieldKey));
-                        if (fieldKeyValue === this._selectedElement) {
-                            xmlElement[this._selectedSubElement] = value;
-                            this._selectedElement = getValue(xmlElement, getFieldKey(elementData.xmlData.fieldKey));
-                            break;
-                        }
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    onChangeSelection(items) {
-        let elementData = {};
-        let fieldKeys = [];
-        let selectedItems = this.getSelectedElements(items);
-        let fieldKeysWithoutMain = [];
-        switch (this._step) {
-            case ROOT_STEP:
-                this._selectedCollection = items[0].label;
-                this._step = PERMISSIONS_STEP;
-                this.show();
-                break;
-            case PERMISSIONS_STEP:
-                elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-                fieldKeys = Object.keys(elementData.xmlData.fields);
-                fieldKeysWithoutMain = getFieldKeysWithoutKey(elementData);
-                if (this._isAddingMode && !this._currentInput.canSelectMany) {
-                    this._selectedElement = selectedItems[0];
-                    this._step = ELEMENT_STEP;
-                    this.show();
-                } else if (!this._isAddingMode) {
-                    if (fieldKeys.length === 2) {
-                        let fieldData = elementData.xmlData.fields[fieldKeysWithoutMain[0]];
-                        if (fieldData.datatype !== 'boolean' || elementData.metadataType === Metadata.MetadataTypes.CUSTOM_FIELDS || elementData.metadataType === Metadata.MetadataTypes.RECORD_TYPE) {
-                            this._selectedElement = selectedItems[0];
-                            this._step = ELEMENT_STEP;
-                            this.show();
-                        }
-                    } else if (fieldKeys.length > 2) {
-                        this._selectedElement = selectedItems[0];
-                        this._step = ELEMENT_STEP;
-                        this.show();
-                    }
-                }
-                break;
-            case ELEMENT_STEP:
-                elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-                fieldKeys = Object.keys(elementData.xmlData.fields);
-                fieldKeysWithoutMain = getFieldKeysWithoutKey(elementData);
-                if (this._isAddingMode) {
-
-                } else {
-                    if (fieldKeys.length === 2 || !elementData.xmlData.fieldKey) {
-                        let field = fieldKeysWithoutMain[0];
-                        if (!elementData.xmlData.fieldKey)
-                            field = this._selectedElement;
-                        let fieldData = elementData.xmlData.fields[field];
-                        if (fieldData.datatype === 'enum') {
-                            if (elementData.datatype === 'array') {
-                                for (let xmlElement of this._permissionsContent[elementData.key]) {
-                                    if (xmlElement[elementData.xmlData.fieldKey] === this._selectedElement) {
-                                        xmlElement[field] = elementData.xmlData.fields[field].getValue(selectedItems[0]);
-                                        break;
-                                    }
-                                }
-                            } else {
-                                let value = elementData.xmlData.fields[field].getValue(selectedItems[0]);
-                                let validationMessage;
-                                if (field.indexOf('Start') !== -1) {
-                                    let endField = field.replace('Start', 'End');
-                                    let endFieldData = elementData.xmlData.fields[endField];
-                                    let endValue = this._permissionsContent[elementData.key][endField];
-                                    if (endValue && endValue < value) {
-                                        validationMessage = 'Wrong Start Time value (' + fieldData.getLabel(value) + ') for ' + field + ' field. Start time must be earlier than end time (End Time: ' + endFieldData.getLabel(endValue) + ')';
-                                    } else if (!endValue || !value) {
-                                        this._permissionsContent[elementData.key][endField] = value;
-                                    }
-                                } else if (field.indexOf('End') !== -1) {
-                                    let startField = field.replace('End', 'Start');
-                                    let startFieldData = elementData.xmlData.fields[startField];
-                                    let startValue = this._permissionsContent[elementData.key][startField]
-                                    if (startValue && startValue > value) {
-                                        validationMessage = 'Wrong End Time value (' + fieldData.getLabel(value) + ') for ' + field + ' field. Start time must be earlier than end time (Start Time: ' + startFieldData.getLabel(startValue) + ')';
-                                    } else if (!startValue || !value) {
-                                        this._permissionsContent[elementData.key][startField] = value;
-                                    }
-                                }
-                                if (!validationMessage) {
-                                    this._permissionsContent[elementData.key][field] = value;
-                                }
-                                else if (this._onValidationErrorCallback)
-                                    this._onValidationErrorCallback.call(this, validationMessage);
-                            }
-                        } else if (elementData.metadataType === Metadata.MetadataTypes.LAYOUT) {
-                            this._selectedSubElement = selectedItems[0];
-                            this._step = SUB_ELEMENT_STEP;
-                            this.show();
-                        }
-                    } else {
-                        let allTextFields = true;
-                        for (let field of fieldKeys) {
-                            allTextFields = elementData.xmlData.fields[field].datatype === 'string';
-                            if (!allTextFields)
-                                break;
-                        }
-                        if (elementData.metadataType === Metadata.MetadataTypes.CUSTOM_FIELDS || elementData.metadataType === Metadata.MetadataTypes.RECORD_TYPE || allTextFields) {
-                            this._selectedSubElement = selectedItems[0];
-                            this._step = SUB_ELEMENT_STEP;
-                            this.show();
-                        }
-                    }
-                }
-                break;
-            case SUB_ELEMENT_STEP:
-                elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-                fieldKeys = Object.keys(elementData.xmlData.fields);
-                fieldKeysWithoutMain = getFieldKeysWithoutKey(elementData);
-                if (elementData.metadataType === Metadata.MetadataTypes.LAYOUT) {
-                    let rtField = elementData.xmlData.fields[fieldKeysWithoutMain[0]];
-                    let mainFieldData = elementData.xmlData.fields[elementData.xmlData.fieldKey];
-                    let element;
-                    for (let xmlElement of this._permissionsContent[elementData.key]) {
-                        let selectedItem = this._selectedElement + mainFieldData.separator + selectedItems[0];
-                        if (this._selectedSubElement === 'Master') {
-                            if (xmlElement[elementData.xmlData.fieldKey].startsWith(this._selectedElement + elementData.xmlData.fields[elementData.xmlData.fieldKey].separator) && !xmlElement[fieldKeysWithoutMain[0]]) {
-                                element = xmlElement;
-                                xmlElement[elementData.xmlData.fieldKey] = this._selectedElement + mainFieldData.separator + selectedItems[0];
-                                break;
-                            }
-                        } else {
-                            if (xmlElement[fieldKeysWithoutMain[0]] === this._selectedElement + rtField.separator + this._selectedSubElement) {
-                                element = xmlElement;
-                                xmlElement[elementData.xmlData.fieldKey] = this._selectedElement + mainFieldData.separator + selectedItems[0];
-                                break;
-                            }
-                        }
-                    }
-                    if (!element) {
-                        if (this._selectedSubElement === 'Master')
-                            this._permissionsContent[elementData.key].push(elementData.create(this._selectedElement + mainFieldData.separator + selectedItems[0]));
-                        else
-                            this._permissionsContent[elementData.key].push(elementData.create(this._selectedElement + mainFieldData.separator + selectedItems[0], this._selectedElement + rtField.separator + this._selectedSubElement));
-                        Metadata.Utils.sort(this._permissionsContent[elementData.key], elementData.xmlData.sortOrder);
-                    }
-                    this._profileMetadata = extractMetadataFromProfile(this._permissionsContent, this._xmlMetadata);
-                }
-                break;
-        }
-    }
-
     createRootInput() {
-        let input;
-        if (this._permissionsContent) {
-            let lastVersion = Config.getLastVersion();
-            let orgVersion = parseInt(Config.getOrgVersion());
-            input = vscode.window.createQuickPick();
-            input.title = this._title;
-            input.step = ROOT_STEP;
-            input.totalSteps = RESULT_STEP;
-            input.placeholder = 'Choose an Element';
-            let buttons = [];
-            buttons.push(MultiStepInput.getAcceptButton());
-            input.buttons = buttons;
-            let items = [];
-            for (let elementKey of Object.keys(this._xmlMetadata)) {
-                let elementData = this._xmlMetadata[elementKey];
-                if (elementData.editable) {
-                    if ((elementKey === "description" && this._permissionsContent["custom"]) || elementKey !== "description") {
-                        if (Metadata.Utils.availableOnVersion(elementData, lastVersion, orgVersion)) {
+        if (!this._metadata) {
+            let input = vscode.window.createQuickPick();
+            input.busy = true;
+            input.title = this._title + ': Getting Metadata Types';
+            input.placeholder = 'Loading Metadata Types from Local Project';
+            this.loadMetadata();
+            return input;
+        } else {
+            let input;
+            if (this._permissionsContent) {
+                input = vscode.window.createQuickPick();
+                input.title = this._title;
+                input.placeholder = 'Choose an Element to edit permissions';
+                input.buttons = [MultiStepInput.getAcceptButton()];
+                let items = [];
+                for (let elementKey of Object.keys(this._xmlDefinition)) {
+                    let elementData = this._xmlDefinition[elementKey];
+                    if (elementData.editable) {
+                        if ((elementKey === "description" && this._permissionsContent["custom"]) || elementKey !== "description") {
                             let item = MultiStepInput.getItem(elementData.label, undefined, undefined, undefined);
                             items.push(item);
                         }
                     }
                 }
+                input.items = items;
             }
-            input.items = items;
+            return input;
         }
-        return input;
     }
 
     createPermissionsInput() {
         let input;
         if (this._permissionsContent) {
-            let buttons;
-            let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-            let fieldKey = getFieldKey(elementData.xmlData.fieldKey);
-            if (elementData.datatype === 'string') {
+            let buttons = [MultiStepInput.getBackButton()];
+            const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+            const items = [];
+            const selectedItems = [];
+            if (fieldDefinition.datatype === DataTypes.STRING) {
                 input = vscode.window.createInputBox();
-                input.value = (this._permissionsContent[elementData.key]) ? this._permissionsContent[elementData.key] : '';
-                input.placeholder = 'Write a ' + elementData.label + ' for ' + ((this._isPermissionSet) ? "Permission Set" : "Profile") + " " + this._fileName;
+                input.value = (this._permissionsContent[fieldDefinition.key]) ? this._permissionsContent[fieldDefinition.key] : '';
+                input.placeholder = 'Write a ' + fieldDefinition.label + ' for ' + this._permissionType + " " + this._fileName;
                 input.prompt = "Press Enter to set the value (DON'T PRESS 'Escape' to back)";
-                buttons = [MultiStepInput.getBackButton()];
-            } else {
+            } else if (fieldDefinition.datatype === DataTypes.ARRAY) {
+                const fieldKey = fieldDefinition.fieldKey;
+                const sortOrder = fieldDefinition.sortOrder;
+                const separator = !Utils.isArray(fieldKey) ? fieldDefinition.fields[fieldKey].separator : undefined;
                 input = vscode.window.createQuickPick();
-                let items = [];
-                let selectedItems = [];
-                buttons = [MultiStepInput.getBackButton()];
-                if (!this._isAddingMode)
-                    buttons.push(MultiStepInput.getAddButton());
-                if (elementData.datatype === 'array') {
-                    if (this._permissionsContent[elementData.key]) {
-                        if (elementData.metadataType === Metadata.MetadataTypes.LAYOUT) {
-                            buttons = [MultiStepInput.getBackButton()];
-                            if (this._metadata && this._metadata[Metadata.MetadataTypes.RECORD_TYPE] && Metadata.Utils.haveChilds(this._metadata[Metadata.MetadataTypes.RECORD_TYPE])) {
-                                for (let objKey of Object.keys(this._metadata[Metadata.MetadataTypes.RECORD_TYPE].childs)) {
+                if (this._permissionsContent[fieldDefinition.key]) {
+                    if (Utils.isArray(fieldKey)) {
+                        const metadataType = fieldDefinition.fields[sortOrder[1]].metadataType;
+                        if (metadataType) {
+                            input.placeholder = 'Select an Element to edit permissions';
+                            if (this._metadata && this._metadata[metadataType] && MetadataUtils.haveChilds(this._metadata[metadataType])) {
+                                for (let objKey of Object.keys(this._metadata[metadataType].childs)) {
                                     let item = MultiStepInput.getItem(objKey, undefined, undefined, undefined);
                                     items.push(item);
                                 }
                             } else {
-                                let sorted = Object.keys(this._profileMetadata[elementData.key]).sort();
-                                for (let obj of sorted) {
-                                    let item = MultiStepInput.getItem(obj, undefined, undefined, undefined);
-                                    items.push(item);
-                                }
-                            }
-                        } else if (elementData.metadataType === Metadata.MetadataTypes.CUSTOM_FIELDS || elementData.metadataType === Metadata.MetadataTypes.RECORD_TYPE) {
-                            if (this._isAddingMode) {
-                                let differences = getTypeDifferences(this._metadata, this._profileMetadata, elementData.key, this._xmlMetadata);
-                                if (differences[elementData.metadataType]) {
-                                    let sorted = Object.keys(differences[elementData.metadataType].childs).sort();
-                                    for (let objectKey of sorted) {
-                                        let item = MultiStepInput.getItem(objectKey, undefined, undefined, undefined);
-                                        items.push(item);
-                                    }
-                                } else {
-                                    if (this._onReportCallback)
-                                        this._onReportCallback.call(this, "Not new " + elementData.metadataType + " found for add to this " + ((this._isPermissionSet) ? "Permission Set" : "Profile"));
-                                    this._isAddingMode = false;
-                                }
-                            }
-                            if (!this._isAddingMode) {
-                                let sorted = Object.keys(this._profileMetadata[elementData.key]).sort();
+                                let sorted = Object.keys(this._profileMetadata[fieldDefinition.key]).sort();
                                 for (let obj of sorted) {
                                     let item = MultiStepInput.getItem(obj, undefined, undefined, undefined);
                                     items.push(item);
                                 }
                             }
                         } else {
-                            if (this._isAddingMode) {
-                                if (elementData.key === 'userPermissions') {
-                                    let notAddedPermissions = [];
-                                    if (!this._permissionsContent[elementData.key])
-                                        notAddedPermissions = AppContext.availablePermissions;
-                                    else {
-                                        let permissionsOnProfile = [];
-                                        for (let xmlElement of this._permissionsContent[elementData.key]) {
-                                            permissionsOnProfile.push(xmlElement[elementData.xmlData.fieldKey]);
-                                        }
-                                        for (let permission of AppContext.availablePermissions) {
-                                            if (!permissionsOnProfile.includes(permission))
-                                                notAddedPermissions.push(permission);
-                                        }
-                                        if (notAddedPermissions.length > 0) {
-                                            input.canSelectMany = true;
-                                            for (let permission of notAddedPermissions) {
-                                                let item = MultiStepInput.getItem(permission, undefined, undefined, undefined);
-                                                items.push(item);
-                                            }
-                                        } else {
-                                            this._isAddingMode = false;
-                                            if (this._onReportCallback)
-                                                this._onReportCallback.call(this, "Not new User Permissions found for add to this " + ((this._isPermissionSet) ? "Permission Set" : "Profile"));
-                                        }
-                                    }
-                                } else if (Array.isArray(fieldKey)) {
-                                    buttons.push(MultiStepInput.getAcceptButton());
-                                    let element = this._permissionsContent[elementData.key][this._permissionsContent[elementData.key].length - 1];
-                                    for (let field of Object.keys(elementData.xmlData.fields)) {
-                                        let description;
-                                        if (element)
-                                            description = element[field];
-                                        let item = MultiStepInput.getItem(field, undefined, description, undefined);
-                                        items.push(item);
+                            input.placeholder = 'Select a field to edit. Click "Add" to add new elements.';
+                            buttons.push(MultiStepInput.getAddButton());
+                            for (let fieldValue of XMLUtils.forceArray(this._permissionsContent[fieldDefinition.key])) {
+                                let description;
+                                for (const field of Object.keys(fieldDefinition.fields)) {
+                                    if (!fieldKey.includes(field))
+                                        description = fieldValue[field];
+                                }
+                                items.push(MultiStepInput.getItem(getValue(fieldValue, fieldKey), undefined, description, undefined));
+                            }
+                        }
+                    } else if (separator) {
+                        input.placeholder = 'Select an Element to edit permissions. Click "Add" to add new elements';
+                        buttons.push(MultiStepInput.getAddButton());
+                        let sorted = Object.keys(this._profileMetadata[fieldDefinition.key]).sort();
+                        for (let obj of sorted) {
+                            items.push(MultiStepInput.getItem(obj, undefined, undefined, undefined));
+                        }
+                    } else {
+                        input.placeholder = 'Select a field to edit. Click "Add" to add new elements';
+                        buttons.push(MultiStepInput.getAddButton());
+                        for (let fieldValue of XMLUtils.forceArray(this._permissionsContent[fieldDefinition.key])) {
+                            let item;
+                            let selected = false;
+                            let editableFields = getEditableFields(fieldDefinition);
+                            if (editableFields.length == 1) {
+                                let fieldData = fieldDefinition.fields[editableFields[0]];
+                                if (fieldData.datatype === DataTypes.BOOLEAN) {
+                                    input.canSelectMany = true;
+                                    item = MultiStepInput.getItem(fieldValue[fieldKey], undefined, undefined, fieldValue[editableFields[0]]);
+                                    selected = fieldValue[editableFields[0]];
+                                } else if (fieldData.datatype === DataTypes.ENUM) {
+                                    let description = fieldDefinition.fields[editableFields[0]].getLabel(fieldValue[editableFields[0]]);
+                                    item = MultiStepInput.getItem(fieldValue[fieldKey], undefined, description, undefined);
+                                }
+                            } else {
+                                let description = getDescription(fieldValue, fieldDefinition, false);
+                                let itemName;
+                                if (Array.isArray(fieldKey)) {
+                                    for (let field of fieldKey) {
+                                        if (!itemName)
+                                            itemName = fieldValue[field];
+                                        else
+                                            itemName += ' - ' + fieldValue[field];
                                     }
                                 } else {
-                                    let differences = getTypeDifferences(this._metadata, this._profileMetadata, elementData.key, this._xmlMetadata);
-                                    if (differences[elementData.metadataType]) {
-                                        input.canSelectMany = true;
-                                        let sorted = Object.keys(differences[elementData.metadataType].childs).sort();
-                                        for (let objectKey of sorted) {
-                                            let item = MultiStepInput.getItem(objectKey, undefined, undefined, undefined);
-                                            items.push(item);
-                                        }
-                                    } else {
-                                        if (this._onReportCallback)
-                                            this._onReportCallback.call(this, "Not new " + elementData.metadataType + " found for add to this " + ((this._isPermissionSet) ? "Permission Set" : "Profile"));
-                                        this._isAddingMode = false;
-                                    }
+                                    itemName = fieldValue[fieldKey];
                                 }
+                                item = MultiStepInput.getItem(itemName, undefined, description, undefined);
                             }
-                            if (!this._isAddingMode) {
-                                for (let xmlElement of this._permissionsContent[elementData.key]) {
-                                    let item;
-                                    let selected = false;
-                                    let fieldKeys = Object.keys(elementData.xmlData.fields);
-                                    let fieldKeysWithMain = getFieldKeysWithoutKey(elementData);
-                                    if (fieldKeys.length === 2) {
-                                        let fieldData = elementData.xmlData.fields[fieldKeysWithMain[0]];
-                                        if (fieldData.datatype === 'boolean') {
-                                            input.canSelectMany = true;
-                                            item = MultiStepInput.getItem(xmlElement[elementData.xmlData.fieldKey], undefined, undefined, xmlElement[fieldKeysWithMain[0]]);
-                                            selected = xmlElement[fieldKeysWithMain[0]];
-                                        } else if (fieldData.datatype === 'enum') {
-                                            let description = elementData.xmlData.fields[fieldKeysWithMain[0]].getLabel(xmlElement[fieldKeysWithMain[0]]);
-                                            item = MultiStepInput.getItem(xmlElement[elementData.xmlData.fieldKey], undefined, description, undefined);
-                                        }
-                                    } else {
-                                        let description = getDescription(xmlElement, elementData, false);
-                                        let fieldKey = getFieldKey(elementData.xmlData.fieldKey);
-                                        let itemName;
-                                        if (Array.isArray(fieldKey)) {
-                                            for (let field of fieldKey) {
-                                                if (!itemName)
-                                                    itemName = xmlElement[field];
-                                                else
-                                                    itemName += ' - ' + xmlElement[field];
-                                            }
-                                        } else {
-                                            itemName = xmlElement[fieldKey];
-                                        }
-                                        item = MultiStepInput.getItem(itemName, undefined, description, undefined);
-                                    }
-                                    if (selected)
-                                        selectedItems.push(item);
-                                    if (item)
-                                        items.push(item);
-                                }
-                            }
+                            if (selected)
+                                selectedItems.push(item);
+                            if (item)
+                                items.push(item);
                         }
                     }
-                } else {
-                    buttons = [MultiStepInput.getBackButton()];
-                    if (!elementData.xmlData.fieldKey) {
-                        for (let field of Object.keys(elementData.xmlData.fields)) {
-                            let item = MultiStepInput.getItem(field, undefined, elementData.xmlData.fields[field].getLabel(this._permissionsContent[elementData.key][field]), undefined);
-                            items.push(item);
-                        }
+                    input.items = items;
+                    if (selectedItems.length > 0)
+                        input.selectedItems = selectedItems;
+                }
+            } else {
+                input = vscode.window.createQuickPick();
+                input.placeholder = 'Select an Element to edit permissions.';
+                for (let field of Object.keys(fieldDefinition.fields)) {
+                    const subFieldDefinition = fieldDefinition.fields[field];
+                    if (subFieldDefinition.datatype === DataTypes.ENUM) {
+                        let item = MultiStepInput.getItem(fieldDefinition.fields[field].label, undefined, fieldDefinition.fields[field].getLabel(this._permissionsContent[fieldDefinition.key][field]), undefined);
+                        items.push(item);
                     }
                 }
                 input.items = items;
-                if (selectedItems.length > 0)
-                    input.selectedItems = selectedItems;
-                input.placeholder = 'Choose an Element';
             }
-            input.title = this._fileName + ":\n Edit " + elementData.label + ((this._isAddingMode) ? " (Add Mode)" : "");
-            input.step = PERMISSIONS_STEP;
-            input.totalSteps = RESULT_STEP;
+            input.title = this._title + ' - ' + this._fileName + ":\n Edit " + fieldDefinition.label;
             input.buttons = buttons;
         }
+        return input;
+    }
+
+    createAddPermissionInput() {
+        let buttons = [MultiStepInput.getBackButton()];
+        const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+        let items = [];
+        let input = vscode.window.createQuickPick();
+        if (fieldDefinition.datatype === DataTypes.ARRAY) {
+            const fieldKey = fieldDefinition.fieldKey;
+            const sortOrder = fieldDefinition.sortOrder;
+            const separator = !Utils.isArray(fieldKey) ? fieldDefinition.fields[sortOrder[0]].separator : undefined;
+            if (Utils.isArray(fieldKey)) {
+                buttons.push(MultiStepInput.getAcceptButton());
+                input.placeholder = 'Select field to set a value. Click "Accept" to save changes, "Back" to rollback';
+                for (let field of Object.keys(fieldDefinition.fields)) {
+                    items.push(MultiStepInput.getItem(fieldDefinition.fields[field].label, undefined, this._permissionsContent[fieldDefinition.key][this._permissionsContent[fieldDefinition.key].length - 1][field], undefined));
+                }
+            } else {
+                const metadataType = fieldDefinition.fields[fieldKey].metadataType;
+                if (fieldDefinition.key === 'userPermissions') {
+                    let notAddedPermissions = [];
+                    if (!this._permissionsContent[fieldDefinition.key])
+                        notAddedPermissions = applicationContext.sfData.availablePermissions;
+                    else {
+                        let permissionsOnProfile = [];
+                        for (let xmlElement of this._permissionsContent[fieldDefinition.key]) {
+                            permissionsOnProfile.push(xmlElement[fieldKey]);
+                        }
+                        for (let permission of applicationContext.sfData.availablePermissions) {
+                            if (!permissionsOnProfile.includes(permission))
+                                notAddedPermissions.push(permission);
+                        }
+                        for (let permission of notAddedPermissions) {
+                            let item = MultiStepInput.getItem(permission, undefined, undefined, undefined);
+                            items.push(item);
+                        }
+                    }
+                } else if (metadataType) {
+                    const differences = getTypeDifferences(this._metadata, this._profileMetadata, fieldDefinition.key, this._xmlDefinition);
+                    let sorted = Object.keys(differences[metadataType].childs).sort();
+                    let editableFields = getEditableFields(fieldDefinition);
+                    for (let objectKey of sorted) {
+                        let item = MultiStepInput.getItem(objectKey, undefined, undefined, undefined);
+                        items.push(item);
+                    }
+                    if (editableFields.length === 1) {
+                        input.placeholder = 'The selected elements will be set ' + editableFields[0].key + ' field to true';
+                    }
+                }
+                if (!separator)
+                    input.canSelectMany = true;
+            }
+            input.items = items;
+            input.title = this._fileName + ":\n Adding new " + fieldDefinition.label + "(s) to the " + this._permissionType;
+            input.buttons = buttons;
+        }
+        return input;
+    }
+
+    createAddChildPermissionInput() {
+        let buttons = [MultiStepInput.getBackButton()];
+        const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+        let items = [];
+        let input = vscode.window.createQuickPick();
+        if (fieldDefinition.datatype === DataTypes.ARRAY) {
+            const sortOrder = fieldDefinition.sortOrder;
+            const metadataType = fieldDefinition.fields[sortOrder[0]].metadataType;
+            if (metadataType) {
+                const differences = getTypeDifferences(this._metadata, this._profileMetadata, fieldDefinition.key, this._xmlDefinition);
+                for (let objectKey of Object.keys(differences[metadataType].childs[this._selectedElement].childs)) {
+                    let item = MultiStepInput.getItem(objectKey, undefined, undefined, undefined);
+                    items.push(item);
+                }
+            }
+            input.canSelectMany = true;
+            input.items = items;
+            input.title = this._fileName + ":\n Adding new " + fieldDefinition.label + "(s) to the " + this._permissionType;
+            input.buttons = buttons;
+        }
+        return input;
+    }
+
+    createSetValuesInput() {
+        let buttons = [MultiStepInput.getBackButton()];
+        const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+        const fieldKey = fieldDefinition.fieldKey;
+        const sortOrder = fieldDefinition.sortOrder;
+        const editableFields = getEditableFields(fieldDefinition);
+        let input;
+        if (Utils.isArray(fieldKey)) {
+            input = vscode.window.createInputBox();
+            if (!this.newElement) {
+                let index = 0;
+                const subFieldDefinition = getFieldDefinitionByLabel(this._selectedSubElement, fieldDefinition.fields);
+                for (const fieldValue of this._permissionsContent[fieldDefinition.key]) {
+                    const value = getValue(fieldValue, fieldKey);
+                    if (value === this._selectedElement) {
+                        break;
+                    }
+                    index++;
+                }
+                input.value = (this._permissionsContent[fieldDefinition.key] && this._permissionsContent[fieldDefinition.key][index][subFieldDefinition.key]) ? this._permissionsContent[fieldDefinition.key][index][subFieldDefinition.key] : '';
+            }
+            input.placeholder = 'Write a value for ' + this._selectedSubElement;
+            input.prompt = "Press Enter to set the value (DON'T PRESS 'Escape' to back)";
+        } else if (fieldDefinition.fields[editableFields[0]].datatype === DataTypes.ENUM) {
+            let items = [];
+            input = vscode.window.createQuickPick();
+            const subFieldDefinition = fieldDefinition.fields[editableFields[0]];
+            for (let enumValue of subFieldDefinition.values) {
+                let item = MultiStepInput.getItem(enumValue.label, undefined, undefined, undefined);
+                items.push(item);
+            }
+            input.items = items;
+            input.placeholder = 'Select a value to set.';
+            input.title = this._fileName + ":\n Adding new " + fieldDefinition.label + "(s) to the " + this._permissionType;
+        } else {
+            let items = [];
+            let selectedItems = [];
+            input = vscode.window.createQuickPick();
+            input.placeholder = 'Select the values to set.';
+            let element;
+            if (fieldDefinition.datatype !== DataTypes.OBJECT) {
+                const separator = fieldDefinition.fields[sortOrder[0]].separator;
+                if (this._selectedElements.length === 1) {
+                    let value = (separator) ? this._selectedElement + separator + this._selectedElements[0] : this._selectedElements[0];
+                    for (const fieldValue of this._permissionsContent[fieldDefinition.key]) {
+                        if (fieldValue[fieldDefinition.fieldKey] === value) {
+                            element = fieldValue;
+                            break;
+                        }
+                    }
+                }
+            }
+            for (const field of Object.keys(fieldDefinition.fields)) {
+                if (!fieldDefinition.fields[field].editable)
+                    continue;
+                let item = MultiStepInput.getItem(field, undefined, undefined, element && element[field]);
+                items.push(item);
+                if (element && element[field]) {
+                    selectedItems.push(item);
+                }
+            }
+            input.canSelectMany = true;
+            input.items = items;
+            if (selectedItems.length > 0)
+                input.selectedItems = selectedItems;
+            input.title = this._fileName + ":\n Adding new " + fieldDefinition.label + "(s) to the " + this._permissionType;
+        }
+        input.buttons = buttons;
         return input;
     }
 
     createElementInput() {
         let input;
         if (this._permissionsContent) {
-            let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-            let buttons = [MultiStepInput.getBackButton()];
-            if (elementData.xmlData.fieldKey !== undefined)
-                buttons.push(MultiStepInput.getAddButton());
-            if (this._permissionsContent[elementData.key]) {
-                let items = [];
-                let selectedItems = [];
-                let fieldKey = getFieldKey(elementData.xmlData.fieldKey);
-                if (!fieldKey || Array.isArray(fieldKey) || !elementData.xmlData.fields[fieldKey].separator) {
-                    if (this._isAddingMode) {
-                        if (Array.isArray(fieldKey)) {
-                            let element = this._permissionsContent[elementData.key][this._permissionsContent[elementData.key].length - 1];
-                            input = vscode.window.createInputBox();
-                            if (element) {
-                                input.value = (element[this._selectedElement]) ? element[this._selectedElement] : '';
-                                input.title = this._fileName + ":\n Edit " + elementData.label + " - " + this._selectedElement + ((this._isAddingMode) ? " (Add Mode)" : "");
-                                input.placeholder = 'Write a value for ' + this._selectedElement;
-                            }
-                            input.prompt = "Press Enter to set the value (DON'T PRESS 'Escape' to back)";
-                        }
-                    } else {
-                        input = vscode.window.createQuickPick();
-                        let element;
-                        if (elementData.datatype === 'array') {
-                            for (let xmlElement of this._permissionsContent[elementData.key]) {
+            const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+            const buttons = [MultiStepInput.getBackButton()];
+            if (this._permissionsContent[fieldDefinition.key]) {
+                input = vscode.window.createQuickPick();
+                const items = [];
+                const fieldKey = fieldDefinition.fieldKey;
+                const sortOrder = fieldDefinition.sortOrder;
+                let metadataType = fieldDefinition.fields[sortOrder[0]].metadataType;
+                if (Utils.isArray(fieldKey)) {
+                    metadataType = fieldDefinition.fields[sortOrder[1]].metadataType;
+                    let element;
+                    if (fieldDefinition.datatype === DataTypes.ARRAY) {
+                        for (let xmlElement of this._permissionsContent[fieldDefinition.key]) {
+                            if (!metadataType) {
                                 let value = getValue(xmlElement, fieldKey);
                                 if (value === this._selectedElement) {
                                     element = xmlElement;
                                     break;
                                 }
                             }
-                        }
-                        if (element || !fieldKey) {
-                            let fieldKeys = Object.keys(elementData.xmlData.fields);
-                            let fieldKeysWithMain = getFieldKeysWithoutKey(elementData);
-                            if (fieldKeys.length === 2 || !fieldKey) {
-                                let field = fieldKeysWithMain[0];
-                                if (!fieldKey)
-                                    field = this._selectedElement;
-                                let fieldData = elementData.xmlData.fields[field];
-                                if (fieldData.datatype === 'enum') {
-                                    buttons = [MultiStepInput.getBackButton()];
-                                    for (let enumValue of fieldData.values) {
-                                        let item = MultiStepInput.getItem(enumValue.label, undefined, undefined, undefined);
-                                        items.push(item);
-                                    }
-                                }
-                            } else {
-                                input.canSelectMany = false;
-                                if (!Array.isArray(fieldKey)) {
-                                    input.canSelectMany = true;
-                                }
-                                for (let field of fieldKeys) {
-                                    let fieldata = elementData.xmlData.fields[field];
-                                    if (fieldata.editable) {
-                                        let selected = element[field] && !Array.isArray(fieldKey);
-                                        let description;
-                                        if (Array.isArray(fieldKey))
-                                            description = element[field];
-                                        let item = MultiStepInput.getItem(field, undefined, description, selected);
-                                        items.push(item);
-                                        if (!Array.isArray(fieldKey) && selected)
-                                            selectedItems.push(item);
-                                    }
-                                }
-                            }
-                        }
-                        input.items = items;
-                        if (selectedItems.length > 0)
-                            input.selectedItems = selectedItems;
-                        input.placeholder = 'Choose an Element';
-                        input.title = this._fileName + ":\n Edit " + elementData.label + " - " + this._selectedElement + ((this._isAddingMode) ? " (Add Mode)" : "");
-                    }
-                } else {
-                    input = vscode.window.createQuickPick();
-                    if (this._isAddingMode) {
-                        let differences = getTypeDifferences(this._metadata, this._profileMetadata, elementData.key, this._xmlMetadata);
-                        if (differences && differences[elementData.metadataType] && differences[elementData.metadataType].childs && differences[elementData.metadataType].childs[this._selectedElement]) {
-                            input.canSelectMany = true;
-                            let sorted = Object.keys(differences[elementData.metadataType].childs[this._selectedElement].childs).sort();
-                            for (let itemKey of sorted) {
-                                let item = MultiStepInput.getItem(itemKey, undefined, undefined, undefined);
-                                items.push(item);
-                            }
-                        } else {
-                            if (this._onReportCallback)
-                                this._onReportCallback.call(this, "Not new " + elementData.metadataType + " found for add to this " + ((this._isPermissionSet) ? "Permission Set" : "Profile"));
-                            this._isAddingMode = false;
+
                         }
                     }
-                    if (!this._isAddingMode) {
-                        if (elementData.metadataType === Metadata.MetadataTypes.LAYOUT) {
-                            buttons = [MultiStepInput.getBackButton()];
-                            if (this._metadata && this._metadata[Metadata.MetadataTypes.RECORD_TYPE] && Metadata.Utils.haveChilds(this._metadata[Metadata.MetadataTypes.RECORD_TYPE])) {
+                    if (element || metadataType) {
+                        if (metadataType) {
+                            input.placeholder = 'Select an element to edit permissions.';
+                            //buttons.push(MultiStepInput.getAcceptButton());
+                            if (this._metadata && this._metadata[metadataType] && MetadataUtils.haveChilds(this._metadata[metadataType])) {
                                 let child = {
                                     xmlElement: undefined,
                                 };
-                                if (this._profileMetadata[elementData.key] && this._profileMetadata[elementData.key][this._selectedElement] && this._profileMetadata[elementData.key][this._selectedElement].childs)
-                                    child = this._profileMetadata[elementData.key][this._selectedElement].childs["Master"];
+                                if (this._profileMetadata[fieldDefinition.key] && this._profileMetadata[fieldDefinition.key][this._selectedElement] && this._profileMetadata[fieldDefinition.key][this._selectedElement].childs)
+                                    child = this._profileMetadata[fieldDefinition.key][this._selectedElement].childs["Master"];
                                 let description;
                                 if (child && child.xmlElement) {
                                     let xmlElement = child.xmlElement;
-                                    description = getDescription(xmlElement, elementData, true);
+                                    description = getValue(xmlElement, fieldKey[0], true);
                                 } else {
                                     description = '-- Not Assignment --';
                                 }
                                 items.push(MultiStepInput.getItem("Master", undefined, description, undefined));
-                                for (let itemKey of Object.keys(this._metadata[Metadata.MetadataTypes.RECORD_TYPE].childs[this._selectedElement].childs)) {
+                                for (let itemKey of Object.keys(this._metadata[metadataType].childs[this._selectedElement].childs)) {
                                     description = undefined;
                                     let child = {
                                         xmlElement: undefined,
                                     };
-                                    if (this._profileMetadata[elementData.key] && this._profileMetadata[elementData.key][this._selectedElement] && this._profileMetadata[elementData.key][this._selectedElement].childs)
-                                        child = this._profileMetadata[elementData.key][this._selectedElement].childs[itemKey];
+                                    if (this._profileMetadata[fieldDefinition.key] && this._profileMetadata[fieldDefinition.key][this._selectedElement] && this._profileMetadata[fieldDefinition.key][this._selectedElement].childs)
+                                        child = this._profileMetadata[fieldDefinition.key][this._selectedElement].childs[itemKey];
                                     if (child && child.xmlElement) {
                                         let xmlElement = child.xmlElement;
-                                        description = getDescription(xmlElement, elementData, true);
+                                        description = getValue(xmlElement, fieldKey[0], true);
                                     } else {
                                         description = '-- Not Assignment --';
                                     }
@@ -808,43 +422,50 @@ class PermissionEditor extends XMLEditor {
                                     items.push(item);
                                 }
                             } else {
-                                let sorted = Object.keys(this._profileMetadata[elementData.key][this._selectedElement].childs).sort();
+                                input.placeholder = 'Select an element to edit permissions.';
+                                let sorted = Object.keys(this._profileMetadata[fieldDefinition.key][this._selectedElement].childs).sort();
                                 for (let obj of sorted) {
-                                    let child = this._profileMetadata[elementData.key][this._selectedElement].childs[obj];
+                                    let child = this._profileMetadata[fieldDefinition.key][this._selectedElement].childs[obj];
                                     let xmlElement = child.xmlElement;
-                                    let description = getDescription(xmlElement, elementData, true);
+                                    let description = getDescription(xmlElement, fieldDefinition, true);
                                     let item = MultiStepInput.getItem(obj, undefined, description, undefined);
                                     items.push(item);
                                 }
                             }
                         } else {
-                            let sorted = Object.keys(this._profileMetadata[elementData.key][this._selectedElement].childs).sort();
-                            for (let key of sorted) {
-                                let child = this._profileMetadata[elementData.key][this._selectedElement].childs[key];
-                                let xmlElement = child.xmlElement;
-                                let description;
-                                if (elementData.metadataType == Metadata.MetadataTypes.CUSTOM_FIELDS || elementData.metadataType == Metadata.MetadataTypes.RECORD_TYPE) {
-                                    description = getDescription(xmlElement, elementData, false);
-                                } else if (elementData.metadataType == Metadata.MetadataTypes.LAYOUT) {
-                                    description = getDescription(xmlElement, elementData, true);
-                                    if (!description)
-                                        description = '-- Not Assignment --';
-                                }
-                                let item = MultiStepInput.getItem(child.name, undefined, description, undefined);
-                                items.push(item);
+                            input.placeholder = 'Select field to set a value. Click "Accept" to save changes, "Delete" to delete the element, "Back" to rollback';
+                            buttons.push(MultiStepInput.getDeleteButton());
+                            buttons.push(MultiStepInput.getAcceptButton());
+                            for (const field of Object.keys(fieldDefinition.fields)) {
+                                items.push(MultiStepInput.getItem(fieldDefinition.fields[field].label, undefined, element[field], undefined));
                             }
                         }
                     }
-                    input.items = items;
-                    if (selectedItems.length > 0)
-                        input.selectedItems = selectedItems;
-                    input.placeholder = 'Choose an Element';
-                    input.title = this._fileName + ":\n Edit " + elementData.label + " - " + this._selectedElement + ((this._isAddingMode) ? " (Add Mode)" : "");
+                } else if (fieldDefinition.datatype === DataTypes.OBJECT) {
+                    input.placeholder = 'Select a value to set';
+                    const subfieldDefinition = getFieldDefinitionByLabel(this._selectedElement, fieldDefinition.fields);
+                    if (subfieldDefinition.datatype === 'enum') {
+                        for (let enumValue of subfieldDefinition.values) {
+                            let item = MultiStepInput.getItem(enumValue.label, undefined, undefined, undefined);
+                            items.push(item);
+                        }
+                    }
+                } else {
+                    buttons.push(MultiStepInput.getAddButton());
+                    //buttons.push(MultiStepInput.getAcceptButton());
+                    input.placeholder = 'Select an element to edit permissions';
+                    let sorted = Object.keys(this._profileMetadata[fieldDefinition.key][this._selectedElement].childs).sort();
+                    for (let key of sorted) {
+                        let child = this._profileMetadata[fieldDefinition.key][this._selectedElement].childs[key];
+                        let xmlElement = child.xmlElement;
+                        let description;
+                        description = getDescription(xmlElement, fieldDefinition, false);
+                        let item = MultiStepInput.getItem(child.name, undefined, description, undefined);
+                        items.push(item);
+                    }
                 }
-                input.step = ELEMENT_STEP;
-                input.totalSteps = RESULT_STEP;
-                if (this._isAddingMode)
-                    buttons = [MultiStepInput.getBackButton()];
+                input.title = this._fileName + ":\n Edit " + fieldDefinition.label + " - " + this._selectedElement;
+                input.items = items;
                 input.buttons = buttons;
             }
         }
@@ -854,66 +475,28 @@ class PermissionEditor extends XMLEditor {
     createSubElementInput() {
         let input;
         if (this._permissionsContent) {
-            let elementData = getXMLElementDataByLabel(this._selectedCollection, this._xmlMetadata);
-            if (this._permissionsContent[elementData.key]) {
+            const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+            if (this._permissionsContent[fieldDefinition.key]) {
                 let items = [];
                 let selectedItems = [];
-                let fieldKey = getFieldKey(elementData.xmlData.fieldKey);
-                let element;
-                if (!Array.isArray(fieldKey) && elementData.xmlData.fields[fieldKey].separator) {
+                const fieldKey = fieldDefinition.fieldKey;
+                if (Array.isArray(fieldKey)) {
+                    const metadataType = fieldDefinition.fields[fieldKey[0]].metadataType;
                     input = vscode.window.createQuickPick();
-                    let fieldKeys = Object.keys(elementData.xmlData.fields);
-                    for (let xmlElement of this._permissionsContent[elementData.key]) {
-                        if (xmlElement[fieldKey] === this._selectedElement + elementData.xmlData.fields[fieldKey].separator + this._selectedSubElement) {
-                            element = xmlElement;
-                            break;
-                        }
-                    }
-                    if (element) {
-                        input.canSelectMany = true;
-                        for (let field of fieldKeys) {
-                            let fieldata = elementData.xmlData.fields[field];
-                            if (fieldata.editable && fieldata.datatype === 'boolean') {
-                                let selected = element[field];
-                                let item = MultiStepInput.getItem(field, undefined, undefined, selected);
-                                items.push(item);
-                                if (selected)
-                                    selectedItems.push(item);
-                            }
-                        }
-                    } else if (elementData.metadataType === Metadata.MetadataTypes.LAYOUT) {
-                        let sorted = Object.keys(this._metadata[elementData.metadataType].childs[this._selectedElement].childs).sort();
-                        for (let key of sorted) {
-                            let item = MultiStepInput.getItem(key, undefined, undefined, undefined);
-                            items.push(item);
-                        }
+                    input.placeholder = 'Select a value to set';
+                    let sorted = Object.keys(this._metadata[metadataType].childs[this._selectedElement].childs).sort();
+                    if (this._selectedSubElement !== 'Master')
+                        items.push(MultiStepInput.getItem('-- Not Assignment --', undefined, undefined, undefined));
+                    for (let key of sorted) {
+                        let item = MultiStepInput.getItem(key, undefined, undefined, undefined);
+                        items.push(item);
                     }
                     input.items = items;
                     if (selectedItems.length > 0)
                         input.selectedItems = selectedItems;
-                    input.title = this._fileName + ":\n Edit " + elementData.label + " - " + this._selectedElement + elementData.xmlData.fields[elementData.xmlData.fieldKey].separator + this._selectedSubElement + ((this._isAddingMode) ? " (Add Mode)" : "");
-                    input.placeholder = 'Choose an Element';
-                } else {
-                    if (fieldKey) {
-                        for (let xmlElement of this._permissionsContent[elementData.key]) {
-                            let value = getValue(xmlElement, fieldKey);
-                            if (value === this._selectedElement) {
-                                element = xmlElement;
-                                break;
-                            }
-                        }
-                        input = vscode.window.createInputBox();
-                        if (element) {
-                            input.value = (element[this._selectedSubElement]) ? element[this._selectedSubElement] : '';
-                            input.title = this._fileName + ":\n Edit " + elementData.label + " - " + this._selectedElement + ' -- ' + this._selectedSubElement + ((this._isAddingMode) ? " (Add Mode)" : "");
-                            input.placeholder = 'Write a value for ' + this._selectedSubElement;
-                        }
-                        input.prompt = "Press Enter to set the value (DON'T PRESS 'Escape' to back)";
-                    }
+                    input.title = this._fileName + ":\n Edit " + fieldDefinition.label + " - " + this._selectedElement + fieldDefinition.fields[fieldKey[1]].separator + this._selectedSubElement;
                 }
-                input.step = SUB_ELEMENT_STEP;
-                input.totalSteps = RESULT_STEP;
-                let buttons = [MultiStepInput.getBackButton(), MultiStepInput.getAddButton()];
+                let buttons = [MultiStepInput.getBackButton()];
                 input.buttons = buttons;
             }
         }
@@ -924,11 +507,12 @@ class PermissionEditor extends XMLEditor {
         let input;
         if (this._permissionsContent) {
             input = vscode.window.createQuickPick();
-            let permissionsMap = transformPermissionContentToMap(this._permissionsContent, this._xmlMetadata);
-            let oldPermissionsMap = transformPermissionContentToMap(this._oldPermissionContent, this._xmlMetadata);
+            let permissionsMap = transformPermissionContentToMap(this._permissionsContent, this._xmlDefinition);
+            let oldPermissionsMap = transformPermissionContentToMap(this._oldPermissionContent, this._xmlDefinition);
             let changes = {};
             let items = [];
             for (let collectionKey of Object.keys(permissionsMap)) {
+                const fieldDefinition = this._xmlDefinition[collectionKey];
                 let collection = permissionsMap[collectionKey];
                 let oldCollection = oldPermissionsMap[collectionKey];
                 if (collection.elements) {
@@ -964,55 +548,715 @@ class PermissionEditor extends XMLEditor {
                             }
                         }
                     }
-                }
-            }
-            if (Object.keys(changes).length > 0) {
-                for (let collectionKey of Object.keys(changes)) {
-                    let collectionData = this._xmlMetadata[collectionKey];
-                    items.push(MultiStepInput.getItem(collectionData.label));
-                    for (let xmlElementKey of Object.keys(changes[collectionKey].elements)) {
-                        let newElement = changes[collectionKey].elements[xmlElementKey].newElement;
-                        let oldElement = changes[collectionKey].elements[xmlElementKey].oldElement;
-                        if (!oldElement) {
-                            items.push(MultiStepInput.getItem("\t" + xmlElementKey + " (New)"));
-                            for (let field of Object.keys(newElement)) {
-                                items.push(MultiStepInput.getItem("\t\tField " + field + ": " + ((newElement[field] === undefined) ? "null" : newElement[field])));
-                            }
-                        } else {
-                            items.push(MultiStepInput.getItem("\t" + xmlElementKey + " (Modified)"));
-                            for (let field of Object.keys(newElement)) {
-                                if (newElement[field] !== oldElement[field]) {
-                                    items.push(MultiStepInput.getItem("\t\tField " + field + ": From " + ((oldElement[field] === undefined) ? "null" : oldElement[field]) + " to " + ((newElement[field] === undefined) ? "null" : newElement[field])));
+                } else {
+                    if (fieldDefinition.datatype === DataTypes.OBJECT) {
+                        for (let field of Object.keys(fieldDefinition.fields)) {
+                            if (collection[field] !== oldCollection[field]) {
+                                if (!changes[collectionKey]) {
+                                    changes[collectionKey] = {
+                                        name: collectionKey,
+                                        elements: {}
+                                    };
                                 }
+                                changes[collectionKey].elements[field] = {
+                                    oldElement: oldCollection[field],
+                                    newElement: collection[field],
+                                };
+                            }
+                        }
+                    } else {
+                        if (collection !== oldCollection) {
+                            if (!changes[collectionKey]) {
+                                changes[collectionKey] = {
+                                    name: collectionKey,
+                                    oldElement: oldCollection,
+                                    newElement: collection
+                                };
                             }
                         }
                     }
                 }
-                input.placeholder = "Changes on " + this._fileName + " " + ((this._isPermissionSet) ? "Permission Set" : "Profile");
+            }
+            if (Object.keys(changes).length > 0) {
+                for (let collectionKey of Object.keys(changes)) {
+                    const fieldDefinition = this._xmlDefinition[collectionKey];
+                    let collectionData = this._xmlDefinition[collectionKey];
+                    if (changes[collectionKey].elements) {
+                        items.push(MultiStepInput.getItem('$(symbol-field)  ' + collectionData.label));
+                        if (fieldDefinition.datatype === DataTypes.OBJECT) {
+                            for (let field of Object.keys(fieldDefinition.fields)) {
+                                if (changes[collectionKey].elements[field]) {
+                                    let newElement = changes[collectionKey].elements[field].newElement;
+                                    let oldElement = changes[collectionKey].elements[field].oldElement;
+                                    items.push(MultiStepInput.getItem("\t$(symbol-value)  " + field + ": " + ((oldElement === undefined) ? "null" : oldElement) + " $(arrow-right) " + ((newElement === undefined) ? "null" : newElement)));
+                                }
+                            }
+                        } else {
+                            for (let xmlElementKey of Object.keys(changes[collectionKey].elements)) {
+                                let newElement = changes[collectionKey].elements[xmlElementKey].newElement;
+                                let oldElement = changes[collectionKey].elements[xmlElementKey].oldElement;
+                                if (!oldElement) {
+                                    items.push(MultiStepInput.getItem("\t$(add)  " + xmlElementKey));
+                                    for (let field of Object.keys(newElement)) {
+                                        items.push(MultiStepInput.getItem("\t\t$(symbol-value)  " + field + ": " + ((newElement[field] === undefined) ? "null" : newElement[field])));
+                                    }
+                                } else {
+                                    items.push(MultiStepInput.getItem("\t$(edit)  " + xmlElementKey));
+                                    for (let field of Object.keys(newElement)) {
+                                        if (newElement[field] !== oldElement[field]) {
+                                            items.push(MultiStepInput.getItem("\t\t$(symbol-value)  " + field + ": " + ((oldElement[field] === undefined) ? "null" : oldElement[field]) + " $(arrow-right) " + ((newElement[field] === undefined) ? "null" : newElement[field])));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        let newElement = changes[collectionKey].newElement;
+                        let oldElement = changes[collectionKey].oldElement;
+                        items.push(MultiStepInput.getItem("$(symbol-field)  " + collectionKey + ": " + ((oldElement === undefined) ? "null" : oldElement) + " $(arrow-right) " + ((newElement === undefined) ? "null" : newElement)));
+                    }
+                }
+                this.hasChanges = true;
+                input.placeholder = "Changes on " + this._fileName + " " + this._permissionType;
             } else {
-                input.placeholder = "The " + ((this._isPermissionSet) ? "Permission Set" : "Profile") + " " + this._fileName + " has not any changes";
+                input.placeholder = "The " + this._permissionType + " " + this._fileName + " has not any changes";
             }
             input.items = items;
-            input.step = RESULT_STEP;
-            input.totalSteps = RESULT_STEP;
             let buttons = [MultiStepInput.getBackButton(), MultiStepInput.getAcceptButton()];
             input.title = this._title;
             input.buttons = buttons;
         }
         return input;
     }
+
+    createOptionsInput() {
+        let input;
+        if (this._permissionsContent) {
+            const items = [];
+            input = vscode.window.createQuickPick();
+            input.placeholder = 'Choose the options before save the file, like compress file';
+            input.title = this._title + ": Choose options before save";
+            input.canSelectMany = true;
+            items.push(MultiStepInput.getItem('Compress', undefined, 'Compress XML File with Aura Helper Format', undefined));
+            if (this.hasChanges) {
+                items.push(MultiStepInput.getItem('Deploy to Org', undefined, this._fileName + ' ' + this._permissionType + ' are modified. Want to deploy to the Auth Org?', undefined));
+            }
+            input.items = items;
+            input.buttons = [MultiStepInput.getBackButton()];
+        }
+        return input;
+    }
+
+    onChangeSelection(items) {
+        let fieldDefinition = {};
+        let fieldKey;
+        let selectedItems = this.getSelectedElements(items);
+        let editableFields = [];
+        let sortOrder;
+        let metadataType;
+        let separator;
+        switch (this._step) {
+            case ROOT_STEP:
+                this._selectedCollection = selectedItems[0];
+                this.nextStep(PERMISSIONS_STEP);
+                break;
+            case PERMISSIONS_STEP:
+                fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                fieldKey = fieldDefinition.fieldKey;
+                sortOrder = fieldDefinition.sortOrder;
+                editableFields = getEditableFields(fieldDefinition);
+                let notUniqueFields = getNotUniqueFields(fieldDefinition);
+                metadataType = fieldDefinition.fields[sortOrder[0]].metadataType;
+                if (editableFields.length > 1 || Array.isArray(fieldKey)) {
+                    this._selectedElement = selectedItems[0];
+                    this._selectedElements = selectedItems;
+                    const hasChilds = this._profileMetadata[fieldDefinition.key] && this._profileMetadata[fieldDefinition.key][this._selectedElement] && Utils.hasKeys(this._profileMetadata[fieldDefinition.key][this._selectedElement].childs);
+                    if (fieldDefinition.key === 'applicationVisibilities' || (!hasChilds && metadataType && notUniqueFields.length === editableFields.length))
+                        this.nextStep(SET_VALUES_STEP);
+                    else
+                        this.nextStep(ELEMENT_STEP);
+                } else if (fieldDefinition.fields[editableFields[0]].datatype === DataTypes.ENUM) {
+                    this._selectedElement = selectedItems[0];
+                    this._selectedElements = selectedItems;
+                    this.nextStep(SET_VALUES_STEP);
+                }
+                break;
+            case ADD_PERMISSION_STEP:
+                fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                editableFields = getEditableFields(fieldDefinition);
+                fieldKey = fieldDefinition.fieldKey;
+                sortOrder = fieldDefinition.sortOrder;
+                metadataType = fieldDefinition.fields[sortOrder[0]].metadataType;
+                separator = !Utils.isArray(fieldKey) ? fieldDefinition.fields[sortOrder[0]].separator : undefined;
+                if (editableFields.length > 1 && !this._currentInput.canSelectMany) {
+                    this._selectedSubElement = selectedItems[0];
+                    if (!separator)
+                        this.nextStep(SET_VALUES_STEP);
+                    else {
+                        this._selectedElement = selectedItems[0];
+                        const differences = getTypeDifferences(this._metadata, this._profileMetadata, fieldDefinition.key, this._xmlDefinition);
+                        if (differences[metadataType].childs && Utils.hasKeys(differences[metadataType].childs[this._selectedElement].childs)) {
+                            this.nextStep(ADD_CHILD_PERMISSION_STEP);
+                        } else {
+                            this.fireReportEvent("Not new " + metadataType + " found on " + this._selectedElement + " to add to this " + this._permissionType);
+                        }
+                    }
+                }
+                break;
+            case SET_VALUES_STEP:
+                fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                editableFields = getEditableFields(fieldDefinition);
+                fieldKey = fieldDefinition.fieldKey;
+                sortOrder = fieldDefinition.sortOrder;
+                metadataType = fieldDefinition.fields[sortOrder[0]].metadataType;
+                separator = !Utils.isArray(fieldKey) ? fieldDefinition.fields[sortOrder[0]].separator : undefined;
+                const subFieldDefinition = fieldDefinition.fields[editableFields[0]];
+                if (subFieldDefinition.datatype === DataTypes.ENUM) {
+                    if (this._selectedElements.length > 1) {
+                        for (const selectedElement of this._selectedElements) {
+                            let dataToAdd = {};
+                            for (let field of Object.keys(fieldDefinition.fields)) {
+                                let fieldData = fieldDefinition.fields[field];
+                                dataToAdd[field] = (fieldData.default == '{!value}') ? selectedElement : subFieldDefinition.getValue(selectedItems[0]);
+                            }
+                            this._permissionsContent[fieldDefinition.key].push(dataToAdd);
+                        }
+                        Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
+                        this._profileMetadata = extractMetadataFromFile(this._permissionsContent, this._xmlDefinition);
+                        this.backStep(PERMISSIONS_STEP);
+                    } else {
+                        let element;
+                        let index = 0;
+                        for (const fieldValue of this._permissionsContent[fieldDefinition.key]) {
+                            if (fieldValue[fieldKey] === this._selectedElement) {
+                                element = fieldValue;
+                                this._permissionsContent[fieldDefinition.key][index][editableFields[0]] = subFieldDefinition.getValue(selectedItems[0]);
+                                break;
+                            }
+                            index++;
+                        }
+                        if (!element) {
+                            let dataToAdd = {};
+                            for (let field of Object.keys(fieldDefinition.fields)) {
+                                let fieldData = fieldDefinition.fields[field];
+                                dataToAdd[field] = (fieldData.default == '{!value}') ? this._selectedElements[0] : subFieldDefinition.getValue(selectedItems[0]);
+                            }
+                            this._permissionsContent[fieldDefinition.key].push(dataToAdd);
+                        }
+                        Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
+                        this._profileMetadata = extractMetadataFromFile(this._permissionsContent, this._xmlDefinition);
+                        this.backStep();
+                    }
+                }
+                break;
+            case ELEMENT_STEP:
+                fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                fieldKey = fieldDefinition.fieldKey;
+                sortOrder = fieldDefinition.sortOrder;
+                editableFields = getEditableFields(fieldDefinition);
+                if (Utils.isArray(fieldKey)) {
+                    metadataType = fieldDefinition.fields[sortOrder[1]].metadataType;
+                    if (metadataType) {
+                        this._selectedSubElement = selectedItems[0];
+                        this.nextStep(SUB_ELEMENT_STEP);
+                    } else {
+                        this.newElement = false;
+                        this._selectedSubElement = selectedItems[0];
+                        this.nextStep(SET_VALUES_STEP);
+                    }
+                } else if (fieldDefinition.datatype === DataTypes.OBJECT) {
+                    const subfieldDefinition = getFieldDefinitionByLabel(this._selectedElement, fieldDefinition.fields);
+                    let value = selectedItems[0];
+                    if (value === '-- None --') {
+                        value = undefined;
+                        delete this._permissionsContent[fieldDefinition.key][subfieldDefinition.key];
+                    } else {
+                        if (!this._permissionsContent[fieldDefinition.key])
+                            this._permissionsContent[fieldDefinition.key] = {};
+                        this._permissionsContent[fieldDefinition.key][subfieldDefinition.key] = subfieldDefinition.getValue(value);
+                    }
+                    this.backStep();
+                } else {
+                    this._selectedSubElement = selectedItems[0];
+                    this._selectedElements = selectedItems;
+                    this.nextStep(SET_VALUES_STEP);
+                }
+                break;
+            case SUB_ELEMENT_STEP:
+                fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                editableFields = getEditableFields(fieldDefinition);
+                fieldKey = fieldDefinition.fieldKey;
+                sortOrder = fieldDefinition.sortOrder;
+                if (Utils.isArray(fieldKey)) {
+                    let rtField = fieldDefinition.fields[sortOrder[1]];
+                    let mainFieldData = fieldDefinition.fields[fieldKey[0]];
+                    let element;
+                    let indexToRemove = 0;
+                    for (let xmlElement of this._permissionsContent[fieldDefinition.key]) {
+                        if (this._selectedSubElement === 'Master') {
+                            if (xmlElement[fieldKey[0]].startsWith(this._selectedElement + mainFieldData.separator) && !xmlElement[sortOrder[1]]) {
+                                element = xmlElement;
+                                xmlElement[fieldKey[0]] = this._selectedElement + mainFieldData.separator + selectedItems[0];
+                                break;
+                            }
+                        } else {
+                            if (xmlElement[sortOrder[1]] === this._selectedElement + rtField.separator + this._selectedSubElement) {
+                                element = xmlElement;
+                                if (selectedItems[0] === '-- Not Assignment --') {
+                                    break;
+                                } else {
+                                    xmlElement[fieldKey[0]] = this._selectedElement + mainFieldData.separator + selectedItems[0];
+                                }
+                                break;
+                            }
+                        }
+                        indexToRemove++;
+                    }
+                    if (element && selectedItems[0] === '-- Not Assignment --') {
+                        this._permissionsContent[fieldDefinition.key].splice(indexToRemove, 1);
+                    } else if (!element && selectedItems[0] !== '-- Not Assignment --') {
+                        let dataToAdd = {};
+                        dataToAdd[fieldKey[0]] = this._selectedElement + mainFieldData.separator + selectedItems[0];
+                        if (this._selectedSubElement !== 'Master') {
+                            dataToAdd[fieldKey[1]] = this._selectedElement + rtField.separator + this._selectedSubElement;
+                            this._permissionsContent[fieldDefinition.key].push(dataToAdd);
+                        }
+                        this._permissionsContent[fieldDefinition.key].push(dataToAdd);
+                        Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
+                    }
+                    this._profileMetadata = extractMetadataFromFile(this._permissionsContent, this._xmlDefinition);
+                }
+                this.backStep();
+                break;
+        }
+    }
+
+    async onButtonPressed(buttonName) {
+        if (buttonName === 'back') {
+            if (this._step === ADD_PERMISSION_STEP) {
+                const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                const fieldKey = fieldDefinition.fieldKey;
+                if (this.newElement) {
+                    this.newElement = false;
+                    if (Utils.isArray(fieldKey)) {
+                        this._permissionsContent[fieldDefinition.key].pop();
+                    }
+                }
+            } else if (this._step === ELEMENT_STEP) {
+                const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                const fieldKey = fieldDefinition.fieldKey;
+                if (Utils.isArray(fieldKey)) {
+                    let index = 0;
+                    for (const fieldValue of this._permissionsContent[fieldDefinition.key]) {
+                        const value = getValue(fieldValue, fieldKey);
+                        if (value === this._selectedElement) {
+                            this._permissionsContent[fieldDefinition.key][index] = Utils.clone(this._oldPermissionContent[fieldDefinition.key][index]);
+                            break;
+                        }
+                        index++;
+                    }
+                }
+            }
+        } else if (buttonName === 'Accept') {
+            if (this._step === ROOT_STEP) {
+                this.nextStep(RESULT_STEP);
+            } else if (this._step === RESULT_STEP) {
+                this.nextStep(OPTIONS_STEP);
+            } else {
+                const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                const fieldKey = fieldDefinition.fieldKey;
+                if (Utils.isArray(fieldKey)) {
+                    let element;
+                    if (this.newElement) {
+                        element = this._permissionsContent[fieldDefinition.key][this._permissionsContent[fieldDefinition.key].length - 1];
+                    } else {
+                        let index = 0;
+                        for (const fieldValue of this._permissionsContent[fieldDefinition.key]) {
+                            const value = getValue(fieldValue, fieldKey);
+                            if (value === this._selectedElement) {
+                                element = fieldValue;
+                                break;
+                            }
+                            index++;
+                        }
+                    }
+                    let validationError = undefined;
+                    for (let field of Object.keys(fieldDefinition.fields)) {
+                        let fieldData = fieldDefinition.fields[field];
+                        let error = fieldData.validate(element[field]);
+                        if (error) {
+                            if (!validationError)
+                                validationError = error;
+                            else
+                                validationError += '; ' + error;
+                        }
+                    }
+                    if (!validationError) {
+                        if (element.description === '-- None --')
+                            this._permissionsContent[fieldDefinition.key][this._permissionsContent[fieldDefinition.key].length - 1].description = undefined;
+                        // Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
+                        this.backStep();
+                    } else {
+                        this.fireValidationEvent(validationError);
+                    }
+                }
+            }
+        } else if (buttonName === 'Delete') {
+            if (this._step === ELEMENT_STEP) {
+                const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                const fieldKey = fieldDefinition.fieldKey;
+                if (Utils.isArray(fieldKey)) {
+                    let index = 0;
+                    for (const fieldValue of this._permissionsContent[fieldDefinition.key]) {
+                        const value = getValue(fieldValue, fieldKey);
+                        if (value === this._selectedElement) {
+                            break;
+                        }
+                        index++;
+                    }
+                    this._permissionsContent[fieldDefinition.key].splice(index, 1);
+                    this.backStep();
+                }
+            }
+        } else if (buttonName === 'Ok') {
+            let fieldDefinition = {};
+            let fieldKeys = [];
+            let editableFields = [];
+            let uniqueFields = [];
+            let fieldKey;
+            let sortOrder;
+            let separator;
+            const selectedItems = this.getSelectedElements(this._currentInput.selectedItems);
+            switch (this._step) {
+                case OPTIONS_STEP:
+                    this._xmlContent[this._permissionType] = this._permissionsContent;
+                    const options = {
+                        compress: selectedItems.includes('Compress'),
+                        deploy: selectedItems.includes('Deploy to Org'),
+                        hasChanges: this.hasChanges
+                    };
+                    const data = {
+                        file: this._fileName,
+                        type: this._permissionType
+                    }
+                    if (options.hasChanges) {
+                        this.save(options.compress).then(() => {
+                            this.fireAcceptEvent(options, data);
+                            this._currentInput.dispose();
+                        }).catch((error) => {
+                            this.fireErrorEvent(error.message);
+                        });
+                    } else {
+                        this.fireAcceptEvent(options, data);
+                        this._currentInput.dispose();
+                    }
+                    break;
+                case PERMISSIONS_STEP:
+                    fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                    fieldKeys = Object.keys(fieldDefinition.fields);
+                    fieldKey = fieldDefinition.fieldKey;
+                    editableFields = getEditableFields(fieldDefinition);
+                    if (selectedItems.length === 0) {
+                        this.backStep();
+                    } else if (editableFields.length === 1) {
+                        for (let i = 0; i < this._permissionsContent[fieldDefinition.key].length; i++) {
+                            this._permissionsContent[fieldDefinition.key][i][editableFields[0]] = selectedItems.includes(this._permissionsContent[fieldDefinition.key][i][fieldKey]);
+                        }
+                        Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
+                        this.backStep();
+                    } else {
+                        this._selectedElements = selectedItems;
+                        this.nextStep(SET_VALUES_STEP);
+                    }
+                    break;
+                case ADD_PERMISSION_STEP:
+                    fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                    fieldKeys = Object.keys(fieldDefinition.fields);
+                    editableFields = getEditableFields(fieldDefinition);
+                    let notUnique = getNotUniqueFields(fieldDefinition);
+                    if (selectedItems.length === 0) {
+                        this.backStep();
+                    } else if (editableFields.length === 1 || selectedItems.length > 1) {
+                        if ((editableFields.length === 1 || editableFields.length != notUnique.length) && fieldDefinition.fields[editableFields[0]].datatype !== DataTypes.ENUM) {
+                            for (let selectedItem of selectedItems) {
+                                let dataToAdd = {};
+                                for (let field of fieldKeys) {
+                                    let fieldData = fieldDefinition.fields[field];
+                                    dataToAdd[field] = (fieldData.default == '{!value}') ? selectedItem : fieldData.default;
+                                }
+                                this._permissionsContent[fieldDefinition.key].push(dataToAdd);
+                            }
+                            Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
+                            this._profileMetadata = extractMetadataFromFile(this._permissionsContent, this._xmlDefinition);
+                            this.backStep();
+                        } else {
+                            this._selectedElements = selectedItems;
+                            this.nextStep(SET_VALUES_STEP);
+                        }
+                    } else {
+                        this._selectedElements = selectedItems;
+                        this.nextStep(SET_VALUES_STEP);
+                    }
+                    break;
+                case ADD_CHILD_PERMISSION_STEP:
+                    fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                    fieldKeys = Object.keys(fieldDefinition.fields);
+                    editableFields = getEditableFields(fieldDefinition);
+                    let notUniqueFields = getNotUniqueFields(fieldDefinition);
+                    sortOrder = fieldDefinition.sortOrder;
+                    separator = !Utils.isArray(fieldKey) ? fieldDefinition.fields[sortOrder[0]].separator : undefined;
+                    if (selectedItems.length === 0) {
+                        this.backStep();
+                    } else {
+                        if (notUniqueFields.length !== editableFields.length && selectedItems.length > 1) {
+                            for (let selectedItem of selectedItems) {
+                                let dataToAdd = {};
+                                for (let field of fieldKeys) {
+                                    let fieldData = fieldDefinition.fields[field];
+                                    dataToAdd[field] = (fieldData.default == '{!value}') ? (this._selectedElement + separator + selectedItem) : fieldData.default;
+                                }
+                                this._permissionsContent[fieldDefinition.key].push(dataToAdd);
+                            }
+                            Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
+                            this._profileMetadata = extractMetadataFromFile(this._permissionsContent, this._xmlDefinition);
+                            this.backStep();
+                        } else {
+                            this._selectedElements = selectedItems;
+                            this.nextStep(SET_VALUES_STEP);
+                        }
+                    }
+                    break;
+                case SET_VALUES_STEP:
+                    fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+                    fieldKeys = Object.keys(fieldDefinition.fields);
+                    fieldKey = fieldDefinition.fieldKey;
+                    editableFields = getEditableFields(fieldDefinition);
+                    sortOrder = fieldDefinition.sortOrder;
+                    separator = fieldDefinition.fields[sortOrder[0]].separator;
+                    let element;
+                    if (this._selectedElements.length === 1) {
+                        for (const fieldValue of this._permissionsContent[fieldDefinition.key]) {
+                            let value = (separator) ? this._selectedElement + separator + this._selectedElements[0] : this._selectedElements[0];
+                            if (fieldValue[fieldDefinition.fieldKey] === value) {
+                                for (let field of editableFields) {
+                                    const subfieldDefinition = fieldDefinition.fields[field];
+                                    let value = selectedItems.includes(field);
+                                    if (fieldValue[field] != value) {
+                                        if (subfieldDefinition.unique && subfieldDefinition.editable) {
+                                            uniqueFields.push({ field: field, value: value, datatype: subfieldDefinition.datatype });
+                                        }
+                                    }
+                                    fieldValue[field] = value;
+                                }
+                                element = fieldValue;
+                                break;
+                            }
+                        }
+                    }
+                    if (!element) {
+                        for (let selectedElement of this._selectedElements) {
+                            let dataToAdd = {};
+                            for (let field of fieldKeys) {
+                                let value = (separator) ? this._selectedElement + separator + selectedElement : selectedElement;
+                                const subfieldDefinition = fieldDefinition.fields[field];
+                                dataToAdd[field] = (subfieldDefinition.default == '{!value}') ? value : selectedItems.includes(field);
+                                if (subfieldDefinition.unique && subfieldDefinition.editable) {
+                                    uniqueFields.push({ field: field, value: dataToAdd[field], datatype: subfieldDefinition.datatype });
+                                }
+                            }
+                            this._permissionsContent[fieldDefinition.key].push(dataToAdd);
+                            let checkedNow = getCheckedItems(selectedItems, this._currentInput.items);
+                            const uncheckedNow = getUncheckedItems(selectedItems, this._currentInput.items);
+                            if (checkedNow.length === 0 && uncheckedNow.length === 0)
+                                checkedNow = selectedItems;
+                            Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
+                            MetadataUtils.handleUniqueFields(this._permissionsContent, fieldDefinition, uniqueFields, separator ? this._selectedElement : selectedElement, separator ? selectedElement : undefined);
+                            MetadataUtils.handleControlledFields(this._permissionsContent, fieldDefinition, checkedNow, separator ? this._selectedElement : selectedElement, separator ? selectedElement : undefined);
+                            MetadataUtils.handleControlledFields(this._permissionsContent, fieldDefinition, uncheckedNow, separator ? this._selectedElement : selectedElement, separator ? selectedElement : undefined);
+                        }
+                        this._profileMetadata = extractMetadataFromFile(this._permissionsContent, this._xmlDefinition);
+                        this.backStep(PERMISSIONS_STEP);
+                    } else {
+                        let checkedNow = getCheckedItems(selectedItems, this._currentInput.items);
+                        const uncheckedNow = getUncheckedItems(selectedItems, this._currentInput.items);
+                        if (checkedNow.length === 0 && uncheckedNow.length === 0)
+                            checkedNow = selectedItems;
+                        Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
+                        MetadataUtils.handleControlledFields(this._permissionsContent, fieldDefinition, checkedNow, separator ? this._selectedElement : this._selectedElements[0], separator ? this._selectedElements[0] : undefined);
+                        MetadataUtils.handleControlledFields(this._permissionsContent, fieldDefinition, uncheckedNow, separator ? this._selectedElement : this._selectedElements[0], separator ? this._selectedElements[0] : undefined);
+                        MetadataUtils.handleUniqueFields(this._permissionsContent, fieldDefinition, uniqueFields, separator ? this._selectedElement : this._selectedElements[0], separator ? this._selectedElements[0] : undefined);
+                        this._profileMetadata = extractMetadataFromFile(this._permissionsContent, this._xmlDefinition);
+                        if (separator)
+                            this.backStep();
+                        else
+                            this.backStep(PERMISSIONS_STEP);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } else if (buttonName === 'Add') {
+            const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+            const fieldKey = fieldDefinition.fieldKey;
+            const sortOrder = fieldDefinition.sortOrder;
+            let fieldKeys = Object.keys(fieldDefinition.fields);
+            const metadataType = fieldDefinition.fields[sortOrder[0]].metadataType;
+            switch (this._step) {
+                case PERMISSIONS_STEP:
+                    if (metadataType || Utils.isArray(fieldKey)) {
+                        if (metadataType && this._metadata[metadataType]) {
+                            const differences = getTypeDifferences(this._metadata, this._profileMetadata, fieldDefinition.key, this._xmlDefinition);
+                            if (differences[metadataType]) {
+                                this.nextStep(ADD_PERMISSION_STEP);
+                            } else {
+                                this.fireReportEvent("Not new " + metadataType + " found to add to this " + this._permissionType);
+                            }
+                        } else if (Array.isArray(fieldKey)) {
+                            this.newElement = true;
+                            let dataToAdd = {};
+                            for (let field of fieldKeys) {
+                                let fieldData = fieldDefinition.fields[field];
+                                dataToAdd[field] = (fieldData.default === '{!value}') ? '-- None --' : fieldData.default;
+                            }
+                            this._permissionsContent[fieldDefinition.key].push(dataToAdd);
+                            this.nextStep(ADD_PERMISSION_STEP);
+                        } else {
+                            this.fireReportEvent('Not found ' + metadataType + " metadata on your local project");
+                        }
+                    } else if (fieldDefinition.key === "userPermissions") {
+                        if (!applicationContext.sfData.availablePermissions || applicationContext.sfData.availablePermissions.length === 0) {
+                            this._currentInput.busy = true;
+                            this._currentInput.enabled = false;
+                            try {
+                                applicationContext.sfData.availablePermissions = await loadUserPermissions();
+                            } catch (error) {
+                                this.fireErrorEvent("An error  ocurred while loading user permissions: " + error);
+                            }
+                            this._currentInput.busy = false;
+                            this._currentInput.enabled = true;
+                        }
+                        let notAddedPermissions = [];
+                        if (applicationContext.sfData.availablePermissions && applicationContext.sfData.availablePermissions.length > 0) {
+                            let permissionsOnProfile = [];
+                            for (let xmlElement of this._permissionsContent[fieldDefinition.key]) {
+                                permissionsOnProfile.push(xmlElement[fieldKey]);
+                            }
+                            for (let permission of applicationContext.sfData.availablePermissions) {
+                                if (!permissionsOnProfile.includes(permission))
+                                    notAddedPermissions.push(permission);
+                            }
+                            if (notAddedPermissions.length == 0) {
+                                this.fireReportEvent("Not new User Permissions found for add to this " + this._permissionType);
+                            } else {
+                                this.nextStep(ADD_PERMISSION_STEP);
+                            }
+                        } else {
+                            this.fireReportEvent("Not new User Permissions found for add to this " + this._permissionType);
+                        }
+                    }
+                    break;
+                case ELEMENT_STEP:
+                    if (metadataType) {
+                        const differences = getTypeDifferences(this._metadata, this._profileMetadata, fieldDefinition.key, this._xmlDefinition);
+                        if (differences[metadataType] && Utils.hasKeys(differences[metadataType].childs) && differences[metadataType].childs[this._selectedElement] && Utils.hasKeys(differences[metadataType].childs[this._selectedElement].childs)) {
+                            this._selectedElements = [this._selectedElement];
+                            this.nextStep(ADD_CHILD_PERMISSION_STEP);
+                        } else {
+                            this.fireReportEvent("Not new " + metadataType + " found on " + this._selectedElement + " to add to this " + this._permissionType);
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    onChangeValue(value) {
+
+    }
+
+    onValueSet(value) {
+        const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
+        switch (this._step) {
+            case PERMISSIONS_STEP:
+                if (this._permissionsContent) {
+                    if (fieldDefinition.key === 'description' && value && value.length > 255) {
+                        this._currentInput.validationMessage = "Description to long. Remove at least " + (value.length - 255) + " characters";
+                        return;
+                    }
+                    this._permissionsContent[fieldDefinition.key] = value;
+                }
+                break;
+            case SET_VALUES_STEP:
+                const fieldKey = fieldDefinition.fieldKey;
+                if (Utils.isArray(fieldKey)) {
+                    const subFieldDefinition = getFieldDefinitionByLabel(this._selectedSubElement, fieldDefinition.fields);
+                    if (this.newElement) {
+                        this._permissionsContent[fieldDefinition.key][this._permissionsContent[fieldDefinition.key].length - 1][subFieldDefinition.key] = value;
+                    } else {
+                        let index = 0;
+                        for (const fieldValue of this._permissionsContent[fieldDefinition.key]) {
+                            const processedValue = getValue(fieldValue, fieldKey);
+                            if (processedValue === this._selectedElement) {
+                                this._permissionsContent[fieldDefinition.key][index][subFieldDefinition.key] = value;
+                                if (fieldKey.includes(subFieldDefinition.key))
+                                    this._selectedElement = getValue(this._permissionsContent[fieldDefinition.key][index], fieldKey);
+                                break;
+                            }
+                            index++;
+                        }
+                    }
+                } else {
+
+                }
+                break;
+            case ELEMENT_STEP:
+                if (this._permissionsContent) {
+                    if (fieldDefinition.key === 'loginIpRanges') {
+                        let fieldData = fieldDefinition.fields[this._selectedElement];
+                        let error = fieldData.validate(value);
+                        if (error) {
+                            this.fireValidationEvent(error);
+                        }
+                        this._permissionsContent[fieldDefinition.key][this._permissionsContent[fieldDefinition.key].length - 1][this._selectedElement] = value;
+                    }
+                }
+                break;
+            case SUB_ELEMENT_STEP:
+                if (this._permissionsContent) {
+                    if (fieldDefinition.key === 'loginIpRanges') {
+                        let fieldData = fieldDefinition.fields[this._selectedSubElement];
+                        let error = fieldData.validate(value);
+                        if (error) {
+                            this.fireValidationEvent(error);
+                        }
+                    }
+                    for (let xmlElement of this._permissionsContent[fieldDefinition.key]) {
+                        let fieldKeyValue = getValue(xmlElement, getFieldKey(fieldDefinition.fieldKey));
+                        if (fieldKeyValue === this._selectedElement) {
+                            xmlElement[this._selectedSubElement] = value;
+                            this._selectedElement = getValue(xmlElement, getFieldKey(fieldDefinition.fieldKey));
+                            break;
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
 }
 module.exports = PermissionEditor;
 
 function transformPermissionContentToMap(permissionContent, xmlMetadata) {
-    let permissionsContentMap = {};
+    const permissionsContentMap = {};
     Object.keys(permissionContent).forEach(function (collectionKey) {
-        let collection = permissionContent[collectionKey];
-        let collectionData = xmlMetadata[collectionKey];
-        if (collectionData.editable && collectionData.xmlData) {
-            let fieldKey = getFieldKey(collectionData.xmlData.fieldKey);
-            let fieldKeysWithoutMain = getFieldKeysWithoutKey(collectionData);
-            if (collectionData.datatype === 'array') {
+        const collection = permissionContent[collectionKey];
+        const collectionData = xmlMetadata[collectionKey];
+        if (collectionData && collectionData.editable) {
+            const fieldKey = collectionData.fieldKey;
+            const sortOrder = collectionData.fieldKey;
+            if (collectionData.datatype === DataTypes.ARRAY) {
                 for (let xmlElement of collection) {
                     if (!permissionsContentMap[collectionKey])
                         permissionsContentMap[collectionKey] = {
@@ -1020,9 +1264,9 @@ function transformPermissionContentToMap(permissionContent, xmlMetadata) {
                             elements: {},
                         };
                     let value;
-                    if (collectionData.metadataType === Metadata.MetadataTypes.LAYOUT) {
-                        if (xmlElement[fieldKeysWithoutMain[0]])
-                            value = getValue(xmlElement, fieldKeysWithoutMain);
+                    if (Utils.isArray(fieldKey) && collectionData.fields[fieldKey[0]].metadataType === MetadataTypes.LAYOUT) {
+                        if (xmlElement[sortOrder[1]])
+                            value = getValue(xmlElement, fieldKey);
                         else
                             value = 'Master';
                     } else
@@ -1037,14 +1281,14 @@ function transformPermissionContentToMap(permissionContent, xmlMetadata) {
     return permissionsContentMap;
 }
 
-function getXMLElementDataByLabel(label, xmlMetadata) {
-    let dataToReturnn;
+function getFieldDefinitionByLabel(label, xmlMetadata) {
+    let dataToReturn = {};
     Object.keys(xmlMetadata).forEach(function (elementKey) {
         let elementData = xmlMetadata[elementKey];
         if (elementData.label === label)
-            dataToReturnn = elementData;
+            dataToReturn = elementData;
     });
-    return dataToReturnn;
+    return dataToReturn;
 }
 
 function getFieldKey(fieldKey) {
@@ -1071,14 +1315,16 @@ function getCheckedItems(selectedItems, items) {
     return checked;
 }
 
-function getValue(xmlElement, fieldKey) {
+function getValue(xmlElement, fieldKey, useArrow) {
     let value;
-    if (Array.isArray(fieldKey)) {
+    if (Utils.isArray(fieldKey)) {
         for (let field of fieldKey) {
-            if (!value)
-                value = xmlElement[field];
-            else
-                value += ' - ' + xmlElement[field];
+            if (xmlElement[field]) {
+                if (!value)
+                    value = xmlElement[field];
+                else
+                    value += ((useArrow) ? ' $(arrow-right) ' : ' - ') + xmlElement[field];
+            }
         }
     } else {
         value = xmlElement[fieldKey];
@@ -1089,8 +1335,8 @@ function getValue(xmlElement, fieldKey) {
 function getDescription(xmlElement, elementData, useMainField) {
     let description;
     if (!useMainField) {
-        Object.keys(elementData.xmlData.fields).forEach(function (fieldName) {
-            let fieldKey = getFieldKey(elementData.xmlData.fieldKey);
+        Object.keys(elementData.fields).forEach(function (fieldName) {
+            let fieldKey = getFieldKey(elementData.fieldKey);
             let isDistinct = false;
             if (Array.isArray(fieldKey)) {
                 let nDistincts = 0;
@@ -1117,75 +1363,82 @@ function getDescription(xmlElement, elementData, useMainField) {
         });
     } else {
         if (!description) {
-            let fieldKey = getFieldKey(elementData.xmlData.fieldKey);
+            let fieldKey = getFieldKey(elementData.fieldKey);
             description = getValue(xmlElement, fieldKey);
         }
     }
     return description;
 }
 
-function extractMetadataFromProfile(profile, xmlMetadata) {
-    let profileMetadata = {};
-    Object.keys(profile).forEach(function (collection) {
-        let collectionData = xmlMetadata[collection];
-        if (collectionData) {
-            if (collectionData.datatype === 'array') {
-                let mainFieldData = collectionData.xmlData.fields[collectionData.xmlData.fieldKey];
-                let fieldKeys = Object.keys(collectionData.xmlData.fields);
-                let fieldKeysWithoutMain = getFieldKeysWithoutKey(collectionData);
-                if (!profileMetadata[collection])
-                    profileMetadata[collection] = {};
-                for (let xmlElement of profile[collection]) {
-                    if (mainFieldData && mainFieldData.separator) {
-                        let xmlField = collectionData.xmlData.fieldKey;
-                        let separator = mainFieldData.separator;
-                        if (collectionData.metadataType === Metadata.MetadataTypes.LAYOUT) {
-                            xmlField = fieldKeysWithoutMain[0];
-                            separator = collectionData.xmlData.fields[fieldKeysWithoutMain[0]].separator;
-                        }
-                        let splits;
-                        let obj;
-                        let item;
-                        if (xmlElement[xmlField]) {
-                            splits = xmlElement[xmlField].split(separator);
-                            obj = splits[0];
-                            if (xmlElement.layout && xmlElement.layout.indexOf('CaseClose') !== -1)
-                                obj = 'CaseClose';
-                            item = splits[1];
-                        } else {
-                            splits = xmlElement[collectionData.xmlData.fieldKey].split(mainFieldData.separator);
-                            obj = splits[0];
-                            item = 'Master';
-                        }
-                        if (!profileMetadata[collection][obj])
-                            profileMetadata[collection][obj] = {
-                                name: obj,
-                                childs: {},
-                                xmlElement: undefined,
-                            };
-                        profileMetadata[collection][obj].childs[item] = {
-                            name: item,
-                            xmlElement: xmlElement,
-                        };
-                    } else {
-                        let item = xmlElement[collectionData.xmlData.fieldKey];
-                        profileMetadata[collection][item] = {
-                            name: item,
-                            childs: undefined,
-                            xmlElement: xmlElement,
-                        };
-                    }
+function extractMetadataFromFile(profile, xmlMetadata) {
+    const profileMetadata = {};
+    for (const collection of Object.keys(profile)) {
+        const collectionData = xmlMetadata[collection];
+        if (!collectionData || collectionData.datatype !== DataTypes.ARRAY)
+            continue;
+        const mainFieldKey = Utils.isArray(collectionData.fieldKey) ? collectionData.fieldKey[0] : collectionData.fieldKey;
+        const mainFieldData = collectionData.fields[mainFieldKey];
+        if (!profileMetadata[collection])
+            profileMetadata[collection] = {};
+        const fieldValue = XMLUtils.forceArray(profile[collection]);
+        for (const xmlElement of fieldValue) {
+            if (mainFieldData && mainFieldData.separator) {
+                let xmlField = mainFieldKey;
+                let separator = mainFieldData.separator;
+                if (collectionData.fields[mainFieldKey].metadataType === MetadataTypes.LAYOUT) {
+                    xmlField = collectionData.fieldKey[1];
+                    separator = collectionData.fields[collectionData.fieldKey[1]].separator;
                 }
+                let splits;
+                let obj;
+                let item;
+                if (xmlElement[xmlField]) {
+                    splits = xmlElement[xmlField].split(separator);
+                    obj = splits[0];
+                    if (xmlElement.layout && xmlElement.layout.indexOf('CaseClose') !== -1)
+                        obj = 'CaseClose';
+                    item = splits[1];
+                } else {
+                    splits = xmlElement[mainFieldKey].split(mainFieldData.separator);
+                    obj = splits[0];
+                    item = 'Master';
+                }
+                if (!profileMetadata[collection][obj])
+                    profileMetadata[collection][obj] = {
+                        name: obj,
+                        childs: {},
+                        xmlElement: undefined,
+                    };
+                profileMetadata[collection][obj].childs[item] = {
+                    name: item,
+                    xmlElement: xmlElement,
+                };
+            } else {
+                let item = xmlElement[mainFieldKey];
+                profileMetadata[collection][item] = {
+                    name: item,
+                    childs: {},
+                    xmlElement: xmlElement,
+                };
             }
         }
-    });
+    }
     return profileMetadata;
 }
 
-function getFieldKeysWithoutKey(elementData) {
+function getEditableFields(elementData) {
     let fields = [];
-    Object.keys(elementData.xmlData.fields).forEach(function (field) {
-        if (field !== elementData.xmlData.fieldKey)
+    Object.keys(elementData.fields).forEach(function (field) {
+        if (elementData.fields[field].editable)
+            fields.push(field);
+    });
+    return fields;
+}
+
+function getNotUniqueFields(elementData) {
+    let fields = [];
+    Object.keys(elementData.fields).forEach(function (field) {
+        if (!elementData.fields[field].unique)
             fields.push(field);
     });
     return fields;
@@ -1193,95 +1446,100 @@ function getFieldKeysWithoutKey(elementData) {
 
 function loadUserPermissions() {
     return new Promise(async function (resolve, reject) {
-        let version = Config.getOrgVersion();
-        let out = await ProcessManager.auraHelperLoadPermissions({ version: version }, true);
-        if (out) {
-            if (out.stdOut) {
-                let response = JSON.parse(out.stdOut);
-                if (response.status === 0) {
-                    resolve(response.result.data);
+        vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
+            title: 'Loading all available User Permissions from Org',
+            cancellable: true,
+        }, (progress, cancelToken) => {
+            return new Promise((progressResolve) => {
+                if (Config.useAuraHelperCLI()) {
+                    const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+                    cancelToken.onCancellationRequested(() => {
+                        cliManager.abortProcess();
+                    });
+                    cliManager.loadUserPermissions().then((permissions) => {
+                        resolve(permissions);
+                        progressResolve();
+                    }).catch((error) => {
+                        reject(error);
+                        progressResolve();
+                    });
                 } else {
-                    reject(response.result.message);
+                    const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                    cancelToken.onCancellationRequested(() => {
+                        connection.abortConnection();
+                    });
+                    connection.loadUserPermissions(Paths.getTemporalFolder()).then((permissions) => {
+                        resolve(permissions);
+                        progressResolve();
+                    }).catch((error) => {
+                        reject(error);
+                        progressResolve();
+                    });
                 }
-            } else {
-                reject(out.stdErr);
-            }
-        } else {
-            reject("Unknown error ocurred");
-        }
+            });
+        });
     });
 }
 
-function canPickMany(elementData) {
-    let fieldsWithoutKey = getFieldKeysWithoutKey(elementData);
-    let allBoolean = true;
-    for (let field of fieldsWithoutKey) {
-        if (elementData.xmlData.fields[field].datatype !== 'boolean') {
-            allBoolean = false;
-            break;
-        }
-    }
-    return allBoolean;
-}
-
-function getTypeDifferences(metadata, metadataFromProfile, collectionName, xmlMetadata) {
-    let differences = {};
-    let collectionWithType = metadataFromProfile[collectionName];
-    let collectionData = xmlMetadata[collectionName];
-    if (collectionWithType && collectionData.metadataType) {
-        let type = collectionData.metadataType;
-        if (metadata[type] && Metadata.Utils.haveChilds(metadata[type])) {
-            Object.keys(metadata[type].childs).forEach(function (objKey) {
-                let objData = AppContext.sObjects[objKey.toLowerCase()];
+function getTypeDifferences(metadata, metadataFromProfile, collectionName, xmlDefinition) {
+    const differences = {};
+    const collectionWithType = metadataFromProfile[collectionName];
+    const fieldDefinition = xmlDefinition[collectionName];
+    const metadataType = fieldDefinition.fields[fieldDefinition.fieldKey].metadataType;
+    if (collectionWithType && metadataType) {
+        if (metadata[metadataType] && MetadataUtils.haveChilds(metadata[metadataType])) {
+            Object.keys(metadata[metadataType].childs).forEach(function (objKey) {
+                const objData = applicationContext.parserData.sObjectsData[objKey.toLowerCase()];
                 if (!collectionWithType[objKey]) {
-                    if (!differences[type])
-                        differences[type] = Metadata.Factory.createMetadataType(type, false);
-                    if (type === Metadata.MetadataTypes.CUSTOM_FIELDS && Metadata.Utils.haveChilds(metadata[type].childs[objKey])) {
-                        Object.keys(metadata[type].childs[objKey].childs).forEach(function (itemKey) {
+                    if (!differences[metadataType])
+                        differences[metadataType] = new MetadataType(metadataType, false);
+                    if (metadataType === MetadataTypes.CUSTOM_FIELD && MetadataUtils.haveChilds(metadata[metadataType].childs[objKey])) {
+                        Object.keys(metadata[metadataType].childs[objKey].childs).forEach(function (itemKey) {
                             let fData;
                             if (objData && objData.fields)
                                 fData = objData.fields[itemKey];
                             if (!fData || fData.nillable) {
-                                if (!differences[type].childs[objKey])
-                                    differences[type].childs[objKey] = Metadata.Factory.createMetadataObject(objKey, false);
-                                differences[type].childs[objKey].childs[itemKey] = Metadata.Factory.createMetadataItem(itemKey, false);
+                                if (!differences[metadataType].childs[objKey])
+                                    differences[metadataType].childs[objKey] = new MetadataObject(objKey, false);
+                                differences[metadataType].childs[objKey].childs[itemKey] = new MetadataItem(itemKey, false);
                             }
                         });
                     } else if (collectionName === 'customSettingAccesses' && objData && objData.customSetting) {
-                        differences[type].childs[objKey] = metadata[type].childs[objKey];
+                        differences[metadataType].childs[objKey] = metadata[metadataType].childs[objKey];
                     } else if (collectionName !== 'customSettingAccesses') {
-                        differences[type].childs[objKey] = metadata[type].childs[objKey];
+                        differences[metadataType].childs[objKey] = metadata[metadataType].childs[objKey];
                     }
                 } else {
-                    if (collectionWithType[objKey].childs && Metadata.Utils.haveChilds(metadata[type].childs[objKey])) {
-                        Object.keys(metadata[type].childs[objKey].childs).forEach(function (itemKey) {
+                    if (collectionWithType[objKey].childs && MetadataUtils.haveChilds(metadata[metadataType].childs[objKey])) {
+                        Object.keys(metadata[metadataType].childs[objKey].childs).forEach(function (itemKey) {
                             let nullable = true;
-                            if (type === Metadata.MetadataTypes.CUSTOM_FIELDS) {
+                            if (metadataType === MetadataTypes.CUSTOM_FIELD) {
                                 let fData;
                                 if (objData && objData.fields)
                                     fData = objData.fields[itemKey];
                                 nullable = !fData || fData.nillable;
                             }
                             if (!collectionWithType[objKey].childs[itemKey] && nullable) {
-                                if (!differences[type])
-                                    differences[type] = Metadata.Factory.createMetadataType(type, false);
-                                if (!differences[type].childs[objKey])
-                                    differences[type].childs[objKey] = Metadata.Factory.createMetadataObject(objKey, false);
-                                differences[type].childs[objKey].childs[itemKey] = Metadata.Factory.createMetadataItem(itemKey, false);
+                                if (!differences[metadataType])
+                                    differences[metadataType] = new MetadataType(metadataType, false);
+                                if (!differences[metadataType].childs[objKey])
+                                    differences[metadataType].childs[objKey] = new MetadataObject(objKey, false);
+                                differences[metadataType].childs[objKey].childs[itemKey] = new MetadataItem(itemKey, false);
                             }
                         });
                     }
                 }
             });
         }
-        if (type === Metadata.MetadataTypes.TAB && metadata[Metadata.MetadataTypes.CUSTOM_OBJECT] && Metadata.Utils.haveChilds(metadata[Metadata.MetadataTypes.CUSTOM_OBJECT])) {
-            Object.keys(metadata[Metadata.MetadataTypes.CUSTOM_OBJECT].childs).forEach(function (objKey) {
+        if (metadataType === MetadataTypes.CUSTOM_TAB && metadata[MetadataTypes.CUSTOM_OBJECT] && MetadataUtils.haveChilds(metadata[MetadataTypes.CUSTOM_OBJECT])) {
+            Object.keys(metadata[MetadataTypes.CUSTOM_OBJECT].childs).forEach(function (objKey) {
                 if (objKey.indexOf('__') === -1) {
                     let standardTabName = 'standard-' + objKey;
                     if (!collectionWithType[standardTabName]) {
-                        if (!differences[type])
-                            differences[type] = Metadata.Factory.createMetadataType(type, false);
-                        differences[type].childs[standardTabName] = metadata[type].childs[standardTabName];
+                        if (!differences[metadataType])
+                            differences[metadataType] = new MetadataType(metadataType, false);
+                        differences[metadataType].childs[standardTabName] = new MetadataObject(standardTabName, false);
                     }
                 }
             });

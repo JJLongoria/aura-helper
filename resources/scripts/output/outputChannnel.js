@@ -5,11 +5,19 @@ const CHANNEL_NAME = 'Aura Helper';
 
 class OutputChannel {
 
-    static output(text) {
+    static createChannel() {
         if (!channel)
             channel = vscode.window.createOutputChannel(CHANNEL_NAME);
+    }
+
+    static output(text) {
+        OutputChannel.createChannel();
         channel.append(text);
-        channel.show(true);
+    }
+
+    static outputLine(text) {
+        OutputChannel.createChannel();
+        channel.appendLine(text);
     }
 
 }

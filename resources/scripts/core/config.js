@@ -1,11 +1,15 @@
 const vscode = require('vscode');
-const fileSystem = require('../fileSystem');
-const ProcessManager = require('../processes').ProcessManager;
-const Paths = fileSystem.Paths;
-const FileReader = fileSystem.FileReader;
-const HTTPConnection = require('./httpConnection');
-const AppContext = require('./applicationContext');
-const os = require('os');
+const { CoreUtils } = require('@ah/core');
+const XMLCompressor = require('@ah/xml-compressor');
+const ProjectUtils = CoreUtils.ProjectUtils;
+const Paths = require('../core/paths');
+const appContext = require('./applicationContext');
+const XML_SORT_ORDER = XMLCompressor.getSortOrderValues();
+const SORT_ORDER_CONFIG_VALUES_MAP = {};
+SORT_ORDER_CONFIG_VALUES_MAP["Simple XML Elements First"] = XML_SORT_ORDER.SIMPLE_FIRST;
+SORT_ORDER_CONFIG_VALUES_MAP["Complex XML Elements First"] = XML_SORT_ORDER.COMPLEX_FIRST;
+SORT_ORDER_CONFIG_VALUES_MAP["Alphabet Asc"] = XML_SORT_ORDER.ALPHABET_ASC;
+SORT_ORDER_CONFIG_VALUES_MAP["Alphabet Desc"] = XML_SORT_ORDER.ALPHABET_DESC;
 
 class Config {
 
@@ -13,106 +17,31 @@ class Config {
         return vscode.workspace.getConfiguration('aurahelper');
     }
 
-    static getAuthUsername() {
-        return new Promise(async function (resolve, reject) {
-            let defaultUsername = JSON.parse(FileReader.readFileSync(Paths.getSFDXFolderPath() + '/sfdx-config.json')).defaultusername;
-            let out = await ProcessManager.getAuthOrgs();
-            if (out) {
-                if (out.stdOut) {
-                    let listOrgsResult = JSON.parse(out.stdOut);
-                    let username;
-                    if (listOrgsResult.status === 0) {
-                        for (const org of listOrgsResult.result) {
-                            if (defaultUsername.indexOf('@') !== -1) {
-                                if (org.username && org.username.toLowerCase().trim() === defaultUsername.toLowerCase().trim())
-                                    username = org.username;
-                            } else {
-                                if (org.alias && org.alias.toLowerCase().trim() === defaultUsername.toLowerCase().trim())
-                                    username = org.username;
-                            }
-                            if (!username && ((org.username && org.username.toLowerCase().trim() === defaultUsername.toLowerCase().trim()) || (org.alias && org.alias.toLowerCase().trim() === defaultUsername.toLowerCase().trim())))
-                                username = org.username;
-                        }
-                    }
-                    resolve(username);
-                } else {
-                    reject(out.stdErr);
-                }
-            } else {
-                reject('Unknown Error');
-            }
-        });
+    static useAuraHelperCLI(){
+        return Config.getConfig().api.useAuraHelperCLI;
     }
 
-    static getServerInstance(username) {
-        return new Promise(async function (resolve, reject) {
-            let out = await ProcessManager.getAuthOrgs();
-            if (out) {
-                if (out.stdOut) {
-                    let listOrgsResult = JSON.parse(out.stdOut);
-                    if (listOrgsResult.status === 0) {
-                        for (const org of listOrgsResult.result) {
-                            if (org.username === username) {
-                                resolve(org.instanceUrl);
-                            }
-                        }
-                    }
-                    resolve(undefined);
-                } else {
-                    reject(out.stdErr);
-                }
-            } else {
-                reject('Unknown Error');
-            }
-        });
+    static getExecutionContext(){
+        return Config.useAuraHelperCLI() ? 'Aura Helper CLI' :'VSCode';
     }
 
-    static getOrgAvailableVersions(instance) {
-        return new Promise(async function (resolve) {
-            let data = await HTTPConnection.makeGETRequest(instance + '/services/data');
-            resolve(JSON.parse(data));
-        });
+    static getXMLSortOrder(){
+        return SORT_ORDER_CONFIG_VALUES_MAP[Config.getConfig().metadata.XmlSortOrder];
     }
 
-    static getLastVersion() {
-        let lastVersion = (AppContext.orgAvailableVersions && AppContext.orgAvailableVersions.length > 0) ? AppContext.orgAvailableVersions[AppContext.orgAvailableVersions.length - 1].version : undefined;
-        return (lastVersion) ? parseInt(lastVersion) : lastVersion;
-    }
-
-    static getOrgAlias() {
-        return JSON.parse(FileReader.readFileSync(Paths.getSFDXFolderPath() + '/sfdx-config.json')).defaultusername;
-    }
-
-    static getOrgVersion() {
+    static getAPIVersion() {
         if (Config.getConfig().metadata.useCustomAPIVersion) {
-            return (Config.getConfig().metadata.CustomAPIVersion).toString() + '.0';
+            return ProjectUtils.getApiAsString(Config.getConfig().metadata.CustomAPIVersion);
         }
-        return JSON.parse(FileReader.readFileSync(Paths.getWorkspaceFolder() + '/sfdx-project.json')).sourceApiVersion;
+        return ProjectUtils.getProjectConfig(Paths.getProjectFolder()).sourceApiVersion;
     }
 
-    static getOrgNamespace() {
-        return JSON.parse(FileReader.readFileSync(Paths.getSFDXFolderPath() + '/sfdx-config.json')).namespace;
+    static getNamespace(){
+        return ProjectUtils.getOrgNamespace(Paths.getProjectFolder());
     }
 
-    static getAvailableCPUs() {
-        let cpus = os.cpus().length;
-        if (cpus > 1)
-            cpus -= 1;
-        return cpus;
+    static getOrgAlias(){
+        return ProjectUtils.getOrgAlias(Paths.getProjectFolder());
     }
-
-    static isLinux() {
-        return os.platform() === 'linux';
-    }
-
-    static isWindows() {
-        return os.platform() === 'win32';
-    }
-
-    static isMac() {
-        return os.platform() === 'darwin';
-    }
-
-
 }
 module.exports = Config;

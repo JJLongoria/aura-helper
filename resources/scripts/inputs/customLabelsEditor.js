@@ -1,46 +1,53 @@
 const vscode = require('vscode');
+const Config = require('../core/config');
 const XMLEditor = require('./xmlEditor');
 const MultiStepInput = require('./xmlEditor');
-const Metadata = require('../metadata');
-const Utils = require('../metadata/utils');
-const { FIELD_SET } = require('../metadata/metadataTypes');
+const XMLDefinitions = require('@ah/xml-definitions');
+const { Utils } = require('@ah/core').CoreUtils;
+const { MetadataTypes, DataTypes } = require('@ah/core').Values;
+const { XMLUtils } = require('@ah/languages').XML;
+const CustomLabelDefinition = XMLDefinitions.getDefinition(MetadataTypes.CUSTOM_LABELS, Config.getAPIVersion());
 
 const ROOT_STEP = 1;
-const LABEL_STEP = 2;
-const DETAIL_STEP = 3;
-const CATEGORIES_STEP = 4;
-const RESULT_STEP = 5;
+const DELETE_STEP = 2;
+const LABEL_STEP = 3;
+const DETAIL_STEP = 4;
+const CATEGORIES_STEP = 5;
+const RESULT_STEP = 6;
+const OPTIONS_STEP = 7;
 
 class CustomLabelsEditor extends XMLEditor {
 
     constructor(file) {
-        super("Edit Custom Labels", ROOT_STEP, 3, file);
+        super("Edit Custom Labels", ROOT_STEP, RESULT_STEP, file);
         this._selectedLabel = undefined;
         this._selectedField = undefined;
-        this._finalStep = RESULT_STEP;
-        this._labelsContent = Metadata.CustomLabelsUtils.createCustomLabels(this._xmlContent.CustomLabels);
+        this._labelsContent = XMLUtils.cleanXMLFile(CustomLabelDefinition, this._xmlContent[MetadataTypes.CUSTOM_LABELS]);
         this._categories = getCategories(this._labelsContent);
-        this._xmlMetadata = Metadata.CustomLabelsUtils.getXMLMetadata();
-        this._oldLabelsContent = JSON.parse(JSON.stringify(this._labelsContent));
+        this._xmlDefinition = CustomLabelDefinition;
+        this._removedLabels = [];
+        this._labelsToDelete = [];
+        this._labelsToDeploy = [];
+        this._oldLabelsContent = Utils.clone(this._labelsContent)
     }
 
     onCreateInputRequest() {
         let input;
         switch (this._step) {
             case ROOT_STEP:
-                this._lastStep = this._step;
                 return this.createRootInput();
+            case DELETE_STEP:
+                return this.createDeleteInput();
             case LABEL_STEP:
-                this._lastStep = this._step;
                 return this.createLabelInput();
             case DETAIL_STEP:
-                this._lastStep = this._step;
                 return this.createDetailInput();
             case CATEGORIES_STEP:
-                this._lastStep = this._step;
                 return this.createCategoriesInput();
             case RESULT_STEP:
                 return this.createResultInput();
+            case OPTIONS_STEP:
+                return this.createOptionsInput();
         }
         return input;
     }
@@ -50,17 +57,32 @@ class CustomLabelsEditor extends XMLEditor {
         if (this._labelsContent) {
             input = vscode.window.createQuickPick();
             input.title = this._title;
-            input.step = ROOT_STEP;
-            input.totalSteps = RESULT_STEP;
-            input.placeholder = 'Choose an Element';
-            let buttons = [MultiStepInput.getAddButton(), MultiStepInput.getAcceptButton()];
-            input.buttons = buttons;
+            input.placeholder = 'Click on "Add" to create label, "Delete" to delete labels from file, "Accept" to view and save changes';
             let items = [];
             for (let xmlElement of this._labelsContent.labels) {
                 let item = MultiStepInput.getItem(xmlElement.fullName, undefined, xmlElement.shortDescription, undefined);
                 items.push(item);
             }
             input.items = items;
+            input.buttons = [MultiStepInput.getDeleteButton(), MultiStepInput.getAddButton(), MultiStepInput.getAcceptButton()];
+        }
+        return input;
+    }
+
+    createDeleteInput() {
+        let input;
+        if (this._labelsContent) {
+            input = vscode.window.createQuickPick();
+            input.title = this._title + ": Delete Custom Labels from file";
+            input.canSelectMany = true;
+            input.placeholder = 'Click on "Delete" to remove selected, "Ok" to save changes. "Back" to rollback';
+            let items = [];
+            for (let xmlElement of this._labelsContent.labels) {
+                let item = MultiStepInput.getItem(xmlElement.fullName, undefined, xmlElement.shortDescription, undefined);
+                items.push(item);
+            }
+            input.items = items;
+            input.buttons = [MultiStepInput.getBackButton(), MultiStepInput.getDeleteButton()];
         }
         return input;
     }
@@ -70,12 +92,9 @@ class CustomLabelsEditor extends XMLEditor {
         if (this._labelsContent) {
             let items = [];
             input = vscode.window.createQuickPick();
-            input.title = this._title + " - " + this._selectedLabel + ((this._isAddingMode) ? " (Add Mode)" : "");
-            input.step = ROOT_STEP;
-            input.totalSteps = RESULT_STEP;
-            input.placeholder = 'Choose a field to edit';
+            input.title = this._title + ": " + this._selectedLabel + ((this._isAddingMode) ? " (Add Mode)" : "");
+            input.placeholder = 'Click on "Accept" to save, "Delete" to delete from file, "Back" to rollback changes.';
             let element;
-            let buttons = [MultiStepInput.getBackButton(), MultiStepInput.getAcceptButton()];
             if (this._isAddingMode) {
                 element = this._labelsContent.labels[this._labelsContent.labels.length - 1];
             } else {
@@ -87,11 +106,11 @@ class CustomLabelsEditor extends XMLEditor {
                 }
             }
             if (element) {
-                for (let field of Object.keys(this._xmlMetadata.labels.xmlData.fields)) {
-                    let fieldData = this._xmlMetadata.labels.xmlData.fields[field];
+                for (let field of Object.keys(this._xmlDefinition.labels.fields)) {
+                    let fieldData = this._xmlDefinition.labels.fields[field];
                     if (fieldData.editable || this._isAddingMode) {
                         let description = (element[field] !== undefined) ? "" + element[field] : element[field];
-                        if (fieldData.datatype === 'enum') {
+                        if (fieldData.datatype === DataTypes.ENUM && !this._isAddingMode) {
                             description = fieldData.getLabel(description) + ' - ' + description;
                         }
                         let item = MultiStepInput.getItem(field, undefined, description, undefined);
@@ -99,7 +118,8 @@ class CustomLabelsEditor extends XMLEditor {
                     }
                 }
             }
-            input.buttons = buttons;
+
+            input.buttons = [MultiStepInput.getBackButton(), MultiStepInput.getAcceptButton()];
             input.items = items;
         }
         return input;
@@ -121,56 +141,54 @@ class CustomLabelsEditor extends XMLEditor {
                 }
             }
             if (element) {
-                let fieldData = this._xmlMetadata.labels.xmlData.fields[this._selectedField];
+                let fieldData = this._xmlDefinition.labels.fields[this._selectedField];
                 if (fieldData.datatype === 'string') {
-                    if (this._selectedField === 'categories') {
+                    if (fieldData.isCSV) {
                         buttons = [MultiStepInput.getBackButton(), MultiStepInput.getAddButton()];
-                        let items = [];
-                        let selectedItems = [];
+                        const items = [];
+                        const selectedItems = [];
                         input = vscode.window.createQuickPick();
                         input.canSelectMany = true;
-                        let labelCategories = (element.categories) ? element.categories.split(',') : [];
+                        const fieldValue = (element[fieldData.key]) ? element[fieldData.key].split(',') : [];
                         for (let category of this._categories) {
-                            let selected = labelCategories.includes(category);
+                            let selected = fieldValue.includes(category);
                             let item = MultiStepInput.getItem(category, undefined, undefined, selected);
                             items.push(item);
                             if (selected)
                                 selectedItems.push(item);
                         }
-                        input.placeholder = "Select label categories for " + this._selectedField + " field or add a new value";
+                        input.placeholder = 'Select ' + this._selectedField + '. Click on "Add" to add new ' + this._selectedField + '. Click on "OK" to save';
                         if (selectedItems.length > 0)
                             input.selectedItems = selectedItems;
                         input.items = items;
                     } else {
                         buttons = [MultiStepInput.getBackButton()];
                         input = vscode.window.createInputBox();
-                        input.value = element[this._selectedField];
+                        input.value = fieldData.transformValue(element[this._selectedField]);
                         input.placeholder = "Write a value for " + this._selectedField + " field";
                         input.prompt = "Press Enter to set the value (DON'T PRESS 'Escape' to back)";
                     }
                 } else if (fieldData.datatype === 'boolean') {
                     buttons = [MultiStepInput.getBackButton()];
-                    let items = [];
+                    const items = [];
                     input = vscode.window.createQuickPick();
                     input.placeholder = 'Select a value for ' + this._selectedField + " field";
-                    items.push(MultiStepInput.getItem('true', undefined, undefined, undefined));
-                    items.push(MultiStepInput.getItem('false', undefined, undefined, undefined));
+                    items.push(MultiStepInput.getItem('true', undefined, undefined, element[this._selectedField]));
+                    items.push(MultiStepInput.getItem('false', undefined, undefined, !element[this._selectedField]));
                     input.items = items;
                 } else if (fieldData.datatype === 'enum') {
                     buttons = [MultiStepInput.getBackButton()];
-                    let items = [];
+                    const items = [];
                     input = vscode.window.createQuickPick();
                     input.placeholder = 'Select a value for ' + this._selectedField + " field";
                     for (let value of fieldData.values) {
-                        items.push(MultiStepInput.getItem(value.label, undefined, value.value, undefined));
+                        items.push(MultiStepInput.getItem(value.label, undefined, value.value, element[this._selectedField] === value.value));
                     }
                     input.items = items;
                 }
             }
             input.buttons = buttons;
-            input.title = this._title + " - " + this._selectedLabel + ' -- ' + this._selectedField + ((this._isAddingMode) ? " (Add Mode)" : "");
-            input.step = ROOT_STEP;
-            input.totalSteps = RESULT_STEP;
+            input.title = this._title + ": " + this._selectedLabel + ' -- ' + this._selectedField + ((this._isAddingMode) ? " (Add Mode)" : "");
         }
         return input;
     }
@@ -178,12 +196,11 @@ class CustomLabelsEditor extends XMLEditor {
     createCategoriesInput() {
         let input;
         if (this._labelsContent) {
-            let buttons = [MultiStepInput.getBackButton()];
             input = vscode.window.createInputBox();
             input.placeholder = "Write a new category value";
             input.prompt = "Press Enter to set the value (DON'T PRESS 'Escape' to back)";
-            input.title = this._title + " - Adding new category value";
-            input.buttons = buttons;
+            input.title = this._title + ": Adding new category value";
+            input.buttons = [MultiStepInput.getBackButton()];
         }
         return input;
     }
@@ -216,76 +233,125 @@ class CustomLabelsEditor extends XMLEditor {
                     }
                 }
             }
+            for (let labelKey of Object.keys(oldLabelsMap)) {
+                let label = labelsMap[labelKey];
+                let oldLabel = oldLabelsMap[labelKey];
+                if (!label) {
+                    changes[labelKey] = {
+                        oldLabel: oldLabel,
+                        newLabel: undefined
+                    };
+                }
+            }
             if (Object.keys(changes).length > 0) {
+                let added = [];
+                let deleted = [];
+                let edited = [];
+                added.push(MultiStepInput.getItem('$(add)  NEW CUSTOM LABELS'));
+                deleted.push(MultiStepInput.getItem('$(trash)  DELETED CUSTOM LABELS'));
+                edited.push(MultiStepInput.getItem('$(edit)  MODIFIED CUSTOM LABELS'));
+                this._labelsToDeploy = [];
+                this._labelsToDelete = [];
                 for (let labelKey of Object.keys(changes)) {
                     let newLabel = changes[labelKey].newLabel;
                     let oldLabel = changes[labelKey].oldLabel;
                     if (!oldLabel) {
-                        items.push(MultiStepInput.getItem(labelKey + " (New)"));
+                        this._labelsToDeploy.push(newLabel);
+                        added.push(MultiStepInput.getItem('\t$(add)  ' + labelKey));
                         for (let field of Object.keys(newLabel)) {
-                            items.push(MultiStepInput.getItem("\tField " + field + ": " + ((newLabel[field] === undefined) ? "null" : newLabel[field])));
+                            added.push(MultiStepInput.getItem("\t\t$(symbol-value)  " + field + ": " + ((newLabel[field] === undefined) ? "null" : newLabel[field])));
+                        }
+                    } else if (!newLabel) {
+                        this._labelsToDelete.push(oldLabel);
+                        deleted.push(MultiStepInput.getItem('\t$(trash)  ' + labelKey));
+                        for (let field of Object.keys(oldLabel)) {
+                            deleted.push(MultiStepInput.getItem("\t\t$(symbol-value)  " + field + ": " + ((oldLabel[field] === undefined) ? "null" : oldLabel[field])));
                         }
                     } else {
-                        items.push(MultiStepInput.getItem(labelKey + " (Modified)"));
+                        this._labelsToDeploy.push(newLabel);
+                        edited.push(MultiStepInput.getItem('\t$(edit)  ' + labelKey));
                         for (let field of Object.keys(newLabel)) {
                             if (newLabel[field] !== oldLabel[field]) {
-                                items.push(MultiStepInput.getItem("\t\tField " + field + ": From " + ((oldLabel[field] === undefined) ? "null" : oldLabel[field]) + " to " + ((newLabel[field] === undefined) ? "null" : newLabel[field])));
+                                edited.push(MultiStepInput.getItem("\t\t$(symbol-value)  " + field + ": " + ((oldLabel[field] === undefined) ? "null" : oldLabel[field]) + " $(arrow-right) " + ((newLabel[field] === undefined) ? "null" : newLabel[field])));
                             }
                         }
                     }
                 }
-                input.placeholder = "Changes on Custom  Labels";
+                if (added.length > 2) {
+                    items = items.concat(added);
+                    items.push(MultiStepInput.getItem(''));
+                }
+                if (edited.length > 2) {
+                    items = items.concat(edited);
+                    items.push(MultiStepInput.getItem(''));
+                }
+                if (deleted.length > 2) {
+                    items = items.concat(deleted);
+                    items.push(MultiStepInput.getItem(''));
+                }
+                input.placeholder = "Changes on Custom Labels. Click on \"Accept\" to save.";
             } else {
-                input.placeholder = "Custom Labels has not any changes";
+                input.placeholder = "Custom Labels has not any changes. Click on \"Accept\" to close";
             }
             input.items = items;
-            input.step = RESULT_STEP;
-            input.totalSteps = RESULT_STEP;
-            let buttons = [MultiStepInput.getBackButton(), MultiStepInput.getAcceptButton()];
-            input.title = this._title;
-            input.buttons = buttons;
+            input.title = this._title + ": Results Screen";
+            input.buttons = [MultiStepInput.getBackButton(), MultiStepInput.getAcceptButton()];
+        }
+        return input;
+    }
+
+    createOptionsInput() {
+        let input;
+        if (this._labelsContent) {
+            const items = [];
+            input = vscode.window.createQuickPick();
+            input.placeholder = 'Choose the options before save the file, like compress file';
+            input.title = this._title + ": Choose options before save";
+            input.canSelectMany = true;
+            items.push(MultiStepInput.getItem('Compress', undefined, 'Compress XML File with Aura Helper Format', undefined));
+            if (this._labelsToDeploy && this._labelsToDeploy.length > 0) {
+                items.push(MultiStepInput.getItem('Deploy to Org', undefined, 'Labels are created or modified. Want to deploy to the Auth Org?', undefined));
+            }
+            if (this._labelsToDelete && this._labelsToDelete.length > 0) {
+                items.push(MultiStepInput.getItem('Delete from Org', undefined, 'Labels are deleted from the file. Want delete from the Auth Org?', undefined));
+            }
+            input.items = items;
+            input.buttons = [MultiStepInput.getBackButton()];
         }
         return input;
     }
 
     onButtonPressed(buttonName) {
         if (buttonName === 'back') {
-            if (this._step === LABEL_STEP) {
+            if (this._step === DELETE_STEP) {
+                if (this._removedLabels && this._removedLabels.length > 0) {
+                    for (const labelData of this._removedLabels) {
+                        this._labelsContent.labels.splice(labelData.index, 0, labelData.label)
+                    }
+                    this._removedLabels = [];
+                }
+            } else if (this._step === LABEL_STEP) {
                 if (this._isAddingMode) {
                     this._isAddingMode = false;
                     this._labelsContent.labels.pop();
                 } else {
-                    let element;
+                    let index = 0;
                     for (let label of this._labelsContent.labels) {
+                        if (label.fullName === this._selectedLabel)
+                            break;
+                        index++;
+                    }
+                    for (let label of this._oldLabelsContent.labels) {
                         if (label.fullName === this._selectedLabel) {
-                            element = label;
+                            this._labelsContent.labels[index] = Utils.clone(label);
                             break;
                         }
                     }
-                    let validationMessage = undefined;
-                    for (let field of Object.keys(element)) {
-                        let fieldData = this._xmlMetadata.labels.xmlData.fields[field];
-                        let error = fieldData.validate(element[field], this._labelsContent);
-                        if (error) {
-                            if (!validationMessage)
-                                validationMessage = error;
-                            else
-                                validationMessage += "; " + error;
-                        }
-                    }
-                    if (!validationMessage) {
-                        this._step--;
-                        this._isAddingMode = false;
-                        this.show();
-                    } else {
-                        this._step++;
-                        if (this._onValidationErrorCallback)
-                            this._onValidationErrorCallback.call(this, validationMessage);
-                    }
+                    this._isAddingMode = false;
                 }
             } else if (this._step === DETAIL_STEP) {
                 let element;
-                let fieldData = this._xmlMetadata.labels.xmlData.fields[this._selectedField];
+                let fieldData = this._xmlDefinition.labels.fields[this._selectedField];
                 if (this._isAddingMode) {
                     element = this._labelsContent.labels[this._labelsContent.labels.length - 1];
                 } else {
@@ -296,34 +362,23 @@ class CustomLabelsEditor extends XMLEditor {
                         }
                     }
                 }
-                if (element) {
-                    let error = fieldData.validate(element[this._selectedField], this._labelsContent);
-                    if (error) {
-                        this._step++;
-                        if (this._onValidationErrorCallback)
-                            this._onValidationErrorCallback.call(this, error);
-                    }
-                }
             }
         } else if (buttonName === 'Add') {
             if (this._step === ROOT_STEP) {
                 let dataToAdd = {};
-                for (let field of Object.keys(this._xmlMetadata.labels.xmlData.fields)) {
-                    let fieldData = this._xmlMetadata.labels.xmlData.fields[field];
+                for (let field of Object.keys(this._xmlDefinition.labels.fields)) {
+                    let fieldData = this._xmlDefinition.labels.fields[field];
                     dataToAdd[field] = (fieldData.default === '{!value}') ? undefined : fieldData.default;
                 }
                 this._labelsContent.labels.push(dataToAdd);
                 this._isAddingMode = true;
-                this._step++;
-                this.show();
+                this.nextStep(LABEL_STEP);
             } else if (this._step === DETAIL_STEP) {
-                this._step++;
-                this.show();
+                this.nextStep(CATEGORIES_STEP);
             }
         } else if (buttonName === 'Accept') {
             if (this._step === ROOT_STEP) {
-                this._step = RESULT_STEP;
-                this.show();
+                this.nextStep(RESULT_STEP);
             } else if (this._step === LABEL_STEP) {
                 let element;
                 if (this._isAddingMode) {
@@ -338,8 +393,8 @@ class CustomLabelsEditor extends XMLEditor {
                 }
                 let validationMessage = undefined;
                 for (let field of Object.keys(element)) {
-                    let fieldData = this._xmlMetadata.labels.xmlData.fields[field];
-                    let error = fieldData.validate(element[field], this._labelsContent);
+                    let fieldData = this._xmlDefinition.labels.fields[field];
+                    let error = fieldData.validate(element[field], field);
                     if (error) {
                         if (!validationMessage)
                             validationMessage = error;
@@ -348,28 +403,90 @@ class CustomLabelsEditor extends XMLEditor {
                     }
                 }
                 if (!validationMessage) {
-                    this._step--;
                     this._isAddingMode = false;
-                    this.show();
+                    this.backStep(ROOT_STEP);
                 } else {
-                    if (this._onValidationErrorCallback)
-                        this._onValidationErrorCallback.call(this, validationMessage);
+                    this.fireValidationEvent(validationMessage);
                 }
             } else if (this._step === RESULT_STEP) {
-                this._xmlContent.CustomLabels = this._labelsContent;
-                this.save();
-                this._onAcceptCallback.call(this);
-                this._currentInput.dispose();
+                if (this._labelsToDelete.length > 0 || this._labelsToDeploy.length > 0)
+                    this.nextStep(OPTIONS_STEP)
+                else {
+                    const options = {
+                        compress: false,
+                        deploy: false,
+                        delete: false,
+                        hasChanges: false,
+                    };
+                    const data = {
+                        labelsToDelete: undefined,
+                        labelsToDeploy: undefined
+                    };
+                    this.fireAcceptEvent(options, data);
+                    this._currentInput.dispose();
+                }
             }
         } else if (buttonName === 'Ok') {
-            let selectedItems = this.getSelectedElements(this._currentInput.selectedItems);
-            if (this._isAddingMode) {
-                this._labelsContent.labels[this._labelsContent.labels.length - 1][this._selectedField] = selectedItems.join(',');
-            } else {
-                for (let label of this._labelsContent.labels) {
-                    if (label.fullName === this._selectedLabel) {
-                        label[this._selectedField] = selectedItems.join(',');
-                        break;
+            if (this._step === OPTIONS_STEP) {
+                const selectedItems = this.getSelectedElements(this._currentInput.selectedItems);
+                const options = {
+                    compress: selectedItems.includes('Compress'),
+                    deploy: selectedItems.includes('Deploy to Org'),
+                    delete: selectedItems.includes('Delete from Org'),
+                    hasChanges: this._labelsToDelete.length > 0 || this._labelsToDeploy.length > 0
+                };
+                const data = {
+                    labelsToDelete: this._labelsToDelete,
+                    labelsToDeploy: this._labelsToDeploy
+                };
+                if (options.hasChanges) {
+                    this.save(options.compress).then(() => {
+                        this.fireAcceptEvent(options, data);
+                        this._currentInput.dispose();
+                    }).catch((error) => {
+                        this.fireErrorEvent(error.message);
+                    });
+                } else {
+                    this.fireAcceptEvent(options, data);
+                    this._currentInput.dispose();
+                }
+            } else if (this._step !== DELETE_STEP) {
+                let fieldData = this._xmlDefinition.labels.fields[this._selectedField];
+                let selectedItems = this.getSelectedElements(this._currentInput.selectedItems);
+                if (this._isAddingMode) {
+                    this._labelsContent.labels[this._labelsContent.labels.length - 1][this._selectedField] = fieldData.transformValue(selectedItems.join(','));
+                } else {
+                    for (let label of this._labelsContent.labels) {
+                        if (label.fullName === this._selectedLabel) {
+                            label[this._selectedField] = fieldData.transformValue(selectedItems.join(','));
+                            break;
+                        }
+                    }
+                }
+                this.backStep();
+            }
+        } else if (buttonName === 'Delete') {
+            if (this._step === ROOT_STEP) {
+                this.nextStep(DELETE_STEP);
+            } else if (this._step === DELETE_STEP) {
+                if (this._currentInput.selectedItems && this._currentInput.selectedItems.length > 0) {
+                    const labelsToKeep = [];
+                    const selectedItems = this.getSelectedElements(this._currentInput.selectedItems);
+                    let index = 0;
+                    for (const label of this._labelsContent.labels) {
+                        if (selectedItems.includes(label.fullName)) {
+                            this._removedLabels.push({
+                                index: index,
+                                label: label
+                            })
+                        } else {
+                            labelsToKeep.push(label);
+                        }
+                        index++;
+                    }
+                    if (this._removedLabels.length > 0) {
+                        this._labelsContent.labels = labelsToKeep;
+                        this.show();
                     }
                 }
             }
@@ -378,22 +495,20 @@ class CustomLabelsEditor extends XMLEditor {
 
     onValueSet(value) {
         if (this._step === DETAIL_STEP) {
-            let fieldData = this._xmlMetadata.labels.xmlData.fields[this._selectedField];
+            let fieldData = this._xmlDefinition.labels.fields[this._selectedField];
             if (this._isAddingMode) {
-                this._labelsContent.labels[this._labelsContent.labels.length - 1][this._selectedField] = value;
+                this._labelsContent.labels[this._labelsContent.labels.length - 1][this._selectedField] = fieldData.transformValue(value);
             } else {
                 for (let label of this._labelsContent.labels) {
                     if (label.fullName === this._selectedLabel) {
-                        label[this._selectedField] = value;
+                        label[this._selectedField] = fieldData.transformValue(value);
                         break;
                     }
                 }
             }
-            let error = fieldData.validate(value, this._labelsContent);
+            let error = fieldData.validate(value, this._selectedField);
             if (error) {
-                this._step++;
-                if (this._onValidationErrorCallback)
-                    this._onValidationErrorCallback.call(this, error);
+                this.fireValidationEvent(error);
             }
         } else if (this._step === CATEGORIES_STEP) {
             if (value && !this._categories.includes(value))
@@ -408,30 +523,27 @@ class CustomLabelsEditor extends XMLEditor {
                 if (!this._isAddingMode) {
                     this._selectedLabel = selectedItems[0];
                 }
-                this._step++;
-                this.show();
+                this.nextStep(LABEL_STEP);
                 break;
             case LABEL_STEP:
                 this._selectedField = selectedItems[0];
-                this._step++;
-                this.show();
+                this.nextStep(DETAIL_STEP);
                 break;
             case DETAIL_STEP:
-                let fieldData = this._xmlMetadata.labels.xmlData.fields[this._selectedField];
+                let fieldData = this._xmlDefinition.labels.fields[this._selectedField];
                 if (fieldData.datatype === 'enum') {
                     let selectedItems = this.getSelectedElements(items);
                     if (this._isAddingMode) {
-                        this._labelsContent.labels[this._labelsContent.labels.length - 1][this._selectedField] = fieldData.getValue(selectedItems[0]);
+                        this._labelsContent.labels[this._labelsContent.labels.length - 1][this._selectedField] = fieldData.transformValue(fieldData.getValue(selectedItems[0]));
                     } else {
                         for (let label of this._labelsContent.labels) {
                             if (label.fullName === this._selectedLabel) {
-                                label[this._selectedField] = fieldData.getValue(selectedItems[0]);
+                                label[this._selectedField] = fieldData.transformValue(fieldData.getValue(selectedItems[0]));
                                 break;
                             }
                         }
                     }
-                    this._step--;
-                    this.show();
+                    this.backStep();
                 }
                 break;
             case RESULT_STEP:
@@ -448,8 +560,9 @@ function getCategories(labelsContent) {
         if (label.categories) {
             let splits = label.categories.split(',');
             for (let split of splits) {
+                split = split.trim();
                 if (!categories.includes[split])
-                    categories.push(split.trim());
+                    categories.push(split);
             }
         }
     }

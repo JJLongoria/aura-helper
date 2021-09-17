@@ -1,20 +1,37 @@
-const IPV4_REGEXP = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-const IPV6_REGEXP = /((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))/gm;
-const INTEGER_REGEXP = /^[a-zA-Z]+$/;
+const { Validator } = require('@ah/core').CoreUtils;
+
 class InputValidator {
-    static isInteger(value){
-        if (INTEGER_REGEXP.test(value))
-            return value;
+
+    static isInteger(value) {
+        if (Validator.isInteger(value))
+            return null;
+        return value;
+    }
+
+    static patternXMLFieldValidation(value, xmlFieldDefinition) {
+        if (xmlFieldDefinition.required && !value)
+            return 'The field ' + xmlFieldDefinition.key + ' is required';
+        value = xmlFieldDefinition.prepareValue(value);
+        if (xmlFieldDefinition.matchPatterns && xmlFieldDefinition.matchPatterns.length > 0 && value) {
+            for (const pattern of xmlFieldDefinition.matchPatterns) {
+                if (!value.test(pattern)) {
+                    return 'The field value ' + value + ' not match the pattern ' + pattern;
+                }
+            }
+        }
+        if (xmlFieldDefinition.minLength && xmlFieldDefinition.minLength >= 0 && xmlFieldDefinition.maxLength && xmlFieldDefinition.maxLength >= 0 && value) {
+            if (value.length < xmlFieldDefinition.minLength || value.length > xmlFieldDefinition.maxLength)
+                return 'Wrong value length. The value length must be between ' + xmlFieldDefinition.minLength + ' and ' + xmlFieldDefinition.maxLength;
+        } else if (xmlFieldDefinition.minLength && xmlFieldDefinition.minLength >= 0 && value) {
+            if (value.length < xmlFieldDefinition.minLength)
+                return 'Wrong value length. The value length must be higher than ' + xmlFieldDefinition.minLength + '. (Remains ' + (xmlFieldDefinition.minLength - value.length) + ' characters)';
+        } else if (xmlFieldDefinition.maxLength && xmlFieldDefinition.maxLength >= 0 && value) {
+            if (value.length > xmlFieldDefinition.maxLength)
+                return 'Wrong value length. The value length must be lower than ' + xmlFieldDefinition.maxLength + '. (' + (xmlFieldDefinition.maxLength - value.length) + ' characters left)';
+        }
         return null;
     }
 
-    static isIPv4(value){
-        return IPV4_REGEXP.test(value);
-    }
-
-    static isIPv6(value){
-        return IPV6_REGEXP.test(value);
-    }
 }
 
 module.exports = InputValidator;

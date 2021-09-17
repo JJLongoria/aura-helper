@@ -1,117 +1,498 @@
-const logger = require('./logger');
-const fileSystem = require('../fileSystem');
-const Paths = fileSystem.Paths;
-const FileReader = fileSystem.FileReader;
+const applicationContext = require('../core/applicationContext');
+const Config = require('../core/config');
+const Paths = require('../core/paths');
+const { StrUtils, Utils } = require('@ah/core').CoreUtils;
+const { PathUtils } = require('@ah/core').FileSystem;
+const { ApexNodeTypes } = require('@ah/core').Values;
 
-function getApexComment(data, commentTemplate) {
-    logger.log("Run getApexComment Method");
-    let comment = ``;
-    let lines = [];
-    let snippetNum = 1;
-    if (data.methodData.name !== undefined) {
-        let startParamsCharacters = "";
-        for (let i = 0; i < commentTemplate.methodComment.commentBody.length; i++) {
-            var line = commentTemplate.methodComment.commentBody[i];
-            if (line.indexOf("{!method.params}") !== -1)
-                startParamsCharacters = line.substring(0, line.indexOf("{!method.params}"));
-            if (data.methodData.params.length == 0 && line.indexOf("{!method.params}") !== -1)
+class SnippetUtils {
+    static getApexComment(apexNode, template, filePath) {
+        const baseComment = '/**\n * ${0:comment}\n */';
+        let comment = '';
+        if (Utils.isNull(apexNode) || !template) {
+            return baseComment;
+        }
+        const nodeTemplate = getApexCommentNodeTemplate(apexNode, template);
+        if (!nodeTemplate)
+            return baseComment;
+        const templateLines = nodeTemplate.template;
+        comment = templateLines.join('\n');
+        if (Utils.isNull(template.tags) || !Utils.hasKeys(template.tags)) {
+            if (StrUtils.contains(comment, '{!description}')) {
+                return StrUtils.replace(comment, '{!description}', `\${0:` + apexNode.name + ` Description}`);
+            } else {
+                return comment;
+            }
+        }
+        const keywordOrderByTag = {};
+        let tagsOrder = [];
+        let returnTags = [];
+        let exceptionsTags = [];
+        let paramTags = [];
+        let parentTags = [];
+        for (const tagName of Object.keys(template.tags)) {
+            if (!nodeTemplate.tags || !nodeTemplate.tags.includes(tagName))
                 continue;
-            if ((!data.methodData.returnType || data.methodData.returnType === 'void') && line.indexOf("{!method.return}") !== -1)
-                continue;
-            lines.push(line);
+            let tag = template.tags[tagName];
+            while (tag.equalsTo) {
+                tag = template.tags[tag.equalsTo];
+            }
+            const tagKey = '{!tag.' + tagName + '}';
+            const tagIndexOf = comment.indexOf(tagKey);
+            if (tagIndexOf != -1) {
+                let source = (StrUtils.contains(tag.source, '.')) ? tag.source.split('.')[0] : tag.source;
+                if (source === 'return' && (apexNode.nodeType !== ApexNodeTypes.METHOD || (apexNode.nodeType === ApexNodeTypes.METHOD && (!apexNode.datatype || apexNode.datatype.name.toLowerCase() === 'void')))) {
+                    returnTags.push(tagKey);
+                    continue;
+                }
+                if (source === 'params' && ((apexNode.nodeType !== ApexNodeTypes.METHOD && apexNode.nodeType !== ApexNodeTypes.CONSTRUCTOR) || ((apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR) && !Utils.hasKeys(apexNode.params)))) {
+                    returnTags.push(tagKey);
+                    continue;
+                }
+                if (source === 'exceptions' && ((apexNode.nodeType !== ApexNodeTypes.METHOD && apexNode.nodeType !== ApexNodeTypes.CONSTRUCTOR) || ((apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR) && !Utils.isNull(apexNode.exceptions) && apexNode.exceptions.length > 0))) {
+                    exceptionsTags.push(tagKey);
+                    continue;
+                }
+                if (source === 'parent' && !apexNode.parentName) {
+                    parentTags.push(tagKey);
+                    continue;
+                }
+                tagsOrder.push({
+                    tag: tagName,
+                    order: tagIndexOf
+                });
+                for (const keyword of tag.keywords) {
+                    const keywordIndexOf = tag.template.indexOf('{!' + keyword.name + '}');
+                    if (keywordIndexOf != -1) {
+                        if (!keywordOrderByTag[tagName])
+                            keywordOrderByTag[tagName] = [];
+                        keywordOrderByTag[tagName].push({
+                            keyword: keyword,
+                            order: keywordIndexOf
+                        });
+                    }
+                }
+                keywordOrderByTag[tagName] = Utils.sort(keywordOrderByTag[tagName], ['order']);
+            }
+        }
+        if (tagsOrder.length === 0) {
+            if (StrUtils.contains(comment, '{!description}')) {
+                return StrUtils.replace(comment, '{!description}', `\${0:` + apexNode.name + ` Description}`);
+            } else {
+                return comment;
+            }
+        }
+        tagsOrder = Utils.sort(tagsOrder, ['order']);
+        let snippetNum = 0;
+        const lines = [];
+        for (const line of templateLines) {
+            if (returnTags.length > 0) {
+                let contains = false;
+                for (const tagKey of returnTags) {
+                    if (StrUtils.contains(line, tagKey))
+                        contains = true;
+                }
+                if (!contains)
+                    lines.push(line);
+            } else if (paramTags.length > 0) {
+                let contains = false;
+                for (const tagKey of paramTags) {
+                    if (StrUtils.contains(line, tagKey))
+                        contains = true;
+                }
+                if (!contains)
+                    lines.push(line);
+            } else if (parentTags.length > 0) {
+                let contains = false;
+                for (const tagKey of parentTags) {
+                    if (StrUtils.contains(line, tagKey))
+                        contains = true;
+                }
+                if (!contains)
+                    lines.push(line);
+            } else if (exceptionsTags.length > 0) {
+                let contains = false;
+                for (const tagKey of exceptionsTags) {
+                    if (StrUtils.contains(line, tagKey))
+                        contains = true;
+                }
+                if (!contains)
+                    lines.push(line);
+            } else {
+                lines.push(line);
+            }
         }
         comment = lines.join('\n');
-        logger.log("comment", comment);
-        comment = comment.replace(`{!method.description}`, `\${${snippetNum++}:${data.methodData.name} description}`);
-        let varIndex = 0;
-        let params = [];
-        for (let variable of data.methodData.params) {
-            let paramBody = commentTemplate.methodComment.paramBody.replace(`{!param.name}`, `\${${snippetNum}:{!param.name}}`).replace(`{!param.description}`, `\${${snippetNum}:!param.name description}`);
-            paramBody = paramBody.replace('{!param.name}', variable.name).replace('{!param.type}', variable.type);
-            if (varIndex != 0)
-                paramBody = startParamsCharacters + paramBody;
-            params.push(paramBody);
+        if (StrUtils.contains(comment, '{!description}')) {
+            comment = StrUtils.replace(comment, '{!description}', `\${${snippetNum++}:` + apexNode.name + ` Description}`);
+        }
+        for (const orderedTag of tagsOrder) {
+            const tagName = orderedTag.tag;
+            let tag = template.tags[tagName];
+            while (tag.equalsTo) {
+                tag = template.tags[tag.equalsTo];
+            }
+            const orderedKeywords = keywordOrderByTag[tagName];
+            const tagContent = [];
+            const tagStr = (tag.symbol || template.tagSymbol) + tagName + ' ';
+            const startStr = ' * ';
+            if ((apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR) && tag.source === 'params' && Utils.hasKeys(apexNode.params)) {
+                for (const param of apexNode.getOrderedParams()) {
+                    let paramTemplate = tag.template;
+                    for (const orderedKeyword of orderedKeywords) {
+                        const keyword = orderedKeyword.keyword;
+                        const keywordKey = '{!' + keyword.name + '}'
+                        if (keyword.source === 'name') {
+                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + param.name + `}`);
+                        } else if (keyword.source === 'type') {
+                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + param.datatype.name + `}`);
+                        } else {
+                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                        }
+                    }
+                    if (tagContent.length === 0)
+                        tagContent.push(tagStr + paramTemplate);
+                    else
+                        tagContent.push(startStr + tagStr + paramTemplate);
+                }
+            } /*else if ((apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR) && tag.source === 'exceptions' && !Utils.isNull(apexNode.exceptions) && apexNode.exceptions.length > 0) {
+                for (const exception of apexNode.exceptions) {
+                    let paramTemplate = tag.template;
+                    for (const orderedKeyword of orderedKeywords) {
+                        const keyword = orderedKeyword.keyword;
+                        const keywordKey = '{!' + keyword.name + '}'
+                        if (keyword.source === 'name') {
+                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + exception.name + `}`);
+                        } else {
+                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                        }
+                    }
+                    if (tagContent.length === 0)
+                        tagContent.push(tagStr + paramTemplate);
+                    else
+                        tagContent.push(startStr + tagStr + paramTemplate);
+                }
+            }*/ else if (apexNode.nodeType === ApexNodeTypes.METHOD && tag.source === 'return' && Utils.hasKeys(apexNode.params)) {
+                let returnTemplate = tag.template;
+                for (const orderedKeyword of orderedKeywords) {
+                    const keyword = orderedKeyword.keyword;
+                    const keywordKey = '{!' + keyword.name + '}'
+                    if (keyword.source === 'type') {
+                        returnTemplate = StrUtils.replace(returnTemplate, keywordKey, `\${${snippetNum++}:` + apexNode.datatype.name + `}`);
+                    } else {
+                        returnTemplate = StrUtils.replace(returnTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                    }
+                }
+                if (tagContent.length === 0)
+                    tagContent.push(tagStr + returnTemplate);
+                else
+                    tagContent.push(startStr + tagStr + returnTemplate);
+            } else if ((apexNode.nodeType === ApexNodeTypes.VARIABLE || apexNode.nodeType === ApexNodeTypes.PROPERTY) && tag.source === 'variable') {
+                let fieldTemplate = tag.template;
+                for (const orderedKeyword of orderedKeywords) {
+                    const keyword = orderedKeyword.keyword;
+                    const keywordKey = '{!' + keyword.name + '}'
+                    if (keyword.source === 'name') {
+                        fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + apexNode.name + `}`);
+                    } else if (keyword.source === 'type') {
+                        fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + apexNode.datatype.name + `}`);
+                    } else {
+                        fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                    }
+                }
+                if (tagContent.length === 0)
+                    tagContent.push(tagStr + fieldTemplate);
+                else
+                    tagContent.push(startStr + tagStr + fieldTemplate);
+            } else if (tag.source === 'git') {
+                let gitTemplate = tag.template;
+                for (const orderedKeyword of orderedKeywords) {
+                    const keyword = orderedKeyword.keyword;
+                    const keywordKey = '{!' + keyword.name + '}'
+                    if (keyword.source === 'user.name') {
+                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.username + `}`);
+                    } else if (keyword.source === 'user.email') {
+                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.email + `}`);
+                    } else if (keyword.source === 'author.name') {
+                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.authorName + `}`);
+                    } else if (keyword.source === 'author.email') {
+                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.authorEmail + `}`);
+                    } else if (keyword.source === 'committer.name') {
+                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.committerName + `}`);
+                    } else if (keyword.source === 'committer.email') {
+                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.committerEmail + `}`);
+                    } else if (keyword.source === 'branch') {
+                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.branch + `}`);
+                    } else {
+                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                    }
+                }
+                if (tagContent.length === 0)
+                    tagContent.push(tagStr + gitTemplate);
+                else
+                    tagContent.push(startStr + tagStr + gitTemplate);
+            } else if (tag.source === 'salesforce') {
+                let sfTemplate = tag.template;
+                for (const orderedKeyword of orderedKeywords) {
+                    const keyword = orderedKeyword.keyword;
+                    const keywordKey = '{!' + keyword.name + '}'
+                    if (keyword.source === 'username') {
+                        sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.sfData.username + `}`);
+                    } else if (keyword.source === 'alias') {
+                        sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + Config.getOrgAlias() + `}`);
+                    } else if (keyword.source === 'instance') {
+                        sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.sfData.serverInstance + `}`);
+                    } else {
+                        sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                    }
+                }
+                if (tagContent.length === 0)
+                    tagContent.push(tagStr + sfTemplate);
+                else
+                    tagContent.push(startStr + tagStr + sfTemplate);
+            } else if (tag.source === 'path') {
+                let pathTemplate = tag.template;
+                for (const orderedKeyword of orderedKeywords) {
+                    const keyword = orderedKeyword.keyword;
+                    const keywordKey = '{!' + keyword.name + '}'
+                    if (keyword.source === 'file') {
+                        pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + filePath + `}`);
+                    } else if (keyword.source === 'folder') {
+                        pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + PathUtils.getDirname(filePath) + `}`);
+                    } else if (keyword.source === 'root') {
+                        pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + Paths.getProjectFolder() + `}`);
+                    } else {
+                        pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                    }
+                }
+                if (tagContent.length === 0)
+                    tagContent.push(tagStr + pathTemplate);
+                else
+                    tagContent.push(startStr + tagStr + pathTemplate);
+            } else if (tag.source === 'parent' && apexNode.parentName) {
+                let parentTemplate = tag.template;
+                for (const orderedKeyword of orderedKeywords) {
+                    const keyword = orderedKeyword.keyword;
+                    const keywordKey = '{!' + keyword.name + '}'
+                    if (keyword.source === 'file') {
+                        parentTemplate = StrUtils.replace(parentTemplate, keywordKey, `\${${snippetNum++}:` + PathUtils.getDirname(filePath) + '/' + apexNode.parentName + '.cls' + `}`);
+                    } else if (keyword.source === 'folder') {
+                        parentTemplate = StrUtils.replace(parentTemplate, keywordKey, `\${${snippetNum++}:` + PathUtils.getDirname(filePath) + `}`);
+                    } else {
+                        parentTemplate = StrUtils.replace(parentTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                    }
+                }
+                if (tagContent.length === 0)
+                    tagContent.push(tagStr + parentTemplate);
+                else
+                    tagContent.push(startStr + tagStr + parentTemplate);
+            } else {
+                let tagTemplate = tag.template;
+                for (const orderedKeyword of orderedKeywords) {
+                    const keyword = orderedKeyword.keyword;
+                    const keywordKey = '{!' + keyword.name + '}'
+                    tagTemplate = ' * ' + StrUtils.replace(tagTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                }
+                if (tagContent.length === 0)
+                    tagContent.push(tagStr + tagTemplate);
+                else
+                    tagContent.push(startStr + tagStr + tagTemplate);
+            }
+            comment = StrUtils.replace(comment, '{!tag.' + tagName + '}', tagContent.join('\n'));
+        }
+        return comment;
+    }
+
+    static getJSFunctionSnippet(numParams) {
+        var funcBody = `\${1:funcName} : function(`;
+        if (numParams > 0) {
+            var params = [];
+            for (let i = 0; i < numParams; i++) {
+                var nParam = i + 1;
+                var snippetNum = i + 2;
+                params.push(`\${${snippetNum}:param_${nParam}}`);
+            }
+            funcBody += params.join(`, `);
+        }
+        funcBody += `){\n\t$0\n},`;
+        return funcBody;
+    }
+
+    static getAuraDocumentationSnippet(controllerMethods, helperMethods, templateContent) {
+        let documentationTextJson = JSON.parse(templateContent);
+        let documentationText = "";
+        let helperSectionIndent = '';
+        let controllerSectionIndent = '';
+        for (let i = 0; i < documentationTextJson.documentbody.length; i++) {
+            var line = documentationTextJson.documentbody[i];
+            if (StrUtils.containsIgnorecase(line, '{!helperMethods}')) {
+                helperSectionIndent = StrUtils.getStringIndent(line);
+                line = line.trimLeft();
+            }
+            else if (StrUtils.containsIgnorecase(line, '{!controllerMethods}')) {
+                controllerSectionIndent = StrUtils.getStringIndent(line);
+                line = line.trimLeft();
+            }
+            documentationText += line + '\n';
+        }
+        var helperMethodsContent = SnippetUtils.getMethodsContent(helperMethods, documentationTextJson.methodBody, documentationTextJson.paramBody, documentationTextJson.returnBody, helperSectionIndent);
+        var controllerMethodsContent = SnippetUtils.getMethodsContent(controllerMethods, documentationTextJson.methodBody, documentationTextJson.paramBody, documentationTextJson.returnBody, controllerSectionIndent);
+        documentationText = StrUtils.replace(documentationText, '{!helperMethods}', helperMethodsContent);
+        documentationText = StrUtils.replace(documentationText, '{!controllerMethods}', controllerMethodsContent);
+        return documentationText;
+    }
+
+    static getCSSFileSnippet() {
+        return ".THIS {\n}"
+    }
+
+    static getDesignFileSnippet() {
+        return "<design:component >\n\t\n</design:component>"
+    }
+
+    static getSVGFileSnippet() {
+        let content = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
+        content += "<svg width=\"120px\" height=\"120px\" viewBox=\"0 0 120 120\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
+        content += "\t<g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">\n";
+        content += "\t\t<path d=\"M120,108 C120,114.6 114.6,120 108,120 L12,120 C5.4,120 0,114.6 0,108 L0,12 C0,5.4 5.4,0 12,0 L108,0 C114.6,0 120,5.4 120,12 L120,108 L120,108 Z\" id=\"Shape\" fill=\"#2A739E\"/>\n";
+        content += "\t\t<path d=\"M77.7383308,20 L61.1640113,20 L44.7300055,63.2000173 L56.0543288,63.2000173 L40,99.623291 L72.7458388,54.5871812 L60.907727,54.5871812 L77.7383308,20 Z\" id=\"Path-1\" fill=\"#FFFFFF\"/>\n";
+        content += "\t</g>\n"
+        content += "</svg>";
+        return content;
+    }
+
+    static getControllerHelperFileSnippet(firstMethodName) {
+        let content = "({\n";
+        if (firstMethodName === 'controllerMethod')
+            content += '\t' + firstMethodName + " : function (component, event, helper) {\n\t\t\n\t}\n";
+        else
+            content += '\t' + firstMethodName + " : function (component) {\n\t\t\n\t}\n";
+        content += "})";
+        return content;
+    }
+
+    static getRendererFileSnippet() {
+        let content = "({";
+        content += "\n\n// Your renderer method overrides go here\n\n"
+        content += "})";
+        return content;
+    }
+
+    static getJSApexParamsSnippet(activationInfo, method) {
+        let content = "";
+        if (activationInfo.lastToken && (activationInfo.lastToken.text === '=' || activationInfo.lastToken.text === ','))
+            content += "{\n";
+        else
+            content += "const \${1:params} = {\n";
+        let cont = 0;
+        let snippetNum = 2;
+        for (const paramName of Object.keys(method.params)) {
+            const param = method.params[paramName];
+            if (Utils.countKeys(method.params) === 1)
+                content += "\t" + param.name + ": \${" + snippetNum + ":value}  // Datatype: " + StrUtils.replace(param.datatype.name, ',', ', ') + " \n";
+            else {
+                if (cont === Utils.countKeys(method.params) - 1)
+                    content += "\t" + param.name + ": \${" + snippetNum + ":value}  // Datatype: " + StrUtils.replace(param.datatype.name, ',', ', ') + "\n";
+                else
+                    content += "\t" + param.name + ": \${" + snippetNum + ":value},  // Datatype: " + StrUtils.replace(param.datatype.name, ',', ', ') + "\n";
+            }
             snippetNum++;
-            varIndex++;
+            cont++;
         }
-        comment = comment.replace(`{!method.params}`, params.join('\n'));
-        if (data.methodData.returnType && data.methodData.returnType !== 'void') {
-            let returnBody = commentTemplate.methodComment.returnBody.replace(`{!return.description}`, `\${${snippetNum}:Return description}`);
-            returnBody = returnBody.replace("{!return.type}", data.methodData.returnType);
-            comment = comment.replace('{!method.return}', returnBody);
+        content += "}";
+        if (!activationInfo.nextToken || (activationInfo.nextToken.text !== ';' && activationInfo.nextToken.text !== ',' && activationInfo.nextToken.text !== ')')) {
+            content += ';';
+        } else if(activationInfo.lastToken && activationInfo.lastToken.test === ','){
+            content += ', ';
         }
-    } else if (data.classData.name !== undefined) {
-        for (let i = 0; i < commentTemplate.classComment.commentBody.length; i++) {
-            var line = commentTemplate.classComment.commentBody[i];
-            lines.push(line);
-        }
-        comment = lines.join('\n');
-        comment = comment.replace(`{!class.description}`, `\${${snippetNum}:` + data.classData.name + ` Description}`).replace('{!class.name}', data.classData.name);
-    } else {
-        comment = '/**\n';
-        comment += ' * ' + `\${0:description}` + '\n';
-        comment += ' */';
+        return content;
     }
-    logger.log('comment', comment);
-    return comment;
+
+    static getMethodsContent(methods, methodTemplate, paramTemplate, returnTemplate, indent) {
+        var content = "";
+        if (methods) {
+            for (let i = 0; i < methods.length; i++) {
+                content += SnippetUtils.getMethodContent(methods[i], methodTemplate, paramTemplate, returnTemplate, indent);
+            }
+        }
+        return content;
+    }
+
+    static getMethodContent(func, methodTemplate, paramTemplate, returnTemplate, indent) {
+        let content = "";
+        let paramsIndent = "";
+        let returnIndent = "";
+        for (let i = 0; i < methodTemplate.length; i++) {
+            let line = methodTemplate[i];
+            if (StrUtils.containsIgnorecase(line, '{!method.params}')) {
+                paramsIndent = StrUtils.getStringIndent(line);
+                line = line.trimLeft();
+                content += line + '\n';
+            } else if (StrUtils.containsIgnorecase(line, '{!method.return}')) {
+                returnIndent = StrUtils.getStringIndent(line);
+                line = line.trimLeft();
+                content += line + '\n';
+            } else {
+                content += indent + line + '\n';
+            }
+        }
+        let paramsContent = "";
+        let methodDesc = "<!-- Method Description Here -->";
+        if (func.comment && Utils.hasKeys(func.comment.params)) {
+            methodDesc = func.comment.description;
+            for (const varToken of func.variables) {
+                paramsContent += getParamContentFromComment(func.comment.params[varToken.text], paramTemplate, indent + paramsIndent);
+            }
+        }
+        else {
+            for (const varToken of func.variables) {
+                paramsContent += getParamContent(varToken, paramTemplate, indent + paramsIndent);
+            }
+        }
+        let returnContent = '';
+        if (func.comment && Utils.hasKeys(func.comment.return)) {
+            returnContent = getReturnContent(func.comment.return, returnTemplate, indent + returnIndent);
+        }
+        content = StrUtils.replace(content, '{!method.name}', func.name);
+        content = StrUtils.replace(content, '{!method.description}', methodDesc);
+        content = StrUtils.replace(content, '{!method.signature}', func.signature);
+        content = StrUtils.replace(content, '{!method.auraSignature}', func.auraSignature);
+        content = StrUtils.replace(content, '{!method.params}', paramsContent);
+        content = StrUtils.replace(content, '{!method.return}', returnContent);
+        return content;
+    }
+
 }
 
-function getJSFunctionSnippet(numParams) {
-    var funcBody = `\${1:funcName} : function(`;
-    if (numParams > 0) {
-        var params = [];
-        for (let i = 0; i < numParams; i++) {
-            var nParam = i + 1;
-            var snippetNum = i + 2;
-            params.push(`\${${snippetNum}:param_${nParam}}`);
-        }
-        funcBody += params.join(`, `);
+function getApexCommentNodeTemplate(apexNode, template) {
+    let nodeTemplate;
+    if (apexNode.nodeType === ApexNodeTypes.CLASS || apexNode.nodeType === ApexNodeTypes.INTERFACE || apexNode.nodeType === ApexNodeTypes.ENUM || apexNode.nodeType === ApexNodeTypes.TRIGGER) {
+        if (template.comments[apexNode.nodeType])
+            nodeTemplate = template.comments[apexNode.nodeType];
+        else
+            nodeTemplate = template.comments[ApexNodeTypes.CLASS];
+    } else if (apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR || apexNode.nodeType === ApexNodeTypes.STATIC_CONSTRUCTOR || apexNode.nodeType === ApexNodeTypes.INITIALIZER) {
+        if (template.comments[apexNode.nodeType])
+            nodeTemplate = template.comments[apexNode.nodeType];
+        else
+            nodeTemplate = template.comments[ApexNodeTypes.METHOD];
+    } else if (apexNode.nodeType === ApexNodeTypes.PROPERTY || apexNode.nodeType === ApexNodeTypes.VARIABLE || apexNode.nodeType === ApexNodeTypes.GETTER || apexNode.nodeType === ApexNodeTypes.SETTER) {
+        if (template.comments[apexNode.nodeType])
+            nodeTemplate = template.comments[apexNode.nodeType];
+        else
+            nodeTemplate = template.comments[ApexNodeTypes.VARIABLE];
     }
-    funcBody += `){\n\t$0\n},`;
-    return funcBody;
+    return nodeTemplate;
 }
 
-function getMethodsContent(fileStructure, methodTemplate, paramTemplate, indent) {
+function getReturnContent(returnData, returnTemplate, indent) {
     var content = "";
-    if (fileStructure && fileStructure.functions) {
-        for (let i = 0; i < fileStructure.functions.length; i++) {
-            content += getMethodContent(fileStructure.functions[i], methodTemplate, paramTemplate, indent);
-        }
+    for (let i = 0; i < returnTemplate.length; i++) {
+        var line = returnTemplate[i];
+        content += indent + line + '\n';
     }
-    return content;
-}
-
-function getMethodContent(func, methodTemplate, paramTemplate, indent) {
-    var content = "";
-    var paramsIndent = "";
-    for (let i = 0; i < methodTemplate.length; i++) {
-        var line = methodTemplate[i];
-        if (line.indexOf('{!method.params}') !== -1) {
-            paramsIndent = getIndent(line);
-            line = line.trimLeft();
-            content += line + '\n';
-        } else {
-            content += indent + line + '\n';
-        }
-    }
-    var paramsContent = "";
-    var methodDesc = "<!-- Method Description Here -->";
-    if (func.comment) {
-        methodDesc = func.comment.description;
-        for (let i = 0; i < func.comment.params.length; i++) {
-            paramsContent += getParamContentFromComment(func.comment.params[i], paramTemplate, indent + paramsIndent);
-        }
-    }
-    else {
-        for (let i = 0; i < func.params.length; i++) {
-            paramsContent += getParamContent(func.params[i], paramTemplate, indent + paramsIndent);
-        }
-    }
-    content = content.replace("{!method.name}", func.name);
-    content = content.replace("{!method.description}", methodDesc);
-    content = content.replace("{!method.signature}", func.signature);
-    content = content.replace("{!method.auraSignature}", func.auraSignature);
-    content = content.replace("{!method.params}", paramsContent);
+    content = StrUtils.replace(content, '{!return.type}', (returnData.datatype) ? returnData.datatype : '<!-- Return Datatype Here -->');
+    content = StrUtils.replace(content, '{!return.description}', (returnData.description) ? returnData.description : '<!-- Return Description Here -->');
     return content;
 }
 
@@ -121,7 +502,9 @@ function getParamContent(param, paramTemplate, indent) {
         var line = paramTemplate[i];
         content += indent + line + '\n';
     }
-    content = content.replace("{!param.name}", param.name).replace("{!param.type}", "*").replace("{!param.description}", "<!-- Param Description Here -->");
+    content = StrUtils.replace(content, '{!param.name}', param.text);
+    content = StrUtils.replace(content, '{!param.type}', "any");
+    content = StrUtils.replace(content, '{!param.description}', '<!-- Param Description Here -->');
     return content;
 }
 
@@ -131,182 +514,10 @@ function getParamContentFromComment(commentParam, paramTemplate, indent) {
         var line = paramTemplate[i];
         content += indent + line + '\n';
     }
-    content = content.replace("{!param.name}", commentParam.name).replace("{!param.type}", commentParam.type).replace("{!param.description}", commentParam.description);
+    content = StrUtils.replace(content, '{!param.name}', commentParam.name);
+    content = StrUtils.replace(content, '{!param.type}', commentParam.datatype);
+    content = StrUtils.replace(content, '{!param.description}', commentParam.description);
     return content;
 }
 
-function getIndent(line) {
-    let indent = "";
-    for (let i = 0; i < line.length; i++) {
-        let char = line[i];
-        if (char === ' ' || char === '\t')
-            indent += char;
-        else
-            break;
-    }
-    return indent;
-}
-
-function getWhitespaces(number) {
-    let ws = "";
-    for (let i = 0; i < number; i++) {
-        ws += ' ';
-    }
-    return ws;
-}
-
-function getAuraDocumentationSnippet(controllerMethods, helperMethods, templateContent) {
-    let documentationTextJson = JSON.parse(templateContent);
-    let documentationText = "";
-    let helperSectionIndent = '';
-    let controllerSectionIndent = '';
-    for (let i = 0; i < documentationTextJson.documentbody.length; i++) {
-        var line = documentationTextJson.documentbody[i];
-        if (line.indexOf('{!helperMethods}') !== -1) {
-            helperSectionIndent = getIndent(line);
-            line = line.trimLeft();
-        }
-        else if (line.indexOf('{!controllerMethods}') !== -1) {
-            controllerSectionIndent = getIndent(line);
-            line = line.trimLeft();
-        }
-        documentationText += line + '\n';
-    }
-    var helperMethodsContent = getMethodsContent(helperMethods, documentationTextJson.methodBody, documentationTextJson.paramBody, helperSectionIndent);
-    var controllerMethodsContent = getMethodsContent(controllerMethods, documentationTextJson.methodBody, documentationTextJson.paramBody, controllerSectionIndent);
-    documentationText = documentationText.replace("{!helperMethods}", helperMethodsContent).replace("{!controllerMethods}", controllerMethodsContent);
-    return documentationText;
-}
-
-function getCSSFileSnippet() {
-    return ".THIS {\n}"
-}
-
-function getDesignFileSnippet() {
-    return "<design:component >\n\t\n</design:component>"
-}
-
-function getSVGFileSnippet() {
-    let content = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
-    content += "<svg width=\"120px\" height=\"120px\" viewBox=\"0 0 120 120\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
-    content += "\t<g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">\n";
-    content += "\t\t<path d=\"M120,108 C120,114.6 114.6,120 108,120 L12,120 C5.4,120 0,114.6 0,108 L0,12 C0,5.4 5.4,0 12,0 L108,0 C114.6,0 120,5.4 120,12 L120,108 L120,108 Z\" id=\"Shape\" fill=\"#2A739E\"/>\n";
-    content += "\t\t<path d=\"M77.7383308,20 L61.1640113,20 L44.7300055,63.2000173 L56.0543288,63.2000173 L40,99.623291 L72.7458388,54.5871812 L60.907727,54.5871812 L77.7383308,20 Z\" id=\"Path-1\" fill=\"#FFFFFF\"/>\n";
-    content += "\t</g>\n"
-    content += "</svg>";
-    return content;
-}
-
-function getControllerHelperFileSnippet(firstMethodName) {
-    let content = "({\n";
-    if (firstMethodName === 'controllerMethod')
-        content += '\t' + firstMethodName + " : function (component, event, helper) {\n\t\t\n\t}\n";
-    else
-        content += '\t' + firstMethodName + " : function (component) {\n\t\t\n\t}\n";
-    content += "})";
-    return content;
-}
-
-function getRendererFileSnippet() {
-    let content = "({";
-    content += "\n\n// Your renderer method overrides go here\n\n"
-    content += "})";
-    return content;
-}
-
-function getAuraDocumentationBaseTemplate() {
-    let auraDocTemplate = {
-        "paramBody": "<li><i>{!param.name} ({!param.type}): </li> {!param.description}",
-        "methodBody": [
-            "<li>",
-            "\t<b>{!method.signature}: </b> {!method.description}",
-            "\t<ul>",
-            "\t\t{!method.params}",
-            "\t</ul>",
-            "</li>"
-        ],
-        "documentbody": [
-            "<aura:documentation>",
-            "\t<aura:description>",
-            "\t\t<h6><b>Short description</b> of the component</h6>",
-            "\t\t<p>",
-            "\t\t\tHelper methods:",
-            "\t\t\t<ul>",
-            "\t\t\t\t{!helperMethods}",
-            "\t\t\t</ul>",
-            "\t\t</p>\n",
-            "\t</aura:description>",
-            "\t<aura:example name=\"ExampleName\" ref=\"ExampleComponent\" label=\"ExampleLabel\">",
-            "\t\t",
-            "\t</aura:example>",
-            "</aura:documentation>"
-        ]
-    };
-    return JSON.stringify(auraDocTemplate, null, 4);
-}
-
-function getApexCommentBaseTemplate() {
-    let commentTemplate = {
-        "methodComment": {
-            "paramBody": "## {!param.name} ({!param.type}): {!param.description}",
-            "returnBody": "@@ Return {!returnType}",
-            "commentBody": [
-                "/**",
-                " * {!method.description}",
-                " *",
-                " * {!method.params}",
-                " * {!method.return}",
-                " */"
-            ]
-        },
-        "classComment": {
-            "commentBody": [
-
-            ]
-        }
-    }
-    return JSON.stringify(commentTemplate, null, 4);
-}
-
-function getJSApexParamsSnippet(data, lineData) {
-    let content = "";
-    if (lineData.complete)
-        content += "let \${1:params} = {\n";
-    else
-        content += "{\n";
-    let cont = 0;
-    let snippetNum = 2;
-    for (const param of data.params) {
-        if (data.params.length === 1)
-            content += "\t" + param.name + ": \${" + snippetNum + ":value} \n";
-        else {
-            if (cont === data.params.length - 1)
-                content += "\t" + param.name + ": \${" + snippetNum + ":value} \n";
-            else
-                content += "\t" + param.name + ": \${" + snippetNum + ":value}, \n";
-        }
-        snippetNum++;
-        cont++;
-    }
-    content += "}";
-    if (lineData.close)
-        content += ';';
-    return content;
-}
-
-module.exports = {
-    getJSFunctionSnippet,
-    getApexComment,
-    getAuraDocumentationSnippet,
-    getControllerHelperFileSnippet,
-    getCSSFileSnippet,
-    getDesignFileSnippet,
-    getSVGFileSnippet,
-    getRendererFileSnippet,
-    getAuraDocumentationBaseTemplate,
-    getApexCommentBaseTemplate,
-    getMethodContent,
-    getIndent,
-    getWhitespaces,
-    getJSApexParamsSnippet
-}
+module.exports = SnippetUtils;
