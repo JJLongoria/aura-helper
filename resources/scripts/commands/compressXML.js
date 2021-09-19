@@ -3,8 +3,8 @@ const OutputChannel = require('../output/outputChannnel');
 const Config = require('../core/config');
 const NotificationManager = require('../output/notificationManager');
 const Paths = require('../core/paths');
-const CLIManager = require('@ah/cli-manager');
-const XMLCompressor = require('@ah/xml-compressor');
+const CLIManager = require('@aurahelper/cli-manager');
+const XMLCompressor = require('@aurahelper/xml-compressor');
 
 exports.run = function (fileUri) {
     try {

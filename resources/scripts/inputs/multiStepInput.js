@@ -2,9 +2,9 @@ const EventEmitter = require('events').EventEmitter;
 const vscode = require('vscode');
 const Paths = require('../core/paths');
 const Factory = require('./factory');
-const MetadataFactory = require('@ah/metadata-factory');
-const CLIManager = require('@ah/cli-manager');
-const Connection = require('@ah/connector');
+const MetadataFactory = require('@aurahelper/metadata-factory');
+const CLIManager = require('@aurahelper/cli-manager');
+const Connection = require('@aurahelper/connector');
 const { NotificationMananger } = require('../output');
 const Config = require('../core/config');
 

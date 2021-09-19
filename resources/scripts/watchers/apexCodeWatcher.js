@@ -1,8 +1,8 @@
 const vscode = require('vscode');
 const applicationContext = require('../core/applicationContext');
-const { ApexParser } = require('@ah/languages').Apex;
+const { ApexParser } = require('@aurahelper/languages').Apex;
 const Paths = require('../core/paths');
-const { FileWriter, PathUtils } = require('@ah/core').FileSystem;
+const { FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
 
 class ApexCodeWatcher {
 

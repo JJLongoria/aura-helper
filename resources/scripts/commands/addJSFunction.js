@@ -1,6 +1,6 @@
 const SnippetUtils = require('../utils/snippetUtils');
 const InputValidator = require('../inputs/inputValidator');
-const { FileChecker } = require('@ah/core').FileSystem;
+const { FileChecker } = require('@aurahelper/core').FileSystem;
 const NotificationManager = require('../output/notificationManager');
 const vscode = require('vscode');
 const window = vscode.window;

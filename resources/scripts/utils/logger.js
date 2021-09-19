@@ -1,5 +1,5 @@
 const DEBUG = true;
-const { Utils } = require('@ah/core').CoreUtils;
+const { Utils } = require('@aurahelper/core').CoreUtils;
 
 class Logger {
     static log(textOrParamName, paramValue) {

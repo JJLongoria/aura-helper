@@ -1,8 +1,8 @@
 const vscode = require('vscode');
-const Connection = require('@ah/connector');
+const Connection = require('@aurahelper/connector');
 const NotificationManager = require('../output/notificationManager');
-const { FileChecker, FileWriter } = require('@ah/core').FileSystem;
-const { MetadataTypes } = require('@ah/core').Values;
+const { FileChecker, FileWriter } = require('@aurahelper/core').FileSystem;
+const { MetadataTypes } = require('@aurahelper/core').Values;
 const Config = require('../core/config');
 const Paths = require('../core/paths');
 const applicationContext = require('../core/applicationContext');

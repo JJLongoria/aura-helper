@@ -2,9 +2,9 @@ const logger = require('../utils/logger');
 const ProviderUtils = require('./utils');
 const vscode = require('vscode');
 const applicationContext = require('../core/applicationContext');
-const { FileChecker, FileReader } = require('@ah/core').FileSystem;
-const { ApexParser } = require('@ah/languages').Apex;
-const { Utils } = require('@ah/core').CoreUtils;
+const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
+const { ApexParser } = require('@aurahelper/languages').Apex;
+const { Utils } = require('@aurahelper/core').CoreUtils;
 const CompletionItemKind = vscode.CompletionItemKind;
 
 exports.provider = {

@@ -3,11 +3,11 @@ const Config = require('../core/config');
 const CustomLabelsEditor = require('../inputs/customLabelsEditor');
 const NotificationManager = require('../output/notificationManager');
 const Paths = require('../core/paths');
-const { FileChecker, FileWriter } = require('@ah/core').FileSystem;
-const { MetadataTypes } = require('@ah/core').Values;
-const { MetadataType, MetadataObject } = require('@ah/core').Types;
-const PackageGenerator = require('@ah/package-generator');
-const Connection = require('@ah/connector');
+const { FileChecker, FileWriter } = require('@aurahelper/core').FileSystem;
+const { MetadataTypes } = require('@aurahelper/core').Values;
+const { MetadataType, MetadataObject } = require('@aurahelper/core').Types;
+const PackageGenerator = require('@aurahelper/package-generator');
+const Connection = require('@aurahelper/connector');
 const Window = vscode.window;
 const ProgressLocation = vscode.ProgressLocation;
 

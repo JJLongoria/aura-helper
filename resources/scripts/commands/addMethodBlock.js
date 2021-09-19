@@ -3,9 +3,9 @@ const vscode = require('vscode');
 const Editor = require('../output/editor');
 const NotificationManager = require('../output/notificationManager');
 const Paths = require('../core/paths');
-const { FileChecker, FileReader } = require('@ah/core').FileSystem;
-const { StrUtils } = require('@ah/core').CoreUtils;
-const { JSParser } = require('@ah/languages').JavaScript;
+const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
+const { StrUtils } = require('@aurahelper/core').CoreUtils;
+const { JSParser } = require('@aurahelper/languages').JavaScript;
 const window = vscode.window;
 
 exports.run = function() {

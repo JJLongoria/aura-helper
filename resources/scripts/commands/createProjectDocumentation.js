@@ -1,16 +1,17 @@
 const vscode = require('vscode');
 const NotificationManager = require('../output/notificationManager');
-const { FileReader, FileWriter, FileChecker } = require('@ah/core').FileSystem;
+const { FileReader, FileWriter, FileChecker } = require('@aurahelper/core').FileSystem;
 const Config = require('../core/config');
 const applicationContext = require('../core/applicationContext');
 const Paths = require('../core/paths');
-const { ApexParser } = require('@ah/languages').Apex;
-const { Tokenizer, TokenType } = require('@ah/languages').System;
-const LanguageUtils = require('@ah/languages').LanguageUtils;
-const { StrUtils, Utils } = require('@ah/core').CoreUtils;
-const { ApexNodeTypes } = require('@ah/core').Values;
-const { Token } = require('@ah/core').Types;
+const { ApexParser } = require('@aurahelper/languages').Apex;
+const { Tokenizer, TokenType } = require('@aurahelper/languages').System;
+const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
+const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
+const { ApexNodeTypes } = require('@aurahelper/core').Values;
+const { Token } = require('@aurahelper/core').Types;
 const InputFactory = require('../inputs/factory');
+const TemplateUtils = require('../utils/templateUtils');
 const Window = vscode.window;
 
 
@@ -36,7 +37,7 @@ exports.run = function () {
             classes = applicationContext.parserData.userClassesData;
             namespacesData = applicationContext.parserData.namespacesData;
             sObjects = applicationContext.parserData.sObjectsData;
-            applicationContext.parserData.template = JSON.parse(FileReader.readFileSync(Paths.getApexCommentUserTemplate()));
+            applicationContext.parserData.template = TemplateUtils.getApexCommentTemplate();
             createDocumentation(uri[0].fsPath).then(function () {
                 NotificationManager.hideStatusBar();
                 Window.showInformationMessage('Documentation Created Succesfully on ' + uri[0].fsPath);
@@ -423,32 +424,17 @@ function getNodeBody(apexNode) {
                 content.push('<div id="' + apexNode.name + '.' + constructor.name + '_' + index + '" class="w3-hide w3-margin-left">');
                 content.push('<h4 class="sectionTitle"><b>Signature</b></h4>');
                 content.push('<p style="padding-left:20px">' + getSignature(constructor, true) + '</p>');
+                const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], constructor.comment);
                 if (constructor.params && Utils.hasKeys(constructor.params)) {
+                    const paramsTagData = tagsData['params'];
                     content.push('<h4 class="sectionTitle"><b>Parameters</b></h4>');
                     for (const param of constructor.getOrderedParams()) {
-                        if (applicationContext.parserData.template && Utils.hasKeys(applicationContext.parserData.template)) {
-                            if (constructor.comment && constructor.comment.tags && Utils.hasKeys(constructor.comment.tags)) {
-                                let tagName;
-                                let tagData;
-                                let tag;
-                                for (tagName of Object.keys(constructor.comment.tags)) {
-                                    tag = applicationContext.parserData.template.tags[tagName];
-                                    while (tag.equalsTo) {
-                                        tag = applicationContext.parserData.template.tags[tag.equalsTo];
-                                    }
-                                    tagData = constructor.comment.tags[tagName];
-                                    if (tag && tagData && tag.source === 'params') {
-                                        break;
-                                    }
-                                }
-                                if (tag && tagData && tagName) {
-                                    for (const data of tagData) {
-                                        if (data.keywords) {
-                                            for (const keyword of tag.keywords) {
-                                                if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
-                                                    content.push('<p style="padding-left:20px">' + data.keywords[keyword.name] + '</p>');
-                                                }
-                                            }
+                        if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
+                            for (const data of paramsTagData.tagData) {
+                                if (data.keywords) {
+                                    for (const keyword of paramsTagData.tag.keywords) {
+                                        if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                            content.push('<p style="padding-left:20px">' + data.keywords[keyword.name] + '</p>');
                                         }
                                     }
                                 }
@@ -476,6 +462,7 @@ function getNodeBody(apexNode) {
             for (const methodKey of Object.keys(apexNode.methods)) {
                 const method = apexNode.methods[methodKey];
                 const paramNames = [];
+                const methodComment = method.comment;
                 if (method.params && Utils.hasKeys(method.params)) {
                     for (const paramKey of Object.keys(method.params)) {
                         const param = method.params[paramKey];
@@ -487,34 +474,23 @@ function getNodeBody(apexNode) {
                 content.push('<a class="w3-bar-item menu" onclick="openCloseAccordion(\'' + apexNode.name + '.' + method.name + '_' + index + '\')"><b>' + name + '</b></a>');
                 if (method.description && method.description.length > 0) {
                     content.push('<br/>' + method.description);
+                } else if (methodComment && methodComment.description && methodComment.description.length > 0) {
+                    content.push('<br/>' + method.comment.description);
                 }
                 content.push('<div id="' + apexNode.name + '.' + method.name + '_' + index + '" class="w3-hide w3-margin-left">');
                 content.push('<h4 class="sectionTitle"><b>Signature</b></h4>');
                 content.push('<p style="padding-left:20px">' + getSignature(method, true) + '</p>');
+                const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
                 if (method.params && Utils.hasKeys(method.params)) {
+                    const paramsTagData = tagsData['params'];
                     content.push('<h4 class="sectionTitle"><b>Parameters</b></h4>');
                     for (const param of method.getOrderedParams()) {
-                        if (method.comment && method.comment.tags && Utils.hasKeys(method.comment.tags)) {
-                            let tagName;
-                            let tagData;
-                            let tag;
-                            for (tagName of Object.keys(method.comment.tags)) {
-                                tag = applicationContext.parserData.template.tags[tagName];
-                                while (tag.equalsTo) {
-                                    tag = applicationContext.parserData.template.tags[tag.equalsTo];
-                                }
-                                tagData = method.comment.tags[tagName];
-                                if (tag && tagData && tag.source === 'params') {
-                                    break;
-                                }
-                            }
-                            if (tag && tagData && tagName) {
-                                for (const data of tagData) {
-                                    if (data.keywords) {
-                                        for (const keyword of tag.keywords) {
-                                            if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
-                                                content.push('<p style="padding-left:20px">' + data.keywords[keyword.name] + '</p>');
-                                            }
+                        if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
+                            for (const data of paramsTagData.tagData) {
+                                if (data.keywords) {
+                                    for (const keyword of paramsTagData.tag.keywords) {
+                                        if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                            content.push('<p style="padding-left:20px">' + data.keywords[keyword.name] + '</p>');
                                         }
                                     }
                                 }
@@ -527,8 +503,17 @@ function getNodeBody(apexNode) {
                 if (method.datatype && method.datatype.name !== 'void') {
                     content.push('<h4 class="sectionTitle"><b>Return</b></h4>');
                     content.push('<p style="padding-left:20px">Type: <b class="code">' + styleDatatype(escape(method.datatype.name)) + '</b></p>');
-                    if (method.comment && method.comment.return && method.comment.return.description && method.comment.return.description.length > 0) {
-                        content.push('<p style="padding-left:20px">' + method.comment.return.description + '</p>');
+                    const returnTagData = tagsData['return'];
+                    if (returnTagData && returnTagData.tag && returnTagData.tagData && returnTagData.tagName) {
+                        for (const data of returnTagData.tagData) {
+                            if (data.keywords) {
+                                for (const keyword of returnTagData.tag.keywords) {
+                                    if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                        content.push('<p style="padding-left:20px">' + data.keywords[keyword.name] + '</p>');
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 content.push('<br/>');

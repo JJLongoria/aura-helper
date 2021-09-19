@@ -1,14 +1,14 @@
 const vscode = require('vscode');
 const Range = vscode.Range;
-const { FileReader, PathUtils, FileChecker } = require('@ah/core').FileSystem;
-const { DataTypes, ApexNodeTypes, AuraNodeTypes } = require('@ah/core').Values;
-const { StrUtils, Utils } = require('@ah/core').CoreUtils;
-const XMLDefinitions = require('@ah/xml-definitions');
+const { FileReader, PathUtils, FileChecker } = require('@aurahelper/core').FileSystem;
+const { DataTypes, ApexNodeTypes, AuraNodeTypes } = require('@aurahelper/core').Values;
+const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
+const XMLDefinitions = require('@aurahelper/xml-definitions');
 const applicationContext = require('../core/applicationContext');
-const { XMLParser, XMLUtils } = require('@ah/languages').XML;
-const { ApexParser } = require('@ah/languages').Apex;
-const { AuraParser } = require('@ah/languages').Aura;
-const { JSParser } = require('@ah/languages').JavaScript;
+const { XMLParser, XMLUtils } = require('@aurahelper/languages').XML;
+const { ApexParser } = require('@aurahelper/languages').Apex;
+const { AuraParser } = require('@aurahelper/languages').Aura;
+const { JSParser } = require('@aurahelper/languages').JavaScript;
 
 const TYPES_BY_APEX_NODE = {}
 TYPES_BY_APEX_NODE[ApexNodeTypes.CLASS] = vscode.SymbolKind.Class;

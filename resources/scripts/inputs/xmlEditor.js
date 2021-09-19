@@ -1,10 +1,10 @@
 const vscode = require('vscode');
-const { FileWriter, FileReader, PathUtils } = require('@ah/core').FileSystem;
-const { XMLParser } = require('@ah/languages').XML;
+const { FileWriter, FileReader, PathUtils } = require('@aurahelper/core').FileSystem;
+const { XMLParser } = require('@aurahelper/languages').XML;
 const Config = require('../core/config');
 const MultiStepInput = require('./multiStepInput');
-const CLIManager = require('@ah/cli-manager');
-const XMLCompressor = require('@ah/xml-compressor');
+const CLIManager = require('@aurahelper/cli-manager');
+const XMLCompressor = require('@aurahelper/xml-compressor');
 const Paths = require('../core/paths');
 const OutputChannel = require('../output/outputChannnel');
 

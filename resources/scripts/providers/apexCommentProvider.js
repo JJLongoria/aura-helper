@@ -1,6 +1,6 @@
 const vscode = require('vscode');
 const config = require('../core/config');
-const { FileChecker } = require('@ah/core').FileSystem;
+const { FileChecker } = require('@aurahelper/core').FileSystem;
 const CompletionItem = vscode.CompletionItem;
 const CompletionItemKind = vscode.CompletionItemKind;
 const ProviderUtils = require('./utils');

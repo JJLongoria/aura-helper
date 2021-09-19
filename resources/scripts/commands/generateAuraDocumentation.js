@@ -1,8 +1,8 @@
 const logger = require('../utils/logger');
 const snippetUtils = require('../utils/snippetUtils');
-const { JSParser } = require('@ah/languages').JavaScript;
+const { JSParser } = require('@aurahelper/languages').JavaScript;
 const vscode = require('vscode');
-const { FileChecker, FileReader } = require('@ah/core').FileSystem;
+const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const Range = vscode.Range;

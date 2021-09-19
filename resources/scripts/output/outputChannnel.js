@@ -10,14 +10,18 @@ class OutputChannel {
             channel = vscode.window.createOutputChannel(CHANNEL_NAME);
     }
 
-    static output(text) {
+    static output(text, show) {
         OutputChannel.createChannel();
         channel.append(text);
+        if (show)
+            channel.show(show);
     }
 
-    static outputLine(text) {
+    static outputLine(text, show) {
         OutputChannel.createChannel();
         channel.appendLine(text);
+        if (show)
+            channel.show(show);
     }
 
 }

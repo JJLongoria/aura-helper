@@ -4,12 +4,12 @@ const MetadataSelectorInput = require('../inputs/metadataSelector');
 const InputFactory = require('../inputs/factory');
 const NotificationManager = require('../output/notificationManager');
 const Paths = require('../core/paths');
-const PackageGenerator = require('@ah/package-generator');
-const CLIManager = require('@ah/cli-manager');
-const GitManager = require('@ah/git-manager');
-const Connection = require('@ah/connector');
-const MetadataFactory = require('@ah/metadata-factory');
-const Ignore = require('@ah/ignore');
+const PackageGenerator = require('@aurahelper/package-generator');
+const CLIManager = require('@aurahelper/cli-manager');
+const GitManager = require('@aurahelper/git-manager');
+const Connection = require('@aurahelper/connector');
+const MetadataFactory = require('@aurahelper/metadata-factory');
+const Ignore = require('@aurahelper/ignore');
 
 exports.run = function () {
     try {

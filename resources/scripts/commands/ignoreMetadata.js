@@ -1,13 +1,13 @@
 const vscode = require('vscode');
 const NotificationManager = require('../output/notificationManager');
 const InputFactory = require('../inputs/factory');
-const { FileReader, FileChecker } = require('@ah/core').FileSystem;
-const { MetadataUtils } = require('@ah/core').CoreUtils;
+const { FileReader, FileChecker } = require('@aurahelper/core').FileSystem;
+const { MetadataUtils } = require('@aurahelper/core').CoreUtils;
 const Paths = require('../core/paths');
 const Config = require('../core/config');
-const CLIManager = require('@ah/cli-manager');
-const Ignore = require('@ah/ignore');
-const Connection = require('@ah/connector');
+const CLIManager = require('@aurahelper/cli-manager');
+const Ignore = require('@aurahelper/ignore');
+const Connection = require('@aurahelper/connector');
 
 exports.run = async function () {
     let ignoreOption = await InputFactory.createIgnoreOptionsSelector();

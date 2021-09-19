@@ -1,10 +1,10 @@
 const vscode = require('vscode');
 const NotificationManager = require('../output/notificationManager');
-const { FileReader, FileChecker } = require('@ah/core').FileSystem;
-const { Utils, StrUtils } = require('@ah/core').CoreUtils;
-const { ApexConstructor } = require('@ah/core').Types;
-const { ApexNodeTypes } = require('@ah/core').Values;
-const { ApexParser } = require('@ah/languages').Apex;
+const { FileReader, FileChecker } = require('@aurahelper/core').FileSystem;
+const { Utils, StrUtils } = require('@aurahelper/core').CoreUtils;
+const { ApexConstructor } = require('@aurahelper/core').Types;
+const { ApexNodeTypes } = require('@aurahelper/core').Values;
+const { ApexParser } = require('@aurahelper/languages').Apex;
 const applicationContext = require('../core/applicationContext');
 const Window = vscode.window;
 const SnippetString = vscode.SnippetString;

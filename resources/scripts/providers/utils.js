@@ -4,17 +4,17 @@ const vscode = require('vscode');
 const Paths = require('../core/paths');
 const Range = vscode.Range;
 const Position = vscode.Position;
-const { FileChecker, FileReader } = require('@ah/core').FileSystem;
-const { XMLParser } = require('@ah/languages').XML;
-const { Tokenizer, TokenType } = require('@ah/languages').System;
-const { ApexParser } = require('@ah/languages').Apex;
-const { ApexNodeTypes } = require('@ah/core').Values;
+const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
+const { XMLParser } = require('@aurahelper/languages').XML;
+const { Tokenizer, TokenType } = require('@aurahelper/languages').System;
+const { ApexNodeTypes } = require('@aurahelper/core').Values;
 const applicationContext = require('../core/applicationContext');
-const { StrUtils, Utils } = require('@ah/core').CoreUtils;
-const LanguageUtils = require('@ah/languages').LanguageUtils;
+const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
+const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
 const CompletionItemKind = vscode.CompletionItemKind;
 const CompletionItem = vscode.CompletionItem;
 const SnippetString = vscode.SnippetString;
+const TemplateUtils = require('../utils/templateUtils');
 
 class ProviderUtils {
 
@@ -155,6 +155,19 @@ class ProviderUtils {
                     result.twoLastToken = twoLastToken;
                     result.startColumn = token.range.start.character;
                 }
+            } else if (token.type == TokenType.LITERAL.STRING) {
+                if (lastToken && lastToken.range.end.character === token.range.start.character) {
+                    result.activation = token.text + result.activation;
+                    result.lastToken = lastToken;
+                    result.twoLastToken = twoLastToken;
+                    result.startColumn = token.range.start.character;
+                } else {
+                    result.lastToken = lastToken;
+                    result.twoLastToken = twoLastToken;
+                    result.startColumn = token.range.start.character;
+                    result.activation = token.text + result.activation;
+                    endLoop = true;
+                }
             }
             tokenPos--
             if (tokenPos < 0)
@@ -184,15 +197,15 @@ class ProviderUtils {
             let name = field.name;
             if (name.endsWith('__c')) {
                 name = name.substring(0, name.length - 3) + '__r';
-                const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Relationsip Field", 'Relationship with ' + field.referenceTo.join(", ") + ' field(s)', name, true, CompletionItemKind.Field);
+                const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Relationsip Field", 'Relationship with ' + field.referenceTo.join(", ") + ' SObject(s) \n\n' + documentation, name, true, CompletionItemKind.Field);
                 itemRel = ProviderUtils.createItemForCompletion(name, options);
             } else if (name.endsWith('Id')) {
                 name = name.substring(0, name.length - 2);
-                const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Relationsip Field", 'Relationship with ' + field.referenceTo.join(", ") + ' field(s)', name, true, CompletionItemKind.Field);
+                const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Relationsip Field", 'Relationship with ' + field.referenceTo.join(", ") + ' SObject(s) \n\n' + documentation, name, true, CompletionItemKind.Field);
                 itemRel = ProviderUtils.createItemForCompletion(name, options);
             }
         }
-        if (field.picklistValues.length > 0 && activationTokens.length <= 3) {
+        if (field.picklistValues.length > 0 && activationTokens.length <= 3 && activationTokens.length > 0 && activationTokens[0].toLowerCase() === sObject.name.toLowerCase()) {
             pickItems = [];
             documentation += "\n**Picklist Values**: \n";
             for (const pickVal of field.picklistValues) {
@@ -240,7 +253,7 @@ class ProviderUtils {
                 let field = sObject.fields[fieldKey];
                 items = items.concat(ProviderUtils.getSObjectFieldCompletionItems(position, activationInfo, activationTokens, sObject, field, positionData));
             }
-            if (Utils.hasKeys(sObject.recordTypes) && activationTokens.length <= 2) {
+            if (Utils.hasKeys(sObject.recordTypes) && activationTokens.length <= 2 && activationTokens.length > 0 && activationTokens[0].toLowerCase() === sObject.name.toLowerCase()) {
                 for (const rtKey of Object.keys(sObject.recordTypes)) {
                     const rt = sObject.recordTypes[rtKey];
                     let rtDoc = "  - **Name**: " + rt.name + '\n';
@@ -302,6 +315,8 @@ class ProviderUtils {
             }
             if (activationTokens.length > 0) {
                 for (const activationToken of activationTokens) {
+                    if (!activationToken)
+                        continue;
                     let actToken = activationToken;
                     let fielData;
                     let idField = actToken + 'Id';
@@ -310,7 +325,7 @@ class ProviderUtils {
                     fielData = ProviderUtils.getFieldData(sObject, idField.toLowerCase()) || ProviderUtils.getFieldData(sObject, actToken);
                     if (fielData) {
                         if (fielData.referenceTo.length === 1) {
-                            sObject = sObjects[fielData.referenceTo[0]];
+                            sObject = sObjects[fielData.referenceTo[0].toLowerCase()];
                         } else {
                             sObject = undefined;
                         }
@@ -688,17 +703,23 @@ class ProviderUtils {
             } else {
                 if (node.positionData && (node.positionData.nodeType === ApexNodeTypes.METHOD || node.positionData.nodeType === ApexNodeTypes.CONSTRUCTOR)) {
                     const method = node.methods[node.positionData.signature.toLowerCase()];
+                    const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
+                    const paramsTagData = tagsData['params'];
                     for (const paramName of Object.keys(method.params)) {
                         const param = method.params[paramName];
                         const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
                         let description = '';
-                        /*if (method.comment && method.comment.params) {
-                            const commentParam = method.comment.params[param.name];
-                            if (commentParam) {
-                                if (commentParam.description && commentParam.description.length > 0)
-                                    description += ' :' + commentParam.description + '  \n\n';
+                        if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
+                            for (const data of paramsTagData.tagData) {
+                                if (data.keywords) {
+                                    for (const keyword of paramsTagData.tag.keywords) {
+                                        if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                            description += StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n') + '\n\n'
+                                        }
+                                    }
+                                }
                             }
-                        }*/
+                        }
                         description += 'Type: ' + datatype;
                         const options = ProviderUtils.getCompletionItemOptions(datatype + ' ' + param.name, description, param.name, true, CompletionItemKind.Variable);
                         items.push(ProviderUtils.createItemForCompletion(param.name, options));
@@ -707,6 +728,11 @@ class ProviderUtils {
                         const variable = method.variables[varName];
                         const datatype = StrUtils.replace(variable.datatype.name, ',', ', ');
                         let description = '';
+                        if (variable.description && variable.description.length > 0) {
+                            description += StrUtils.replace(variable.description, '\n', '\n\n') + '\n\n';
+                        } else if (variable.comment && variable.comment.description && variable.comment.description.length > 0) {
+                            description += StrUtils.replace(variable.comment.description, '\n', '\n\n') + '\n\n';
+                        }
                         description += 'Type: ' + datatype;
                         const options = ProviderUtils.getCompletionItemOptions(datatype + ' ' + variable.name, description, variable.name, true, CompletionItemKind.Variable);
                         items.push(ProviderUtils.createItemForCompletion(variable.name, options));
@@ -716,10 +742,11 @@ class ProviderUtils {
                     const variable = node.variables[varName];
                     const datatype = StrUtils.replace(variable.datatype.name, ',', ', ');
                     let description = '';
-                    /*if (field.comment && field.comment.description && field.comment.description.length > 0)
-                        description += '### ' + field.comment.description + '  \n';*/
-                    if (variable.description && variable.description.length > 0)
-                        description += ' ' + variable.description
+                    if (variable.description && variable.description.length > 0) {
+                        description += StrUtils.replace(variable.description, '\n', '\n\n') + '\n\n';
+                    } else if (variable.comment && variable.comment.description && variable.comment.description.length > 0) {
+                        description += StrUtils.replace(variable.comment.description, '\n', '\n\n') + '\n\n';
+                    }
                     description += 'Type: ' + datatype;
                     if (variable.nodeType === ApexNodeTypes.PROPERTY) {
                         const options = ProviderUtils.getCompletionItemOptions('Class Property', description, variable.name, true, CompletionItemKind.Property);
@@ -738,24 +765,31 @@ class ProviderUtils {
                     let snippetNum = 1;
                     let name = construct.name + "(";
                     let description = '';
-                    /*if (construct.comment && construct.comment.description && construct.comment.description.length > 0)
-                        description += '### ' + construct.comment.description + '  \n';
-                    else */if (construct.description)
-                        description += ' ' + construct.description + '  \n';
+                    if (construct.description && construct.description.length > 0) {
+                        description += StrUtils.replace(construct.description, '\n', '\n\n') + '\n\n';
+                    } else if (construct.comment && construct.comment.description && construct.comment.description.length > 0) {
+                        description += StrUtils.replace(construct.comment.description, '\n', '\n\n');
+                    }
                     if (Utils.hasKeys(construct.params)) {
-                        description += '*Parameters:*   \n\n';
+                        const tagsData = TemplateUtils.getTagsDataBySource(['params'], construct.comment);
+                        const paramsTagData = tagsData['params'];
+                        description += '**Parameters**:   \n\n';
                         for (const paramName of Object.keys(construct.params)) {
                             const param = construct.params[paramName];
                             const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
-                            description += '> **' + param.name + '** (*' + datatype + '*)';
-                            /*if (construct.comment && construct.comment.params) {
-                                let commentParam = construct.comment.params[param.name];
-                                if (commentParam) {
-                                    if (commentParam.description && commentParam.description.length > 0)
-                                        description += ' :' + commentParam.description + '  \n\n';
+                            description += '  - **' + param.name + '** `' + datatype + '`';
+                            if (param.description) {
+                                description += ' :' + StrUtils.replace(param.description, '\n', '\n\n') + '\n';
+                            } else if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
+                                for (const data of paramsTagData.tagData) {
+                                    if (data.keywords) {
+                                        for (const keyword of paramsTagData.tag.keywords) {
+                                            if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                                description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n') + '\n';
+                                            }
+                                        }
+                                    }
                                 }
-                            } else */if (param.description) {
-                                description += ' :' + param.description + '  \n\n';
                             }
                             if (snippetNum === 1) {
                                 name += param.name;
@@ -780,24 +814,31 @@ class ProviderUtils {
                     let snippetNum = 1;
                     let name = method.name + "(";
                     let description = '';
-                    /*if (method.comment && method.comment.description && method.comment.description.length > 0)
-                        description += '### ' + method.comment.description + '  \n';
-                    else */if (method.description)
-                        description += ' ' + method.description + '  \n';
+                    if (method.description && method.description.length > 0) {
+                        description += method.description + '\n\n';
+                    } else if (method.comment && method.comment.description && method.comment.description.length > 0) {
+                        description += method.comment.description + '\n\n';
+                    }
+                    const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
                     if (Utils.hasKeys(method.params)) {
-                        description += '*Parameters:*   \n\n';
+                        const paramsTagData = tagsData['params'];
+                        description += '**Parameters**:   \n\n';
                         for (const paramName of Object.keys(method.params)) {
                             const param = method.params[paramName];
                             const paramDatatype = StrUtils.replace(param.datatype.name, ',', ', ');
-                            description += '> **' + param.name + '** (*' + paramDatatype + '*)';
-                            /*if (method.comment && method.comment.params) {
-                                let commentParam = method.comment.params[param.name];
-                                if (commentParam) {
-                                    if (commentParam.description && commentParam.description.length > 0)
-                                        description += ' :' + commentParam.description + '  \n\n';
+                            description += '  - **' + param.name + '** `' + paramDatatype + '`';
+                            if (param.description) {
+                                description += ' :' + StrUtils.replace(param.description, '\n', '\n\n') + '\n';
+                            } else if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
+                                for (const data of paramsTagData.tagData) {
+                                    if (data.keywords) {
+                                        for (const keyword of paramsTagData.tag.keywords) {
+                                            if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                                description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n') + '\n';
+                                            }
+                                        }
+                                    }
                                 }
-                            } else*/ if (param.description) {
-                                description += ' :' + param.description + '  \n\n';
                             }
                             if (snippetNum === 1) {
                                 name += param.name;
@@ -810,13 +851,21 @@ class ProviderUtils {
                             snippetNum++;
                         }
                     }
-                    /*if (method.comment && method.comment.return && method.datatype.toLowerCase() !== 'void') {
-                        description += '*Return*:  \n'
-                        if (method.comment.return.description && method.comment.return.description.length > 0) {
-                            description += '> ' + method.comment.return.description + '  \n';
+                    if (method.datatype && method.datatype.name !== 'void') {
+                        description += '**Return**  `' + method.datatype.name + '`';
+                        const returnTagData = tagsData['return'];
+                        if (returnTagData && returnTagData.tag && returnTagData.tagData && returnTagData.tagName) {
+                            for (const data of returnTagData.tagData) {
+                                if (data.keywords) {
+                                    for (const keyword of returnTagData.tag.keywords) {
+                                        if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                            description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n'); + '\n';
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        description += '> *' + method.comment.return.type + '*  \n';
-                    }*/
+                    }
                     name += ")";
                     insertText += ")";
                     if (datatype === 'void')
@@ -903,7 +952,13 @@ class ProviderUtils {
             Object.keys(applicationContext.parserData.userClassesData).forEach(function (key) {
                 const userClass = applicationContext.parserData.userClassesData[key];
                 const className = (userClass.name) ? userClass.name : userClass;
-                const options = ProviderUtils.getCompletionItemOptions(className, 'Custom Class', className, true, CompletionItemKind.Class);
+                let description = '';
+                if (userClass.comment && userClass.comment.description && userClass.comment.description.length > 0) {
+                    description += userClass.comment.description + '\n\n';
+                } else {
+                    description = className;
+                }
+                const options = ProviderUtils.getCompletionItemOptions(className, description, className, true, CompletionItemKind.Class);
                 const item = ProviderUtils.createItemForCompletion(className, options);
                 if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
@@ -912,21 +967,21 @@ class ProviderUtils {
             Object.keys(systemMetadata).forEach(function (key) {
                 const systemClass = systemMetadata[key];
                 if (systemClass.nodeType === ApexNodeTypes.ENUM) {
-                    const description = systemClass.description + ((systemClass.documentation) ? ' Documentation:\n ' + systemClass.documentation : '') + '\nEnum Values: \n' + systemClass.values.join('\n');
+                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\nEnum Values: \n' + systemClass.values.join('\n');
                     const options = ProviderUtils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Enum);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
                     if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else if (systemClass.nodeType === ApexNodeTypes.INTERFACE) {
-                    const description = systemClass.description + ((systemClass.documentation) ? ' Documentation:\n ' + systemClass.documentation : '');
+                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '');
                     const options = ProviderUtils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Interface);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
                     if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else {
-                    const description = systemClass.description + ((systemClass.documentation) ? ' Documentation:\n ' + systemClass.documentation : '');
+                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '');
                     const options = ProviderUtils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Class);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
                     if (activationInfo.startColumn && position.character >= activationInfo.startColumn)

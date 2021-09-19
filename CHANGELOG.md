@@ -1,6 +1,6 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [3.0.0 - 2021-07-XX]
+## [3.0.0 - 2021-09-18]
 ### Added
 - The v3.0.0 is the biggest Update of Aura Helper Extension. This versión implements the Aura Helper Framework created in nodeJS. This framework are robust, faster and better than the old Aura Helper Code, this framework are fully tested. Aura Helper Framework is an open source framework to provide tools to any developer to create applications for salesforce. Aura Helper Extension and Aura Helper CLI use it.
 
@@ -41,7 +41,7 @@ All notable changes to this project will be documented in this file.
 - Fixed minor errors with some Aura Helper messages
 - Fixed all existing errors with the new Framework.
 
-## [2.3.1 - 2021-02-XX]
+## [2.3.1 - 2021-02-02]
 ### Changed
 - Changed commands **AuraHelper: Add To Profile(s)** and **AuraHelper: Add To PermissionSet(s)** to combine into one command **AuraHelper: Modify Permissions** to able to select modify profiles or permission sets. Also changed on contextual menus.
 

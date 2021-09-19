@@ -1,12 +1,12 @@
 const vscode = require('vscode');
-const Connection = require('@ah/connector');
+const Connection = require('@aurahelper/connector');
 const Output = require('../output');
 const NotificationManager = require('../output/notificationManager');
 const ApexNodeWatcher = require('../watchers/apexCodeWatcher');
 const ProvidersManager = require('../providers/providersManager');
-const { FileChecker, FileWriter, FileReader } = require('@ah/core').FileSystem;
-const { MetadataTypes } = require('@ah/core').Values;
-const { SObject } = require('@ah/core').Types;
+const { FileChecker, FileWriter, FileReader } = require('@aurahelper/core').FileSystem;
+const { MetadataTypes } = require('@aurahelper/core').Values;
+const { SObject } = require('@aurahelper/core').Types;
 const Config = require('../core/config');
 const Paths = require('../core/paths');
 const applicationContext = require('../core/applicationContext');

@@ -1,9 +1,9 @@
 const applicationContext = require('../core/applicationContext');
 const Config = require('../core/config');
 const Paths = require('../core/paths');
-const { StrUtils, Utils } = require('@ah/core').CoreUtils;
-const { PathUtils } = require('@ah/core').FileSystem;
-const { ApexNodeTypes } = require('@ah/core').Values;
+const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
+const { PathUtils } = require('@aurahelper/core').FileSystem;
+const { ApexNodeTypes } = require('@aurahelper/core').Values;
 
 class SnippetUtils {
     static getApexComment(apexNode, template, filePath) {

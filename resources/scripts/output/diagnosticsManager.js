@@ -1,6 +1,6 @@
 const vscode = require('vscode');
 const AppContext = require('../core/applicationContext');
-const { Utils } = require('@ah/core').CoreUtils;
+const { Utils } = require('@aurahelper/core').CoreUtils;
 const collections = {};
 
 class DiagnosticsManager {
