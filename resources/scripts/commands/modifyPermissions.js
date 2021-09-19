@@ -1,18 +1,18 @@
 const vscode = require('vscode');
-const { FileChecker, FileReader, FileWriter, PathUtils } = require('@ah/core').FileSystem;
-const { StrUtils, MetadataUtils } = require('@ah/core').CoreUtils;
-const { MetadataTypes } = require('@ah/core').Values;
+const { FileChecker, FileReader, FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
+const { StrUtils, MetadataUtils } = require('@aurahelper/core').CoreUtils;
+const { MetadataTypes } = require('@aurahelper/core').Values;
 const InputFactory = require('../inputs/factory');
 const OutputChannel = require('../output/outputChannnel');
 const NotificationManager = require('../output/notificationManager');
 const Paths = require('../core/paths');
 const Config = require('../core/config');
-const CLIManager = require('@ah/cli-manager');
-const XMLCompressor = require('@ah/xml-compressor');
-const MetadataFactory = require('@ah/metadata-factory');
-const Connection = require('@ah/connector');
-const { XMLParser, XMLUtils } = require('@ah/languages').XML;
-const XMLDefinitions = require('@ah/xml-definitions');
+const CLIManager = require('@aurahelper/cli-manager');
+const XMLCompressor = require('@aurahelper/xml-compressor');
+const MetadataFactory = require('@aurahelper/metadata-factory');
+const Connection = require('@aurahelper/connector');
+const { XMLParser, XMLUtils } = require('@aurahelper/languages').XML;
+const XMLDefinitions = require('@aurahelper/xml-definitions');
 
 exports.run = function (fileUri) {
     try {

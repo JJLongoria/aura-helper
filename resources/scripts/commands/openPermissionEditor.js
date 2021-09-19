@@ -1,8 +1,8 @@
 const vscode = require('vscode');
 const PermissionEditor = require('../inputs/permissionEditor');
 const NotificationManager = require('../output/notificationManager');
-const { MetadataType, MetadataObject } = require('@ah/core').Types;
-const Connection = require('@ah/connector');
+const { MetadataType, MetadataObject } = require('@aurahelper/core').Types;
+const Connection = require('@aurahelper/connector');
 const Paths = require('../core/paths');
 const Config = require('../core/config');
 

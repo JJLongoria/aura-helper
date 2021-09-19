@@ -14,6 +14,7 @@ class ProviderManager {
         applicationContext.context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider('apex', providers.apexFormatterProvider));
         applicationContext.context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider('apex-anon', providers.apexFormatterProvider));
         providers.DocumentSymbolProvider.register();
+        //providers.ApexHoverProvider.register();
     }
 
 }

@@ -1,8 +1,35 @@
+# [**Aura Helper**](#aura-helper)
+
+Aura Helper is the [**most complete extension**](#aura-helper) to work with salesforce. Aura Helper provide to many [**IntelliSense suggestions**](#intellisense-tools) and code completion options to Apex and Aura code. Can work with [**Salesfoce XML Metadata**](#version-control-and-metadata) files and edit some files with **graphic interface to minimize errors**. Has the first exclusive [**Apex Formatter**](#apex-code-formatter) with configurable options to format your code as you like. Can work with [**GIT and detect changes**](#version-control-and-metadata) for create packages files (and destructive too). Create a complete [**Apex and Aura documentation**](#documentation) with a few clicks. and to much more.
+
+ Aura Helper contains numerous tools to increase productivity, facilitate code creation and make more easy work with Salesfoce. Is undoubtedly one of the necessary applications for any [**Salaesforce developer**](https://www.salesforce.com).
+
+ Go to [**Aura Helper Extension Documentation**](https://github.com/JJLongoria/aura-helper/wiki) to learn more about the extension and all features.
+
+---
+
+## ***Table of Contents***
+
+- [**Configuration Guide**](#configuration-guide)<br/>
+- [**Aura Helper Features**](#aura-helper-features)
+  - [**IntelliSense Tools**](#intellisense-tools)
+  - [**Outline View**](#outline-view)
+  - [**Apex Code Formatter**](#apex-code-formatter)
+  - [**Version Control and Metadata**](#version-control-and-metadata)
+  - [**Documentation**](#documentation)
+  - [**And too much more**](#and-too-much-more)<br/><br/>
+
+
+- [**Aura Helper Framework**](#aura-helper-framework)<br/>
+- [**Contributions**](#contributions)
+
+---
+
 # [**Configuration Guide**](#configuration-guidie)
 For use Aura Helper with all its features, you must to install Aura Helper CLI. [Click here](https://github.com/JJLongoria/aura-helper-CLI) and follow the instructions. 
 
 # [**Aura Helper Features**](#aura-helper-features)
-Aura Helper is the **most complete extension** for work with salesforce. Can work with Salesfoce XML Metadata files, Apex and Lightning code and other powerfull commands and features. It contains numerous tools to increase productivity and facilitate code creation. Is undoubtedly one of the necessary applications for any **Salaesforce developer**. Go to [**Aura Helper Extension Documentation**](https://github.com/JJLongoria/aura-helper/wiki) to learn more about the extension and all features.
+Aura Helper has too many features to make work easy and faster to all Salesforce Developers.
 
 - [**Write code faster**](#intellisense-tools) with the Aura Helper IntelliSense. Code completion for Apex, lightning, javascript... (*User Classes, System Classes,Custom and Standard Objects, Methods, Fields, Picklist values, implement intefaces and extends classes automatically, Custom Labels, Aura attribute suggested values... and too much more*.)
 - [**Apex Code formatter**](#apex-code-formatter) with *configurable options* from Aura Helper settings (spaces beetwen operators, max allowed blank lines, open curly brackets on new lines... and more options to format your code as you want). The first exclusive Apex code formatter for VSCode.

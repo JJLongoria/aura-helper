@@ -1,5 +1,5 @@
 const vscode = require('vscode');
-const { FileChecker, FileWriter, FileReader } = require('@ah/core').FileSystem;
+const { FileChecker, FileWriter, FileReader } = require('@aurahelper/core').FileSystem;
 const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const Paths = require('../core/paths');

@@ -1,6 +1,6 @@
 const vscode = require('vscode');
 var statusBar;
-const { Utils } = require('@ah/core').CoreUtils;
+const { Utils } = require('@aurahelper/core').CoreUtils;
 
 
 class NotificationManager {

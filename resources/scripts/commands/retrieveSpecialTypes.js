@@ -2,10 +2,10 @@ const vscode = require('vscode');
 const MetadataSelectorInput = require('../inputs/metadataSelector');
 const InputFactory = require('../inputs/factory');
 const NotificationManager = require('../output/notificationManager');
-const { SpecialMetadata } = require('@ah/core').Values;
-const CLIManager = require('@ah/cli-manager');
-const Connection = require('@ah/connector');
-const MetadataFactory = require('@ah/metadata-factory');
+const { SpecialMetadata } = require('@aurahelper/core').Values;
+const CLIManager = require('@aurahelper/cli-manager');
+const Connection = require('@aurahelper/connector');
+const MetadataFactory = require('@aurahelper/metadata-factory');
 const Config = require('../core/config');
 const Paths = require('../core/paths');
 

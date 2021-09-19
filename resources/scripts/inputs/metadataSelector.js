@@ -1,10 +1,10 @@
 const vscode = require('vscode');
 const MultiStepInput = require('./multiStepInput');
 const InputFactory = require('./factory');
-const GitManager = require('@ah/git-manager');
-const { MetadataUtils, Utils, StrUtils } = require('@ah/core').CoreUtils;
+const GitManager = require('@aurahelper/git-manager');
+const { MetadataUtils, Utils, StrUtils } = require('@aurahelper/core').CoreUtils;
 const Paths = require('../core/paths');
-const { PathUtils } = require('@ah/core').FileSystem;
+const { PathUtils } = require('@aurahelper/core').FileSystem;
 
 const INIT_OPTIONS_STEP = 1;
 const TYPE_STEP = 2;

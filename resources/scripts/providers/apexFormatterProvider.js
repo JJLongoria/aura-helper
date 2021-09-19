@@ -2,8 +2,8 @@ const vscode = require('vscode');
 const Range = vscode.Range;
 const Config = require('../core/config');
 const applicationContext = require('../core/applicationContext');
-const { FileReader } = require('@ah/core').FileSystem;
-const { ApexFormatter } = require('@ah/languages').Apex;
+const { FileReader } = require('@aurahelper/core').FileSystem;
+const { ApexFormatter } = require('@aurahelper/languages').Apex;
 
 
 

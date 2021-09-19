@@ -1,4 +1,4 @@
-const { Validator } = require('@ah/core').CoreUtils;
+const { Validator } = require('@aurahelper/core').CoreUtils;
 
 class InputValidator {
 

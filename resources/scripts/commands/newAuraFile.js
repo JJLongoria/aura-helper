@@ -1,11 +1,11 @@
 const logger = require('../utils/logger');
 const snippetUtils = require('../utils/snippetUtils');
 const vscode = require('vscode');
-const { FileChecker, FileReader, FileWriter, PathUtils } = require('@ah/core').FileSystem;
+const { FileChecker, FileReader, FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
 const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const Paths = require('../core/paths');
-const { JSParser } = require('@ah/languages').JavaScript;
+const { JSParser } = require('@aurahelper/languages').JavaScript;
 
 const AURA_FILE_TYPES = [
     { type: '.auradoc', name: "Aura Documentation File" },

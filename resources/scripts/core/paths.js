@@ -1,6 +1,6 @@
 const vscode = require('vscode');
 const applicationContext = require('./applicationContext');
-const { PathUtils } = require('@ah/core').FileSystem;
+const { PathUtils } = require('@aurahelper/core').FileSystem;
 
 class Paths {
 

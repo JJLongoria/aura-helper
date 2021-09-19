@@ -9,3 +9,4 @@ exports.apexCommentProvider = apexCommentProvider.provider;
 const apexFormatterProvider = require('./apexFormatterProvider');
 exports.apexFormatterProvider = apexFormatterProvider.provider;
 exports.DocumentSymbolProvider = require('./documentSymbolProvider');
+exports.ApexHoverProvider = require('./apexHoverProvider');

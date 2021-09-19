@@ -3,9 +3,9 @@ const MetadataSelectorInput = require('../inputs/metadataSelector');
 const InputFactory = require('../inputs/factory');
 const Output = require('../output');
 const NotificationManager = require('../output/notificationManager');
-const DependenciesManager = require('@ah/dependencies-manager');
-const CLIManager = require('@ah/cli-manager');
-const Connection = require('@ah/connector');
+const DependenciesManager = require('@aurahelper/dependencies-manager');
+const CLIManager = require('@aurahelper/cli-manager');
+const Connection = require('@aurahelper/connector');
 const Config = require('../core/config');
 const Paths = require('../core/paths');
 const DiagnosticsMananger = Output.DiagnosticsManager;
@@ -127,14 +127,17 @@ async function showErrors(errors) {
             let diags = [];
             let path;
             for (const error of errorsByType[type][obj]) {
-                path = vscode.Uri.file(error.file).toString();
+                path = Paths.toURI(error.file);
                 let range = new vscode.Range(error.line - 1, error.startColumn, error.line - 1, error.endColumn);
                 let diagnostic = new vscode.Diagnostic(range, error.message, vscode.DiagnosticSeverity.Warning);
                 diagnostic.source = 'Salesforce XML';
                 diagnostic.code = type + ':' + obj;
+                diagnostic.relatedInformation = [
+                    new vscode.DiagnosticRelatedInformation(new vscode.Location(path, range), error.message)
+                ]
                 diags.push(diagnostic);
             }
-            DiagnosticsMananger.setDiagnostics("xml", vscode.Uri.parse(path), diags);
+            DiagnosticsMananger.setDiagnostics("xml", path, diags);
         });
     });
 }

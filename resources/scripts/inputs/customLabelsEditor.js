@@ -2,10 +2,10 @@ const vscode = require('vscode');
 const Config = require('../core/config');
 const XMLEditor = require('./xmlEditor');
 const MultiStepInput = require('./xmlEditor');
-const XMLDefinitions = require('@ah/xml-definitions');
-const { Utils } = require('@ah/core').CoreUtils;
-const { MetadataTypes, DataTypes } = require('@ah/core').Values;
-const { XMLUtils } = require('@ah/languages').XML;
+const XMLDefinitions = require('@aurahelper/xml-definitions');
+const { Utils } = require('@aurahelper/core').CoreUtils;
+const { MetadataTypes, DataTypes } = require('@aurahelper/core').Values;
+const { XMLUtils } = require('@aurahelper/languages').XML;
 const CustomLabelDefinition = XMLDefinitions.getDefinition(MetadataTypes.CUSTOM_LABELS, Config.getAPIVersion());
 
 const ROOT_STEP = 1;

@@ -3,18 +3,19 @@ const Output = require('../output');
 const ProvidersManager = require('../providers/providersManager');
 const ApexNodeWatcher = require('../watchers/apexCodeWatcher');
 const applicationContext = require('../core/applicationContext');
-const { FileChecker, FileReader, FileWriter, PathUtils } = require('@ah/core').FileSystem;
+const { FileChecker, FileReader, FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
 const Config = require('../core/config');
 const Paths = require('../core/paths');
-const { StrUtils, ProjectUtils } = require('@ah/core').CoreUtils;
-const { ApexNodeTypes } = require('@ah/core').Values;
-const { SObject, ApexClass, ApexInterface, ApexEnum, ApexTrigger } = require('@ah/core').Types;
-const { ApexParser } = require('@ah/languages').Apex;
-const { System } = require('@ah/languages').System;
-const Connection = require('@ah/connector');
-const MetadataFactory = require('@ah/metadata-factory');
-const CLIManager = require('@ah/cli-manager');
-const GitManager = require('@ah/git-manager');
+const { StrUtils, ProjectUtils } = require('@aurahelper/core').CoreUtils;
+const { ApexNodeTypes } = require('@aurahelper/core').Values;
+const { SObject, ApexClass, ApexInterface, ApexEnum, ApexTrigger } = require('@aurahelper/core').Types;
+const { ApexParser } = require('@aurahelper/languages').Apex;
+const { System } = require('@aurahelper/languages').System;
+const Connection = require('@aurahelper/connector');
+const MetadataFactory = require('@aurahelper/metadata-factory');
+const CLIManager = require('@aurahelper/cli-manager');
+const GitManager = require('@aurahelper/git-manager');
+const TemplateUtils = require('../utils/templateUtils');
 const NotificationManager = Output.NotificationMananger;
 const OutputChannel = Output.OutputChannel;
 let cliManager;
@@ -36,8 +37,7 @@ function init(context) {
         connection.setMultiThread();
         createTemplateFiles(context);
         loadSnippets();
-        if (Config.useAuraHelperCLI())
-            await checkAuraHelperCLI();
+        await checkAuraHelperCLI();
         await getSystemData();
         await getGitData();
         await getOrgData();
@@ -90,6 +90,7 @@ function getSystemData() {
             applicationContext.parserData.sObjectsData = getSObjects();
             applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
             applicationContext.parserData.userClasses = getClassNames(Paths.getProjectMetadataFolder() + '/classes');
+            cleanOldClassesDefinitions();
             await ApexParser.saveAllClassesData(Paths.getProjectMetadataFolder() + '/classes', Paths.getCompiledClassesFolder(), applicationContext.parserData, true);
             applicationContext.parserData.userClassesData = getClassesFromCompiledClasses();
             applicationContext.parserData.userClasses = Object.keys(applicationContext.parserData.userClassesData);
@@ -101,16 +102,13 @@ function getSystemData() {
 function checkAuraHelperCLI() {
     return new Promise((resolve) => {
         OutputChannel.outputLine('Checking Aura Helper CLI...');
-        setTimeout(async () => {
-            const isAuraHelperInstalled = await cliManager.isAuraHelperCLIInstalled();
-            if (!isAuraHelperInstalled) {
+        setTimeout(() => {
+            checkAuraHelperVersion().then(() => {
+                resolve();
+            }).catch(() => {
                 NotificationManager.showWarning("Aura Helper CLI is not installed and some features are not availables. Please go to https://github.com/JJLongoria/aura-helper-CLI or https://www.npmjs.com/package/aura-helper-cli and follow the instructions to install");
                 resolve();
-            } else {
-                checkAuraHelperVersion().then(() => {
-                    resolve();
-                });
-            }
+            });
         }, 50);
     });
 }
@@ -142,7 +140,7 @@ function createTemplateFiles(context) {
         FileWriter.copyFileSync(Paths.getApexCommentBaseTemplate(), Paths.getApexCommentUserTemplate());
     if (!FileChecker.isExists(Paths.getAuraDocUserTemplate()))
         FileWriter.copyFileSync(Paths.getAuraDocBaseTemplate(), Paths.getAuraDocUserTemplate());
-    applicationContext.parserData.template = JSON.parse(FileReader.readFileSync(Paths.getApexCommentUserTemplate()));
+    applicationContext.parserData.template = TemplateUtils.getApexCommentTemplate();
     OutputChannel.outputLine('Environment prepared');
 }
 
@@ -175,7 +173,7 @@ function adaptOldApexTemplateToNewTemplate() {
 }
 
 function checkAuraHelperVersion() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         try {
             cliManager.getAuraHelperCLIVersion().then((version) => {
                 const versionSplits = version.split('.');
@@ -194,27 +192,45 @@ function checkAuraHelperVersion() {
                     showDialogsForAuraHelperCLI();
                 resolve();
             }).catch((error) => {
-                showDialogsForAuraHelperCLI();
+                reject(error);
             });
         } catch (error) {
-            resolve();
+            reject(error);
         }
     });
 }
 
 function showDialogsForAuraHelperCLI() {
-    NotificationManager.showWarning('Old Aura Helper CLI Version Installed. For a correct work of Aura Helper Extension, you must update the client. Press Ok for update now or Cancel for update later', () => {
+    const message = 'Old Aura Helper CLI Version Installed. For a correct work of Aura Helper Extension, you must update the client. Press Ok for update now or Cancel for update later';
+    OutputChannel.outputLine(message + '\nTo install Aura Helper CLI Manually, execute the next command "npm install -g aura-helper-cli"', true);
+    NotificationManager.showWarning(message, () => {
         NotificationManager.showStatusBar('$(sync~spin) Updating Aura Helper CLI...');
         cliManager.updateAuraHelperCLI().then(() => {
             NotificationManager.hideStatusBar();
             NotificationManager.showInfo('Aura Helper CLI Updated. Enjoy it!');
         }).catch((error) => {
             NotificationManager.hideStatusBar();
-            NotificationManager.showError('An Error ocurred while updating Aura Helper CLI. You can update manually with command "aura-helper update" or "npm update -g aura-helper-cli"');
+            const errorMessage = 'An Error ocurred while updating Aura Helper CLI. You can update manually with command "aura-helper update" or "npm update -g aura-helper-cli".';
+            OutputChannel.outputLine(message + '\nError: ' + error, true);
+            NotificationManager.showError(errorMessage);
         });
     }, () => {
-        NotificationManager.showInfo("You may experience errors with the Aura Helper until you update the Aura Helper CLI.");
+        NotificationManager.showWarning("You may experience errors with Aura Helper until you update Aura Helper CLI.");
     });
+}
+
+function cleanOldClassesDefinitions() {
+    let classes = {};
+    if (FileChecker.isExists(Paths.getCompiledClassesFolder())) {
+        let files = FileReader.readDirSync(Paths.getCompiledClassesFolder());
+        for (const file of files) {
+            const apexNode = JSON.parse(FileReader.readFileSync(Paths.getCompiledClassesFolder() + '/' + file));
+            if (!Object.keys(apexNode).includes('nodeType')) {
+                FileWriter.delete(Paths.getCompiledClassesFolder() + '/' + file);
+            }
+        }
+    }
+    return classes;
 }
 
 function getClassesFromCompiledClasses() {

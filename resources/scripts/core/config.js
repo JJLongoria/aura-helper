@@ -1,6 +1,6 @@
 const vscode = require('vscode');
-const { CoreUtils } = require('@ah/core');
-const XMLCompressor = require('@ah/xml-compressor');
+const { CoreUtils } = require('@aurahelper/core');
+const XMLCompressor = require('@aurahelper/xml-compressor');
 const ProjectUtils = CoreUtils.ProjectUtils;
 const Paths = require('../core/paths');
 const appContext = require('./applicationContext');
