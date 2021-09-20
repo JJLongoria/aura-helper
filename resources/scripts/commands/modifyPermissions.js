@@ -24,6 +24,11 @@ exports.run = function (fileUri) {
             if (editor)
                 filePath = editor.document.uri.fsPath;
         }
+        const alias = Config.getOrgAlias();
+        if (!alias) {
+            NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
+            return;
+        }
         if (filePath)
             modifyPermissions(filePath);
         else

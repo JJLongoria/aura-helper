@@ -1,5 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [3.0.1 - 2021-09-20]
+### Added
+- Added validation to check if has any org on project before to connect with salesforce
+- Added project file watcher to update some information when change auth org
+
+### Fixed
+- Fixed some problems in special scenarios when try to describe metadata
+- Fixed minor problems with some IntelliSense suggestion descriptions
+
 ## [3.0.0 - 2021-09-18]
 ### Added
 - The v3.0.0 is the biggest Update of Aura Helper Extension. This versión implements the Aura Helper Framework created in nodeJS. This framework are robust, faster and better than the old Aura Helper Code, this framework are fully tested. Aura Helper Framework is an open source framework to provide tools to any developer to create applications for salesforce. Aura Helper Extension and Aura Helper CLI use it.

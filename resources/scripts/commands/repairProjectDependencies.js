@@ -12,6 +12,11 @@ const DiagnosticsMananger = Output.DiagnosticsManager;
 
 exports.run = async function () {
     try {
+        const alias = Config.getOrgAlias();
+        if (!alias) {
+            NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
+            return;
+        }
         let input = new MetadataSelectorInput('Select Metadata Types to Repair', DependenciesManager.getSupportedTypes());
         input.setSingleSelectionOptions(true);
         input.addInitOption('Repair', 'Select to Fix dependency errors automatically', MetadataSelectorInput.getRepairAction());

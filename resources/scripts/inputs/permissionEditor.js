@@ -1452,6 +1452,11 @@ function loadUserPermissions() {
             cancellable: true,
         }, (progress, cancelToken) => {
             return new Promise((progressResolve) => {
+                const alias = Config.getOrgAlias();
+                if (!alias) {
+                    reject(new Error('Not connected to an Org. Please authorize and connect to and org and try later.'));
+                    return;
+                }
                 if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
                     cancelToken.onCancellationRequested(() => {

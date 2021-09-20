@@ -13,6 +13,11 @@ const Ignore = require('@aurahelper/ignore');
 
 exports.run = function () {
     try {
+        const alias = Config.getOrgAlias();
+        if (!alias) {
+            NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
+            return;
+        }
         openStandardGUI();
     } catch (error) {
         NotificationManager.showCommandError(error);

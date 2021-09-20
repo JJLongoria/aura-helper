@@ -12,6 +12,11 @@ const { FileChecker, FileWriter } = require('@aurahelper/core').FileSystem;
 const { MetadataUtils } = require('@aurahelper/core').CoreUtils;
 
 exports.run = async function () {
+    const alias = Config.getOrgAlias();
+    if (!alias) {
+        NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
+        return;
+    }
     let loadMessage = 'Comparing Org Metadata with your local metadata -- (Only affects metadata types that you have in your local project)';
     let compareOptions = await InputFactory.createCompareOptionSelector();
     let sourceOrg;
