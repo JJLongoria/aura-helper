@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const Output = require('../output');
 const ProvidersManager = require('../providers/providersManager');
 const ApexNodeWatcher = require('../watchers/apexCodeWatcher');
+const ProjectFilesWatcher = require('../watchers/projectFilesWatcher');
 const applicationContext = require('../core/applicationContext');
 const { FileChecker, FileReader, FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
 const Config = require('../core/config');
@@ -40,13 +41,16 @@ function init(context) {
         await checkAuraHelperCLI();
         await getSystemData();
         await getGitData();
-        await getOrgData();
+        if (username) {
+            await getOrgData();
+        }
         OutputChannel.outputLine('System Data Loaded');
         NotificationManager.hideStatusBar();
         if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart) {
             vscode.commands.executeCommand('aurahelper.metadata.refresh.index', true);
         } else {
             ApexNodeWatcher.startWatching();
+            ProjectFilesWatcher.startWatching();
             ProvidersManager.registerProviders();
         }
     }, 50);

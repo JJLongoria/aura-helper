@@ -189,7 +189,7 @@ class ProviderUtils {
         if (field.length)
             documentation += "  - **Length**: " + field.length + '\n';
         if (field.type)
-            documentation += "  - **Datatype**: " + field.type + '\n';
+            documentation += "  - **Datatype**: `" + field.type + '`\n';
         if (field.custom !== undefined)
             documentation += "  - **Is Custom**: " + field.custom + '\n';
         if (field.referenceTo.length > 0) {
@@ -697,8 +697,8 @@ class ProviderUtils {
         if (node) {
             if (node.nodeType === ApexNodeTypes.ENUM) {
                 for (const value of node.values) {
-                    const options = ProviderUtils.getCompletionItemOptions('Enum Member', '', value, true, CompletionItemKind.EnumMember);
-                    items.push(ProviderUtils.createItemForCompletion(value, options));
+                    const options = ProviderUtils.getCompletionItemOptions('Enum Member', '', value.text, true, CompletionItemKind.EnumMember);
+                    items.push(ProviderUtils.createItemForCompletion(value.text, options));
                 }
             } else {
                 if (node.positionData && (node.positionData.nodeType === ApexNodeTypes.METHOD || node.positionData.nodeType === ApexNodeTypes.CONSTRUCTOR)) {
@@ -885,7 +885,7 @@ class ProviderUtils {
                 }
                 for (const enumName of Object.keys(node.enums)) {
                     const innerEnum = node.enums[enumName];
-                    const options = ProviderUtils.getCompletionItemOptions(innerEnum.name + ' Enum', (innerEnum.comment) ? innerEnum.comment : '', innerEnum.name, true, CompletionItemKind.Enum);
+                    const options = ProviderUtils.getCompletionItemOptions(innerEnum.name + ' Enum', (innerEnum.comment && innerEnum.comment.description) ? innerEnum.comment.description : '', innerEnum.name, true, CompletionItemKind.Enum);
                     items.push(ProviderUtils.createItemForCompletion(innerEnum.name, options));
                 }
                 if (node.extends) {
@@ -958,16 +958,45 @@ class ProviderUtils {
                 } else {
                     description = className;
                 }
-                const options = ProviderUtils.getCompletionItemOptions(className, description, className, true, CompletionItemKind.Class);
-                const item = ProviderUtils.createItemForCompletion(className, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
-                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
-                items.push(item);
+                if (userClass.nodeType === ApexNodeTypes.ENUM) {
+                    const enumValues = [];
+                    for (const value of userClass.values) {
+                        if (Utils.isString(value))
+                            enumValues.push('  - `' + value + '`');
+                        else
+                            enumValues.push('  - `' + value.text + '`');
+                    }
+                    description += '\n\nEnum Values: \n' + enumValues.join('\n');
+                    const options = ProviderUtils.getCompletionItemOptions(className, description, className, true, CompletionItemKind.Enum);
+                    const item = ProviderUtils.createItemForCompletion(className, options);
+                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    items.push(item);
+                } else if (userClass.nodeType === ApexNodeTypes.INTERFACE) {
+                    const options = ProviderUtils.getCompletionItemOptions(className, description, className, true, CompletionItemKind.Interface);
+                    const item = ProviderUtils.createItemForCompletion(className, options);
+                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    items.push(item);
+                } else {
+                    const options = ProviderUtils.getCompletionItemOptions(className, description, className, true, CompletionItemKind.Class);
+                    const item = ProviderUtils.createItemForCompletion(className, options);
+                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    items.push(item);
+                }
             });
             Object.keys(systemMetadata).forEach(function (key) {
                 const systemClass = systemMetadata[key];
                 if (systemClass.nodeType === ApexNodeTypes.ENUM) {
-                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\nEnum Values: \n' + systemClass.values.join('\n');
+                    const enumValues = [];
+                    for (const value of systemClass.values) {
+                        if (Utils.isString(value))
+                            enumValues.push('  - `' + value + '`');
+                        else
+                            enumValues.push('  - `' + value.text + '`');
+                    }
+                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\nEnum Values: \n' + enumValues.join('\n');
                     const options = ProviderUtils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Enum);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
                     if (activationInfo.startColumn && position.character >= activationInfo.startColumn)

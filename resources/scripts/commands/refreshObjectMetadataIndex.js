@@ -9,6 +9,11 @@ const applicationContext = require('../core/applicationContext');
 
 exports.run = function () {
 	try {
+		const alias = Config.getOrgAlias();
+		if (!alias) {
+			NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
+			return;
+		}
 		NotificationManager.showConfirmDialog('Refresh metadata index can will take several minutes. Do you want to continue?', function () {
 			refreshIndex();
 		});

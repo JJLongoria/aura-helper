@@ -44,11 +44,17 @@ function openStandardGUI(filePath) {
     input.onAccept(async function (options, data) {
         if (options.hasChanges) {
             NotificationManager.showInfo('Custom Labels saved succesfully');
-            if (options.delete) {
-                await deleteLabels(data.labelsToDelete);
-            }
-            if (options.deploy) {
-                await deployLabels(data.labelsToDeploy);
+            const alias = Config.getOrgAlias();
+            if ((options.delete || options.deploy) && !alias) {
+                NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
+                return;
+            } else {
+                if (options.delete) {
+                    await deleteLabels(data.labelsToDelete);
+                }
+                if (options.deploy) {
+                    await deployLabels(data.labelsToDeploy);
+                }
             }
         }
     });

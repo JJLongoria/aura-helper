@@ -11,6 +11,11 @@ const Paths = require('../core/paths');
 
 exports.run = async function () {
     try {
+        const alias = Config.getOrgAlias();
+        if (!alias) {
+            NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
+            return;
+        }
         let input = new MetadataSelectorInput('Select Metadata Types for Retrieve', Object.keys(SpecialMetadata));
         input.setSingleSelectionOptions(true);
         input.addInitOption('From Local', 'Select to Retrieve Special types only with your local project metadata types', MetadataSelectorInput.getLocalAction());

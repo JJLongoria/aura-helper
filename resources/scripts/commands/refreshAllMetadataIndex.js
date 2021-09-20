@@ -3,6 +3,7 @@ const Connection = require('@aurahelper/connector');
 const Output = require('../output');
 const NotificationManager = require('../output/notificationManager');
 const ApexNodeWatcher = require('../watchers/apexCodeWatcher');
+const ProjectFilesWatcher = require('../watchers/projectFilesWatcher');
 const ProvidersManager = require('../providers/providersManager');
 const { FileChecker, FileWriter, FileReader } = require('@aurahelper/core').FileSystem;
 const { MetadataTypes } = require('@aurahelper/core').Values;
@@ -16,6 +17,11 @@ const OutputChannel = Output.OutputChannel;
 exports.run = function (onbackground) {
     if (!onbackground) {
         try {
+            const alias = Config.getOrgAlias();
+            if (!alias) {
+                NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
+                return;
+            }
             NotificationManager.showConfirmDialog('Refresh metadata index can will take several minutes. Do you want to continue?', function () {
                 showLoadingDialog();
             });
@@ -31,6 +37,7 @@ exports.run = function (onbackground) {
                 OutputChannel.outputLine('Refreshing SObject Defintions Finished');
                 ProvidersManager.registerProviders();
                 ApexNodeWatcher.startWatching();
+                ProjectFilesWatcher.startWatching();
             });
         }, 100);
     }

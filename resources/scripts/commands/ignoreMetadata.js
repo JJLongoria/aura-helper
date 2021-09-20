@@ -10,6 +10,11 @@ const Ignore = require('@aurahelper/ignore');
 const Connection = require('@aurahelper/connector');
 
 exports.run = async function () {
+    const alias = Config.getOrgAlias();
+    if (!alias) {
+        NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
+        return;
+    }
     let ignoreOption = await InputFactory.createIgnoreOptionsSelector();
     if (!ignoreOption)
         return;
@@ -69,7 +74,7 @@ exports.run = async function () {
                         resolve();
                     });
                 } else {
-                    const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                    const connection = new Connection(alias, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                     cancelToken.onCancellationRequested(() => {
                         NotificationManager.showInfo('Operation Cancelled');
                         connection.abortConnection();

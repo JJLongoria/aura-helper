@@ -290,9 +290,10 @@ class MultiStepInput {
                             resolve();
                             this.show();
                         }).catch((error) => {
+                            this.fireErrorEvent(error.message);
                             NotificationMananger.showError(error);
                             resolve();
-                            this.show();
+                            this.backStep();
                         });
                     } else {
                         getLocalMetadata(types).then((metadataTypes) => {
@@ -300,9 +301,9 @@ class MultiStepInput {
                             resolve();
                             this.show();
                         }).catch((error) => {
-                            NotificationMananger.showError(error);
+                            this.fireErrorEvent(error.message);
                             resolve();
-                            this.show();
+                            this.backStep();
                         });
                     }
                 });
@@ -314,6 +315,9 @@ module.exports = MultiStepInput;
 
 function getLocalMetadata(types) {
     return new Promise(function (resolve, reject) {
+        if(!Config.getOrgAlias()){
+            reject(new Error('Not connected to an Org. Please authorize and connect to and org and try later.'));
+        }
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
             cliManager.describeLocalMetadata(types).then((metadataTypes) => {
