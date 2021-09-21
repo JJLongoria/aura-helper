@@ -6,6 +6,8 @@ const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { ApexParser } = require('@aurahelper/languages').Apex;
 const { Utils } = require('@aurahelper/core').CoreUtils;
 const CompletionItemKind = vscode.CompletionItemKind;
+const MarkDownStringBuilder = require('../output/markdownStringBuilder');
+
 
 exports.provider = {
     provideCompletionItems(document, position) {
@@ -36,7 +38,7 @@ function provideApexCompletion(document, position) {
         if (node.positionData && node.positionData.query) {
             items = ProviderUtils.getQueryCompletionItems(position, activationInfo, activationTokens, node.positionData);
         } else if (activationTokens.length > 0 && activationTokens[0].toLowerCase() === 'label') {
-            items = getLabelsCompletionItems(activationTokens, position);
+            items = getLabelsCompletionItems(position, activationInfo, activationTokens);
         } else if (activationTokens.length > 1) {
             items = ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, node, node.positionData);
         } else {
@@ -47,19 +49,24 @@ function provideApexCompletion(document, position) {
     return items;
 }
 
-function getLabelsCompletionItems(activationTokens, position) {
-    let items = [];
+function getLabelsCompletionItems(position, activationInfo, activationTokens) {
+    const items = [];
     if (activationTokens.length == 2) {
-        let labels = ProviderUtils.getCustomLabels();
+        const labels = ProviderUtils.getCustomLabels();
         for (const label of labels) {
-            let doc = '  - **Name**: ' + label.fullName + '\n';
-            doc += '  - **Value**: ' + label.value + '\n';
-            doc += '  - **Category**: ' + label.categories + '\n';
-            doc += '  - **Language**: ' + label.language + '\n';
-            doc += '  - **Protected**: ' + label.protected;
-            let options = ProviderUtils.getCompletionItemOptions(label.shortDescription, doc, label.fullName, true, CompletionItemKind.Field);
-            let command = ProviderUtils.getCommand('CustomLabel', 'aurahelper.completion.apex', [position, 'CustomLabel', label.fullName]);
-            items.push(ProviderUtils.createItemForCompletion(label.fullName, options, command));
+            const documentation = new MarkDownStringBuilder();
+            documentation.appendMarkdown(label.shortDescription + '\n\n');
+            documentation.appendMarkdown('\n\n  - **Name**: `' + label.fullName + '`\n');
+            documentation.appendMarkdown('  - **Value**: `' + label.value + '`\n');
+            documentation.appendMarkdown('  - **Category**: `' + label.categories + '`\n');
+            documentation.appendMarkdown('  - **Language**: `' + label.language + '`\n');
+            documentation.appendMarkdown('  - **Protected**: `' + label.protected + '`\n\n');
+            documentation.appendMarkdownSeparator();
+            documentation.appendMarkdownH4('Snippet');
+            documentation.appendApexCodeBlock('Label.' + label.fullName);
+            const options = ProviderUtils.getCompletionItemOptions(label.fullName, documentation.build(), label.fullName, true, CompletionItemKind.Field);
+            const item = ProviderUtils.createItemForCompletion(label.fullName, options);
+            items.push(item);
         }
     }
     return items;

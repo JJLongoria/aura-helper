@@ -15,6 +15,7 @@ const CompletionItemKind = vscode.CompletionItemKind;
 const CompletionItem = vscode.CompletionItem;
 const SnippetString = vscode.SnippetString;
 const TemplateUtils = require('../utils/templateUtils');
+const { MarkDownStringBuilder } = require('../output');
 
 class ProviderUtils {
 
@@ -76,8 +77,10 @@ class ProviderUtils {
         }
         const line = document.lineAt(correctedPos.line);
         const lineText = line.text;
-        if (line.isEmptyOrWhitespace)
+        if (line.isEmptyOrWhitespace) {
+            result.startColumn = correctedPos.character;
             return result;
+        }
         const lineTokens = Tokenizer.tokenize(lineText);
         let index = 0;
         let tokenPos = -1;
@@ -93,8 +96,10 @@ class ProviderUtils {
             tokenPos--;
         let endLoop = false;
         let isOnParams = false;
-        if (tokenPos === -1)
+        if (tokenPos === -1) {
+            result.startColumn = correctedPos.character;
             return result;
+        }
         result.nextToken = LanguageUtils.getNextToken(lineTokens, tokenPos);
         result.lastToken = LanguageUtils.getTwoNextToken(lineTokens, tokenPos);
         while (!endLoop) {
@@ -138,6 +143,9 @@ class ProviderUtils {
                 }
             } else if (!isOnParams && token && (token.type === TokenType.PUNCTUATION.COMMA || token.type === TokenType.PUNCTUATION.QUOTTES || token.type === TokenType.PUNCTUATION.QUOTTES_END || token.type === TokenType.PUNCTUATION.QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END)) {
                 endLoop = true;
+                result.lastToken = lastToken;
+                result.twoLastToken = twoLastToken;
+                result.startColumn = correctedPos.character;
                 if (token.type === TokenType.PUNCTUATION.QUOTTES || token.type === TokenType.PUNCTUATION.QUOTTES_END || token.type === TokenType.PUNCTUATION.QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END) {
                     if (nextToken && (nextToken.type === TokenType.PUNCTUATION.QUOTTES || nextToken.type === TokenType.PUNCTUATION.QUOTTES_END || nextToken.type === TokenType.PUNCTUATION.QUOTTES_START || nextToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || nextToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || nextToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END)) {
                         endLoop = true;
@@ -185,56 +193,72 @@ class ProviderUtils {
         let pickItems = [];
         let itemRel;
         let detail = sObject.name + ' Field';
-        let documentation = "  - **Label**: " + field.label + '\n';
+        const documentation = new MarkDownStringBuilder().appendApexCodeBlock(field.name).appendMarkdown(detail + '\n\n');
+        const relDocumentation = new MarkDownStringBuilder();
+        let doc = "  - **Label**: `" + field.label + '`  \n';
         if (field.length)
-            documentation += "  - **Length**: " + field.length + '\n';
+            doc += "  - **Length**: `" + field.length + '`  \n';
         if (field.type)
-            documentation += "  - **Datatype**: `" + field.type + '`\n';
+            doc += "  - **Type**: `" + field.type + '`  \n';
         if (field.custom !== undefined)
-            documentation += "  - **Is Custom**: " + field.custom + '\n';
+            doc += "  - **Is Custom**: `" + field.custom + '`  \n';
         if (field.referenceTo.length > 0) {
-            documentation += "  - **Reference To**: " + field.referenceTo.join(", ") + '\n';
+            doc += "  - **Reference To**: " + field.referenceTo.join(", ") + '\n';
             let name = field.name;
             if (name.endsWith('__c')) {
                 name = name.substring(0, name.length - 3) + '__r';
-                const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Relationsip Field", 'Relationship with ' + field.referenceTo.join(", ") + ' SObject(s) \n\n' + documentation, name, true, CompletionItemKind.Field);
+                relDocumentation.appendApexCodeBlock(name);
+                relDocumentation.appendMarkdown('Relationship with ' + field.referenceTo.join(", ") + ' SObject(s) \n\n');
+                relDocumentation.appendMarkdown(doc);
+                const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Lookup Field", relDocumentation.build(), name, true, CompletionItemKind.Field);
                 itemRel = ProviderUtils.createItemForCompletion(name, options);
             } else if (name.endsWith('Id')) {
                 name = name.substring(0, name.length - 2);
-                const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Relationsip Field", 'Relationship with ' + field.referenceTo.join(", ") + ' SObject(s) \n\n' + documentation, name, true, CompletionItemKind.Field);
+                relDocumentation.appendApexCodeBlock(name);
+                relDocumentation.appendMarkdown('Relationship with ' + field.referenceTo.join(", ") + ' SObject(s) \n\n');
+                relDocumentation.appendMarkdown(doc);
+                const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Lookup Field", relDocumentation.build(), name, true, CompletionItemKind.Field);
                 itemRel = ProviderUtils.createItemForCompletion(name, options);
             }
         }
-        if (field.picklistValues.length > 0 && activationTokens.length <= 3 && activationTokens.length > 0 && activationTokens[0].toLowerCase() === sObject.name.toLowerCase()) {
+        if (field.picklistValues.length > 0) {
             pickItems = [];
-            documentation += "\n**Picklist Values**: \n";
+            documentation.appendMarkdownH4('Picklist Values');
             for (const pickVal of field.picklistValues) {
-                let pickDoc = "  - **Value**: " + pickVal.value + '\n';
-                pickDoc += "  - **Label**: " + pickVal.label + '\n';
-                pickDoc += "  - **Active**: " + pickVal.active + '\n';
-                pickDoc += "  - **Is Default**: " + pickVal.defaultValue;
-                let pickValue;
-                if (positionData && positionData.onText) {
-                    pickValue = pickVal.value;
-                } else if (positionData && (positionData.source === 'Apex') && (!positionData.lastToken || positionData.lastToken.text !== "'") && (!positionData.nextToken || positionData.nextToken.text !== "'")) {
-                    pickValue = "'" + pickVal.value + "'";
-                } else if (positionData && (positionData.source === 'Aura') && (!positionData.lastToken || positionData.lastToken.text !== '"') && (!positionData.nextToken || positionData.nextToken.text !== '"')) {
-                    pickValue = '"' + pickVal.value + '"';
-                } else if (positionData && (positionData.source === 'JS') && (!positionData.lastToken || (positionData.lastToken.text !== "'" && positionData.lastToken.text !== '"')) && (!positionData.nextToken || (positionData.nextToken.text !== "'" && positionData.nextToken.text !== '"'))) {
-                    pickValue = "'" + pickVal.value + "'";
-                } else {
-                    pickValue = pickVal.value;
+                if (activationTokens.length <= 3 && activationTokens.length > 0 && activationTokens[0].toLowerCase() === sObject.name.toLowerCase()) {
+                    const pickDocumentation = new MarkDownStringBuilder();
+                    pickDocumentation.appendApexCodeBlock(field.name);
+                    let pickDoc = "  - **Value**: `" + pickVal.value + '`  \n';
+                    pickDoc += "  - **Label**: `" + pickVal.label + '`  \n';
+                    pickDoc += "  - **Active**: `" + pickVal.active + '`  \n';
+                    pickDoc += "  - **Is Default**: `" + pickVal.defaultValue + '`';
+                    let pickValue;
+                    if (positionData && positionData.onText) {
+                        pickValue = pickVal.value;
+                    } else if (positionData && (positionData.source === 'Apex') && (!positionData.lastToken || positionData.lastToken.text !== "'") && (!positionData.nextToken || positionData.nextToken.text !== "'")) {
+                        pickValue = "'" + pickVal.value + "'";
+                    } else if (positionData && (positionData.source === 'Aura') && (!positionData.lastToken || positionData.lastToken.text !== '"') && (!positionData.nextToken || positionData.nextToken.text !== '"')) {
+                        pickValue = '"' + pickVal.value + '"';
+                    } else if (positionData && (positionData.source === 'JS') && (!positionData.lastToken || (positionData.lastToken.text !== "'" && positionData.lastToken.text !== '"')) && (!positionData.nextToken || (positionData.nextToken.text !== "'" && positionData.nextToken.text !== '"'))) {
+                        pickValue = "'" + pickVal.value + "'";
+                    } else {
+                        pickValue = pickVal.value;
+                    }
+                    pickDocumentation.appendMarkdown('`' + field.name + '` Picklist Value. Select this option to replace with the picklist value. Replace `' + activationTokens.join('.') + '` with `' + pickValue + '`\n\n');
+                    pickDocumentation.appendMarkdown(pickDoc + '\n\n');
+                    pickDocumentation.appendMarkdownSeparator();
+                    pickDocumentation.appendMarkdownH4('Snippet');
+                    pickDocumentation.appendApexCodeBlock(pickValue);
+                    const options = ProviderUtils.getCompletionItemOptions(pickVal.label.toString(), pickDocumentation.build(), pickValue.toString(), true, CompletionItemKind.Value);
+                    const pickItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + field.name + '.' + pickVal.value.toString(), options);
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                        pickItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    pickItems.push(pickItem);
                 }
-                const pickDetail = field.name + ' Picklist Value. Select this option to replace with the picklist value. Replace ' + activationTokens.join('.') + ' with ' + pickValue;
-                const options = ProviderUtils.getCompletionItemOptions(pickDetail, pickDoc, pickValue.toString(), true, CompletionItemKind.Value);
-                const pickItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + field.name + '.' + pickVal.value, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
-                    pickItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
-                pickItems.push(pickItem);
-                documentation += '  - ' + pickVal.value + " (" + pickVal.label + ") \n";
+                documentation.appendMarkdownH4('  - `' + pickVal.value + "` (" + pickVal.label + ")  \n");
             }
         }
-        const options = ProviderUtils.getCompletionItemOptions(detail, documentation, field.name, true, CompletionItemKind.Field);
+        const options = ProviderUtils.getCompletionItemOptions(detail, documentation.build(), field.name, true, CompletionItemKind.Field);
         const item = ProviderUtils.createItemForCompletion(field.name, options);
         items.push(item);
         if (itemRel)
@@ -255,15 +279,21 @@ class ProviderUtils {
             }
             if (Utils.hasKeys(sObject.recordTypes) && activationTokens.length <= 2 && activationTokens.length > 0 && activationTokens[0].toLowerCase() === sObject.name.toLowerCase()) {
                 for (const rtKey of Object.keys(sObject.recordTypes)) {
+                    const rtNameDocumentation = new MarkDownStringBuilder();
+                    const rtDevNameDocumentation = new MarkDownStringBuilder();
+                    rtNameDocumentation.appendApexCodeBlock(sObject.name);
+                    rtDevNameDocumentation.appendApexCodeBlock(sObject.name);
                     const rt = sObject.recordTypes[rtKey];
-                    let rtDoc = "  - **Name**: " + rt.name + '\n';
-                    rtDoc += "  - **Developer Name**: " + rt.developerName + '\n';
+                    let rtDoc = "  - **Name**: `" + rt.name + '`\n';
+                    rtDoc += "  - **Developer Name**: `" + rt.developerName + '`\n';
                     if (rt.default !== undefined)
-                        rtDoc += "  - **Default**: " + rt.default + '\n';
+                        rtDoc += "  - **Default**: `" + rt.default + '`\n';
                     if (rt.master !== undefined)
-                        rtDoc += "  - **Master**: " + rt.master;
+                        rtDoc += "  - **Master**: `" + rt.master + '`';
                     let nameValue;
                     let devNameValue;
+                    rtNameDocumentation.appendMarkdown(rtDoc);
+                    rtDevNameDocumentation.appendMarkdown(rtDoc);
                     if (positionData && positionData.onText) {
                         nameValue = rt.name;
                         devNameValue = rt.developerName;
@@ -280,15 +310,21 @@ class ProviderUtils {
                         nameValue = rt.name;
                         devNameValue = rt.developerName;
                     }
-                    const rtNameDetail = rt.name + ' Record Type Name. Select this option to replace with the record type name value. Replace ' + activationTokens.join('.') + ' with ' + nameValue;
-                    const nameOptions = ProviderUtils.getCompletionItemOptions(rtNameDetail, rtDoc, nameValue, true, CompletionItemKind.Variable);
+                    rtNameDocumentation.appendMarkdownSeparator();
+                    rtNameDocumentation.appendMarkdownH4('Snippet');
+                    rtNameDocumentation.appendApexCodeBlock(nameValue);
+                    rtDevNameDocumentation.appendMarkdownSeparator();
+                    rtDevNameDocumentation.appendMarkdownH4('Snippet');
+                    rtDevNameDocumentation.appendApexCodeBlock(devNameValue);
+                    const rtNameDetail = '`' + rt.name + '` Record Type Name. Select this option to replace with the record type name value. Replace `' + activationTokens.join('.') + '` with `' + nameValue + '`';
+                    const nameOptions = ProviderUtils.getCompletionItemOptions(rtNameDetail, rtNameDocumentation.build(), nameValue, true, CompletionItemKind.Value);
                     const nameRtItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + rt.name, nameOptions);
-                    const rtDevNameDetail = rt.developerName + ' Record Type Developer Name. Select this option to replace with the record type developer name value. Replace ' + activationTokens.join('.') + ' with ' + devNameValue;
-                    const devNameoptions = ProviderUtils.getCompletionItemOptions(rtDevNameDetail, rtDoc, devNameValue, true, CompletionItemKind.Variable);
+                    const rtDevNameDetail = '`' + rt.developerName + '` Record Type Developer Name. Select this option to replace with the record type developer name value. Replace `' + activationTokens.join('.') + '` with `' + devNameValue + '`';
+                    const devNameoptions = ProviderUtils.getCompletionItemOptions(rtDevNameDetail, rtNameDocumentation.build(), devNameValue, true, CompletionItemKind.Value);
                     const devNameRtItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + rt.developerName, devNameoptions);
-                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         nameRtItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
-                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         devNameRtItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(nameRtItem);
                     items.push(devNameRtItem);
@@ -348,15 +384,18 @@ class ProviderUtils {
         } else {
             Object.keys(applicationContext.parserData.sObjectsData).forEach(function (key) {
                 const sObject = applicationContext.parserData.sObjectsData[key];
+                const documentation = new MarkDownStringBuilder();
                 let description = 'Standard SObject';
                 if (sObject.custom)
                     description = 'Custom SObject';
                 if (sObject.namespace) {
                     description += '\nNamespace: ' + sObject.namespace;
                 }
-                const options = ProviderUtils.getCompletionItemOptions(sObject.name, description, sObject.name, true, CompletionItemKind.Class);
+                documentation.appendApexCodeBlock(sObject.name);
+                documentation.appendMarkdown(description);
+                const options = ProviderUtils.getCompletionItemOptions(sObject.name, documentation.build(), sObject.name, true, CompletionItemKind.Class);
                 const item = ProviderUtils.createItemForCompletion(sObject.name, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             });
@@ -926,15 +965,16 @@ class ProviderUtils {
     static createItemForCompletion(name, options, command) {
         let type = CompletionItemKind.Value;
         if (!options.documentation)
-            options.documentation = '';
-        options.documentation += '\n\n**Powered by Aura Helper**';
+            options.documentation = new MarkDownStringBuilder().build();
+        else if (Utils.isString(options.documentation))
+            options.documentation = new MarkDownStringBuilder().appendMarkdown(options.documentation).build();
         if (options && options.type)
             type = options.type;
         const item = new CompletionItem(name, type);
         if (options && options.detail)
             item.detail = options.detail;
         if (options && options.documentation)
-            item.documentation = new vscode.MarkdownString(options.documentation);
+            item.documentation = options.documentation;
         if (options && options.preselect)
             item.preselect = options.preselect;
         if (options && options.insertText)
@@ -969,19 +1009,19 @@ class ProviderUtils {
                     description += '\n\nEnum Values: \n' + enumValues.join('\n');
                     const options = ProviderUtils.getCompletionItemOptions(className, description, className, true, CompletionItemKind.Enum);
                     const item = ProviderUtils.createItemForCompletion(className, options);
-                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else if (userClass.nodeType === ApexNodeTypes.INTERFACE) {
                     const options = ProviderUtils.getCompletionItemOptions(className, description, className, true, CompletionItemKind.Interface);
                     const item = ProviderUtils.createItemForCompletion(className, options);
-                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else {
                     const options = ProviderUtils.getCompletionItemOptions(className, description, className, true, CompletionItemKind.Class);
                     const item = ProviderUtils.createItemForCompletion(className, options);
-                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 }
@@ -999,21 +1039,21 @@ class ProviderUtils {
                     const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\nEnum Values: \n' + enumValues.join('\n');
                     const options = ProviderUtils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Enum);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
-                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else if (systemClass.nodeType === ApexNodeTypes.INTERFACE) {
                     const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '');
                     const options = ProviderUtils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Interface);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
-                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else {
                     const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '');
                     const options = ProviderUtils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Class);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
-                    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 }
@@ -1021,7 +1061,7 @@ class ProviderUtils {
             for (const ns of applicationContext.parserData.namespaces) {
                 const options = ProviderUtils.getCompletionItemOptions('Salesforce Namespace', undefined, ns, true, CompletionItemKind.Module);
                 const item = ProviderUtils.createItemForCompletion(ns, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -1037,7 +1077,7 @@ class ProviderUtils {
                 }
                 const options = ProviderUtils.getCompletionItemOptions(sObject.name, description, sObject.name, true, CompletionItemKind.Class);
                 const item = ProviderUtils.createItemForCompletion(sObject.name, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             });

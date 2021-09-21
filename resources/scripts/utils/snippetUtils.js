@@ -400,10 +400,12 @@ class SnippetUtils {
             cont++;
         }
         content += "}";
-        if (!activationInfo.nextToken || (activationInfo.nextToken.text !== ';' && activationInfo.nextToken.text !== ',' && activationInfo.nextToken.text !== ')')) {
-            content += ';';
-        } else if(activationInfo.lastToken && activationInfo.lastToken.test === ','){
+        if (activationInfo.lastToken && activationInfo.lastToken.text === ',' && (!activationInfo.nextToken || (activationInfo.nextToken.text !== ',' && activationInfo.nextToken.text !== ')'))) {
             content += ', ';
+        } else if (activationInfo.lastToken && activationInfo.lastToken.text === '(' && (!activationInfo.nextToken || (activationInfo.nextToken.text !== ',' && activationInfo.nextToken.text !== ')'))) {
+            content += ', ';
+        } else if (!activationInfo.nextToken || (activationInfo.nextToken.text !== ';' && activationInfo.nextToken.text !== ',' && activationInfo.nextToken.text !== ')')) {
+            content += ';';
         }
         return content;
     }

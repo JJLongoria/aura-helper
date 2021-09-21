@@ -6,7 +6,7 @@
             "\t$0",
             "</lightning-accordion>"
         ],
-        "description": "Create LWC Accordion Code Unit. (lightning-accordion) [https://developer.salesforce.com/docs/component-library/bundle/lightning-accordion/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Accordion Code Unit. (lightning-accordion) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-accordion/example)"
     },
     "LWC Accordion Multiple": {
         "prefix": "lwc.accordionMultiple",
@@ -15,7 +15,7 @@
             "\t$0",
             "</lightning-accordion>"
         ],
-        "description": "Create LWC Accordion Code Unit. (lightning-accordion) [https://developer.salesforce.com/docs/component-library/bundle/lightning-accordion/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Accordion Code Unit. (lightning-accordion) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-accordion/example)"
     },
     "LWC Accordion Section": {
         "prefix": [
@@ -27,7 +27,7 @@
             "\t$0",
             "</lightning-accordion-section>"
         ],
-        "description": "Create LWC Accordion Section Code Unit (lightning-accordion-section) [https://developer.salesforce.com/docs/component-library/bundle/lightning-accordion-section/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Accordion Section Code Unit (lightning-accordion-section) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-accordion-section/example)"
     },
     "LWC Avatar": {
         "prefix": [
@@ -36,7 +36,7 @@
         "body": [
             "<lightning-avatar src=\"${1:src}\" size=\"${2:size}\" initials=\"${3:initials}\" fallback-onicon-name=\"${3:iconName}\" variant=\"${5:variant}\">"
         ],
-        "description": "Create LWC Avatar Code Unit (lightning-avatar) [https://developer.salesforce.com/docs/component-library/bundle/lightning-avatar/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Avatar Code Unit (lightning-avatar) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-avatar/example)"
     },
     "LWC Badge": {
         "prefix": [
@@ -45,7 +45,7 @@
         "body": [
             "<lightning-badge label=\"${1:label}\">"
         ],
-        "description": "Create LWC Badge Code Unit (lightning-badge) [https://developer.salesforce.com/docs/component-library/bundle/lightning-badge/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Badge Code Unit (lightning-badge) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-badge/example)"
     },
     "LWC Badge Icon": {
         "prefix": [
@@ -54,7 +54,7 @@
         "body": [
             "<lightning-badge label=\"${1:label}\" icon-name=\"${2:iconName}\" icon-position=\"${3:position}\">"
         ],
-        "description": "Create LWC Badge Code Unit with icon Code Unit (lightning-badge) [https://developer.salesforce.com/docs/component-library/bundle/lightning-badge/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Badge Code Unit with icon Code Unit (lightning-badge) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-badge/example)"
     },
     "LWC Badge Icon Start": {
         "prefix": [
@@ -63,7 +63,7 @@
         "body": [
             "<lightning-badge label=\"${1:label}\" icon-name=\"${2:iconName}\" icon-position=\"start\">"
         ],
-        "description": "Create LWC Badge Code Unit with icon before text Code Unit (lightning-badge) [https://developer.salesforce.com/docs/component-library/bundle/lightning-badge/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Badge Code Unit with icon before text Code Unit (lightning-badge) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-badge/example)"
     },
     "LWC Badge Icon End": {
         "prefix": [
@@ -72,7 +72,7 @@
         "body": [
             "<lightning-badge label=\"${1:label}\" icon-name=\"${2:iconName}\" icon-position=\"end\">"
         ],
-        "description": "Create LWC Badge Code Unit with icon after text Code Unit (lightning-badge) [https://developer.salesforce.com/docs/component-library/bundle/lightning-badge/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Badge Code Unit with icon after text Code Unit (lightning-badge) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-badge/example)"
     },
     "LWC Breadcrumb": {
         "prefix": [
@@ -81,7 +81,7 @@
         "body": [
             "<lightning-breadcrumb label=\"${1:label}\" href=\"${2:href}\">"
         ],
-        "description": "Create LWC Breadcrumb Code Unit (lightning-breadcrumb) [https://developer.salesforce.com/docs/component-library/bundle/lightning-breadcrumb/documentation]\n\nPowered by Aura Helper"
+        "description": "Create LWC Breadcrumb Code Unit (lightning-breadcrumb) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-breadcrumb/documentation)"
     },
     "LWC Breadcrumb Action": {
         "prefix": [
@@ -90,7 +90,7 @@
         "body": [
             "<lightning-breadcrumb name=\"${1:name}\" label=\"${2:label}\" href=\"${3:href}\" onclick=\"${3:action}\">"
         ],
-        "description": "Create LWC Breadcrumb with on click Code Unit (lightning-breadcrumb) [https://developer.salesforce.com/docs/component-library/bundle/lightning-breadcrumb/documentation]\n\nPowered by Aura Helper"
+        "description": "Create LWC Breadcrumb with on click Code Unit (lightning-breadcrumb) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-breadcrumb/documentation)"
     },
     "LWC Breadcrumb Iterator": {
         "prefix": [
@@ -101,7 +101,7 @@
             "\t<lightning-breadcrumb key=\"${3:key}\" name=\"${4:name}\" label=\"${5:label}\" onclick=\"${6:action}\">",
             "</template>"
         ],
-        "description": "Create LWC Breadcrumb iterator Code Unit (lightning-breadcrumb) [https://developer.salesforce.com/docs/component-library/bundle/lightning-breadcrumb/documentation]\n\nPowered by Aura Helper"
+        "description": "Create LWC Breadcrumb iterator Code Unit (lightning-breadcrumb) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-breadcrumb/documentation)"
     },
     "LWC Breadcrumbs": {
         "prefix": [
@@ -112,7 +112,7 @@
             "\t$0",
             "</lightning-breadcrumbs>"
         ],
-        "description": "Create LWC Breadcrumbs container Code Unit (lightning-breadcrumbs) [https://developer.salesforce.com/docs/component-library/bundle/lightning-breadcrumbs/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Breadcrumbs container Code Unit (lightning-breadcrumbs) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-breadcrumbs/example)"
     },
     "LWC Breadcrumbs Iterator": {
         "prefix": [
@@ -125,7 +125,7 @@
             "\t</template>",
             "</lightning-breadcrumbs>"
         ],
-        "description": "Create LWC Breadcrumbs container with breadcrumb iterator Code Unit (lightning-breadcrumbs) [https://developer.salesforce.com/docs/component-library/bundle/lightning-breadcrumbs/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Breadcrumbs container with breadcrumb iterator Code Unit (lightning-breadcrumbs) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-breadcrumbs/example)"
     },
     "LWC Button": {
         "prefix": [
@@ -134,7 +134,7 @@
         "body": [
             "<lightning-button variant=\"${1:variant}\" label=\"${2:label}\" title=\"${2:title}\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Base": {
         "prefix": [
@@ -143,7 +143,7 @@
         "body": [
             "<lightning-button variant=\"base\" label=\"${1:label}\" title=\"${2:title}\" onclick=\"${3:action}\" />"
         ],
-        "description": "Create LWC Button with Base Variant Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Base Variant Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Neutral": {
         "prefix": [
@@ -152,7 +152,7 @@
         "body": [
             "<lightning-button variant=\"neutral\" label=\"${1:label}\" title=\"${2:title}\" onclick=\"${3:action}\" />"
         ],
-        "description": "Create LWC Button with Neutral Variant Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Neutral Variant Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Brand": {
         "prefix": [
@@ -161,7 +161,7 @@
         "body": [
             "<lightning-button variant=\"brand\" label=\"${1:label}\" title=\"${2:title}\" onclick=\"${3:action}\" />"
         ],
-        "description": "Create LWC Button with Brand Variant Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Brand Variant Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Brand Outline": {
         "prefix": [
@@ -170,7 +170,7 @@
         "body": [
             "<lightning-button variant=\"brand-outline\" label=\"${1:label}\" title=\"${2:title}\" onclick=\"${3:action}\" />"
         ],
-        "description": "Create LWC Button with Brand Outline Variant Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Brand Outline Variant Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Destructive": {
         "prefix": [
@@ -179,7 +179,7 @@
         "body": [
             "<lightning-button variant=\"destructive\" label=\"${1:label}\" title=\"${2:title}\" onclick=\"${3:action}\" />"
         ],
-        "description": "Create LWC Button with Destructive Variant Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Destructive Variant Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Destructive Text": {
         "prefix": [
@@ -188,7 +188,7 @@
         "body": [
             "<lightning-button variant=\"destructive-text\" label=\"${1:label}\" title=\"${2:title}\" onclick=\"${3:action}\" />"
         ],
-        "description": "Create LWC Button with Destructive Text Variant Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Destructive Text Variant Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Success": {
         "prefix": [
@@ -197,7 +197,7 @@
         "body": [
             "<lightning-button variant=\"success\" label=\"${1:label}\" title=\"${2:title}\" onclick=\"${3:action}\" />"
         ],
-        "description": "Create LWC Button with Success Variant Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Success Variant Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Inverse": {
         "prefix": [
@@ -206,7 +206,7 @@
         "body": [
             "<lightning-button variant=\"inverse\" label=\"${1:label}\" title=\"${2:title}\" onclick=\"${3:action}\" />"
         ],
-        "description": "Create LWC Button with Inverse Variant Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Inverse Variant Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Base With Icon": {
         "prefix": [
@@ -215,7 +215,7 @@
         "body": [
             "<lightning-button variant=\"base\" label=\"${21:label}\" title=\"${2:title}\" icon-name=\"${3:iconName}\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Base Variant With Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Base Variant With Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Neutral Icon": {
         "prefix": [
@@ -224,7 +224,7 @@
         "body": [
             "<lightning-button variant=\"neutral\" label=\"${1:label}\" title=\"${2:title}\" icon-name=\"${3:iconName}\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Neutral Variant With Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Neutral Variant With Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Brand Icon": {
         "prefix": [
@@ -233,7 +233,7 @@
         "body": [
             "<lightning-button variant=\"brand\" label=\"${1:label}\" title=\"${2:title}\" icon-name=\"${3:iconName}\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Brand Variant With Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Brand Variant With Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Brand Outline Icon": {
         "prefix": [
@@ -242,7 +242,7 @@
         "body": [
             "<lightning-button variant=\"brand-outline\" label=\"${1:label}\" title=\"${2:title}\" icon-name=\"${3:iconName}\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Brand Outline Variant With Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Brand Outline Variant With Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Destructive Icon": {
         "prefix": [
@@ -251,7 +251,7 @@
         "body": [
             "<lightning-button variant=\"destructive\" label=\"${1:label}\" title=\"${2:title}\" icon-name=\"${3:iconName}\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Destructive Variant With Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Destructive Variant With Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Destructive Text Icon": {
         "prefix": [
@@ -260,7 +260,7 @@
         "body": [
             "<lightning-button variant=\"destructive-text\" label=\"${1:label}\" title=\"${2:title}\" icon-name=\"${3:iconName}\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Destructive Text Variant With Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Destructive Text Variant With Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Success Icon": {
         "prefix": [
@@ -269,7 +269,7 @@
         "body": [
             "<lightning-button variant=\"success\" label=\"${1:label}\" title=\"${2:title}\" icon-name=\"${3:iconName}\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Success Variant With Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Success Variant With Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Inverse Icon": {
         "prefix": [
@@ -278,7 +278,7 @@
         "body": [
             "<lightning-button variant=\"inverse\" label=\"${1:label}\" title=\"${2:title}\" icon-name=\"${3:iconName}\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Inverse Variant With Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Inverse Variant With Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Base With Icon Right": {
         "prefix": [
@@ -287,7 +287,7 @@
         "body": [
             "<lightning-button variant=\"base\" label=\"${1:label}\" title=\"${2:title}\" icon-name=\"${3:iconName}\" icon-position=\"right\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Base Variant With Right Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Base Variant With Right Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Neutral Icon Right": {
         "prefix": [
@@ -296,7 +296,7 @@
         "body": [
             "<lightning-button variant=\"neutral\" label=\"${1:label}\" title=\"${2:title}\" icon-name=\"${3:iconName}\" icon-position=\"right\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Neutral Variant With Right Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Neutral Variant With Right Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Brand Icon Right": {
         "prefix": [
@@ -305,7 +305,7 @@
         "body": [
             "<lightning-button variant=\"brand\" label=\"${1:label}\" title=\"${2:title}\" onicon-name=\"${3:iconName}\" icon-position=\"right\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Brand Variant With Right Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Brand Variant With Right Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Brand Outline Icon Right": {
         "prefix": [
@@ -314,7 +314,7 @@
         "body": [
             "<lightning-button variant=\"brand-outline\" label=\"${1:label}\" title=\"${2:title}\" onicon-name=\"${3:iconName}\" icon-position=\"right\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Brand Outline Variant With Right Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Brand Outline Variant With Right Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Destructive Icon Right": {
         "prefix": [
@@ -323,7 +323,7 @@
         "body": [
             "<lightning-button variant=\"destructive\" label=\"${1:label}\" title=\"${2:title}\" onicon-name=\"${3:iconName}\" icon-position=\"right\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Destructive Variant With Right Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Destructive Variant With Right Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Destructive Text Icon Right": {
         "prefix": [
@@ -332,7 +332,7 @@
         "body": [
             "<lightning-button variant=\"destructive-text\" label=\"${1:label}\" title=\"${2:title}\" onicon-name=\"${3:iconName}\" icon-position=\"right\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Destructive Text Variant With Right Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Destructive Text Variant With Right Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Success Icon Right": {
         "prefix": [
@@ -341,7 +341,7 @@
         "body": [
             "<lightning-button variant=\"success\" label=\"${1:label}\" title=\"${2:title}\" onicon-name=\"${3:iconName}\" icon-position=\"right\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Success Variant With Right Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Success Variant With Right Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Inverse Icon Right": {
         "prefix": [
@@ -350,7 +350,7 @@
         "body": [
             "<lightning-button variant=\"inverse\" label=\"${1:label}\" title=\"${2:title}\" onicon-name=\"${3:iconName}\" icon-position=\"right\" onclick=\"${4:action}\" />"
         ],
-        "description": "Create LWC Button with Inverse Variant With Right Icon Code Unit (lightning-button) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button with Inverse Variant With Right Icon Code Unit (lightning-button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button/example)"
     },
     "LWC Button Group": {
         "prefix": [
@@ -361,7 +361,7 @@
             "\t$0",
             "</lightning-button-group>"
         ],
-        "description": "Create LWC Button Group Code Unit (lightning-button-group) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button-group/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Group Code Unit (lightning-button-group) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button-group/example)"
     },
     "LWC Button Icon": {
         "prefix": [
@@ -370,7 +370,7 @@
         "body": [
             "<lightning-button-icon icon-name=\"${1:iconName}\" alternative-text=\"${2:alternativeText}\" title=\"${3:title}\"/>"
         ],
-        "description": "Create LWC Button Icon Code Unit (lightning-button-icon) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Icon Code Unit (lightning-button-icon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example)"
     },
     "LWC Button Icon Bare": {
         "prefix": [
@@ -379,7 +379,7 @@
         "body": [
             "<lightning-button-icon variant=\"bare\" icon-name=\"${1:iconName}\" alternative-text=\"${2:alternativeText}\" title=\"${3:title}\"/>"
         ],
-        "description": "Create LWC Button Icon with Bare Variant Code Unit (lightning-button-icon) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Icon with Bare Variant Code Unit (lightning-button-icon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example)"
     },
     "LWC Button Icon Brand": {
         "prefix": [
@@ -388,7 +388,7 @@
         "body": [
             "<lightning-button-icon variant=\"brand\" icon-name=\"${1:iconName}\" alternative-text=\"${2:alternativeText}\" title=\"${3:title}\"/>"
         ],
-        "description": "Create LWC Button Icon with Brand Variant Code Unit (lightning-button-icon) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Icon with Brand Variant Code Unit (lightning-button-icon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example)"
     },
     "LWC Button Icon Container": {
         "prefix": [
@@ -397,7 +397,7 @@
         "body": [
             "<lightning-button-icon variant=\"container\" icon-name=\"${1:iconName}\" alternative-text=\"${2:alternativeText}\" title=\"${3:title}\"/>"
         ],
-        "description": "Create LWC Button Icon with Container Variant Code Unit (lightning-button-icon) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Icon with Container Variant Code Unit (lightning-button-icon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example)"
     },
     "LWC Button Icon Border Filled": {
         "prefix": [
@@ -406,7 +406,7 @@
         "body": [
             "<lightning-button-icon variant=\"border-filled\" icon-name=\"${1:iconName}\" alternative-text=\"${2:alternativeText}\" title=\"${3:title}\"/>"
         ],
-        "description": "Create LWC Button Icon with Border Filled Variant Code Unit (lightning-button-icon) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Icon with Border Filled Variant Code Unit (lightning-button-icon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example)"
     },
     "LWC Button Icon Border Inverse": {
         "prefix": [
@@ -415,7 +415,7 @@
         "body": [
             "<lightning-button-icon variant=\"border-inverse\" icon-name=\"${1:iconName}\" alternative-text=\"${2:alternativeText}\" title=\"${3:title}\"/>"
         ],
-        "description": "Create LWC Button Icon with Border Inverse Variant Code Unit (lightning-button-icon) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Icon with Border Inverse Variant Code Unit (lightning-button-icon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example)"
     },
     "LWC Button Icon Bare Inverse": {
         "prefix": [
@@ -424,7 +424,7 @@
         "body": [
             "<lightning-button-icon variant=\"bare-inverse\" icon-name=\"${1:iconName}\" alternative-text=\"${2:alternativeText}\" title=\"${3:title}\"/>"
         ],
-        "description": "Create LWC Button Icon with Bare Inverse Variant Code Unit (lightning-button-icon) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Icon with Bare Inverse Variant Code Unit (lightning-button-icon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon/example)"
     },
     "LWC Button Icon Stateful": {
         "prefix": [
@@ -433,7 +433,7 @@
         "body": [
             "<lightning-button-icon icon-name=\"${1:iconName}\" alternative-text=\"${2:alternativeText}\" selected=\"${3:value}\" onclick=\"${4:action}\"/>"
         ],
-        "description": "Create LWC Button Icon Stateful Code Unit (lightning-button-icon-stateful) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon-stateful/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Icon Stateful Code Unit (lightning-button-icon-stateful) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon-stateful/example)"
     },
     "LWC Button Icon Stateful Border Filled": {
         "prefix": [
@@ -442,7 +442,7 @@
         "body": [
             "<lightning-button-icon icon-name=\"border-filled\" icon-name=\"${1:iconName}\" alternative-text=\"${2:alternativeText}\" selected=\"${3:value}\" onclick=\"${4:action}\"/>"
         ],
-        "description": "Create LWC Button Icon Stateful with Border Filled Variant Code Unit (lightning-button-icon-stateful) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon-stateful/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Icon Stateful with Border Filled Variant Code Unit (lightning-button-icon-stateful) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon-stateful/example)"
     },
     "LWC Button Icon Stateful Border Inverse": {
         "prefix": [
@@ -451,6 +451,6 @@
         "body": [
             "<lightning-button-icon icon-name=\"border-inverse\" icon-name=\"${1:iconName}\" alternative-text=\"${2:alternativeText}\" selected=\"${3:value}\" onclick=\"${4:action}\"/>"
         ],
-        "description": "Create LWC Button Icon Stateful with Border Inverse Variant Code Unit (lightning-button-icon-stateful) [https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon-stateful/example]\n\nPowered by Aura Helper"
+        "description": "Create LWC Button Icon Stateful with Border Inverse Variant Code Unit (lightning-button-icon-stateful) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning-button-icon-stateful/example)"
     }
 }
