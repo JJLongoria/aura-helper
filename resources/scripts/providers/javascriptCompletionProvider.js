@@ -12,6 +12,8 @@ const CompletionItemKind = vscode.CompletionItemKind;
 const Range = vscode.Range;
 const Position = vscode.Position;
 const SnippetString = vscode.SnippetString;
+const MarkDownStringBuilder = require('../output/markdownStringBuilder');
+const TemplateUtils = require('../utils/templateUtils');
 
 exports.provider = {
 	provideCompletionItems(document, position) {
@@ -67,7 +69,7 @@ function provideJSCompletion(document, position) {
 		items = getHelperFunctions(position, activationInfo, component);
 	} else if (activationTokens.length > 1) {
 		// Code for completions when position is on empty line or withot components
-		items = ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo);
+		items = ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, component.positionData);
 
 	} else if (activationTokens.length > 0) {
 		// Code for completions when position is on empty line or withot components
@@ -79,9 +81,13 @@ function provideJSCompletion(document, position) {
 function getSnippetsCompletionItems(position, activationInfo, snippets) {
 	const items = [];
 	for (const snippet of snippets) {
-		const options = ProviderUtils.getCompletionItemOptions(snippet.name + '\n' + snippet.description, snippet.body.join('\n'), new SnippetString(snippet.body.join('\n')), true, CompletionItemKind.Snippet);
+		const documentation = new MarkDownStringBuilder().appendMarkdown(snippet.description + '\n\n');
+		documentation.appendMarkdownSeparator();
+		documentation.appendMarkdownH4('Snippet');
+		documentation.appendJSCodeBlock(snippet.body.join('\n'));
+		const options = ProviderUtils.getCompletionItemOptions(snippet.name, documentation.build(), new SnippetString(snippet.body.join('\n')), true, CompletionItemKind.Snippet);
 		const item = ProviderUtils.createItemForCompletion(snippet.prefix, options);
-		if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+		if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
 			item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
 		items.push(item);
 	}
@@ -94,14 +100,19 @@ function getLabelsCompletionItems(position, activationInfo, activationTokens) {
 	if (activationTokens.length == 1 || activationTokens.length == 2) {
 		let labels = ProviderUtils.getCustomLabels();
 		for (const label of labels) {
-			let doc = '  - **Name**: ' + label.fullName + '\n';
-			doc += '  - **Value**: ' + label.value + '\n';
-			doc += '  - **Category**: ' + label.categories + '\n';
-			doc += '  - **Language**: ' + label.language + '\n';
-			doc += '  - **Protected**: ' + label.protected;
-			const options = ProviderUtils.getCompletionItemOptions(label.shortDescription, doc, '$A.get(\'$Label.' + orgNamespace + '.' + label.fullName + '\')', true, CompletionItemKind.Field);
+			const documentation = new MarkDownStringBuilder();
+			documentation.appendMarkdown(label.shortDescription + '\n\n');
+			documentation.appendMarkdown('\n\n  - **Name**: `' + label.fullName + '`\n');
+			documentation.appendMarkdown('  - **Value**: `' + label.value + '`\n');
+			documentation.appendMarkdown('  - **Category**: `' + label.categories + '`\n');
+			documentation.appendMarkdown('  - **Language**: `' + label.language + '`\n');
+			documentation.appendMarkdown('  - **Protected**: `' + label.protected + '`\n\n');
+			documentation.appendMarkdownSeparator();
+			documentation.appendMarkdownH4('Snippet');
+			documentation.appendJSCodeBlock('$A.get(\'$Label.' + orgNamespace + '.' + label.fullName + '\')');
+			const options = ProviderUtils.getCompletionItemOptions(label.fullName, documentation.build(), '$A.get(\'$Label.' + orgNamespace + '.' + label.fullName + '\')', true, CompletionItemKind.Field);
 			const item = ProviderUtils.createItemForCompletion('label.' + label.fullName, options);
-			if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+			if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
 				item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
 			items.push(item);
 		}
@@ -122,10 +133,10 @@ function getComponentAttributeMembersCompletionItems(attribute, activationTokens
 				let actToken = activationToken;
 				if (index > 1) {
 					let fielData;
-                    let idField = actToken + 'Id';
-                    if (actToken.endsWith('__r'))
-                        actToken = actToken.substring(0, actToken.length - 3) + '__c';
-                    fielData = ProviderUtils.getFieldData(sObject, idField.toLowerCase()) || ProviderUtils.getFieldData(sObject, actToken);
+					let idField = actToken + 'Id';
+					if (actToken.endsWith('__r'))
+						actToken = actToken.substring(0, actToken.length - 3) + '__c';
+					fielData = ProviderUtils.getFieldData(sObject, idField.toLowerCase()) || ProviderUtils.getFieldData(sObject, actToken);
 					if (fielData) {
 						if (fielData.referenceTo.length === 1) {
 							lastObject = applicationContext.parserData.sObjectsData[fielData.referenceTo[0].toLowerCase()];
@@ -149,11 +160,13 @@ function getAttributesCompletionItems(position, activationInfo, component) {
 	const items = [];
 	for (const attribute of component.attributes) {
 		let detail;
-		let doc;
-		if (attribute.type && attribute.type.value.text)
-			detail = 'Type: ' + attribute.type.value.text;
+		let doc = '';
 		if (attribute.description && attribute.description.value.text)
-			doc = attribute.description.value.text;
+			doc += attribute.description.value.text + '\n\n';
+		if (attribute.type && attribute.type.value.text) {
+			doc += 'Type: `' + attribute.description.type.text + '`\n\n';
+			detail = 'Type: ' + attribute.type.value.text + '';
+		}
 		let insertText = '';
 		if (activationInfo.lastToken && activationInfo.lastToken.text != "'" && activationInfo.nextToken && activationInfo.nextToken.text !== "'" && activationInfo.lastToken.text != '"' && activationInfo.nextToken && activationInfo.nextToken.text !== '"') {
 			insertText = '\'v.' + attribute.name.value.text + '\'';
@@ -164,9 +177,25 @@ function getAttributesCompletionItems(position, activationInfo, component) {
 		} else {
 			insertText = 'v.' + attribute.name.value.text;
 		}
-		const options = ProviderUtils.getCompletionItemOptions(detail, doc, insertText, true, CompletionItemKind.Field);
+		let htmlCodeBlock = '<aura:attribute ';
+		if (attribute.name)
+			htmlCodeBlock += attribute.name.name.text + '="' + attribute.name.value.text + '" ';
+		if (attribute.type)
+			htmlCodeBlock += attribute.type.name.text + '="' + attribute.type.value.text + '" ';
+		if (attribute.default)
+			htmlCodeBlock += attribute.default.name.text + '="' + attribute.default.value.text + '" ';
+		if (attribute.access)
+			htmlCodeBlock += attribute.access.name.text + '="' + attribute.access.value.text + '" ';
+		if (attribute.description)
+			htmlCodeBlock += attribute.description.name.text + '="' + attribute.description.value.text + '" ';
+		htmlCodeBlock += '/>';
+		const documentation = new MarkDownStringBuilder().appendMarkdown(doc).appendHTMLCodeBlock(htmlCodeBlock);
+		documentation.appendMarkdownSeparator();
+		documentation.appendMarkdownH4('Snippet');
+		documentation.appendJSCodeBlock(insertText);
+		const options = ProviderUtils.getCompletionItemOptions(detail, documentation.build(), insertText, true, CompletionItemKind.Field);
 		const item = ProviderUtils.createItemForCompletion('v.' + attribute.name.value.text, options);
-		if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+		if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
 			item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
 		items.push(item);
 	}
@@ -179,18 +208,51 @@ function getApexControllerFunctions(position, activationInfo, component) {
 	for (const methodName of Object.keys(component.apexFunctions)) {
 		const method = component.apexFunctions[methodName];
 		if (method.annotation && method.annotation.name == '@AuraEnabled') {
-			let detail = '';
-			let doc = '';
-			/*if (method.comment) {
-				item.detail = method.comment.description + '\n';
-				for (const commentParam of method.comment.params) {
-					item.detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
-				}
+			const documentation = new MarkDownStringBuilder();
+			documentation.appendApexCodeBlock(method.signature);
+			if (method.comment) {
+				if (method.comment.description && method.comment.description.length > 0)
+					documentation.appendMarkdown(method.comment.description + '\n\n');
 			}
-			else {*/
-			detail = method.signature;
-			//}
-			doc = "Apex Controller Function";
+			const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
+			const paramsTagData = tagsData['params'];
+			if (Utils.hasKeys(method.params)) {
+				documentation.appendMarkdownH4('Params');
+				for (const param of method.getOrderedParams()) {
+					const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
+					let paramDesc = '  - *' + param.name + '* `' + datatype + '`';
+					if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
+						for (const data of paramsTagData.tagData) {
+							if (data.keywords) {
+								for (const keyword of paramsTagData.tag.keywords) {
+									if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+										paramDesc += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
+									}
+								}
+							}
+						}
+					}
+					documentation.appendMarkdown(paramDesc + '  \n');
+				}
+				documentation.appendMarkdown('\n');
+			}
+			if (method.datatype && method.datatype.name !== 'void') {
+				let returnDesc = '**Return**  `' + method.datatype.name + '`';
+				const returnTagData = tagsData['return'];
+				if (returnTagData && returnTagData.tag && returnTagData.tagData && returnTagData.tagName) {
+					for (const data of returnTagData.tagData) {
+						if (data.keywords) {
+							for (const keyword of returnTagData.tag.keywords) {
+								if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+									returnDesc += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
+								}
+							}
+						}
+					}
+					documentation.appendMarkdown(returnDesc + '  \n');
+				}
+				documentation.appendMarkdown('\n');
+			}
 			let insertText = '';
 			if (activationInfo.lastToken && activationInfo.lastToken.text != "'" && activationInfo.nextToken && activationInfo.nextToken.text !== "'" && activationInfo.lastToken.text != '"' && activationInfo.nextToken && activationInfo.nextToken.text !== '"') {
 				insertText = '\'c.' + method.name + '\'';
@@ -201,20 +263,25 @@ function getApexControllerFunctions(position, activationInfo, component) {
 			} else {
 				insertText = 'c.' + method.name;
 			}
-
-			const options = ProviderUtils.getCompletionItemOptions(detail, doc, insertText, true, CompletionItemKind.Method);
+			documentation.appendMarkdownSeparator();
+			documentation.appendMarkdownH4('Snippet');
+			documentation.appendJSCodeBlock(insertText);
+			const options = ProviderUtils.getCompletionItemOptions(method.datatype.name, documentation.build(), insertText, true, CompletionItemKind.Method);
 			const item = ProviderUtils.createItemForCompletion('c.' + method.name, options);
-			if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+			if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
 				item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
 			items.push(item);
 			if (method.params && Utils.hasKeys(method.params)) {
 				const snippet = SnippetUtils.getJSApexParamsSnippet(activationInfo, method);
-				const detail = "Get " + method.name + " parameters json object";
-				let doc = "Return JSON Object with method params\n\n";
-				doc += '\t' + StrUtils.replace(snippet, '\n', '\n\t');
-				const options = ProviderUtils.getCompletionItemOptions(detail, doc, new SnippetString(snippet), true, CompletionItemKind.Variable);
+				const detail = method.name + " Parameters JSON";
+				const paramDoc = new MarkDownStringBuilder();
+				paramDoc.appendMarkdown("Return JSON Object with method params and comments with value datatypes\n\n");
+				paramDoc.appendMarkdownSeparator();
+				paramDoc.appendMarkdownH4('Snippet');
+				paramDoc.appendJSCodeBlock(snippet);
+				const options = ProviderUtils.getCompletionItemOptions(detail, paramDoc.build(), new SnippetString(snippet), true, CompletionItemKind.Variable);
 				const itemParam = ProviderUtils.createItemForCompletion('c.' + method.name + '.params', options);
-				if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+				if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
 					itemParam.range = new Range(new Position(position.line, activationInfo.startColumn), position);
 				items.push(itemParam);
 			}
@@ -227,20 +294,32 @@ function getApexControllerFunctions(position, activationInfo, component) {
 function getHelperFunctions(position, activationInfo, component) {
 	let items = [];
 	for (const func of component.helperFunctions) {
-		/*if (func.comment) {
-			item.detail = func.comment.description + '\n';
-			for (const commentParam of func.comment.params) {
-				item.detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
+		let detail = "Aura Helper Function";
+		const documentation = new MarkDownStringBuilder();
+		documentation.appendJSCodeBlock(func.auraSignature);
+		if (func.comment) {
+			documentation.appendMarkdown(func.comment.description + '\n\n');
+			for (let i = 0; i < func.params.length; i++) {
+				const param = func.params[i];
+				const commentData = func.comment.params[param.text];
+				if (commentData) {
+					documentation.appendMarkdown('  - *@param* ');
+					documentation.appendMarkdown('`' + param.text + '` &mdash; ' + commentData.description + '  ');
+					if (i < func.params.length - 1)
+						documentation.appendMarkdown('\n');
+				}
 			}
+		} else {
+			documentation.appendMarkdown(detail + '\n');
 		}
-		else {
-			item.detail = "Aura Helper Function";
-		}*/
-		let detail = func.auraSignature;
-		let doc = 'Apex Controller Function';
-		const options = ProviderUtils.getCompletionItemOptions(detail, doc, new SnippetString(getFunctionSnippet(func)), true, CompletionItemKind.Method);
+		documentation.appendMarkdown('\n');
+		const snippet = getFunctionSnippet(func);
+		documentation.appendMarkdownSeparator();
+		documentation.appendMarkdownH4('Snippet');
+		documentation.appendJSCodeBlock(snippet);
+		const options = ProviderUtils.getCompletionItemOptions(detail, documentation.build(), new SnippetString(snippet), true, CompletionItemKind.Method);
 		const item = ProviderUtils.createItemForCompletion('helper.' + func.name, options);
-		if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+		if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
 			item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
 		items.push(item);
 	}

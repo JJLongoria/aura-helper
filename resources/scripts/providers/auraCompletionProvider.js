@@ -13,6 +13,7 @@ const { AuraNodeTypes } = require('@aurahelper/core').Values;
 const { Utils } = require('@aurahelper/core').CoreUtils;
 const SnippetString = vscode.SnippetString;
 const CompletionItemKind = vscode.CompletionItemKind;
+const MarkDownStringBuilder = require('../output/markdownStringBuilder');
 const auraIdAttribute = new AuraAttribute();
 auraIdAttribute.name = {
     name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, 'name', new Position(0, 0), new Position(0, 'name'.length)),
@@ -92,18 +93,18 @@ function provideAuraComponentCompletion(document, position) {
             return [];
         if (!component.positionData.isOnAttributeValue) {
             // Code for completions when position is on attribute value (position to put attributes) <ns:componentName attr="value" [thispos] attr="value">
-            items = getBaseComponentsAttributesCompletionItems(position, activationInfo, component);
+            items = getComponentsAttributesCompletionItems(position, activationInfo, component);
         } else if (component.positionData.isOnAttributeValue) {
             // Code for completions when position is on attribute param value and value is empty <ns:componentName attr="[thispos]" attr="value">
             items = getAttributeTypesCompletionItems(position, activationInfo, activationTokens, component);
         } else if (activationTokens.length > 1) {
-            items = ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, component.positionData);
+            items = ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, component.positionData);
         } else {
             items = ProviderUtils.getAllAvailableCompletionItems(position, activationInfo);
         }
     } else if (activationTokens.length > 1) {
         // Code for completions when position is on empty line or withot components
-        items = ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, component.positionData);
+        items = ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, component.positionData);
 
     } else if (activationTokens.length > 0) {
         // Code for completions when position is on empty line or withot components
@@ -115,9 +116,13 @@ function provideAuraComponentCompletion(document, position) {
 function getSnippetsCompletionItems(position, activationInfo, snippets) {
     const items = [];
     for (const snippet of snippets) {
-        const options = ProviderUtils.getCompletionItemOptions(snippet.name + '\n' + snippet.description, snippet.body.join('\n'), new SnippetString(snippet.body.join('\n')), true, CompletionItemKind.Snippet);
+        const documentation = new MarkDownStringBuilder().appendMarkdown(snippet.description + '\n\n');
+        documentation.appendMarkdownSeparator();
+        documentation.appendMarkdownH4('Snippet');
+        documentation.appendHTMLCodeBlock(snippet.body.join('\n'));
+        const options = ProviderUtils.getCompletionItemOptions(snippet.name, documentation.build(), new SnippetString(snippet.body.join('\n')), true, CompletionItemKind.Snippet);
         const item = ProviderUtils.createItemForCompletion(snippet.prefix, options);
-        if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+        if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
             item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
         items.push(item);
     }
@@ -130,14 +135,19 @@ function getLabelsCompletionItems(position, activationInfo, activationTokens) {
     if (activationTokens.length == 1 || activationTokens.length == 2) {
         let labels = ProviderUtils.getCustomLabels();
         for (const label of labels) {
-            let doc = '  - **Name**: ' + label.fullName + '\n';
-            doc += '  - **Value**: ' + label.value + '\n';
-            doc += '  - **Category**: ' + label.categories + '\n';
-            doc += '  - **Language**: ' + label.language + '\n';
-            doc += '  - **Protected**: ' + label.protected;
-            const options = ProviderUtils.getCompletionItemOptions(label.shortDescription, doc, '{!$Label.' + orgNamespace + '.' + label.fullName + '}', true, CompletionItemKind.Field);
+            const documentation = new MarkDownStringBuilder()
+            documentation.appendMarkdown(label.shortDescription + '\n\n');
+            documentation.appendMarkdown('\n\n  - **Name**: `' + label.fullName + '`\n');
+            documentation.appendMarkdown('  - **Value**: `' + label.value + '`\n');
+            documentation.appendMarkdown('  - **Category**: `' + label.categories + '`\n');
+            documentation.appendMarkdown('  - **Language**: `' + label.language + '`\n');
+            documentation.appendMarkdown('  - **Protected**: `' + label.protected + '`\n\n');
+            documentation.appendMarkdownSeparator();
+            documentation.appendMarkdownH4('Snippet');
+            documentation.appendHTMLCodeBlock('{!$Label.' + orgNamespace + '.' + label.fullName + '}');
+            const options = ProviderUtils.getCompletionItemOptions(label.fullName, documentation.build(), '{!$Label.' + orgNamespace + '.' + label.fullName + '}', true, CompletionItemKind.Field);
             const item = ProviderUtils.createItemForCompletion('label.' + label.fullName, options);
-            if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+            if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                 item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
             items.push(item);
         }
@@ -185,11 +195,13 @@ function getAttributesCompletionItems(position, activationInfo, component) {
     const items = [];
     for (const attribute of component.attributes) {
         let detail;
-        let doc;
-        if (attribute.type && attribute.type.value.text)
-            detail = 'Type: ' + attribute.type.value.text;
+        let doc = '';
         if (attribute.description && attribute.description.value.text)
-            doc = attribute.description.value.text;
+            doc += attribute.description.value.text + '\n\n';
+        if (attribute.type && attribute.type.value.text) {
+            doc += 'Type: `' + attribute.description.type.text + '`\n\n';
+            detail = 'Type: ' + attribute.type.value.text + '';
+        }
         let insertText = '';
         if (!activationInfo.twoLastToken || (activationInfo.twoLastToken && activationInfo.twoLastToken.text != '{')) {
             insertText += '{';
@@ -200,9 +212,25 @@ function getAttributesCompletionItems(position, activationInfo, component) {
         insertText += 'v.' + attribute.name.value.text;
         if (!activationInfo.nextToken || (activationInfo.nextToken && activationInfo.nextToken.text != '}'))
             insertText += '}';
-        const options = ProviderUtils.getCompletionItemOptions(detail, doc, insertText, true, CompletionItemKind.Field);
+        let htmlCodeBlock = '<aura:attribute ';
+        if (attribute.name)
+            htmlCodeBlock += attribute.name.name.text + '="' + attribute.name.value.text + '" ';
+        if (attribute.type)
+            htmlCodeBlock += attribute.type.name.text + '="' + attribute.type.value.text + '" ';
+        if (attribute.default)
+            htmlCodeBlock += attribute.default.name.text + '="' + attribute.default.value.text + '" ';
+        if (attribute.access)
+            htmlCodeBlock += attribute.access.name.text + '="' + attribute.access.value.text + '" ';
+        if (attribute.description)
+            htmlCodeBlock += attribute.description.name.text + '="' + attribute.description.value.text + '" ';
+        htmlCodeBlock += '/>';
+        const documentation = new MarkDownStringBuilder().appendMarkdown(doc).appendHTMLCodeBlock(htmlCodeBlock);
+        documentation.appendMarkdownSeparator();
+        documentation.appendMarkdownH4('Snippet');
+        documentation.appendHTMLCodeBlock(insertText);
+        const options = ProviderUtils.getCompletionItemOptions(detail, documentation.build(), insertText, true, CompletionItemKind.Field);
         const item = ProviderUtils.createItemForCompletion('v.' + attribute.name.value.text, options);
-        if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+        if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
             item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
         items.push(item);
     }
@@ -213,16 +241,24 @@ function getAttributesCompletionItems(position, activationInfo, component) {
 function getControllerFunctionsCompletionItems(position, activationInfo, component) {
     const items = [];
     for (const func of component.controllerFunctions) {
-        let detail;
-        let doc;
+        let detail = "Aura Controller Function";
+        const documentation = new MarkDownStringBuilder();
+        documentation.appendJSCodeBlock(func.auraSignature);
         if (func.comment) {
-            detail = func.comment.description + '\n';
-            /*for (const commentParam of func.comment.params) {
-                detail += commentParam.name + ' (' + commentParam.type + '): ' + commentParam.description + ' \n';
-            }*/
-        }
-        else {
-            detail = "Aura Controller Function";
+            documentation.appendMarkdown(func.comment.description + '\n\n');
+            for (let i = 0; i < func.params.length; i++) {
+                const param = func.params[i];
+                const commentData = func.comment.params[param.text];
+                if (commentData) {
+                    documentation.appendMarkdown('  - *@param* ');
+                    documentation.appendMarkdown('`' + param.text + '` &mdash; ' + commentData.description + '  ');
+                    if (i < func.params.length - 1)
+                        documentation.appendMarkdown('\n');
+                }
+            }
+            documentation.appendMarkdown("\n");
+        } else {
+            documentation.appendMarkdown(detail + '\n\n');
         }
         let insertText = '';
         if (!activationInfo.twoLastToken || (activationInfo.twoLastToken && activationInfo.twoLastToken.text != '{')) {
@@ -234,10 +270,12 @@ function getControllerFunctionsCompletionItems(position, activationInfo, compone
         insertText += 'c.' + func.name;
         if (!activationInfo.nextToken || (activationInfo.nextToken && activationInfo.nextToken.text != '}'))
             insertText += '}';
-        doc = func.auraSignature;
-        const options = ProviderUtils.getCompletionItemOptions(detail, doc, insertText, true, CompletionItemKind.Function);
+        documentation.appendMarkdownSeparator();
+        documentation.appendMarkdownH4('Snippet');
+        documentation.appendHTMLCodeBlock(insertText);
+        const options = ProviderUtils.getCompletionItemOptions(detail, documentation.build(), insertText, true, CompletionItemKind.Function);
         const item = ProviderUtils.createItemForCompletion('c.' + func.name, options);
-        if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+        if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
             item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
         items.push(item);
     }
@@ -269,19 +307,19 @@ function getComponentsCompletionItems(position, document, activationInfo) {
 
         let name = (orgNamespace ? orgNamespace : 'c') + ':' + folder;
         let detail = '';
-        let documentation = '';
+        const documentation = new MarkDownStringBuilder();
         if (node.nodeType === AuraNodeTypes.COMPONENT) {
-            documentation = 'Aura Component ' + folder;
             detail = 'Aura Component';
         } else if (node.nodeType === AuraNodeTypes.APPLICATION && node.type && node.type.value.textToLower === 'component') {
-            documentation = 'Aura Component Event ' + folder;
             detail = 'Aura Component Event';
         } else if (node.nodeType === AuraNodeTypes.APPLICATION && node.type && node.type.value.textToLower === 'application') {
-            documentation = 'Aura Application Event ' + folder;
             detail = 'Aura Application Event';
         } else if (isApp) {
-            documentation = 'Aura Application ' + folder;
             detail = 'Aura Application';
+        }
+        documentation.appendMarkdown(detail + ' `' + folder + '`\n\n');
+        if (node.description) {
+            documentation.appendMarkdown(node.description.text + '\n\n');
         }
         let insertText = '';
         if (!activationInfo.lastToken || (activationInfo.lastToken && activationInfo.lastToken.text != '<' && activationInfo.lastToken.text != '"')) {
@@ -291,12 +329,29 @@ function getComponentsCompletionItems(position, document, activationInfo) {
         if (activationInfo.nextToken && activationInfo.nextToken.text != '"') {
             insertText += ' ';
         }
-        insertText += '$0';
+        insertText += ' $0';
         if (!activationInfo.nextToken)
             insertText += '/>';
-        const options = ProviderUtils.getCompletionItemOptions(detail, documentation, new SnippetString(insertText), true, CompletionItemKind.Module);
+        if (node.attributes && node.attributes.length > 0) {
+            documentation.appendMarkdown('#### Attributes\n\n');
+            for (const attribute of node.attributes) {
+                documentation.appendMarkdown('  - ');
+                if (attribute.name)
+                    documentation.appendMarkdown('*' + attribute.name.value.text + '* ');
+                if (attribute.type)
+                    documentation.appendMarkdown('`' + attribute.type.value.text + '` ');
+                if (attribute.description)
+                    documentation.appendMarkdown('&mdash; ' + attribute.description.value.text);
+                documentation.appendMarkdown('  \n');
+            }
+            documentation.appendMarkdown('\n');
+        }
+        documentation.appendMarkdownSeparator();
+        documentation.appendMarkdownH4('Snippet');
+        documentation.appendHTMLCodeBlock(insertText);
+        const options = ProviderUtils.getCompletionItemOptions(detail, documentation.build(), new SnippetString(insertText), true, CompletionItemKind.Module);
         const item = ProviderUtils.createItemForCompletion(name, options);
-        if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+        if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
             item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
         items.push(item);
     }
@@ -304,11 +359,18 @@ function getComponentsCompletionItems(position, document, activationInfo) {
     return items;
 }
 
-function getBaseComponentsAttributesCompletionItems(position, activationInfo, component) {
+function getComponentsAttributesCompletionItems(position, activationInfo, component) {
     let baseComponentsDetail = applicationContext.componentsDetail;
     let items = [];
     if (!component.positionData.tagData.attributes['aura:id'])
         items.push(getCodeCompletionItemAttribute(position, activationInfo, auraIdAttribute));
+    if (component.attributes) {
+        for (const attribute of component.attributes) {
+            if (attribute.name && !component.positionData.tagData.attributes[attribute.name.name.text]) {
+                items.push(getCodeCompletionItemAttribute(position, activationInfo, attribute));
+            }
+        }
+    }
     if (baseComponentsDetail.notRoot[component.namespace] && !baseComponentsDetail.notRoot[component.namespace].includes(component.name)) {
         for (const attribute of baseComponentsDetail['root']['component']) {
             const newAttribute = new AuraAttribute();
@@ -360,16 +422,24 @@ function getBaseComponentsAttributesCompletionItems(position, activationInfo, co
 
 function getCodeCompletionItemAttribute(position, activationInfo, attribute) {
     const detail = (attribute.type && attribute.type.value.text) ? ('Type: ' + attribute.type.value.text) : '';
-    const doc = (attribute.description && attribute.description.value.text) ? attribute.description.value.text : '';
     let insertText;
-    if (attribute.type && attribute.type.value.text === 'action') {
+    const documentation = new MarkDownStringBuilder();
+    if (attribute.description)
+        documentation.appendMarkdown(attribute.description.value.text + '\n\n');
+    if (attribute.type)
+        documentation.appendMarkdown('Type: `' + attribute.type.value.text + '`\n\n');
+    if (attribute.type && attribute.type.value.text === 'action')
         insertText = new SnippetString(attribute.name.value.text + '="${1:jsAction}" $0');
-    } else {
+    else if (attribute.type)
+        insertText = new SnippetString(attribute.name.value.text + '="${1:' + attribute.type.value.text + '}" $0');
+    else
         insertText = new SnippetString(attribute.name.value.text + '="$1" $0');
-    }
-    const options = ProviderUtils.getCompletionItemOptions(detail, doc, insertText, true, CompletionItemKind.Field);
+    documentation.appendMarkdownSeparator();
+    documentation.appendMarkdownH4('Snippet');
+    documentation.appendHTMLCodeBlock(insertText.value);
+    const options = ProviderUtils.getCompletionItemOptions(detail, documentation.build(), insertText, true, CompletionItemKind.Field);
     const item = ProviderUtils.createItemForCompletion(attribute.name.value.text, options);
-    if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
     return item;
 }
@@ -407,12 +477,12 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const dataType of baseComponentsDetail.datatypes) {
                 const options = ProviderUtils.getCompletionItemOptions("Attribute Datatype", '', dataType, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(dataType, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
             if (activationTokens.length > 1) {
-                items = items.concat(ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo));
+                items = items.concat(ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, component.positionData));
             } else {
                 items = items.concat(ProviderUtils.getAllAvailableCompletionItems(position, activationInfo));
             }
@@ -428,7 +498,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
                     continue;
                 const options = ProviderUtils.getCompletionItemOptions("SLDS " + size + " Size", undefined, size, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(size, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -436,7 +506,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const access of baseComponentsDetail.access) {
                 const options = ProviderUtils.getCompletionItemOptions("Attribute / Component access", undefined, access, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(access, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -444,7 +514,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const flexibility of baseComponentsDetail.flexibilities) {
                 const options = ProviderUtils.getCompletionItemOptions("Flexibility Value", undefined, flexibility, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(flexibility, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -452,7 +522,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const timeZoneName of baseComponentsDetail.timeZoneNames) {
                 const options = ProviderUtils.getCompletionItemOptions("Time Zone Style", undefined, timeZoneName, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(timeZoneName, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -460,7 +530,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const padding of baseComponentsDetail.paddings) {
                 const options = ProviderUtils.getCompletionItemOptions("Padding Value", undefined, padding, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(padding, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -468,7 +538,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const density of baseComponentsDetail.densities) {
                 const options = ProviderUtils.getCompletionItemOptions("Density Value", undefined, density, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(density, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -476,7 +546,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const severity of baseComponentsDetail.severities) {
                 const options = ProviderUtils.getCompletionItemOptions("Severity Value", undefined, severity, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(severity, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -484,7 +554,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const sort of baseComponentsDetail.sortValues) {
                 const options = ProviderUtils.getCompletionItemOptions("Sort Value", undefined, sort, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(sort, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -492,7 +562,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const boolValue of baseComponentsDetail.booleans) {
                 const options = ProviderUtils.getCompletionItemOptions("Boolean Value", undefined, boolValue, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(boolValue, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -500,7 +570,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const func of component.controllerFunctions) {
                 const options = ProviderUtils.getCompletionItemOptions("Aura Controller Function", func.auraSignature, '{!c.' + func.name + '}', true, CompletionItemKind.Function);
                 const item = ProviderUtils.createItemForCompletion(func.name, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -536,7 +606,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
                     continue;
                 const options = ProviderUtils.getCompletionItemOptions("Variant Value", undefined, variant, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(variant, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -548,7 +618,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
                     continue;
                 const options = ProviderUtils.getCompletionItemOptions("Button Type Value", undefined, type, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(type, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -571,7 +641,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
                     detail = "Icon Position Value";
                 const options = ProviderUtils.getCompletionItemOptions(detail, undefined, componentPosition, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(componentPosition, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -579,7 +649,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const type of baseComponentsDetail.dynamicIcons) {
                 const options = ProviderUtils.getCompletionItemOptions('Dynamic Icon Type', undefined, type, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(type, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -587,7 +657,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const format of baseComponentsDetail.nameFormats) {
                 const options = ProviderUtils.getCompletionItemOptions('Name Format', undefined, format, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(format, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -595,7 +665,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const style of baseComponentsDetail.numberStyles) {
                 const options = ProviderUtils.getCompletionItemOptions('Number Style', undefined, style, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(style, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -603,7 +673,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const display of baseComponentsDetail.currencyDisplays) {
                 const options = ProviderUtils.getCompletionItemOptions('Currency Display', undefined, display, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(display, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -611,7 +681,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const target of baseComponentsDetail.urlTargets) {
                 const options = ProviderUtils.getCompletionItemOptions('Target Value', undefined, target, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(target, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -619,7 +689,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const type of baseComponentsDetail.progressTypes) {
                 const options = ProviderUtils.getCompletionItemOptions('Progress Type Value', undefined, type, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(type, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -627,7 +697,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const type of baseComponentsDetail.inputTypes) {
                 const options = ProviderUtils.getCompletionItemOptions('Input Type Value', undefined, type, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(type, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -635,7 +705,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const componentPosition of baseComponentsDetail.positions) {
                 const options = ProviderUtils.getCompletionItemOptions('Component Position Value', undefined, componentPosition, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(componentPosition, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -643,7 +713,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const mode of baseComponentsDetail.recordModes) {
                 const options = ProviderUtils.getCompletionItemOptions('Record Mode', undefined, mode, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(mode, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -651,7 +721,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const feed of baseComponentsDetail.feedDesigns) {
                 const options = ProviderUtils.getCompletionItemOptions('Feed Design', undefined, feed, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(feed, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -659,7 +729,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const feed of baseComponentsDetail.feedTypes) {
                 const options = ProviderUtils.getCompletionItemOptions('Feed Type', undefined, feed, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(feed, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -667,7 +737,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const feed of baseComponentsDetail.fullFeedTypes) {
                 const options = ProviderUtils.getCompletionItemOptions('Full Feed Type', undefined, feed, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(feed, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
@@ -675,12 +745,12 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
             for (const ctx of baseComponentsDetail.publisherContexts) {
                 const options = ProviderUtils.getCompletionItemOptions('Publisher Context', undefined, ctx, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(ctx, options);
-                if (activationInfo.startColumn && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 items.push(item);
             }
         } else if (activationTokens.length > 1) {
-            items = items.concat(ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo));
+            items = items.concat(ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, component.positionData));
         } else {
             items = items.concat(ProviderUtils.getAllAvailableCompletionItems(position, activationInfo));
         }

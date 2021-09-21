@@ -4,77 +4,77 @@
         "body": [
             "<aura:attribute name=\"${1:name}\" type=\"${2:type}\" default=\"${3:defValue}\" access=\"${4:access}\" description=\"${5:description}\"/>"
         ],
-        "description": "Create Aura Attribute Code Unit (aura:attribute) [https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/components_attributes.htm]\n\nPowered by Aura Helper"
+        "description": "Create Aura Attribute Code Unit (aura:attribute) \n\n[Documentation](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/components_attributes.htm)"
     },
     "Aura Handler": {
         "prefix": "aura.handler",
         "body": [
             "<aura:handler name=\"${1:name}\" value=\"${2:value}\" action=\"{!c.${3:jsAction}}\" />"
         ],
-        "description": "Create Aura Handler Code Unit (aura:handler) [https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/events_component.htm]\n\nPowered by Aura Helper"
+        "description": "Create Aura Handler Code Unit (aura:handler) \n\n[Documentation](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/events_component.htm)"
     },
     "Aura Init Handler": {
         "prefix": "aura.initHandler",
         "body": [
             "<aura:handler name=\"init\" value=\"{!this}\" action=\"{!c.doInit}\" />"
         ],
-        "description": "Create Initialization Component Aura Handler Code Unit (aura:handler) [https://developer.salesforce.com/docs/component-library/bundle/aura:valueInit/documentation"
+        "description": "Create Initialization Component Aura Handler Code Unit (aura:handler) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/aura:valueInit/documentation"
     },
     "Aura Event Handler": {
         "prefix": "aura.eventHandler",
         "body": [
             "<aura:handler name=\"${1:name}\" event=\"c:${2:event}\" action=\"{!c.${3:jsAction}}\" />"
         ],
-        "description": "Create Aura Component Event Handler Code Unit (aura:handler) [https://developer.salesforce.com/docs/component-library/bundle/aura:componentEvent/specification]\n\nPowered by Aura Helper"
+        "description": "Create Aura Component Event Handler Code Unit (aura:handler) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/aura:componentEvent/specification)"
     },
     "Aura App Event Handler": {
         "prefix": "aura.appEventHandler",
         "body": [
             "<aura:handler event=\"c:${1:event}\" action=\"{!c.${2:jsAction}}\"/>"
         ],
-        "description": "Create Aura Application Event Handler Code Unit (aura:handler) [https://developer.salesforce.com/docs/component-library/bundle/aura:applicationEvent/specification]\n\nPowered by Aura Helper"
+        "description": "Create Aura Application Event Handler Code Unit (aura:handler) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/aura:applicationEvent/specification)"
     },
     "Aura Location Change Handler": {
         "prefix": "aura.onLocationChange",
         "body": [
             "<aura:handler event=\"aura:locationChange\" action=\"{!c.${1:jsAction}}\"/>"
         ],
-        "description": "Create Aura Location Change Handler Code Unit (aura:handler) [https://developer.salesforce.com/docs/component-library/bundle/aura:locationChange/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Aura Location Change Handler Code Unit (aura:handler) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/aura:locationChange/documentation)"
     },
     "Aura System Error Handler": {
         "prefix": "aura.onSystemError",
         "body": [
             "<aura:handler event=\"aura:systemError\" action=\"{!c.${1:jsAction}}\"/>"
         ],
-        "description": "Create Aura System Error Handler Code Unit (aura:handler) [https://developer.salesforce.com/docs/component-library/bundle/aura:systemError/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Aura System Error Handler Code Unit (aura:handler) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/aura:systemError/documentation)"
     },
     "Aura Value Changed Handler": {
         "prefix": "aura.onValueChanged",
         "body": [
             "<aura:handler name=\"change\" value=\"{!${2:value}}\" action=\"{!c.${3:jsAction}}\"/>"
         ],
-        "description": "Create Aura Value Changed Handler Code Unit (aura:handler) [https://developer.salesforce.com/docs/component-library/bundle/aura:valueChange/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Aura Value Changed Handler Code Unit (aura:handler) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/aura:valueChange/documentation)"
     },
     "Aura Destroy Handler": {
         "prefix": "aura.onDestroy",
         "body": [
             "<aura:handler name=\"destroy\" value=\"{!this}\" action=\"{!c.${1:jsAction}}\"/>"
         ],
-        "description": "Create Aura Component Destroy Handler Code Unit (aura:handler) [https://developer.salesforce.com/docs/component-library/bundle/aura:valueDestroy/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Aura Component Destroy Handler Code Unit (aura:handler) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/aura:valueDestroy/documentation)"
     },
     "Aura Render Handler": {
         "prefix": "aura.onRender",
         "body": [
             "<aura:handler name=\"render\" value=\"{!this}\" action=\"{!c.${1:jsAction}}\"/>"
         ],
-        "description": "Create Aura Component Render Handler Code Unit (aura:handler) [https://developer.salesforce.com/docs/component-library/bundle/aura:valueRender/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Aura Component Render Handler Code Unit (aura:handler) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/aura:valueRender/documentation)"
     },
     "Aura Register Event": {
         "prefix": "aura.registerEvent",
         "body": [
             "<aura:registerEvent name=\"${1:name}\" type=\"c:${2:type}\" />"
         ],
-        "description": "Create Aura Event Registration Code Unit (aura:registerEvent) [https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/events_component_fire.htm]\n\nPowered by Aura Helper"
+        "description": "Create Aura Event Registration Code Unit (aura:registerEvent) \n\n[Documentation](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/events_component_fire.htm)"
     },
     "Aura Render If": {
         "prefix": "aura.renderIf",
@@ -86,7 +86,7 @@
             "\t</aura:set>",
             "</aura:renderIf>"
         ],
-        "description": "Create Aura Render If Code Unit (aura:renderIf) [https://developer.salesforce.com/docs/component-library/bundle/aura:renderIf/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Aura Render If Code Unit (aura:renderIf) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/aura:renderIf/documentation)"
     },
     "Aura If": {
         "prefix": "aura.if",
@@ -98,7 +98,7 @@
             "\t</aura:set>",
             "</aura:if>"
         ],
-        "description": "Create Aura If Code Unit (aura:if) [https://developer.salesforce.com/docs/component-library/bundle/aura:if/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Aura If Code Unit (aura:if) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/aura:if/documentation)"
     },
     "Aura Iteration": {
         "prefix": "aura.iteration",
@@ -107,7 +107,7 @@
             "\t${0:<!-- Code for repeat -->}",
             "</aura:iteration>"
         ],
-        "description": "Create Aura Iteration Code Unit (aura:iteration) [https://developer.salesforce.com/docs/component-library/bundle/aura:iteration/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Aura Iteration Code Unit (aura:iteration) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/aura:iteration/documentation)"
     },
 
 
@@ -118,28 +118,28 @@
         "body": [
             "<ltng:require styles=\"${1:cssStyle}\">"
         ],
-        "description": "Create ltng Required Code Unit for CSS Styles (ltng:require) [https://developer.salesforce.com/docs/component-library/bundle/ltng:require/documentation]\n\nPowered by Aura Helper"
+        "description": "Create ltng Required Code Unit for CSS Styles (ltng:require) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ltng:require/documentation)"
     },
     "Lightning Script": {
         "prefix": "ltng.script",
         "body": [
             "<ltng:require script=\"${1:cssStyle}\">"
         ],
-        "description": "Create ltng Required Code Unit for load scripts (ltng:require) [https://developer.salesforce.com/docs/component-library/bundle/ltng:require/documentation]\n\nPowered by Aura Helper"
+        "description": "Create ltng Required Code Unit for load scripts (ltng:require) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ltng:require/documentation)"
     },
     "Lightning Style After Load": {
         "prefix": "ltng.styleAfterLoad",
         "body": [
             "<ltng:require styles=\"${1:cssStyle}\">"
         ],
-        "description": "Create ltng Required Code Unit for CSS Styles with afterScriptsLoaded attribute (ltng:require) [https://developer.salesforce.com/docs/component-library/bundle/ltng:require/documentation]\n\nPowered by Aura Helper"
+        "description": "Create ltng Required Code Unit for CSS Styles with afterScriptsLoaded attribute (ltng:require) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ltng:require/documentation)"
     },
     "Lightning Script After Load": {
         "prefix": "ltng.scriptAfterLoad",
         "body": [
             "<ltng:require script=\"${1:cssStyle}\" afterScriptsLoaded=\"{!c.${2:jsAction}}\">"
         ],
-        "description": "Create ltng Required Code Unit for load scripts with afterScriptsLoaded attribute (ltng:require) [https://developer.salesforce.com/docs/component-library/bundle/ltng:require/documentation]\n\nPowered by Aura Helper"
+        "description": "Create ltng Required Code Unit for load scripts with afterScriptsLoaded attribute (ltng:require) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ltng:require/documentation)"
     },
 
 
@@ -151,84 +151,84 @@
         "body": [
             "<force:recordView recordId=\"{!${1:recordId}}\" />"
         ],
-        "description": "Create Force Record View Code Unit (force:recordView) [https://developer.salesforce.com/docs/component-library/bundle/force:recordView/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Record View Code Unit (force:recordView) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/force:recordView/documentation)"
     },
     "Force Record Edit": {
         "prefix": "force.recordEdit",
         "body": [
             "<force:recordEdit aura:id=\"${1:auraId}\" recordId=\"{!${2:recordId}}\"/>"
         ],
-        "description": "Create Force Record Edit Code Unit (force:recordEdit) [https://developer.salesforce.com/docs/component-library/bundle/force:recordEdit/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Record Edit Code Unit (force:recordEdit) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/force:recordEdit/documentation)"
     },
     "Force Record Data": {
         "prefix": "force.recordData",
         "body": [
             "<force:recordData aura:id=\"${1:auraId}\" recordId=\"{!${2:recordId}}\" fields=\"${3:fields}\" targetFields=\"${4:targetFields}\" targetError=\"${5:targetError}\"/>"
         ],
-        "description": "Create Force Record Data Code Unit (force:recordData) [https://developer.salesforce.com/docs/component-library/bundle/force:recordData/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Record Data Code Unit (force:recordData) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/force:recordData/documentation)"
     },
     "Force Output Field": {
         "prefix": "force.outputField",
         "body": [
             "<force:outputField value=\"{!${1:field}}\"/>"
         ],
-        "description": "Create Force Output Field Code Unit (force:outputField) [https://developer.salesforce.com/docs/component-library/bundle/force:outputField/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Output Field Code Unit (force:outputField) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/force:outputField/documentation)"
     },
     "Force Input Field": {
         "prefix": "force.inputField",
         "body": [
             "<force:inputField value=\"{!${1:field}}\"/>"
         ],
-        "description": "Create Force Input Field Code Unit (force:inputField) [https://developer.salesforce.com/docs/component-library/bundle/force:inputField/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Input Field Code Unit (force:inputField) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/force:inputField/documentation)"
     },
     "Force Canvas App": {
         "prefix": "force.canvasApp",
         "body": [
             "<force:canvasApp developerName=\"${1:devName}\" namespacePrefix=\"${2:nsPrefix}\"/>"
         ],
-        "description": "Create Force Canvas App Code Unit (force:canvasApp) [https://developer.salesforce.com/docs/component-library/bundle/force:canvasApp/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Canvas App Code Unit (force:canvasApp) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/force:canvasApp/documentation)"
     },
     "Force Chatter Feed": {
         "prefix": "forceChatter.feed",
         "body": [
             "<forceChatter:feed type=\"${1:type}\"/>"
         ],
-        "description": "Create Force Chatter Feed Code Unit (forceChatter:feed) [https://developer.salesforce.com/docs/component-library/bundle/forceChatter:feed/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Chatter Feed Code Unit (forceChatter:feed) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/forceChatter:feed/documentation)"
     },
     "Force Chatter Publisher": {
         "prefix": "forceChatter.publisher",
         "body": [
             "<forceChatter:publisher context=\"${1:context}\"/>"
         ],
-        "description": "Create Force Chatter Publisher Code Unit (forceChatter:publisher) [https://developer.salesforce.com/docs/component-library/bundle/forceChatter:publisher/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Chatter Publisher Code Unit (forceChatter:publisher) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/forceChatter:publisher/documentation)"
     },
     "Force Community App Launcher": {
         "prefix": "forceCommunity.appLauncher",
         "body": [
             "<forceCommunity:appLauncher/>"
         ],
-        "description": "Create Force Community App Launcher Code Unit (forceCommunity:appLauncher) [https://developer.salesforce.com/docs/component-library/bundle/forceCommunity:appLauncher/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Community App Launcher Code Unit (forceCommunity:appLauncher) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/forceCommunity:appLauncher/documentation)"
     },
     "Force Community Notifications": {
         "prefix": "forceCommunity.notifications",
         "body": [
             "<forceCommunity:notifications/>"
         ],
-        "description": "Create Force Community Notifications Code Unit (forceCommunity:notifications) [https://developer.salesforce.com/docs/component-library/bundle/forceCommunity:notifications/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Community Notifications Code Unit (forceCommunity:notifications) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/forceCommunity:notifications/documentation)"
     },
     "Force Community Route Link": {
         "prefix": "forceCommunity.routeLink",
         "body": [
             "<forceCommunity:routeLink id=\"{!${1:id}}\" class=\"{!${2:cssClass}}\" title=\"${3:title}\" label=\"${4:label}\" routeInput=\"{!${5:routeInput}}\" onClick=\"{!c.${6:jsAction}}\"/>"
         ],
-        "description": "Create Force Community Route Link Code Unit (forceCommunity:routeLink) [https://developer.salesforce.com/docs/component-library/bundle/forceCommunity:routeLink/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Community Route Link Code Unit (forceCommunity:routeLink) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/forceCommunity:routeLink/documentation)"
     },
     "Force Community Wave Dashboard": {
         "prefix": "forceCommunity.waveDashboard",
         "body": [
             "<forceCommunity:waveDashboard dashboardId=\"{!${1:dashboardId}}\"/>"
         ],
-        "description": "Create Force Community Wave Dashboard Code Unit (forceCommunity:waveDashboard) [https://developer.salesforce.com/docs/component-library/bundle/forceCommunity:waveDashboard/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Force Community Wave Dashboard Code Unit (forceCommunity:waveDashboard) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/forceCommunity:waveDashboard/documentation)"
     },
 
 
@@ -240,7 +240,7 @@
             "\t$0",
             "</lightning:accordion>"
         ],
-        "description": "Create Lightning Accordion Code Unit (lightning:accordion) [https://developer.salesforce.com/docs/component-library/bundle/lightning:accordion/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Accordion Code Unit (lightning:accordion) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:accordion/documentation)"
     },
     "Lightning Accordion Section": {
         "prefix": [
@@ -257,14 +257,14 @@
             "\t</aura:set>",
             "</lightning:accordionSection>"
         ],
-        "description": "Create Lightning Accordion Section Code Unit (lightning:accordionSection) [https://developer.salesforce.com/docs/component-library/bundle/lightning:accordionSection/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Accordion Section Code Unit (lightning:accordionSection) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:accordionSection/documentation)"
     },
     "Lightning Avatar": {
         "prefix": "ltn.avatar",
         "body": [
             "<lightning:avatar src=\"${1:imgSource}\" initials=\"${2:initials}\" fallbackIconName=\"${3:iconName}\" alternativeText=\"${4:altText}\"/>"
         ],
-        "description": "Create Lightning Avatar Code Unit (lightning:avatar) [https://developer.salesforce.com/docs/component-library/bundle/lightning:avatar/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Avatar Code Unit (lightning:avatar) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:avatar/documentation)"
     },
     "Lightning Breadcrums Section": {
         "prefix": "ltn.breadcrumbs",
@@ -273,49 +273,49 @@
             "\t$0",
             "</lightning:breadcrumbs>"
         ],
-        "description": "Create Lightning Breadcrums Section Code Unit (lightning:breadcrumbs) [https://developer.salesforce.com/docs/component-library/bundle/lightning:breadcrumbs/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Breadcrums Section Code Unit (lightning:breadcrumbs) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:breadcrumbs/documentation)"
     },
     "Lightning Breadcrum": {
         "prefix": "ltn.breadcrumb",
         "body": [
             "<lightning:breadcrumb label=\"${1:label}\" href=\"${2:path}\"/>"
         ],
-        "description": "Create Lightning Breadcrum Code Unit (lightning:breadcrumb) [https://developer.salesforce.com/docs/component-library/bundle/lightning:breadcrumb/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Breadcrum Code Unit (lightning:breadcrumb) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:breadcrumb/documentation)"
     },
     "Lightning Button": {
         "prefix": "ltn.button",
         "body": [
             "<lightning:button variant=\"${1:variant}\" label=\"${2:label}\" title=\"${3:title}\" onclick=\"{!c.${4:jsAction}}\" />"
         ],
-        "description": "Create Lightning Button Code Unit (lightning:button) [https://developer.salesforce.com/docs/component-library/bundle/lightning:button/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Button Code Unit (lightning:button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:button/documentation)"
     },
     "Lightning Button Brand": {
         "prefix": "ltn.buttonBrand",
         "body": [
             "<lightning:button variant=\"brand\" label=\"${1:label}\" title=\"${2:title}\" onclick=\"{!c.${3:jsAction}}\" />"
         ],
-        "description": "Create Lightning Button Brand Code Unit (lightning:button) [https://developer.salesforce.com/docs/component-library/bundle/lightning:button/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Button Brand Code Unit (lightning:button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:button/documentation)"
     },
     "Lightning Button Neutral": {
         "prefix": "ltn.buttonNeutral",
         "body": [
             "<lightning:button label=\"${1:label}\" title=\"${2:title}\" onclick=\"{!c.${3:jsAction}}\" />"
         ],
-        "description": "Create Lightning Button Neutral Code Unit (lightning:button) [https://developer.salesforce.com/docs/component-library/bundle/lightning:button/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Button Neutral Code Unit (lightning:button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:button/documentation)"
     },
     "Lightning Button Destructive": {
         "prefix": "ltn.buttonDestructive",
         "body": [
             "<lightning:button variant=\"destructive\" label=\"${1:label}\" title=\"${2:title}\" onclick=\"{!c.${3:jsAction}}\" />"
         ],
-        "description": "Create Lightning Button Destructive Code Unit (lightning:button) [https://developer.salesforce.com/docs/component-library/bundle/lightning:button/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Button Destructive Code Unit (lightning:button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:button/documentation)"
     },
     "Lightning Button Success": {
         "prefix": "ltn.buttonSuccess",
         "body": [
             "<lightning:button variant=\"success\" label=\"${1:label}\" title=\"${2:title}\" onclick=\"{!c.${3:jsAction}}\" />"
         ],
-        "description": "Create Lightning Button Success Code Unit (lightning:button) [https://developer.salesforce.com/docs/component-library/bundle/lightning:button/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Button Success Code Unit (lightning:button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:button/documentation)"
     },
     "Lightning Button Group": {
         "prefix": [
@@ -327,21 +327,21 @@
             "\t${0:<!-- Put your buttons here -->}",
             "</lightning:buttonGroup>"
         ],
-        "description": "Create Lightning Button Group Code Unit (lightning:buttonGroup) [https://developer.salesforce.com/docs/component-library/bundle/lightning:buttonGroup/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Button Group Code Unit (lightning:buttonGroup) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:buttonGroup/documentation)"
     },
     "Lightning Button Icon": {
         "prefix": "ltn.buttonIcon",
         "body": [
             "<lightning:buttonIcon iconName=\"${1:iconName}\" variant=\"${2:variant}\" onclick=\"{!c.${3:jsAction}}\" alternativeText=${4:altText}/>"
         ],
-        "description": "Create Lightning Button Icon Code Unit (lightning:buttonIcon) [https://developer.salesforce.com/docs/component-library/bundle/lightning:buttonIcon/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Button Icon Code Unit (lightning:buttonIcon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:buttonIcon/documentation)"
     },
     "Lightning Button Icon Stateful": {
         "prefix": "ltn.buttonIconStateful",
         "body": [
             "<lightning:buttonIconStateful iconName=\"${1:iconName}\" selected=\"{!${2:selected}}\" onclick=\"{!c.${3:jsAction}}\" alternativeText=${4:altText} />"
         ],
-        "description": "Create Lightning Button Icon Stateful Code Unit (lightning:buttonIconStateful) [https://developer.salesforce.com/docs/component-library/bundle/lightning:buttonIconStateful/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Button Icon Stateful Code Unit (lightning:buttonIconStateful) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:buttonIconStateful/documentation)"
     },
     "Lightning Button Menu": {
         "prefix": "ltn.buttonMenu",
@@ -350,14 +350,14 @@
             "\t${0:<!-- Put your menu items here (lightning:menuItem) -->}",
             "</lightning:buttonMenu>"
         ],
-        "description": "Create Lightning Button Menu Code Unit (lightning:buttonMenu) [https://developer.salesforce.com/docs/component-library/bundle/lightning:buttonMenu/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Button Menu Code Unit (lightning:buttonMenu) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:buttonMenu/documentation)"
     },
     "Lightning Button Stateful": {
         "prefix": "ltn.buttonStateful",
         "body": [
             "<lightning:buttonStateful labelWhenOff=\"${1:labelOff}\" labelWhenOn=\"${2:labelOn}\" labelWhenHover=\"${3:labelHover}\" iconNameWhenOff=\"${4:iconOff}\" iconNameWhenOn=\"${5:iconCheck}\" iconNameWhenHover=\"${6:iconHover}\" state=\"{!c.${7:jsAction}}\" onclick=\"{!c.${8:jsAction}}\"/>"
         ],
-        "description": "Create Lightning Button Stateful Code Unit (lightning:buttonStateful) [https://developer.salesforce.com/docs/component-library/bundle/lightning:buttonStateful/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Button Stateful Code Unit (lightning:buttonStateful) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:buttonStateful/documentation)"
     },
     "Lightning Card": {
         "prefix": "ltn.card",
@@ -368,7 +368,7 @@
             "\t${0:<!-- Put your card body here -->}",
             "</lightning:card>"
         ],
-        "description": "Create Lightning Card Code Unit (lightning:card) [https://developer.salesforce.com/docs/component-library/bundle/lightning:card/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Card Code Unit (lightning:card) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:card/documentation)"
     },
     "Lightning Carousel": {
         "prefix": "ltn.carousel",
@@ -377,14 +377,14 @@
             "\t${0:<!-- Put your Carousel images here (lightning:carouselImage) -->}",
             "</lightning:card>"
         ],
-        "description": "Create Lightning Carousel Code Unit (lightning:carousel) [https://developer.salesforce.com/docs/component-library/bundle/lightning:carousel/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Carousel Code Unit (lightning:carousel) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:carousel/documentation)"
     },
     "Lightning Carousel Image": {
         "prefix": "ltn.carouselImage",
         "body": [
             "<lightning:carouselImage src=\"${1:imageSource}\" header=\"${2:imageHeader}\" description=\"${3:imageDesc}\" alternativeText=\"${4:altText}\" href =\"${5:link}\">"
         ],
-        "description": "Create Lightning Carousel Image Code Unit (lightning:carouselImage) [https://developer.salesforce.com/docs/component-library/bundle/lightning:carouselImage/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Carousel Image Code Unit (lightning:carouselImage) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:carouselImage/documentation)"
     },
     "Lightning Checkbox Group": {
         "prefix": [
@@ -395,294 +395,294 @@
         "body": [
             "<lightning:checkboxGroup name=\"${1:groupName}\" label=\"${2:groupLabel}\" options=\"{!${3:options}}\" value=\"{!${4:value}}\" onchange=\"{!c.${5:jsAction}}\"/>"
         ],
-        "description": "Create Lightning Check Box Group Code Unit (lightning:checkboxGroup) [https://developer.salesforce.com/docs/component-library/bundle/lightning:checkboxGroup/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Check Box Group Code Unit (lightning:checkboxGroup) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:checkboxGroup/documentation)"
     },
     "Lightning Click to Deal Service": {
         "prefix": "ltn.clickToDialService",
         "body": [
             "<lightning:clickToDialService aura:id=\"${1:auraId}\"/>"
         ],
-        "description": "Create Lightning Click to Dial Service Code Unit (lightning:clickToDialService) [https://developer.salesforce.com/docs/component-library/bundle/lightning:clickToDialService/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Click to Dial Service Code Unit (lightning:clickToDialService) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:clickToDialService/documentation)"
     },
     "Lightning Click to Deal": {
         "prefix": "ltn.clickToDial",
         "body": [
             "<lightning:clickToDial value=\"${1:value}\" recordId=\"{!${2:recordId}}\" params=\"${3:parameters}\"/>"
         ],
-        "description": "Create Lightning Click to Dial Code Unit (lightning:clickToDial) [https://developer.salesforce.com/docs/component-library/bundle/lightning:clickToDial/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Click to Dial Code Unit (lightning:clickToDial) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:clickToDial/documentation)"
     },
     "Lightning Combobox": {
         "prefix": "ltn.combobox",
         "body": [
             "<lightning:combobox name=\"${1:name}\" label=\"${2:label}\" value=\"${3:startValue}\" placeholder=\"${4:placeholder}\" options=\"{!${5:value}}\" onchange=\"{!c.${6:jsAction}}\"/>"
         ],
-        "description": "Create Lightning Combobox Code Unit (lightning:combobox) [https://developer.salesforce.com/docs/component-library/bundle/lightning:combobox/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Combobox Code Unit (lightning:combobox) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:combobox/documentation)"
     },
     "Lightning Container": {
         "prefix": "ltn.container",
         "body": [
             "<lightning:container aura:id=\"${1:auraId}\" src=\"${2:contentSource}\" onmessage=\"{!c.${3:jsAction}}\" onerror=\"{!c.${4:jsAction}}\"/>"
         ],
-        "description": "Create Lightning Container Code Unit (lightning:container) [https://developer.salesforce.com/docs/component-library/bundle/lightning:container/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Container Code Unit (lightning:container) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:container/documentation)"
     },
     "Lightning Data Table": {
         "prefix": "ltn.datatable",
         "body": [
             "<lightning:datatable keyField=\"${1:keyField}\" data=\"{!${2:dataSet}}\" columns=\"{!${3:columns}}\" hideCheckboxColumn=\"${4:true}\"/>"
         ],
-        "description": "Create Lightning Data Table Code Unit (lightning:datatable) [https://developer.salesforce.com/docs/component-library/bundle/lightning:datatable/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Data Table Code Unit (lightning:datatable) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:datatable/documentation)"
     },
     "Lightning Dual List Box": {
         "prefix": "ltn.dualListBox",
         "body": [
             "<lightning:dualListbox name=\"${1:listName}\" label=\"${2:label}\" sourceLabel=\"${3:sourceLabel}\" selectedLabel=\"${4:selectedLabel}\" fieldLevelHelp=\"${5:help}\" options=\"{!${6:value}}\" onchange=\"{!c.${7:jsAction}}\"/>"
         ],
-        "description": "Create Lightning Dual List Box Code Unit (lightning:dualListbox) [https://developer.salesforce.com/docs/component-library/bundle/lightning:dualListbox/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Dual List Box Code Unit (lightning:dualListbox) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:dualListbox/documentation)"
     },
     "Lightning Dynamic Icon Ellie": {
         "prefix": "ltn.dynamicIconEllie",
         "body": [
             "<lightning:dynamicIcon type=\"ellie\" alternativeText=\"${1:altText}\"/>"
         ],
-        "description": "Create Lightning Dynamic Icon Ellie Type Code Unit (lightning:dynamicIcon) [https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Dynamic Icon Ellie Type Code Unit (lightning:dynamicIcon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation)"
     },
     "Lightning Dynamic Icon EQ": {
         "prefix": "ltn.dynamicIconEQ",
         "body": [
             "<lightning:dynamicIcon type=\"eq\" option=\"${1:playOrStop}\" alternativeText=\"${2:altText}\"/>"
         ],
-        "description": "Create Lightning Dynamic Icon EQ Type Code Unit (lightning:dynamicIcon) [https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Dynamic Icon EQ Type Code Unit (lightning:dynamicIcon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation)"
     },
     "Lightning Dynamic Icon Score": {
         "prefix": "ltn.dynamicIconScore",
         "body": [
             "<lightning:dynamicIcon type=\"score\" option=\"${1:positiveOrNegative}\" alternativeText=\"${2:altText}\"/>"
         ],
-        "description": "Create Lightning Dynamic Icon Score Type Code Unit (lightning:dynamicIcon) [https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Dynamic Icon Score Type Code Unit (lightning:dynamicIcon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation)"
     },
     "Lightning Dynamic Icon Strength": {
         "prefix": "ltn.dynamicIconStrength",
         "body": [
             "<lightning:dynamicIcon type=\"strength\" option=\"${1:value}\" alternativeText=\"${2:altText}\"/>"
         ],
-        "description": "Create Lightning Dynamic Icon Strength Type Code Unit (lightning:dynamicIcon) [https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Dynamic Icon Strength Type Code Unit (lightning:dynamicIcon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation)"
     },
     "Lightning Dynamic Icon Trend": {
         "prefix": "ltn.dynamicIconTrend",
         "body": [
             "<lightning:dynamicIcon type=\"trend\" option=\"${1:neutralUpOrDown}\" alternativeText=\"${2:altText}\"/>"
         ],
-        "description": "Create Lightning Dynamic Icon Trend Type Code Unit (lightning:dynamicIcon) [https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Dynamic Icon Trend Type Code Unit (lightning:dynamicIcon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation)"
     },
     "Lightning Dynamic Icon Waffle": {
         "prefix": "ltn.dynamicIconWaffle",
         "body": [
             "<lightning:dynamicIcon type=\"waffle\" alternativeText=\"${1:altText}\"/>"
         ],
-        "description": "Create Lightning Dynamic Icon Waffle Type Code Unit (lightning:dynamicIcon) [https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Dynamic Icon Waffle Type Code Unit (lightning:dynamicIcon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:dynamicIcon/documentation)"
     },
     "Lightning File Card": {
         "prefix": "ltn.fileCard",
         "body": [
             "<lightning:fileCard fileId=\"{!${1:fileId}}\" description=\"${1:description}\"/>"
         ],
-        "description": "Create Lightning File Card Code Unit (lightning:fileCard) [https://developer.salesforce.com/docs/component-library/bundle/lightning:fileCard/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning File Card Code Unit (lightning:fileCard) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:fileCard/documentation)"
     },
     "Lightning File Upload": {
         "prefix": "ltn.fileUpload",
         "body": [
             "<lightning:fileUpload name=\"${1:altText}\" label=\"${2:label}\" multiple=\"${3:false}\" accept=\"{!${4:extensionList}}\" disabled=\"${5:false}\" recordId=\"{!${6:recordId}}\" onuploadfinished=\"{!c.${7:jsAction}}\"/>"
         ],
-        "description": "Create Lightning File Upload Code Unit (lightning:fileUpload) [https://developer.salesforce.com/docs/component-library/bundle/lightning:fileUpload/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning File Upload Code Unit (lightning:fileUpload) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:fileUpload/documentation)"
     },
     "Lightning Flexi Page Region Info": {
         "prefix": "ltn.flexipageRegionInfo",
         "body": [
             "<lightning:flexipageRegionInfo width=\"{!${1:extensionList}}\"/>"
         ],
-        "description": "Create Lightning Flexi Page Region Info Code Unit (lightning:flexipageRegionInfo) [https://developer.salesforce.com/docs/component-library/bundle/lightning:flexipageRegionInfo/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Flexi Page Region Info Code Unit (lightning:flexipageRegionInfo) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:flexipageRegionInfo/documentation)"
     },
     "Lightning Flow": {
         "prefix": "ltn.flow",
         "body": [
             "<lightning:flow aura:id=\"${1:auraId}\" onstatuschange=\"{!c.${2:jsAction}}\"/>"
         ],
-        "description": "Create Lightning Flow Code Unit (lightning:flow) [https://developer.salesforce.com/docs/component-library/bundle/lightning:flow/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Flow Code Unit (lightning:flow) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:flow/documentation)"
     },
     "Lightning Formatted Address": {
         "prefix": "ltn.formattedAddress",
         "body": [
             "<lightning:formattedAddress street=\"{!${1:street}}\" city=\"{!${2:city}}\" country=\"{!${3:country}}\" province=\"{!${4:province}}\" postalCode=\"{!${5:postalCode}}\"/>"
         ],
-        "description": "Create Lightning Formatted Address Code Unit (lightning:formattedAddress) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedAddress/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Address Code Unit (lightning:formattedAddress) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedAddress/documentation)"
     },
     "Lightning Formatted Address Map": {
         "prefix": "ltn.formattedAddressMap",
         "body": [
             "<lightning:formattedAddress street=\"{!${1:street}}\" city=\"{!${2:city}}\" country=\"{!${3:country}}\" province=\"{!${4:province}}\" postalCode=\"{!${5:postalCode}}\" showStaticMap=\"true\"/>"
         ],
-        "description": "Create Lightning Formatted Address With Map Code Unit (lightning:formattedAddress) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedAddress/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Address With Map Code Unit (lightning:formattedAddress) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedAddress/documentation)"
     },
     "Lightning Formatted Date": {
         "prefix": "ltn.formattedDate",
         "body": [
             "<lightning:formattedDateTime value=\"{!${1:timeInMillis}}\" year=\"${2:numeric}\" month=\"${3:short}\" day=\"${4:2-digit}\" weekday=\"${5:long}\"/>"
         ],
-        "description": "Create Lightning Formatted Date Code Unit (lightning:formattedDateTime) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedDateTime/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Date Code Unit (lightning:formattedDateTime) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedDateTime/documentation)"
     },
     "Lightning Formatted Time": {
         "prefix": "ltn.formattedTime",
         "body": [
             "<lightning:formattedDateTime value=\"{!${1:timeInMillis}}\" hour=\"${2:2-digit}\" minute=\"${3:2-digit}\" second=\"${4:2-digit}\" hour12=\"${5:false}\"/>"
         ],
-        "description": "Create Lightning Formatted Time Code Unit (lightning:formattedDateTime) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedDateTime/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Time Code Unit (lightning:formattedDateTime) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedDateTime/documentation)"
     },
     "Lightning Formatted Date Time": {
         "prefix": "ltn.formattedDateTime",
         "body": [
             "<lightning:formattedDateTime value=\"{!${1:timeInMillis}}\" year=\"${2:numeric}\" month=\"${3:numeric}\" day=\"${4:numeric}\" hour=\"${5:2-digit}\" minute=\"${6:2-digit}\" second=\"${7:2-digit}\" hour12=\"${8:false}\"/>"
         ],
-        "description": "Create Lightning Formatted Date Time Code Unit (lightning:formattedDateTime) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedDateTime/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Date Time Code Unit (lightning:formattedDateTime) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedDateTime/documentation)"
     },
     "Lightning Formatted Email": {
         "prefix": "ltn.formattedEmail",
         "body": [
             "<lightning:formattedEmail value=\"{!${1:email}}\" />"
         ],
-        "description": "Create Lightning Formatted Email Code Unit (lightning:formattedEmail) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedEmail/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Email Code Unit (lightning:formattedEmail) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedEmail/documentation)"
     },
     "Lightning Formatted Location": {
         "prefix": "ltn.formattedLocation",
         "body": [
             "<lightning:formattedLocation latitude=\"{!${1:latitude}}\" longitude=\"{!${2:longitude}}\"/>"
         ],
-        "description": "Create Lightning Formatted Location Code Unit (lightning:formattedLocation) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedLocation/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Location Code Unit (lightning:formattedLocation) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedLocation/documentation)"
     },
     "Lightning Formatted Name": {
         "prefix": "ltn.formattedName",
         "body": [
             "<lightning:formattedName aura:id=\"${1:auraId}\" firstName=\"{!${2:firstName}}\" middleName=\"{!${3:middleName}}\" lastName=\"{!${4:lastName}}\" informalName=\"{!${5:informalName}}\" suffix=\"{!${6:suffix}}\" salutation=\"{!${6:salutation}}\"/>"
         ],
-        "description": "Create Lightning Formatted Name Code Unit (lightning:formattedName) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedName/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Name Code Unit (lightning:formattedName) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedName/documentation)"
     },
     "Lightning Formatted Name Short": {
         "prefix": "ltn.formattedNameShort",
         "body": [
             "<lightning:formattedName aura:id=\"${1:auraId}\" firstName=\"{!${2:firstName}}\" middleName=\"{!${3:middleName}}\" lastName=\"{!${4:lastName}}\" informalName=\"{!${5:informalName}}\" suffix=\"{!${6:suffix}}\" salutation=\"{!${6:salutation}}\" format=\"short\"/>"
         ],
-        "description": "Create Lightning Formatted Name Short Code Unit (lightning:formattedName) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedName/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Name Short Code Unit (lightning:formattedName) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedName/documentation)"
     },
     "Lightning Formatted Number Decimal": {
         "prefix": "ltn.formattedNumberDecimal",
         "body": [
             "<lightning:formattedNumber value=\"{!${1:value}}\" minimumSignificantDigits=\"{!${2:minimumSignificantDigits}}\" style=\"decimal\"/>"
         ],
-        "description": "Create Lightning Formatted Decimal Number Code Unit (lightning:formattedNumber) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedNumber/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Decimal Number Code Unit (lightning:formattedNumber) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedNumber/documentation)"
     },
     "Lightning Formatted Number Currency": {
         "prefix": "ltn.formattedNumberCurrency",
         "body": [
             "<lightning:formattedNumber value=\"{!${1:value}}\" currencyCode=\"{!${3:currencyCode}}\" currencyDisplayAs=\"${4:code}\" style=\"currency\"/>"
         ],
-        "description": "Create Lightning Formatted Currency Code Unit (lightning:formattedNumber) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedNumber/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Currency Code Unit (lightning:formattedNumber) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedNumber/documentation)"
     },
     "Lightning Formatted Number Percent": {
         "prefix": "ltn.formattedNumberPercent",
         "body": [
             "<lightning:formattedNumber value=\"{!${1:value}}\" minimumSignificantDigits=\"{!${2:minimumSignificantDigits}}\" style=\"percent\"/>"
         ],
-        "description": "Create Lightning Formatted Percent Code Unit (lightning:formattedNumber) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedNumber/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Percent Code Unit (lightning:formattedNumber) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedNumber/documentation)"
     },
     "Lightning Formatted Phone": {
         "prefix": "ltn.formattedPhone",
         "body": [
             "<lightning:formattedPhone value=\"{!${1:value}}\"/>"
         ],
-        "description": "Create Lightning Formatted Phone Code Unit (lightning:formattedPhone) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedPhone/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Phone Code Unit (lightning:formattedPhone) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedPhone/documentation)"
     },
     "Lightning Formatted Rich Text": {
         "prefix": "ltn.formattedRichText",
         "body": [
             "<lightning:formattedRichText value=\"{!${1:value}}\"/>"
         ],
-        "description": "Create Lightning Formatted Rich Text Code Unit (lightning:formattedRichText) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedRichText/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Rich Text Code Unit (lightning:formattedRichText) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedRichText/documentation)"
     },
     "Lightning Formatted Text": {
         "prefix": "ltn.formattedText",
         "body": [
             "<lightning:formattedText value=\"{!${1:value}}\" linkify=\"${2:true}\"/>"
         ],
-        "description": "Create Lightning Formatted Text Code Unit (lightning:formattedText) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedText/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Text Code Unit (lightning:formattedText) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedText/documentation)"
     },
     "Lightning Formatted URL": {
         "prefix": "ltn.formattedUrl",
         "body": [
             "<lightning:formattedUrl value=\"{!${1:value}}\"/>"
         ],
-        "description": "Create Lightning Formatted Text Code Unit (lightning:formattedUrl) [https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedUrl/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Formatted Text Code Unit (lightning:formattedUrl) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:formattedUrl/documentation)"
     },
     "Lightning Help Text": {
         "prefix": "ltn.helptext",
         "body": [
             "<lightning:helptext content=\"${1:helpText}\"/>"
         ],
-        "description": "Create Lightning Help Text Code Unit (lightning:helptext) [https://developer.salesforce.com/docs/component-library/bundle/lightning:helptext/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Help Text Code Unit (lightning:helptext) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:helptext/documentation)"
     },
     "Lightning Icon": {
         "prefix": "ltn.icon",
         "body": [
             "<lightning:icon iconName=\"${1:iconName}\" alternativeText=\"${2:altText}\" size=\"${3:size}\"/>"
         ],
-        "description": "Create Lightning Icon Code Unit (lightning:icon) [https://developer.salesforce.com/docs/component-library/bundle/lightning:icon/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Icon Code Unit (lightning:icon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:icon/documentation)"
     },
     "Lightning Input Date": {
         "prefix": "ltn.inputDate",
         "body": [
             "<lightning:input type=\"date\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
         ],
-        "description": "Create Lightning Input Date Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Date Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input DateTime": {
         "prefix": "ltn.inputDateTime",
         "body": [
             "<lightning:input type=\"datetime\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
         ],
-        "description": "Create Lightning Input DateTime Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input DateTime Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Time": {
         "prefix": "ltn.inputTime",
         "body": [
             "<lightning:input type=\"time\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
         ],
-        "description": "Create Lightning Input Time Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Time Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Color": {
         "prefix": "ltn.inputColor",
         "body": [
             "<lightning:input type=\"color\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
         ],
-        "description": "Create Lightning Input Color Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Color Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input File": {
         "prefix": "ltn.inputFile",
         "body": [
             "<lightning:input type=\"file\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" multiple=\"${4:false}\" accept=\"${5:extensionList}\" onchange=\"{!c.${6:jsAction}}\"/>"
         ],
-        "description": "Create Lightning Input File Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input File Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Text": {
         "prefix": "ltn.inputText",
         "body": [
             "<lightning:input aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
         ],
-        "description": "Create Lightning Input Text Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Text Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Email": {
         "prefix": "ltn.inputEmail",
         "body": [
             "<lightning:input type=\"email\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
         ],
-        "description": "Create Lightning Input Email Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Email Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Password": {
         "prefix": [
@@ -692,28 +692,28 @@
         "body": [
             "<lightning:input type=\"password\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
         ],
-        "description": "Create Lightning Input Password Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Password Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Telephone": {
         "prefix": "ltn.inputTelephone",
         "body": [
             "<lightning:input type=\"tel\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
         ],
-        "description": "Create Lightning Input Telephone Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Telephone Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input URL": {
         "prefix": "ltn.inputUrl",
         "body": [
             "<lightning:input type=\"url\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
         ],
-        "description": "Create Lightning Input URL Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input URL Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Number": {
         "prefix": "ltn.inputNumber",
         "body": [
             "<lightning:input type=\"number\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\" placeholder=\"{!${5:placeholder}}\"/>"
         ],
-        "description": "Create Lightning Input Number Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Number Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Checkbox": {
         "prefix": [
@@ -723,7 +723,7 @@
         "body": [
             "<lightning:input type=\"checkbox\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\"/>"
         ],
-        "description": "Create Lightning Input Checkbox Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Checkbox Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Checkbox Button": {
         "prefix": [
@@ -733,70 +733,70 @@
         "body": [
             "<lightning:input type=\"checkbox-button\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\"/>"
         ],
-        "description": "Create Lightning Input Checkbox Button Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Checkbox Button Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Toggle": {
         "prefix": "ltn.inputToggle",
         "body": [
             "<lightning:input type=\"toggle\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\"/>"
         ],
-        "description": "Create Lightning Input Toggle Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Toggle Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Radio Button": {
         "prefix": "ltn.inputRadio",
         "body": [
             "<lightning:input type=\"radio\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"${4:value}\"/>"
         ],
-        "description": "Create Lightning Input Radio Button Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Radio Button Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Search": {
         "prefix": "ltn.inputSearch",
         "body": [
             "<lightning:input type=\"search\" aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" value=\"{!${4:value}}\"/>"
         ],
-        "description": "Create Lightning Input Search Code Unit (lightning:input) [https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Search Code Unit (lightning:input) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:input/documentation)"
     },
     "Lightning Input Address": {
         "prefix": "ltn.inputAddress",
         "body": [
             "<lightning:inputAddress addressLabel=\"${1:addressLabel}\" streetLabel=\"${2:streetLabel}\" cityLabel=\"${3:cityLabel}\" countryLabel=\"${4:countryLabel}\" provinceLabel=\"${5:provinceLabel}\" postalCodeLabel=\"${6:postalCodeLabel}\" street=\"{!${7:street}}\" city=\"{!${8:city}}\" country=\"{!${9:country}}\" province=\"{!${10:province}}\" postalCode=\"{!${11:postalCode}}\" fieldLevelHelp=\"${12:helpText}\"/>"
         ],
-        "description": "Create Lightning Input Address Code Unit (lightning:inputAddress) [https://developer.salesforce.com/docs/component-library/bundle/lightning:inputAddress/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Address Code Unit (lightning:inputAddress) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:inputAddress/documentation)"
     },
     "Lightning Input Field": {
         "prefix": "ltn.inputField",
         "body": [
             "<lightning:inputField fieldName=\"${1:fieldApiName}\"/>"
         ],
-        "description": "Create Lightning Input Field Code Unit (lightning:inputField) [https://developer.salesforce.com/docs/component-library/bundle/lightning:inputField/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Field Code Unit (lightning:inputField) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:inputField/documentation)"
     },
     "Lightning Input Location": {
         "prefix": "ltn.inputLocation",
         "body": [
             "<lightning:inputLocation label=\"${1:label}\" latitude=\"${2:latitude}\" longitude=\"${3:longitude}\"/>"
         ],
-        "description": "Create Lightning Input Location Code Unit (lightning:inputLocation) [https://developer.salesforce.com/docs/component-library/bundle/lightning:inputLocation/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Location Code Unit (lightning:inputLocation) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:inputLocation/documentation)"
     },
     "Lightning Input Name": {
         "prefix": "ltn.inputName",
         "body": [
             "<lightning:inputName aura:id=\"${1:auraId}\" label=\"${2:label}\" firstName=\"{!${3:firstName}}\" middleName=\"{!${4:middleName}}\" lastName=\"{!${5:lastName}}\" informalName=\"{!${6:informalName}}\" suffix=\"{!${7:suffix}}\" salutation=\"{!${8:salutation}}\" options=\"{!${9:salutationOptions}}\"/>"
         ],
-        "description": "Create Lightning Input Name Code Unit (lightning:inputName) [https://developer.salesforce.com/docs/component-library/bundle/lightning:inputName/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Name Code Unit (lightning:inputName) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:inputName/documentation)"
     },
     "Lightning Input Rich Text": {
         "prefix": "ltn.inputRichText",
         "body": [
             "<lightning:inputRichText value=\"{!${1:value}}\" placeholder=\"{!${2:placeholder}}\"/>"
         ],
-        "description": "Create Lightning Input Rich Text Code Unit (lightning:inputRichText) [https://developer.salesforce.com/docs/component-library/bundle/lightning:inputRichText/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Rich Text Code Unit (lightning:inputRichText) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:inputRichText/documentation)"
     },
     "Lightning Input Rich Text Bottom Toolbar": {
         "prefix": "ltn.inputRichTextBottom",
         "body": [
             "<lightning:inputRichText value=\"{!${1:value}}\" placeholder=\"{!${2:placeholder}}\" variant=\"bottom-toolbar\"/>"
         ],
-        "description": "Create Lightning Input Rich Text With Bottom Toolbar Code Unit (lightning:inputRichText) [https://developer.salesforce.com/docs/component-library/bundle/lightning:inputRichText/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Input Rich Text With Bottom Toolbar Code Unit (lightning:inputRichText) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:inputRichText/documentation)"
     },
     "Lightning Layout": {
         "prefix": "ltn.layout",
@@ -805,7 +805,7 @@
             "\t${0:<!-- Put the content Here -->}",
             "</lightning:layout>"
         ],
-        "description": "Create Lightning Simple Layout Code Unit (lightning:layout) [https://developer.salesforce.com/docs/component-library/bundle/lightning:layout/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Simple Layout Code Unit (lightning:layout) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:layout/documentation)"
     },
     "Lightning Layout Space Center": {
         "prefix": "ltn.layoutSpaceCenter",
@@ -814,7 +814,7 @@
             "\t${0:<!-- Put the content Here -->}",
             "</lightning:layout>"
         ],
-        "description": "Create Lightning Layout with Horizontal Align Space and Vertical Align Center Code Unit (lightning:layout) [https://developer.salesforce.com/docs/component-library/bundle/lightning:layout/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Layout with Horizontal Align Space and Vertical Align Center Code Unit (lightning:layout) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:layout/documentation)"
     },
     "Lightning Layout Space Stretch": {
         "prefix": "ltn.layoutSpaceStretch",
@@ -823,7 +823,7 @@
             "\t${0:<!-- Put the content Here -->}",
             "</lightning:layout>"
         ],
-        "description": "Create Lightning Layout with Horizontal Align Space and Vertical Align Stretch Code Unit (lightning:layout) [https://developer.salesforce.com/docs/component-library/bundle/lightning:layout/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Layout with Horizontal Align Space and Vertical Align Stretch Code Unit (lightning:layout) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:layout/documentation)"
     },
     "Lightning Layout Spread Center": {
         "prefix": "ltn.layoutSpreadCenter",
@@ -832,7 +832,7 @@
             "\t${0:<!-- Put the content Here -->}",
             "</lightning:layout>"
         ],
-        "description": "Create Lightning Layout with Horizontal Align Spread and Vertical Align Center Code Unit (lightning:layout) [https://developer.salesforce.com/docs/component-library/bundle/lightning:layout/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Layout with Horizontal Align Spread and Vertical Align Center Code Unit (lightning:layout) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:layout/documentation)"
     },
     "Lightning Layout Spread Stretch": {
         "prefix": "ltn.layoutSpreadStretch",
@@ -841,7 +841,7 @@
             "\t${0:<!-- Put the content Here -->}",
             "</lightning:layout>"
         ],
-        "description": "Create Lightning Layout with Horizontal Align Spread and Vertical Align Stretch Code Unit (lightning:layout) [https://developer.salesforce.com/docs/component-library/bundle/lightning:layout/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Layout with Horizontal Align Spread and Vertical Align Stretch Code Unit (lightning:layout) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:layout/documentation)"
     },
     "Lightning Layout Item": {
         "prefix": "ltn.layoutItem",
@@ -850,98 +850,98 @@
             "\t${0:<!-- Put the content Here -->}",
             "</lightning:layoutItem>"
         ],
-        "description": "Create Lightning Basic Layout Item Code Unit (lightning:layoutItem) [https://developer.salesforce.com/docs/component-library/bundle/lightning:layoutItem/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Basic Layout Item Code Unit (lightning:layoutItem) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:layoutItem/documentation)"
     },
     "Lightning List View": {
         "prefix": "ltn.listView",
         "body": [
             "<lightning:listView aura:id=\"${1:auraId}\" objectApiName=\"${2:objApiName}\" listName=\"${3:listName}\" rows=\"${4:rowsNumber}\" showSearchBar=\"${5:true}\" showActionBar=\"${6:false}\" enableInlineEdit=\"${7:true}\" showRowLevelActions=\"${8:false}\"/>"
         ],
-        "description": "Create Lightning List View Code Unit (lightning:listView) [https://developer.salesforce.com/docs/component-library/bundle/lightning:listView/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning List View Code Unit (lightning:listView) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:listView/documentation)"
     },
     "Lightning Map": {
         "prefix": "ltn.map",
         "body": [
             "<lightning:map mapMarkers=\"{!${1:placeholder}}\" center=\"{!${2:center}}\" zoomLevel=\"{!${3:zoomLevel}}\" markersTitle=\"{!${4:markersTitle}}\" showFooter=\"${5:true}\"/>"
         ],
-        "description": "Create Lightning City Map Code Unit (lightning:map) [https://developer.salesforce.com/docs/component-library/bundle/lightning:map/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning City Map Code Unit (lightning:map) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:map/documentation)"
     },
     "Lightning Menu Item": {
         "prefix": "ltn.menuItem",
         "body": [
             "<lightning:menuItem label=\"${1:label}\" value=\"${2:value}\" iconName=\"${3:iconName}\"/>"
         ],
-        "description": "Create Lightning Menu Item Code Unit (lightning:menuItem) [https://developer.salesforce.com/docs/component-library/bundle/lightning:menuItem/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Menu Item Code Unit (lightning:menuItem) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:menuItem/documentation)"
     },
     "Lightning Menu Item URL": {
         "prefix": "ltn.menuItemUrl",
         "body": [
             "<lightning:menuItem label=\"${1:label}\" href=\"${2:url}\" iconName=\"${3:iconName}\"/>"
         ],
-        "description": "Create Lightning Menu Item for URL Code Unit (lightning:menuItem) [https://developer.salesforce.com/docs/component-library/bundle/lightning:menuItem/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Menu Item for URL Code Unit (lightning:menuItem) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:menuItem/documentation)"
     },
     "Lightning Navigation Service": {
         "prefix": "ltn.navigation",
         "body": [
             "<lightning:navigation aura:id=\"${1:auraId}\"/>"
         ],
-        "description": "Create Lightning Navigation Service Code Unit (lightning:navigation) [https://developer.salesforce.com/docs/component-library/bundle/lightning:navigation/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Navigation Service Code Unit (lightning:navigation) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:navigation/documentation)"
     },
     "Lightning Navigation Item API": {
         "prefix": "ltn.navigationItemApi",
         "body": [
             "<lightning:navigationItemAPI aura:id=\"${1:auraId}\"/>"
         ],
-        "description": "Create Lightning Navigation Item API Code Unit (lightning:navigationItemAPI) [https://developer.salesforce.com/docs/component-library/bundle/lightning:navigationItemAPI/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Navigation Item API Code Unit (lightning:navigationItemAPI) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:navigationItemAPI/documentation)"
     },
     "Lightning Omni Toolkit API": {
         "prefix": "ltn.omniToolkitApi",
         "body": [
             "<lightning:omniToolkitAPI aura:id=\"${1:auraId}\"/>"
         ],
-        "description": "Create Lightning Omni Toolkit API Code Unit (lightning:omniToolkitAPI) [https://developer.salesforce.com/docs/component-library/bundle/lightning:omniToolkitAPI/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Omni Toolkit API Code Unit (lightning:omniToolkitAPI) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:omniToolkitAPI/documentation)"
     },
     "Lightning Output Field": {
         "prefix": "ltn.outputField",
         "body": [
             "<lightning:outputField fieldName=\"${1:fieldAPIName}\"/>"
         ],
-        "description": "Create Lightning Output Field Code Unit (lightning:outputField) [https://developer.salesforce.com/docs/component-library/bundle/lightning:outputField/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Output Field Code Unit (lightning:outputField) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:outputField/documentation)"
     },
     "Lightning Overlay Library": {
         "prefix": "ltn.overlayLibrary",
         "body": [
             "<lightning:overlayLibrary aura:id=\"${1:auraId}\"/>"
         ],
-        "description": "Create Lightning Overlay Library Code Unit (lightning:overlayLibrary) [https://developer.salesforce.com/docs/component-library/bundle/lightning:overlayLibrary/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Overlay Library Code Unit (lightning:overlayLibrary) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:overlayLibrary/documentation)"
     },
     "Lightning Path": {
         "prefix": "ltn.path",
         "body": [
             "<lightning:path aura:id=\"${1:auraId}\" recordId=\"{!${2:recordId}}\" variant=\"${3:linear}\" hideUpdateButton=\"${4:false}\" onselect=\"{!c.${5:jsAction}}\"/>"
         ],
-        "description": "Create Lightning Path Code Unit (lightning:path) [https://developer.salesforce.com/docs/component-library/bundle/lightning:path/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Path Code Unit (lightning:path) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:path/documentation)"
     },
     "Lightning Picklist Path": {
         "prefix": "ltn.picklistPath",
         "body": [
             "<lightning:picklistPath aura:id=\"${1:auraId}\" recordId=\"{!${2:recordId}}\" variant=\"${3:linear}\" picklistFieldApiName=\"${4:fieldAPIName}\" onselect=\"{!c.${5:jsAction}}\"/>"
         ],
-        "description": "Create Lightning Picklist Path Code Unit (lightning:picklistPath) [https://developer.salesforce.com/docs/component-library/bundle/lightning:picklistPath/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Picklist Path Code Unit (lightning:picklistPath) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:picklistPath/documentation)"
     },
     "Lightning Pill": {
         "prefix": "ltn.pill",
         "body": [
             "<lightning:pill label=\"${1:label}\" onremove=\"{!c.${2:jsAction}}\" onclick=\"{!c.${3:jsAction}}\"/>"
         ],
-        "description": "Create Lightning Pill Code Unit (lightning:pill) [https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Pill Code Unit (lightning:pill) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation)"
     },
     "Lightning Pill URL": {
         "prefix": "ltn.pillUrl",
         "body": [
             "<lightning:pill label=\"${1:label}\" href=\"${2:url}\"/>"
         ],
-        "description": "Create Lightning Pill URL Code Unit (lightning:pill) [https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Pill URL Code Unit (lightning:pill) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation)"
     },
     "Lightning Pill Avatar": {
         "prefix": "ltn.pillAvatar",
@@ -952,7 +952,7 @@
             "\t</aura:set>",
             "</lightning:pill>"
         ],
-        "description": "Create Lightning Pill with Avatar Code Unit (lightning:pill) [https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Pill with Avatar Code Unit (lightning:pill) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation)"
     },
     "Lightning Pill Avatar URL": {
         "prefix": "ltn.pillAvatarUrl",
@@ -963,7 +963,7 @@
             "\t</aura:set>",
             "</lightning:pill>"
         ],
-        "description": "Create Lightning Pill URL with Avatar Code Unit (lightning:pill) [https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Pill URL with Avatar Code Unit (lightning:pill) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation)"
     },
     "Lightning Pill Icon": {
         "prefix": "ltn.pillIcon",
@@ -974,7 +974,7 @@
             "\t</aura:set>",
             "</lightning:pill>"
         ],
-        "description": "Create Lightning Pill with Icon Code Unit (lightning:pill) [https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Pill with Icon Code Unit (lightning:pill) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation)"
     },
     "Lightning Pill Icon URL": {
         "prefix": "ltn.pillIconUrl",
@@ -985,28 +985,28 @@
             "\t</aura:set>",
             "</lightning:pill>"
         ],
-        "description": "Create Lightning Pill URL with Icon Code Unit (lightning:pill) [https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Pill URL with Icon Code Unit (lightning:pill) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:pill/documentation)"
     },
     "Lightning Pill Container": {
         "prefix": "ltn.pillContainer",
         "body": [
             "<lightning:pillContainer items=\"{!${1:items}}\"/>"
         ],
-        "description": "Create Lightning Pill Container Code Unit (lightning:pillContainer) [https://developer.salesforce.com/docs/component-library/bundle/lightning:pillContainer/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Pill Container Code Unit (lightning:pillContainer) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:pillContainer/documentation)"
     },
     "Lightning Progress Bar": {
         "prefix": "ltn.progressBar",
         "body": [
             "<lightning:progressBar value=\"{!${1:value}}\" size=\"{!${2:medium}}\"/>"
         ],
-        "description": "Create Lightning Progress Bar Code Unit (lightning:progressBar) [https://developer.salesforce.com/docs/component-library/bundle/lightning:progressBar/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Progress Bar Code Unit (lightning:progressBar) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:progressBar/documentation)"
     },
     "Lightning Progress Bar Ciruclar": {
         "prefix": "ltn.progressBarCircular",
         "body": [
             "<lightning:progressBar value=\"{!${1:value}}\" size=\"{!${2:medium}}\" variant=\"circular\"/>"
         ],
-        "description": "Create Lightning Progress Bar Circular Code Unit (lightning:progressBar) [https://developer.salesforce.com/docs/component-library/bundle/lightning:progressBar/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Progress Bar Circular Code Unit (lightning:progressBar) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:progressBar/documentation)"
     },
     "Lightning Progress Indicator": {
         "prefix": "ltn.progressIndicator",
@@ -1015,7 +1015,7 @@
             "\t${0:<!-- Put yout Progress Steps here (lightning:progressStep) -->}",
             "</lightning:progressIndicator>"
         ],
-        "description": "Create Lightning Progress Indicator Code Unit (lightning:progressIndicator) [https://developer.salesforce.com/docs/component-library/bundle/lightning:progressIndicator/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Progress Indicator Code Unit (lightning:progressIndicator) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:progressIndicator/documentation)"
     },
     "Lightning Progress Indicator Path": {
         "prefix": "ltn.progressIndicatorPath",
@@ -1024,35 +1024,35 @@
             "\t${0:<!-- Put yout Progress Steps here (lightning:progressStep) -->}",
             "</lightning:progressIndicator>"
         ],
-        "description": "Create Lightning Progress Indicator like Path Code Unit (lightning:progressIndicator) [https://developer.salesforce.com/docs/component-library/bundle/lightning:progressIndicator/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Progress Indicator like Path Code Unit (lightning:progressIndicator) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:progressIndicator/documentation)"
     },
     "Lightning Quick Action API": {
         "prefix": "ltn.quickActionApi",
         "body": [
             "<lightning:quickActionAPI aura:id=\"${1:auraId}\"/>"
         ],
-        "description": "Create Lightning Quick Action API Code Unit (lightning:quickActionAPI) [https://developer.salesforce.com/docs/component-library/bundle/lightning:quickActionAPI/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Quick Action API Code Unit (lightning:quickActionAPI) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:quickActionAPI/documentation)"
     },
     "Lightning Quip Card": {
         "prefix": "ltn.quipCard",
         "body": [
             "<lightning:quipCard parentRecordId=\"{!${1:parentRecordId}}\"/>"
         ],
-        "description": "Create Lightning Quip Card Code Unit (lightning:quipCard) [https://developer.salesforce.com/docs/component-library/bundle/lightning:quipCard/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Quip Card Code Unit (lightning:quipCard) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:quipCard/documentation)"
     },
     "Lightning Radio Group": {
         "prefix": "ltn.radioGroup",
         "body": [
             "<lightning:radioGroup name=\"${1:name}\" label=\"${2:label}\" options=\"{!${3:options}}\" value=\"{!${4:value}}\" type=\"radio\"/>"
         ],
-        "description": "Create Lightning Radio Group Code Unit (lightning:radioGroup) [https://developer.salesforce.com/docs/component-library/bundle/lightning:radioGroup/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Radio Group Code Unit (lightning:radioGroup) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:radioGroup/documentation)"
     },
     "Lightning Radio Group Button": {
         "prefix": "ltn.radioGroupBtn",
         "body": [
             "<lightning:radioGroup name=\"${1:name}\" label=\"${2:label}\" options=\"{!${3:options}}\" value=\"{!${4:value}}\" type=\"button\"/>"
         ],
-        "description": "Create Lightning Radio Group like Button Code Unit (lightning:radioGroup) [https://developer.salesforce.com/docs/component-library/bundle/lightning:radioGroup/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Radio Group like Button Code Unit (lightning:radioGroup) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:radioGroup/documentation)"
     },
     "Lightning Record Edit Form for Create": {
         "prefix": "ltn.recordEditFormForCreate",
@@ -1061,7 +1061,7 @@
             "\t${0:<!-- Put the input fields here (lightning:inputField) -->}",
             "</lightning:recordEditForm>"
         ],
-        "description": "Create Lightning Record Edit Form for Create a new record Code Unit (lightning:recordEditForm) [https://developer.salesforce.com/docs/component-library/bundle/lightning:recordEditForm/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Record Edit Form for Create a new record Code Unit (lightning:recordEditForm) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:recordEditForm/documentation)"
     },
     "Lightning Record Edit Form for Edit": {
         "prefix": "ltn.recordEditForm",
@@ -1070,14 +1070,14 @@
             "\t${0:<!-- Put the input fields here (lightning:inputField) -->}",
             "</lightning:recordEditForm>"
         ],
-        "description": "Create Lightning Record Edit Form for Edit a record Code Unit (lightning:recordEditForm) [https://developer.salesforce.com/docs/component-library/bundle/lightning:recordEditForm/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Record Edit Form for Edit a record Code Unit (lightning:recordEditForm) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:recordEditForm/documentation)"
     },
     "Lightning Record Form": {
         "prefix": "ltn.recordForm",
         "body": [
             "<lightning:recordForm recordId=\"{!${1:recordId}}\" objectApiName=\"{!${2:objectApiName}}\" layoutType=\"${3:layoutType}\" columns=\"${4:columns}\" mode=\"${5:mode}\"/>"
         ],
-        "description": "Create Lightning Record Form Code Unit (lightning:recordForm) [https://developer.salesforce.com/docs/component-library/bundle/lightning:recordForm/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Record Form Code Unit (lightning:recordForm) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:recordForm/documentation)"
     },
     "Lightning Record View Form": {
         "prefix": "ltn.recordViewForm",
@@ -1086,14 +1086,14 @@
             "\t${0:<!-- Put the output fields here (lightning:outputField) -->}",
             "</lightning:recordViewForm>"
         ],
-        "description": "Create Lightning Record Form Code Unit (lightning:recordViewForm) [https://developer.salesforce.com/docs/component-library/bundle/lightning:recordViewForm/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Record Form Code Unit (lightning:recordViewForm) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:recordViewForm/documentation)"
     },
     "Lightning Relative Date Time": {
         "prefix": "ltn.relativeDateTime",
         "body": [
             "<lightning:relativeDateTime value=\"{!${1:value}}\"/>"
         ],
-        "description": "Create Lightning Relative Date Time Code Unit (lightning:relativeDateTime) [https://developer.salesforce.com/docs/component-library/bundle/lightning:relativeDateTime/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Relative Date Time Code Unit (lightning:relativeDateTime) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:relativeDateTime/documentation)"
     },
     "Lightning Select": {
         "prefix": "ltn.select",
@@ -1104,21 +1104,21 @@
             "\t</aura:iteration>",
             "</lightning:recordViewForm>"
         ],
-        "description": "Create Lightning Select Code Unit (lightning:select) [https://developer.salesforce.com/docs/component-library/bundle/lightning:select/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Select Code Unit (lightning:select) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:select/documentation)"
     },
     "Lightning Slider": {
         "prefix": "ltn.slider",
         "body": [
             "<lightning:slider label=\"${1:label}\" value=\"{!${2:value}}\" size=\"${3:medium}\"/>"
         ],
-        "description": "Create Lightning Slider Code Unit (lightning:slider) [https://developer.salesforce.com/docs/component-library/bundle/lightning:slider/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Slider Code Unit (lightning:slider) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:slider/documentation)"
     },
     "Lightning Spinner": {
         "prefix": "ltn.spinner",
         "body": [
             "<lightning:spinner alternativeText=\"${1:altText}\" size=\"${2:medium}\"/>"
         ],
-        "description": "Create Lightning Spinner Code Unit (lightning:spinner) [https://developer.salesforce.com/docs/component-library/bundle/lightning:spinner/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Spinner Code Unit (lightning:spinner) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:spinner/documentation)"
     },
     "Lightning Tab": {
         "prefix": "ltn.tab",
@@ -1127,7 +1127,7 @@
             "\t${0:<!-- Put your tab content here -->}",
             "</lightning:tab>"
         ],
-        "description": "Create Lightning Tab Code Unit (lightning:tab) [https://developer.salesforce.com/docs/component-library/bundle/lightning:tab/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Tab Code Unit (lightning:tab) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:tab/documentation)"
     },
     "Lightning Tab Set": {
         "prefix": "ltn.tabset",
@@ -1136,14 +1136,14 @@
             "\t${0:<!-- Put your tabs here -->}",
             "</lightning:tabset>"
         ],
-        "description": "Create Lightning Tab Set Code Unit (lightning:tabset) [https://developer.salesforce.com/docs/component-library/bundle/lightning:tabset/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Tab Set Code Unit (lightning:tabset) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:tabset/documentation)"
     },
     "Lightning Text Area": {
         "prefix": "ltn.textArea",
         "body": [
             "<lightning:textArea name=\"${1:name}\" label=\"${2:label}\" value=\"{!${3:value}}\" placeholder=\"${4:placeholder}\"/>"
         ],
-        "description": "Create Lightning Text Area Code Unit (lightning:textArea) [https://developer.salesforce.com/docs/component-library/bundle/lightning:textArea/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Text Area Code Unit (lightning:textArea) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:textArea/documentation)"
     },
     "Lightning Tile": {
         "prefix": "ltn.tile",
@@ -1152,7 +1152,7 @@
             "\t${0:<!-- Put your content here -->}",
             "</lightning:tile>"
         ],
-        "description": "Create Lightning Tile Code Unit (lightning:tile) [https://developer.salesforce.com/docs/component-library/bundle/lightning:tile/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Tile Code Unit (lightning:tile) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:tile/documentation)"
     },
     "Lightning Tile Icon": {
         "prefix": "ltn.tileIcon",
@@ -1164,7 +1164,7 @@
             "\t${0:<!-- Put your content here -->}",
             "</lightning:tile>"
         ],
-        "description": "Create Lightning Tile with Icon Code Unit (lightning:tile) [https://developer.salesforce.com/docs/component-library/bundle/lightning:tile/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Tile with Icon Code Unit (lightning:tile) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:tile/documentation)"
     },
     "Lightning Tile Avatar": {
         "prefix": "ltn.tileAvatar",
@@ -1176,35 +1176,35 @@
             "\t${0:<!-- Put your content here -->}",
             "</lightning:tile>"
         ],
-        "description": "Create Lightning Tile with Avatar Code Unit (lightning:tile) [https://developer.salesforce.com/docs/component-library/bundle/lightning:tile/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Tile with Avatar Code Unit (lightning:tile) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:tile/documentation)"
     },
     "Lightning Tree": {
         "prefix": "ltn.tree",
         "body": [
             "<lightning:tree header=\"${1:header}\" items={!${2:items}}/>"
         ],
-        "description": "Create Lightning Tree Code Unit (lightning:tree) [https://developer.salesforce.com/docs/component-library/bundle/lightning:tree/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Tree Code Unit (lightning:tree) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:tree/documentation)"
     },
     "Lightning Tree Grid": {
         "prefix": "ltn.treeGrid",
         "body": [
             "<lightning:treeGrid columns=\"{!${1:columns}}\" data=\"{!${2:data}}\" expandedRows=\"{!${3:expandedRows}}\" keyField=\"${4:keyField}\"/>"
         ],
-        "description": "Create Lightning Tree Grid Code Unit (lightning:treeGrid) [https://developer.salesforce.com/docs/component-library/bundle/lightning:treeGrid/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Tree Grid Code Unit (lightning:treeGrid) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:treeGrid/documentation)"
     },
     "Lightning Unsaved Changes": {
         "prefix": "ltn.unsavedChanges",
         "body": [
             "<lightning:unsavedChanges aura:id=\"${1:auraId}\" onsave=\"{!c.${2:jsAction}}\" ondiscard=\"{!c.${3:jsAction}}\"/>"
         ],
-        "description": "Create Lightning Unsaved Changes Code Unit (lightning:unsavedChanges) [https://developer.salesforce.com/docs/component-library/bundle/lightning:unsavedChanges/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Unsaved Changes Code Unit (lightning:unsavedChanges) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:unsavedChanges/documentation)"
     },
     "Lightning Utility Bar API": {
         "prefix": "ltn.utilityBarApi",
         "body": [
             "<lightning:utilityBarAPI aura:id=\"${1:auraId}\"/>"
         ],
-        "description": "Create Lightning Utility Bar API Code Unit (lightning:utilityBarAPI) [https://developer.salesforce.com/docs/component-library/bundle/lightning:utilityBarAPI/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Utility Bar API Code Unit (lightning:utilityBarAPI) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:utilityBarAPI/documentation)"
     },
     "Lightning Vertical Navigation": {
         "prefix": "ltn.verticalNavigation",
@@ -1213,28 +1213,28 @@
             "\t${0:<!-- Put your Navigation Sections and Items here -->}",
             "</lightning:verticalNavigation>"
         ],
-        "description": "Create Lightning Vertical Navigation Code Unit (lightning:verticalNavigation) [https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigation/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Vertical Navigation Code Unit (lightning:verticalNavigation) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigation/documentation)"
     },
     "Lightning Vertical Navigation Item": {
         "prefix": "ltn.verticalNavigationItem",
         "body": [
             "<lightning:verticalNavigationItem label=\"${1:label}\" name=\"${2:name}\"/>"
         ],
-        "description": "Create Lightning Vertical Navigation Item Code Unit (lightning:verticalNavigationItem) [https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigationItem/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Vertical Navigation Item Code Unit (lightning:verticalNavigationItem) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigationItem/documentation)"
     },
     "Lightning Vertical Navigation Item Badge": {
         "prefix": "ltn.verticalNavigationItemBadge",
         "body": [
             "<lightning:verticalNavigationItemBadge label=\"${1:label}\" name=\"${2:name}\" badgeCount=\"{!${3:badgeCount}}\"/>"
         ],
-        "description": "Create Lightning Vertical Navigation Item Badge Code Unit (lightning:verticalNavigationItemBadge) [https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigationItemBadge/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Vertical Navigation Item Badge Code Unit (lightning:verticalNavigationItemBadge) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigationItemBadge/documentation)"
     },
     "Lightning Vertical Navigation Item Icon": {
         "prefix": "ltn.verticalNavigationItemIcon",
         "body": [
             "<lightning:verticalNavigationItemIcon label=\"${1:label}\" name=\"${2:name}\" iconName=\"${3:iconName}\"/>"
         ],
-        "description": "Create Lightning Vertical Navigation Item Icon Code Unit (lightning:verticalNavigationItemIcon) [https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigationItemIcon/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Vertical Navigation Item Icon Code Unit (lightning:verticalNavigationItemIcon) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigationItemIcon/documentation)"
     },
     "Lightning Vertical Navigation Overflow": {
         "prefix": "ltn.verticalNavigationOverflow",
@@ -1243,7 +1243,7 @@
             "\t${0:<!-- Put your Navigation Sections and Items here -->}",
             "</lightning:verticalNavigationOverflow>"
         ],
-        "description": "Create Lightning Vertical Navigation Overflow Code Unit (lightning:verticalNavigationOverflow) [https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigationOverflow/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Vertical Navigation Overflow Code Unit (lightning:verticalNavigationOverflow) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigationOverflow/documentation)"
     },
     "Lightning Vertical Navigation Section": {
         "prefix": "ltn.verticalNavigationSection",
@@ -1252,14 +1252,14 @@
             "\t${0:<!-- Put your Navigation Items here -->}",
             "</lightning:verticalNavigationSection>"
         ],
-        "description": "Create Lightning Vertical Navigation Section Code Unit (lightning:verticalNavigationSection) [https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigationSection/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Vertical Navigation Section Code Unit (lightning:verticalNavigationSection) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:verticalNavigationSection/documentation)"
     },
     "Lightning Vertical Workspace API": {
         "prefix": "ltn.workspaceAPI",
         "body": [
             "<lightning:workspaceAPI aura:id=\"${1:auraId}\">"
         ],
-        "description": "Create Lightning Workspace API Code Unit (lightning:workspaceAPI) [https://developer.salesforce.com/docs/component-library/bundle/lightning:workspaceAPI/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Workspace API Code Unit (lightning:workspaceAPI) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightning:workspaceAPI/documentation)"
     },
 
 
@@ -1268,7 +1268,7 @@
         "body": [
             "<lightningcommunity:backButton iconName=\"${1:iconName}\" class=\"${1:cssClass}\" onnavigationcomplete=\"{!c.${3:jsAction}}\"/>"
         ],
-        "description": "Create Community Back Button Code Unit (lightningcommunity:backButton) [https://developer.salesforce.com/docs/component-library/bundle/lightningcommunity:backButton/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Community Back Button Code Unit (lightningcommunity:backButton) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightningcommunity:backButton/documentation)"
     },
 
 
@@ -1278,105 +1278,105 @@
         "body": [
             "<lightningsnapin:minimizedAPI aura:id=\"${1:auraId}\"/>"
         ],
-        "description": "Create Lightning Snapin Minimized API Code Unit (lightningsnapin:minimizedAPI) [https://developer.salesforce.com/docs/component-library/bundle/lightningsnapin:minimizedAPI/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Snapin Minimized API Code Unit (lightningsnapin:minimizedAPI) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightningsnapin:minimizedAPI/documentation)"
     },
     "Lightning Snapin Prechat API": {
         "prefix": "ltnSnapin.prechatAPI",
         "body": [
             "<lightningsnapin:prechatAPI aura:id=\"${1:auraId}\"/>"
         ],
-        "description": "Create Lightning Snapin Prechat API Code Unit (lightningsnapin:prechatAPI) [https://developer.salesforce.com/docs/component-library/bundle/lightningsnapin:prechatAPI/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Snapin Prechat API Code Unit (lightningsnapin:prechatAPI) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightningsnapin:prechatAPI/documentation)"
     },
     "Lightning Snapin Settings API": {
         "prefix": "ltnSnapin.settingsAPI",
         "body": [
             "<lightningsnapin:settingsAPI aura:id=\"${1:auraId}\"/>"
         ],
-        "description": "Create Lightning Snapin Settings API Code Unit (lightningsnapin:settingsAPI) [https://developer.salesforce.com/docs/component-library/bundle/lightningsnapin:settingsAPI/documentation]\n\nPowered by Aura Helper"
+        "description": "Create Lightning Snapin Settings API Code Unit (lightningsnapin:settingsAPI) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/lightningsnapin:settingsAPI/documentation)"
     },
     "UI Action Menu Item": {
         "prefix": "ui.actionMenuItem",
         "body": [
             "<ui:actionMenuItem aura:id=\"${1:auraId}\" label=\"${2:label}\" click=\"{!c.${3:jsAction}}\"/>"
         ],
-        "description": "Create UI Action Menu Item Code Unit (ui:actionMenuItem) [https://developer.salesforce.com/docs/component-library/bundle/ui:actionMenuItem/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Action Menu Item Code Unit (ui:actionMenuItem) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:actionMenuItem/documentation)"
     },
     "UI Button": {
         "prefix": "ui.button",
         "body": [
             "<ui:button aura:id=\"${1:auraId}\" buttonTitle=\"${2:buttonTitle}\" label=\"${3:label}\" class=\"button\" press=\"{!c.${4:jsAction}}\"/>"
         ],
-        "description": "Create UI Button Code Unit (ui:button) [https://developer.salesforce.com/docs/component-library/bundle/ui:button/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Button Code Unit (ui:button) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:button/documentation)"
     },
     "UI Checkbox Menu Item": {
         "prefix": "ui.checkboxMenuItem",
         "body": [
             "<ui:checkboxMenuItem aura:id=\"${1:auraId}\" label=\"${2:label}\"/>"
         ],
-        "description": "Create UI Checkbox Menu Item Code Unit (ui:checkboxMenuItem) [https://developer.salesforce.com/docs/component-library/bundle/ui:checkboxMenuItem/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Checkbox Menu Item Code Unit (ui:checkboxMenuItem) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:checkboxMenuItem/documentation)"
     },
     "UI Input Checkbox": {
         "prefix": "ui.inputCheckbox",
         "body": [
             "<ui:inputCheckbox aura:id=\"${1:auraId}\" label=\"${2:label}\" change=\"{!c.${3:jsAction}}\"/>"
         ],
-        "description": "Create UI Input Checkbox Code Unit (ui:inputCheckbox) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputCheckbox/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Checkbox Code Unit (ui:inputCheckbox) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputCheckbox/documentation)"
     },
     "UI Input Currency": {
         "prefix": "ui.inputCurrency",
         "body": [
             "<ui:inputCurrency aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" change=\"{!c.${4:jsAction}}\" updateOn=\"${5:keyup}\"/>"
         ],
-        "description": "Create UI Input Currency Code Unit (ui:inputCurrency) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputCurrency/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Currency Code Unit (ui:inputCurrency) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputCurrency/documentation)"
     },
     "UI Input Date": {
         "prefix": "ui.inputDate",
         "body": [
             "<ui:inputDate aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" displayDatePicker=\"${4:true}\"/>"
         ],
-        "description": "Create UI Input Date Code Unit (ui:inputDate) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputDate/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Date Code Unit (ui:inputDate) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputDate/documentation)"
     },
     "UI Input Date Time": {
         "prefix": "ui.inputDateTime",
         "body": [
             "<ui:inputDateTime aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" displayDatePicker=\"${4:true}\"/>"
         ],
-        "description": "Create UI Input Date Time Code Unit (ui:inputDateTime) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputDateTime/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Date Time Code Unit (ui:inputDateTime) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputDateTime/documentation)"
     },
     "UI Input Email": {
         "prefix": "ui.inputEmail",
         "body": [
             "<ui:inputEmail aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\"/>"
         ],
-        "description": "Create UI Input Email Code Unit (ui:inputEmail) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputEmail/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Email Code Unit (ui:inputEmail) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputEmail/documentation)"
     },
     "UI Input Number": {
         "prefix": "ui.inputNumber",
         "body": [
             "<ui:inputNumber aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" updateOn=\"${4:keyup}\"/>"
         ],
-        "description": "Create UI Input Number Code Unit (ui:inputNumber) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputNumber/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Number Code Unit (ui:inputNumber) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputNumber/documentation)"
     },
     "UI Input Phone": {
         "prefix": "ui.inputPhone",
         "body": [
             "<ui:inputPhone aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\"/>"
         ],
-        "description": "Create UI Input Phone Code Unit (ui:inputPhone) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputPhone/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Phone Code Unit (ui:inputPhone) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputPhone/documentation)"
     },
     "UI Input Radio": {
         "prefix": "ui.inputRadio",
         "body": [
             "<ui:inputRadio aura:id=\"${1:auraId}\" name=\"${2:name}\" label=\"${3:label}\" change=\"{!c.${4:jsAction}}\" value=\"${5:false}\"/>"
         ],
-        "description": "Create UI Input Radio Code Unit (ui:inputRadio) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputRadio/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Radio Code Unit (ui:inputRadio) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputRadio/documentation)"
     },
     "UI Input Secret": {
         "prefix": "ui.inputSecret",
         "body": [
             "<ui:inputSecret aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\"/>"
         ],
-        "description": "Create UI Input Secret Code Unit (ui:inputSecret) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputSecret/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Secret Code Unit (ui:inputSecret) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputSecret/documentation)"
     },
     "UI Input Select": {
         "prefix": "ui.inputSelect",
@@ -1387,7 +1387,7 @@
             "\t</aura:iteration>",
             "</ui:inputSelect>"
         ],
-        "description": "Create UI Input Select Single Selection Code Unit (ui:inputSelect) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputSelect/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Select Single Selection Code Unit (ui:inputSelect) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputSelect/documentation)"
     },
     "UI Input Select Multiple": {
         "prefix": "ui.inputSelectMultiple",
@@ -1398,7 +1398,7 @@
             "\t</aura:iteration>",
             "</ui:inputSelect>"
         ],
-        "description": "Create UI Input Select Multiple Selection Code Unit (ui:inputSelect) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputSelect/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Select Multiple Selection Code Unit (ui:inputSelect) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputSelect/documentation)"
     },
     "UI Input Select Dynamic": {
         "prefix": "ui.inputSelectDynamic",
@@ -1412,28 +1412,28 @@
         "body": [
             "<ui:inputSelectOption text=\"${1:text}\"/>"
         ],
-        "description": "Create UI Input Select Option Code Unit (ui:inputSelectOption) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputSelectOption/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Select Option Code Unit (ui:inputSelectOption) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputSelectOption/documentation)"
     },
     "UI Input Text": {
         "prefix": "ui.inputText",
         "body": [
             "<ui:inputText aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" updateOn=\"${4:keyup}\"/>"
         ],
-        "description": "Create UI Input Text Code Unit (ui:inputText) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputText/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Text Code Unit (ui:inputText) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputText/documentation)"
     },
     "UI Input Text Area": {
         "prefix": "ui.inputTextArea",
         "body": [
             "<ui:inputTextArea aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\" rows=\"${4:nRows}\"/>"
         ],
-        "description": "Create UI Input Text Area Code Unit (ui:inputTextArea) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputTextArea/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input Text Area Code Unit (ui:inputTextArea) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputTextArea/documentation)"
     },
     "UI Input URL": {
         "prefix": "ui.inputURL",
         "body": [
             "<ui:inputURL aura:id=\"${1:auraId}\" label=\"${2:label}\" value=\"{!${3:value}}\"/>"
         ],
-        "description": "Create UI Input URL Code Unit (ui:inputURL) [https://developer.salesforce.com/docs/component-library/bundle/ui:inputURL/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Input URL Code Unit (ui:inputURL) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:inputURL/documentation)"
     },
     "UI Menu": {
         "prefix": "ui.menu",
@@ -1442,14 +1442,14 @@
             "\t${0: <!-- Put your menu items here -->}",
             "</ui:menu>"
         ],
-        "description": "Create UI Menu Code Unit (ui:menu) [https://developer.salesforce.com/docs/component-library/bundle/ui:menu/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Menu Code Unit (ui:menu) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:menu/documentation)"
     },
     "UI Menu Item Separator": {
         "prefix": "ui.menuItemSeparator",
         "body": [
             "<ui:menuItemSeparator/>"
         ],
-        "description": "Create UI Menu Item Separator Code Unit (ui:menuItemSeparator) [https://developer.salesforce.com/docs/component-library/bundle/ui:menuItemSeparator/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Menu Item Separator Code Unit (ui:menuItemSeparator) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:menuItemSeparator/documentation)"
     },
     "UI Menu List": {
         "prefix": "ui.menuList",
@@ -1458,14 +1458,14 @@
             "\t${0: <!-- Put your menu items here -->}",
             "</ui:menuList>"
         ],
-        "description": "Create UI Menu List Code Unit (ui:menuList) [https://developer.salesforce.com/docs/component-library/bundle/ui:menuList/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Menu List Code Unit (ui:menuList) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:menuList/documentation)"
     },
     "UI Menu Trigger Link": {
         "prefix": "ui.menuTriggerLink",
         "body": [
             "<ui:menuTriggerLink aura:id=\"${1:auraId}\" label=\"${2:label}\"/>"
         ],
-        "description": "Create UI Menu List Code Unit (ui:menuTriggerLink) [https://developer.salesforce.com/docs/component-library/bundle/ui:menuTriggerLink/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Menu List Code Unit (ui:menuTriggerLink) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:menuTriggerLink/documentation)"
     },
     "UI Message Confirmation": {
         "prefix": "ui.messageConfirm",
@@ -1474,7 +1474,7 @@
             "\t${0:<!-- Put your message here -->}",
             "</ui:message>"
         ],
-        "description": "Create UI Confirmation Message Code Unit (ui:message) [https://developer.salesforce.com/docs/component-library/bundle/ui:message/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Confirmation Message Code Unit (ui:message) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:message/documentation)"
     },
     "UI Message Information": {
         "prefix": "ui.messageInfo",
@@ -1483,7 +1483,7 @@
             "\t${0:<!-- Put your message here -->}",
             "</ui:message>"
         ],
-        "description": "Create UI Information Message Code Unit (ui:message) [https://developer.salesforce.com/docs/component-library/bundle/ui:message/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Information Message Code Unit (ui:message) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:message/documentation)"
     },
     "UI Message Warning": {
         "prefix": "ui.messageWarning",
@@ -1492,7 +1492,7 @@
             "\t${0:<!-- Put your message here -->}",
             "</ui:message>"
         ],
-        "description": "Create UI Warning Message Code Unit (ui:message) [https://developer.salesforce.com/docs/component-library/bundle/ui:message/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Warning Message Code Unit (ui:message) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:message/documentation)"
     },
     "UI Message Error": {
         "prefix": "ui.messageError",
@@ -1501,91 +1501,91 @@
             "\t${0:<!-- Put your message here -->}",
             "</ui:message>"
         ],
-        "description": "Create UI Error Message Code Unit (ui:message) [https://developer.salesforce.com/docs/component-library/bundle/ui:message/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Error Message Code Unit (ui:message) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:message/documentation)"
     },
     "UI Output Checkbox": {
         "prefix": "ui.outputCheckbox",
         "body": [
             "<ui:outputCheckbox aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
         ],
-        "description": "Create UI Output Checkbox Code Unit (ui:outputCheckbox) [https://developer.salesforce.com/docs/component-library/bundle/ui:outputCheckbox/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Output Checkbox Code Unit (ui:outputCheckbox) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:outputCheckbox/documentation)"
     },
     "UI Output Currency": {
         "prefix": "ui.outputCurrency",
         "body": [
             "<ui:outputCurrency aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
         ],
-        "description": "Create UI Output Currency Code Unit (ui:outputCurrency) [https://developer.salesforce.com/docs/component-library/bundle/ui:outputCurrency/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Output Currency Code Unit (ui:outputCurrency) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:outputCurrency/documentation)"
     },
     "UI Output Date": {
         "prefix": "ui.outputDate",
         "body": [
             "<ui:outputDate aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
         ],
-        "description": "Create UI Output Date Code Unit (ui:outputDate) [https://developer.salesforce.com/docs/component-library/bundle/ui:outputDate/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Output Date Code Unit (ui:outputDate) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:outputDate/documentation)"
     },
     "UI Output Date Time": {
         "prefix": "ui.outputDateTime",
         "body": [
             "<ui:outputDateTime aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
         ],
-        "description": "Create UI Output Date Time Code Unit (ui:outputDateTime) [https://developer.salesforce.com/docs/component-library/bundle/ui:outputDateTime/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Output Date Time Code Unit (ui:outputDateTime) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:outputDateTime/documentation)"
     },
     "UI Output Email": {
         "prefix": "ui.outputEmail",
         "body": [
             "<ui:outputEmail aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
         ],
-        "description": "Create UI Output Email Code Unit (ui:outputEmail) [https://developer.salesforce.com/docs/component-library/bundle/ui:outputEmail/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Output Email Code Unit (ui:outputEmail) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:outputEmail/documentation)"
     },
     "UI Output Number": {
         "prefix": "ui.outputNumber",
         "body": [
             "<ui:outputNumber aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
         ],
-        "description": "Create UI Output Number Code Unit (ui:outputNumber) [https://developer.salesforce.com/docs/component-library/bundle/ui:outputNumber/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Output Number Code Unit (ui:outputNumber) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:outputNumber/documentation)"
     },
     "UI Output Phone": {
         "prefix": "ui.outputPhone",
         "body": [
             "<ui:outputPhone aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
         ],
-        "description": "Create UI Output Phone Code Unit (ui:outputPhone) [https://developer.salesforce.com/docs/component-library/bundle/ui:outputPhone/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Output Phone Code Unit (ui:outputPhone) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:outputPhone/documentation)"
     },
     "UI Output Rich Text": {
         "prefix": "ui.outputRichText",
         "body": [
             "<ui:outputRichText aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
         ],
-        "description": "Create UI Output Rich Text Code Unit (ui:outputRichText) [https://developer.salesforce.com/docs/component-library/bundle/ui:outputRichText/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Output Rich Text Code Unit (ui:outputRichText) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:outputRichText/documentation)"
     },
     "UI Output Text": {
         "prefix": "ui.outputText",
         "body": [
             "<ui:outputText aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
         ],
-        "description": "Create UI Output Text Code Unit (ui:outputText) [https://developer.salesforce.com/docs/component-library/bundle/ui:outputText/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Output Text Code Unit (ui:outputText) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:outputText/documentation)"
     },
     "UI Output Text Area": {
         "prefix": "ui.outputTextArea",
         "body": [
             "<ui:outputTextArea aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
         ],
-        "description": "Create UI Output Text Area Code Unit (ui:outputTextArea) [https://developer.salesforce.com/docs/component-library/bundle/ui:outputTextArea/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Output Text Area Code Unit (ui:outputTextArea) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:outputTextArea/documentation)"
     },
     "UI Output URL": {
         "prefix": "ui.outputURL",
         "body": [
             "<ui:outputURL aura:id=\"${1:auraId}\" value=\"{!${2:value}}\"/>"
         ],
-        "description": "Create UI Output URL Code Unit (ui:outputURL) [https://developer.salesforce.com/docs/component-library/bundle/ui:outputURL/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Output URL Code Unit (ui:outputURL) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:outputURL/documentation)"
     },
     "UI Radio Menu Item": {
         "prefix": "ui.radioMenuItem",
         "body": [
             "<ui:radioMenuItem label=\"${1:label}\"/>"
         ],
-        "description": "Create UI Radio Menu Item Code Unit (ui:radioMenuItem) [https://developer.salesforce.com/docs/component-library/bundle/ui:radioMenuItem/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Radio Menu Item Code Unit (ui:radioMenuItem) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:radioMenuItem/documentation)"
     },
     "UI Scroller Wrapper": {
         "prefix": "ui.scrollerWrapper",
@@ -1594,6 +1594,6 @@
             "\t${0:<-- Put your content here -->}",
             "</ui:scrollerWrapper>"
         ],
-        "description": "Create UI Scroller Wrapper Code Unit (ui:scrollerWrapper) [https://developer.salesforce.com/docs/component-library/bundle/ui:scrollerWrapper/documentation]\n\nPowered by Aura Helper"
+        "description": "Create UI Scroller Wrapper Code Unit (ui:scrollerWrapper) \n\n[Documentation](https://developer.salesforce.com/docs/component-library/bundle/ui:scrollerWrapper/documentation)"
     }
 }
