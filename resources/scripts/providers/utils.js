@@ -193,7 +193,7 @@ class ProviderUtils {
         let pickItems = [];
         let itemRel;
         let detail = sObject.name + ' Field';
-        const documentation = new MarkDownStringBuilder().appendApexCodeBlock(field.name).appendMarkdown(detail + '\n\n');
+        const documentation = new MarkDownStringBuilder();
         const relDocumentation = new MarkDownStringBuilder();
         let doc = "  - **Label**: `" + field.label + '`  \n';
         if (field.length)
@@ -202,21 +202,22 @@ class ProviderUtils {
             doc += "  - **Type**: `" + field.type + '`  \n';
         if (field.custom !== undefined)
             doc += "  - **Is Custom**: `" + field.custom + '`  \n';
+        documentation.appendApexCodeBlock(sObject.name + '.' + field.name).appendMarkdown(detail + '\n\n').appendMarkdown(doc + '\n\n');
         if (field.referenceTo.length > 0) {
             doc += "  - **Reference To**: " + field.referenceTo.join(", ") + '\n';
             let name = field.name;
             if (name.endsWith('__c')) {
                 name = name.substring(0, name.length - 3) + '__r';
-                relDocumentation.appendApexCodeBlock(name);
+                relDocumentation.appendApexCodeBlock(sObject.name + '.' + name);
                 relDocumentation.appendMarkdown('Relationship with ' + field.referenceTo.join(", ") + ' SObject(s) \n\n');
-                relDocumentation.appendMarkdown(doc);
+                relDocumentation.appendMarkdown(doc + '\n\n');
                 const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Lookup Field", relDocumentation.build(), name, true, CompletionItemKind.Field);
                 itemRel = ProviderUtils.createItemForCompletion(name, options);
             } else if (name.endsWith('Id')) {
                 name = name.substring(0, name.length - 2);
-                relDocumentation.appendApexCodeBlock(name);
+                relDocumentation.appendApexCodeBlock(sObject.name + '.' + name);
                 relDocumentation.appendMarkdown('Relationship with ' + field.referenceTo.join(", ") + ' SObject(s) \n\n');
-                relDocumentation.appendMarkdown(doc);
+                relDocumentation.appendMarkdown(doc + '\n\n');
                 const options = ProviderUtils.getCompletionItemOptions(sObject.name + " Lookup Field", relDocumentation.build(), name, true, CompletionItemKind.Field);
                 itemRel = ProviderUtils.createItemForCompletion(name, options);
             }
@@ -227,7 +228,7 @@ class ProviderUtils {
             for (const pickVal of field.picklistValues) {
                 if (activationTokens.length <= 3 && activationTokens.length > 0 && activationTokens[0].toLowerCase() === sObject.name.toLowerCase()) {
                     const pickDocumentation = new MarkDownStringBuilder();
-                    pickDocumentation.appendApexCodeBlock(field.name);
+                    pickDocumentation.appendApexCodeBlock(sObject.name + '.' + field.name);
                     let pickDoc = "  - **Value**: `" + pickVal.value + '`  \n';
                     pickDoc += "  - **Label**: `" + pickVal.label + '`  \n';
                     pickDoc += "  - **Active**: `" + pickVal.active + '`  \n';
@@ -249,13 +250,13 @@ class ProviderUtils {
                     pickDocumentation.appendMarkdownSeparator();
                     pickDocumentation.appendMarkdownH4('Snippet');
                     pickDocumentation.appendApexCodeBlock(pickValue);
-                    const options = ProviderUtils.getCompletionItemOptions(pickVal.label.toString(), pickDocumentation.build(), pickValue.toString(), true, CompletionItemKind.Value);
+                    const options = ProviderUtils.getCompletionItemOptions('Picklist Value', pickDocumentation.build(), pickValue.toString(), true, CompletionItemKind.Value);
                     const pickItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + field.name + '.' + pickVal.value.toString(), options);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         pickItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     pickItems.push(pickItem);
                 }
-                documentation.appendMarkdownH4('  - `' + pickVal.value + "` (" + pickVal.label + ")  \n");
+                documentation.appendMarkdown('  - `' + pickVal.value + "` (" + pickVal.label + ")  \n");
             }
         }
         const options = ProviderUtils.getCompletionItemOptions(detail, documentation.build(), field.name, true, CompletionItemKind.Field);
@@ -281,9 +282,9 @@ class ProviderUtils {
                 for (const rtKey of Object.keys(sObject.recordTypes)) {
                     const rtNameDocumentation = new MarkDownStringBuilder();
                     const rtDevNameDocumentation = new MarkDownStringBuilder();
-                    rtNameDocumentation.appendApexCodeBlock(sObject.name);
-                    rtDevNameDocumentation.appendApexCodeBlock(sObject.name);
                     const rt = sObject.recordTypes[rtKey];
+                    rtNameDocumentation.appendApexCodeBlock(sObject.name + '.' + rt.name);
+                    rtDevNameDocumentation.appendApexCodeBlock(sObject.name + '.' + rt.developerName);
                     let rtDoc = "  - **Name**: `" + rt.name + '`\n';
                     rtDoc += "  - **Developer Name**: `" + rt.developerName + '`\n';
                     if (rt.default !== undefined)
@@ -292,8 +293,6 @@ class ProviderUtils {
                         rtDoc += "  - **Master**: `" + rt.master + '`';
                     let nameValue;
                     let devNameValue;
-                    rtNameDocumentation.appendMarkdown(rtDoc);
-                    rtDevNameDocumentation.appendMarkdown(rtDoc);
                     if (positionData && positionData.onText) {
                         nameValue = rt.name;
                         devNameValue = rt.developerName;
@@ -310,17 +309,19 @@ class ProviderUtils {
                         nameValue = rt.name;
                         devNameValue = rt.developerName;
                     }
+                    rtNameDocumentation.appendMarkdown('`' + rt.name + '` Record Type Name. Select this option to replace with the record type name value. Replace `' + activationTokens.join('.') + '` with `' + nameValue + '`\n\n');
+                    rtDevNameDocumentation.appendMarkdown('`' + rt.developerName + '` Record Type Developer Name. Select this option to replace with the record type developer name value. Replace `' + activationTokens.join('.') + '` with `' + devNameValue + '`\n\n');
+                    rtNameDocumentation.appendMarkdown(rtDoc);
+                    rtDevNameDocumentation.appendMarkdown(rtDoc);
                     rtNameDocumentation.appendMarkdownSeparator();
                     rtNameDocumentation.appendMarkdownH4('Snippet');
                     rtNameDocumentation.appendApexCodeBlock(nameValue);
                     rtDevNameDocumentation.appendMarkdownSeparator();
                     rtDevNameDocumentation.appendMarkdownH4('Snippet');
                     rtDevNameDocumentation.appendApexCodeBlock(devNameValue);
-                    const rtNameDetail = '`' + rt.name + '` Record Type Name. Select this option to replace with the record type name value. Replace `' + activationTokens.join('.') + '` with `' + nameValue + '`';
-                    const nameOptions = ProviderUtils.getCompletionItemOptions(rtNameDetail, rtNameDocumentation.build(), nameValue, true, CompletionItemKind.Value);
+                    const nameOptions = ProviderUtils.getCompletionItemOptions('Record Type Name', rtNameDocumentation.build(), nameValue, true, CompletionItemKind.Value);
                     const nameRtItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + rt.name, nameOptions);
-                    const rtDevNameDetail = '`' + rt.developerName + '` Record Type Developer Name. Select this option to replace with the record type developer name value. Replace `' + activationTokens.join('.') + '` with `' + devNameValue + '`';
-                    const devNameoptions = ProviderUtils.getCompletionItemOptions(rtDevNameDetail, rtNameDocumentation.build(), devNameValue, true, CompletionItemKind.Value);
+                    const devNameoptions = ProviderUtils.getCompletionItemOptions('Record Type Developer Name', rtNameDocumentation.build(), devNameValue, true, CompletionItemKind.Value);
                     const devNameRtItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + rt.developerName, devNameoptions);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         nameRtItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
@@ -393,7 +394,7 @@ class ProviderUtils {
                 }
                 documentation.appendApexCodeBlock(sObject.name);
                 documentation.appendMarkdown(description);
-                const options = ProviderUtils.getCompletionItemOptions(sObject.name, documentation.build(), sObject.name, true, CompletionItemKind.Class);
+                const options = ProviderUtils.getCompletionItemOptions('SObject', documentation.build(), sObject.name, true, CompletionItemKind.Class);
                 const item = ProviderUtils.createItemForCompletion(sObject.name, options);
                 if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
@@ -736,122 +737,197 @@ class ProviderUtils {
         if (node) {
             if (node.nodeType === ApexNodeTypes.ENUM) {
                 for (const value of node.values) {
-                    const options = ProviderUtils.getCompletionItemOptions('Enum Member', '', value.text, true, CompletionItemKind.EnumMember);
+                    const documentation = new MarkDownStringBuilder();
+                    documentation.appendApexCodeBlock(node.name + '.' + value.text);
+                    documentation.appendMarkdown(node.name + ' enum value\n\n');
+                    const options = ProviderUtils.getCompletionItemOptions(node.name + ' Value', documentation.build(), value.text, true, CompletionItemKind.EnumMember);
                     items.push(ProviderUtils.createItemForCompletion(value.text, options));
                 }
             } else {
-                if (node.positionData && (node.positionData.nodeType === ApexNodeTypes.METHOD || node.positionData.nodeType === ApexNodeTypes.CONSTRUCTOR)) {
-                    const method = node.methods[node.positionData.signature.toLowerCase()];
-                    const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
-                    const paramsTagData = tagsData['params'];
-                    for (const paramName of Object.keys(method.params)) {
-                        const param = method.params[paramName];
-                        const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
-                        let description = '';
-                        if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
-                            for (const data of paramsTagData.tagData) {
-                                if (data.keywords) {
-                                    for (const keyword of paramsTagData.tag.keywords) {
-                                        if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
-                                            description += StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n') + '\n\n'
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        description += 'Type: ' + datatype;
-                        const options = ProviderUtils.getCompletionItemOptions(datatype + ' ' + param.name, description, param.name, true, CompletionItemKind.Variable);
-                        items.push(ProviderUtils.createItemForCompletion(param.name, options));
-                    }
-                    for (const varName of Object.keys(method.variables)) {
-                        const variable = method.variables[varName];
-                        const datatype = StrUtils.replace(variable.datatype.name, ',', ', ');
-                        let description = '';
-                        if (variable.description && variable.description.length > 0) {
-                            description += StrUtils.replace(variable.description, '\n', '\n\n') + '\n\n';
-                        } else if (variable.comment && variable.comment.description && variable.comment.description.length > 0) {
-                            description += StrUtils.replace(variable.comment.description, '\n', '\n\n') + '\n\n';
-                        }
-                        description += 'Type: ' + datatype;
-                        const options = ProviderUtils.getCompletionItemOptions(datatype + ' ' + variable.name, description, variable.name, true, CompletionItemKind.Variable);
-                        items.push(ProviderUtils.createItemForCompletion(variable.name, options));
-                    }
-                }
-                for (const varName of Object.keys(node.variables)) {
-                    const variable = node.variables[varName];
-                    const datatype = StrUtils.replace(variable.datatype.name, ',', ', ');
-                    let description = '';
-                    if (variable.description && variable.description.length > 0) {
-                        description += StrUtils.replace(variable.description, '\n', '\n\n') + '\n\n';
-                    } else if (variable.comment && variable.comment.description && variable.comment.description.length > 0) {
-                        description += StrUtils.replace(variable.comment.description, '\n', '\n\n') + '\n\n';
-                    }
-                    description += 'Type: ' + datatype;
-                    if (variable.nodeType === ApexNodeTypes.PROPERTY) {
-                        const options = ProviderUtils.getCompletionItemOptions('Class Property', description, variable.name, true, CompletionItemKind.Property);
-                        items.push(ProviderUtils.createItemForCompletion(variable.name, options));
-                    } else if (variable.final) {
-                        const options = ProviderUtils.getCompletionItemOptions('Class field', description, variable.name, true, CompletionItemKind.Constant);
-                        items.push(ProviderUtils.createItemForCompletion(variable.name, options));
-                    } else {
-                        const options = ProviderUtils.getCompletionItemOptions('Class field', description, variable.name, true, CompletionItemKind.Field);
-                        items.push(ProviderUtils.createItemForCompletion(variable.name, options));
-                    }
-                }
-                for (const constructorName of Object.keys(node.constructors)) {
-                    const construct = node.constructors[constructorName];
-                    let insertText = construct.name + "(";
-                    let snippetNum = 1;
-                    let name = construct.name + "(";
-                    let description = '';
-                    if (construct.description && construct.description.length > 0) {
-                        description += StrUtils.replace(construct.description, '\n', '\n\n') + '\n\n';
-                    } else if (construct.comment && construct.comment.description && construct.comment.description.length > 0) {
-                        description += StrUtils.replace(construct.comment.description, '\n', '\n\n');
-                    }
-                    if (Utils.hasKeys(construct.params)) {
-                        const tagsData = TemplateUtils.getTagsDataBySource(['params'], construct.comment);
+                if (node.positionData && (node.positionData.nodeType === ApexNodeTypes.METHOD || node.positionData.nodeType === ApexNodeTypes.CONSTRUCTOR || node.positionData.nodeType === ApexNodeTypes.INITIALIZER || node.positionData.nodeType === ApexNodeTypes.STATIC_CONSTRUCTOR)) {
+                    let method;
+                    if (node.positionData.nodeType === ApexNodeTypes.METHOD)
+                        method = node.methods[node.positionData.signature.toLowerCase()];
+                    if (node.positionData.nodeType === ApexNodeTypes.CONSTRUCTOR)
+                        method = node.constructors[node.positionData.signature.toLowerCase()];
+                    if (node.positionData.nodeType === ApexNodeTypes.INITIALIZER)
+                        method = node.initializer;
+                    if (node.positionData.nodeType === ApexNodeTypes.STATIC_CONSTRUCTOR)
+                        method = node.staticConstructor;
+                    if (method.params && Utils.hasKeys(method.params)) {
+                        const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
                         const paramsTagData = tagsData['params'];
-                        description += '**Parameters**:   \n\n';
-                        for (const paramName of Object.keys(construct.params)) {
-                            const param = construct.params[paramName];
+                        for (const param of method.getOrderedParams()) {
+                            const documentation = new MarkDownStringBuilder();
                             const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
-                            description += '  - **' + param.name + '** `' + datatype + '`';
-                            if (param.description) {
-                                description += ' :' + StrUtils.replace(param.description, '\n', '\n\n') + '\n';
-                            } else if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
+                            let code = '';
+                            if (param.final)
+                                code += param.final.text + ' ';
+                            code += datatype + ' ' + param.name;
+                            documentation.appendApexCodeBlock(code);
+                            let description = '*' + param.name + '* `' + datatype + '`';
+                            if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
                                 for (const data of paramsTagData.tagData) {
                                     if (data.keywords) {
                                         for (const keyword of paramsTagData.tag.keywords) {
                                             if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
-                                                description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n') + '\n';
+                                                description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
                                             }
                                         }
                                     }
                                 }
                             }
+                            documentation.appendMarkdown(description + '\n\n');
+                            const options = ProviderUtils.getCompletionItemOptions(datatype, documentation.build(), param.name, true, CompletionItemKind.Variable);
+                            items.push(ProviderUtils.createItemForCompletion(param.name, options));
+                        }
+                    }
+                    for (const variable of method.getOrderedVariables()) {
+                        const documentation = new MarkDownStringBuilder();
+                        const datatype = StrUtils.replace(variable.datatype.name, ',', ', ');
+                        documentation.appendApexCodeBlock(datatype + ' ' + variable.name);
+                        let description = '*' + variable.name + '* `' + datatype + '`';
+                        if (variable.description && variable.description.length > 0) {
+                            description += ' &mdash; ' + StrUtils.replace(variable.description, '\n', '\n\n');
+                        } else if (variable.comment && variable.comment.description && variable.comment.description.length > 0) {
+                            description += ' &mdash; ' + StrUtils.replace(variable.comment.description, '\n', '\n\n');
+                        }
+                        documentation.appendMarkdown(description + '\n\n');
+                        const options = ProviderUtils.getCompletionItemOptions(datatype, documentation.build(), variable.name, true, CompletionItemKind.Variable);
+                        items.push(ProviderUtils.createItemForCompletion(variable.name, options));
+                    }
+                } else {
+                    for (const varName of Object.keys(node.variables)) {
+                        const documentation = new MarkDownStringBuilder();
+                        const variable = node.variables[varName];
+                        const datatype = StrUtils.replace(variable.datatype.name, ',', ', ');
+                        let code = '';
+                        if (variable.accessModifier)
+                            code += variable.accessModifier.text + ' ';
+                        if (variable.definitionModifier)
+                            code += variable.definitionModifier.text + ' ';
+                        if (variable.static)
+                            code += variable.static.text + ' ';
+                        if (variable.final)
+                            code += variable.final.text + ' ';
+                        if (variable.transient)
+                            code += variable.transient.text + ' ';
+                        code += datatype + ' ' + variable.name;
+                        documentation.appendApexCodeBlock(code);
+                        let description = '*' + variable.name + '* `' + datatype + '`';
+                        if (variable.description && variable.description.length > 0) {
+                            description += ' &mdash; ' + StrUtils.replace(variable.description, '\n', '\n\n');
+                        } else if (variable.comment && variable.comment.description && variable.comment.description.length > 0) {
+                            description += ' &mdash; ' + StrUtils.replace(variable.comment.description, '\n', '\n\n');
+                        }
+                        documentation.appendMarkdown(description + '\n\n');
+                        if (variable.nodeType === ApexNodeTypes.PROPERTY) {
+                            const options = ProviderUtils.getCompletionItemOptions(datatype, documentation.build(), variable.name, true, CompletionItemKind.Property);
+                            items.push(ProviderUtils.createItemForCompletion(variable.name, options));
+                        } else if (variable.final) {
+                            const options = ProviderUtils.getCompletionItemOptions(datatype, documentation.build(), variable.name, true, CompletionItemKind.Constant);
+                            items.push(ProviderUtils.createItemForCompletion(variable.name, options));
+                        } else {
+                            const options = ProviderUtils.getCompletionItemOptions(datatype, documentation.build(), variable.name, true, CompletionItemKind.Field);
+                            items.push(ProviderUtils.createItemForCompletion(variable.name, options));
+                        }
+                    }
+                }
+                for (const constructorName of Object.keys(node.constructors)) {
+                    const documentation = new MarkDownStringBuilder();
+                    const construct = node.constructors[constructorName];
+                    let insertText = construct.name + "(";
+                    let snippetNum = 1;
+                    let name = construct.name + "(";
+                    let signature = '';
+                    if (construct.accessModifier)
+                        signature += construct.accessModifier.text + ' ';
+                    if (construct.definitionModifier)
+                        signature += construct.definitionModifier.text + ' ';
+                    if (construct.static)
+                        signature += construct.static.text + ' ';
+                    if (construct.final)
+                        signature += construct.final.text + ' ';
+                    if (construct.transient)
+                        signature += construct.transient.text + ' ';
+                    signature += construct.name + "(";
+                    let description = '';
+                    if (construct.description && construct.description.length > 0) {
+                        description += StrUtils.replace(construct.description, '\n', '\n\n') + '\n\n';
+                    } else if (construct.comment && construct.comment.description && construct.comment.description.length > 0) {
+                        description += StrUtils.replace(construct.comment.description, '\n', '\n\n') + '\n\n';
+                    }
+                    if (Utils.hasKeys(construct.params)) {
+                        const tagsData = TemplateUtils.getTagsDataBySource(['params'], construct.comment);
+                        const paramsTagData = tagsData['params'];
+                        documentation.appendMarkdownH4('Params');
+                        for (const paramName of Object.keys(construct.params)) {
+                            const param = construct.params[paramName];
+                            const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
+                            description += '  - **' + param.name + '** `' + datatype + '`';
+                            if (param.description) {
+                                description += ' &mdash; ' + StrUtils.replace(param.description, '\n', '\n\n');
+                            } else if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
+                                for (const data of paramsTagData.tagData) {
+                                    if (data.keywords) {
+                                        for (const keyword of paramsTagData.tag.keywords) {
+                                            if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                                description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            description += '\n';
                             if (snippetNum === 1) {
+                                if (construct.final)
+                                    signature += construct.final.text + ' ';
+                                signature += datatype + ' ' + param.name;
                                 name += param.name;
                                 insertText += "${" + snippetNum + ":" + param.name + "}";
                             }
                             else {
                                 name += ", " + param.name;
+                                signature += ', ';
+                                if (construct.final)
+                                    signature += construct.final.text + ' ';
+                                signature += datatype + ' ' + param.name;
                                 insertText += ", ${" + snippetNum + ":" + param.name + "}";
                             }
                             snippetNum++;
                         }
+                        description += '\n';
                     }
+                    signature += ')';
                     name += ")";
                     insertText += ")";
-                    let options = ProviderUtils.getCompletionItemOptions(construct.signature, description, new SnippetString(insertText), true, CompletionItemKind.Constructor);
+                    documentation.appendApexCodeBlock(signature);
+                    documentation.appendMarkdown(description);
+                    documentation.appendMarkdownSeparator();
+                    documentation.appendMarkdownH4('Snippet');
+                    documentation.appendApexCodeBlock(insertText);
+                    let options = ProviderUtils.getCompletionItemOptions(construct.signature, documentation.build(), new SnippetString(insertText), true, CompletionItemKind.Constructor);
                     items.push(ProviderUtils.createItemForCompletion(name, options));
                 }
                 for (const methodName of Object.keys(node.methods)) {
+                    const documentation = new MarkDownStringBuilder();
                     const method = node.methods[methodName];
                     const datatype = StrUtils.replace(method.datatype.name, ',', ', ');
+                    let signature = '';
                     let insertText = method.name + "(";
                     let snippetNum = 1;
                     let name = method.name + "(";
+                    if (method.accessModifier)
+                        signature += method.accessModifier.text + ' ';
+                    if (method.definitionModifier)
+                        signature += method.definitionModifier.text + ' ';
+                    if (method.static)
+                        signature += method.static.text + ' ';
+                    if (method.final)
+                        signature += method.final.text + ' ';
+                    if (method.transient)
+                        signature += method.transient.text + ' ';
+                    signature += datatype + ' ' + method.name + "(";
                     let description = '';
                     if (method.description && method.description.length > 0) {
                         description += method.description + '\n\n';
@@ -860,71 +936,126 @@ class ProviderUtils {
                     }
                     const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
                     if (Utils.hasKeys(method.params)) {
+                        const tagsData = TemplateUtils.getTagsDataBySource(['params'], method.comment);
                         const paramsTagData = tagsData['params'];
-                        description += '**Parameters**:   \n\n';
+                        description += '#### Params\n\n'
                         for (const paramName of Object.keys(method.params)) {
                             const param = method.params[paramName];
-                            const paramDatatype = StrUtils.replace(param.datatype.name, ',', ', ');
-                            description += '  - **' + param.name + '** `' + paramDatatype + '`';
+                            const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
+                            description += '  - **' + param.name + '** `' + datatype + '`';
                             if (param.description) {
-                                description += ' :' + StrUtils.replace(param.description, '\n', '\n\n') + '\n';
+                                description += ' &mdash; ' + StrUtils.replace(param.description, '\n', '\n\n');
                             } else if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
                                 for (const data of paramsTagData.tagData) {
                                     if (data.keywords) {
                                         for (const keyword of paramsTagData.tag.keywords) {
                                             if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
-                                                description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n') + '\n';
+                                                description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
                                             }
                                         }
                                     }
                                 }
                             }
+                            description += '\n';
                             if (snippetNum === 1) {
+                                if (method.final)
+                                    signature += method.final.text + ' ';
+                                signature += datatype + ' ' + param.name;
                                 name += param.name;
                                 insertText += "${" + snippetNum + ":" + param.name + "}";
                             }
                             else {
                                 name += ", " + param.name;
+                                signature += ', ';
+                                if (method.final)
+                                    signature += method.final.text + ' ';
+                                signature += datatype + ' ' + param.name;
                                 insertText += ", ${" + snippetNum + ":" + param.name + "}";
                             }
                             snippetNum++;
                         }
+                        description += '\n';
                     }
                     if (method.datatype && method.datatype.name !== 'void') {
-                        description += '**Return**  `' + method.datatype.name + '`';
+                        description += '**Return** `' + method.datatype.name + '`';
                         const returnTagData = tagsData['return'];
                         if (returnTagData && returnTagData.tag && returnTagData.tagData && returnTagData.tagName) {
                             for (const data of returnTagData.tagData) {
                                 if (data.keywords) {
                                     for (const keyword of returnTagData.tag.keywords) {
                                         if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
-                                            description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n'); + '\n';
+                                            description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n') + '\n';
                                         }
                                     }
                                 }
                             }
+                            description += '\n';
+                        } else {
+                            description += '\n\n';
                         }
                     }
                     name += ")";
                     insertText += ")";
+                    signature += ')';
                     if (datatype === 'void')
                         insertText += ';';
-                    const options = ProviderUtils.getCompletionItemOptions(method.signature, description, new SnippetString(insertText), true, CompletionItemKind.Method);
+                    documentation.appendApexCodeBlock(signature);
+                    documentation.appendMarkdown(description);
+                    documentation.appendMarkdownSeparator();
+                    documentation.appendMarkdownH4('Snippet');
+                    documentation.appendApexCodeBlock(insertText);
+                    const options = ProviderUtils.getCompletionItemOptions(method.signature, documentation.build(), new SnippetString(insertText), true, CompletionItemKind.Method);
                     items.push(ProviderUtils.createItemForCompletion(name, options));
                 }
                 for (const className of Object.keys(node.classes)) {
+                    const documentation = new MarkDownStringBuilder();
                     const innerClass = node.classes[className];
-                    const options = ProviderUtils.getCompletionItemOptions('Internal Class from : ' + node.name, (innerClass.description) ? innerClass.description : '', innerClass.name, true, CompletionItemKind.Class);
+                    documentation.appendApexCodeBlock(node.name + '.' + innerClass.name);
+                    let description = '';
+                    if (innerClass.description && innerClass.description.length > 0) {
+                        description += innerClass.description + '\n\n';
+                    } else if (innerClass.comment && innerClass.comment.description && innerClass.comment.description.length > 0) {
+                        description += innerClass.comment.description + '\n\n';
+                    }
+                    documentation.appendMarkdown(description);
+                    const options = ProviderUtils.getCompletionItemOptions('Inner Class', documentation.build(), innerClass.name, true, CompletionItemKind.Class);
                     items.push(ProviderUtils.createItemForCompletion(innerClass.name, options));
                 }
                 for (const interfaceName of Object.keys(node.interfaces)) {
+                    const documentation = new MarkDownStringBuilder();
                     const innerInterface = node.interfaces[interfaceName];
-                    const options = ProviderUtils.getCompletionItemOptions('Internal Interface from : ' + node.name, (innerInterface.description) ? innerInterface.description : '', innerInterface.name, true, CompletionItemKind.Interface);
+                    documentation.appendApexCodeBlock(node.name + '.' + innerInterface.name);
+                    let description = '';
+                    if (innerInterface.description && innerInterface.description.length > 0) {
+                        description += innerInterface.description + '\n\n';
+                    } else if (innerInterface.comment && innerInterface.comment.description && innerInterface.comment.description.length > 0) {
+                        description += innerInterface.comment.description + '\n\n';
+                    }
+                    documentation.appendMarkdown(description);
+                    const options = ProviderUtils.getCompletionItemOptions('Inner Interface', documentation.build(), innerInterface.name, true, CompletionItemKind.Interface);
                     items.push(ProviderUtils.createItemForCompletion(innerInterface.name, options));
                 }
                 for (const enumName of Object.keys(node.enums)) {
+                    const documentation = new MarkDownStringBuilder();
                     const innerEnum = node.enums[enumName];
-                    const options = ProviderUtils.getCompletionItemOptions(innerEnum.name + ' Enum', (innerEnum.comment && innerEnum.comment.description) ? innerEnum.comment.description : '', innerEnum.name, true, CompletionItemKind.Enum);
+                    documentation.appendApexCodeBlock(node.name + '.' + innerEnum.name);
+                    let description = '';
+                    if (innerEnum.description && innerEnum.description.length > 0) {
+                        description += innerEnum.description + '\n\n';
+                    } else if (innerEnum.comment && innerEnum.comment.description && innerEnum.comment.description.length > 0) {
+                        description += innerEnum.comment.description + '\n\n';
+                    }
+                    documentation.appendMarkdown(description);
+                    documentation.appendMarkdownH4('Values');
+                    const enumValues = [];
+                    for (const value of innerEnum.values) {
+                        if (Utils.isString(value))
+                            enumValues.push('  - `' + value + '`');
+                        else
+                            enumValues.push('  - `' + value.text + '`');
+                    }
+                    documentation.appendMarkdown(enumValues.join('\n'));
+                    const options = ProviderUtils.getCompletionItemOptions('Inner Enum', documentation.build(), innerEnum.name, true, CompletionItemKind.Enum);
                     items.push(ProviderUtils.createItemForCompletion(innerEnum.name, options));
                 }
                 if (node.extends) {
@@ -990,15 +1121,19 @@ class ProviderUtils {
             const systemMetadata = applicationContext.parserData.namespacesData['system'];
             items = ProviderUtils.getApexClassCompletionItems(position, node)
             Object.keys(applicationContext.parserData.userClassesData).forEach(function (key) {
+                const documentation = new MarkDownStringBuilder();
                 const userClass = applicationContext.parserData.userClassesData[key];
                 const className = (userClass.name) ? userClass.name : userClass;
+                documentation.appendApexCodeBlock(className);
                 let description = '';
                 if (userClass.comment && userClass.comment.description && userClass.comment.description.length > 0) {
                     description += userClass.comment.description + '\n\n';
                 } else {
-                    description = className;
+                    description = className + '\n\n';
                 }
+                documentation.appendMarkdown(description);
                 if (userClass.nodeType === ApexNodeTypes.ENUM) {
+                    documentation.appendMarkdownH4('Values');
                     const enumValues = [];
                     for (const value of userClass.values) {
                         if (Utils.isString(value))
@@ -1006,20 +1141,20 @@ class ProviderUtils {
                         else
                             enumValues.push('  - `' + value.text + '`');
                     }
-                    description += '\n\nEnum Values: \n' + enumValues.join('\n');
-                    const options = ProviderUtils.getCompletionItemOptions(className, description, className, true, CompletionItemKind.Enum);
+                    documentation.appendMarkdown(enumValues.join('\n'));
+                    const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Enum);
                     const item = ProviderUtils.createItemForCompletion(className, options);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else if (userClass.nodeType === ApexNodeTypes.INTERFACE) {
-                    const options = ProviderUtils.getCompletionItemOptions(className, description, className, true, CompletionItemKind.Interface);
+                    const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Interface);
                     const item = ProviderUtils.createItemForCompletion(className, options);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else {
-                    const options = ProviderUtils.getCompletionItemOptions(className, description, className, true, CompletionItemKind.Class);
+                    const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Class);
                     const item = ProviderUtils.createItemForCompletion(className, options);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
@@ -1027,8 +1162,11 @@ class ProviderUtils {
                 }
             });
             Object.keys(systemMetadata).forEach(function (key) {
+                const documentation = new MarkDownStringBuilder();
                 const systemClass = systemMetadata[key];
+                documentation.appendApexCodeBlock('System.' + systemClass.name);
                 if (systemClass.nodeType === ApexNodeTypes.ENUM) {
+                    documentation.appendMarkdownH4('Values');
                     const enumValues = [];
                     for (const value of systemClass.values) {
                         if (Utils.isString(value))
@@ -1036,22 +1174,25 @@ class ProviderUtils {
                         else
                             enumValues.push('  - `' + value.text + '`');
                     }
-                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\nEnum Values: \n' + enumValues.join('\n');
-                    const options = ProviderUtils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Enum);
+                    documentation.appendMarkdown(systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n');
+                    documentation.appendMarkdown(enumValues.join('\n'));
+                    const options = ProviderUtils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Enum);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else if (systemClass.nodeType === ApexNodeTypes.INTERFACE) {
                     const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '');
-                    const options = ProviderUtils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Interface);
+                    documentation.appendMarkdown(description);
+                    const options = ProviderUtils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Interface);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else {
                     const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '');
-                    const options = ProviderUtils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', description, systemClass.name, true, CompletionItemKind.Class);
+                    documentation.appendMarkdown(description);
+                    const options = ProviderUtils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Class);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
@@ -1069,13 +1210,16 @@ class ProviderUtils {
         if (Config.getConfig().autoCompletion.activeSObjectSuggestion) {
             Object.keys(applicationContext.parserData.sObjectsData).forEach(function (key) {
                 const sObject = applicationContext.parserData.sObjectsData[key];
+                const documentation = new MarkDownStringBuilder();
                 let description = 'Standard SObject';
                 if (sObject.custom)
                     description = 'Custom SObject';
                 if (sObject.namespace) {
                     description += '\nNamespace: ' + sObject.namespace;
                 }
-                const options = ProviderUtils.getCompletionItemOptions(sObject.name, description, sObject.name, true, CompletionItemKind.Class);
+                documentation.appendApexCodeBlock(sObject.name);
+                documentation.appendMarkdown(description);
+                const options = ProviderUtils.getCompletionItemOptions('SObject', documentation.build(), sObject.name, true, CompletionItemKind.Class);
                 const item = ProviderUtils.createItemForCompletion(sObject.name, options);
                 if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);

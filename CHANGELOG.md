@@ -3,10 +3,10 @@ All notable changes to this project will be documented in this file.
 ## [3.0.2 - 2021-09-21]
 ### Added
 - Enhanced IntelliSense recomendations descriptions to a better and clear information.
-- Added Hover information to show the same data with same style than IntelliSense recomendations descriptions.
 
 ### Fixed
 - Fixed some problems with Apex Formatter in some special cases.
+- Fixed some problems with Picklist Values IntelliSense.
 
 ## [3.0.1 - 2021-09-20]
 ### Added
