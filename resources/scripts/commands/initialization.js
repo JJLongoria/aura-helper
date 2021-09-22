@@ -17,6 +17,7 @@ const MetadataFactory = require('@aurahelper/metadata-factory');
 const CLIManager = require('@aurahelper/cli-manager');
 const GitManager = require('@aurahelper/git-manager');
 const TemplateUtils = require('../utils/templateUtils');
+const { createCipheriv } = require('crypto');
 const NotificationManager = Output.NotificationMananger;
 const OutputChannel = Output.OutputChannel;
 let cliManager;
@@ -228,8 +229,12 @@ function cleanOldClassesDefinitions() {
     if (FileChecker.isExists(Paths.getCompiledClassesFolder())) {
         let files = FileReader.readDirSync(Paths.getCompiledClassesFolder());
         for (const file of files) {
-            const apexNode = JSON.parse(FileReader.readFileSync(Paths.getCompiledClassesFolder() + '/' + file));
-            if (!Object.keys(apexNode).includes('nodeType')) {
+            try {
+                const apexNode = JSON.parse(FileReader.readFileSync(Paths.getCompiledClassesFolder() + '/' + file));
+                if (!Object.keys(apexNode).includes('nodeType')) {
+                    FileWriter.delete(Paths.getCompiledClassesFolder() + '/' + file);
+                }
+            } catch (error) {
                 FileWriter.delete(Paths.getCompiledClassesFolder() + '/' + file);
             }
         }
