@@ -209,49 +209,67 @@ function getApexControllerFunctions(position, activationInfo, component) {
 		const method = component.apexFunctions[methodName];
 		if (method.annotation && method.annotation.name == '@AuraEnabled') {
 			const documentation = new MarkDownStringBuilder();
-			documentation.appendApexCodeBlock(method.signature);
+			let signature = '';
+			let description = '';
+			if (method.accessModifier)
+				signature += method.accessModifier.text + ' ';
+			if (method.definitionModifier)
+				signature += method.definitionModifier.text + ' ';
+			if (method.static)
+				signature += method.static.text + ' ';
+			if (method.final)
+				signature += method.final.text + ' ';
+			if (method.transient)
+				signature += method.transient.text + ' ';
+			signature += StrUtils.replace(method.datatype.name, ',', ', ') + ' ' + method.name + "(";
 			if (method.comment) {
 				if (method.comment.description && method.comment.description.length > 0)
-					documentation.appendMarkdown(method.comment.description + '\n\n');
+					description += method.comment.description + '\n\n'
 			}
 			const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
 			const paramsTagData = tagsData['params'];
 			if (Utils.hasKeys(method.params)) {
-				documentation.appendMarkdownH4('Params');
+				description += '#### Params\n\n'
+				let indexParam = 0;
 				for (const param of method.getOrderedParams()) {
 					const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
-					let paramDesc = '  - *' + param.name + '* `' + datatype + '`';
+					if (indexParam === 0)
+						signature += datatype + ' ' + param.name;
+					else
+						signature += ', ' + datatype + ' ' + param.name;
+					description += '  - *' + param.name + '* `' + datatype + '`';
 					if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
 						for (const data of paramsTagData.tagData) {
 							if (data.keywords) {
 								for (const keyword of paramsTagData.tag.keywords) {
 									if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
-										paramDesc += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
+										description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
 									}
 								}
 							}
 						}
 					}
-					documentation.appendMarkdown(paramDesc + '  \n');
+					description += '\n';
 				}
-				documentation.appendMarkdown('\n');
+				description += '\n';
 			}
 			if (method.datatype && method.datatype.name !== 'void') {
-				let returnDesc = '**Return**  `' + method.datatype.name + '`';
+				description += '**Return** `' + method.datatype.name + '`';
 				const returnTagData = tagsData['return'];
 				if (returnTagData && returnTagData.tag && returnTagData.tagData && returnTagData.tagName) {
 					for (const data of returnTagData.tagData) {
 						if (data.keywords) {
 							for (const keyword of returnTagData.tag.keywords) {
 								if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
-									returnDesc += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
+									description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n') + '\n';
 								}
 							}
 						}
 					}
-					documentation.appendMarkdown(returnDesc + '  \n');
+					description += '\n';
+				} else {
+					description += '\n\n';
 				}
-				documentation.appendMarkdown('\n');
 			}
 			let insertText = '';
 			if (activationInfo.lastToken && activationInfo.lastToken.text != "'" && activationInfo.nextToken && activationInfo.nextToken.text !== "'" && activationInfo.lastToken.text != '"' && activationInfo.nextToken && activationInfo.nextToken.text !== '"') {
@@ -263,6 +281,9 @@ function getApexControllerFunctions(position, activationInfo, component) {
 			} else {
 				insertText = 'c.' + method.name;
 			}
+			signature += ')';
+			documentation.appendApexCodeBlock(signature);
+			documentation.appendMarkdown(description);
 			documentation.appendMarkdownSeparator();
 			documentation.appendMarkdownH4('Snippet');
 			documentation.appendJSCodeBlock(insertText);
