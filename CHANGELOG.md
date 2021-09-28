@@ -1,6 +1,6 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [3.1.0 - 2021-09-21]
+## [3.1.0 - 2021-09-29]
 ### Added
 - Enhanced IntelliSense node identification to provide the better IntelliSense recomendation for Salesforce (including Salesforce Official Extensions).
 - Fully IntelliSense suport for sets, lists and maps, including the most complicated structures like Map\<Id, Map\<Id, List\<Map\<Id, String\>\>\>\>....
