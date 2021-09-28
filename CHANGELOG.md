@@ -1,5 +1,22 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [3.1.0 - 2021-09-21]
+### Added
+- Enhanced IntelliSense node identification to provide the better IntelliSense recomendation for Salesforce (including Salesforce Official Extensions).
+- Fully IntelliSense suport for sets, lists and maps, including the most complicated structures like Map\<Id, Map\<Id, List\<Map\<Id, String\>\>\>\>....
+- Added new hover information with the same style that IntelliSense recomendations to provide the better hover information for salesforce.
+- Fully support to hover information, including Custom Labels, fields, lists, maps, system classes, methods, sobjects...
+- Added new Setting to enable or disable hover recomendations **AuraHelper > Intelli Sense > Enable Hover Information**
+- Added new Setting to use the Standard Java Comments Template style or your custom Apex Comment Template **AuraHelper > Documentation > Use Standard Java Comments**
+
+### Fixed
+- Fixed little errors when refreshing SObject definitions
+
+## [3.0.3 - 2021-09-21]
+### Fixed
+- Fixed some problems with Apex Formatter in some special cases.
+- Fixed repository in package
+
 ## [3.0.2 - 2021-09-21]
 ### Added
 - Enhanced IntelliSense recomendations descriptions to a better and clear information.

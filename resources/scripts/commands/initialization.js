@@ -122,8 +122,12 @@ function getOrgData() {
     return new Promise((resolve) => {
         OutputChannel.outputLine('Getting Org data...');
         setTimeout(async () => {
-            applicationContext.sfData.username = await connection.getAuthUsername();
-            applicationContext.sfData.serverInstance = await connection.getServerInstance();
+            try {
+                applicationContext.sfData.username = await connection.getAuthUsername();
+                applicationContext.sfData.serverInstance = await connection.getServerInstance();
+            } catch (error) {
+
+            }
             resolve()
         }, 50);
     });
@@ -145,7 +149,7 @@ function createTemplateFiles(context) {
         FileWriter.copyFileSync(Paths.getApexCommentBaseTemplate(), Paths.getApexCommentUserTemplate());
     if (!FileChecker.isExists(Paths.getAuraDocUserTemplate()))
         FileWriter.copyFileSync(Paths.getAuraDocBaseTemplate(), Paths.getAuraDocUserTemplate());
-    applicationContext.parserData.template = TemplateUtils.getApexCommentTemplate();
+    applicationContext.parserData.template = TemplateUtils.getApexCommentTemplate(!Config.getConfig().documentation.useStandardJavaComments);
     OutputChannel.outputLine('Environment prepared');
 }
 
@@ -268,16 +272,51 @@ function getSObjects() {
     let objFolders = FileChecker.isExists(sObjectsFolder) ? FileReader.readDirSync(sObjectsFolder) : [];
     let indexObjFiles = FileChecker.isExists(Paths.getMetadataIndexFolder()) ? FileReader.readDirSync(Paths.getMetadataIndexFolder()) : [];
     let sfdxObjFiles = (FileChecker.isExists(Paths.getSFDXCustomSObjectsFolder()) && FileChecker.isExists(Paths.getSFDXStandardSObjectsFolder())) ? FileReader.readDirSync(Paths.getSFDXCustomSObjectsFolder()).concat(FileReader.readDirSync(Paths.getSFDXStandardSObjectsFolder())) : [];
-    if (objFolders.length > 0) {
+    if (indexObjFiles.length > 0) {
+        for (const fileName of indexObjFiles) {
+            if (!fileName.endsWith('.json')) {
+                FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+                continue;
+            }
+            let obj = JSON.parse(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+            if (!Object.keys(obj).includes('description')) {
+                FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+                continue;
+            } else {
+                if (obj.fields) {
+                    let deleted = false;
+                    for (const fieldKey of Object.keys(obj.fields)) {
+                        const field = obj.fields[fieldKey];
+                        if (!Object.keys(field).includes('inlineHelpText')) {
+                            FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+                            deleted = true;
+                            break;
+                        }
+                    }
+                    if (deleted)
+                        continue;
+                }
+            }
+            const sObj = new SObject(obj);
+            sObj.addSystemFields();
+            sObj.fixFieldTypes();
+            sObjects[sObj.name.toLowerCase()] = sObj;
+        }
+        if (objFolders.length > 0) {
+            let sObjectsTmp = MetadataFactory.createSObjectsFromFileSystem(sObjectsFolder);
+            for (const objKey of Object.keys(sObjectsTmp)) {
+                const sObj = sObjectsTmp[objKey];
+                if (!sObjects[sObj.name.toLowerCase()]) {
+                    sObjects[sObj.name.toLowerCase()] = sObj;
+                    FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + sObj.name + '.json', JSON.stringify(sObj, null, 2));
+                }
+            }
+        }
+    } else if (objFolders.length > 0) {
         sObjects = MetadataFactory.createSObjectsFromFileSystem(sObjectsFolder);
         for (const objKey of Object.keys(sObjects)) {
             const sObj = sObjects[objKey];
             FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + sObj.name + '.json', JSON.stringify(sObj, null, 2));
-        }
-    } else if (indexObjFiles.length > 0) {
-        for (const fileName of indexObjFiles) {
-            let obj = JSON.parse(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
-            sObjects[obj.name.toLowerCase()] = new SObject(obj);
         }
     } else if (sfdxObjFiles.length > 0) {
         for (const fileName of sfdxObjFiles) {

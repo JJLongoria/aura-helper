@@ -6,10 +6,12 @@ const Range = vscode.Range;
 const Position = vscode.Position;
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { XMLParser } = require('@aurahelper/languages').XML;
+const { ApexParser } = require('@aurahelper/languages').Apex;
 const { Tokenizer, TokenType } = require('@aurahelper/languages').System;
 const { ApexNodeTypes } = require('@aurahelper/core').Values;
 const applicationContext = require('../core/applicationContext');
 const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
+const { Token } = require('@aurahelper/core').Types;
 const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
 const CompletionItemKind = vscode.CompletionItemKind;
 const CompletionItem = vscode.CompletionItem;
@@ -21,17 +23,16 @@ class ProviderUtils {
 
     static fixPositionOffset(document, position) {
         const insertSpaces = vscode.window.activeTextEditor.options.insertSpaces;
+        const line = document.lineAt(position.line);
+        const nTabs = StrUtils.countStartTabs(line.text);
+        const nWS = StrUtils.countStartWhitespaces(line.text);
         if (!insertSpaces) {
-            const line = document.lineAt(position.line);
-            const nTabs = StrUtils.countStartTabs(line.text);
             const tabSize = vscode.window.activeTextEditor.options.tabSize;
             if (nTabs > 0)
                 return new Position(position.line, position.character + ((nTabs * Number(tabSize)) - nTabs));
             else
                 return position;
         } else {
-            const line = document.lineAt(position.line);
-            const nTabs = StrUtils.countStartTabs(line.text);
             const tabSize = vscode.window.activeTextEditor.options.tabSize;
             if (nTabs > 0)
                 return new Position(position.line, position.character + ((nTabs * Number(tabSize)) - nTabs));
@@ -64,17 +65,393 @@ class ProviderUtils {
         return similar;
     }
 
+    static getApexActivation(document, position, toIntelliSense) {
+        const correctedPos = ProviderUtils.fixPositionOffset(document, position);
+        const difference = correctedPos.character - position.character;
+        const result = {
+            activation: "",
+            activationTokens: [],
+            startColumn: 0,
+            lastToken: undefined,
+            twoLastToken: undefined,
+            nextToken: undefined,
+            twoNextToken: undefined,
+            tokens: [],
+        }
+        let activationWordTokens = [];
+        let activationLastTokens = [];
+        let lineNumber = correctedPos.line;
+        const line = document.lineAt(lineNumber);
+        const lineText = line.text;
+        if (line.isEmptyOrWhitespace) {
+            result.startColumn = correctedPos.character;
+            return result;
+        }
+        let lineTokens = Tokenizer.tokenize(lineText, lineNumber);
+        let index = 0;
+        let tokenPos = -1;
+        let token;
+        while (index < lineTokens.length) {
+            token = lineTokens[index];
+            if (token.range.end.character <= correctedPos.character && !toIntelliSense) {
+                tokenPos = index;
+            }
+            if (correctedPos.character >= token.range.start.character && correctedPos.character <= token.range.end.character) {
+                tokenPos = index;
+                break;
+            }
+            index++;
+        }
+        let endLoop = false;
+        if (tokenPos === -1) {
+            result.startColumn = correctedPos.character;
+            return result;
+        }
+        let parenIndent = 0;
+        let aBracketIndent = 0;
+        let sqBracketIndent = 0;
+        let onParams = false;
+        if (index >= lineTokens.length)
+            index = lineTokens.length - 1;
+        while (index >= 0) {
+            token = lineTokens[index];
+            const lastToken = LanguageUtils.getLastToken(lineTokens, index);
+            const nextToken = LanguageUtils.getNextToken(lineTokens, index);
+            const twoLastToken = LanguageUtils.getTwoLastToken(lineTokens, index);
+            tokenPos = index;
+            if (token.type === TokenType.IDENTIFIER) {
+                if (lastToken && (lastToken.type === TokenType.IDENTIFIER || lastToken.type === TokenType.OPERATOR.LOGICAL.GREATER_THAN || token.type === TokenType.BRACKET.SQUARE_CLOSE || token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) && (!onParams && sqBracketIndent === 0)) {
+                    break;
+                }
+            } else if (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR) {
+            } else if (token.type === TokenType.BRACKET.SQUARE_OPEN) {
+                sqBracketIndent--;
+                if (sqBracketIndent < 0 && !onParams) {
+                    index++;
+                    tokenPos = index;
+                    break;
+                } else if (!token.pairToken) {
+                    index++;
+                    tokenPos = index;
+                    break;
+                }
+            } else if (token.type === TokenType.BRACKET.SQUARE_CLOSE) {
+                sqBracketIndent++;
+            } else if (token.type === TokenType.OPERATOR.LOGICAL.LESS_THAN) {
+                aBracketIndent--;
+                if (aBracketIndent < 0 && !onParams) {
+                    index++;
+                    tokenPos = index;
+                    break;
+                } else if (!token.pairToken) {
+                    index++;
+                    tokenPos = index;
+                    break;
+                }
+            } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
+                parenIndent--;
+                if (parenIndent === 0) {
+                    onParams = false;
+                } else if (parenIndent < 0) {
+                    index++;
+                    tokenPos = index;
+                    break;
+                }
+            } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
+                parenIndent++;
+                if (parenIndent === 1) {
+                    onParams = true;
+                }
+            } else if (token.type === TokenType.PUNCTUATION.COMMA && !onParams && aBracketIndent <= 0 && sqBracketIndent <= 0) {
+                index++;
+                tokenPos = index;
+                break;
+            } else if (onParams) {
+            } else {
+                if (!onParams && aBracketIndent === 0 && sqBracketIndent === 0) {
+                    if (nextToken && (nextToken.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || nextToken.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) {
+                        index += 2;
+                        tokenPos = index;
+                    } else {
+                        index++;
+                    }
+                    tokenPos = index;
+                    break;
+                }
+            }
+            if (index == 0) {
+                lineNumber--;
+                let lineTmp = document.lineAt(lineNumber);
+                while (lineTmp.isEmptyOrWhitespace) {
+                    lineNumber--;
+                    lineTmp = document.lineAt(lineNumber);
+                }
+                let lineTokensTmp = Tokenizer.tokenize(lineTmp.text, lineNumber);
+                const finalTokenAux = lineTokensTmp[lineTokensTmp.length - 1];
+                if (onParams || sqBracketIndent > 0 || aBracketIndent > 0) {
+                    index = lineTokensTmp.length - 1;
+                    lineTokens = lineTokensTmp.concat(lineTokens);
+                } else if ((finalTokenAux.type === TokenType.IDENTIFIER && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) || (token.type === TokenType.IDENTIFIER && (finalTokenAux.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || finalTokenAux.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR))) {
+                    index = lineTokensTmp.length - 1;
+                    lineTokens = lineTokensTmp.concat(lineTokens);
+                } else if ((finalTokenAux.type === TokenType.BRACKET.SQUARE_CLOSE && token.type === TokenType.BRACKET.SQUARE_OPEN) || (token.type === TokenType.BRACKET.SQUARE_CLOSE && finalTokenAux.type === TokenType.BRACKET.SQUARE_OPEN)) {
+                    index = lineTokensTmp.length - 1;
+                    lineTokens = lineTokensTmp.concat(lineTokens);
+                } else {
+                    index = -1;
+                }
+            } else {
+                index--;
+            }
+        }
+        token = lineTokens[tokenPos];
+        result.lastToken = LanguageUtils.getLastToken(lineTokens, tokenPos);
+        result.twoLastToken = LanguageUtils.getTwoLastToken(lineTokens, tokenPos);
+        result.tokens = lineTokens;
+        result.startColumn = (token) ? token.range.start.character : result.lastToken.range.end.character;
+        endLoop = !token;
+        parenIndent = 0;
+        aBracketIndent = 0;
+        sqBracketIndent = 0;
+        onParams = false;
+        let activeTokenFound = false;
+        let activeTokenAdded = false;
+        let activationTokens = [];
+        let hasFrom = false;
+        let hasSelect = false;
+        if (!endLoop)
+            lineNumber = token.range.start.line;
+        while (!endLoop) {
+            token = lineTokens[tokenPos];
+            const nextToken = LanguageUtils.getNextToken(lineTokens, tokenPos);
+            const twoNextToken = LanguageUtils.getTwoNextToken(lineTokens, tokenPos);
+            const lastToken = LanguageUtils.getLastToken(lineTokens, tokenPos);
+            const twoLastToken = LanguageUtils.getTwoLastToken(lineTokens, tokenPos);
+            if (!activeTokenFound && correctedPos.line === token.range.start.line && correctedPos.character >= token.range.start.character && correctedPos.character <= token.range.end.character) {
+                activeTokenFound = true;
+            }
+            if (sqBracketIndent > 0) {
+                if (token.type === TokenType.IDENTIFIER && token.textToLower === 'select') {
+                    hasSelect = true;
+                }
+                if (hasSelect && token.type === TokenType.IDENTIFIER && token.textToLower === 'from') {
+                    hasFrom = true;
+                }
+            }
+            if (token.type === TokenType.IDENTIFIER) {
+                if (lastToken && lastToken.type === TokenType.IDENTIFIER && (!onParams && sqBracketIndent === 0) && activationTokens.length > 0) {
+                    endLoop = true;
+                } else if (nextToken && twoNextToken && nextToken.text === '[' && twoNextToken.textToLower === 'select') {
+
+                } else if (nextToken && twoNextToken && nextToken.text === '(' && (twoNextToken.textToLower === 'before' || twoNextToken.textToLower === 'after')) {
+                    activationWordTokens.push(token);
+                    if (activationLastTokens.length === 0) {
+                        activationLastTokens.push(lastToken);
+                        activationLastTokens.push(twoLastToken);
+                    }
+                    activationTokens.push(token);
+                    endLoop = true;
+                } else {
+                    activationWordTokens.push(token);
+                    if (activationLastTokens.length === 0) {
+                        activationLastTokens.push(lastToken);
+                        activationLastTokens.push(twoLastToken);
+                    }
+                    activationTokens.push(token);
+                }
+            } else if ((!onParams && sqBracketIndent === 0) && lastToken && lastToken.type === TokenType.IDENTIFIER && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) {
+                activationTokens.push(token);
+                if (!onParams && activationWordTokens.length > 0) {
+                    result.activationTokens.push({
+                        activation: Token.toString(activationWordTokens).trim(),
+                        active: !activeTokenAdded ? activeTokenFound : false,
+                        startToken: activationWordTokens[0],
+                        endToken: activationWordTokens[activationWordTokens.length - 1],
+                        lastToken: activationLastTokens[0],
+                        twoLastToken: activationLastTokens[1],
+                        nextToken: nextToken,
+                        twoNextToken: twoNextToken,
+                        isQuery: hasSelect,
+                    });
+                    if (activeTokenFound)
+                        activeTokenAdded = true;
+                    activationWordTokens = [];
+                    activationLastTokens = [];
+                    hasSelect = false;
+                    hasFrom = false;
+                }
+            } else if ((!onParams && sqBracketIndent === 0) && nextToken && nextToken.type === TokenType.IDENTIFIER && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) {
+                activationTokens.push(token);
+                if (!onParams && activationWordTokens.length > 0) {
+                    result.activationTokens.push({
+                        activation: Token.toString(activationWordTokens).trim(),
+                        active: !activeTokenAdded ? activeTokenFound : false,
+                        startToken: activationWordTokens[0],
+                        endToken: activationWordTokens[activationWordTokens.length - 1],
+                        lastToken: activationLastTokens[0],
+                        twoLastToken: activationLastTokens[1],
+                        nextToken: nextToken,
+                        twoNextToken: twoNextToken,
+                        isQuery: hasSelect,
+                    });
+                    if (activeTokenFound)
+                        activeTokenAdded = true;
+                    activationWordTokens = [];
+                    activationLastTokens = [];
+                    hasSelect = false;
+                    hasFrom = false;
+                }
+            } else if (token.type === TokenType.BRACKET.SQUARE_OPEN) {
+                sqBracketIndent++;
+                activationTokens.push(token);
+                activationWordTokens.push(token);
+                if (activationLastTokens.length === 0) {
+                    activationLastTokens.push(lastToken);
+                    activationLastTokens.push(twoLastToken);
+                }
+            } else if (token.type === TokenType.BRACKET.SQUARE_CLOSE) {
+                sqBracketIndent--;
+                if (sqBracketIndent >= 0) {
+                    activationTokens.push(token);
+                    activationWordTokens.push(token);
+                    if (activationLastTokens.length === 0) {
+                        activationLastTokens.push(lastToken);
+                        activationLastTokens.push(twoLastToken);
+                    }
+                }
+                if (sqBracketIndent < 0 && !onParams) {
+                    endLoop = true;
+                }
+            } else if (token.type === TokenType.OPERATOR.LOGICAL.LESS_THAN) {
+                aBracketIndent++;
+                activationTokens.push(token);
+                activationWordTokens.push(token);
+                if (activationLastTokens.length === 0) {
+                    activationLastTokens.push(lastToken);
+                    activationLastTokens.push(twoLastToken);
+                }
+            } else if (token.type === TokenType.OPERATOR.LOGICAL.GREATER_THAN) {
+                aBracketIndent--;
+                if (aBracketIndent >= 0) {
+                    activationTokens.push(token);
+                    activationWordTokens.push(token);
+                    if (activationLastTokens.length === 0) {
+                        activationLastTokens.push(lastToken);
+                        activationLastTokens.push(twoLastToken);
+                    }
+                }
+                if (aBracketIndent <= 0 && !onParams) {
+                    endLoop = true;
+                }
+            } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
+                parenIndent++;
+                if (parenIndent === 1)
+                    onParams = true;
+                activationTokens.push(token);
+                activationWordTokens.push(token);
+                if (activationLastTokens.length === 0) {
+                    activationLastTokens.push(lastToken);
+                    activationLastTokens.push(twoLastToken);
+                }
+            } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
+                parenIndent--;
+                if (parenIndent === 0) {
+                    onParams = false;
+                    if ((!nextToken || (nextToken.type !== TokenType.PUNCTUATION.OBJECT_ACCESSOR && nextToken.type !== TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR))) {
+                        result.nextToken = nextToken;
+                        result.twoNextToken = twoNextToken;
+                        endLoop = true;
+                    }
+                }
+                if (parenIndent >= 0) {
+                    activationTokens.push(token);
+                    activationWordTokens.push(token);
+                    if (activationLastTokens.length === 0) {
+                        activationLastTokens.push(lastToken);
+                        activationLastTokens.push(twoLastToken);
+                    }
+                }
+            } else if (onParams) {
+                activationTokens.push(token);
+                activationWordTokens.push(token);
+                if (activationLastTokens.length === 0) {
+                    activationLastTokens.push(lastToken);
+                    activationLastTokens.push(twoLastToken);
+                }
+            } else if (!onParams && aBracketIndent === 0 && sqBracketIndent === 0) {
+                result.nextToken = nextToken;
+                result.twoNextToken = twoNextToken;
+                endLoop = true;
+            } else {
+                activationTokens.push(token);
+                activationWordTokens.push(token);
+                if (activationLastTokens.length === 0) {
+                    activationLastTokens.push(lastToken);
+                    activationLastTokens.push(twoLastToken);
+                }
+            }
+            if (!endLoop && tokenPos == lineTokens.length - 1) {
+                lineNumber++;
+                let lineTmp = document.lineAt(lineNumber);
+                while (lineTmp.isEmptyOrWhitespace) {
+                    lineNumber++;
+                    lineTmp = document.lineAt(lineNumber);
+                }
+                tokenPos = lineTokens.length;
+                let lineTokensTmp = Tokenizer.tokenize(lineTmp.text, lineNumber);
+                const firstTokenAux = lineTokensTmp[0];
+                if (onParams || sqBracketIndent > 0 || aBracketIndent > 0) {
+                    index = lineTokensTmp.length - 1;
+                    lineTokens = lineTokensTmp.concat(lineTokens);
+                } else if ((firstTokenAux.type === TokenType.IDENTIFIER && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) || (token.type === TokenType.IDENTIFIER && (firstTokenAux.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || firstTokenAux.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR))) {
+                    index = lineTokensTmp.length - 1;
+                    lineTokens = lineTokensTmp.concat(lineTokens);
+                } else if ((firstTokenAux.type === TokenType.BRACKET.SQUARE_CLOSE && token.type === TokenType.BRACKET.SQUARE_OPEN) || (token.type === TokenType.BRACKET.SQUARE_CLOSE && firstTokenAux.type === TokenType.BRACKET.SQUARE_OPEN)) {
+                    index = lineTokensTmp.length - 1;
+                    lineTokens = lineTokensTmp.concat(lineTokens);
+                } else {
+                    endLoop = true;
+                }
+            } else if (!endLoop) {
+                tokenPos++;
+            }
+        }
+        const nextToken = LanguageUtils.getNextToken(lineTokens, tokenPos);
+        const twoNextToken = LanguageUtils.getTwoNextToken(lineTokens, tokenPos);
+        if (activationWordTokens.length > 0) {
+            result.activationTokens.push({
+                activation: Token.toString(activationWordTokens).trim(),
+                active: !activeTokenAdded ? activeTokenFound : false,
+                startToken: activationWordTokens[0],
+                endToken: activationWordTokens[activationWordTokens.length - 1],
+                lastToken: activationLastTokens[0],
+                twoLastToken: activationLastTokens[1],
+                nextToken: nextToken,
+                twoNextToken: twoNextToken,
+                isQuery: hasSelect,
+            });
+            if (activeTokenFound)
+                activeTokenAdded = true;
+        }
+        result.activation = Token.toString(activationTokens, true);
+        if (difference > 0 && result.startColumn >= difference)
+            result.startColumn = result.startColumn - difference;
+        return result;
+    }
+
     static getActivation(document, position) {
         const correctedPos = ProviderUtils.fixPositionOffset(document, position);
         const difference = correctedPos.character - position.character;
         const result = {
             activation: "",
+            activationTokens: [],
             startColumn: 0,
             lastToken: undefined,
             twoLastToken: undefined,
             nextToken: undefined,
             twoNextToken: undefined,
         }
+        let activationToken = "";
         const line = document.lineAt(correctedPos.line);
         const lineText = line.text;
         if (line.isEmptyOrWhitespace) {
@@ -90,37 +467,52 @@ class ProviderUtils {
             if (token.range.end.character <= correctedPos.character) {
                 tokenPos = index;
             }
+            if (correctedPos.character >= token.range.start.character && correctedPos.character <= token.range.end.character) {
+                tokenPos = index;
+                break;
+            }
             index++;
         }
         if (token.type == TokenType.BRACKET.CURLY_CLOSE)
             tokenPos--;
         let endLoop = false;
         let isOnParams = false;
+        let parenIndent = 0;
         if (tokenPos === -1) {
             result.startColumn = correctedPos.character;
             return result;
         }
         result.nextToken = LanguageUtils.getNextToken(lineTokens, tokenPos);
-        result.lastToken = LanguageUtils.getTwoNextToken(lineTokens, tokenPos);
+        result.twoNextToken = LanguageUtils.getTwoNextToken(lineTokens, tokenPos);
         while (!endLoop) {
             token = lineTokens[tokenPos];
             const nextToken = LanguageUtils.getNextToken(lineTokens, tokenPos);
             const lastToken = LanguageUtils.getLastToken(lineTokens, tokenPos);
             const twoLastToken = LanguageUtils.getTwoLastToken(lineTokens, tokenPos);
-            if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE && !isOnParams) {
-                isOnParams = true;
+            if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
+                parenIndent++;
+                if (parenIndent == 1)
+                    isOnParams = true;
                 result.activation = token.text + result.activation;
                 result.startColumn = token.range.start.character;
                 result.lastToken = lastToken;
                 result.twoLastToken = twoLastToken;
-            } else if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN && isOnParams) {
-                isOnParams = false;
-                result.activation = token.text + result.activation;
-                result.startColumn = token.range.start.character;
-                result.lastToken = lastToken;
-                result.twoLastToken = twoLastToken;
-            } else if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN && !isOnParams) {
-                endLoop = true;
+                activationToken = token.text + activationToken;
+            } else if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
+                parenIndent--;
+                if (parenIndent == 0) {
+                    isOnParams = false;
+                } else if (parenIndent < 0) {
+                    isOnParams = false;
+                    endLoop = true;
+                }
+                if (!endLoop) {
+                    result.activation = token.text + result.activation;
+                    result.startColumn = token.range.start.character;
+                    result.lastToken = lastToken;
+                    result.twoLastToken = twoLastToken;
+                    activationToken = token.text + activationToken;
+                }
             } else if (token && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR || token.type === TokenType.IDENTIFIER || token.type === TokenType.PUNCTUATION.COLON || isOnParams)) {
                 if (!isOnParams) {
                     if (lastToken && lastToken.range.end.character != token.range.start.character) {
@@ -135,11 +527,18 @@ class ProviderUtils {
                         result.lastToken = lastToken;
                         result.twoLastToken = twoLastToken;
                     }
+                    if (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR) {
+                        result.activationTokens.push({ activation: activationToken });
+                        activationToken = "";
+                    } else {
+                        activationToken = token.text + activationToken;
+                    }
                 } else {
                     result.activation = token.text + result.activation;
                     result.startColumn = token.range.start.character;
                     result.lastToken = lastToken;
                     result.twoLastToken = twoLastToken;
+                    activationToken = token.text + activationToken;
                 }
             } else if (!isOnParams && token && (token.type === TokenType.PUNCTUATION.COMMA || token.type === TokenType.PUNCTUATION.QUOTTES || token.type === TokenType.PUNCTUATION.QUOTTES_END || token.type === TokenType.PUNCTUATION.QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END)) {
                 endLoop = true;
@@ -166,6 +565,7 @@ class ProviderUtils {
             } else if (token.type == TokenType.LITERAL.STRING) {
                 if (lastToken && lastToken.range.end.character === token.range.start.character) {
                     result.activation = token.text + result.activation;
+                    activationToken = token.text + activationToken;
                     result.lastToken = lastToken;
                     result.twoLastToken = twoLastToken;
                     result.startColumn = token.range.start.character;
@@ -174,6 +574,7 @@ class ProviderUtils {
                     result.twoLastToken = twoLastToken;
                     result.startColumn = token.range.start.character;
                     result.activation = token.text + result.activation;
+                    activationToken = token.text + activationToken;
                     endLoop = true;
                 }
             }
@@ -181,6 +582,9 @@ class ProviderUtils {
             if (tokenPos < 0)
                 endLoop = true;
         }
+        if (activationToken)
+            result.activationTokens.push({ activation: activationToken });
+        result.activationTokens.reverse();
         if (difference > 0 && result.startColumn >= difference)
             result.startColumn = result.startColumn - difference;
         return result;
@@ -195,16 +599,22 @@ class ProviderUtils {
         let detail = sObject.name + ' Field';
         const documentation = new MarkDownStringBuilder();
         const relDocumentation = new MarkDownStringBuilder();
-        let doc = "  - **Label**: `" + field.label + '`  \n';
+        let label = StrUtils.replace(field.label, '.field-meta.xml', '');
+        label = label.endsWith('Id') ? label.substring(0, label.length - 2) : label;
+        let doc = (field.description) ? field.description + '\n\n' : '';
+        if (!field.description && field.inlineHelpText && field.inlineHelpText !== 'null')
+            doc = (field.inlineHelpText) ? field.inlineHelpText + '\n\n' : '';
+        doc += "  - **Label**: `" + label + '`  \n';
         if (field.length)
             doc += "  - **Length**: `" + field.length + '`  \n';
         if (field.type)
             doc += "  - **Type**: `" + field.type + '`  \n';
         if (field.custom !== undefined)
             doc += "  - **Is Custom**: `" + field.custom + '`  \n';
-        documentation.appendApexCodeBlock(sObject.name + '.' + field.name).appendMarkdown(detail + '\n\n').appendMarkdown(doc + '\n\n');
+        if (field.inlineHelpText && field.inlineHelpText !== 'null')
+            doc += "  - **Inline Help**: `" + field.inlineHelpText + '`  \n';
         if (field.referenceTo.length > 0) {
-            doc += "  - **Reference To**: " + field.referenceTo.join(", ") + '\n';
+            doc += "  - **Reference To**: `" + field.referenceTo.join(", ") + '`\n';
             let name = field.name;
             if (name.endsWith('__c')) {
                 name = name.substring(0, name.length - 3) + '__r';
@@ -222,11 +632,15 @@ class ProviderUtils {
                 itemRel = ProviderUtils.createItemForCompletion(name, options);
             }
         }
+        if (applicationContext.sfData.serverInstance) {
+            doc += '\n\n[Lightning Setup](' + applicationContext.sfData.serverInstance + '/lightning/setup/ObjectManager/' + sObject.name + '/FieldsAndRelationships/view)';
+        }
+        documentation.appendApexCodeBlock(sObject.name + '.' + field.name).appendMarkdown(detail + '\n\n').appendMarkdown(doc + '\n\n');
         if (field.picklistValues.length > 0) {
             pickItems = [];
             documentation.appendMarkdownH4('Picklist Values');
             for (const pickVal of field.picklistValues) {
-                if (activationTokens.length <= 3 && activationTokens.length > 0 && activationTokens[0].toLowerCase() === sObject.name.toLowerCase()) {
+                if (activationTokens.length <= 3 && activationTokens.length > 0 && activationTokens[0].activation.toLowerCase() === sObject.name.toLowerCase()) {
                     const pickDocumentation = new MarkDownStringBuilder();
                     pickDocumentation.appendApexCodeBlock(sObject.name + '.' + field.name);
                     let pickDoc = "  - **Value**: `" + pickVal.value + '`  \n';
@@ -245,12 +659,12 @@ class ProviderUtils {
                     } else {
                         pickValue = pickVal.value;
                     }
-                    pickDocumentation.appendMarkdown('`' + field.name + '` Picklist Value. Select this option to replace with the picklist value. Replace `' + activationTokens.join('.') + '` with `' + pickValue + '`\n\n');
+                    pickDocumentation.appendMarkdown('`' + field.name + '` Picklist Value. Select this option to replace with the picklist value. Replace `' + ProviderUtils.joinActivationTokens(activationTokens, '.') + '` with `' + pickValue + '`\n\n');
                     pickDocumentation.appendMarkdown(pickDoc + '\n\n');
                     pickDocumentation.appendMarkdownSeparator();
                     pickDocumentation.appendMarkdownH4('Snippet');
                     pickDocumentation.appendApexCodeBlock(pickValue);
-                    const options = ProviderUtils.getCompletionItemOptions('Picklist Value', pickDocumentation.build(), pickValue.toString(), true, CompletionItemKind.Value);
+                    const options = ProviderUtils.getCompletionItemOptions('Picklist Value', pickDocumentation.build(), pickValue.toString(), false, CompletionItemKind.Value);
                     const pickItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + field.name + '.' + pickVal.value.toString(), options);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         pickItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
@@ -271,14 +685,14 @@ class ProviderUtils {
         return items;
     }
 
-    static getSobjectsFieldsCompletionItems(position, activationInfo, activationTokens, sObject, positionData) {
+    static getSobjectCompletionItems(position, activationInfo, activationTokens, sObject, positionData) {
         let items = [];
         if (sObject && sObject.fields) {
             for (const fieldKey of Object.keys(sObject.fields)) {
                 let field = sObject.fields[fieldKey];
                 items = items.concat(ProviderUtils.getSObjectFieldCompletionItems(position, activationInfo, activationTokens, sObject, field, positionData));
             }
-            if (Utils.hasKeys(sObject.recordTypes) && activationTokens.length <= 2 && activationTokens.length > 0 && activationTokens[0].toLowerCase() === sObject.name.toLowerCase()) {
+            if (Utils.hasKeys(sObject.recordTypes) && activationTokens.length <= 2 && activationTokens.length > 0 && activationTokens[0].activation.toLowerCase() === sObject.name.toLowerCase()) {
                 for (const rtKey of Object.keys(sObject.recordTypes)) {
                     const rtNameDocumentation = new MarkDownStringBuilder();
                     const rtDevNameDocumentation = new MarkDownStringBuilder();
@@ -309,8 +723,8 @@ class ProviderUtils {
                         nameValue = rt.name;
                         devNameValue = rt.developerName;
                     }
-                    rtNameDocumentation.appendMarkdown('`' + rt.name + '` Record Type Name. Select this option to replace with the record type name value. Replace `' + activationTokens.join('.') + '` with `' + nameValue + '`\n\n');
-                    rtDevNameDocumentation.appendMarkdown('`' + rt.developerName + '` Record Type Developer Name. Select this option to replace with the record type developer name value. Replace `' + activationTokens.join('.') + '` with `' + devNameValue + '`\n\n');
+                    rtNameDocumentation.appendMarkdown('`' + rt.name + '` Record Type Name. Select this option to replace with the record type name value. Replace `' + ProviderUtils.joinActivationTokens(activationTokens, '.') + '` with `' + nameValue + '`\n\n');
+                    rtDevNameDocumentation.appendMarkdown('`' + rt.developerName + '` Record Type Developer Name. Select this option to replace with the record type developer name value. Replace `' + ProviderUtils.joinActivationTokens(activationTokens, '.') + '` with `' + devNameValue + '`\n\n');
                     rtNameDocumentation.appendMarkdown(rtDoc);
                     rtDevNameDocumentation.appendMarkdown(rtDoc);
                     rtNameDocumentation.appendMarkdownSeparator();
@@ -319,9 +733,9 @@ class ProviderUtils {
                     rtDevNameDocumentation.appendMarkdownSeparator();
                     rtDevNameDocumentation.appendMarkdownH4('Snippet');
                     rtDevNameDocumentation.appendApexCodeBlock(devNameValue);
-                    const nameOptions = ProviderUtils.getCompletionItemOptions('Record Type Name', rtNameDocumentation.build(), nameValue, true, CompletionItemKind.Value);
+                    const nameOptions = ProviderUtils.getCompletionItemOptions('Record Type Name', rtNameDocumentation.build(), nameValue, false, CompletionItemKind.Value);
                     const nameRtItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + rt.name, nameOptions);
-                    const devNameoptions = ProviderUtils.getCompletionItemOptions('Record Type Developer Name', rtNameDocumentation.build(), devNameValue, true, CompletionItemKind.Value);
+                    const devNameoptions = ProviderUtils.getCompletionItemOptions('Record Type Developer Name', rtNameDocumentation.build(), devNameValue, false, CompletionItemKind.Value);
                     const devNameRtItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + rt.developerName, devNameoptions);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         nameRtItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
@@ -331,9 +745,11 @@ class ProviderUtils {
                     items.push(devNameRtItem);
                 }
             }
-            const systemMetadata = applicationContext.parserData.namespacesData['system'];
-            if (systemMetadata && systemMetadata['sobject']) {
-                items = items.concat(ProviderUtils.getApexClassCompletionItems(position, systemMetadata['sobject']));
+            if (!positionData || !positionData.query) {
+                const systemMetadata = applicationContext.parserData.namespacesData['system'];
+                if (systemMetadata && systemMetadata['sobject']) {
+                    items = items.concat(ProviderUtils.getApexClassCompletionItems(position, systemMetadata['sobject']));
+                }
             }
         }
         return items;
@@ -354,7 +770,7 @@ class ProviderUtils {
                 for (const activationToken of activationTokens) {
                     if (!activationToken)
                         continue;
-                    let actToken = activationToken;
+                    let actToken = activationToken.activation;
                     let fielData;
                     let idField = actToken + 'Id';
                     if (actToken.endsWith('__r'))
@@ -390,7 +806,7 @@ class ProviderUtils {
                 if (sObject.custom)
                     description = 'Custom SObject';
                 if (sObject.namespace) {
-                    description += '\nNamespace: ' + sObject.namespace;
+                    description += '\n\nNamespace: ' + sObject.namespace;
                 }
                 documentation.appendApexCodeBlock(sObject.name);
                 documentation.appendMarkdown(description);
@@ -407,15 +823,54 @@ class ProviderUtils {
     static getActivationType(actToken) {
         let memberData = undefined;
         if (actToken.indexOf('(') !== -1 && actToken.indexOf(')') !== -1) {
-            let name = actToken.split("(")[0].toLowerCase();
-            let params = actToken.substring(actToken.indexOf("(") + 1, actToken.indexOf(")"));
-            let paramSplits = [];
-            if (params.indexOf(','))
-                paramSplits = params.split(',');
+            const name = actToken.split("(")[0].toLowerCase();
+            const params = actToken.substring(actToken.indexOf("(") + 1, actToken.indexOf(")"));
+            const paramTokens = Tokenizer.tokenize(params);
+            let methodParams = [];
+            let parenIndent = 0;
+            let aBracketIndent = 0;
+            let sqBracketIndent = 0;
+            let methodParamTokens = [];
+            for (let i = 0; i < paramTokens.length; i++) {
+                const token = paramTokens[i];
+                if (token.type === TokenType.BRACKET.SQUARE_OPEN) {
+                    sqBracketIndent++;
+                    methodParamTokens.push(token);
+                } else if (token.type === TokenType.BRACKET.SQUARE_CLOSE) {
+                    sqBracketIndent--;
+                    methodParamTokens.push(token);
+                } else if (token.type === TokenType.OPERATOR.LOGICAL.LESS_THAN) {
+                    aBracketIndent--;
+                    methodParamTokens.push(token);
+                } else if (token.type === TokenType.OPERATOR.LOGICAL.GREATER_THAN) {
+                    aBracketIndent++;
+                    methodParamTokens.push(token);
+                } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
+                    parenIndent++;
+                    methodParamTokens.push(token);
+                } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
+                    parenIndent--;
+                    methodParamTokens.push(token);
+                } else if (token.type === TokenType.PUNCTUATION.COMMA) {
+                    if (parenIndent === 0 && aBracketIndent === 0 && sqBracketIndent === 0) {
+                        methodParams.push(Token.toString(methodParamTokens));
+                        methodParamTokens = [];
+                    } else {
+                        methodParamTokens.push(token);
+                    }
+                } else {
+                    methodParamTokens.push(token);
+                }
+
+            }
+            if (methodParamTokens.length > 0) {
+                methodParams.push(Token.toString(methodParamTokens));
+                methodParamTokens = [];
+            }
             memberData = {
                 type: "method",
                 name: name,
-                params: paramSplits
+                params: methodParams
             };
 
         } else {
@@ -441,6 +896,8 @@ class ProviderUtils {
 
     static getVariable(method, varName) {
         if (method) {
+            if (StrUtils.contains(varName, '['))
+                varName = varName.split('[')[0];
             if (method.params[varName])
                 return method.params[varName];
             if (method.variables[varName])
@@ -451,7 +908,19 @@ class ProviderUtils {
 
     static getClassField(node, varName) {
         if (node) {
+            if (StrUtils.contains(varName, '['))
+                varName = varName.split('[')[0];
             return node.variables[varName];
+        }
+        return undefined;
+    }
+
+    static getQueryFromFirstToken(node, queryFirstToken) {
+        if (node && node.queries && node.queries.length > 0) {
+            for (const query of node.queries) {
+                if (query.startToken.range.start.line === queryFirstToken.range.start.line && query.startToken.range.start.character === queryFirstToken.range.start.character)
+                    return query;
+            }
         }
         return undefined;
     }
@@ -505,229 +974,360 @@ class ProviderUtils {
         return false;
     }
 
-    static getApexCompletionItems(position, activationTokens, activationInfo, node, positionData) {
-        let items = [];
+    static getActiveActivationToken(activationInfo) {
+        let active = undefined;
+        if (activationInfo.activationTokens.length > 0) {
+            for (const activation of activationInfo.activationTokens) {
+                active = activation;
+                if (activation.active)
+                    break;
+            }
+        }
+        return active;
+    }
+
+    static getNodeInformation(node, activationInfo, toIntelliSense) {
+        const parser = new ApexParser().setSystemData(applicationContext.parserData);
         const systemMetadata = applicationContext.parserData.namespacesData['system'];
-        let sObject = applicationContext.parserData.sObjectsData[activationTokens[0].toLowerCase()];
-        let lastClass = applicationContext.parserData.userClassesData[activationTokens[0].toLowerCase()] || systemMetadata[activationTokens[0].toLowerCase()] || node;
-        if (lastClass && activationTokens[0].toLowerCase() === node.name.toLowerCase())
-            lastClass = node;
-        let parentStruct;
-        let index = 0;
-        for (let actToken of activationTokens) {
-            if (index < activationTokens.length - 1) {
-                let actType = ProviderUtils.getActivationType(actToken);
-                let datatype;
-                let className;
-                if (sObject) {
-                    let fielData;
-                    let idField = actToken + 'Id';
-                    if (actToken.endsWith('__r'))
-                        actToken = actToken.substring(0, actToken.length - 3) + '__c';
-                    fielData = ProviderUtils.getFieldData(sObject, idField.toLowerCase()) || ProviderUtils.getFieldData(sObject, actToken);
-                    if (fielData) {
-                        if (fielData.referenceTo.length === 1) {
-                            sObject = applicationContext.parserData.sObjectsData[fielData.referenceTo[0].toLowerCase()];
-                        } else {
-                            datatype = fielData.type;
-                            if (datatype.indexOf('<') !== -1)
-                                datatype = datatype.split('<')[0];
-                            if (datatype.indexOf('[') !== -1 && datatype.indexOf(']') !== -1)
-                                datatype = "List";
-                            if (datatype.indexOf('.') !== -1) {
-                                let splits = datatype.split('.');
-                                if (splits.length === 2) {
-                                    let parentClassOrNs = splits[0];
-                                    className = splits[1];
-                                    if (applicationContext.parserData.namespacesData[parentClassOrNs.toLowerCase()]) {
-                                        let namespaceMetadata = applicationContext.parserData.namespacesData[parentClassOrNs.toLowerCase()];
-                                        if (namespaceMetadata[className.toLowerCase()]) {
-                                            lastClass = namespaceMetadata[className.toLowerCase()];
-                                            parentStruct = undefined;
-                                            sObject = undefined;
-                                        }
-                                    }
-                                    if (!lastClass && systemMetadata[parentClassOrNs.toLowerCase()]) {
-                                        parentStruct = systemMetadata[parentClassOrNs.toLowerCase()];
-                                    }
-                                } else if (splits.length > 2) {
-                                    let nsName = splits[0];
-                                    let parentClassName = splits[1];
-                                    className = splits[2];
-                                    if (applicationContext.parserData.namespacesData[nsName.toLowerCase()]) {
-                                        let namespaceMetadata = applicationContext.parserData.namespacesData[nsName.toLowerCase()];
-                                        if (namespaceMetadata[parentClassName.toLowerCase()]) {
-                                            lastClass = undefined;
-                                            parentStruct = namespaceMetadata[parentClassName.toLowerCase()];
-                                            sObject = undefined;
-                                        }
-                                    }
-                                    if (!parentStruct && systemMetadata[parentClassName.toLowerCase()]) {
-                                        parentStruct = systemMetadata[parentClassName.toLowerCase()];
-                                    }
-                                }
-                            } else {
-                                parentStruct = undefined;
-                                if (systemMetadata[datatype.toLowerCase()]) {
-                                    lastClass = systemMetadata[datatype.toLowerCase()];
-                                    sObject = undefined;
-                                }
-                            }
-                            if (parentStruct && className) {
-                                let classFound = false;
-                                if (parentStruct.classes[className.toLowerCase()]) {
-                                    classFound = true;
-                                    lastClass = parentStruct.classes[className.toLowerCase()];
-                                }
-                                if (!classFound) {
-                                    if (parentStruct.enums[className.toLowerCase()]) {
-                                        classFound = true;
-                                        lastClass = parentStruct.enums[className.toLowerCase()];
-                                    }
-                                }
-                                if (!classFound)
-                                    lastClass = undefined;
+        let method;
+        let methodVar;
+        let classVar;
+        let sObject;
+        let label;
+        let labels;
+        let sObjectField;
+        let sObjectFieldName;
+        let namespace;
+        let lastNode = node;
+        let datatype;
+        if (activationInfo.activationTokens.length > 0) {
+            lastNode = applicationContext.parserData.userClassesData[activationInfo.activationTokens[0].activation.toLowerCase()] || systemMetadata[activationInfo.activationTokens[0].activation.toLowerCase()] || applicationContext.parserData.namespacesData[activationInfo.activationTokens[0].activation.toLowerCase()] || applicationContext.parserData.sObjectsData[activationInfo.activationTokens[0].activation.toLowerCase()] || node;
+            if (lastNode && activationInfo.activationTokens[0].activation.toLowerCase() === node.name.toLowerCase())
+                lastNode = node;
+        } else {
+            if (lastNode.positionData && lastNode.positionData.query)
+                lastNode = parser.resolveDatatype(lastNode.positionData.query.from.textToLower);
+        }
+        if (node && node.positionData && (node.positionData.nodeType === ApexNodeTypes.COMMENT || node.positionData.nodeType === ApexNodeTypes.BLOCK_COMMENT))
+            return undefined;
+        for (let i = 0; i < activationInfo.activationTokens.length; i++) {
+            if (!toIntelliSense) {
+                method = undefined;
+                sObjectField = undefined;
+                namespace = undefined;
+            }
+            const activationToken = activationInfo.activationTokens[i];
+            const actType = ProviderUtils.getActivationType(activationToken.activation);
+            const activationToLower = activationToken.activation.toLowerCase();
+            let datatypeName;
+            if (activationInfo.activationTokens[0].activation.toLowerCase() === 'label' && i <= 1) {
+                labels = ProviderUtils.getCustomLabels();
+                if (i === 1) {
+                    if (activationToken.active) {
+                        for (const labelTmp of labels) {
+                            if (labelTmp.fullName.toLowerCase() === activationToLower) {
+                                label = labelTmp;
+                                break;
                             }
                         }
                     }
-                } else if (lastClass) {
-                    if (lastClass.nodeType !== ApexNodeTypes.ENUM) {
+                    datatypeName = 'String';
+                    lastNode = parser.resolveDatatype(datatypeName);
+                    labels = undefined;
+                }
+            } else {
+                if (activationToken.isQuery) {
+                    if (node && node.positionData.signature) {
+                        method = ProviderUtils.getMethod(node, node.positionData.signature) || ProviderUtils.getMethod(node.classes[node.positionData.parentName.toLowerCase()], node.positionData.signature) || ProviderUtils.getMethod(node.interfaces[node.positionData.parentName.toLowerCase()], node.positionData.signature);
+                        let query = ProviderUtils.getQueryFromFirstToken(method, activationToken.startToken);
+                        if (query)
+                            datatypeName = query.from.textToLower;
+                    } else if (node) {
+                        let query = ProviderUtils.getQueryFromFirstToken(node, activationToken.startToken);
+                        if (query)
+                            datatypeName = query.from.textToLower;
+                    }
+                } else if (lastNode) {
+                    if (!Utils.isNull(lastNode.nodeType)) {
                         if (actType.type === 'field') {
-                            if (lastClass.positionData && lastClass.positionData.nodeType === ApexNodeTypes.METHOD) {
-                                const method = ProviderUtils.getMethod(lastClass, lastClass.positionData.signature);
-                                const methodVar = ProviderUtils.getVariable(method, actToken.toLowerCase());
-                                const classVar = ProviderUtils.getClassField(lastClass, actToken.toLowerCase());
-                                if (methodVar)
-                                    datatype = methodVar.datatype.name;
-                                else if (classVar)
-                                    datatype = classVar.datatype.name;
+                            if (lastNode.nodeType !== ApexNodeTypes.ENUM) {
+                                if (lastNode.positionData && (lastNode.positionData.nodeType === ApexNodeTypes.METHOD || lastNode.positionData.nodeType === ApexNodeTypes.CONSTRUCTOR)) {
+                                    method = ProviderUtils.getMethod(lastNode, lastNode.positionData.signature) || ProviderUtils.getMethod(lastNode.classes[lastNode.positionData.parentName.toLowerCase()], lastNode.positionData.signature) || ProviderUtils.getMethod(lastNode.interfaces[lastNode.positionData.parentName.toLowerCase()], lastNode.positionData.signature);
+                                    methodVar = ProviderUtils.getVariable(method, activationToLower);
+                                    classVar = ProviderUtils.getClassField(lastNode, activationToLower);
+                                    if (methodVar && activationToken.endToken.type === TokenType.BRACKET.SQUARE_CLOSE) {
+                                        datatypeName = methodVar.datatype.value;
+                                    } else if (methodVar)
+                                        datatypeName = methodVar.datatype.name;
+                                    else if (classVar)
+                                        datatypeName = classVar.datatype.name;
+                                } else if (lastNode.positionData && lastNode.positionData.nodeType === ApexNodeTypes.SOQL && lastNode.positionData.query) {
+                                    if (activationInfo.lastToken && activationInfo.lastToken.text === ':') {
+                                        method = ProviderUtils.getMethod(lastNode, lastNode.positionData.signature) || ProviderUtils.getMethod(lastNode.classes[lastNode.positionData.parentName.toLowerCase()], lastNode.positionData.signature) || ProviderUtils.getMethod(lastNode.interfaces[lastNode.positionData.parentName.toLowerCase()], lastNode.positionData.signature);
+                                        methodVar = ProviderUtils.getVariable(method, activationToLower);
+                                        classVar = ProviderUtils.getClassField(lastNode, activationToLower);
+                                    } else {
+                                        methodVar = undefined;
+                                        classVar = undefined;
+                                    }
+                                    if (methodVar)
+                                        datatypeName = methodVar.datatype.name;
+                                    else if (classVar)
+                                        datatypeName = classVar.datatype.name;
+                                    else {
+                                        if (!toIntelliSense)
+                                            method = undefined;
+                                        lastNode = parser.resolveDatatype(lastNode.positionData.query.from.textToLower);
+                                        let idField = (!activationToLower.endsWith('id')) ? activationToLower + 'Id' : activationToLower;
+                                        let relatedField = (activationToLower.endsWith('__r')) ? activationToLower.substring(0, activationToLower.length - 3) + '__c' : activationToLower;
+                                        sObjectFieldName = activationToLower;
+                                        sObjectField = ProviderUtils.getFieldData(lastNode, idField.toLowerCase()) || ProviderUtils.getFieldData(lastNode, relatedField);
+                                        if (sObjectField) {
+                                            sObject = lastNode;
+                                            if (sObjectField.referenceTo.length === 1) {
+                                                datatypeName = sObjectField.referenceTo[0];
+                                            } else {
+                                                if (sObjectField.name.endsWith('Id') && !sObjectField.custom)
+                                                    datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2)
+                                                else
+                                                    datatypeName = sObjectField.type;
+                                            }
+                                        } else {
+                                            sObjectFieldName = undefined;
+                                            lastNode = undefined;
+                                        }
+                                    }
+                                } else {
+                                    if (node && node.positionData && node.positionData.nodeType === ApexNodeTypes.SOQL && node.positionData.query && i === 0) {
+                                        if (activationInfo.lastToken && activationInfo.lastToken.text === ':') {
+                                            method = ProviderUtils.getMethod(node, node.positionData.signature) || ProviderUtils.getMethod(node.classes[node.positionData.parentName.toLowerCase()], node.positionData.signature) || ProviderUtils.getMethod(node.interfaces[node.positionData.parentName.toLowerCase()], node.positionData.signature);
+                                            methodVar = ProviderUtils.getVariable(method, activationToLower);
+                                            classVar = ProviderUtils.getClassField(node, activationToLower);
+                                            if (methodVar && activationToken.endToken.type === TokenType.BRACKET.SQUARE_CLOSE) {
+                                                datatypeName = methodVar.datatype.value;
+                                            } else if (methodVar)
+                                                datatypeName = methodVar.datatype.name;
+                                            else if (classVar)
+                                                datatypeName = classVar.datatype.name;
+                                        } else {
+                                            methodVar = undefined;
+                                            classVar = undefined;
+                                        }
+                                        if (methodVar)
+                                            datatypeName = methodVar.datatype.name;
+                                        else if (classVar)
+                                            datatypeName = classVar.datatype.name;
+                                        else {
+                                            if (!toIntelliSense)
+                                                method = undefined;
+                                            lastNode = parser.resolveDatatype(node.positionData.query.from.textToLower);
+                                            let idField = (!activationToLower.endsWith('id')) ? activationToLower + 'Id' : activationToLower;
+                                            let relatedField = (activationToLower.endsWith('__r')) ? activationToLower.substring(0, activationToLower.length - 3) + '__c' : activationToLower;
+                                            sObjectFieldName = activationToLower;
+                                            sObjectField = ProviderUtils.getFieldData(lastNode, idField.toLowerCase()) || ProviderUtils.getFieldData(lastNode, relatedField);
+                                            if (sObjectField) {
+                                                sObject = lastNode;
+                                                if (sObjectField.referenceTo.length === 1) {
+                                                    datatypeName = sObjectField.referenceTo[0];
+                                                } else {
+                                                    if (sObjectField.name.endsWith('Id') && !sObjectField.custom)
+                                                        datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2)
+                                                    else
+                                                        datatypeName = sObjectField.type;
+                                                }
+                                            } else {
+                                                sObjectFieldName = undefined;
+                                                lastNode = undefined;
+                                            }
+                                        }
+                                    } else {
+                                        if (lastNode.positionData && lastNode.positionData.parentName)
+                                            classVar = ProviderUtils.getClassField(lastNode, activationToLower) || ProviderUtils.getClassField(lastNode.classes[lastNode.positionData.parentName.toLowerCase()], activationToLower) || ProviderUtils.getClassField(lastNode.interfaces[lastNode.positionData.parentName.toLowerCase()], activationToLower);
+                                        else
+                                            classVar = ProviderUtils.getClassField(lastNode, activationToLower);
+                                        if (classVar)
+                                            datatypeName = classVar.datatype.name;
+                                        else
+                                            datatypeName = activationToLower;
+                                    }
+                                }
                             } else {
-                                const classVar = ProviderUtils.getClassField(lastClass, actToken.toLowerCase());
-                                if (classVar)
-                                    datatype = classVar.datatype.name;
+                                datatypeName = lastNode.name;
                             }
-                        } else if (actType.type === 'method') {
-                            const method = ProviderUtils.getMethodFromCall(lastClass, actType.name, actType.params);
-                            if (method)
-                                datatype = method.datatype.name;
+                        } else {
+                            if (lastNode.positionData && lastNode.positionData.parentName)
+                                method = ProviderUtils.getMethodFromCall(lastNode, actType.name, actType.params) || ProviderUtils.getMethodFromCall(lastNode.classes[lastNode.positionData.parentName.toLowerCase()], actType.name, actType.params) || ProviderUtils.getMethodFromCall(lastNode.interfaces[lastNode.positionData.parentName.toLowerCase()], actType.name, actType.params);
+                            else
+                                method = ProviderUtils.getMethodFromCall(lastNode, actType.name, actType.params);
+                            if (method) {
+                                datatypeName = (method.datatype) ? method.datatype.name : lastNode.name;
+                                if (!datatype) {
+                                    if (method.name === 'get' && (lastNode.name.toLowerCase() === 'list' || lastNode.name.toLowerCase() === 'map')) {
+                                        if (methodVar) {
+                                            datatype = methodVar.datatype.value;
+                                            datatypeName = datatype.type;
+                                        }
+                                        else if (classVar) {
+                                            datatype = classVar.datatype.value;
+                                            datatypeName = datatype.type;
+                                        }
+                                    } else {
+                                        methodVar = undefined;
+                                        classVar = undefined;
+                                    }
+                                } else {
+                                    methodVar = undefined;
+                                    classVar = undefined;
+                                    if (method.name === 'get' && (datatype.type.toLowerCase() === 'list' || datatype.type.toLowerCase() === 'map')) {
+                                        datatype = datatype.value;
+                                        datatypeName = datatype.type;
+                                    }
+                                }
+                            }
+                            if (activationToken.lastToken && activationToken.lastToken.textToLower === 'new' && !method) {
+                                const tmpNode = parser.resolveDatatype(actType.name);
+                                method = ProviderUtils.getMethodFromCall(tmpNode, actType.name, actType.params);
+                                datatypeName = actType.name;
+                            }
                         }
-                        if (!datatype) {
-                            if (lastClass.parentName) {
-                                parentStruct = applicationContext.parserData.userClassesData[lastClass.parentName.toLowerCase()];
-                                className = actToken;
+                    } else if (Object.keys(lastNode).includes('keyPrefix')) {
+                        if (actType.type === 'field') {
+                            if (node && node.positionData && node.positionData.nodeType === ApexNodeTypes.SOQL && node.positionData.query && i === 0) {
+                                if (activationInfo.lastToken && activationInfo.lastToken.text === ':') {
+                                    method = ProviderUtils.getMethod(node, node.positionData.signature) || ProviderUtils.getMethod(node.classes[node.positionData.parentName.toLowerCase()], node.positionData.signature) || ProviderUtils.getMethod(node.interfaces[node.positionData.parentName.toLowerCase()], node.positionData.signature);
+                                    methodVar = ProviderUtils.getVariable(method, activationToLower);
+                                    classVar = ProviderUtils.getClassField(node, activationToLower);
+                                    if (methodVar && activationToken.endToken.type === TokenType.BRACKET.SQUARE_CLOSE) {
+                                        datatypeName = methodVar.datatype.value;
+                                    } else if (methodVar)
+                                        datatypeName = methodVar.datatype.name;
+                                    else if (classVar)
+                                        datatypeName = classVar.datatype.name;
+                                } else {
+                                    methodVar = undefined;
+                                    classVar = undefined;
+                                }
+                                if (methodVar)
+                                    datatypeName = methodVar.datatype.name;
+                                else if (classVar)
+                                    datatypeName = classVar.datatype.name;
+                                else {
+                                    if (!toIntelliSense)
+                                        method = undefined;
+                                    lastNode = parser.resolveDatatype(node.positionData.query.from.textToLower);
+                                    let idField = (!activationToLower.endsWith('id')) ? activationToLower + 'Id' : activationToLower;
+                                    let relatedField = (activationToLower.endsWith('__r')) ? activationToLower.substring(0, activationToLower.length - 3) + '__c' : activationToLower;
+                                    sObjectFieldName = activationToLower;
+                                    sObjectField = ProviderUtils.getFieldData(lastNode, idField.toLowerCase()) || ProviderUtils.getFieldData(lastNode, relatedField);
+                                    if (sObjectField) {
+                                        sObject = lastNode;
+                                        if (sObjectField.referenceTo.length === 1) {
+                                            datatypeName = sObjectField.referenceTo[0];
+                                        } else {
+                                            if (sObjectField.name.endsWith('Id') && !sObjectField.custom)
+                                                datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2)
+                                            else
+                                                datatypeName = sObjectField.type;
+                                        }
+                                    } else {
+                                        sObjectFieldName = undefined;
+                                        lastNode = undefined;
+                                    }
+                                }
                             } else {
-                                if (applicationContext.parserData.userClassesData[actToken.toLowerCase()]) {
-                                    lastClass = applicationContext.parserData.userClassesData[actToken.toLowerCase()];
-                                    parentStruct = undefined;
-                                    sObject = undefined;
-                                } else if (systemMetadata[actToken.toLowerCase()]) {
-                                    lastClass = systemMetadata[actToken.toLowerCase()];
-                                    parentStruct = undefined;
-                                    sObject = undefined;
-                                } else if (applicationContext.parserData.sObjectsData[actToken.toLowerCase()]) {
-                                    sObject = applicationContext.parserData.sObjectsData[actToken.toLowerCase()];
-                                    parentStruct = undefined;
-                                    lastClass = undefined;
+                                let idField = (!activationToLower.endsWith('id')) ? activationToLower + 'Id' : activationToLower;
+                                let relatedField = (activationToLower.endsWith('__r')) ? activationToLower.substring(0, activationToLower.length - 3) + '__c' : activationToLower;
+                                sObjectFieldName = activationToLower;
+                                sObjectField = ProviderUtils.getFieldData(lastNode, idField.toLowerCase()) || ProviderUtils.getFieldData(lastNode, relatedField);
+                                if (sObjectField) {
+                                    sObject = lastNode;
+                                    if (sObjectField.referenceTo.length === 1) {
+                                        datatypeName = sObjectField.referenceTo[0];
+                                    } else {
+                                        if (sObjectField.name.endsWith('Id') && !sObjectField.custom)
+                                            datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2)
+                                        else
+                                            datatypeName = sObjectField.type;
+                                    }
+                                } else {
+                                    sObjectFieldName = undefined;
                                 }
                             }
                         } else {
-                            if (datatype.indexOf('<') !== -1)
-                                datatype = datatype.split('<')[0];
-                            if (datatype.indexOf('[') !== -1 && datatype.indexOf(']') !== -1)
-                                datatype = "List";
-                            if (datatype.indexOf('.') !== -1) {
-                                let splits = datatype.split('.');
-                                if (splits.length === 2) {
-                                    let parentClassOrNs = splits[0];
-                                    className = splits[1];
-                                    if (applicationContext.parserData.userClassesData[parentClassOrNs.toLowerCase()]) {
-                                        parentStruct = applicationContext.parserData.userClassesData[parentClassOrNs.toLowerCase()];
-                                    } else if (applicationContext.parserData.namespacesData[parentClassOrNs.toLowerCase()]) {
-                                        let namespaceMetadata = applicationContext.parserData.namespacesData[parentClassOrNs.toLowerCase()];
-                                        if (namespaceMetadata[className.toLowerCase()]) {
-                                            lastClass = namespaceMetadata[className.toLowerCase()];
-                                            parentStruct = undefined;
-                                            sObject = undefined;
-                                        }
-                                    }
-                                    if (!lastClass && systemMetadata[parentClassOrNs.toLowerCase()]) {
-                                        parentStruct = systemMetadata[parentClassOrNs.toLowerCase()];
-                                    }
-                                } else if (splits.length > 2) {
-                                    let nsName = splits[0];
-                                    let parentClassName = splits[1];
-                                    className = splits[2];
-                                    if (applicationContext.parserData.userClassesData[parentClassName.toLowerCase()]) {
-                                        parentStruct = applicationContext.parserData.userClassesData[parentClassName.toLowerCase()];
-                                    } else if (applicationContext.parserData.namespacesData[nsName.toLowerCase()]) {
-                                        let namespaceMetadata = applicationContext.parserData.namespacesData[nsName.toLowerCase()];
-                                        if (namespaceMetadata[parentClassName.toLowerCase()]) {
-                                            lastClass = undefined;
-                                            parentStruct = namespaceMetadata[parentClassName.toLowerCase()];
-                                            sObject = undefined;
-                                        }
-                                    }
-                                    if (!parentStruct && systemMetadata[parentClassName.toLowerCase()]) {
-                                        parentStruct = systemMetadata[parentClassName.toLowerCase()];
-                                    }
-                                }
-                            } else {
-                                parentStruct = undefined;
-                                if (lastClass.parentClass && datatype !== 'List') {
-                                    parentStruct = applicationContext.parserData.userClassesData[lastClass.parentClass.toLowerCase()];
-                                    className = datatype;
-                                } else if (applicationContext.parserData.userClassesData[datatype.toLowerCase()]) {
-                                    lastClass = applicationContext.parserData.userClassesData[datatype.toLowerCase()];
-                                    sObject = undefined;
-                                } if (systemMetadata[datatype.toLowerCase()]) {
-                                    lastClass = systemMetadata[datatype.toLowerCase()];
-                                    sObject = undefined;
-                                } else if (applicationContext.parserData.sObjectsData[datatype.toLowerCase()]) {
-                                    sObject = applicationContext.parserData.sObjectsData[datatype.toLowerCase()];
-                                    parentStruct = undefined;
-                                    lastClass = undefined;
-                                }
-                            }
+                            const tmpNode = parser.resolveDatatype('sobject');
+                            method = ProviderUtils.getMethodFromCall(tmpNode, actType.name, actType.params);
+                            if (method)
+                                datatypeName = method.datatype.name;
                         }
-                        if (parentStruct && className) {
-                            let classFound = false;
-                            if (parentStruct.classes[className.toLowerCase()]) {
-                                classFound = true;
-                                lastClass = parentStruct.classes[className.toLowerCase()];
-                            }
-                            if (!classFound) {
-                                if (parentStruct.enums[className.toLowerCase()]) {
-                                    classFound = true;
-                                    lastClass = parentStruct.enums[className.toLowerCase()];
-                                }
-                            }
-                            if (!classFound)
-                                lastClass = undefined;
+                    } else {
+                        if (actType.type === 'field') {
+                            datatypeName = activationToLower;
+                            namespace = datatypeName;
                         }
                     }
                 }
+                if (!datatypeName) {
+                    if (lastNode && lastNode.parentName) {
+                        lastNode = parser.resolveDatatype(lastNode.parentName);
+                    } else {
+                        if (!toIntelliSense)
+                            method = undefined;
+                        lastNode = parser.resolveDatatype(activationToLower);
+                    }
+                } else {
+                    if (lastNode && lastNode.classes && lastNode.classes[activationToLower])
+                        lastNode = lastNode.classes[activationToLower];
+                    else if (lastNode && lastNode.interfaces && lastNode.interfaces[activationToLower])
+                        lastNode = lastNode.interfaces[activationToLower];
+                    else if (lastNode && lastNode.enums && lastNode.enums[activationToLower])
+                        lastNode = lastNode.enums[activationToLower];
+                    else
+                        lastNode = parser.resolveDatatype(datatypeName);
+                }
             }
-            index++;
+            if (activationToken.active) {
+                break;
+            }
         }
-        if (sObject && Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
-            items = items.concat(ProviderUtils.getSobjectsFieldsCompletionItems(position, activationInfo, activationTokens, sObject, positionData));
-        } else if (lastClass && Config.getConfig().autoCompletion.activeApexSuggestion) {
-            items = ProviderUtils.getApexClassCompletionItems(position, lastClass);
+        return {
+            node: node,
+            lastNode: lastNode,
+            method: method,
+            methodVar: methodVar,
+            classVar: classVar,
+            sObject: sObject,
+            label: label,
+            labels: labels,
+            sObjectField: sObjectField,
+            sObjectFieldName: sObjectFieldName,
+            namespace: namespace
+        }
+    }
+
+    static getApexCompletionItems(position, activationInfo, node, positionData) {
+        let items = [];
+        const nodeInfo = ProviderUtils.getNodeInformation(node, activationInfo);
+        if (nodeInfo.lastNode && Object.keys(nodeInfo.lastNode).includes('keyPrefix') && Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
+            items = items.concat(ProviderUtils.getSobjectCompletionItems(position, activationInfo, activationInfo.activationTokens, nodeInfo.lastNode, positionData));
+        } else if (nodeInfo.lastNode && !Utils.isNull(nodeInfo.lastNode.nodeType) && Config.getConfig().autoCompletion.activeApexSuggestion) {
+            items = ProviderUtils.getApexClassCompletionItems(position, nodeInfo.lastNode);
         }
         Utils.sort(items, ['label']);
         return items;
     }
 
     static getMethodFromCall(apexClass, name, params) {
-        for (const methodName of Object.keys(apexClass.methods)) {
-            const method = apexClass.methods[methodName];
-            if (method.name.toLowerCase() === name.toLowerCase() && Utils.countKeys(method.params) === params.length)
-                return method;
-        }
-        for (const constructName of Object.keys(apexClass.constructors)) {
-            const construct = apexClass.constructors[constructName];
-            if (construct.name.toLowerCase() === name.toLowerCase() && Utils.countKeys(construct.params) === params.length)
-                return construct;
+        if (apexClass && (apexClass.methods || apexClass.constructors)) {
+            for (const methodName of Object.keys(apexClass.methods)) {
+                const method = apexClass.methods[methodName];
+                if (method.name.toLowerCase() === name.toLowerCase() && Utils.countKeys(method.params) === params.length)
+                    return method;
+            }
+            for (const constructName of Object.keys(apexClass.constructors)) {
+                const construct = apexClass.constructors[constructName];
+                if (construct.name.toLowerCase() === name.toLowerCase() && Utils.countKeys(construct.params) === params.length)
+                    return construct;
+            }
         }
         return undefined;
     }
@@ -754,7 +1354,7 @@ class ProviderUtils {
                         method = node.initializer;
                     if (node.positionData.nodeType === ApexNodeTypes.STATIC_CONSTRUCTOR)
                         method = node.staticConstructor;
-                    if (method.params && Utils.hasKeys(method.params)) {
+                    if (Utils.hasKeys(method.params)) {
                         const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
                         const paramsTagData = tagsData['params'];
                         for (const param of method.getOrderedParams()) {
@@ -796,7 +1396,8 @@ class ProviderUtils {
                         const options = ProviderUtils.getCompletionItemOptions(datatype, documentation.build(), variable.name, true, CompletionItemKind.Variable);
                         items.push(ProviderUtils.createItemForCompletion(variable.name, options));
                     }
-                } else {
+                }
+                if (Utils.hasKeys(node.variables)) {
                     for (const varName of Object.keys(node.variables)) {
                         const documentation = new MarkDownStringBuilder();
                         const variable = node.variables[varName];
@@ -833,230 +1434,238 @@ class ProviderUtils {
                         }
                     }
                 }
-                for (const constructorName of Object.keys(node.constructors)) {
-                    const documentation = new MarkDownStringBuilder();
-                    const construct = node.constructors[constructorName];
-                    let insertText = construct.name + "(";
-                    let snippetNum = 1;
-                    let name = construct.name + "(";
-                    let signature = '';
-                    if (construct.accessModifier)
-                        signature += construct.accessModifier.text + ' ';
-                    if (construct.definitionModifier)
-                        signature += construct.definitionModifier.text + ' ';
-                    if (construct.static)
-                        signature += construct.static.text + ' ';
-                    if (construct.final)
-                        signature += construct.final.text + ' ';
-                    if (construct.transient)
-                        signature += construct.transient.text + ' ';
-                    signature += construct.name + "(";
-                    let description = '';
-                    if (construct.description && construct.description.length > 0) {
-                        description += StrUtils.replace(construct.description, '\n', '\n\n') + '\n\n';
-                    } else if (construct.comment && construct.comment.description && construct.comment.description.length > 0) {
-                        description += StrUtils.replace(construct.comment.description, '\n', '\n\n') + '\n\n';
-                    }
-                    if (Utils.hasKeys(construct.params)) {
-                        const tagsData = TemplateUtils.getTagsDataBySource(['params'], construct.comment);
-                        const paramsTagData = tagsData['params'];
-                        documentation.appendMarkdownH4('Params');
-                        for (const paramName of Object.keys(construct.params)) {
-                            const param = construct.params[paramName];
-                            const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
-                            description += '  - **' + param.name + '** `' + datatype + '`';
-                            if (param.description) {
-                                description += ' &mdash; ' + StrUtils.replace(param.description, '\n', '\n\n');
-                            } else if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
-                                for (const data of paramsTagData.tagData) {
-                                    if (data.keywords) {
-                                        for (const keyword of paramsTagData.tag.keywords) {
-                                            if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
-                                                description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
+                if (Utils.hasKeys(node.constructors)) {
+                    for (const constructorName of Object.keys(node.constructors)) {
+                        const documentation = new MarkDownStringBuilder();
+                        const construct = node.constructors[constructorName];
+                        let insertText = construct.name + "(";
+                        let snippetNum = 1;
+                        let name = construct.name + "(";
+                        let signature = '';
+                        if (construct.accessModifier)
+                            signature += construct.accessModifier.text + ' ';
+                        if (construct.definitionModifier)
+                            signature += construct.definitionModifier.text + ' ';
+                        if (construct.static)
+                            signature += construct.static.text + ' ';
+                        if (construct.final)
+                            signature += construct.final.text + ' ';
+                        if (construct.transient)
+                            signature += construct.transient.text + ' ';
+                        signature += construct.name + "(";
+                        let description = '';
+                        if (construct.description && construct.description.length > 0) {
+                            description += StrUtils.replace(construct.description, '\n', '\n\n') + '\n\n';
+                            construct.params = construct.variables;
+                        } else if (construct.comment && construct.comment.description && construct.comment.description.length > 0) {
+                            description += StrUtils.replace(construct.comment.description, '\n', '\n\n') + '\n\n';
+                        }
+                        if (Utils.hasKeys(construct.params)) {
+                            const tagsData = TemplateUtils.getTagsDataBySource(['params'], construct.comment);
+                            const paramsTagData = tagsData['params'];
+                            documentation.appendMarkdownH4('Params');
+                            for (const param of construct.getOrderedParams()) {
+                                const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
+                                description += '  - *' + param.name + '* `' + datatype + '`';
+                                if (param.description) {
+                                    description += ' &mdash; ' + StrUtils.replace(param.description, '\n', '\n\n');
+                                } else if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
+                                    for (const data of paramsTagData.tagData) {
+                                        if (data.keywords) {
+                                            for (const keyword of paramsTagData.tag.keywords) {
+                                                if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                                    description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
+                                                }
                                             }
                                         }
                                     }
                                 }
+                                description += '\n';
+                                if (snippetNum === 1) {
+                                    if (construct.final)
+                                        signature += construct.final.text + ' ';
+                                    signature += datatype + ' ' + param.name;
+                                    name += param.name;
+                                    insertText += "${" + snippetNum + ":" + param.name + "}";
+                                }
+                                else {
+                                    name += ", " + param.name;
+                                    signature += ', ';
+                                    if (construct.final)
+                                        signature += construct.final.text + ' ';
+                                    signature += datatype + ' ' + param.name;
+                                    insertText += ", ${" + snippetNum + ":" + param.name + "}";
+                                }
+                                snippetNum++;
                             }
                             description += '\n';
-                            if (snippetNum === 1) {
-                                if (construct.final)
-                                    signature += construct.final.text + ' ';
-                                signature += datatype + ' ' + param.name;
-                                name += param.name;
-                                insertText += "${" + snippetNum + ":" + param.name + "}";
-                            }
-                            else {
-                                name += ", " + param.name;
-                                signature += ', ';
-                                if (construct.final)
-                                    signature += construct.final.text + ' ';
-                                signature += datatype + ' ' + param.name;
-                                insertText += ", ${" + snippetNum + ":" + param.name + "}";
-                            }
-                            snippetNum++;
                         }
-                        description += '\n';
+                        signature += ')';
+                        name += ")";
+                        insertText += ")";
+                        documentation.appendApexCodeBlock(signature);
+                        documentation.appendMarkdown(description);
+                        documentation.appendMarkdownSeparator();
+                        documentation.appendMarkdownH4('Snippet');
+                        documentation.appendApexCodeBlock(insertText);
+                        let options = ProviderUtils.getCompletionItemOptions(construct.signature, documentation.build(), new SnippetString(insertText), true, CompletionItemKind.Constructor);
+                        items.push(ProviderUtils.createItemForCompletion(name, options));
                     }
-                    signature += ')';
-                    name += ")";
-                    insertText += ")";
-                    documentation.appendApexCodeBlock(signature);
-                    documentation.appendMarkdown(description);
-                    documentation.appendMarkdownSeparator();
-                    documentation.appendMarkdownH4('Snippet');
-                    documentation.appendApexCodeBlock(insertText);
-                    let options = ProviderUtils.getCompletionItemOptions(construct.signature, documentation.build(), new SnippetString(insertText), true, CompletionItemKind.Constructor);
-                    items.push(ProviderUtils.createItemForCompletion(name, options));
                 }
-                for (const methodName of Object.keys(node.methods)) {
-                    const documentation = new MarkDownStringBuilder();
-                    const method = node.methods[methodName];
-                    const datatype = StrUtils.replace(method.datatype.name, ',', ', ');
-                    let signature = '';
-                    let insertText = method.name + "(";
-                    let snippetNum = 1;
-                    let name = method.name + "(";
-                    if (method.accessModifier)
-                        signature += method.accessModifier.text + ' ';
-                    if (method.definitionModifier)
-                        signature += method.definitionModifier.text + ' ';
-                    if (method.static)
-                        signature += method.static.text + ' ';
-                    if (method.final)
-                        signature += method.final.text + ' ';
-                    if (method.transient)
-                        signature += method.transient.text + ' ';
-                    signature += datatype + ' ' + method.name + "(";
-                    let description = '';
-                    if (method.description && method.description.length > 0) {
-                        description += method.description + '\n\n';
-                    } else if (method.comment && method.comment.description && method.comment.description.length > 0) {
-                        description += method.comment.description + '\n\n';
-                    }
-                    const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
-                    if (Utils.hasKeys(method.params)) {
-                        const tagsData = TemplateUtils.getTagsDataBySource(['params'], method.comment);
-                        const paramsTagData = tagsData['params'];
-                        description += '#### Params\n\n'
-                        for (const paramName of Object.keys(method.params)) {
-                            const param = method.params[paramName];
-                            const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
-                            description += '  - **' + param.name + '** `' + datatype + '`';
-                            if (param.description) {
-                                description += ' &mdash; ' + StrUtils.replace(param.description, '\n', '\n\n');
-                            } else if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
-                                for (const data of paramsTagData.tagData) {
-                                    if (data.keywords) {
-                                        for (const keyword of paramsTagData.tag.keywords) {
-                                            if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
-                                                description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
+                if (Utils.hasKeys(node.methods)) {
+                    for (const methodName of Object.keys(node.methods)) {
+                        const documentation = new MarkDownStringBuilder();
+                        const method = node.methods[methodName];
+                        const datatype = StrUtils.replace(method.datatype.name, ',', ', ');
+                        let signature = '';
+                        let insertText = method.name + "(";
+                        let snippetNum = 1;
+                        let name = method.name + "(";
+                        if (method.accessModifier)
+                            signature += method.accessModifier.text + ' ';
+                        if (method.definitionModifier)
+                            signature += method.definitionModifier.text + ' ';
+                        if (method.static)
+                            signature += method.static.text + ' ';
+                        if (method.final)
+                            signature += method.final.text + ' ';
+                        if (method.transient)
+                            signature += method.transient.text + ' ';
+                        signature += datatype + ' ' + method.name + "(";
+                        let description = '';
+                        if (method.description && method.description.length > 0) {
+                            description += method.description + '\n\n';
+                        } else if (method.comment && method.comment.description && method.comment.description.length > 0) {
+                            description += method.comment.description + '\n\n';
+                        }
+                        const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
+                        if (Utils.hasKeys(method.params)) {
+                            const paramsTagData = tagsData['params'];
+                            description += '#### Params\n\n'
+                            for (const param of method.getOrderedParams()) {
+                                const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
+                                description += '  - *' + param.name + '* `' + datatype + '`';
+                                if (param.description) {
+                                    description += ' &mdash; ' + StrUtils.replace(param.description, '\n', '\n\n');
+                                } else if (paramsTagData && paramsTagData.tag && paramsTagData.tagData && paramsTagData.tagName) {
+                                    for (const data of paramsTagData.tagData) {
+                                        if (data.keywords) {
+                                            for (const keyword of paramsTagData.tag.keywords) {
+                                                if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                                    description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n');
+                                                }
                                             }
                                         }
                                     }
                                 }
+                                description += '\n';
+                                if (snippetNum === 1) {
+                                    if (method.final)
+                                        signature += method.final.text + ' ';
+                                    signature += datatype + ' ' + param.name;
+                                    name += param.name;
+                                    insertText += "${" + snippetNum + ":" + param.name + "}";
+                                }
+                                else {
+                                    name += ", " + param.name;
+                                    signature += ', ';
+                                    if (method.final)
+                                        signature += method.final.text + ' ';
+                                    signature += datatype + ' ' + param.name;
+                                    insertText += ", ${" + snippetNum + ":" + param.name + "}";
+                                }
+                                snippetNum++;
                             }
                             description += '\n';
-                            if (snippetNum === 1) {
-                                if (method.final)
-                                    signature += method.final.text + ' ';
-                                signature += datatype + ' ' + param.name;
-                                name += param.name;
-                                insertText += "${" + snippetNum + ":" + param.name + "}";
-                            }
-                            else {
-                                name += ", " + param.name;
-                                signature += ', ';
-                                if (method.final)
-                                    signature += method.final.text + ' ';
-                                signature += datatype + ' ' + param.name;
-                                insertText += ", ${" + snippetNum + ":" + param.name + "}";
-                            }
-                            snippetNum++;
                         }
-                        description += '\n';
-                    }
-                    if (method.datatype && method.datatype.name !== 'void') {
-                        description += '**Return** `' + method.datatype.name + '`';
-                        const returnTagData = tagsData['return'];
-                        if (returnTagData && returnTagData.tag && returnTagData.tagData && returnTagData.tagName) {
-                            for (const data of returnTagData.tagData) {
-                                if (data.keywords) {
-                                    for (const keyword of returnTagData.tag.keywords) {
-                                        if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
-                                            description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n') + '\n';
+                        if (method.datatype && method.datatype.name !== 'void') {
+                            description += '**Return** `' + method.datatype.name + '`';
+                            const returnTagData = tagsData['return'];
+                            if (returnTagData && returnTagData.tag && returnTagData.tagData && returnTagData.tagName) {
+                                for (const data of returnTagData.tagData) {
+                                    if (data.keywords) {
+                                        for (const keyword of returnTagData.tag.keywords) {
+                                            if (keyword.source === 'input' && data.keywords[keyword.name] && data.keywords[keyword.name].length > 0) {
+                                                description += ' &mdash; ' + StrUtils.replace(data.keywords[keyword.name], '\n', '\n\n') + '\n';
+                                            }
                                         }
                                     }
                                 }
+                                description += '\n';
+                            } else {
+                                description += '\n\n';
                             }
-                            description += '\n';
-                        } else {
-                            description += '\n\n';
                         }
+                        name += ")";
+                        insertText += ")";
+                        signature += ')';
+                        if (datatype === 'void')
+                            insertText += ';';
+                        documentation.appendApexCodeBlock(signature);
+                        documentation.appendMarkdown(description);
+                        documentation.appendMarkdownSeparator();
+                        documentation.appendMarkdownH4('Snippet');
+                        documentation.appendApexCodeBlock(insertText);
+                        const options = ProviderUtils.getCompletionItemOptions(method.signature, documentation.build(), new SnippetString(insertText), true, CompletionItemKind.Method);
+                        items.push(ProviderUtils.createItemForCompletion(name, options));
                     }
-                    name += ")";
-                    insertText += ")";
-                    signature += ')';
-                    if (datatype === 'void')
-                        insertText += ';';
-                    documentation.appendApexCodeBlock(signature);
-                    documentation.appendMarkdown(description);
-                    documentation.appendMarkdownSeparator();
-                    documentation.appendMarkdownH4('Snippet');
-                    documentation.appendApexCodeBlock(insertText);
-                    const options = ProviderUtils.getCompletionItemOptions(method.signature, documentation.build(), new SnippetString(insertText), true, CompletionItemKind.Method);
-                    items.push(ProviderUtils.createItemForCompletion(name, options));
                 }
-                for (const className of Object.keys(node.classes)) {
-                    const documentation = new MarkDownStringBuilder();
-                    const innerClass = node.classes[className];
-                    documentation.appendApexCodeBlock(node.name + '.' + innerClass.name);
-                    let description = '';
-                    if (innerClass.description && innerClass.description.length > 0) {
-                        description += innerClass.description + '\n\n';
-                    } else if (innerClass.comment && innerClass.comment.description && innerClass.comment.description.length > 0) {
-                        description += innerClass.comment.description + '\n\n';
+                if (Utils.hasKeys(node.classes)) {
+                    for (const className of Object.keys(node.classes)) {
+                        const documentation = new MarkDownStringBuilder();
+                        const innerClass = node.classes[className];
+                        documentation.appendApexCodeBlock(node.name + '.' + innerClass.name);
+                        let description = '';
+                        if (innerClass.description && innerClass.description.length > 0) {
+                            description += innerClass.description + '\n\n';
+                        } else if (innerClass.comment && innerClass.comment.description && innerClass.comment.description.length > 0) {
+                            description += innerClass.comment.description + '\n\n';
+                        }
+                        documentation.appendMarkdown(description);
+                        const options = ProviderUtils.getCompletionItemOptions('Inner Class', documentation.build(), innerClass.name, true, CompletionItemKind.Class);
+                        items.push(ProviderUtils.createItemForCompletion(innerClass.name, options));
                     }
-                    documentation.appendMarkdown(description);
-                    const options = ProviderUtils.getCompletionItemOptions('Inner Class', documentation.build(), innerClass.name, true, CompletionItemKind.Class);
-                    items.push(ProviderUtils.createItemForCompletion(innerClass.name, options));
                 }
-                for (const interfaceName of Object.keys(node.interfaces)) {
-                    const documentation = new MarkDownStringBuilder();
-                    const innerInterface = node.interfaces[interfaceName];
-                    documentation.appendApexCodeBlock(node.name + '.' + innerInterface.name);
-                    let description = '';
-                    if (innerInterface.description && innerInterface.description.length > 0) {
-                        description += innerInterface.description + '\n\n';
-                    } else if (innerInterface.comment && innerInterface.comment.description && innerInterface.comment.description.length > 0) {
-                        description += innerInterface.comment.description + '\n\n';
+                if (Utils.hasKeys(node.interfaces)) {
+                    for (const interfaceName of Object.keys(node.interfaces)) {
+                        const documentation = new MarkDownStringBuilder();
+                        const innerInterface = node.interfaces[interfaceName];
+                        documentation.appendApexCodeBlock(node.name + '.' + innerInterface.name);
+                        let description = '';
+                        if (innerInterface.description && innerInterface.description.length > 0) {
+                            description += innerInterface.description + '\n\n';
+                        } else if (innerInterface.comment && innerInterface.comment.description && innerInterface.comment.description.length > 0) {
+                            description += innerInterface.comment.description + '\n\n';
+                        }
+                        documentation.appendMarkdown(description);
+                        const options = ProviderUtils.getCompletionItemOptions('Inner Interface', documentation.build(), innerInterface.name, true, CompletionItemKind.Interface);
+                        items.push(ProviderUtils.createItemForCompletion(innerInterface.name, options));
                     }
-                    documentation.appendMarkdown(description);
-                    const options = ProviderUtils.getCompletionItemOptions('Inner Interface', documentation.build(), innerInterface.name, true, CompletionItemKind.Interface);
-                    items.push(ProviderUtils.createItemForCompletion(innerInterface.name, options));
                 }
-                for (const enumName of Object.keys(node.enums)) {
-                    const documentation = new MarkDownStringBuilder();
-                    const innerEnum = node.enums[enumName];
-                    documentation.appendApexCodeBlock(node.name + '.' + innerEnum.name);
-                    let description = '';
-                    if (innerEnum.description && innerEnum.description.length > 0) {
-                        description += innerEnum.description + '\n\n';
-                    } else if (innerEnum.comment && innerEnum.comment.description && innerEnum.comment.description.length > 0) {
-                        description += innerEnum.comment.description + '\n\n';
+                if (Utils.hasKeys(node.enums)) {
+                    for (const enumName of Object.keys(node.enums)) {
+                        const documentation = new MarkDownStringBuilder();
+                        const innerEnum = node.enums[enumName];
+                        documentation.appendApexCodeBlock(node.name + '.' + innerEnum.name);
+                        let description = '';
+                        if (innerEnum.description && innerEnum.description.length > 0) {
+                            description += innerEnum.description + '\n\n';
+                        } else if (innerEnum.comment && innerEnum.comment.description && innerEnum.comment.description.length > 0) {
+                            description += innerEnum.comment.description + '\n\n';
+                        }
+                        documentation.appendMarkdown(description);
+                        documentation.appendMarkdownH4('Values');
+                        const enumValues = [];
+                        for (const value of innerEnum.values) {
+                            if (Utils.isString(value))
+                                enumValues.push('  - `' + value + '`');
+                            else
+                                enumValues.push('  - `' + value.text + '`');
+                        }
+                        documentation.appendMarkdown(enumValues.join('\n'));
+                        const options = ProviderUtils.getCompletionItemOptions('Inner Enum', documentation.build(), innerEnum.name, true, CompletionItemKind.Enum);
+                        items.push(ProviderUtils.createItemForCompletion(innerEnum.name, options));
                     }
-                    documentation.appendMarkdown(description);
-                    documentation.appendMarkdownH4('Values');
-                    const enumValues = [];
-                    for (const value of innerEnum.values) {
-                        if (Utils.isString(value))
-                            enumValues.push('  - `' + value + '`');
-                        else
-                            enumValues.push('  - `' + value.text + '`');
-                    }
-                    documentation.appendMarkdown(enumValues.join('\n'));
-                    const options = ProviderUtils.getCompletionItemOptions('Inner Enum', documentation.build(), innerEnum.name, true, CompletionItemKind.Enum);
-                    items.push(ProviderUtils.createItemForCompletion(innerEnum.name, options));
                 }
                 if (node.extends) {
                     let parentClasss = node;
@@ -1129,7 +1738,13 @@ class ProviderUtils {
                 if (userClass.comment && userClass.comment.description && userClass.comment.description.length > 0) {
                     description += userClass.comment.description + '\n\n';
                 } else {
-                    description = className + '\n\n';
+                    if (userClass.nodeType === ApexNodeTypes.ENUM) {
+                        description = className + ' Enum\n\n';
+                    } else if (userClass.nodeType === ApexNodeTypes.INTERFACE) {
+                        description = className + ' Interface\n\n';
+                    } else {
+                        description = className + ' Class\n\n';
+                    }
                 }
                 documentation.appendMarkdown(description);
                 if (userClass.nodeType === ApexNodeTypes.ENUM) {
@@ -1164,7 +1779,7 @@ class ProviderUtils {
             Object.keys(systemMetadata).forEach(function (key) {
                 const documentation = new MarkDownStringBuilder();
                 const systemClass = systemMetadata[key];
-                documentation.appendApexCodeBlock('System.' + systemClass.name);
+                documentation.appendApexCodeBlock(systemClass.name);
                 if (systemClass.nodeType === ApexNodeTypes.ENUM) {
                     documentation.appendMarkdownH4('Values');
                     const enumValues = [];
@@ -1211,14 +1826,20 @@ class ProviderUtils {
             Object.keys(applicationContext.parserData.sObjectsData).forEach(function (key) {
                 const sObject = applicationContext.parserData.sObjectsData[key];
                 const documentation = new MarkDownStringBuilder();
-                let description = 'Standard SObject';
+                let nameTmp = sObject.name.substring(0, sObject.name.length - 3);
+                let doc = (sObject.description) ? sObject.description + '\n\n' : '';
                 if (sObject.custom)
-                    description = 'Custom SObject';
-                if (sObject.namespace) {
-                    description += '\nNamespace: ' + sObject.namespace;
+                    doc += 'Custom SObject';
+                else
+                    doc += 'Standard SObject';
+                if (sObject.namespace && sObject.namespace != nameTmp) {
+                    doc += '\nNamespace: ' + sObject.namespace;
+                }
+                if (applicationContext.sfData.serverInstance) {
+                    doc += '\n\n[Lightning Setup](' + applicationContext.sfData.serverInstance + '/lightning/setup/ObjectManager/' + sObject.name + '/Details/view)';
                 }
                 documentation.appendApexCodeBlock(sObject.name);
-                documentation.appendMarkdown(description);
+                documentation.appendMarkdown(doc + '\n\n');
                 const options = ProviderUtils.getCompletionItemOptions('SObject', documentation.build(), sObject.name, true, CompletionItemKind.Class);
                 const item = ProviderUtils.createItemForCompletion(sObject.name, options);
                 if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
@@ -1243,6 +1864,14 @@ class ProviderUtils {
             }
         }
         return labels;
+    }
+
+    static joinActivationTokens(tokens, symbol) {
+        const result = [];
+        for (const token of tokens) {
+            result.push(token.activation);
+        }
+        return result.join(symbol);
     }
 }
 module.exports = ProviderUtils;

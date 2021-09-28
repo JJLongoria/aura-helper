@@ -37,7 +37,7 @@ exports.run = function () {
             classes = applicationContext.parserData.userClassesData;
             namespacesData = applicationContext.parserData.namespacesData;
             sObjects = applicationContext.parserData.sObjectsData;
-            applicationContext.parserData.template = TemplateUtils.getApexCommentTemplate();
+            applicationContext.parserData.template = TemplateUtils.getApexCommentTemplate(!Config.getConfig().documentation.useStandardJavaComments);
             createDocumentation(uri[0].fsPath).then(function () {
                 NotificationManager.hideStatusBar();
                 Window.showInformationMessage('Documentation Created Succesfully on ' + uri[0].fsPath);

@@ -1,50 +1,58 @@
 const vscode = require('vscode');
 
 class MarkDownStringBuilder {
-    
-    constructor(){
+
+    constructor() {
         this._markdown = new vscode.MarkdownString('', true);
         this._markdown.isTrusted = true;
     }
 
-    appendMarkdownSeparator(){
-        this._markdown.appendMarkdown('---\n\n');
+    hasContent() {
+        return this._markdown.value != undefined && this._markdown.value;
+    }
+
+    appendMarkdownSeparator() {
+        this._markdown.appendMarkdown('---\n   ');
         return this;
     }
 
-    appendMarkdownH4(text){
+    appendMarkdownH4(text) {
         this._markdown.appendMarkdown('#### ' + text + '\n\n');
         return this;
     }
 
-    appendText(text){
+    appendText(text) {
         this._markdown.appendText(text);
         return this;
     }
 
-    appendMarkdown(text){
+    appendMarkdown(text) {
         this._markdown.appendMarkdown(text);
         return this;
     }
 
-    appendApexCodeBlock(text){
+    appendApexCodeBlock(text) {
         this._markdown.appendCodeblock(text + '\n', 'apex');
         return this;
     }
 
-    appendJSCodeBlock(text){
+    appendJSCodeBlock(text) {
         this._markdown.appendCodeblock(text + '\n', 'javascript');
         return this;
     }
 
-    appendHTMLCodeBlock(text){
+    appendHTMLCodeBlock(text) {
         this._markdown.appendCodeblock(text + '\n', 'html');
         return this;
     }
 
-    build(){
-        this.appendMarkdownSeparator();
-        this.appendMarkdown('\n\n### Powered by Aura Helper');
+    build(withoutSeparator) {
+        if (!withoutSeparator) {
+            this.appendMarkdownSeparator();
+            this.appendMarkdown('**Powered by Aura Helper**');
+        } else {
+            this.appendMarkdown('**Powered by Aura Helper**');
+        }
         return this._markdown;
     }
 

@@ -24,8 +24,12 @@ function registerSFDXConfigFileWatcher() {
             connection.setMultiThread();
             OutputChannel.outputLine('Getting Org data...');
             setTimeout(async () => {
-                applicationContext.sfData.username = await connection.getAuthUsername();
-                applicationContext.sfData.serverInstance = await connection.getServerInstance();
+                try {
+                    applicationContext.sfData.username = await connection.getAuthUsername();
+                    applicationContext.sfData.serverInstance = await connection.getServerInstance();
+                } catch (error) {
+    
+                }
             }, 50);
         }
     });
