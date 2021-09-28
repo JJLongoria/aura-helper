@@ -152,7 +152,7 @@ function provideHoverInformation(document, position) {
                     parentName = sObjectField.referenceTo.join(" | ");
             }
             if (applicationContext.sfData.serverInstance) {
-                doc += '\n\n[Lightning Setup](' + applicationContext.sfData.serverInstance + '/lightning/setup/ObjectManager/' + lastNode.name + '/FieldsAndRelationships/view)';
+                doc += '\n\n[Lightning Setup](' + applicationContext.sfData.serverInstance + '/lightning/setup/ObjectManager/' + sObject.name + '/FieldsAndRelationships/view)';
             }
             content.appendApexCodeBlock(parentName + ' ' + sObject.name + '.' + fieldName).appendMarkdown(detail + '\n\n').appendMarkdown(doc + '\n\n');
             if (sObjectField.picklistValues.length > 0) {
