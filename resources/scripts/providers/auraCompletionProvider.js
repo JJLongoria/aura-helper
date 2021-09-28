@@ -8,7 +8,6 @@ const Position = vscode.Position;
 const ProviderUtils = require('./utils');
 const { FileChecker, FileReader, PathUtils } = require('@aurahelper/core').FileSystem;
 const { AuraBundleAnalyzer, AuraParser, AuraTokenType } = require('@aurahelper/languages').Aura;
-const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
 const { AuraNodeTypes } = require('@aurahelper/core').Values;
 const { Utils } = require('@aurahelper/core').CoreUtils;
 const SnippetString = vscode.SnippetString;
@@ -54,61 +53,61 @@ function provideAuraComponentCompletion(document, position) {
     const orgNamespace = Config.getNamespace();
     const componentInitTag = (orgNamespace) ? orgNamespace + ':' : 'c:';
     const activationInfo = ProviderUtils.getActivation(document, position);
-    const activation = activationInfo.activation;
-    const activationTokens = activation.split('.');
-    const auraSnippets = getSnippets(applicationContext.snippets.aura, activationTokens[0]);
-    const sldsSnippets = getSnippets(applicationContext.snippets.slds, activationTokens[0]);
+    const activationTokens = activationInfo.activationTokens;
+    const auraSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.aura, activationTokens[0].activate) : undefined;
+    const sldsSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.slds, activationTokens[0].activate) : undefined;
     const component = new AuraBundleAnalyzer(document.uri.fsPath, applicationContext.parserData).setContent(FileReader.readDocument(document)).analize(ProviderUtils.fixPositionOffset(document, position));
     if (component.positionData && component.positionData.query) {
-        // Code for support completion on queries
+        // Code for support completion on queries   
         items = ProviderUtils.getQueryCompletionItems(position, activationInfo, activationTokens, component.positionData);
     } else if (auraSnippets || sldsSnippets) {
         // Code for completions when user types any snippets activation preffix (ltn., slds., ltng. ...)
         items = getSnippetsCompletionItems(position, activationInfo, auraSnippets || sldsSnippets);
-    } else if (activationTokens.length > 0 && activationTokens[0].toLowerCase() === 'label') {
+    } else if (activationTokens.length > 0 && activationTokens[0].activation.toLowerCase() === 'label') {
         items = getLabelsCompletionItems(position, activationInfo, activationTokens);
-    } else if (activationTokens[0] === 'v' && activationTokens.length > 1) {
+    } else if (activationTokens.length > 1 && activationTokens[0].activation === 'v') {
         // Code for completions when user types v.
         if (!Config.getConfig().autoCompletion.activeAttributeSuggest)
             return [];
-        let attribute = ProviderUtils.getAttribute(component, activationTokens[1]);
+        let attribute = ProviderUtils.getAttribute(component, activationTokens[1].activation);
         if (attribute) {
             items = getComponentAttributeMembersCompletionItems(position, activationInfo, activationTokens, attribute, component.positionData);
         } else if (activationTokens.length === 2) {
             items = getAttributesCompletionItems(position, activationInfo, component);
         }
-    } else if (activationTokens[0] === 'c' && activationTokens.length === 2) {
+    } else if (activationTokens.length === 2 && activationTokens[0].activation === 'c') {
         // Code for completions when user types c.
         if (!Config.getConfig().autoCompletion.activeControllerFunctionsSuggest)
             return [];
         items = getControllerFunctionsCompletionItems(position, activationInfo, component);
-    } else if (activationTokens[0] === componentInitTag && activationTokens.length === 1) {
+    } else if (activationTokens.length === 1 && activationTokens[0].activation === componentInitTag) {
         if (!Config.getConfig().autoCompletion.activeComponentSuggest)
             return [];
         // Code for completions when user types c:
         items = getComponentsCompletionItems(position, document, activationInfo);
-    } else if (component.positionData && component.positionData.tagData) {
-        // Code for completions when position is on a start standard component tag <ns:componentName >
-        if (!Config.getConfig().autoCompletion.activeComponentCallSuggest)
-            return [];
-        if (!component.positionData.isOnAttributeValue) {
-            // Code for completions when position is on attribute value (position to put attributes) <ns:componentName attr="value" [thispos] attr="value">
-            items = getComponentsAttributesCompletionItems(position, activationInfo, component);
-        } else if (component.positionData.isOnAttributeValue) {
-            // Code for completions when position is on attribute param value and value is empty <ns:componentName attr="[thispos]" attr="value">
-            items = getAttributeTypesCompletionItems(position, activationInfo, activationTokens, component);
-        } else if (activationTokens.length > 1) {
-            items = ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, component.positionData);
-        } else {
-            items = ProviderUtils.getAllAvailableCompletionItems(position, activationInfo);
+    } else {
+        if (component.positionData && component.positionData.tagData) {
+            // Code for completions when position is on a start standard component tag <ns:componentName >
+            if (!Config.getConfig().autoCompletion.activeComponentCallSuggest)
+                return [];
+            if (!component.positionData.isOnAttributeValue) {
+                // Code for completions when position is on attribute value (position to put attributes) <ns:componentName attr="value" [thispos] attr="value">
+                items = getComponentsAttributesCompletionItems(position, activationInfo, component);
+            } else if (component.positionData.isOnAttributeValue) {
+                // Code for completions when position is on attribute param value and value is empty <ns:componentName attr="[thispos]" attr="value">
+                items = getAttributeTypesCompletionItems(position, activationInfo, activationTokens, component);
+            }
         }
-    } else if (activationTokens.length > 1) {
-        // Code for completions when position is on empty line or withot components
-        items = ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, component.positionData);
-
-    } else if (activationTokens.length > 0) {
-        // Code for completions when position is on empty line or withot components
-        items = ProviderUtils.getAllAvailableCompletionItems(position, activationInfo);
+        if (!items || items.length === 0) {
+            if (activationTokens.length > 0) {
+                items = ProviderUtils.getApexCompletionItems(position, activationInfo, undefined, component.positionData);
+                if (activationInfo.activationTokens.length === 1 && !activationInfo.activationTokens[0].isQuery && activationInfo.activationTokens[0].nextToken && activationInfo.activationTokens[0].nextToken.text !== '.'){
+                    items = items.concat(ProviderUtils.getAllAvailableCompletionItems(position, activationInfo));
+                }
+            } else {
+                items = ProviderUtils.getAllAvailableCompletionItems(position, activationInfo);
+            }
+        }
     }
     return items;
 }
@@ -139,7 +138,8 @@ function getLabelsCompletionItems(position, activationInfo, activationTokens) {
             documentation.appendMarkdown(label.shortDescription + '\n\n');
             documentation.appendMarkdown('\n\n  - **Name**: `' + label.fullName + '`\n');
             documentation.appendMarkdown('  - **Value**: `' + label.value + '`\n');
-            documentation.appendMarkdown('  - **Category**: `' + label.categories + '`\n');
+            if (label.categories)
+                documentation.appendMarkdown('  - **Category**: `' + label.categories + '`\n');
             documentation.appendMarkdown('  - **Language**: `' + label.language + '`\n');
             documentation.appendMarkdown('  - **Protected**: `' + label.protected + '`\n\n');
             documentation.appendMarkdownSeparator();
@@ -182,7 +182,7 @@ function getComponentAttributeMembersCompletionItems(position, activationInfo, a
                 }
                 index++;
             }
-            items = ProviderUtils.getSobjectsFieldsCompletionItems(position, activationInfo, activationTokens, lastObject, positionData);
+            items = ProviderUtils.getSobjectCompletionItems(position, activationInfo, activationTokens, lastObject, positionData);
         }
     } else {
         // include Apex Classes Completion
@@ -482,7 +482,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
                 items.push(item);
             }
             if (activationTokens.length > 1) {
-                items = items.concat(ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, component.positionData));
+                items = items.concat(ProviderUtils.getApexCompletionItems(position, activationInfo, undefined, component.positionData));
             } else {
                 items = items.concat(ProviderUtils.getAllAvailableCompletionItems(position, activationInfo));
             }
@@ -750,7 +750,7 @@ function getAttributeTypesCompletionItems(position, activationInfo, activationTo
                 items.push(item);
             }
         } else if (activationTokens.length > 1) {
-            items = items.concat(ProviderUtils.getApexCompletionItems(position, activationTokens, activationInfo, undefined, component.positionData));
+            items = items.concat(ProviderUtils.getApexCompletionItems(position, activationInfo, undefined, component.positionData));
         } else {
             items = items.concat(ProviderUtils.getAllAvailableCompletionItems(position, activationInfo));
         }

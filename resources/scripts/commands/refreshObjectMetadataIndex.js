@@ -31,8 +31,9 @@ async function refreshIndex() {
 		return new Promise(async resolve => {
 			const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
 			connection.setMultiThread();
-			connection.describeMetadataTypes([MetadataTypes.CUSTOM_OBJECT], true).then((metadataTypes) => {
-				processCustomObjectsOut(metadataTypes);
+			connection.listSObjects().then((objects) => {
+				resolve();
+				processCustomObjectsOut(objects);
 			}).catch((error) => {
 				NotificationManager.showError(error);
 				resolve();
@@ -42,9 +43,8 @@ async function refreshIndex() {
 }
 
 function processCustomObjectsOut(objects) {
-	let objNames = Object.keys(objects[MetadataTypes.CUSTOM_OBJECT].childs);
-	vscode.window.showQuickPick(objNames).then((selected) => {
-		if (objNames.includes(selected)) {
+	vscode.window.showQuickPick(objects).then((selected) => {
+		if (objects.includes(selected)) {
 			refreshObjectMetadataIndex(selected);
 		}
 	});
@@ -63,7 +63,7 @@ function refreshObjectMetadataIndex(object) {
 				if (status.data) {
 					if (!FileChecker.isExists(Paths.getMetadataIndexFolder()))
 						FileWriter.createFolderSync(Paths.getMetadataIndexFolder());
-					FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + status.data.name, JSON.stringify(status.data, null, 2));
+					FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + status.data.name + '.json', JSON.stringify(status.data, null, 2));
 				}
 			});
 			connection.describeSObjects([object]).then(function (sObjects) {

@@ -79,22 +79,48 @@ async function refreshIndex(force, progress, cancelToken, callback) {
             });
         }
         if (status.data) {
-            if (!FileChecker.isExists(Paths.getMetadataIndexFolder()))
-                FileWriter.createFolderSync(Paths.getMetadataIndexFolder());
-            FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + status.data.name, JSON.stringify(status.data, null, 2));
+            try {
+                if (!FileChecker.isExists(Paths.getMetadataIndexFolder()))
+                    FileWriter.createFolderSync(Paths.getMetadataIndexFolder());
+                FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + status.data.name + '.json', JSON.stringify(status.data, null, 2));
+            } catch (error) {
+            }
+        } else {
+            try {
+                const obj = new SObject();
+                obj.name = status.entityObject;
+                if (!FileChecker.isExists(Paths.getMetadataIndexFolder()))
+                    FileWriter.createFolderSync(Paths.getMetadataIndexFolder());
+                FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + obj.name + '.json', JSON.stringify(obj, null, 2));
+            } catch (error) {
+            }
         }
     });
     connection.describeMetadataTypes([MetadataTypes.CUSTOM_OBJECT], true).then(async (metadataTypes) => {
         let objectsToDescribe = [];
+        const existingObjects = getSObjects();
         if (force) {
             objectsToDescribe = Object.keys(metadataTypes[MetadataTypes.CUSTOM_OBJECT].childs);
+            if (!objectsToDescribe.includes('User'))
+                objectsToDescribe.push('User');
         } else {
-            const existingObjects = getSObjects();
             for (const objKey of Object.keys(metadataTypes[MetadataTypes.CUSTOM_OBJECT].childs)) {
                 if (!existingObjects[objKey.toLowerCase()])
                     objectsToDescribe.push(objKey);
             }
+            if (!objectsToDescribe.includes('User'))
+                objectsToDescribe.push('User');
         }
+        if (!objectsToDescribe.includes('Profile') && !existingObjects['profile'])
+            objectsToDescribe.push('Profile');
+        if (!objectsToDescribe.includes('RecordType') && !existingObjects['recordtype'])
+            objectsToDescribe.push('RecordType');
+        if (!objectsToDescribe.includes('QueueSobject') && !existingObjects['QueueSobject'])
+            objectsToDescribe.push('QueueSobject');
+        if (!objectsToDescribe.includes('UserRole') && !existingObjects['userrole'])
+            objectsToDescribe.push('UserRole');
+        if (!objectsToDescribe.includes('Group') && !existingObjects['group'])
+            objectsToDescribe.push('Group');
         if (objectsToDescribe.length > 0) {
             connection.describeSObjects(objectsToDescribe).then(function () {
                 applicationContext.parserData.sObjectsData = getSObjects();
@@ -114,8 +140,15 @@ function getSObjects() {
     let indexObjFiles = FileChecker.isExists(Paths.getMetadataIndexFolder()) ? FileReader.readDirSync(Paths.getMetadataIndexFolder()) : [];
     if (indexObjFiles.length > 0) {
         for (const fileName of indexObjFiles) {
+            if (!fileName.endsWith('.json')) {
+                FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+                continue;
+            }
             let obj = JSON.parse(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
-            sObjects[obj.name.toLowerCase()] = new SObject(obj);
+            const sObj = new SObject(obj);
+            sObj.addSystemFields();
+            sObj.fixFieldTypes();
+            sObjects[sObj.name.toLowerCase()] = sObj;
         }
     }
     return sObjects;

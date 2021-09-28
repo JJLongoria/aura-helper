@@ -24,6 +24,10 @@ class Paths {
         return Paths.getResourcesPath() + '/templates/apexComment.template.json';
     }
 
+    static getApexJavaBaseTemplate() {
+        return Paths.getResourcesPath() + '/templates/apexCommentJava.template.json';
+    }
+
     static getOldApexCommentUserTemplate() {
         return PathUtils.getAbsolutePath(applicationContext.context.storagePath + '/userTemplates/apexComment.json');
     }

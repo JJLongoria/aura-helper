@@ -93,10 +93,20 @@
 					"default": true,
 					"description": "Use Aura Helper CLI to execute some processes (Recommended to PCs with low resources). If not selected, all operation will be executed into VSCode context (faster but need more resources)"
 				},
+				"aurahelper.documentation.useStandardJavaComments": {
+					"type": "boolean",
+					"default": false,
+					"description": "True to use the Standard Java Comments style on Apex, false to use your custom Apex comment template. (Need Reload Window)"
+				},
+				"aurahelper.intelliSense.enableHoverInformation": {
+					"type": "boolean",
+					"default": true,
+					"description": "True to enable hover information provide by Aura Helper. False to disable it."
+				},
 				"aurahelper.autoCompletion.activeAttributeSuggest": {
 					"type": "boolean",
 					"default": true,
-					"description": "Use Code Suggestion and autocompletion tools for component attributes (v.)"
+					"markdownDescription": "Use Code Suggestion and autocompletion tools for component attributes (`v.`)"
 				},
 				"aurahelper.autoCompletion.activeControllerFunctionsSuggest": {
 					"type": "boolean",
@@ -300,11 +310,6 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Set every query clause on a new line"
-				},
-				"aurahelper.apexFormat.query.oneProjectionFieldPerLine": {
-					"type": "boolean",
-					"default": false,
-					"description": "Set every projection field on a new line (Deprecated. Use Max Projection Field Per Line setting instead)"
 				},
 				"aurahelper.apexFormat.query.maxProjectionFieldPerLine": {
 					"type": "integer",
@@ -553,12 +558,12 @@
 	"dependencies": {
 		"@aurahelper/cli-manager": "^1.0.0",
 		"@aurahelper/connector": "^1.0.0",
-		"@aurahelper/core": "^1.0.1",
+		"@aurahelper/core": "^1.0.10",
 		"@aurahelper/dependencies-manager": "^1.0.0",
 		"@aurahelper/git-manager": "^1.0.0",
 		"@aurahelper/ignore": "^1.0.0",
-		"@aurahelper/languages": "^1.0.2",
-		"@aurahelper/metadata-factory": "^1.0.1",
+		"@aurahelper/languages": "^1.0.6",
+		"@aurahelper/metadata-factory": "^1.0.5",
 		"@aurahelper/package-generator": "^1.0.1",
 		"@aurahelper/xml-compressor": "^1.0.0",
 		"@aurahelper/xml-definitions": "^1.0.0"

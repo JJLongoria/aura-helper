@@ -5,17 +5,22 @@ const Paths = require('../core/paths');
 
 class TemplateUtils {
 
-    static getApexCommentTemplate() {
+    static getApexCommentTemplate(custom) {
         let templateContent;
-        if (FileChecker.isExists(Paths.getApexCommentUserTemplate()))
-            templateContent = JSON.parse(FileReader.readFileSync(Paths.getApexCommentUserTemplate()));
+        if (custom) {
+            if (FileChecker.isExists(Paths.getApexCommentUserTemplate()))
+                templateContent = JSON.parse(FileReader.readFileSync(Paths.getApexCommentUserTemplate()));
+        } else {
+            if (FileChecker.isExists(Paths.getApexJavaBaseTemplate()))
+                templateContent = JSON.parse(FileReader.readFileSync(Paths.getApexCommentUserTemplate()));
+        }
         return templateContent;
     }
 
     static getTagsDataBySource(sources, comment) {
         const result = {}
         sources = Utils.forceArray(sources);
-        if(!applicationContext.parserData.template)
+        if (!applicationContext.parserData.template)
             return;
         if (comment && comment.tags && Utils.hasKeys(comment.tags)) {
             let tagName;
