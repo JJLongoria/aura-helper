@@ -1235,6 +1235,8 @@ class ProviderUtils {
                                     }
                                 }
                             } else {
+                                methodVar = undefined;
+                                classVar = undefined;
                                 let idField = (!activationToLower.endsWith('id')) ? activationToLower + 'Id' : activationToLower;
                                 let relatedField = (activationToLower.endsWith('__r')) ? activationToLower.substring(0, activationToLower.length - 3) + '__c' : activationToLower;
                                 sObjectFieldName = activationToLower;
