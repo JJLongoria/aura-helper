@@ -44,3 +44,5 @@ const modifyPermissions = require('./modifyPermissions');
 exports.modifyPermissions = modifyPermissions.run;
 const ignoreMetadata = require('./ignoreMetadata');
 exports.ignoreMetadata = ignoreMetadata.run;
+const help = require('./help');
+exports.help = help.run;

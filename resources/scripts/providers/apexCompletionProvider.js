@@ -41,10 +41,12 @@ function provideApexCompletion(document, position) {
             if (activationInfo.activationTokens[0].activation === 'this')
                 activationInfo.activationTokens.splice(0, 1);
         }
-        const parser = new ApexParser().setContent(FileReader.readDocument(document)).setSystemData(applicationContext.parserData).setCursorPosition(ProviderUtils.fixPositionOffset(document, position));
+        const parser = new ApexParser().setContent(FileReader.readDocument(document)).setSystemData(applicationContext.parserData).setTabSize(Config.getTabSize()).setCursorPosition(ProviderUtils.fixPositionOffset(document, position));
         const node = parser.resolveReferences();
         const nodeInfo = ProviderUtils.getNodeInformation(node, activationInfo, true);
-        if (nodeInfo.lastNode && Object.keys(nodeInfo.lastNode).includes('keyPrefix') && Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
+        if (nodeInfo.labels) {
+            items = getLabelsCompletionItems(position, activationInfo, nodeInfo.labels);
+        } else if (nodeInfo.lastNode && Object.keys(nodeInfo.lastNode).includes('keyPrefix') && Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
             if (activationInfo.activationTokens.length === 1 && !activationInfo.activationTokens[0].isQuery && activationInfo.activationTokens[0].nextToken && activationInfo.activationTokens[0].nextToken.text !== '.')
                 items = ProviderUtils.getAllAvailableCompletionItems(position, activationInfo, node)
             else
@@ -55,8 +57,6 @@ function provideApexCompletion(document, position) {
             } else {
                 items = ProviderUtils.getApexClassCompletionItems(position, nodeInfo.lastNode);
             }
-        } else if (nodeInfo.labels) {
-            items = getLabelsCompletionItems(position, activationInfo, nodeInfo.labels);
         } else if (!nodeInfo.lastNode) {
             items = ProviderUtils.getAllAvailableCompletionItems(position, activationInfo, node);
         }
@@ -78,8 +78,8 @@ function getLabelsCompletionItems(position, activationInfo, labels) {
         documentation.appendMarkdownSeparator();
         documentation.appendMarkdownH4('Snippet');
         documentation.appendApexCodeBlock('Label.' + label.fullName);
-        const options = ProviderUtils.getCompletionItemOptions(label.fullName, documentation.build(), label.fullName, true, CompletionItemKind.Field);
-        const item = ProviderUtils.createItemForCompletion(label.fullName, options);
+        const options = ProviderUtils.getCompletionItemOptions(label.fullName, documentation.build(), 'Label.' + label.fullName, true, CompletionItemKind.Field);
+        const item = ProviderUtils.createItemForCompletion('Label.' + label.fullName, options);
         if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
             item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
         items.push(item);

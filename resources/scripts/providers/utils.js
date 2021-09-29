@@ -21,24 +21,30 @@ const { MarkDownStringBuilder } = require('../output');
 
 class ProviderUtils {
 
+
+
     static fixPositionOffset(document, position) {
-        const insertSpaces = vscode.window.activeTextEditor.options.insertSpaces;
+        const insertSpaces = Config.insertSpaces()
         const line = document.lineAt(position.line);
-        const nTabs = StrUtils.countStartTabs(line.text);
+        const nTabs = countStartTabs(line.text);
         const nWS = StrUtils.countStartWhitespaces(line.text);
-        if (!insertSpaces) {
-            const tabSize = vscode.window.activeTextEditor.options.tabSize;
+        const tabSize = Config.getTabSize();
+        const lineLenght = (line.text.length - 1) + ((nTabs * Number(tabSize)) - nTabs);
+        const difference = (lineLenght > line.range.end.character) ? lineLenght - line.range.end.character : 0;
+        if (difference > 0)
+            return new Position(position.line, position.character + difference);
+        return position;
+        /*if (!insertSpaces) {
             if (nTabs > 0)
                 return new Position(position.line, position.character + ((nTabs * Number(tabSize)) - nTabs));
             else
                 return position;
         } else {
-            const tabSize = vscode.window.activeTextEditor.options.tabSize;
             if (nTabs > 0)
                 return new Position(position.line, position.character + ((nTabs * Number(tabSize)) - nTabs));
             else
                 return position;
-        }
+        }*/
 
     }
 
@@ -130,11 +136,11 @@ class ProviderUtils {
                     index++;
                     tokenPos = index;
                     break;
-                } else if (!token.pairToken) {
+                } /*else if (!token.pairToken) {
                     index++;
                     tokenPos = index;
                     break;
-                }
+                }*/
             } else if (token.type === TokenType.BRACKET.SQUARE_CLOSE) {
                 sqBracketIndent++;
             } else if (token.type === TokenType.OPERATOR.LOGICAL.LESS_THAN) {
@@ -143,11 +149,11 @@ class ProviderUtils {
                     index++;
                     tokenPos = index;
                     break;
-                } else if (!token.pairToken) {
+                }/* else if (!token.pairToken) {
                     index++;
                     tokenPos = index;
                     break;
-                }
+                }*/
             } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
                 parenIndent--;
                 if (parenIndent === 0) {
@@ -227,16 +233,12 @@ class ProviderUtils {
             const twoNextToken = LanguageUtils.getTwoNextToken(lineTokens, tokenPos);
             const lastToken = LanguageUtils.getLastToken(lineTokens, tokenPos);
             const twoLastToken = LanguageUtils.getTwoLastToken(lineTokens, tokenPos);
-            if (!activeTokenFound && correctedPos.line === token.range.start.line && correctedPos.character >= token.range.start.character && correctedPos.character <= token.range.end.character) {
-                activeTokenFound = true;
-            }
-            if (sqBracketIndent > 0) {
-                if (token.type === TokenType.IDENTIFIER && token.textToLower === 'select') {
-                    hasSelect = true;
-                }
-                if (hasSelect && token.type === TokenType.IDENTIFIER && token.textToLower === 'from') {
-                    hasFrom = true;
-                }
+            if (!activeTokenFound && correctedPos.line === token.range.start.line) {
+                if (correctedPos.character >= token.range.start.character && correctedPos.character <= token.range.end.character && (!nextToken || nextToken.range.start.line != correctedPos.line))
+                    activeTokenFound = true;
+                else if (correctedPos.character >= token.range.start.character && correctedPos.character < token.range.end.character && nextToken.range.start.line === correctedPos.line)
+                    activeTokenFound = true;
+
             }
             if (token.type === TokenType.IDENTIFIER) {
                 if (lastToken && lastToken.type === TokenType.IDENTIFIER && (!onParams && sqBracketIndent === 0) && activationTokens.length > 0) {
@@ -269,8 +271,8 @@ class ProviderUtils {
                         endToken: activationWordTokens[activationWordTokens.length - 1],
                         lastToken: activationLastTokens[0],
                         twoLastToken: activationLastTokens[1],
-                        nextToken: nextToken,
-                        twoNextToken: twoNextToken,
+                        nextToken: token,
+                        twoNextToken: nextToken,
                         isQuery: hasSelect,
                     });
                     if (activeTokenFound)
@@ -290,8 +292,8 @@ class ProviderUtils {
                         endToken: activationWordTokens[activationWordTokens.length - 1],
                         lastToken: activationLastTokens[0],
                         twoLastToken: activationLastTokens[1],
-                        nextToken: nextToken,
-                        twoNextToken: twoNextToken,
+                        nextToken: token,
+                        twoNextToken: nextToken,
                         isQuery: hasSelect,
                     });
                     if (activeTokenFound)
@@ -340,7 +342,9 @@ class ProviderUtils {
                         activationLastTokens.push(twoLastToken);
                     }
                 }
-                if (aBracketIndent <= 0 && !onParams) {
+                if (aBracketIndent == 0 && !onParams && (!nextToken || nextToken.type !== TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN)) {
+                    endLoop = true;
+                } else if (aBracketIndent < 0) {
                     endLoop = true;
                 }
             } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
@@ -390,6 +394,14 @@ class ProviderUtils {
                     activationLastTokens.push(twoLastToken);
                 }
             }
+            if (sqBracketIndent > 0) {
+                if (token.type === TokenType.IDENTIFIER && token.textToLower === 'select') {
+                    hasSelect = true;
+                }
+                if (hasSelect && token.type === TokenType.IDENTIFIER && token.textToLower === 'from') {
+                    hasFrom = true;
+                }
+            }
             if (!endLoop && tokenPos == lineTokens.length - 1) {
                 lineNumber++;
                 let lineTmp = document.lineAt(lineNumber);
@@ -402,13 +414,13 @@ class ProviderUtils {
                 const firstTokenAux = lineTokensTmp[0];
                 if (onParams || sqBracketIndent > 0 || aBracketIndent > 0) {
                     index = lineTokensTmp.length - 1;
-                    lineTokens = lineTokensTmp.concat(lineTokens);
+                    lineTokens = lineTokens.concat(lineTokensTmp);
                 } else if ((firstTokenAux.type === TokenType.IDENTIFIER && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) || (token.type === TokenType.IDENTIFIER && (firstTokenAux.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || firstTokenAux.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR))) {
                     index = lineTokensTmp.length - 1;
-                    lineTokens = lineTokensTmp.concat(lineTokens);
+                    lineTokens = lineTokens.concat(lineTokensTmp);
                 } else if ((firstTokenAux.type === TokenType.BRACKET.SQUARE_CLOSE && token.type === TokenType.BRACKET.SQUARE_OPEN) || (token.type === TokenType.BRACKET.SQUARE_CLOSE && firstTokenAux.type === TokenType.BRACKET.SQUARE_OPEN)) {
                     index = lineTokensTmp.length - 1;
-                    lineTokens = lineTokensTmp.concat(lineTokens);
+                    lineTokens = lineTokens.concat(lineTokensTmp);
                 } else {
                     endLoop = true;
                 }
@@ -451,7 +463,7 @@ class ProviderUtils {
             nextToken: undefined,
             twoNextToken: undefined,
         }
-        let activationToken = "";
+        let activationTokens = [];
         const line = document.lineAt(correctedPos.line);
         const lineText = line.text;
         if (line.isEmptyOrWhitespace) {
@@ -497,7 +509,7 @@ class ProviderUtils {
                 result.startColumn = token.range.start.character;
                 result.lastToken = lastToken;
                 result.twoLastToken = twoLastToken;
-                activationToken = token.text + activationToken;
+                activationTokens.push(token);
             } else if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
                 parenIndent--;
                 if (parenIndent == 0) {
@@ -511,7 +523,7 @@ class ProviderUtils {
                     result.startColumn = token.range.start.character;
                     result.lastToken = lastToken;
                     result.twoLastToken = twoLastToken;
-                    activationToken = token.text + activationToken;
+                    activationTokens.push(token);
                 }
             } else if (token && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR || token.type === TokenType.IDENTIFIER || token.type === TokenType.PUNCTUATION.COLON || isOnParams)) {
                 if (!isOnParams) {
@@ -528,17 +540,24 @@ class ProviderUtils {
                         result.twoLastToken = twoLastToken;
                     }
                     if (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR) {
-                        result.activationTokens.push({ activation: activationToken });
-                        activationToken = "";
+                        if (activationTokens.length > 0) {
+                            activationTokens.reverse();
+                            result.activationTokens.push({
+                                activation: Token.toString(activationTokens).trim(),
+                                startToken: activationTokens[0],
+                                endToken: activationTokens[activationTokens.length - 1]
+                            });
+                        }
+                        activationTokens = [];
                     } else {
-                        activationToken = token.text + activationToken;
+                        activationTokens.push(token);
                     }
                 } else {
                     result.activation = token.text + result.activation;
                     result.startColumn = token.range.start.character;
                     result.lastToken = lastToken;
                     result.twoLastToken = twoLastToken;
-                    activationToken = token.text + activationToken;
+                    activationTokens.push(token);
                 }
             } else if (!isOnParams && token && (token.type === TokenType.PUNCTUATION.COMMA || token.type === TokenType.PUNCTUATION.QUOTTES || token.type === TokenType.PUNCTUATION.QUOTTES_END || token.type === TokenType.PUNCTUATION.QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END)) {
                 endLoop = true;
@@ -565,7 +584,7 @@ class ProviderUtils {
             } else if (token.type == TokenType.LITERAL.STRING) {
                 if (lastToken && lastToken.range.end.character === token.range.start.character) {
                     result.activation = token.text + result.activation;
-                    activationToken = token.text + activationToken;
+                    activationTokens.push(token);
                     result.lastToken = lastToken;
                     result.twoLastToken = twoLastToken;
                     result.startColumn = token.range.start.character;
@@ -574,7 +593,7 @@ class ProviderUtils {
                     result.twoLastToken = twoLastToken;
                     result.startColumn = token.range.start.character;
                     result.activation = token.text + result.activation;
-                    activationToken = token.text + activationToken;
+                    activationTokens.push(token);
                     endLoop = true;
                 }
             }
@@ -582,9 +601,17 @@ class ProviderUtils {
             if (tokenPos < 0)
                 endLoop = true;
         }
-        if (activationToken)
-            result.activationTokens.push({ activation: activationToken });
+        if (activationTokens.length > 0) {
+            activationTokens.reverse();
+            result.activationTokens.push({
+                activation: Token.toString(activationTokens).trim(),
+                startToken: activationTokens[0],
+                endToken: activationTokens[activationTokens.length - 1]
+            });
+        }
         result.activationTokens.reverse();
+        if (result.activationTokens.length > 0)
+            result.startColumn = result.activationTokens[0].startToken.range.start.character;
         if (difference > 0 && result.startColumn >= difference)
             result.startColumn = result.startColumn - difference;
         return result;
@@ -910,7 +937,7 @@ class ProviderUtils {
         if (node) {
             if (StrUtils.contains(varName, '['))
                 varName = varName.split('[')[0];
-            return node.variables[varName];
+            return node.variables[varName.toLowerCase()];
         }
         return undefined;
     }
@@ -1002,7 +1029,7 @@ class ProviderUtils {
         let datatype;
         if (activationInfo.activationTokens.length > 0) {
             lastNode = applicationContext.parserData.userClassesData[activationInfo.activationTokens[0].activation.toLowerCase()] || systemMetadata[activationInfo.activationTokens[0].activation.toLowerCase()] || applicationContext.parserData.namespacesData[activationInfo.activationTokens[0].activation.toLowerCase()] || applicationContext.parserData.sObjectsData[activationInfo.activationTokens[0].activation.toLowerCase()] || node;
-            if (lastNode && activationInfo.activationTokens[0].activation.toLowerCase() === node.name.toLowerCase())
+            if (node && lastNode && activationInfo.activationTokens[0].activation.toLowerCase() === node.name.toLowerCase())
                 lastNode = node;
         } else {
             if (lastNode.positionData && lastNode.positionData.query)
@@ -1031,9 +1058,11 @@ class ProviderUtils {
                             }
                         }
                     }
+                    if (label || (activationToken.nextToken && activationToken.nextToken.text === '.')) {
+                        labels = undefined;
+                    }
                     datatypeName = 'String';
                     lastNode = parser.resolveDatatype(datatypeName);
-                    labels = undefined;
                 }
             } else {
                 if (activationToken.isQuery) {
@@ -1055,12 +1084,19 @@ class ProviderUtils {
                                     method = ProviderUtils.getMethod(lastNode, lastNode.positionData.signature) || ProviderUtils.getMethod(lastNode.classes[lastNode.positionData.parentName.toLowerCase()], lastNode.positionData.signature) || ProviderUtils.getMethod(lastNode.interfaces[lastNode.positionData.parentName.toLowerCase()], lastNode.positionData.signature);
                                     methodVar = ProviderUtils.getVariable(method, activationToLower);
                                     classVar = ProviderUtils.getClassField(lastNode, activationToLower);
-                                    if (methodVar && activationToken.endToken.type === TokenType.BRACKET.SQUARE_CLOSE) {
-                                        datatypeName = methodVar.datatype.value;
+                                    if ((!activationToken.active || activationInfo.activationTokens.length === 1) && methodVar && activationToken.endToken.type === TokenType.BRACKET.SQUARE_CLOSE) {
+                                        if (lastNode.classes[methodVar.datatype.value.type.toLowerCase()] || lastNode.interfaces[methodVar.datatype.value.type.toLowerCase()] || lastNode.enums[methodVar.datatype.value.type.toLowerCase()])
+                                            datatypeName = methodVar.datatype.value.type;
+                                        else
+                                            datatypeName = methodVar.datatype.value.name;
                                     } else if (methodVar)
                                         datatypeName = methodVar.datatype.name;
                                     else if (classVar)
                                         datatypeName = classVar.datatype.name;
+                                    else {
+                                        datatypeName = activationToLower
+                                        method = undefined;
+                                    }
                                 } else if (lastNode.positionData && lastNode.positionData.nodeType === ApexNodeTypes.SOQL && lastNode.positionData.query) {
                                     if (activationInfo.lastToken && activationInfo.lastToken.text === ':') {
                                         method = ProviderUtils.getMethod(lastNode, lastNode.positionData.signature) || ProviderUtils.getMethod(lastNode.classes[lastNode.positionData.parentName.toLowerCase()], lastNode.positionData.signature) || ProviderUtils.getMethod(lastNode.interfaces[lastNode.positionData.parentName.toLowerCase()], lastNode.positionData.signature);
@@ -1094,7 +1130,7 @@ class ProviderUtils {
                                             }
                                         } else {
                                             sObjectFieldName = undefined;
-                                            lastNode = undefined;
+                                            datatypeName = lastNode.name;
                                         }
                                     }
                                 } else {
@@ -1137,10 +1173,11 @@ class ProviderUtils {
                                                 }
                                             } else {
                                                 sObjectFieldName = undefined;
-                                                lastNode = undefined;
+                                                datatypeName = lastNode.name;
                                             }
                                         }
                                     } else {
+                                        methodVar = undefined;
                                         if (lastNode.positionData && lastNode.positionData.parentName)
                                             classVar = ProviderUtils.getClassField(lastNode, activationToLower) || ProviderUtils.getClassField(lastNode.classes[lastNode.positionData.parentName.toLowerCase()], activationToLower) || ProviderUtils.getClassField(lastNode.interfaces[lastNode.positionData.parentName.toLowerCase()], activationToLower);
                                         else
@@ -1231,7 +1268,7 @@ class ProviderUtils {
                                         }
                                     } else {
                                         sObjectFieldName = undefined;
-                                        lastNode = undefined;
+                                        datatypeName = lastNode.name;
                                     }
                                 }
                             } else {
@@ -1252,6 +1289,7 @@ class ProviderUtils {
                                             datatypeName = sObjectField.type;
                                     }
                                 } else {
+                                    datatypeName = lastNode.name;
                                     sObjectFieldName = undefined;
                                 }
                             }
@@ -1279,10 +1317,16 @@ class ProviderUtils {
                 } else {
                     if (lastNode && lastNode.classes && lastNode.classes[activationToLower])
                         lastNode = lastNode.classes[activationToLower];
+                    else if (lastNode && lastNode.classes && lastNode.classes[datatypeName.toLowerCase()])
+                        lastNode = lastNode.classes[datatypeName.toLowerCase()];
                     else if (lastNode && lastNode.interfaces && lastNode.interfaces[activationToLower])
                         lastNode = lastNode.interfaces[activationToLower];
+                    else if (lastNode && lastNode.interfaces && lastNode.interfaces[datatypeName.toLowerCase()])
+                        lastNode = lastNode.interfaces[datatypeName.toLowerCase()];
                     else if (lastNode && lastNode.enums && lastNode.enums[activationToLower])
                         lastNode = lastNode.enums[activationToLower];
+                    else if (lastNode && lastNode.enums && lastNode.enums[datatypeName.toLowerCase()])
+                        lastNode = lastNode.enums[datatypeName.toLowerCase()];
                     else
                         lastNode = parser.resolveDatatype(datatypeName);
                 }
@@ -1877,3 +1921,14 @@ class ProviderUtils {
     }
 }
 module.exports = ProviderUtils;
+
+function countStartTabs(str) {
+    let number = 0;
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] == '\t')
+            number++;
+        else if (str[i] !== ' ')
+            break;
+    }
+    return number;
+}

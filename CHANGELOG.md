@@ -1,5 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [3.1.2 - 2021-09-30]
+### Added
+- Formatter enhanced to get tabsize and tab spaces to format apex correct.
+- Fixed and enhanced IntelliSense
+- Added **AuraHelper: Help** command to open Aura Helper Wiki with entire documentation
+
+## [3.1.1 - 2021-09-29]
+### Fixed
+- Fixed little problems with IntelliSense
+
 ## [3.1.0 - 2021-09-29]
 ### Added
 - Enhanced IntelliSense node identification to provide the better IntelliSense recomendation for Salesforce (including Salesforce Official Extensions).
