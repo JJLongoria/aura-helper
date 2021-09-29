@@ -37,7 +37,7 @@ function provideJSCompletion(document, position) {
 	const activationInfo = ProviderUtils.getActivation(document, position);
 	const activationTokens = activationInfo.activationTokens;
 	const jsSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.javascript, activationTokens[0].activation) : undefined;
-	const component = new AuraBundleAnalyzer(document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp'), applicationContext.parserData).analize(ProviderUtils.fixPositionOffset(document, position));
+	const component = new AuraBundleAnalyzer(document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp'), applicationContext.parserData).setTabSize(Config.getTabSize()).analize(ProviderUtils.fixPositionOffset(document, position));
 	if (component.positionData && component.positionData.query) {
 		// Code for support completion on queries
 		items = ProviderUtils.getQueryCompletionItems(position, activationInfo, activationTokens, component.positionData);
@@ -55,7 +55,7 @@ function provideJSCompletion(document, position) {
 			ProviderUtils.getAttribute(component, activationTokens[1].activation);
 		if (attribute) {
 			items = getComponentAttributeMembersCompletionItems(position, activationInfo, activationTokens, attribute, component.positionData);
-		} else if (activationTokens.length === 2) {
+		} else {
 			items = getAttributesCompletionItems(position, activationInfo, component);
 		}
 	} else if (activationTokens.length > 0 && activationTokens[0].activation === 'c') {

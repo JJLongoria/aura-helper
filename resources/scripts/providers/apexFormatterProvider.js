@@ -23,7 +23,7 @@ exports.provider = {
                         const lastLine = document.lineAt(document.lineCount - 1);
                         let range = new Range(firstLine.range.start, lastLine.range.end);
                         progressResolve();
-                        resolve([vscode.TextEdit.replace(range, ApexFormatter.format(FileReader.readDocument(document), Config.getConfig(), applicationContext.parserData))]);
+                        resolve([vscode.TextEdit.replace(range, ApexFormatter.format(FileReader.readDocument(document), Config.getConfig(), applicationContext.parserData, Config.getTabSize(), Config.insertSpaces()))]);
                     } catch (error) {
                         progressResolve();
                         reject(error);

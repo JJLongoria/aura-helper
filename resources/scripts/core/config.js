@@ -13,6 +13,14 @@ SORT_ORDER_CONFIG_VALUES_MAP["Alphabet Desc"] = XML_SORT_ORDER.ALPHABET_DESC;
 
 class Config {
 
+    static getTabSize(){
+        return vscode.window.activeTextEditor.options.tabSize;
+    }
+
+    static insertSpaces(){
+        return vscode.window.activeTextEditor.options.insertSpaces;
+    }
+
     static getConfig() {
         return vscode.workspace.getConfiguration('aurahelper');
     }

@@ -56,7 +56,7 @@ function provideAuraComponentCompletion(document, position) {
     const activationTokens = activationInfo.activationTokens;
     const auraSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.aura, activationTokens[0].activate) : undefined;
     const sldsSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.slds, activationTokens[0].activate) : undefined;
-    const component = new AuraBundleAnalyzer(document.uri.fsPath, applicationContext.parserData).setContent(FileReader.readDocument(document)).analize(ProviderUtils.fixPositionOffset(document, position));
+    const component = new AuraBundleAnalyzer(document.uri.fsPath, applicationContext.parserData).setContent(FileReader.readDocument(document)).setTabSize(Config.getTabSize()).analize(ProviderUtils.fixPositionOffset(document, position));
     if (component.positionData && component.positionData.query) {
         // Code for support completion on queries   
         items = ProviderUtils.getQueryCompletionItems(position, activationInfo, activationTokens, component.positionData);
@@ -65,17 +65,17 @@ function provideAuraComponentCompletion(document, position) {
         items = getSnippetsCompletionItems(position, activationInfo, auraSnippets || sldsSnippets);
     } else if (activationTokens.length > 0 && activationTokens[0].activation.toLowerCase() === 'label') {
         items = getLabelsCompletionItems(position, activationInfo, activationTokens);
-    } else if (activationTokens.length > 1 && activationTokens[0].activation === 'v') {
+    } else if (activationTokens.length > 0 && activationTokens[0].activation === 'v') {
         // Code for completions when user types v.
         if (!Config.getConfig().autoCompletion.activeAttributeSuggest)
             return [];
-        let attribute = ProviderUtils.getAttribute(component, activationTokens[1].activation);
+        let attribute = activationTokens.length > 1 ? ProviderUtils.getAttribute(component, activationTokens[1].activation) : undefined;
         if (attribute) {
             items = getComponentAttributeMembersCompletionItems(position, activationInfo, activationTokens, attribute, component.positionData);
-        } else if (activationTokens.length === 2) {
+        } else {
             items = getAttributesCompletionItems(position, activationInfo, component);
         }
-    } else if (activationTokens.length === 2 && activationTokens[0].activation === 'c') {
+    } else if (activationTokens.length > 0 && activationTokens[0].activation === 'c') {
         // Code for completions when user types c.
         if (!Config.getConfig().autoCompletion.activeControllerFunctionsSuggest)
             return [];
@@ -146,7 +146,7 @@ function getLabelsCompletionItems(position, activationInfo, activationTokens) {
             documentation.appendMarkdownH4('Snippet');
             documentation.appendHTMLCodeBlock('{!$Label.' + orgNamespace + '.' + label.fullName + '}');
             const options = ProviderUtils.getCompletionItemOptions(label.fullName, documentation.build(), '{!$Label.' + orgNamespace + '.' + label.fullName + '}', true, CompletionItemKind.Field);
-            const item = ProviderUtils.createItemForCompletion('label.' + label.fullName, options);
+            const item = ProviderUtils.createItemForCompletion('Label.' + label.fullName, options);
             if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                 item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
             items.push(item);
@@ -199,7 +199,7 @@ function getAttributesCompletionItems(position, activationInfo, component) {
         if (attribute.description && attribute.description.value.text)
             doc += attribute.description.value.text + '\n\n';
         if (attribute.type && attribute.type.value.text) {
-            doc += 'Type: `' + attribute.description.type.text + '`\n\n';
+            doc += 'Type: `' + attribute.type.value.text + '`\n\n';
             detail = 'Type: ' + attribute.type.value.text + '';
         }
         let insertText = '';

@@ -43,6 +43,7 @@ function activate(context) {
 	let repairProjectDependencies = vscode.commands.registerCommand('aurahelper.metadata.project.repair', commands.repairProjectDependencies);
 	let ignoreMetadata = vscode.commands.registerCommand('aurahelper.metadata.ignore', commands.ignoreMetadata);
 	let modifyPermissions = vscode.commands.registerCommand('aurahelper.metadata.permission.modify', commands.modifyPermissions);
+	let help = vscode.commands.registerCommand('aurahelper.help', commands.help);
 	let clearProblemsOutput = vscode.commands.registerCommand('aurahelper.output.problems.clear', function () {
 		DiagnosticsMananger.clearDiagnostics();
 	});
@@ -72,6 +73,7 @@ function activate(context) {
 	context.subscriptions.push(ignoreMetadata);
 	context.subscriptions.push(modifyPermissions);
 	context.subscriptions.push(init);
+	context.subscriptions.push(help);
 	console.log('Aura Helper Extension activated')
 	Output.OutputChannel.createChannel();
 	Output.OutputChannel.outputLine('Aura Helper Extension is now active');
