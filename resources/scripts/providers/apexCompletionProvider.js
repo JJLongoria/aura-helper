@@ -78,8 +78,8 @@ function getLabelsCompletionItems(position, activationInfo, labels) {
         documentation.appendMarkdownSeparator();
         documentation.appendMarkdownH4('Snippet');
         documentation.appendApexCodeBlock('Label.' + label.fullName);
-        const options = ProviderUtils.getCompletionItemOptions(label.fullName, documentation.build(), 'Label.' + label.fullName, true, CompletionItemKind.Field);
-        const item = ProviderUtils.createItemForCompletion('Label.' + label.fullName, options);
+        const options = ProviderUtils.getCompletionItemOptions(label.fullName, documentation.build(), label.fullName, true, CompletionItemKind.Field);
+        const item = ProviderUtils.createItemForCompletion(label.fullName, options);
         if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
             item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
         items.push(item);
