@@ -1,5 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [3.1.3 - 2021-10-1]
+### Added
+- Updated README with more features, better explanations and more example gifs
+
+### Fixed
+- Fixed some errors on IntelliSense in some special cases
+- Fixed some errors on Aura Helper init in some special cases with has malformed files into the project
+- Fixed error with comment indentation in some cases
+- Fixed errors removing some tags from comments when has no data
+- Fixed errors when update Aura Helper CLI
+
+
 ## [3.1.2 - 2021-09-30]
 ### Added
 - Formatter enhanced to get tabsize and tab spaces to format apex correct.

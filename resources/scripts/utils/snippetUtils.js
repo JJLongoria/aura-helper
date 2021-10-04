@@ -6,8 +6,18 @@ const { PathUtils } = require('@aurahelper/core').FileSystem;
 const { ApexNodeTypes } = require('@aurahelper/core').Values;
 
 class SnippetUtils {
-    static getApexComment(apexNode, template, filePath) {
-        const baseComment = '/**\n * ${0:comment}\n */';
+    static getApexComment(apexNode, template, filePath, declarationLine) {
+        const insertSpaces = Config.insertSpaces()
+        const tabSize = Config.getTabSize();
+        let firstChar = declarationLine.firstNonWhitespaceCharacterIndex;
+        let startWS;
+        if(insertSpaces){
+            const spacesToInsert = firstChar;
+            startWS = StrUtils.getWhitespaces(spacesToInsert);
+        } else {
+            startWS = StrUtils.getTabs(firstChar);
+        }
+        const baseComment = startWS + '/**\n'+startWS+' * ${0:comment}\n'+startWS+' */';
         let comment = '';
         if (Utils.isNull(apexNode) || !template) {
             return baseComment;
@@ -16,20 +26,19 @@ class SnippetUtils {
         if (!nodeTemplate)
             return baseComment;
         const templateLines = nodeTemplate.template;
-        comment = templateLines.join('\n');
         if (Utils.isNull(template.tags) || !Utils.hasKeys(template.tags)) {
+            comment = startWS + templateLines.join('\n' + startWS);
             if (StrUtils.contains(comment, '{!description}')) {
                 return StrUtils.replace(comment, '{!description}', `\${0:` + apexNode.name + ` Description}`);
             } else {
                 return comment;
             }
+        } else {
+            comment = templateLines.join('\n');
         }
         const keywordOrderByTag = {};
         let tagsOrder = [];
-        let returnTags = [];
-        let exceptionsTags = [];
-        let paramTags = [];
-        let parentTags = [];
+        let orderedTagsToRemove = [];
         for (const tagName of Object.keys(template.tags)) {
             if (!nodeTemplate.tags || !nodeTemplate.tags.includes(tagName))
                 continue;
@@ -42,19 +51,31 @@ class SnippetUtils {
             if (tagIndexOf != -1) {
                 let source = (StrUtils.contains(tag.source, '.')) ? tag.source.split('.')[0] : tag.source;
                 if (source === 'return' && (apexNode.nodeType !== ApexNodeTypes.METHOD || (apexNode.nodeType === ApexNodeTypes.METHOD && (!apexNode.datatype || apexNode.datatype.name.toLowerCase() === 'void')))) {
-                    returnTags.push(tagKey);
+                    orderedTagsToRemove.push({
+                        tag: tagKey,
+                        order: tagIndexOf,
+                    });
                     continue;
                 }
                 if (source === 'params' && ((apexNode.nodeType !== ApexNodeTypes.METHOD && apexNode.nodeType !== ApexNodeTypes.CONSTRUCTOR) || ((apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR) && !Utils.hasKeys(apexNode.params)))) {
-                    returnTags.push(tagKey);
+                    orderedTagsToRemove.push({
+                        tag: tagKey,
+                        order: tagIndexOf,
+                    });
                     continue;
                 }
                 if (source === 'exceptions' && ((apexNode.nodeType !== ApexNodeTypes.METHOD && apexNode.nodeType !== ApexNodeTypes.CONSTRUCTOR) || ((apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR) && !Utils.isNull(apexNode.exceptions) && apexNode.exceptions.length > 0))) {
-                    exceptionsTags.push(tagKey);
+                    orderedTagsToRemove.push({
+                        tag: tagKey,
+                        order: tagIndexOf,
+                    });
                     continue;
                 }
                 if (source === 'parent' && !apexNode.parentName) {
-                    parentTags.push(tagKey);
+                    orderedTagsToRemove.push({
+                        tag: tagKey,
+                        order: tagIndexOf,
+                    });
                     continue;
                 }
                 tagsOrder.push({
@@ -75,7 +96,8 @@ class SnippetUtils {
                 keywordOrderByTag[tagName] = Utils.sort(keywordOrderByTag[tagName], ['order']);
             }
         }
-        if (tagsOrder.length === 0) {
+        if (tagsOrder.length === 0 && orderedTagsToRemove.length === 0) {
+            comment = startWS + StrUtils.replace(comment, '\n', '\n' + startWS);
             if (StrUtils.contains(comment, '{!description}')) {
                 return StrUtils.replace(comment, '{!description}', `\${0:` + apexNode.name + ` Description}`);
             } else {
@@ -83,37 +105,14 @@ class SnippetUtils {
             }
         }
         tagsOrder = Utils.sort(tagsOrder, ['order']);
+        orderedTagsToRemove = Utils.sort(orderedTagsToRemove, ['order']);
         let snippetNum = 0;
         const lines = [];
         for (const line of templateLines) {
-            if (returnTags.length > 0) {
+            if (orderedTagsToRemove.length > 0) {
                 let contains = false;
-                for (const tagKey of returnTags) {
-                    if (StrUtils.contains(line, tagKey))
-                        contains = true;
-                }
-                if (!contains)
-                    lines.push(line);
-            } else if (paramTags.length > 0) {
-                let contains = false;
-                for (const tagKey of paramTags) {
-                    if (StrUtils.contains(line, tagKey))
-                        contains = true;
-                }
-                if (!contains)
-                    lines.push(line);
-            } else if (parentTags.length > 0) {
-                let contains = false;
-                for (const tagKey of parentTags) {
-                    if (StrUtils.contains(line, tagKey))
-                        contains = true;
-                }
-                if (!contains)
-                    lines.push(line);
-            } else if (exceptionsTags.length > 0) {
-                let contains = false;
-                for (const tagKey of exceptionsTags) {
-                    if (StrUtils.contains(line, tagKey))
+                for (const tagData of orderedTagsToRemove) {
+                    if (StrUtils.contains(line, tagData.tag))
                         contains = true;
                 }
                 if (!contains)
@@ -122,7 +121,7 @@ class SnippetUtils {
                 lines.push(line);
             }
         }
-        comment = lines.join('\n');
+        comment = startWS + lines.join('\n' + startWS);
         if (StrUtils.contains(comment, '{!description}')) {
             comment = StrUtils.replace(comment, '{!description}', `\${${snippetNum++}:` + apexNode.name + ` Description}`);
         }
@@ -145,7 +144,7 @@ class SnippetUtils {
                         if (keyword.source === 'name') {
                             paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + param.name + `}`);
                         } else if (keyword.source === 'type') {
-                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + param.datatype.name + `}`);
+                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + StrUtils.replace(param.datatype.name, ',', ', ') + `}`);
                         } else {
                             paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                         }
@@ -172,13 +171,13 @@ class SnippetUtils {
                     else
                         tagContent.push(startStr + tagStr + paramTemplate);
                 }
-            }*/ else if (apexNode.nodeType === ApexNodeTypes.METHOD && tag.source === 'return' && Utils.hasKeys(apexNode.params)) {
+            }*/ else if (apexNode.nodeType === ApexNodeTypes.METHOD && tag.source === 'return' && !Utils.isNull(apexNode.datatype)) {
                 let returnTemplate = tag.template;
                 for (const orderedKeyword of orderedKeywords) {
                     const keyword = orderedKeyword.keyword;
                     const keywordKey = '{!' + keyword.name + '}'
                     if (keyword.source === 'type') {
-                        returnTemplate = StrUtils.replace(returnTemplate, keywordKey, `\${${snippetNum++}:` + apexNode.datatype.name + `}`);
+                        returnTemplate = StrUtils.replace(returnTemplate, keywordKey, `\${${snippetNum++}:` + StrUtils.replace(apexNode.datatype.name, ',', ', ') + `}`);
                     } else {
                         returnTemplate = StrUtils.replace(returnTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                     }
@@ -195,7 +194,7 @@ class SnippetUtils {
                     if (keyword.source === 'name') {
                         fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + apexNode.name + `}`);
                     } else if (keyword.source === 'type') {
-                        fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + apexNode.datatype.name + `}`);
+                        fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + StrUtils.replace(apexNode.datatype.name, ',', ', ') + `}`);
                     } else {
                         fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                     }
@@ -298,7 +297,7 @@ class SnippetUtils {
                 else
                     tagContent.push(startStr + tagStr + tagTemplate);
             }
-            comment = StrUtils.replace(comment, '{!tag.' + tagName + '}', tagContent.join('\n'));
+            comment = StrUtils.replace(comment, '{!tag.' + tagName + '}', tagContent.join('\n' + startWS));
         }
         return comment;
     }
@@ -523,3 +522,25 @@ function getParamContentFromComment(commentParam, paramTemplate, indent) {
 }
 
 module.exports = SnippetUtils;
+
+function countStartTabs(str) {
+    let number = 0;
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] == '\t')
+            number++;
+        else if (str[i] !== ' ')
+            break;
+    }
+    return number;
+}
+
+function countStartWS(str) {
+    let number = 0;
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] == ' ')
+            number++;
+        else if (str[i] !== '\t')
+            break;
+    }
+    return number;
+}

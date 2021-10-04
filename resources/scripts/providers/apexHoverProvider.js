@@ -241,7 +241,7 @@ function provideHoverInformation(document, position) {
             content.appendMarkdown(description);
         } else if (namespace) {
             content.appendApexCodeBlock(namespace);
-            content.appendMarkdown('Salesforce Namespace');
+            content.appendMarkdown('Salesforce Namespace' + '\n\n');
         } else if (lastNode) {
             if (!Utils.isNull(lastNode.nodeType)) {
                 let nodeName = '';
@@ -262,7 +262,7 @@ function provideHoverInformation(document, position) {
                     if (lastNode.description) {
                         content.appendMarkdown('Enum from ' + lastNode.namespace + ' Namespace\n\n');
                         content.appendMarkdown(lastNode.description + ((lastNode.documentation) ? '\n\n[Documentation Link](' + lastNode.documentation + ')' : '') + '\n\n');
-                        content.appendMarkdown(enumValues.join('\n'));
+                        content.appendMarkdown(enumValues.join('\n') + '\n\n');
                     } else if (lastNode.comment && lastNode.comment.description && lastNode.comment.description.length > 0) {
                         content.appendMarkdown(lastNode.comment.description + '\n\n');
                     } else {

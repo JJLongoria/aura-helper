@@ -27,8 +27,12 @@ function registerSFDXConfigFileWatcher() {
                 try {
                     applicationContext.sfData.username = await connection.getAuthUsername();
                     applicationContext.sfData.serverInstance = await connection.getServerInstance();
+                    const orgRecord = await connection.query('Select Id, NamespacePrefix from Organization');
+                    if (orgRecord && orgRecord.length > 0) {
+                        applicationContext.sfData.namespace = orgRecord[0].NamespacePrefix;
+                    }
                 } catch (error) {
-    
+
                 }
             }, 50);
         }

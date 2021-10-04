@@ -20,6 +20,7 @@ const gitData = {
 const sfData = {
     username: '',
     serverInstance: '',
+    namespace: '',
     orgAvailableVersions: [],
     availablePermissions: [],
 };
