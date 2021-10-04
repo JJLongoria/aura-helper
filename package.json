@@ -571,7 +571,7 @@
 		"@aurahelper/dependencies-manager": "^1.0.0",
 		"@aurahelper/git-manager": "^1.0.0",
 		"@aurahelper/ignore": "^1.0.0",
-		"@aurahelper/languages": "^1.0.10",
+		"@aurahelper/languages": "^1.0.11",
 		"@aurahelper/metadata-factory": "^1.0.7",
 		"@aurahelper/package-generator": "^1.0.1",
 		"@aurahelper/xml-compressor": "^1.0.0",
