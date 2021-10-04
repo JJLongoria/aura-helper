@@ -11,6 +11,7 @@ const Config = require('../core/config');
 const window = vscode.window;
 const Range = vscode.Range;
 const SnippetString = vscode.SnippetString;
+const ProviderUtils = require('../providers/utils');
 
 exports.run = function (position, type, data) {
     try {
@@ -27,7 +28,7 @@ exports.run = function (position, type, data) {
 }
 
 function processApexCodeCompletion(position, editor) {
-    processCommentCompletion(position, editor);  
+    processCommentCompletion(position, editor);
 }
 
 function processCommentCompletion(position, editor) {
@@ -40,12 +41,12 @@ function processCommentCompletion(position, editor) {
     }
     let declarationLine = editor.document.lineAt(lineNum);
     if (!declarationLine.isEmptyOrWhitespace) {
-        const node = new ApexParser().setContent(FileReader.readDocument(editor.document)).setSystemData(applicationContext.parserData).setCursorPosition(position).isDeclarationOnly(true).parse();
+        const node = new ApexParser().setContent(FileReader.readDocument(editor.document)).setSystemData(applicationContext.parserData).setCursorPosition(ProviderUtils.fixPositionOffset(editor.document, position)).isDeclarationOnly(true).parse();
         const templateContent = TemplateUtils.getApexCommentTemplate(!Config.getConfig().documentation.useStandardJavaComments);
         if (templateContent) {
             applicationContext.parserData.template = templateContent;
-            const apexComment = SnippetUtils.getApexComment(node, applicationContext.parserData.template, editor.document.uri.fsPath);
-            Editor.replaceEditorContent(editor, new Range(position.line, StrUtils.countStartWhitespaces(editor.document.lineAt(position.line).text), position.line, editor.document.lineAt(position.line).text.length), '');
+            const apexComment = SnippetUtils.getApexComment(node, applicationContext.parserData.template, editor.document.uri.fsPath, declarationLine);
+            Editor.replaceEditorContent(editor, new Range(position.line, 0, position.line, editor.document.lineAt(position.line).text.length), '');
             editor.insertSnippet(new SnippetString(`${apexComment}`), position);
         } else {
             window.showErrorMessage("Apex Comment Template does not exists. Run Edit Apex Comment Template command for create it");

@@ -45,7 +45,7 @@ class Config {
     }
 
     static getNamespace(){
-        return ProjectUtils.getOrgNamespace(Paths.getProjectFolder());
+        return appContext.sfData.namespace || ProjectUtils.getOrgNamespace(Paths.getProjectFolder());
     }
 
     static getOrgAlias(){

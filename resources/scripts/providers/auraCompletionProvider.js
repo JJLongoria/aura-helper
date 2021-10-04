@@ -54,9 +54,9 @@ function provideAuraComponentCompletion(document, position) {
     const componentInitTag = (orgNamespace) ? orgNamespace + ':' : 'c:';
     const activationInfo = ProviderUtils.getActivation(document, position);
     const activationTokens = activationInfo.activationTokens;
-    const auraSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.aura, activationTokens[0].activate) : undefined;
-    const sldsSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.slds, activationTokens[0].activate) : undefined;
-    const component = new AuraBundleAnalyzer(document.uri.fsPath, applicationContext.parserData).setContent(FileReader.readDocument(document)).setTabSize(Config.getTabSize()).analize(ProviderUtils.fixPositionOffset(document, position));
+    const auraSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.aura, activationTokens[0].activation) : undefined;
+    const sldsSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.slds, activationTokens[0].activation) : undefined;
+    const component = new AuraBundleAnalyzer(document.uri.fsPath, applicationContext.parserData).setActiveFile(document.uri.fsPath).setContent(FileReader.readDocument(document)).setTabSize(Config.getTabSize()).analize(ProviderUtils.fixPositionOffset(document, position));
     if (component.positionData && component.positionData.query) {
         // Code for support completion on queries   
         items = ProviderUtils.getQueryCompletionItems(position, activationInfo, activationTokens, component.positionData);
@@ -75,7 +75,7 @@ function provideAuraComponentCompletion(document, position) {
         } else {
             items = getAttributesCompletionItems(position, activationInfo, component);
         }
-    } else if (activationTokens.length > 0 && activationTokens[0].activation === 'c') {
+    } else if (activationTokens.length > 0 && (activationTokens[0].activation === 'c')) {
         // Code for completions when user types c.
         if (!Config.getConfig().autoCompletion.activeControllerFunctionsSuggest)
             return [];
@@ -289,6 +289,8 @@ function getComponentsCompletionItems(position, document, activationInfo) {
     const folders = FileReader.readDirSync(auraFolder);
     const orgNamespace = Config.getNamespace();
     for (const folder of folders) {
+        if(!FileChecker.isDirectory(auraFolder + '/' + folder))
+            continue;
         let files = FileReader.readDirSync(auraFolder + '/' + folder);
         let isApp;
         let node;
@@ -439,8 +441,8 @@ function getCodeCompletionItemAttribute(position, activationInfo, attribute) {
     documentation.appendHTMLCodeBlock(insertText.value);
     const options = ProviderUtils.getCompletionItemOptions(detail, documentation.build(), insertText, true, CompletionItemKind.Field);
     const item = ProviderUtils.createItemForCompletion(attribute.name.value.text, options);
-    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
-        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+    /*if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);*/
     return item;
 }
 

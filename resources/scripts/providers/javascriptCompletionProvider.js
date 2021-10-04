@@ -4,8 +4,9 @@ const vscode = require('vscode');
 const Config = require('../core/config');
 const ProviderUtils = require('./utils');
 const applicationContext = require('../core/applicationContext');
-const { FileChecker } = require('@aurahelper/core').FileSystem;
+const { FileChecker, PathUtils, FileReader } = require('@aurahelper/core').FileSystem;
 const { AuraBundleAnalyzer } = require('@aurahelper/languages').Aura;
+const { JSParser } = require('@aurahelper/languages').JavaScript;
 const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
 const { Utils, StrUtils } = require('@aurahelper/core').CoreUtils;
 const CompletionItemKind = vscode.CompletionItemKind;
@@ -37,10 +38,11 @@ function provideJSCompletion(document, position) {
 	const activationInfo = ProviderUtils.getActivation(document, position);
 	const activationTokens = activationInfo.activationTokens;
 	const jsSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.javascript, activationTokens[0].activation) : undefined;
-	const component = new AuraBundleAnalyzer(document.fileName.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp'), applicationContext.parserData).setTabSize(Config.getTabSize()).analize(ProviderUtils.fixPositionOffset(document, position));
-	if (component.positionData && component.positionData.query) {
+	const component = new AuraBundleAnalyzer(document.uri.fsPath.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp'), applicationContext.parserData).setActiveFile(document.uri.fsPath).setTabSize(Config.getTabSize()).analize(ProviderUtils.fixPositionOffset(document, position));
+	const jsFile = new JSParser(document.uri.fsPath).setContent(FileReader.readDocument(document)).setTabSize(Config.getTabSize()).setCursorPosition(position).parse();
+	if (jsFile.positionData && jsFile.positionData.query) {
 		// Code for support completion on queries
-		items = ProviderUtils.getQueryCompletionItems(position, activationInfo, activationTokens, component.positionData);
+		items = ProviderUtils.getQueryCompletionItems(position, activationInfo, activationTokens, jsFile.positionData);
 	} else if (jsSnippets) {
 		// Code for completions when user types any snippets activation preffix (ltn., slds., ltng. ...)
 		items = getSnippetsCompletionItems(position, activationInfo, jsSnippets);
@@ -54,7 +56,7 @@ function provideJSCompletion(document, position) {
 		if (activationTokens.length > 1)
 			ProviderUtils.getAttribute(component, activationTokens[1].activation);
 		if (attribute) {
-			items = getComponentAttributeMembersCompletionItems(position, activationInfo, activationTokens, attribute, component.positionData);
+			items = getComponentAttributeMembersCompletionItems(position, activationInfo, activationTokens, attribute, jsFile.positionData);
 		} else {
 			items = getAttributesCompletionItems(position, activationInfo, component);
 		}
@@ -70,8 +72,8 @@ function provideJSCompletion(document, position) {
 		items = getHelperFunctions(position, activationInfo, component);
 	} else if (activationTokens.length > 0) {
 		// Code for completions when position is on empty line or withot components
-		items = ProviderUtils.getApexCompletionItems(position, activationInfo, undefined);
-		if (activationInfo.activationTokens.length === 1 && !activationInfo.activationTokens[0].isQuery && activationInfo.activationTokens[0].nextToken && activationInfo.activationTokens[0].nextToken.text !== '.'){
+		items = ProviderUtils.getApexCompletionItems(position, activationInfo, undefined, jsFile.positionData);
+		if (activationInfo.activationTokens.length === 1 && !activationInfo.activationTokens[0].isQuery && activationInfo.activationTokens[0].nextToken && activationInfo.activationTokens[0].nextToken.text !== '.') {
 			items = items.concat(ProviderUtils.getAllAvailableCompletionItems(position, activationInfo));
 		}
 	} else {
@@ -115,7 +117,7 @@ function getLabelsCompletionItems(position, activationInfo, activationTokens) {
 			documentation.appendMarkdownH4('Snippet');
 			documentation.appendJSCodeBlock('$A.get(\'$Label.' + orgNamespace + '.' + label.fullName + '\')');
 			const options = ProviderUtils.getCompletionItemOptions(label.fullName, documentation.build(), '$A.get(\'$Label.' + orgNamespace + '.' + label.fullName + '\')', true, CompletionItemKind.Field);
-			const item = ProviderUtils.createItemForCompletion('label.' + label.fullName, options);
+			const item = ProviderUtils.createItemForCompletion('Label.' + label.fullName, options);
 			if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
 				item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
 			items.push(item);
@@ -168,7 +170,7 @@ function getAttributesCompletionItems(position, activationInfo, component) {
 		if (attribute.description && attribute.description.value.text)
 			doc += attribute.description.value.text + '\n\n';
 		if (attribute.type && attribute.type.value.text) {
-			doc += 'Type: `' + attribute.description.type.text + '`\n\n';
+			doc += 'Type: `' + attribute.type.value.text + '`\n\n';
 			detail = 'Type: ' + attribute.type.value.text + '';
 		}
 		let insertText = '';
@@ -365,6 +367,7 @@ function getFunctionSnippet(method) {
 			snippet += "${" + (counter + 1) + ":" + param.text + "}";
 		else
 			snippet += ", ${" + (counter + 1) + ":" + param.text + "}";
+		counter++;
 	}
 	snippet += ")$0";
 	return snippet;

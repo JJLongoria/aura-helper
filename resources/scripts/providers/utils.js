@@ -402,7 +402,9 @@ class ProviderUtils {
                     hasFrom = true;
                 }
             }
-            if (!endLoop && tokenPos == lineTokens.length - 1) {
+            if (toIntelliSense && activeTokenFound) {
+                endLoop = true;
+            } else if (!endLoop && tokenPos == lineTokens.length - 1) {
                 lineNumber++;
                 let lineTmp = document.lineAt(lineNumber);
                 while (lineTmp.isEmptyOrWhitespace) {
@@ -715,8 +717,21 @@ class ProviderUtils {
     static getSobjectCompletionItems(position, activationInfo, activationTokens, sObject, positionData) {
         let items = [];
         if (sObject && sObject.fields) {
+            const existingFields = [];
+            if (positionData && positionData.query) {
+                for (const projectionField of positionData.query.projection) {
+                    existingFields.push(projectionField.name.toLowerCase());
+                }
+            }
             for (const fieldKey of Object.keys(sObject.fields)) {
-                let field = sObject.fields[fieldKey];
+                const field = sObject.fields[fieldKey];
+                if (existingFields.includes(fieldKey)) {
+                    if (!StrUtils.contains(fieldKey, '.') && fieldKey.endsWith('__c')) {
+                        continue;
+                    }
+                    if (!field.referenceTo || field.referenceTo.length === 0)
+                        continue;
+                }
                 items = items.concat(ProviderUtils.getSObjectFieldCompletionItems(position, activationInfo, activationTokens, sObject, field, positionData));
             }
             if (Utils.hasKeys(sObject.recordTypes) && activationTokens.length <= 2 && activationTokens.length > 0 && activationTokens[0].activation.toLowerCase() === sObject.name.toLowerCase()) {
@@ -1127,6 +1142,9 @@ class ProviderUtils {
                                                     datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2)
                                                 else
                                                     datatypeName = sObjectField.type;
+                                                if (toIntelliSense && (!activationToken.nextToken || activationToken.nextToken.text !== '.')) {
+                                                    datatypeName = sObject.name;
+                                                }
                                             }
                                         } else {
                                             sObjectFieldName = undefined;
@@ -1802,7 +1820,7 @@ class ProviderUtils {
                         else
                             enumValues.push('  - `' + value.text + '`');
                     }
-                    documentation.appendMarkdown(enumValues.join('\n'));
+                    documentation.appendMarkdown(enumValues.join('\n') + '\n\n');
                     const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Enum);
                     const item = ProviderUtils.createItemForCompletion(className, options);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
@@ -1836,14 +1854,14 @@ class ProviderUtils {
                             enumValues.push('  - `' + value.text + '`');
                     }
                     documentation.appendMarkdown(systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n');
-                    documentation.appendMarkdown(enumValues.join('\n'));
+                    documentation.appendMarkdown(enumValues.join('\n') + '\n\n');
                     const options = ProviderUtils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Enum);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else if (systemClass.nodeType === ApexNodeTypes.INTERFACE) {
-                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '');
+                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n';
                     documentation.appendMarkdown(description);
                     const options = ProviderUtils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Interface);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
@@ -1851,7 +1869,7 @@ class ProviderUtils {
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     items.push(item);
                 } else {
-                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '');
+                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n';
                     documentation.appendMarkdown(description);
                     const options = ProviderUtils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Class);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);

@@ -6,11 +6,13 @@ const ApexNodeWatcher = require('../watchers/apexCodeWatcher');
 const ProjectFilesWatcher = require('../watchers/projectFilesWatcher');
 const ProvidersManager = require('../providers/providersManager');
 const { FileChecker, FileWriter, FileReader } = require('@aurahelper/core').FileSystem;
+const { StrUtils } = require('@aurahelper/core').CoreUtils;
 const { MetadataTypes } = require('@aurahelper/core').Values;
 const { SObject } = require('@aurahelper/core').Types;
 const Config = require('../core/config');
 const Paths = require('../core/paths');
 const applicationContext = require('../core/applicationContext');
+const MetadataFactory = require('@aurahelper/metadata-factory');
 const OutputChannel = Output.OutputChannel;
 
 
@@ -137,7 +139,10 @@ async function refreshIndex(force, progress, cancelToken, callback) {
 
 function getSObjects() {
     let sObjects = {};
+    const sObjectsFolder = Paths.getProjectMetadataFolder() + '/objects';
+    let objFolders = FileChecker.isExists(sObjectsFolder) ? FileReader.readDirSync(sObjectsFolder) : [];
     let indexObjFiles = FileChecker.isExists(Paths.getMetadataIndexFolder()) ? FileReader.readDirSync(Paths.getMetadataIndexFolder()) : [];
+    const namespace = Config.getNamespace();
     if (indexObjFiles.length > 0) {
         for (const fileName of indexObjFiles) {
             if (!fileName.endsWith('.json')) {
@@ -145,10 +150,86 @@ function getSObjects() {
                 continue;
             }
             let obj = JSON.parse(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+            if (!Object.keys(obj).includes('description')) {
+                FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+                continue;
+            } else {
+                if (obj.fields) {
+                    let deleted = false;
+                    for (const fieldKey of Object.keys(obj.fields)) {
+                        const field = obj.fields[fieldKey];
+                        if (!Object.keys(field).includes('inlineHelpText')) {
+                            FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+                            deleted = true;
+                            break;
+                        }
+                    }
+                    if (deleted)
+                        continue;
+                }
+            }
             const sObj = new SObject(obj);
             sObj.addSystemFields();
             sObj.fixFieldTypes();
             sObjects[sObj.name.toLowerCase()] = sObj;
+        }
+
+        if (objFolders.length > 0) {
+            let sObjectsTmp = MetadataFactory.createSObjectsFromFileSystem(sObjectsFolder);
+            for (const objKey of Object.keys(sObjectsTmp)) {
+                const sObj = sObjectsTmp[objKey];
+                if (!sObjects[sObj.name.toLowerCase()]) {
+                    sObjects[sObj.name.toLowerCase()] = sObj;
+                    FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + sObj.name + '.json', JSON.stringify(sObj, null, 2));
+                } else {
+                    const objOnIndex = sObjects[sObj.name.toLowerCase()];
+                    for (const fieldKey of Object.keys(sObj.fields)) {
+                        const field = sObj.fields[fieldKey];
+                        if (!objOnIndex.fields[fieldKey])
+                            sObjects[sObj.name.toLowerCase()].fields[fieldKey] = field;
+                    }
+                }
+            }
+        }
+    }
+
+    if (namespace) {
+        for (const objKey of Object.keys(sObjects)) {
+            if (StrUtils.contains(objKey, '__')) {
+                const objSplits = objKey.split('__');
+                const nsObjKey = namespace + '__' + objKey;
+                if (sObjects[objKey] && !sObjects[nsObjKey] && objSplits.length < 3) {
+                    const obj = sObjects[objKey];
+                    delete sObjects[objKey];
+                    obj.name = namespace + '__' + obj.name;
+                    for (const fieldKey of Object.keys(obj.fields)) {
+                        const fieldSplits = fieldKey.split('__');
+                        const nsFieldKey = namespace + '__' + fieldKey;
+                        if (StrUtils.contains(fieldKey, '__')) {
+                            if (obj.fields[fieldKey] && !obj.fields[nsFieldKey] && fieldSplits.length < 3) {
+                                const field = obj.fields[fieldKey];
+                                delete obj.fields[fieldKey];
+                                field.name = namespace + '__' + field.name;
+                                obj.fields[nsFieldKey] = field;
+                            }
+                        }
+                    }
+                    sObjects[nsObjKey] = obj;
+                }
+            } else {
+                for (const fieldKey of Object.keys(sObjects[objKey].fields)) {
+                    const fieldSplits = fieldKey.split('__');
+                    const nsFieldKey = namespace + '__' + fieldKey;
+                    if (StrUtils.contains(fieldKey, '__')) {
+                        if (sObjects[objKey].fields[fieldKey] && !sObjects[objKey].fields[nsFieldKey] && fieldSplits.length < 3) {
+                            const field = sObjects[objKey].fields[fieldKey];
+                            delete sObjects[objKey].fields[fieldKey];
+                            field.name = namespace + '__' + field.name;
+                            sObjects[objKey].fields[nsFieldKey] = field;
+                        }
+                    }
+                }
+            }
         }
     }
     return sObjects;

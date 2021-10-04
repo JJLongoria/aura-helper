@@ -47,7 +47,7 @@ function provideApexCompletion(document, position) {
         if (nodeInfo.labels) {
             items = getLabelsCompletionItems(position, activationInfo, nodeInfo.labels);
         } else if (nodeInfo.lastNode && Object.keys(nodeInfo.lastNode).includes('keyPrefix') && Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
-            if (activationInfo.activationTokens.length === 1 && !activationInfo.activationTokens[0].isQuery && activationInfo.activationTokens[0].nextToken && activationInfo.activationTokens[0].nextToken.text !== '.')
+            if (activationInfo.activationTokens.length === 1 && (!activationInfo.activationTokens[0].isQuery && ((!node.positionData || (node.positionData && !node.positionData.query)))) && (!activationInfo.activationTokens[0].nextToken || (activationInfo.activationTokens[0].nextToken && activationInfo.activationTokens[0].nextToken.text !== '.')))
                 items = ProviderUtils.getAllAvailableCompletionItems(position, activationInfo, node)
             else
                 items = items.concat(ProviderUtils.getSobjectCompletionItems(position, activationInfo, activationInfo.activationTokens, nodeInfo.lastNode, node.positionData));

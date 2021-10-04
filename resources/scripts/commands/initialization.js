@@ -7,7 +7,7 @@ const applicationContext = require('../core/applicationContext');
 const { FileChecker, FileReader, FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
 const Config = require('../core/config');
 const Paths = require('../core/paths');
-const { StrUtils, ProjectUtils } = require('@aurahelper/core').CoreUtils;
+const { StrUtils } = require('@aurahelper/core').CoreUtils;
 const { ApexNodeTypes } = require('@aurahelper/core').Values;
 const { SObject, ApexClass, ApexInterface, ApexEnum, ApexTrigger } = require('@aurahelper/core').Types;
 const { ApexParser } = require('@aurahelper/languages').Apex;
@@ -17,7 +17,6 @@ const MetadataFactory = require('@aurahelper/metadata-factory');
 const CLIManager = require('@aurahelper/cli-manager');
 const GitManager = require('@aurahelper/git-manager');
 const TemplateUtils = require('../utils/templateUtils');
-const { createCipheriv } = require('crypto');
 const NotificationManager = Output.NotificationMananger;
 const OutputChannel = Output.OutputChannel;
 let cliManager;
@@ -39,13 +38,13 @@ function init(context) {
         connection.setMultiThread();
         createTemplateFiles(context);
         loadSnippets();
-        await checkAuraHelperCLI();
-        await getSystemData();
-        await getGitData();
         if (username) {
             await getOrgData();
         }
+        await getSystemData();
+        await getGitData();
         OutputChannel.outputLine('System Data Loaded');
+        await checkAuraHelperCLI();
         NotificationManager.hideStatusBar();
         if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart) {
             vscode.commands.executeCommand('aurahelper.metadata.refresh.index', true);
@@ -88,18 +87,22 @@ function getSystemData() {
     return new Promise((resolve) => {
         OutputChannel.outputLine('Getting Apex Classes and System components data...');
         setTimeout(async () => {
-            applicationContext.componentsDetail = System.getAuraComponentDetails();
-            applicationContext.parserData.namespaceSummary = System.getAllNamespacesSummary();
-            applicationContext.parserData.namespacesData = System.getAllNamespacesData();
-            applicationContext.parserData.namespaces = System.getAllNamespaces();
-            applicationContext.parserData.sObjectsData = getSObjects();
-            applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
-            applicationContext.parserData.userClasses = getClassNames(Paths.getProjectMetadataFolder() + '/classes');
-            cleanOldClassesDefinitions();
-            await ApexParser.saveAllClassesData(Paths.getProjectMetadataFolder() + '/classes', Paths.getCompiledClassesFolder(), applicationContext.parserData, true);
-            applicationContext.parserData.userClassesData = getClassesFromCompiledClasses();
-            applicationContext.parserData.userClasses = Object.keys(applicationContext.parserData.userClassesData);
-            resolve();
+            try {
+                applicationContext.componentsDetail = System.getAuraComponentDetails();
+                applicationContext.parserData.namespaceSummary = System.getAllNamespacesSummary();
+                applicationContext.parserData.namespacesData = System.getAllNamespacesData();
+                applicationContext.parserData.namespaces = System.getAllNamespaces();
+                applicationContext.parserData.sObjectsData = getSObjects();
+                applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
+                applicationContext.parserData.userClasses = getClassNames(Paths.getProjectMetadataFolder() + '/classes');
+                cleanOldClassesDefinitions();
+                await ApexParser.saveAllClassesData(Paths.getProjectMetadataFolder() + '/classes', Paths.getCompiledClassesFolder(), applicationContext.parserData, true);
+                applicationContext.parserData.userClassesData = getClassesFromCompiledClasses();
+                applicationContext.parserData.userClasses = Object.keys(applicationContext.parserData.userClassesData);
+                resolve();
+            } catch (error) {
+                resolve();
+            }
         }, 50);
     });
 }
@@ -125,6 +128,10 @@ function getOrgData() {
             try {
                 applicationContext.sfData.username = await connection.getAuthUsername();
                 applicationContext.sfData.serverInstance = await connection.getServerInstance();
+                const orgRecord = await connection.query('Select Id, NamespacePrefix from Organization');
+                if (orgRecord && orgRecord.length > 0) {
+                    applicationContext.sfData.namespace = orgRecord[0].NamespacePrefix;
+                }
             } catch (error) {
 
             }
@@ -182,27 +189,24 @@ function adaptOldApexTemplateToNewTemplate() {
 }
 
 function checkAuraHelperVersion() {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
-            cliManager.getAuraHelperCLIVersion().then((version) => {
-                const versionSplits = version.split('.');
-                const requiredVersionSplits = applicationContext.MIN_AH_CLI_VERSION.split('.')
-                const majorVersion = parseInt(versionSplits[0]);
-                const minorVersion = parseInt(versionSplits[1]);
-                const patchVersion = parseInt(versionSplits[2]);
-                const requiredMajorVersion = parseInt(requiredVersionSplits[0]);
-                const requiredMinorVersion = parseInt(requiredVersionSplits[1]);
-                const requiredPatchVersion = parseInt(requiredVersionSplits[2]);
-                if (majorVersion < requiredMajorVersion)
-                    showDialogsForAuraHelperCLI();
-                else if (majorVersion == requiredMajorVersion && minorVersion < requiredMinorVersion)
-                    showDialogsForAuraHelperCLI();
-                else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion)
-                    showDialogsForAuraHelperCLI();
-                resolve();
-            }).catch((error) => {
-                reject(error);
-            });
+            const version = await cliManager.getAuraHelperCLIVersion();
+            const versionSplits = version.split('.');
+            const requiredVersionSplits = applicationContext.MIN_AH_CLI_VERSION.split('.')
+            const majorVersion = parseInt(versionSplits[0]);
+            const minorVersion = parseInt(versionSplits[1]);
+            const patchVersion = parseInt(versionSplits[2]);
+            const requiredMajorVersion = parseInt(requiredVersionSplits[0]);
+            const requiredMinorVersion = parseInt(requiredVersionSplits[1]);
+            const requiredPatchVersion = parseInt(requiredVersionSplits[2]);
+            if (majorVersion < requiredMajorVersion)
+                showDialogsForAuraHelperCLI();
+            else if (majorVersion == requiredMajorVersion && minorVersion < requiredMinorVersion)
+                showDialogsForAuraHelperCLI();
+            else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion)
+                showDialogsForAuraHelperCLI();
+            resolve();
         } catch (error) {
             reject(error);
         }
@@ -272,57 +276,114 @@ function getSObjects() {
     let objFolders = FileChecker.isExists(sObjectsFolder) ? FileReader.readDirSync(sObjectsFolder) : [];
     let indexObjFiles = FileChecker.isExists(Paths.getMetadataIndexFolder()) ? FileReader.readDirSync(Paths.getMetadataIndexFolder()) : [];
     let sfdxObjFiles = (FileChecker.isExists(Paths.getSFDXCustomSObjectsFolder()) && FileChecker.isExists(Paths.getSFDXStandardSObjectsFolder())) ? FileReader.readDirSync(Paths.getSFDXCustomSObjectsFolder()).concat(FileReader.readDirSync(Paths.getSFDXStandardSObjectsFolder())) : [];
-    if (indexObjFiles.length > 0) {
-        for (const fileName of indexObjFiles) {
-            if (!fileName.endsWith('.json')) {
-                FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
-                continue;
+    try {
+        const namespace = Config.getNamespace();
+        if (indexObjFiles.length > 0) {
+            for (const fileName of indexObjFiles) {
+                if (!fileName.endsWith('.json')) {
+                    FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+                    continue;
+                }
+                let obj = JSON.parse(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+                if (!Object.keys(obj).includes('description')) {
+                    FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+                    continue;
+                } else {
+                    if (obj.fields) {
+                        let deleted = false;
+                        for (const fieldKey of Object.keys(obj.fields)) {
+                            const field = obj.fields[fieldKey];
+                            if (!Object.keys(field).includes('inlineHelpText')) {
+                                FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
+                                deleted = true;
+                                break;
+                            }
+                        }
+                        if (deleted)
+                            continue;
+                    }
+                }
+                const sObj = new SObject(obj);
+                sObj.addSystemFields();
+                sObj.fixFieldTypes();
+                const objKey = sObj.name.toLowerCase();
+                sObjects[objKey] = sObj;
             }
-            let obj = JSON.parse(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
-            if (!Object.keys(obj).includes('description')) {
-                FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
-                continue;
-            } else {
-                if (obj.fields) {
-                    let deleted = false;
-                    for (const fieldKey of Object.keys(obj.fields)) {
-                        const field = obj.fields[fieldKey];
-                        if (!Object.keys(field).includes('inlineHelpText')) {
-                            FileWriter.delete(FileReader.readFileSync(Paths.getMetadataIndexFolder() + '/' + fileName));
-                            deleted = true;
-                            break;
+            if (objFolders.length > 0) {
+                let sObjectsTmp = MetadataFactory.createSObjectsFromFileSystem(sObjectsFolder);
+                for (const objKey of Object.keys(sObjectsTmp)) {
+                    const sObj = sObjectsTmp[objKey];
+                    if (!sObjects[sObj.name.toLowerCase()]) {
+                        sObjects[sObj.name.toLowerCase()] = sObj;
+                        FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + sObj.name + '.json', JSON.stringify(sObj, null, 2));
+                    } else {
+                        const objOnIndex = sObjects[sObj.name.toLowerCase()];
+                        for (const fieldKey of Object.keys(sObj.fields)) {
+                            const field = sObj.fields[fieldKey];
+                            if (!objOnIndex.fields[fieldKey])
+                                sObjects[sObj.name.toLowerCase()].fields[fieldKey] = field;
                         }
                     }
-                    if (deleted)
-                        continue;
                 }
             }
-            const sObj = new SObject(obj);
-            sObj.addSystemFields();
-            sObj.fixFieldTypes();
-            sObjects[sObj.name.toLowerCase()] = sObj;
+        } else if (objFolders.length > 0) {
+            sObjects = MetadataFactory.createSObjectsFromFileSystem(sObjectsFolder);
+            for (const objKey of Object.keys(sObjects)) {
+                const sObj = sObjects[objKey];
+                sObj.addSystemFields();
+                sObj.fixFieldTypes();
+                FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + sObj.name + '.json', JSON.stringify(sObj, null, 2));
+            }
+        } else if (sfdxObjFiles.length > 0) {
+            for (const fileName of sfdxObjFiles) {
+                const objName = fileName.substring(0, fileName.indexOf('.'));
+                const sObj = new SObject(objName);
+                sObj.addSystemFields();
+                sObj.fixFieldTypes();
+                sObjects[objName.toLowerCase()] = sObj;
+            }
         }
-        if (objFolders.length > 0) {
-            let sObjectsTmp = MetadataFactory.createSObjectsFromFileSystem(sObjectsFolder);
-            for (const objKey of Object.keys(sObjectsTmp)) {
-                const sObj = sObjectsTmp[objKey];
-                if (!sObjects[sObj.name.toLowerCase()]) {
-                    sObjects[sObj.name.toLowerCase()] = sObj;
-                    FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + sObj.name + '.json', JSON.stringify(sObj, null, 2));
+        if (namespace) {
+            for (const objKey of Object.keys(sObjects)) {
+                if (StrUtils.contains(objKey, '__')) {
+                    const objSplits = objKey.split('__');
+                    const nsObjKey = namespace + '__' + objKey;
+                    if (sObjects[objKey] && !sObjects[nsObjKey] && objSplits.length < 3) {
+                        const obj = sObjects[objKey];
+                        delete sObjects[objKey];
+                        obj.name = namespace + '__' + obj.name;
+                        for (const fieldKey of Object.keys(obj.fields)) {
+                            const fieldSplits = fieldKey.split('__');
+                            const nsFieldKey = namespace + '__' + fieldKey;
+                            if (StrUtils.contains(fieldKey, '__')) {
+                                if (obj.fields[fieldKey] && !obj.fields[nsFieldKey] && fieldSplits.length < 3) {
+                                    const field = obj.fields[fieldKey];
+                                    delete obj.fields[fieldKey];
+                                    field.name = namespace + '__' + field.name;
+                                    obj.fields[nsFieldKey] = field;
+                                }
+                            }
+                        }
+                        sObjects[nsObjKey] = obj;
+                    }
+                } else {
+                    for (const fieldKey of Object.keys(sObjects[objKey].fields)) {
+                        const fieldSplits = fieldKey.split('__');
+                        const nsFieldKey = namespace + '__' + fieldKey;
+                        if (StrUtils.contains(fieldKey, '__')) {
+                            if (sObjects[objKey].fields[fieldKey] && !sObjects[objKey].fields[nsFieldKey] && fieldSplits.length < 3) {
+                                const field = sObjects[objKey].fields[fieldKey];
+                                delete sObjects[objKey].fields[fieldKey];
+                                field.name = namespace + '__' + field.name;
+                                sObjects[objKey].fields[nsFieldKey] = field;
+                            }
+                        }
+                    }
                 }
             }
         }
-    } else if (objFolders.length > 0) {
-        sObjects = MetadataFactory.createSObjectsFromFileSystem(sObjectsFolder);
-        for (const objKey of Object.keys(sObjects)) {
-            const sObj = sObjects[objKey];
-            FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + sObj.name + '.json', JSON.stringify(sObj, null, 2));
-        }
-    } else if (sfdxObjFiles.length > 0) {
-        for (const fileName of sfdxObjFiles) {
-            const objName = fileName.substring(0, fileName.indexOf('.'));
-            sObjects[objName] = new SObject(objName);
-        }
+    } catch (error) {
+        console.log(error);
     }
     return sObjects;
 }

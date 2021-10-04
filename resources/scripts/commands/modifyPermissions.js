@@ -147,14 +147,17 @@ async function modifyPermissionFiles(filePath, fileMetadataType, metadataTypes, 
             const xmlFile = XMLUtils.cleanXMLFile(XMLDefinition, xmlRoot[selectedPermissionsType]);
             if (xmlFile[xmlElementData.key]) {
                 let elementName = (objName && itemName && separator) ? objName + separator + itemName : ((objName) ? objName : itemName);
-                for (const fieldData of xmlRoot[selectedPermissionsType][xmlElementData.key]) {
-                    if (fieldData[xmlElementData.fieldKey] === elementName) {
-                        for (const editableField of editableFields) {
-                            if (editableField.type === 'boolean') {
-                                if (fieldData[editableField.name]) {
-                                    editableField.nChecked++;
-                                } else {
-                                    editableField.nUnchecked++;
+                if (xmlRoot[selectedPermissionsType] && xmlRoot[selectedPermissionsType][xmlElementData.key]) {
+                    xmlRoot[selectedPermissionsType][xmlElementData.key] = XMLUtils.forceArray(xmlRoot[selectedPermissionsType][xmlElementData.key]);
+                    for (const fieldData of xmlRoot[selectedPermissionsType][xmlElementData.key]) {
+                        if (fieldData[xmlElementData.fieldKey] === elementName) {
+                            for (const editableField of editableFields) {
+                                if (editableField.type === 'boolean') {
+                                    if (fieldData[editableField.name]) {
+                                        editableField.nChecked++;
+                                    } else {
+                                        editableField.nUnchecked++;
+                                    }
                                 }
                             }
                         }
@@ -180,9 +183,9 @@ async function modifyPermissionFiles(filePath, fileMetadataType, metadataTypes, 
                 valuesToShow.push(metadataTypes[MetadataTypes.RECORD_TYPE].childs[objName].childs[rtItem].name);
             }
         }
-        selectedPermissionValues = await InputFactory.createSingleSelectorInput(valuesToShow, 'Set ' + fileMetadataType.name + ' record type assignment', true);
+        selectedPermissionValues = await InputFactory.createSingleSelectorInput(valuesToShow, 'Set ' + fileMetadataType.name + ' record type assignment', false);
     } else {
-        selectedPermissionValues = await InputFactory.createMultiSelectorInput(editableFields, 'Set ' + fileMetadataType.name + ' permission values', true);
+        selectedPermissionValues = await InputFactory.createMultiSelectorInput(editableFields, 'Set ' + fileMetadataType.name + ' permission values', false);
     }
     if (!selectedPermissionValues)
         return;
