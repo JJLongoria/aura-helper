@@ -31,9 +31,9 @@ async function openStandardGUI() {
     input.addInitOption('GIT', 'Select to Create Package and Destructive Files from GIT Changes. (Not Apply if Select Download from Org)', MetadataSelectorInput.getGitAction());
     input.addInitOption('Packages', 'Select to Create Package with metadata from other Packages. (Not Apply if Select Download from Org or GIT)', MetadataSelectorInput.getPackagesAction());
 
-    input.addFinishOption('Use Wildcards', 'Select to use wildcards when apply, in otherwise put the elements explicit on the file', MetadataSelectorInput.getWildcardsAction(), ['Download From Org', 'All Namespaces']);
-    input.addFinishOption('Destructive Changes', 'Select to create a Destructive Changes file, in otherwise create a Package XML file', MetadataSelectorInput.getDestructiveAction(), ['Download From Org', 'All Namespaces']);
-    input.addFinishOption('After Deploy', 'Select to create the Destrucive Changes file to delete data after deploy changes. In otherwise create delete file before deploy', MetadataSelectorInput.getDeployAfterAction(), ['Download From Org', 'All Namespaces', 'GIT']);
+    input.addFinishOption('Use Wildcards', 'Select to use wildcards when apply, in otherwise put the elements explicit on the file', MetadataSelectorInput.getWildcardsAction(), ['Download From Org', 'All Namespaces', 'Download From Local']);
+    input.addFinishOption('Destructive Changes', 'Select to create a Destructive Changes file, in otherwise create a Package XML file', MetadataSelectorInput.getDestructiveAction(), ['Download From Org', 'All Namespaces', 'Download From Local']);
+    input.addFinishOption('After Deploy', 'Select to create the Destrucive Changes file to delete data after deploy changes. In otherwise create delete file before deploy', MetadataSelectorInput.getDeployAfterAction(), ['Download From Org', 'All Namespaces', 'Download From Local', 'GIT']);
     input.addFinishOption('Ignore File', 'Select to use the project ignore file to avoid put the specified metadata types into the package', MetadataSelectorInput.getIgnoreAction(), ['GIT']);
 
     input.addFinishOption('Custom Folder', 'Select to choose the folder to save the file. In otherwise create the file on the project manifest folder', MetadataSelectorInput.getCustomFolderAction());

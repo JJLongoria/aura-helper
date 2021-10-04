@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [3.1.3 - 2021-10-1]
+## [3.1.4 - 2021-10-5]
+### Added
+- Added new GIFS to README
+
+### Fixed
+- Fixed README errors
+- Fixed error with Package Generator because not show some create options when create from Local
+- Fixed minor error with Custom Labels editor
+
+## [3.1.3 - 2021-10-4]
 ### Added
 - Updated README with more features, better explanations and more example gifs
 

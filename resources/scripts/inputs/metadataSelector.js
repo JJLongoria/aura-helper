@@ -276,6 +276,10 @@ class MetadataSelector extends MultiStepInput {
                 for (const option of this._initOptions) {
                     options[option.action] = this._selectedInitOptions.includes(option.title);
                 }
+                if(!this._selectedInitOptions || this._selectedInitOptions.length === 0){
+                    options[LOCAL_ACTION] = true;
+                    this._selectedInitOptions = ['Download From Local'];
+                }
                 if (options[GIT_ACTION] && !options[DOWNLOAD_ACTION])
                     this.nextStep(GIT_STEP);
                 else if (options[PACKAGES_ACTION] && !options[GIT_ACTION] && !options[DOWNLOAD_ACTION])
