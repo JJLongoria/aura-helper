@@ -33,7 +33,7 @@ Aura Helper is the [**most complete extension**](#aura-helper) to work with sale
   - #### [**Version Control**](#version-control)
     - [**Packages from GIT**](#packages-from-git)
     - [**Merge Packages Files**](#merge-packages-files)
-    - [**Other Toos**](#other-tools)
+    - [**Other Tools**](#other-tools)
   - #### [**Outline View**](#outline-view)
     - [**Apex Code Outline**](#apex-code-outline)
     - [**Aura Componets Outline**](#aura-components-outline)
@@ -60,7 +60,7 @@ Aura Helper has too many features to make work easy and faster to all Salesforce
 - [**Write code faster**](#intellisense) with the Aura Helper IntelliSense tools. Code completion for Apex, lightning, javascript... (*User Classes, System Classes,Custom and Standard Objects, Methods, Fields, Picklist values, implement intefaces and extends classes automatically, Custom Labels, Aura attribute suggested values... and too much more*.)
 - [**Apex Code formatter**](#apex-code-formatter) with *configurable options* from Aura Helper settings (spaces beetwen operators, max allowed blank lines, open curly brackets on new lines... and more options to format your code as you want). The first exclusive Apex code formatter for VSCode.
 - More than [**200 snipets**](#intellisense) for create Aura Components, SLDS components and more with less effort
-- Create **package and destructive** files quickly with the powerfull [**Package Generator**](#version-control). Select metadata manually from your org or local project, or create the files from two **git branches, commits or tags differences**.
+- Create **package and destructive** files quickly with the powerful [**Package Generator**](#version-control). Select metadata manually from your org or local project, or create the files from two **git branches, commits or tags differences**.
 - [**Compare Metadata**](#metadata-files) between *local project and Auth org* or between *two different orgs* for get the differences.
 - [**Repair Project Dependencies**](#metadata-files) to get less errors on deploy. Check your local metadata and repair files if is needed. Also you can only check errors. Support al metadata types to repair. 
 - [**Compress XML Files**](#compress-xml-files) for make easy the *git conflict handling* and make work with git more faster.
@@ -255,7 +255,7 @@ To work with all XML Metadata files (among other files), Aura Helper implements 
 
 
 ## [**Repair Dependencies**](#repair-dependencies)
-To maintenance your local *project integrity and cosistency*, specialy if you work with git as code master to deploy between environments the **Repair Dependencies** tool will be helpfull. 
+To maintenance your local *project integrity and cosistency*, specialy if you work with git as code master to deploy between environments the **Repair Dependencies** tool will be helpful. 
 
 You can **repair all dependecies** errors automatically or only **check to find errors** and repair it manually (if you want). Aura Helper support to check and repair Dependencies errors with Metadata types for all XML Files, from CustomApplications to Worflow files...
 
@@ -270,7 +270,7 @@ Like Repair dependencies tool, the **Ignore Metadata** command has the same porp
 
 With this feature, you can *ignore* (even remove) all *Metadata files* or *Metadata included in files* (like some custom labels or workflow rules for example) **to avoid to deploy it between environments**.
 
-This tool wil be **helpfull** in some cases, like *Custom Labels* with different values between orgs (like ids) or to remove some *User Permissions* from Profiles or Permissions sets to avoid change it on the target org amont other use cases.
+This tool wil be **helpful** in some cases, like *Custom Labels* with different values between orgs (like ids) or to remove some *User Permissions* from Profiles or Permissions sets to avoid change it on the target org amont other use cases.
 
 To ignore metadata, you need an `.ahignore.json` file to use it with the commands. You can has a single `.ahignore.json` file into your root project, like `.gitignore` to use it automatically, or can has several `.ahignore.json` files, with different names and locations and choose the preferred file when run the command to make the tool more flexible.
 
@@ -278,13 +278,15 @@ To ignore metadata, you need an `.ahignore.json` file to use it with the command
 
 ## [**Package Generator**](#package-generator-metadata)
 
-Aura Helper has a *really powerfull* **Package Generator tool** to allow to the users to create *Package XML* Files (and *Destructive Changes* files) from several sources to retrieve, deploy or other porpouses. 
+Aura Helper has a *really powerful* **Package Generator tool** to allow to the users to create *Package XML* Files (and *Destructive Changes* files) from several sources to retrieve, deploy or other porpouses. 
 
-You can show all available Metadata types in your **Local Project** or from your **Auth Org** (including all namespaces data) to choose Metadata Types and elements manually to create the package files.This will be helpfull to retrieve only one or several SObject Fields or Validations rules amon others, because Salesforce Org Browser can't do it.
+You can show all available Metadata types in your **Local Project** or from your **Auth Org** (including all namespaces data) to choose Metadata Types and elements manually to create the package files.This will be helpful to retrieve only one or several SObject Fields or Validations rules amon others, because Salesforce Org Browser can't do it.
 
 Other important feature from Package Generator is the **GIT option** as datasource. This option allow to the user to choose two **branches, commits or tags** to get the code differences and create the Package XML and Destructive Files according the detected changes. With this option, refactor code are really easy to deploy and can maintenance better your App versions.
 
 Finally, Package Generator can **merge several package or destructive** files into one file by type or merge all files into one single file (to deploy, retrieve or delete data).
+
+![Package Generator Local Example](https://media.giphy.com/media/Kupmm73xsL5KYvQgEv/giphy.gif)
 
 <br/>
 
@@ -295,6 +297,8 @@ To work better with **Custom Labels from VSCode** and reduce the Salesforce depe
 You can *create*, *edit*, *delete* and *deploy* to the Auth Org any Custom Label stored into the file. Aura Helper will be validate any Custom Label field to avoid to put wrong values.
 
 To work with the Custom Labels Editor, go to the Custom Labels file and `rigth click` on it to choose **AuraHelper: Custom Labels Editor** option on contextual menu, or execute the command **AuraHelper: Custom Labels Editor** directly from the Command Palette.
+
+![Custom Labels Editor Example](https://media.giphy.com/media/tFVDD0z7qjuYOdgUj0/giphy.gif)
 
 ## [**Create Aura files**](#create-aura-files)
 
@@ -352,12 +356,14 @@ Like the Permission Editor, the Modify Permissions tool has the same behaviour o
 <br/>
 
 # [**Version Control**](#version-control)
-Aura Helper are specially designed to work with GIT and DevOps workflows and has powerfull tools to this porpouses.
+Aura Helper are specially designed to work with GIT and DevOps workflows and has powerful tools to this porpouses.
 
 
 ## [**Packages from GIT**](#packages-from-git)
 
 The **Package Generator** tool can connect with git an analize differences to find all created, edited and delete Metadata files (and types). When run the package generator, select GIT option to allow to the user to choose two **branches, commits or tags** to get the code differences and create the Package XML and Destructive Files according the detected changes. With this option, refactor code are really easy to deploy and can maintenance better your App versions.
+
+![Package Generator GIT Example](https://media.giphy.com/media/XkGTpb3Ib6InqiF2G3/giphy.gif)
 
 ## [**Merge Packages Files**](#merge-packages-files)
 
@@ -365,7 +371,9 @@ Other importan feature from **Package Generator** tool, is the ability to **merg
 
 Also, you can **merge all files into only one file**. For example, you can select the same files of the las example, but merge all files into only one Package XML File with the content of all files (incluid destructives) or can merge all files into one Destructive XML before or after deploy.
 
-## [**Other Toos**](#other-tools)
+![Package Generator Merge Example](https://media.giphy.com/media/KUNpnJdeaCl0RJ0xHc/giphy.gif)
+
+## [**Other Tools**](#other-tools)
 
 Other tools like [**Ignore Metadata**](#ignore-metadata) or [**Repair Dependencies**](#repair-dependencies) can be used to maintance a version control and Project Metadata Integrity. With [**Metadata Comparator**](#compare-metadata) you can compare metadata Between orgs or local and org to check if all is correc. The [**Manage Permissions**](#salesforce-permissions) tools can help to you to maintance Salesforce Permissions into your local project, without Salesforce org.
 
@@ -405,12 +413,12 @@ The **Metadata XML Outline** provide information of any XML Metadata file. You c
 <br/>
 
 # [**Documentation**](#documentation)
-To Help to the users with the boring documentation tasks, Aura Helper provide helpfull tools to create documentation faster and with a few clicks.
+To Help to the users with the boring documentation tasks, Aura Helper provide helpful tools to create documentation faster and with a few clicks.
 
 ## [**Apex Comments**](#apex-comments)
 Aura Helper provide the **best Apex Comments** system because you can define your own comment template to create comments automatically based on the template. You can addapt the template to the preferred format to create the comments only with write `/**` and Aura Helper will be create the entire comment with the selected information based on the created template.
 
-The Apex Comment Template system is a really powerfull system because allow to the users to create their own custom tags with to many datasources to create the comments and replace the tags with the selected data. For example, you can define your oun `@author` tag with named `@creator`, and select Salesforce username as datasource to replace the `@creator` tag template automatically with the specified data. Work like JavaDoc, but allow to the users to customize the comments.
+The Apex Comment Template system is a really powerful system because allow to the users to create their own custom tags with to many datasources to create the comments and replace the tags with the selected data. For example, you can define your oun `@author` tag with named `@creator`, and select Salesforce username as datasource to replace the `@creator` tag template automatically with the specified data. Work like JavaDoc, but allow to the users to customize the comments.
 
 |  |  |
 | :--- | :---: |

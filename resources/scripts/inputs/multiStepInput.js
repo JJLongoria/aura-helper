@@ -326,7 +326,7 @@ function getLocalMetadata(types) {
                 reject(error);
             });
         } else {
-            const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder());
+            const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
             connection.listMetadataTypes().then((metadataDetails) => {
                 const folderMetadataMap = MetadataFactory.createFolderMetadataMap(metadataDetails);
                 const result = {};
@@ -362,7 +362,7 @@ function getOrgMetadata(downloadAll, progressReport, types) {
                 reject(error);
             });
         } else {
-            const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder());
+            const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
             connection.setMultiThread();
             connection.onAfterDownloadType((status) => {
                 progressReport.report({
