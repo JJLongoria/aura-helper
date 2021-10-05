@@ -67,7 +67,7 @@ exports.run = async function () {
                         });
                     });
                     cliManager.ignoreMetadata(items).then(() => {
-                        NotificationManager.showInfo('Ignored Metadata finished succesfully');
+                        NotificationManager.showInfo('Ignore Metadata finished succesfully');
                         resolve();
                     }).catch((error) => {
                         NotificationManager.showError(error.message);
@@ -92,6 +92,7 @@ exports.run = async function () {
                         });
                         ignore.ignoreProjectMetadata(Paths.getProjectFolder(), metadataDetails);
                         resolve();
+                        NotificationManager.showInfo('Ignore Metadata finished succesfully');
                     }).catch((error) => {
                         NotificationManager.showError(error.message);
                         resolve();
