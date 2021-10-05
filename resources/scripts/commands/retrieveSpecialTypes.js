@@ -8,6 +8,7 @@ const Connection = require('@aurahelper/connector');
 const MetadataFactory = require('@aurahelper/metadata-factory');
 const Config = require('../core/config');
 const Paths = require('../core/paths');
+const { FileChecker, FileWriter } = require('@aurahelper/core/src/fileSystem');
 
 exports.run = async function () {
     try {
@@ -83,6 +84,10 @@ function retrieveMetadata(objects, options) {
                     cancelToken.onCancellationRequested(() => {
                         connection.abortConnection();
                     });
+                    if(FileChecker.isExists(Paths.getTemporalFolder()))
+                        FileWriter.delete(Paths.getTemporalFolder());
+                    if(!FileChecker.isExists(Paths.getTemporalFolder()))
+                        FileWriter.createFolderSync(Paths.getTemporalFolder());
                     if (options[MetadataSelectorInput.getDownloadAction()]) {
                         connection.retrieveOrgSpecialTypes(Paths.getTemporalFolder(), objects, options[MetadataSelectorInput.getDownloadAllAction()], options[MetadataSelectorInput.getCompressAction()], sortOrder).then((retrieveResult) => {
                             NotificationManager.showInfo("Data retrieved successfully");

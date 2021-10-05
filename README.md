@@ -2,6 +2,8 @@
 
 Aura Helper is the [**most complete extension**](#aura-helper) to work with salesforce. Aura Helper provide the [**best IntelliSense suggestions**](#intellisense) and code completion options to Apex and Aura code of any Salesfoce extension (including Official Salesforce extensions). Can work with [**Salesfoce XML Metadata**](#version-control-and-metadata) files and edit some files with **graphic interface to minimize errors**. Has the first exclusive [**Apex Formatter**](#apex-code-formatter) with configurable options to format your code as you like. Can work with [**GIT and detect changes**](#version-control-and-metadata) for create packages files (and destructive too). Create a complete [**Apex and Aura documentation**](#documentation) with a few clicks. and to much more.
 
+> Aura Helper not only works with any Salesforce project, it is also **specially prepared** to work with **GIT and Salesforce**, **DevOps** and **Continuous Integration** and has many tools designed to maintain the integrity of the local project and / or organizations, among other important tools to DevOps workflows.
+
  Aura Helper contains several tools to increase productivity, facilitate code creation and make more easy work with Salesfoce. Is undoubtedly one of the necessary applications for any [**Salaesforce developer**](https://www.salesforce.com). Aura Helper is developed by Salesforce developer to Salesforce developers and has all you need as developer to work with Salesforce from VSCode.
 
  Go to [**Aura Helper Extension Documentation**](https://github.com/JJLongoria/aura-helper/wiki) to learn more about the extension and all features.
@@ -95,34 +97,33 @@ Aura Helper can provide to many IntelliSense options to support Apex Coding. Lik
 
 </details>
 
-  <br/>
-
-  - List all available **classes**, **Enums**, **Interfaces**..., including **Apex Namespaces** and **System classes** with descriptions, documentation links and to much more info. Only need to press `Ctrl + Space`
-
-  - List all available **methods**, **class fields** and all **class members** from the active class. Only need to press `Ctrl + Space`
-
-  - List all **methods**, **class fields,**, **inner classes** and other **class members** from All **System Classes and Namespaces** (more than 1000 classes). Only need to press `Ctrl + Space`
-
-  - List all **class members**, **methods** or **fields** from any **variable** or **method** of any type including System Classes and Namespaces (Without deep limit). Example: You can do `MyClass.method1().otherMethod().stringMethod()...` or `variable.otherVariable.method().otherMethod()...`And in every step, you can show all available options.
-
-  - Implements Automatically all extended methods or implement interfaces with two simple commands: **AuraHelper: Implement Extended Methods** and **AuraHelper: Implement Interfaces**. When run this commands, Aura Helper will be parse the file to extract implements information and automatically put the missing methods from parents.
-
-  - Provide **SOQL IntelliSense** options to complete projection query fields (including Lookup fields) and support to list and show to pick all fields from Lookup relationships (without deep limit). Only need detect the `SELECT` and `FROM` clauses to provide completions. *Also work String queries.* Only need to press `Ctrl + Space` into a query.
-
-  - Provide more and better **on hover information** with the same IntelliSense descriptions style, including documentation links or links to the Salesforce Setup among others.
-
-  - List all available **Custom Labels** into your project (need to download to the local project). Write `label.` to show all available labels.
-
-  - Create **Customized Apex comments** based on a *user defined template* to addapt comments to any project. You can create your own tags with datasources to replace data automatically. See the [**Apex Comment**](#apex-comments) section on documentation to learn more about it. Only need type `/*` Over every method, class or field to put the comments.
-
-  - List all available **SObjects** stored in your org (need to execute *Refresh All SObjects Index* command) or list all available SObjects into your local project. Only need to press `Ctrl + Space` 
-
-  - List all **fields from an SObject** if you write the API Name (And all field related information). Example: Write `Account.` to show all Account fields.
-
-  - List all available **Record Types from a SObject** (Name and DeveloperName) and can *replace it to the String value* Example: `Account.yourRecordTypeName` will be transform to `'yourRecordTypeName'`. Aura Helper can detect if the suggetion is on a String to put or not the quottes symbol (')
-
-  - List all **picklist values from a SObject field** to *replace it with the picklist value* Example: `Account.picklistField__c.picklistValue` will be transform to `'picklistValue'`. Aura Helper can detect if the suggetion is on a String to put or not the quottes symbol (')
-
+>---
+> - List all available **classes**, **Enums**, **Interfaces**..., including **Apex Namespaces** and **System classes** with descriptions, documentation links and to much more info. Only need to press `Ctrl + Space`
+>---
+>  - List all available **methods**, **class fields** and all **class members** from the active class. Only need to press `Ctrl + Space`
+>---
+>  - List all **methods**, **class fields,**, **inner classes** and other **class members** from All **System Classes and Namespaces** (more than 1000 classes). Only need to press `Ctrl + Space`
+>---
+>  - List all **class members**, **methods** or **fields** from any **variable** or **method** of any type including System Classes and Namespaces (Without deep limit). Example: You can do `MyClass.method1().otherMethod().stringMethod()...` or `variable.otherVariable.method().otherMethod()...`And in every step, you can show all available options.
+>---
+>  - Implements Automatically all extended methods or implement interfaces with two simple commands: **AuraHelper: Implement Extended Methods** and **AuraHelper: Implement Interfaces**. When run this commands, Aura Helper will be parse the file to extract implements information and automatically put the missing methods from parents.
+>---
+>  - Provide **SOQL IntelliSense** options to complete projection query fields (including Lookup fields) and support to list and show to pick all fields from Lookup relationships (without deep limit). Only need detect the `SELECT` and `FROM` clauses to provide completions. *Also work String queries.* Only need to press `Ctrl + Space` into a query.
+>---
+>  - Provide more and better **on hover information** with the same IntelliSense descriptions style, including documentation links or links to the Salesforce Setup among others.
+>---
+>  - List all available **Custom Labels** into your project (need to download to the local project). Write `label.` to show all available labels.
+>---
+>  - Create **Customized Apex comments** based on a *user defined template* to addapt comments to any project. You can create your own tags with datasources to replace data automatically. See the [**Apex Comment**](#apex-comments) section on documentation to learn more about it. Only need type `/*` Over every method, class or field to put the comments.
+>---
+>  - List all available **SObjects** stored in your org (need to execute *Refresh All SObjects Index* command) or list all available SObjects into your local project. Only need to press `Ctrl + Space` 
+>---
+>  - List all **fields from an SObject** if you write the API Name (And all field related information). Example: Write `Account.` to show all Account fields.
+>---
+>  - List all available **Record Types from a SObject** (Name and DeveloperName) and can *replace it to the String value* Example: `Account.yourRecordTypeName` will be transform to `'yourRecordTypeName'`. Aura Helper can detect if the suggetion is on a String to put or not the quottes symbol (')
+>---
+>  - List all **picklist values from a SObject field** to *replace it with the picklist value* Example: `Account.picklistField__c.picklistValue` will be transform to `'picklistValue'`. Aura Helper can detect if the suggetion is on a String to put or not the quottes symbol (')
+>---
 
 <br/>
 
@@ -142,35 +143,35 @@ To work with Aura components (Components, Apps and Events), Aura Helper provide 
 
 </details>
 
-  <br/>
-
-  - List all your **Aura Components, Events and Apps**. Only need to write `c:` and press `Ctrl + Space` to show and select any Component. Aura Helper can detect automatically if stast with \< or end with \> to complete it automatically. Example: If you write `c:` and select one component, Aura Helper will be write `<c:myComponent >`, but if you write `<c:`, Aura Helper will be write `<c:myComponent >` and the same in any case.
-
-  - List **All component Aura Attributes**, incluiding *inherited attributes from parent components*. Only need to write `v.` to show all. If you select one attribute, Aura Helper can detect if is called between `{! }` symbols or any symbol is missing to wirte it. Example: If write `{!v.}` and select one attribute, Aura Helper will be write `{!v.attributeName}`, but if you write `v.` and select one, Aura Helper write `{!v.attributeName}` and the same if only write `{v.` and select any attribute.
-
-  - List **All Controller Functions**, including *inherited functions from parent components*. Only need to write `c.` to show all. If you select one function, Aura Helper can detect if is called between `{! }` symbols or any symbol is missing to wirte it. Example: If write `{!c.}` and select one function, Aura Helper will be write `{!c.functionName}`, but if you write `c.` and select one, Aura Helper write `{!c.functionName}` and the same if only write `{c.` and select any function.
-
-  - List all **Aura Components Attributes** (*when use the components*) to create components quickly. Only need to press `Ctrl + Space` between \<\> open tag symbols to show all available attributes. Example: If you press `Ctrl + Space` on the component call `<c:myComponent >` you can show all attributes from `<c:myComponent >`. Work with custom and System Defined Aura Components.
-
-  - List **All Availabble Values** for a component attribute attribute (*when use the components*) to create components quickly. Aura Helper detect the Attribute type and automatically suggest the best (or available) values. Only need to press `Ctrl + Space` between quottes (") symbol on attribute value.. Example:  If you press `Ctrl + Space` on the component call attribute value (between "") `<c:myComponent oneAttribute="">` you can show all suggested values to the attribute according the attribute Datatype. Work with custom and System Defined Aura components.
-
-  - List all available **classes**, **Enums**, **Interfaces**..., including **Apex Namespaces** and **System classes** with descriptions, documentation links and to much more info. Only need to press `Ctrl + Space`
-
-  - List all **methods**, **class fields,**, **inner classes** and other **class members** from All **System Classes and Namespaces** (more than 1000 classes). Only need to press `Ctrl + Space`
-
-  - List all available **Custom Labels** into your project (need to download to the local project). Write `label.` to show all available labels. When select one label, Aura Helper automatically will be put the Custom Labels format on Aura files. (Example: if select `Label.thisIsOneLabel` Aura Helper type `{!$Label.c.thisIsOneLabel}` or `{!$Label.yourNamespace.thisIsOneLabel}` if has a Namespace active in your org)
-
-  - Provide **SOQL IntelliSense** options to complete projection query fields (including Lookup fields) and support to list and show to pick all fields from Lookup relationships (without deep limit). Only need detect the `SELECT` and `FROM` clauses to provide completions. *Also work String queries.* Only need to press `Ctrl + Space` into a query.
-
-  - List all available **SObjects** stored in your org (need to execute *Refresh All SObjects Index* command) or list all available SObjects into your local project. Only need to press `Ctrl + Space` 
-
-  - List all **fields from an SObject** if you write the API Name (And all field related information). Example: Write `Account.` to show all Account fields.
-
- - List all available **Record Types from a SObject** (Name and DeveloperName) and can *replace it to the String value* Example: `Account.yourRecordTypeName` will be transform to `'yourRecordTypeName'`.
-
-  - List all **picklist values from a SObject field** to *replace it with the picklist value* Example: `Account.picklistField__c.picklistValue` will be transform to `'picklistValue'`.
-  
-  - **Hundreds of Snippets** (with variants) to create *System components* quickly. Has several prefix to active the snippets, depending of the Component Namespace, use `ltn.` to show all Ligtning Namespace components, `aura.` to show all Aura Namespace components... Also has SLDS components snippets with `slds.` activation. Show [**Snippets**](Snippets) page to learn more about it and show all available snippets.
+>---
+>  - List all your **Aura Components, Events and Apps**. Only need to write `c:` and press `Ctrl + Space` to show and select any Component. Aura Helper can detect automatically if stast with \< or end with \> to complete it automatically. Example: If you write `c:` and select one component, Aura Helper will be write `<c:myComponent >`, but if you write `<c:`, Aura Helper will be write `<c:myComponent >` and the same in any case.
+>---
+>  - List **All component Aura Attributes**, incluiding *inherited attributes from parent components*. Only need to write `v.` to show all. If you select one attribute, Aura Helper can detect if is called between `{! }` symbols or any symbol is missing to wirte it. Example: If write `{!v.}` and select one attribute, Aura Helper will be write `{!v.attributeName}`, but if you write `v.` and select one, Aura Helper write `{!v.attributeName}` and the same if only write `{v.` and select any attribute.
+>---
+>  - List **All Controller Functions**, including *inherited functions from parent components*. Only need to write `c.` to show all. If you select one function, Aura Helper can detect if is called between `{! }` symbols or any symbol is missing to wirte it. Example: If write `{!c.}` and select one function, Aura Helper will be write `{!c.functionName}`, but if you write `c.` and select one, Aura Helper write `{!c.functionName}` and the same if only write `{c.` and select any function.
+>---
+>  - List all **Aura Components Attributes** (*when use the components*) to create components quickly. Only need to press `Ctrl + Space` between \<\> open tag symbols to show all available attributes. Example: If you press `Ctrl + Space` on the component call `<c:myComponent >` you can show all attributes from `<c:myComponent >`. Work with custom and System Defined Aura Components.
+>---
+>  - List **All Availabble Values** for a component attribute attribute (*when use the components*) to create components quickly. Aura Helper detect the Attribute type and automatically suggest the best (or available) values. Only need to press `Ctrl + Space` between quottes (") symbol on attribute value.. Example:  If you press `Ctrl + Space` on the component call attribute value (between "") `<c:myComponent oneAttribute="">` you can show all suggested values to the attribute according the attribute Datatype. Work with custom and System Defined Aura components.
+>---
+>  - List all available **classes**, **Enums**, **Interfaces**..., including **Apex Namespaces** and **System classes** with descriptions, documentation links and to much more info. Only need to press `Ctrl + Space`
+>---
+>  - List all **methods**, **class fields,**, **inner classes** and other **class members** from All **System Classes and Namespaces** (more than 1000 classes). Only need to press `Ctrl + Space`
+>---
+>  - List all available **Custom Labels** into your project (need to download to the local project). Write `label.` to show all available labels. When select one label, Aura Helper automatically will be put the Custom Labels format on Aura files. (Example: if select `Label.thisIsOneLabel` Aura Helper type `{!$Label.c.thisIsOneLabel}` or `{!$Label.yourNamespace.thisIsOneLabel}` if has a Namespace active in your org)
+>---
+>  - Provide **SOQL IntelliSense** options to complete projection query fields (including Lookup fields) and support to list and show to pick all fields from Lookup relationships (without deep limit). Only need detect the `SELECT` and `FROM` clauses to provide completions. *Also work String queries.* Only need to press `Ctrl + Space` into a query.
+>---
+>  - List all available **SObjects** stored in your org (need to execute *Refresh All SObjects Index* command) or list all available SObjects into your local project. Only need to press `Ctrl + Space` 
+>---
+>  - List all **fields from an SObject** if you write the API Name (And all field related information). Example: Write `Account.` to show all Account fields.
+>---
+> - List all available **Record Types from a SObject** (Name and DeveloperName) and can *replace it to the String value* Example: `Account.yourRecordTypeName` will be transform to `'yourRecordTypeName'`.
+>---
+>  - List all **picklist values from a SObject field** to *replace it with the picklist value* Example: `Account.picklistField__c.picklistValue` will be transform to `'picklistValue'`.
+>---
+>  - **Hundreds of Snippets** (with variants) to create *System components* quickly. Has several prefix to active the snippets, depending of the Component Namespace, use `ltn.` to show all Ligtning Namespace components, `aura.` to show all Aura Namespace components... Also has SLDS components snippets with `slds.` activation. Show [**Snippets**](Snippets) page to learn more about it and show all available snippets.
+>---
 
 <br/>
 
@@ -189,37 +190,36 @@ Aura Helper also implements IntelliSense to JavaSript Aura Files to provide a co
 
 </details>
 
-<br/>
-
-  - List **All component Aura Attributes**, incluiding *inherited attributes from parent components*. Only need to write `v.` to show all. If you select one attribute, Aura Helper can detect if is called from String to complete with quottes symbol('). For example. If you write `v.` and select one attribute Aura Helper will be write `v.yourAttribute` or `'v.yourAttribute'`.
-   
-  - List **All Apex Controller Methods**, including *inherited method from parent components*. Only need to write `c.` to show all. If you select one function, Aura Helper can detect if is called from String to complete with quottes symbol('). For example. If you write `c.` and select one attribute Aura Helper will be write `c.myMethod` or `'c.myMethod'`.
-
-  - Complete **Apex Classes Method Params Object** automatically. When you write `c.` and list all Apex Controller Functions, you will see some elements like `c.myMethod.params`. If you select one of this, Aura Helper will bne write the Javascript object with all fields and comments with the datatype. Aura Helper can detect where is called to complete the body according the use case.
-
-  - List all **Helper file Functions**, including *inherited functions from parent components*. Only need to write `helper.` to show all.
-
-  - List all available **classes**, **Enums**, **Interfaces**..., including **Apex Namespaces** and **System classes** with descriptions, documentation links and to much more info. Only need to press `Ctrl + Space`
-
+>---
+>  - List **All component Aura Attributes**, incluiding *inherited attributes from parent components*. Only need to write `v.` to show all. If you select one attribute, Aura Helper can detect if is called from String to complete with quottes symbol('). For example. If you write `v.` and select one attribute Aura Helper will be write `v.yourAttribute` or `'v.yourAttribute'`.
+>---
+>  - List **All Apex Controller Methods**, including *inherited method from parent components*. Only need to write `c.` to show all. If you select one function, Aura Helper can detect if is called from String to complete with quottes symbol('). For example. If you write `c.` and select one attribute Aura Helper will be write `c.myMethod` or `'c.myMethod'`.
+>---
+>  - Complete **Apex Classes Method Params Object** automatically. When you write `c.` and list all Apex Controller Functions, you will see some elements like `c.myMethod.params`. If you select one of this, Aura Helper will bne write the Javascript object with all fields and comments with the datatype. Aura Helper can detect where is called to complete the body according the use case.
+>---
+>  - List all **Helper file Functions**, including *inherited functions from parent components*. Only need to write `helper.` to show all.
+>---
+>  - List all available **classes**, **Enums**, **Interfaces**..., including **Apex Namespaces** and **System classes** with descriptions, documentation links and to much more info. Only need to press `Ctrl + Space`
+>---
   - List all **methods**, **class fields,**, **inner classes** and other **class members** from All **System Classes and Namespaces** (more than 1000 classes). Only need to press `Ctrl + Space`
-
-  - List all available **Custom Labels** into your project (need to download to the local project). Write `label.` to show all available labels. When select one label, Aura Helper automatically will be put the Custom Labels format on Aura JavaScript files. (Example: if select `Label.thisIsOneLabel` Aura Helper type `$A.get('$Label.c.thisIsOneLabel')` or `$A.get('$Label.yourNamespace.thisIsOneLabel')` if has a Namespace active in your org)
-  
-  - Provide **SOQL IntelliSense** options to complete projection query fields (including Lookup fields) and support to list and show to pick all fields from Lookup relationships (without deep limit). Only need detect the `SELECT` and `FROM` clauses to provide completions. *Also work String queries.* Only need to press `Ctrl + Space` into a query.
-
-  - List all available **SObjects** stored in your org (need to execute *Refresh All SObjects Index* command) or list all available SObjects into your local project. Only need to press `Ctrl + Space` 
-
-  - List all **fields from an SObject** if you write the API Name (And all field related information). Example: Write `Account.` to show all Account fields.
-
-  - List all available **Record Types from a SObject** (Name and DeveloperName) and can *replace it to the String value* Example: `Account.yourRecordTypeName` will be transform to `'yourRecordTypeName'`. Aura Helper can detect if the suggetion is on a String to put or not the quottes symbol (')
-
-  - List all **picklist values from a SObject field** to *replace it with the picklist value* Example: `Account.picklistField__c.picklistValue` will be transform to `'picklistValue'`. Aura Helper can detect if the suggetion is on a String to put or not the quottes symbol (')
-
-  - **Some utils Snippets** (with variants) to create JavaScript unit codes easy. Only need to write `js.` to show all snippets.
+>---
+>  - List all available **Custom Labels** into your project (need to download to the local project). Write `label.` to show all available labels. When select one label, Aura Helper automatically will be put the Custom Labels format on Aura JavaScript files. (Example: if select `Label.thisIsOneLabel` Aura Helper type `$A.get('$Label.c.thisIsOneLabel')` or `$A.get('$Label.yourNamespace.thisIsOneLabel')` if has a Namespace active in your org)
+>---  
+>  - Provide **SOQL IntelliSense** options to complete projection query fields (including Lookup fields) and support to list and show to pick all fields from Lookup relationships (without deep limit). Only need detect the `SELECT` and `FROM` clauses to provide completions. *Also work String queries.* Only need to press `Ctrl + Space` into a query.
+>---
+>  - List all available **SObjects** stored in your org (need to execute *Refresh All SObjects Index* command) or list all available SObjects into your local project. Only need to press `Ctrl + Space` 
+>---
+>  - List all **fields from an SObject** if you write the API Name (And all field related information). Example: Write `Account.` to show all Account fields.
+>---
+>  - List all available **Record Types from a SObject** (Name and DeveloperName) and can *replace it to the String value* Example: `Account.yourRecordTypeName` will be transform to `'yourRecordTypeName'`. Aura Helper can detect if the suggetion is on a String to put or not the quottes symbol (')
+>---
+>  - List all **picklist values from a SObject field** to *replace it with the picklist value* Example: `Account.picklistField__c.picklistValue` will be transform to `'picklistValue'`. Aura Helper can detect if the suggetion is on a String to put or not the quottes symbol (')
+>---
+>  - **Some utils Snippets** (with variants) to create JavaScript unit codes easy. Only need to write `js.` to show all snippets.
+>---
 
 ----
 
-<br/>
 <br/>
 
 # [**Code Format**](#code-format)
@@ -263,7 +263,7 @@ To use this feature only need to execut the command **AuraHelper: Repair Project
 
 When you run the command, Aura Helper will show to you all supported types (included in your local project) to allow to you to choose the Metadata Types to repair (To a better code maintance). Also you can use an `.ahignore.json` file to ignore some Metadata Types from repair operations.
 
-<br/>
+![Repair Dependencies Example](https://media.giphy.com/media/fTLAtFV10nM6AULXNa/giphy.gif)
 
 ## [**Ignore Metadata**](#ignore-metadata)
 Like Repair dependencies tool, the **Ignore Metadata** command has the same porpouse, maintenance your local *project integrity and cosistency* to deploy it with less errors, specially if work with git.
@@ -274,7 +274,8 @@ This tool wil be **helpful** in some cases, like *Custom Labels* with different 
 
 To ignore metadata, you need an `.ahignore.json` file to use it with the commands. You can has a single `.ahignore.json` file into your root project, like `.gitignore` to use it automatically, or can has several `.ahignore.json` files, with different names and locations and choose the preferred file when run the command to make the tool more flexible.
 
-<br/>
+![Ignore Metadata Example](https://media.giphy.com/media/NzPMUlwOvC5g4pmFpm/giphy.gif)
+
 
 ## [**Package Generator**](#package-generator-metadata)
 
@@ -288,7 +289,6 @@ Finally, Package Generator can **merge several package or destructive** files in
 
 ![Package Generator Local Example](https://media.giphy.com/media/Kupmm73xsL5KYvQgEv/giphy.gif)
 
-<br/>
 
 ## [**Custom Labels Editor**](#custom-labels-editor)
 
@@ -306,11 +306,15 @@ To simplify work with Aura Components, Aura Helper can create **any Aura Compone
 
 All files will be created with a simple default template except the **Aura Documentation File**, this file will be created automatically with the content of the documentation based on the user defined template. See [**Aura Documentation**](#aura-documentation) section to learn more about Aura Documentation features from Aura Helper.
 
+![Create Aura File Example](https://media.giphy.com/media/WvksOzFyIQKdIY3TRb/giphy.gif)
+
 ## [**Compare Metadata**](#compare-metadata)
 
 Like other tools, the **Metadata Comparator** tool are designed to maintenance the local project consistency and help to the users to maintenance the itegrity between environments.
 
 With this feature, you can compare your **Local project with the Auth Rrg** to detect the Metadata Types that exists on the Auth Org but not exists on your local project. Also can **compare two Orgs** to get the Metadata Types that exists and not between two orgs.
+
+![Metadata Comparator Example](https://media.giphy.com/media/F1au9yQl2MMvYytEgK/giphy.gif)
 
 ## [**Retrieve Special Types**](#retrieve-special-types)
 
@@ -322,9 +326,9 @@ When execute the command, Aura Helper will show all available special types to d
 
 Also you can choose to **Retrieve** data only from your **Local Project** to get and affect only the local metadata types. **Retrive from Auth Org** to include all available data from your org (including types that no exists on local) or **Retrieve Mixed** to retrieve only the Metadata Types that exists on yout local project, but will all Org data.
 
+![Retrive Special Types Example](https://media.giphy.com/media/ZWtwJEtpOUEUnxPsVy/giphy.gif)
 
 ---
-<br/>
 <br/>
 
 # [**Manage Permissions**](#salesforce-permissions)

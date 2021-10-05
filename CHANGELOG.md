@@ -1,5 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [3.1.5 - 2021-10-5]
+### Added
+- Added new GIFS to README
+- Modify README to make info more clear
+- Optimize Refresh SObject Definition command
+
+### Fixed
+- Fixed some errors when Refresh SObject Definition
+- Fixed some errors with Retrieve Special Types
+- Fixed not show info when ignore metadata finished sucesfully
+
 ## [3.1.4 - 2021-10-5]
 ### Added
 - Added new GIFS to README

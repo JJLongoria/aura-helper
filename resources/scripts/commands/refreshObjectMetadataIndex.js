@@ -14,9 +14,7 @@ exports.run = function () {
 			NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
 			return;
 		}
-		NotificationManager.showConfirmDialog('Refresh metadata index can will take several minutes. Do you want to continue?', function () {
-			refreshIndex();
-		});
+		refreshIndex();
 	} catch (error) {
 		NotificationManager.showCommandError(error);
 	}
@@ -25,7 +23,7 @@ exports.run = function () {
 async function refreshIndex() {
 	vscode.window.withProgress({
 		location: vscode.ProgressLocation.Notification,
-		title: "Loading available Sobjects for refresh",
+		title: "Loading available SObjects for Refresh",
 		cancellable: true
 	}, (progress, cancelToken) => {
 		return new Promise(async resolve => {
@@ -53,7 +51,7 @@ function processCustomObjectsOut(objects) {
 function refreshObjectMetadataIndex(object) {
 	vscode.window.withProgress({
 		location: vscode.ProgressLocation.Notification,
-		title: "Refreshing Definition for " + object,
+		title: "Refresh " + object + " SObject Definition",
 		cancellable: false
 	}, (progress, cancelToken) => {
 		return new Promise(async resolve => {
@@ -67,9 +65,11 @@ function refreshObjectMetadataIndex(object) {
 				}
 			});
 			connection.describeSObjects([object]).then(function (sObjects) {
-				applicationContext.parserData.sObjectsData[object.toLowerCase()] = sObjects[object.toLowerCase()];
+				for (const objKey of Object.keys(sObjects)) {
+					applicationContext.parserData.sObjectsData[objKey.toLowerCase()] = sObjects[objKey.toLowerCase()];
+				}
 				applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
-				NotificationManager.showInfo('Refreshing SObject Definitios finished Succesfully');
+				NotificationManager.showInfo(object + " SObject Definition update succesfully");
 				resolve();
 			});
 		});
