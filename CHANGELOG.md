@@ -1,6 +1,6 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-## [3.1.5 - 2021-10-5]
+## [3.1.5 - 2021-10-6]
 ### Added
 - Added new GIFS to README
 - Modify README to make info more clear
