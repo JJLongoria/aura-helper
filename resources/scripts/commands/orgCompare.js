@@ -71,7 +71,7 @@ exports.run = async function () {
                             result = await cliManager.compareWithOrg();
                         }
                         if (result) {
-                            openStandardGUI(result);
+                            openStandardGUI(result, compareOptions, targetOrg);
                         } else {
                             vscode.window.showWarningMessage('Operation cancelled by user');
                         }
@@ -109,6 +109,7 @@ exports.run = async function () {
                             });
                             metadataTarget = await connectionTarget.describeMetadataTypes(targetMetadataDetails, false);
                         } else {
+                            targetOrg = Config.getOrgAlias();
                             const connectionTarget = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                             connectionTarget.setMultiThread();
                             progress.report({
@@ -136,7 +137,7 @@ exports.run = async function () {
                         });
                         const compareResult = MetadataUtils.compareMetadata(metadataSource, metadataTarget);
                         if (compareResult) {
-                            openStandardGUI(compareResult);
+                            openStandardGUI(compareResult, compareOptions, targetOrg);
                         } else {
                             vscode.window.showWarningMessage('Operation cancelled by user');
                         }
@@ -175,10 +176,49 @@ function getAuthOrgs() {
     });
 }
 
-function openStandardGUI(metadata) {
-    let input = new MetadataSelectorInput('Select Metadata Types for Delete from your Org');
+function openStandardGUI(metadata, compareOptions, target) {
+    let title = 'Select Metadata Types to Delete';
+    if (compareOptions === 'Compare Local and Org') {
+        title += ' or Retrieve';
+    }
+    title += ' from ' + target + ' Org';
+    let input = new MetadataSelectorInput(title);
+    if (compareOptions === 'Compare Local and Org') {
+        input.addFinishOption('Retrieve', 'Retrieve selected Metadata Types to Local Project', MetadataSelectorInput.getRetrieveAction());
+        // input.addFinishOption('Compress', 'Compress all XML Retrieved files', MetadataSelectorInput.getCompressAction());
+    }
     input.setMetadata(metadata);
     input.allowDelete(true);
+    input.onAccept((options, data) => {
+        if (compareOptions === 'Compare Local and Org') {
+            if (options[MetadataSelectorInput.getRetrieveAction()]) {
+                vscode.window.withProgress({
+                    location: vscode.ProgressLocation.Notification,
+                    cancellable: false,
+                    title: "Retrieving Selected data from " + target
+                }, (progress, cancelToken) => {
+                    return new Promise(async (resolve, reject) => {
+                        try {
+                            let folder = Paths.getManifestPath();
+                            if (!FileChecker.isExists(folder))
+                                FileWriter.createFolderSync(folder);
+                            const packageGenerator = new PackageGenerator(Config.getAPIVersion());
+                            packageGenerator.setExplicit(true);
+                            packageGenerator.createPackage(data, folder);
+                            const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                            const retrieveOut = await connection.retrieve(false);
+                            NotificationManager.showInfo('Metadata Retrieved Succesfully');
+                        } catch (error) {
+                            console.log(error);
+                            NotificationManager.showError(error.message || error);
+                        }
+                        resolve();
+                    });
+                });
+
+            }
+        }
+    });
     input.onDelete(async (metadata) => {
         deleteMetadata(metadata, function (message, isError) {
             if (isError) {

@@ -1,5 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [3.1.6 - 2021-10-7]
+### Added
+- Added new option to Metadata Comparator to retrieve data from org when compare with local.
+
+### Fixed
+- Fixed some problems on initializationn with new projects
+- Fixed security problems with some package versions
+- Fixed minor errors with Apex Code Watcher in some cases
+
 ## [3.1.5 - 2021-10-6]
 ### Added
 - Added new GIFS to README

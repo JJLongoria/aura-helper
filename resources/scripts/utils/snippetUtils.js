@@ -441,12 +441,12 @@ class SnippetUtils {
         let methodDesc = "<!-- Method Description Here -->";
         if (func.comment && Utils.hasKeys(func.comment.params)) {
             methodDesc = func.comment.description;
-            for (const varToken of func.variables) {
+            for (const varToken of func.params) {
                 paramsContent += getParamContentFromComment(func.comment.params[varToken.text], paramTemplate, indent + paramsIndent);
             }
         }
         else {
-            for (const varToken of func.variables) {
+            for (const varToken of func.params) {
                 paramsContent += getParamContent(varToken, paramTemplate, indent + paramsIndent);
             }
         }

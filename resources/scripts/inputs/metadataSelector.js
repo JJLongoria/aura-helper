@@ -35,6 +35,7 @@ const DELETE_ACTION = 'delete';
 const CUSTOM_FOLDER_ACTION = 'customFolder';
 const REPAIR_ACTION = 'repair';
 const CHECK_ERRORS_ACTION = 'checkErrors';
+const RETRIEVE_ACTION = 'retrieve';
 
 class MetadataSelector extends MultiStepInput {
 
@@ -63,6 +64,10 @@ class MetadataSelector extends MultiStepInput {
         this._loadGitData = true;
         this._packageFiles = [];
         this._mergeOption = undefined;
+    }
+
+    static getRetrieveAction() {
+        return RETRIEVE_ACTION;
     }
 
     static getPackagesAction() {

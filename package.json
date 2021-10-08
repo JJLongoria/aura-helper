@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions for work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "3.1.5",
+	"version": "3.1.6",
 	"engines": {
 		"vscode": "^1.46.0",
 		"node": ">=12.0.0"
@@ -95,7 +95,7 @@
 			"properties": {
 				"aurahelper.api.useAuraHelperCLI": {
 					"type": "boolean",
-					"default": true,
+					"default": false,
 					"description": "Use Aura Helper CLI to execute some processes (Recommended to PCs with low resources). If not selected, all operation will be executed into VSCode context (faster but need more resources)"
 				},
 				"aurahelper.documentation.useStandardJavaComments": {
@@ -567,11 +567,11 @@
 	"dependencies": {
 		"@aurahelper/cli-manager": "^1.0.1",
 		"@aurahelper/connector": "^1.0.0",
-		"@aurahelper/core": "^1.0.11",
+		"@aurahelper/core": "^1.0.12",
 		"@aurahelper/dependencies-manager": "^1.0.0",
 		"@aurahelper/git-manager": "^1.0.0",
 		"@aurahelper/ignore": "^1.0.0",
-		"@aurahelper/languages": "^1.0.11",
+		"@aurahelper/languages": "^1.0.12",
 		"@aurahelper/metadata-factory": "^1.0.7",
 		"@aurahelper/package-generator": "^1.0.1",
 		"@aurahelper/xml-compressor": "^1.0.0",
@@ -582,9 +582,9 @@
 		"@types/mocha": "^5.2.6",
 		"@types/node": "^12.12.47",
 		"@types/vscode": "^1.46.0",
-		"eslint": "^5.13.0",
+		"eslint": "^7.32.0",
 		"glob": "^7.1.6",
-		"mocha": "^6.2.3",
+		"mocha": "^9.1.2",
 		"typescript": "^3.9.6",
 		"vscode-test": "^1.4.0"
 	},

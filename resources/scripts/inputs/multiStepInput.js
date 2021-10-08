@@ -360,6 +360,7 @@ function getOrgMetadata(downloadAll, progressReport, types) {
                 resolve(metadataTypes);
             }).catch((error) => {
                 reject(error);
+                console.log(error);
             });
         } else {
             const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
@@ -375,8 +376,10 @@ function getOrgMetadata(downloadAll, progressReport, types) {
                     resolve(metadataTypes);
                 }).catch((error) => {
                     reject(error);
+                    console.log(error);
                 });
             }).catch((error) => {
+                console.log(error);
                 reject(error);
             });
 
