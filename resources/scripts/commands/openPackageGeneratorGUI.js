@@ -10,6 +10,7 @@ const GitManager = require('@aurahelper/git-manager');
 const Connection = require('@aurahelper/connector');
 const MetadataFactory = require('@aurahelper/metadata-factory');
 const Ignore = require('@aurahelper/ignore');
+const { FileChecker, FileWriter } = require('@aurahelper/core/src/fileSystem');
 
 exports.run = function () {
     try {
@@ -47,6 +48,8 @@ async function openStandardGUI() {
                 let uri = await InputFactory.createFolderDialog('Select folder to save the file', false);
                 folder = (uri && uri.length > 0) ? uri[0].fsPath : undefined;
             }
+            if(!FileChecker.isExists(folder))
+                FileWriter.createFolderSync(folder);
             if (folder) {
                 if (options[MetadataSelectorInput.getGitAction()]) {
                     vscode.window.withProgress({
