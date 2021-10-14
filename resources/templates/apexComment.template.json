@@ -300,7 +300,7 @@
             "template": "{!version}",
             "multiple": true,
             "anywhere": false,
-            "source": "input"
+            "source": "user"
         }
     },
     "comments": {

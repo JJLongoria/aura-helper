@@ -1,5 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## [3.1.7 - 2021-10-7]
+### Fixed
+- Fixed errors when format some query clauses.
+
 ## [3.1.6 - 2021-10-7]
 ### Added
 - Added new option to Metadata Comparator to retrieve data from org when compare with local.

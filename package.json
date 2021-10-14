@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions for work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "3.1.6",
+	"version": "3.1.7",
 	"engines": {
 		"vscode": "^1.46.0",
 		"node": ">=12.0.0"
@@ -116,17 +116,17 @@
 				"aurahelper.autoCompletion.activeControllerFunctionsSuggest": {
 					"type": "boolean",
 					"default": true,
-					"description": "Use Code Suggestion and autocompletion tools for JavaScript Controller Functions (c.)"
+					"description": "Use Code Suggestion and autocompletion tools for JavaScript Controller Functions (`c.`)"
 				},
 				"aurahelper.autoCompletion.activeHelperFunctionsSuggest": {
 					"type": "boolean",
 					"default": true,
-					"description": "Use Code Suggestion and autocompletion tools for JavaScript Helper Functions (helper.)"
+					"description": "Use Code Suggestion and autocompletion tools for JavaScript Helper Functions (`helper.`)"
 				},
 				"aurahelper.autoCompletion.activeControllerMethodsSuggest": {
 					"type": "boolean",
 					"default": true,
-					"description": "Use Code Suggestion and autocompletion tools for Apex Controller Methods (c.) on javascript files"
+					"description": "Use Code Suggestion and autocompletion tools for Apex Controller Methods (`c.`) on javascript files"
 				},
 				"aurahelper.autoCompletion.activeComponentSuggest": {
 					"type": "boolean",
@@ -571,7 +571,7 @@
 		"@aurahelper/dependencies-manager": "^1.0.0",
 		"@aurahelper/git-manager": "^1.0.0",
 		"@aurahelper/ignore": "^1.0.0",
-		"@aurahelper/languages": "^1.0.12",
+		"@aurahelper/languages": "^1.0.13",
 		"@aurahelper/metadata-factory": "^1.0.7",
 		"@aurahelper/package-generator": "^1.0.1",
 		"@aurahelper/xml-compressor": "^1.0.0",

@@ -518,10 +518,72 @@ function loadSnippets() {
     applicationContext.snippets.javascript = jsActivations;
     applicationContext.snippets.slds = sldsActivations;
     applicationContext.snippets.lwc = lwcActivations;
+    /*if (!FileChecker.isExists(Paths.getImagesPath() + '/markdown'))
+        FileWriter.createFolderSync(Paths.getImagesPath() + '/markdown');
+    FileWriter.createFileSync(Paths.getImagesPath() + '/markdown/aura.md', createSnippetsMarkdown(auraActivations));
+    FileWriter.createFileSync(Paths.getImagesPath() + '/markdown/js.md', createSnippetsMarkdown(jsActivations));
+    FileWriter.createFileSync(Paths.getImagesPath() + '/markdown/slds.md', createSnippetsMarkdown(sldsActivations));*/
     console.log("Total Snippets: " + (Object.keys(auraSnippets).length + Object.keys(jsSnippets).length + Object.keys(sldsSnippets).length + Object.keys(lwcSnippets).length));
     OutputChannel.outputLine('Snippets Loaded');
 }
+/*
+function createSnippetsMarkdown(snippets) {
+    let text = '';
+    for (const snippetNS of Object.keys(snippets)) {
+        if (snippets[snippetNS] && Array.isArray(snippets[snippetNS])) {
+            text += '## [**' + getNamespaceName(snippetNS) + '**](#' + snippetNS + '-snippets)\n\n';
+            let index = 0;
+            for (const snippet of snippets[snippetNS]) {
+                text += '### [**' + snippet.name + '**](#' + snippetNS + '-' + index + ')\n\n';
+                text += snippet.description + '\n\n';
+                text += '- **Activation**: **`' + snippet.prefix + '`**\n\n';
+                if (snippet.alt)
+                    text += '- **Alternative Activation**: **`' + snippet.alt + '`**\n\n';
+                text += '#### **Snippet**\n\n';
+                text += '\t' + snippet.body.join('\n\t') + '\n\n';
+                index++;
+            }
+            text += '\n\n';
+        }
+    }
+    return text;
+}
 
+function getSnippetNS(snippet) {
+    if (typeof snippet.prefix === "string") {
+        let prefixSplit = snippet.prefix.split('.');
+        return prefixSplit[0];
+    }
+    else {
+        let prefixSplit = snippet.prefix[0].split('.');
+        return prefixSplit[0];
+    }
+}
+
+function getNamespaceName(ns) {
+    if (ns === 'ltn')
+        return 'Lightning';
+    if (ns === 'aura')
+        return 'Aura';
+    if (ns === 'ltng')
+        return 'Ltng';
+    if (ns === 'force')
+        return 'Force';
+    if (ns === 'forceChatter')
+        return 'Force Chatter';
+    if (ns === 'forceCommunity')
+        return 'Force Community';
+    if (ns === 'ltnCommunity')
+        return 'Lightning Community';
+    if (ns === 'ltnSnapin')
+        return 'Lightning Snapin';
+    if (ns === 'ui')
+        return 'UI';
+    if (ns === 'slds')
+        return 'SLDS';
+    return ns;
+}
+*/
 /*
 function repairSystemClasses(context, ns, className) {
     let classPath;
