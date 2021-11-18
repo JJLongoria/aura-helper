@@ -101,13 +101,13 @@ exports.run = async function () {
                                 message: 'Describe Metadata Types from Source',
                                 increment: undefined,
                             });
-                            metadataSource = await connectionSource.describeMetadataTypes(sourceMetadataDetails, false);
+                            metadataSource = await connectionSource.describeMetadataTypes(sourceMetadataDetails, false, Config.getConfig().metadata.groupGlobalQuickActions);
                             const targetMetadataDetails = await connectionTarget.listMetadataTypes();
                             progress.report({
                                 message: 'Describe Metadata Types from Source',
                                 increment: undefined,
                             });
-                            metadataTarget = await connectionTarget.describeMetadataTypes(targetMetadataDetails, false);
+                            metadataTarget = await connectionTarget.describeMetadataTypes(targetMetadataDetails, false, Config.getConfig().metadata.groupGlobalQuickActions);
                         } else {
                             targetOrg = Config.getOrgAlias();
                             const connectionTarget = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
@@ -118,7 +118,7 @@ exports.run = async function () {
                             });
                             const metadataDetails = await connectionTarget.listMetadataTypes();
                             const folderMetadataMap = MetadataFactory.createFolderMetadataMap(metadataDetails);
-                            metadataSource = MetadataFactory.createMetadataTypesFromFileSystem(folderMetadataMap, Paths.getProjectFolder());
+                            metadataSource = MetadataFactory.createMetadataTypesFromFileSystem(folderMetadataMap, Paths.getProjectFolder(), Config.getConfig().metadata.groupGlobalQuickActions);
                             progress.report({
                                 message: 'Describe Metadata Types from Org',
                                 increment: undefined,
@@ -129,7 +129,7 @@ exports.run = async function () {
                                     increment: status.increment
                                 });
                             });
-                            metadataTarget = await connectionTarget.describeMetadataTypes(metadataDetails, false);
+                            metadataTarget = await connectionTarget.describeMetadataTypes(metadataDetails, false, Config.getConfig().metadata.groupGlobalQuickActions);
                         }
                         progress.report({
                             message: 'Comparing Metadata Types',

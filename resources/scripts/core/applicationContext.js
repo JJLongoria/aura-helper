@@ -1,7 +1,7 @@
 const context = {};
 const componentsDetail = {};
 const isAdvanceGUIAvailable = false;
-const MIN_AH_CLI_VERSION = '3.0.0';
+const MIN_AH_CLI_VERSION = '3.0.2';
 const snippets = {
     javascript: {},
     slds: {},

@@ -330,7 +330,7 @@ function getLocalMetadata(types) {
             connection.listMetadataTypes().then((metadataDetails) => {
                 const folderMetadataMap = MetadataFactory.createFolderMetadataMap(metadataDetails);
                 const result = {};
-                const metadataTypes = MetadataFactory.createMetadataTypesFromFileSystem(folderMetadataMap, Paths.getProjectFolder());
+                const metadataTypes = MetadataFactory.createMetadataTypesFromFileSystem(folderMetadataMap, Paths.getProjectFolder(), Config.getConfig().metadata.groupGlobalQuickActions);
                 for(const key of Object.keys(metadataTypes)){
                     if(!types || types.includes(key))
                         result[key] = metadataTypes[key];
@@ -356,7 +356,7 @@ function getOrgMetadata(downloadAll, progressReport, types) {
                     });
                 }
             });
-            cliManager.describeOrgMetadata(downloadAll, types).then((metadataTypes) => {
+            cliManager.describeOrgMetadata(downloadAll, types, Config.getConfig().metadata.groupGlobalQuickActions).then((metadataTypes) => {
                 resolve(metadataTypes);
             }).catch((error) => {
                 reject(error);
@@ -372,7 +372,7 @@ function getOrgMetadata(downloadAll, progressReport, types) {
                 });
             })
             connection.listMetadataTypes().then((metadataDetails) => {
-                connection.describeMetadataTypes(metadataDetails, downloadAll).then((metadataTypes) => {
+                connection.describeMetadataTypes(metadataDetails, downloadAll, Config.getConfig().metadata.groupGlobalQuickActions).then((metadataTypes) => {
                     resolve(metadataTypes);
                 }).catch((error) => {
                     reject(error);
