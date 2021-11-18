@@ -1,5 +1,14 @@
 # Change Log
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file.+
+## [3.1.8 - 2021-11-18]
+### Added
+- Update package references
+- Added new setting **AuraHelper > Metadata > Group Global Quick Actions** (true by default) to group global quick actions on GlobalActions group under Quick Actions Metadata Type when list and describe Metadata types
+
+### Fixed
+- Fixed some errorss when describe and add to package Global Quick Actions (also when process from git or from other packages)
+- Fixed some errors when ignore metadata from files.
+  
 ## [3.1.7 - 2021-10-7]
 ### Fixed
 - Fixed errors when format some query clauses.

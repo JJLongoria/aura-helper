@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions for work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "3.1.7",
+	"version": "3.1.8",
 	"engines": {
 		"vscode": "^1.46.0",
 		"node": ">=12.0.0"
@@ -183,6 +183,11 @@
 					"default": 0,
 					"description": "Salesforce API Version for use if you select Use Custom API Version setting.",
 					"minimum": 0
+				},
+				"aurahelper.metadata.groupGlobalQuickActions": {
+					"type": "boolean",
+					"default": true,
+					"description": "True to group Global Quick Actions on GlobalActions group into Quick Action Metadata type when describe Metadata types (from any source). False to add as object and item"
 				},
 				"aurahelper.metadata.XmlSortOrder": {
 					"type": "string",
@@ -565,15 +570,15 @@
 		"email": "juanjoselongoria@gmail.com"
 	},
 	"dependencies": {
-		"@aurahelper/cli-manager": "^1.0.1",
-		"@aurahelper/connector": "^1.0.0",
-		"@aurahelper/core": "^1.0.12",
+		"@aurahelper/cli-manager": "^1.0.2",
+		"@aurahelper/connector": "^1.1.2",
+		"@aurahelper/core": "^1.0.13",
 		"@aurahelper/dependencies-manager": "^1.0.0",
 		"@aurahelper/git-manager": "^1.0.0",
-		"@aurahelper/ignore": "^1.0.0",
+		"@aurahelper/ignore": "^1.0.1",
 		"@aurahelper/languages": "^1.0.13",
-		"@aurahelper/metadata-factory": "^1.0.7",
-		"@aurahelper/package-generator": "^1.0.1",
+		"@aurahelper/metadata-factory": "^1.0.10",
+		"@aurahelper/package-generator": "^1.0.2",
 		"@aurahelper/xml-compressor": "^1.0.0",
 		"@aurahelper/xml-definitions": "^1.0.0"
 	},
