@@ -1,5 +1,14 @@
 # [**Aura Helper**](#aura-helper)
 
+[![Version](https://img.shields.io/visual-studio-marketplace/v/kanko.aura-helper?logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=kanko.aura-helper&ssr=false#qna)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/kanko.aura-helper?logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=kanko.aura-helper&ssr=false#qna)
+[![Downloads](https://img.shields.io/visual-studio-marketplace/d/kanko.aura-helper?logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=kanko.aura-helper&ssr=false#qna)
+[![Rating](https://img.shields.io/visual-studio-marketplace/r/kanko.aura-helper?logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=kanko.aura-helper&ssr=false#qna)
+[![Issues](https://img.shields.io/github/issues/jjlongoria/aura-helper)](https://github.com/JJLongoria/aura-helper/issues)
+[![Known Vulnerabilities](https://snyk.io/test/github/JJLongoria/aura-helper/badge.svg)](https://snyk.io/test/github/JJLongoria/aura-helper)
+[![Code Size](https://img.shields.io/github/languages/code-size/jjlongoria/aura-helper)](https://github.com/JJLongoria/aura-helper)
+[![License](https://img.shields.io/github/license/jjlongoria/aura-helper?logo=github)](https://github.com/JJLongoria/aura-helper/blob/master/LICENSE)
+
 Aura Helper is the [**most complete extension**](#aura-helper) to work with salesforce. Aura Helper provide the [**best IntelliSense suggestions**](#intellisense) and code completion options to Apex and Aura code of any Salesfoce extension (including Official Salesforce extensions). Can work with [**Salesfoce XML Metadata**](#version-control-and-metadata) files and edit some files with **graphic interface to minimize errors**. Has the first exclusive [**Apex Formatter**](#apex-code-formatter) with configurable options to format your code as you like. Can work with [**GIT and detect changes**](#version-control-and-metadata) for create packages files (and destructive too). Create a complete [**Apex and Aura documentation**](#documentation) with a few clicks. and to much more.
 
 > Aura Helper not only works with any Salesforce project, it is also **specially prepared** to work with **GIT and Salesforce**, **DevOps** and **Continuous Integration** and has many tools designed to maintain the integrity of the local project and / or organizations, among other important tools to DevOps workflows.
