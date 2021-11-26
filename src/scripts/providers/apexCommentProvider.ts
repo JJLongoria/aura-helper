@@ -5,7 +5,7 @@ import { MarkDownStringBuilder } from '../output';
 const { FileChecker } = require('@aurahelper/core').FileSystem;
 const CompletionItemKind = vscode.CompletionItemKind;
 
-export class ApexCompletionProvider implements vscode.CompletionItemProvider<vscode.CompletionItem> {
+export class ApexCommentCompletionProvider implements vscode.CompletionItemProvider<vscode.CompletionItem> {
     provideCompletionItems(document: vscode.TextDocument, position: vscode.Position): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList<vscode.CompletionItem>> {
         let items;
         if (FileChecker.isApexClass(document.uri.fsPath) || FileChecker.isApexTrigger(document.uri.fsPath)) {
