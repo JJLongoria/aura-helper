@@ -1,34 +1,34 @@
-const SnippetUtils = require('../utils/snippetUtils');
-const vscode = require('vscode');
-const Editor = require('../output/editor');
-const NotificationManager = require('../output/notificationManager');
-const Paths = require('../core/paths');
+import * as vscode from 'vscode';
+import { SnippetUtils } from '../utils/snippetUtils';
+import { NotificationManager, Editor } from '../output';
+import { Paths } from '../core/paths';
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { StrUtils } = require('@aurahelper/core').CoreUtils;
 const { JSParser } = require('@aurahelper/languages').JavaScript;
 const window = vscode.window;
 
-exports.run = function() {
+exports.run = function (): void {
     try {
-        var editor = window.activeTextEditor;
-        if (!editor)
+        const editor = window.activeTextEditor;
+        if (!editor) {
             return;
+        }
         if (FileChecker.isAuraDoc(editor.document.uri.fsPath)) {
             addMethodBlock(editor);
         } else {
             NotificationManager.showError('The selected file is not an Aura Doc');
         }
-    } catch (error) {
+    } catch (error: any) {
         NotificationManager.showCommandError(error);
     }
-}
+};
 
-function addMethodBlock(editor) {
-    let filePath = editor.document.uri.fsPath;
-    let helperPath = Paths.getAuraBundleHelperPath(filePath);
-    let controllerPath = Paths.getAuraBundleControllerPath(filePath);
-    let helperMethods;
-    let controllerMethods;
+function addMethodBlock(editor: vscode.TextEditor): void {
+    const filePath = editor.document.uri.fsPath;
+    const helperPath = Paths.getAuraBundleHelperPath(filePath);
+    const controllerPath = Paths.getAuraBundleControllerPath(filePath);
+    let helperMethods: [] = [];
+    let controllerMethods: [] = [];
     if (FileChecker.isExists(helperPath)) {
         helperMethods = new JSParser(helperPath).parse().methods;
     }
@@ -36,27 +36,28 @@ function addMethodBlock(editor) {
         controllerMethods = new JSParser(controllerPath).parse().methods;
     }
     let options = [];
-    if (controllerMethods && controllerMethods.length > 0)
+    if (controllerMethods && controllerMethods.length > 0){
         options.push("Controller Functions");
-    if (helperMethods && helperMethods.length > 0)
+    }
+    if (helperMethods && helperMethods.length > 0){
         options.push("Helper Functions");
+    }
     if (options.length > 0) {
-        window.showQuickPick(options, { placeHolder: "Select file for get functions" }).then((fileSelected) => processFileSelected(fileSelected, controllerMethods, helperMethods, editor));
+        window.showQuickPick(options, { placeHolder: "Select file for get functions" }).then((fileSelected: any) => processFileSelected(fileSelected, controllerMethods, helperMethods, editor));
     } else {
         window.showInformationMessage("Not JavaScript files found on bundle");
     }
-
 }
 
-function processFileSelected(fileSelected, controllerMethods, helperMethods, editor) {
+function processFileSelected(fileSelected: string, controllerMethods: any[], helperMethods: any[], editor: vscode.TextEditor): void {
     let funcNames = [];
-    if (fileSelected == "Controller Functions") {
+    if (fileSelected === "Controller Functions") {
         for (let i = 0; i < controllerMethods.length; i++) {
             const method = controllerMethods[i];
             funcNames.push(method.signature);
         }
     }
-    else if (fileSelected == "Helper Functions") {
+    else if (fileSelected === "Helper Functions") {
         for (let i = 0; i < helperMethods.length; i++) {
             const method = helperMethods[i];
             funcNames.push(method.signature);
@@ -69,18 +70,18 @@ function processFileSelected(fileSelected, controllerMethods, helperMethods, edi
     }
 }
 
-function processFunctionSelected(fileSelected, funcSelected, controllerMethods, helperMethods, editor) {
+function processFunctionSelected(fileSelected: string, funcSelected: string, controllerMethods: any[], helperMethods: any[], editor: vscode.TextEditor): void {
     let docTemplateContent = FileReader.readFileSync(Paths.getAuraDocUserTemplate());
     var methods = [];
-    if (fileSelected == "Controller Functions") {
+    if (fileSelected === "Controller Functions") {
         methods = controllerMethods;
     }
-    else if (fileSelected == "Helper Functions") {
+    else if (fileSelected === "Helper Functions") {
         methods = helperMethods;
     }
     for (let i = 0; i < methods.length; i++) {
         const method = methods[i];
-        if (method.signature == funcSelected) {
+        if (method.signature === funcSelected) {
             let auraDocTemplateJSON = JSON.parse(docTemplateContent);
             var methodContent = SnippetUtils.getMethodContent(method, auraDocTemplateJSON.methodBody, auraDocTemplateJSON.paramBody, auraDocTemplateJSON.returnBody, StrUtils.getWhitespaces(editor.selection.start.character)).trimLeft();
             Editor.replaceEditorContent(editor, editor.selection, methodContent);
