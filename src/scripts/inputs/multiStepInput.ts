@@ -361,7 +361,7 @@ function getLocalMetadata(types: string[]) {
     });
 }
 
-function getOrgMetadata(downloadAll: boolean, progressReport: any, types: string[]) {
+function getOrgMetadata(downloadAll: boolean, progressReport: vscode.Progress<any>, types: string[]) {
     return new Promise(function (resolve, reject) {
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
