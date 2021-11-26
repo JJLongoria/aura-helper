@@ -1,14 +1,14 @@
 import * as vscode from 'vscode';
-const SnippetUtils = require('../utils/snippetUtils');
-const InputValidator = require('../inputs/inputValidator');
+import { SnippetUtils } from '../utils/snippetUtils';
+import { InputValidator } from '../inputs/inputValidator';
+import { NotificationManager } from '../output';
 const { FileChecker } = require('@aurahelper/core').FileSystem;
-const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const SnippetString = vscode.SnippetString;
 
 export function run() {
     try {
-        var editor = window.activeTextEditor;
+        const editor = window.activeTextEditor;
         if (!editor) {
             return;
         }
@@ -18,13 +18,13 @@ export function run() {
             NotificationManager.showError('The selected file is not a JavaScript File');
         }
     }
-    catch (error) {
+    catch (error: any) {
         NotificationManager.showCommandError(error);
     }
 }
 
 async function addJSFunction(editor: vscode.TextEditor) {
-    let numParams = await window.showInputBox({
+    const numParams = await window.showInputBox({
         placeHolder: "Set the function params number",
         validateInput: InputValidator.isInteger
     });
@@ -33,7 +33,7 @@ async function addJSFunction(editor: vscode.TextEditor) {
     }
 }
 
-function processInput(numParams: Number, editor: vscode.TextEditor) {
+function processInput(numParams: number, editor: vscode.TextEditor) {
     if (numParams >= 0) {
         const funcBody = SnippetUtils.getJSFunctionSnippet(numParams);
         editor.insertSnippet(new SnippetString(`${funcBody}`), editor.selection);
