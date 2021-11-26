@@ -1,4 +1,9 @@
-const vscode = require('vscode');
+import * as vscode from 'vscode';
+import { Config } from '../core/config';
+import applicationContext from '../core/applicationContext';
+import { MarkDownStringBuilder } from '../output';
+import { ProviderUtils } from './utils';
+import { TemplateUtils } from '../utils/templateUtils';
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { ApexParser } = require('@aurahelper/languages').Apex;
 const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
@@ -6,23 +11,18 @@ const { Token } = require('@aurahelper/core').Types;
 const { Tokenizer, TokenType } = require('@aurahelper/languages').System;
 const { ApexNodeTypes, ApexTokenTypes } = require('@aurahelper/core').Values;
 const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
-const applicationContext = require('../core/applicationContext');
-const Config = require('../core/config');
-const MarkDownStringBuilder = require('../output/markdownStringBuilder');
-const ProviderUtils = require('./utils');
-const TemplateUtils = require('../utils/templateUtils');
 
-class ApexHoverProvider {
+export class ApexHoverProvider implements vscode.HoverProvider {
 
-    provideHover(document, position) {
-        return new Promise((resolve, reject) => {
+    provideHover(document: vscode.TextDocument, position: vscode.Position): vscode.ProviderResult<vscode.Hover> {
+        return new Promise<vscode.Hover | undefined>((resolve, reject) => {
             if (Config.getConfig().intelliSense.enableHoverInformation) {
                 vscode.window.withProgress({
                     location: vscode.ProgressLocation.Window
-                }, (progress) => {
-                    return new Promise((progressResolve) => {
+                }, () => {
+                    return new Promise<void>((progressResolve) => {
                         try {
-                            let hover;
+                            let hover: vscode.Hover | undefined;
                             if (Config.getConfig().intelliSense.enableHoverInformation) {
                                 if (FileChecker.isApexClass(document.uri.fsPath) || FileChecker.isApexTrigger(document.uri.fsPath)) {
                                     hover = provideHoverInformation(document, position);
@@ -48,26 +48,25 @@ class ApexHoverProvider {
     }
 
 }
-module.exports = ApexHoverProvider;
 
-function provideHoverInformation(document, position) {
+function provideHoverInformation(document: vscode.TextDocument, position: vscode.Position): vscode.Hover | undefined {
     const content = new MarkDownStringBuilder();
     const editor = vscode.window.activeTextEditor;
     const activationInfo = ProviderUtils.getApexActivation(document, position, false);
     if (activationInfo.activation) {
-        const parser = new ApexParser().setContent(FileReader.readDocument(editor.document)).setSystemData(applicationContext.parserData).setCursorPosition(ProviderUtils.fixPositionOffset(document, position));
+        const parser = new ApexParser().setContent(FileReader.readDocument(editor?.document)).setSystemData(applicationContext.parserData).setCursorPosition(ProviderUtils.fixPositionOffset(document, position));
         const node = parser.parse();
         const nodeInfo = ProviderUtils.getNodeInformation(node, activationInfo);
-        const method = nodeInfo.method;
-        const methodVar = nodeInfo.methodVar;
-        const classVar = nodeInfo.classVar;
-        const sObject = nodeInfo.sObject;
-        const label = nodeInfo.label;
-        const labels = nodeInfo.labels;
-        const sObjectField = nodeInfo.sObjectField;
-        const sObjectFieldName = nodeInfo.sObjectFieldName;
-        const namespace = nodeInfo.namespace;
-        const lastNode = nodeInfo.lastNode;
+        const method = nodeInfo?.method;
+        const methodVar = nodeInfo?.methodVar;
+        const classVar = nodeInfo?.classVar;
+        const sObject = nodeInfo?.sObject;
+        const label = nodeInfo?.label;
+        const labels = nodeInfo?.labels;
+        const sObjectField = nodeInfo?.sObjectField;
+        const sObjectFieldName = nodeInfo?.sObjectFieldName;
+        const namespace = nodeInfo?.namespace;
+        const lastNode = nodeInfo?.lastNode;
         if (labels) {
             content.appendApexCodeBlock('Label');
             content.appendMarkdown('Project Custom Labels\n\n');
@@ -77,8 +76,9 @@ function provideHoverInformation(document, position) {
             content.appendMarkdown(label.shortDescription + '\n\n');
             content.appendMarkdown('\n\n  - **Name**: `' + label.fullName + '`\n');
             content.appendMarkdown('  - **Value**: `' + label.value + '`\n');
-            if (label.categories)
+            if (label.categories) {
                 content.appendMarkdown('  - **Category**: `' + label.categories + '`\n');
+            }
             content.appendMarkdown('  - **Language**: `' + label.language + '`\n');
             content.appendMarkdown('  - **Protected**: `' + label.protected + '`\n\n');
         } else if (methodVar) {
@@ -87,8 +87,9 @@ function provideHoverInformation(document, position) {
                 const paramsTagData = tagsData['params'];
                 const datatype = StrUtils.replace(methodVar.datatype.name, ',', ', ');
                 let code = '';
-                if (methodVar.final)
+                if (methodVar.final) {
                     code += methodVar.final.text + ' ';
+                }
                 code += datatype + ' ' + methodVar.name;
                 content.appendApexCodeBlock(code);
                 let description = '*' + methodVar.name + '* `' + datatype + '`';
@@ -132,24 +133,30 @@ function provideHoverInformation(document, position) {
             let label = StrUtils.replace(sObjectField.label, '.field-meta.xml', '');
             label = label.endsWith('Id') ? label.substring(0, label.length - 2) : label;
             let doc = (sObjectField.description) ? sObjectField.description + '\n\n' : '';
-            if (!sObjectField.description && sObjectField.inlineHelpText && sObjectField.inlineHelpText !== 'null')
+            if (!sObjectField.description && sObjectField.inlineHelpText && sObjectField.inlineHelpText !== 'null') {
                 doc = (sObjectField.inlineHelpText) ? sObjectField.inlineHelpText + '\n\n' : '';
+            }
             doc += "  - **Label**: `" + label + '`  \n';
-            if (sObjectField.length)
+            if (sObjectField.length) {
                 doc += "  - **Length**: `" + sObjectField.length + '`  \n';
-            if (sObjectField.type)
+            }
+            if (sObjectField.type) {
                 doc += "  - **Type**: `" + sObjectField.type + '`  \n';
-            if (sObjectField.custom !== undefined)
+            }
+            if (sObjectField.custom !== undefined) {
                 doc += "  - **Is Custom**: `" + sObjectField.custom + '`  \n';
-            if (sObjectField.inlineHelpText && sObjectField.inlineHelpText !== 'null')
+            }
+            if (sObjectField.inlineHelpText && sObjectField.inlineHelpText !== 'null') {
                 doc += "  - **Inline Help**: `" + sObjectField.inlineHelpText + '`  \n';
+            }
             if (sObjectField.referenceTo.length > 0) {
                 doc += "  - **Reference To**: `" + sObjectField.referenceTo.join(", ") + '`\n';
-                if (fieldName.endsWith('Id') && !sObjectFieldName.endsWith('id')) {
+                if (fieldName.endsWith('Id') && sObjectFieldName && !sObjectFieldName.endsWith('id')) {
                     fieldName = fieldName.substring(0, fieldName.length - 2);
                 }
-                if (sObjectField.referenceTo.length > 1)
+                if (sObjectField.referenceTo.length > 1) {
                     parentName = sObjectField.referenceTo.join(" | ");
+                }
             }
             if (applicationContext.sfData.serverInstance) {
                 doc += '\n\n[Lightning Setup](' + applicationContext.sfData.serverInstance + '/lightning/setup/ObjectManager/' + sObject.name + '/FieldsAndRelationships/view)';
@@ -164,16 +171,21 @@ function provideHoverInformation(document, position) {
         } else if (method) {
             const datatype = method.datatype ? StrUtils.replace(method.datatype.name, ',', ', ') : '';
             let signature = '';
-            if (method.accessModifier)
+            if (method.accessModifier) {
                 signature += method.accessModifier.text + ' ';
-            if (method.definitionModifier)
+            }
+            if (method.definitionModifier) {
                 signature += method.definitionModifier.text + ' ';
-            if (method.static)
+            }
+            if (method.static) {
                 signature += method.static.text + ' ';
-            if (method.final)
+            }
+            if (method.final) {
                 signature += method.final.text + ' ';
-            if (method.transient)
+            }
+            if (method.transient) {
                 signature += method.transient.text + ' ';
+            }
             signature += (datatype ? datatype + ' ' : '') + method.name + "(";
             let description = '';
             if (method.description && method.description.length > 0) {
@@ -204,14 +216,16 @@ function provideHoverInformation(document, position) {
                     }
                     description += '\n';
                     if (index === 0) {
-                        if (method.final)
+                        if (method.final) {
                             signature += method.final.text + ' ';
+                        }
                         signature += datatype + ' ' + param.name;
                     }
                     else {
                         signature += ', ';
-                        if (method.final)
+                        if (method.final) {
                             signature += method.final.text + ' ';
+                        }
                         signature += datatype + ' ' + param.name;
                     }
                     index++;
@@ -245,19 +259,22 @@ function provideHoverInformation(document, position) {
         } else if (lastNode) {
             if (!Utils.isNull(lastNode.nodeType)) {
                 let nodeName = '';
-                if (lastNode.namespace && lastNode.namespace.toLowerCase() !== 'system')
+                if (lastNode.namespace && lastNode.namespace.toLowerCase() !== 'system') {
                     nodeName += lastNode.namespace + '.';
-                if (lastNode.parentName)
+                }
+                if (lastNode.parentName) {
                     nodeName += lastNode.parentName + '.';
+                }
                 nodeName += lastNode.name;
                 content.appendApexCodeBlock(nodeName);
                 if (lastNode.nodeType === ApexNodeTypes.ENUM) {
                     const enumValues = [];
                     for (const value of lastNode.values) {
-                        if (Utils.isString(value))
+                        if (Utils.isString(value)) {
                             enumValues.push('  - `' + value + '`');
-                        else
+                        } else {
                             enumValues.push('  - `' + value.text + '`');
+                        }
                     }
                     if (lastNode.description) {
                         content.appendMarkdown('Enum from ' + lastNode.namespace + ' Namespace\n\n');
@@ -290,11 +307,12 @@ function provideHoverInformation(document, position) {
             } else if (Object.keys(lastNode).includes('keyPrefix')) {
                 let doc = (lastNode.description) ? lastNode.description + '\n\n' : '';
                 let nameTmp = lastNode.name.substring(0, lastNode.name.length - 3);
-                if (lastNode.custom)
+                if (lastNode.custom){
                     doc += 'Custom SObject';
-                else
+                }else{
                     doc += 'Standard SObject';
-                if (lastNode.namespace && lastNode.namespace != nameTmp) {
+                }
+                if (lastNode.namespace && lastNode.namespace !== nameTmp) {
                     doc += '\n\nNamespace: ' + lastNode.namespace;
                 }
                 if (applicationContext.sfData.serverInstance) {
@@ -304,8 +322,9 @@ function provideHoverInformation(document, position) {
                 content.appendMarkdown(doc + '\n\n');
             }
         }
-        if (!content.hasContent())
+        if (!content.hasContent()){
             return undefined;
+        }
         return new vscode.Hover(content.build(true));
     }
     return undefined;
