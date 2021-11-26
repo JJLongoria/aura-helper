@@ -1,9 +1,9 @@
-const vscode = require('vscode');
-const XMLEditor = require('./xmlEditor');
-const MultiStepInput = require('./xmlEditor');
-const Config = require('../core/config');
-const Paths = require('../core/paths');
-const applicationContext = require('../core/applicationContext');
+import * as vscode from 'vscode';
+import { Paths } from '../core/paths';
+import { Config } from '../core/config';
+import { XMLEditor } from './xmlEditor';
+import { MultiStepInput } from './multiStepInput';
+import applicationContext from '../core/applicationContext';
 const XMLDefinitions = require('@aurahelper/xml-definitions');
 const { MetadataTypes, DataTypes } = require('@aurahelper/core').Values;
 const { MetadataUtils, Utils } = require('@aurahelper/core').CoreUtils;
@@ -22,9 +22,22 @@ const SUB_ELEMENT_STEP = 7;
 const RESULT_STEP = 8;
 const OPTIONS_STEP = 9;
 
-class PermissionEditor extends XMLEditor {
+export class PermissionEditor extends XMLEditor {
 
-    constructor(file) {
+    _selectedCollection?: string;
+    _selectedElement?: string;
+    _selectedSubElement?: string;
+    _selectedElements?: string[];
+    _permissionType: string;
+    _xmlDefinition: any;
+    _permissionsContent: any;
+    _profileMetadata: any;
+    _oldPermissionContent: any;
+    newElement: boolean;
+    addedElements: any[];
+    hasChanges: boolean;
+
+    constructor(file: string) {
         super(undefined, ROOT_STEP, RESULT_STEP, file);
         this._selectedCollection = undefined;
         this._selectedElement = undefined;
@@ -41,7 +54,7 @@ class PermissionEditor extends XMLEditor {
         this.hasChanges = false;
     }
 
-    onCreateInputRequest() {
+    onCreateInputRequest(): vscode.QuickInput | vscode.QuickPick<vscode.QuickPickItem> | undefined {
         let input;
         switch (this._step) {
             case ROOT_STEP:
@@ -66,7 +79,7 @@ class PermissionEditor extends XMLEditor {
         return input;
     }
 
-    createRootInput() {
+    createRootInput(): vscode.QuickPick<vscode.QuickPickItem> | undefined {
         if (!this._metadata) {
             let input = vscode.window.createQuickPick();
             input.busy = true;
@@ -75,7 +88,7 @@ class PermissionEditor extends XMLEditor {
             this.loadMetadata();
             return input;
         } else {
-            let input;
+            let input: vscode.QuickPick<vscode.QuickPickItem> | undefined;
             if (this._permissionsContent) {
                 input = vscode.window.createQuickPick();
                 input.title = this._title;
@@ -97,13 +110,13 @@ class PermissionEditor extends XMLEditor {
         }
     }
 
-    createPermissionsInput() {
+    createPermissionsInput(): vscode.QuickInput | vscode.QuickPick<vscode.QuickPickItem> | undefined {
         let input;
         if (this._permissionsContent) {
             let buttons = [MultiStepInput.getBackButton()];
             const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
-            const items = [];
-            const selectedItems = [];
+            const items: vscode.QuickPickItem[] = [];
+            const selectedItems: vscode.QuickPickItem[] = [];
             if (fieldDefinition.datatype === DataTypes.STRING) {
                 input = vscode.window.createInputBox();
                 input.value = (this._permissionsContent[fieldDefinition.key]) ? this._permissionsContent[fieldDefinition.key] : '';
@@ -137,8 +150,9 @@ class PermissionEditor extends XMLEditor {
                             for (let fieldValue of XMLUtils.forceArray(this._permissionsContent[fieldDefinition.key])) {
                                 let description;
                                 for (const field of Object.keys(fieldDefinition.fields)) {
-                                    if (!fieldKey.includes(field))
+                                    if (!fieldKey.includes(field)) {
                                         description = fieldValue[field];
+                                    }
                                 }
                                 items.push(MultiStepInput.getItem(getValue(fieldValue, fieldKey), undefined, description, undefined));
                             }
@@ -154,10 +168,10 @@ class PermissionEditor extends XMLEditor {
                         input.placeholder = 'Select a field to edit. Click "Add" to add new elements';
                         buttons.push(MultiStepInput.getAddButton());
                         for (let fieldValue of XMLUtils.forceArray(this._permissionsContent[fieldDefinition.key])) {
-                            let item;
+                            let item: vscode.QuickPickItem | undefined;
                             let selected = false;
                             let editableFields = getEditableFields(fieldDefinition);
-                            if (editableFields.length == 1) {
+                            if (editableFields.length === 1) {
                                 let fieldData = fieldDefinition.fields[editableFields[0]];
                                 if (fieldData.datatype === DataTypes.BOOLEAN) {
                                     input.canSelectMany = true;
@@ -172,25 +186,30 @@ class PermissionEditor extends XMLEditor {
                                 let itemName;
                                 if (Array.isArray(fieldKey)) {
                                     for (let field of fieldKey) {
-                                        if (!itemName)
+                                        if (!itemName) {
                                             itemName = fieldValue[field];
-                                        else
+                                        }
+                                        else {
                                             itemName += ' - ' + fieldValue[field];
+                                        }
                                     }
                                 } else {
                                     itemName = fieldValue[fieldKey];
                                 }
                                 item = MultiStepInput.getItem(itemName, undefined, description, undefined);
                             }
-                            if (selected)
+                            if (selected && item) {
                                 selectedItems.push(item);
-                            if (item)
+                            }
+                            if (item) {
                                 items.push(item);
+                            }
                         }
                     }
                     input.items = items;
-                    if (selectedItems.length > 0)
+                    if (selectedItems.length > 0) {
                         input.selectedItems = selectedItems;
+                    }
                 }
             } else {
                 input = vscode.window.createQuickPick();
@@ -210,7 +229,7 @@ class PermissionEditor extends XMLEditor {
         return input;
     }
 
-    createAddPermissionInput() {
+    createAddPermissionInput(): vscode.QuickPick<vscode.QuickPickItem> {
         let buttons = [MultiStepInput.getBackButton()];
         const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
         let items = [];
@@ -229,16 +248,18 @@ class PermissionEditor extends XMLEditor {
                 const metadataType = fieldDefinition.fields[fieldKey].metadataType;
                 if (fieldDefinition.key === 'userPermissions') {
                     let notAddedPermissions = [];
-                    if (!this._permissionsContent[fieldDefinition.key])
+                    if (!this._permissionsContent[fieldDefinition.key]) {
                         notAddedPermissions = applicationContext.sfData.availablePermissions;
+                    }
                     else {
                         let permissionsOnProfile = [];
                         for (let xmlElement of this._permissionsContent[fieldDefinition.key]) {
                             permissionsOnProfile.push(xmlElement[fieldKey]);
                         }
                         for (let permission of applicationContext.sfData.availablePermissions) {
-                            if (!permissionsOnProfile.includes(permission))
+                            if (!permissionsOnProfile.includes(permission)) {
                                 notAddedPermissions.push(permission);
+                            }
                         }
                         for (let permission of notAddedPermissions) {
                             let item = MultiStepInput.getItem(permission, undefined, undefined, undefined);
@@ -257,8 +278,9 @@ class PermissionEditor extends XMLEditor {
                         input.placeholder = 'The selected elements will be set ' + editableFields[0].key + ' field to true';
                     }
                 }
-                if (!separator)
+                if (!separator) {
                     input.canSelectMany = true;
+                }
             }
             input.items = items;
             input.title = this._fileName + ":\n Adding new " + fieldDefinition.label + "(s) to the " + this._permissionType;
@@ -267,12 +289,12 @@ class PermissionEditor extends XMLEditor {
         return input;
     }
 
-    createAddChildPermissionInput() {
+    createAddChildPermissionInput(): vscode.QuickPick<vscode.QuickPickItem> {
         let buttons = [MultiStepInput.getBackButton()];
         const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
         let items = [];
         let input = vscode.window.createQuickPick();
-        if (fieldDefinition.datatype === DataTypes.ARRAY) {
+        if (fieldDefinition.datatype === DataTypes.ARRAY && this._selectedElement) {
             const sortOrder = fieldDefinition.sortOrder;
             const metadataType = fieldDefinition.fields[sortOrder[0]].metadataType;
             if (metadataType) {
@@ -290,7 +312,7 @@ class PermissionEditor extends XMLEditor {
         return input;
     }
 
-    createSetValuesInput() {
+    createSetValuesInput(): vscode.QuickInput | vscode.QuickPick<vscode.QuickPickItem> | undefined {
         let buttons = [MultiStepInput.getBackButton()];
         const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
         const fieldKey = fieldDefinition.fieldKey;
@@ -332,7 +354,7 @@ class PermissionEditor extends XMLEditor {
             let element;
             if (fieldDefinition.datatype !== DataTypes.OBJECT) {
                 const separator = fieldDefinition.fields[sortOrder[0]].separator;
-                if (this._selectedElements.length === 1) {
+                if (this._selectedElements?.length === 1) {
                     let value = (separator) ? this._selectedElement + separator + this._selectedElements[0] : this._selectedElements[0];
                     for (const fieldValue of this._permissionsContent[fieldDefinition.key]) {
                         if (fieldValue[fieldDefinition.fieldKey] === value) {
@@ -343,8 +365,9 @@ class PermissionEditor extends XMLEditor {
                 }
             }
             for (const field of Object.keys(fieldDefinition.fields)) {
-                if (!fieldDefinition.fields[field].editable)
+                if (!fieldDefinition.fields[field].editable) {
                     continue;
+                }
                 let item = MultiStepInput.getItem(field, undefined, undefined, element && element[field]);
                 items.push(item);
                 if (element && element[field]) {
@@ -353,15 +376,16 @@ class PermissionEditor extends XMLEditor {
             }
             input.canSelectMany = true;
             input.items = items;
-            if (selectedItems.length > 0)
+            if (selectedItems.length > 0) {
                 input.selectedItems = selectedItems;
+            }
             input.title = this._fileName + ":\n Adding new " + fieldDefinition.label + "(s) to the " + this._permissionType;
         }
         input.buttons = buttons;
         return input;
     }
 
-    createElementInput() {
+    createElementInput(): vscode.QuickPick<vscode.QuickPickItem> | undefined {
         let input;
         if (this._permissionsContent) {
             const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
@@ -391,12 +415,13 @@ class PermissionEditor extends XMLEditor {
                         if (metadataType) {
                             input.placeholder = 'Select an element to edit permissions.';
                             //buttons.push(MultiStepInput.getAcceptButton());
-                            if (this._metadata && this._metadata[metadataType] && MetadataUtils.haveChilds(this._metadata[metadataType])) {
+                            if (this._metadata && this._selectedElement && this._metadata[metadataType] && MetadataUtils.haveChilds(this._metadata[metadataType])) {
                                 let child = {
                                     xmlElement: undefined,
                                 };
-                                if (this._profileMetadata[fieldDefinition.key] && this._profileMetadata[fieldDefinition.key][this._selectedElement] && this._profileMetadata[fieldDefinition.key][this._selectedElement].childs)
+                                if (this._profileMetadata[fieldDefinition.key] && this._profileMetadata[fieldDefinition.key][this._selectedElement] && this._profileMetadata[fieldDefinition.key][this._selectedElement].childs) {
                                     child = this._profileMetadata[fieldDefinition.key][this._selectedElement].childs["Master"];
+                                }
                                 let description;
                                 if (child && child.xmlElement) {
                                     let xmlElement = child.xmlElement;
@@ -410,8 +435,9 @@ class PermissionEditor extends XMLEditor {
                                     let child = {
                                         xmlElement: undefined,
                                     };
-                                    if (this._profileMetadata[fieldDefinition.key] && this._profileMetadata[fieldDefinition.key][this._selectedElement] && this._profileMetadata[fieldDefinition.key][this._selectedElement].childs)
+                                    if (this._profileMetadata[fieldDefinition.key] && this._profileMetadata[fieldDefinition.key][this._selectedElement] && this._profileMetadata[fieldDefinition.key][this._selectedElement].childs) {
                                         child = this._profileMetadata[fieldDefinition.key][this._selectedElement].childs[itemKey];
+                                    }
                                     if (child && child.xmlElement) {
                                         let xmlElement = child.xmlElement;
                                         description = getValue(xmlElement, fieldKey[0], true);
@@ -421,7 +447,7 @@ class PermissionEditor extends XMLEditor {
                                     let item = MultiStepInput.getItem(itemKey, undefined, description, undefined);
                                     items.push(item);
                                 }
-                            } else {
+                            } else if (this._selectedElement) {
                                 input.placeholder = 'Select an element to edit permissions.';
                                 let sorted = Object.keys(this._profileMetadata[fieldDefinition.key][this._selectedElement].childs).sort();
                                 for (let obj of sorted) {
@@ -450,7 +476,7 @@ class PermissionEditor extends XMLEditor {
                             items.push(item);
                         }
                     }
-                } else {
+                } else if (this._selectedElement) {
                     buttons.push(MultiStepInput.getAddButton());
                     //buttons.push(MultiStepInput.getAcceptButton());
                     input.placeholder = 'Select an element to edit permissions';
@@ -472,45 +498,47 @@ class PermissionEditor extends XMLEditor {
         return input;
     }
 
-    createSubElementInput() {
+    createSubElementInput(): vscode.QuickPick<vscode.QuickPickItem> | undefined {
         let input;
         if (this._permissionsContent) {
             const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
-            if (this._permissionsContent[fieldDefinition.key]) {
-                let items = [];
-                let selectedItems = [];
+            if (this._permissionsContent[fieldDefinition.key] && this._selectedElement) {
+                const items: vscode.QuickPickItem[] = [];
+                const selectedItems: vscode.QuickPickItem[] = [];
                 const fieldKey = fieldDefinition.fieldKey;
                 if (Array.isArray(fieldKey)) {
                     const metadataType = fieldDefinition.fields[fieldKey[0]].metadataType;
                     input = vscode.window.createQuickPick();
                     input.placeholder = 'Select a value to set';
                     let sorted = Object.keys(this._metadata[metadataType].childs[this._selectedElement].childs).sort();
-                    if (this._selectedSubElement !== 'Master')
+                    if (this._selectedSubElement !== 'Master') {
                         items.push(MultiStepInput.getItem('-- Not Assignment --', undefined, undefined, undefined));
+                    }
                     for (let key of sorted) {
                         let item = MultiStepInput.getItem(key, undefined, undefined, undefined);
                         items.push(item);
                     }
                     input.items = items;
-                    if (selectedItems.length > 0)
+                    if (selectedItems.length > 0) {
                         input.selectedItems = selectedItems;
+                    }
                     input.title = this._fileName + ":\n Edit " + fieldDefinition.label + " - " + this._selectedElement + fieldDefinition.fields[fieldKey[1]].separator + this._selectedSubElement;
+                    const buttons = [MultiStepInput.getBackButton()];
+                    input.buttons = buttons;
                 }
-                let buttons = [MultiStepInput.getBackButton()];
-                input.buttons = buttons;
             }
         }
         return input;
     }
 
-    createResultInput() {
+    createResultInput(): vscode.QuickPick<vscode.QuickPickItem> | undefined {
         let input;
         if (this._permissionsContent) {
             input = vscode.window.createQuickPick();
-            let permissionsMap = transformPermissionContentToMap(this._permissionsContent, this._xmlDefinition);
-            let oldPermissionsMap = transformPermissionContentToMap(this._oldPermissionContent, this._xmlDefinition);
-            let changes = {};
-            let items = [];
+            const permissionsMap = transformPermissionContentToMap(this._permissionsContent, this._xmlDefinition);
+            const oldPermissionsMap = transformPermissionContentToMap(this._oldPermissionContent, this._xmlDefinition);
+            const changes: any = {};
+            const items: vscode.QuickPickItem[] = [];
             for (let collectionKey of Object.keys(permissionsMap)) {
                 const fieldDefinition = this._xmlDefinition[collectionKey];
                 let collection = permissionsMap[collectionKey];
@@ -629,7 +657,7 @@ class PermissionEditor extends XMLEditor {
         return input;
     }
 
-    createOptionsInput() {
+    createOptionsInput(): vscode.QuickPick<vscode.QuickPickItem> | undefined {
         let input;
         if (this._permissionsContent) {
             const items = [];
@@ -647,8 +675,8 @@ class PermissionEditor extends XMLEditor {
         return input;
     }
 
-    onChangeSelection(items) {
-        let fieldDefinition = {};
+    onChangeSelection(items: vscode.QuickPickItem[]) {
+        let fieldDefinition: any = {};
         let fieldKey;
         let selectedItems = this.getSelectedElements(items);
         let editableFields = [];
@@ -671,10 +699,11 @@ class PermissionEditor extends XMLEditor {
                     this._selectedElement = selectedItems[0];
                     this._selectedElements = selectedItems;
                     const hasChilds = this._profileMetadata[fieldDefinition.key] && this._profileMetadata[fieldDefinition.key][this._selectedElement] && Utils.hasKeys(this._profileMetadata[fieldDefinition.key][this._selectedElement].childs);
-                    if (fieldDefinition.key === 'applicationVisibilities' || (!hasChilds && metadataType && notUniqueFields.length === editableFields.length))
+                    if (fieldDefinition.key === 'applicationVisibilities' || (!hasChilds && metadataType && notUniqueFields.length === editableFields.length)) {
                         this.nextStep(SET_VALUES_STEP);
-                    else
+                    } else {
                         this.nextStep(ELEMENT_STEP);
+                    }
                 } else if (fieldDefinition.fields[editableFields[0]].datatype === DataTypes.ENUM) {
                     this._selectedElement = selectedItems[0];
                     this._selectedElements = selectedItems;
@@ -690,9 +719,9 @@ class PermissionEditor extends XMLEditor {
                 separator = !Utils.isArray(fieldKey) ? fieldDefinition.fields[sortOrder[0]].separator : undefined;
                 if (editableFields.length > 1 && !this._currentInput.canSelectMany) {
                     this._selectedSubElement = selectedItems[0];
-                    if (!separator)
+                    if (!separator) {
                         this.nextStep(SET_VALUES_STEP);
-                    else {
+                    } else {
                         this._selectedElement = selectedItems[0];
                         const differences = getTypeDifferences(this._metadata, this._profileMetadata, fieldDefinition.key, this._xmlDefinition);
                         if (differences[metadataType].childs && Utils.hasKeys(differences[metadataType].childs[this._selectedElement].childs)) {
@@ -712,12 +741,12 @@ class PermissionEditor extends XMLEditor {
                 separator = !Utils.isArray(fieldKey) ? fieldDefinition.fields[sortOrder[0]].separator : undefined;
                 const subFieldDefinition = fieldDefinition.fields[editableFields[0]];
                 if (subFieldDefinition.datatype === DataTypes.ENUM) {
-                    if (this._selectedElements.length > 1) {
+                    if (this._selectedElements && this._selectedElements.length > 1) {
                         for (const selectedElement of this._selectedElements) {
-                            let dataToAdd = {};
+                            let dataToAdd: any = {};
                             for (let field of Object.keys(fieldDefinition.fields)) {
                                 let fieldData = fieldDefinition.fields[field];
-                                dataToAdd[field] = (fieldData.default == '{!value}') ? selectedElement : subFieldDefinition.getValue(selectedItems[0]);
+                                dataToAdd[field] = (fieldData.default === '{!value}') ? selectedElement : subFieldDefinition.getValue(selectedItems[0]);
                             }
                             this._permissionsContent[fieldDefinition.key].push(dataToAdd);
                         }
@@ -735,11 +764,11 @@ class PermissionEditor extends XMLEditor {
                             }
                             index++;
                         }
-                        if (!element) {
-                            let dataToAdd = {};
+                        if (!element && this._selectedElements) {
+                            let dataToAdd: any = {};
                             for (let field of Object.keys(fieldDefinition.fields)) {
                                 let fieldData = fieldDefinition.fields[field];
-                                dataToAdd[field] = (fieldData.default == '{!value}') ? this._selectedElements[0] : subFieldDefinition.getValue(selectedItems[0]);
+                                dataToAdd[field] = (fieldData.default === '{!value}') ? this._selectedElements[0] : subFieldDefinition.getValue(selectedItems[0]);
                             }
                             this._permissionsContent[fieldDefinition.key].push(dataToAdd);
                         }
@@ -766,13 +795,14 @@ class PermissionEditor extends XMLEditor {
                     }
                 } else if (fieldDefinition.datatype === DataTypes.OBJECT) {
                     const subfieldDefinition = getFieldDefinitionByLabel(this._selectedElement, fieldDefinition.fields);
-                    let value = selectedItems[0];
+                    let value: string | undefined = selectedItems[0];
                     if (value === '-- None --') {
                         value = undefined;
                         delete this._permissionsContent[fieldDefinition.key][subfieldDefinition.key];
                     } else {
-                        if (!this._permissionsContent[fieldDefinition.key])
+                        if (!this._permissionsContent[fieldDefinition.key]) {
                             this._permissionsContent[fieldDefinition.key] = {};
+                        }
                         this._permissionsContent[fieldDefinition.key][subfieldDefinition.key] = subfieldDefinition.getValue(value);
                     }
                     this.backStep();
@@ -815,7 +845,7 @@ class PermissionEditor extends XMLEditor {
                     if (element && selectedItems[0] === '-- Not Assignment --') {
                         this._permissionsContent[fieldDefinition.key].splice(indexToRemove, 1);
                     } else if (!element && selectedItems[0] !== '-- Not Assignment --') {
-                        let dataToAdd = {};
+                        let dataToAdd: any = {};
                         dataToAdd[fieldKey[0]] = this._selectedElement + mainFieldData.separator + selectedItems[0];
                         if (this._selectedSubElement !== 'Master') {
                             dataToAdd[fieldKey[1]] = this._selectedElement + rtField.separator + this._selectedSubElement;
@@ -831,7 +861,7 @@ class PermissionEditor extends XMLEditor {
         }
     }
 
-    async onButtonPressed(buttonName) {
+    async onButtonPressed(buttonName: string) {
         if (buttonName === 'back') {
             if (this._step === ADD_PERMISSION_STEP) {
                 const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
@@ -885,15 +915,17 @@ class PermissionEditor extends XMLEditor {
                         let fieldData = fieldDefinition.fields[field];
                         let error = fieldData.validate(element[field]);
                         if (error) {
-                            if (!validationError)
+                            if (!validationError) {
                                 validationError = error;
-                            else
+                            } else {
                                 validationError += '; ' + error;
+                            }
                         }
                     }
                     if (!validationError) {
-                        if (element.description === '-- None --')
+                        if (element.description === '-- None --') {
                             this._permissionsContent[fieldDefinition.key][this._permissionsContent[fieldDefinition.key].length - 1].description = undefined;
+                        }
                         // Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
                         this.backStep();
                     } else {
@@ -919,7 +951,7 @@ class PermissionEditor extends XMLEditor {
                 }
             }
         } else if (buttonName === 'Ok') {
-            let fieldDefinition = {};
+            let fieldDefinition: any = {};
             let fieldKeys = [];
             let editableFields = [];
             let uniqueFields = [];
@@ -938,7 +970,7 @@ class PermissionEditor extends XMLEditor {
                     const data = {
                         file: this._fileName,
                         type: this._permissionType
-                    }
+                    };
                     if (options.hasChanges) {
                         this.save(options.compress).then(() => {
                             this.fireAcceptEvent(options, data);
@@ -977,12 +1009,12 @@ class PermissionEditor extends XMLEditor {
                     if (selectedItems.length === 0) {
                         this.backStep();
                     } else if (editableFields.length === 1 || selectedItems.length > 1) {
-                        if ((editableFields.length === 1 || editableFields.length != notUnique.length) && fieldDefinition.fields[editableFields[0]].datatype !== DataTypes.ENUM) {
+                        if ((editableFields.length === 1 || editableFields.length !== notUnique.length) && fieldDefinition.fields[editableFields[0]].datatype !== DataTypes.ENUM) {
                             for (let selectedItem of selectedItems) {
-                                let dataToAdd = {};
+                                let dataToAdd: any = {};
                                 for (let field of fieldKeys) {
                                     let fieldData = fieldDefinition.fields[field];
-                                    dataToAdd[field] = (fieldData.default == '{!value}') ? selectedItem : fieldData.default;
+                                    dataToAdd[field] = (fieldData.default === '{!value}') ? selectedItem : fieldData.default;
                                 }
                                 this._permissionsContent[fieldDefinition.key].push(dataToAdd);
                             }
@@ -1010,10 +1042,10 @@ class PermissionEditor extends XMLEditor {
                     } else {
                         if (notUniqueFields.length !== editableFields.length && selectedItems.length > 1) {
                             for (let selectedItem of selectedItems) {
-                                let dataToAdd = {};
+                                let dataToAdd: any = {};
                                 for (let field of fieldKeys) {
                                     let fieldData = fieldDefinition.fields[field];
-                                    dataToAdd[field] = (fieldData.default == '{!value}') ? (this._selectedElement + separator + selectedItem) : fieldData.default;
+                                    dataToAdd[field] = (fieldData.default === '{!value}') ? (this._selectedElement + separator + selectedItem) : fieldData.default;
                                 }
                                 this._permissionsContent[fieldDefinition.key].push(dataToAdd);
                             }
@@ -1034,14 +1066,14 @@ class PermissionEditor extends XMLEditor {
                     sortOrder = fieldDefinition.sortOrder;
                     separator = fieldDefinition.fields[sortOrder[0]].separator;
                     let element;
-                    if (this._selectedElements.length === 1) {
+                    if (this._selectedElements && this._selectedElements.length === 1) {
                         for (const fieldValue of this._permissionsContent[fieldDefinition.key]) {
                             let value = (separator) ? this._selectedElement + separator + this._selectedElements[0] : this._selectedElements[0];
                             if (fieldValue[fieldDefinition.fieldKey] === value) {
                                 for (let field of editableFields) {
                                     const subfieldDefinition = fieldDefinition.fields[field];
                                     let value = selectedItems.includes(field);
-                                    if (fieldValue[field] != value) {
+                                    if (fieldValue[field] !== value) {
                                         if (subfieldDefinition.unique && subfieldDefinition.editable) {
                                             uniqueFields.push({ field: field, value: value, datatype: subfieldDefinition.datatype });
                                         }
@@ -1053,13 +1085,13 @@ class PermissionEditor extends XMLEditor {
                             }
                         }
                     }
-                    if (!element) {
+                    if (!element && this._selectedElements) {
                         for (let selectedElement of this._selectedElements) {
-                            let dataToAdd = {};
+                            let dataToAdd: any = {};
                             for (let field of fieldKeys) {
                                 let value = (separator) ? this._selectedElement + separator + selectedElement : selectedElement;
                                 const subfieldDefinition = fieldDefinition.fields[field];
-                                dataToAdd[field] = (subfieldDefinition.default == '{!value}') ? value : selectedItems.includes(field);
+                                dataToAdd[field] = (subfieldDefinition.default === '{!value}') ? value : selectedItems.includes(field);
                                 if (subfieldDefinition.unique && subfieldDefinition.editable) {
                                     uniqueFields.push({ field: field, value: dataToAdd[field], datatype: subfieldDefinition.datatype });
                                 }
@@ -1067,8 +1099,9 @@ class PermissionEditor extends XMLEditor {
                             this._permissionsContent[fieldDefinition.key].push(dataToAdd);
                             let checkedNow = getCheckedItems(selectedItems, this._currentInput.items);
                             const uncheckedNow = getUncheckedItems(selectedItems, this._currentInput.items);
-                            if (checkedNow.length === 0 && uncheckedNow.length === 0)
+                            if (checkedNow.length === 0 && uncheckedNow.length === 0) {
                                 checkedNow = selectedItems;
+                            }
                             Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
                             MetadataUtils.handleUniqueFields(this._permissionsContent, fieldDefinition, uniqueFields, separator ? this._selectedElement : selectedElement, separator ? selectedElement : undefined);
                             MetadataUtils.handleControlledFields(this._permissionsContent, fieldDefinition, checkedNow, separator ? this._selectedElement : selectedElement, separator ? selectedElement : undefined);
@@ -1076,20 +1109,22 @@ class PermissionEditor extends XMLEditor {
                         }
                         this._profileMetadata = extractMetadataFromFile(this._permissionsContent, this._xmlDefinition);
                         this.backStep(PERMISSIONS_STEP);
-                    } else {
+                    } else if (this._selectedElements) {
                         let checkedNow = getCheckedItems(selectedItems, this._currentInput.items);
                         const uncheckedNow = getUncheckedItems(selectedItems, this._currentInput.items);
-                        if (checkedNow.length === 0 && uncheckedNow.length === 0)
+                        if (checkedNow.length === 0 && uncheckedNow.length === 0) {
                             checkedNow = selectedItems;
+                        }
                         Utils.sort(this._permissionsContent[fieldDefinition.key], fieldDefinition.sortOrder);
                         MetadataUtils.handleControlledFields(this._permissionsContent, fieldDefinition, checkedNow, separator ? this._selectedElement : this._selectedElements[0], separator ? this._selectedElements[0] : undefined);
                         MetadataUtils.handleControlledFields(this._permissionsContent, fieldDefinition, uncheckedNow, separator ? this._selectedElement : this._selectedElements[0], separator ? this._selectedElements[0] : undefined);
                         MetadataUtils.handleUniqueFields(this._permissionsContent, fieldDefinition, uniqueFields, separator ? this._selectedElement : this._selectedElements[0], separator ? this._selectedElements[0] : undefined);
                         this._profileMetadata = extractMetadataFromFile(this._permissionsContent, this._xmlDefinition);
-                        if (separator)
+                        if (separator) {
                             this.backStep();
-                        else
+                        } else {
                             this.backStep(PERMISSIONS_STEP);
+                        }
                     }
                     break;
                 default:
@@ -1113,7 +1148,7 @@ class PermissionEditor extends XMLEditor {
                             }
                         } else if (Array.isArray(fieldKey)) {
                             this.newElement = true;
-                            let dataToAdd = {};
+                            let dataToAdd: any = {};
                             for (let field of fieldKeys) {
                                 let fieldData = fieldDefinition.fields[field];
                                 dataToAdd[field] = (fieldData.default === '{!value}') ? '-- None --' : fieldData.default;
@@ -1142,10 +1177,11 @@ class PermissionEditor extends XMLEditor {
                                 permissionsOnProfile.push(xmlElement[fieldKey]);
                             }
                             for (let permission of applicationContext.sfData.availablePermissions) {
-                                if (!permissionsOnProfile.includes(permission))
+                                if (!permissionsOnProfile.includes(permission)) {
                                     notAddedPermissions.push(permission);
+                                }
                             }
-                            if (notAddedPermissions.length == 0) {
+                            if (notAddedPermissions.length === 0) {
                                 this.fireReportEvent("Not new User Permissions found for add to this " + this._permissionType);
                             } else {
                                 this.nextStep(ADD_PERMISSION_STEP);
@@ -1158,7 +1194,7 @@ class PermissionEditor extends XMLEditor {
                 case ELEMENT_STEP:
                     if (metadataType) {
                         const differences = getTypeDifferences(this._metadata, this._profileMetadata, fieldDefinition.key, this._xmlDefinition);
-                        if (differences[metadataType] && Utils.hasKeys(differences[metadataType].childs) && differences[metadataType].childs[this._selectedElement] && Utils.hasKeys(differences[metadataType].childs[this._selectedElement].childs)) {
+                        if (this._selectedElement && differences[metadataType] && Utils.hasKeys(differences[metadataType].childs) && differences[metadataType].childs[this._selectedElement] && Utils.hasKeys(differences[metadataType].childs[this._selectedElement].childs)) {
                             this._selectedElements = [this._selectedElement];
                             this.nextStep(ADD_CHILD_PERMISSION_STEP);
                         } else {
@@ -1170,11 +1206,11 @@ class PermissionEditor extends XMLEditor {
         }
     }
 
-    onChangeValue(value) {
+    onChangeValue(_value: string) {
 
     }
 
-    onValueSet(value) {
+    onValueSet(value: string) {
         const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
         switch (this._step) {
             case PERMISSIONS_STEP:
@@ -1198,8 +1234,9 @@ class PermissionEditor extends XMLEditor {
                             const processedValue = getValue(fieldValue, fieldKey);
                             if (processedValue === this._selectedElement) {
                                 this._permissionsContent[fieldDefinition.key][index][subFieldDefinition.key] = value;
-                                if (fieldKey.includes(subFieldDefinition.key))
+                                if (fieldKey.includes(subFieldDefinition.key)) {
                                     this._selectedElement = getValue(this._permissionsContent[fieldDefinition.key][index], fieldKey);
+                                }
                                 break;
                             }
                             index++;
@@ -1210,7 +1247,7 @@ class PermissionEditor extends XMLEditor {
                 }
                 break;
             case ELEMENT_STEP:
-                if (this._permissionsContent) {
+                if (this._permissionsContent && this._selectedElement) {
                     if (fieldDefinition.key === 'loginIpRanges') {
                         let fieldData = fieldDefinition.fields[this._selectedElement];
                         let error = fieldData.validate(value);
@@ -1222,7 +1259,7 @@ class PermissionEditor extends XMLEditor {
                 }
                 break;
             case SUB_ELEMENT_STEP:
-                if (this._permissionsContent) {
+                if (this._permissionsContent && this._selectedSubElement) {
                     if (fieldDefinition.key === 'loginIpRanges') {
                         let fieldData = fieldDefinition.fields[this._selectedSubElement];
                         let error = fieldData.validate(value);
@@ -1231,10 +1268,10 @@ class PermissionEditor extends XMLEditor {
                         }
                     }
                     for (let xmlElement of this._permissionsContent[fieldDefinition.key]) {
-                        let fieldKeyValue = getValue(xmlElement, getFieldKey(fieldDefinition.fieldKey));
+                        let fieldKeyValue = getValue(xmlElement, fieldDefinition.fieldKey);
                         if (fieldKeyValue === this._selectedElement) {
                             xmlElement[this._selectedSubElement] = value;
-                            this._selectedElement = getValue(xmlElement, getFieldKey(fieldDefinition.fieldKey));
+                            this._selectedElement = getValue(xmlElement, fieldDefinition.fieldKey);
                             break;
                         }
                     }
@@ -1246,10 +1283,9 @@ class PermissionEditor extends XMLEditor {
     }
 
 }
-module.exports = PermissionEditor;
 
-function transformPermissionContentToMap(permissionContent, xmlMetadata) {
-    const permissionsContentMap = {};
+function transformPermissionContentToMap(permissionContent: any, xmlMetadata: any): any {
+    const permissionsContentMap: any = {};
     Object.keys(permissionContent).forEach(function (collectionKey) {
         const collection = permissionContent[collectionKey];
         const collectionData = xmlMetadata[collectionKey];
@@ -1258,19 +1294,22 @@ function transformPermissionContentToMap(permissionContent, xmlMetadata) {
             const sortOrder = collectionData.fieldKey;
             if (collectionData.datatype === DataTypes.ARRAY) {
                 for (let xmlElement of collection) {
-                    if (!permissionsContentMap[collectionKey])
+                    if (!permissionsContentMap[collectionKey]) {
                         permissionsContentMap[collectionKey] = {
                             name: collectionKey,
                             elements: {},
                         };
+                    }
                     let value;
                     if (Utils.isArray(fieldKey) && collectionData.fields[fieldKey[0]].metadataType === MetadataTypes.LAYOUT) {
-                        if (xmlElement[sortOrder[1]])
+                        if (xmlElement[sortOrder[1]]) {
                             value = getValue(xmlElement, fieldKey);
-                        else
+                        } else {
                             value = 'Master';
-                    } else
+                        }
+                    } else {
                         value = getValue(xmlElement, fieldKey);
+                    }
                     permissionsContentMap[collectionKey].elements[value] = xmlElement;
                 }
             } else {
@@ -1281,49 +1320,48 @@ function transformPermissionContentToMap(permissionContent, xmlMetadata) {
     return permissionsContentMap;
 }
 
-function getFieldDefinitionByLabel(label, xmlMetadata) {
-    let dataToReturn = {};
+function getFieldDefinitionByLabel(label?: string, xmlMetadata?: any): any {
+    let dataToReturn: any = {};
     Object.keys(xmlMetadata).forEach(function (elementKey) {
         let elementData = xmlMetadata[elementKey];
-        if (elementData.label === label)
-            dataToReturn = elementData;
+        if (elementData.label === label) {
+            return elementData;
+        }
     });
     return dataToReturn;
 }
 
-function getFieldKey(fieldKey) {
-    if (fieldKey && fieldKey.indexOf('+') !== -1)
-        return fieldKey.split('+');
-    return fieldKey;
-}
-
-function getUncheckedItems(selectedItems, items) {
+function getUncheckedItems(selectedItems: string[], items: vscode.QuickPickItem[]): string[] {
     let unchecked = [];
     for (let item of items) {
-        if (!selectedItems.includes(item.label) && item.picked)
+        if (!selectedItems.includes(item.label) && item.picked) {
             unchecked.push(item.label);
+        }
     }
     return unchecked;
 }
 
-function getCheckedItems(selectedItems, items) {
+function getCheckedItems(selectedItems: string[], items: vscode.QuickPickItem[]): string[] {
     let checked = [];
     for (let item of items) {
-        if (selectedItems.includes(item.label) && !item.picked)
+        if (selectedItems.includes(item.label) && !item.picked) {
             checked.push(item.label);
+        }
     }
     return checked;
 }
 
-function getValue(xmlElement, fieldKey, useArrow) {
+function getValue(xmlElement: any, fieldKey: string, useArrow?: boolean): string {
     let value;
     if (Utils.isArray(fieldKey)) {
         for (let field of fieldKey) {
             if (xmlElement[field]) {
-                if (!value)
+                if (!value) {
                     value = xmlElement[field];
-                else
+                }
+                else {
                     value += ((useArrow) ? ' $(arrow-right) ' : ' - ') + xmlElement[field];
+                }
             }
         }
     } else {
@@ -1332,11 +1370,11 @@ function getValue(xmlElement, fieldKey, useArrow) {
     return value;
 }
 
-function getDescription(xmlElement, elementData, useMainField) {
-    let description;
+function getDescription(xmlElement: any, elementData: any, useMainField: boolean): string {
+    let description: string = '';
     if (!useMainField) {
         Object.keys(elementData.fields).forEach(function (fieldName) {
-            let fieldKey = getFieldKey(elementData.fieldKey);
+            let fieldKey = elementData.fieldKey;
             let isDistinct = false;
             if (Array.isArray(fieldKey)) {
                 let nDistincts = 0;
@@ -1345,41 +1383,45 @@ function getDescription(xmlElement, elementData, useMainField) {
                         nDistincts++;
                     }
                 }
-                isDistinct = nDistincts == fieldKey.length;
+                isDistinct = nDistincts === fieldKey.length;
             } else {
                 isDistinct = fieldName !== fieldKey;
             }
             if (isDistinct) {
                 if (xmlElement[fieldName]) {
                     let value = fieldName;
-                    if (Array.isArray(fieldKey))
+                    if (Array.isArray(fieldKey)) {
                         value = xmlElement[fieldName];
-                    if (!description)
+                    }
+                    if (!description) {
                         description = value;
-                    else
+                    } else {
                         description += " - " + value;
+                    }
                 }
             }
         });
     } else {
         if (!description) {
-            let fieldKey = getFieldKey(elementData.fieldKey);
+            let fieldKey = elementData.fieldKey;
             description = getValue(xmlElement, fieldKey);
         }
     }
     return description;
 }
 
-function extractMetadataFromFile(profile, xmlMetadata) {
-    const profileMetadata = {};
+function extractMetadataFromFile(profile: any, xmlMetadata: any): any {
+    const profileMetadata: any = {};
     for (const collection of Object.keys(profile)) {
         const collectionData = xmlMetadata[collection];
-        if (!collectionData || collectionData.datatype !== DataTypes.ARRAY)
+        if (!collectionData || collectionData.datatype !== DataTypes.ARRAY) {
             continue;
+        }
         const mainFieldKey = Utils.isArray(collectionData.fieldKey) ? collectionData.fieldKey[0] : collectionData.fieldKey;
         const mainFieldData = collectionData.fields[mainFieldKey];
-        if (!profileMetadata[collection])
+        if (!profileMetadata[collection]) {
             profileMetadata[collection] = {};
+        }
         const fieldValue = XMLUtils.forceArray(profile[collection]);
         for (const xmlElement of fieldValue) {
             if (mainFieldData && mainFieldData.separator) {
@@ -1395,20 +1437,22 @@ function extractMetadataFromFile(profile, xmlMetadata) {
                 if (xmlElement[xmlField]) {
                     splits = xmlElement[xmlField].split(separator);
                     obj = splits[0];
-                    if (xmlElement.layout && xmlElement.layout.indexOf('CaseClose') !== -1)
+                    if (xmlElement.layout && xmlElement.layout.indexOf('CaseClose') !== -1) {
                         obj = 'CaseClose';
+                    }
                     item = splits[1];
                 } else {
                     splits = xmlElement[mainFieldKey].split(mainFieldData.separator);
                     obj = splits[0];
                     item = 'Master';
                 }
-                if (!profileMetadata[collection][obj])
+                if (!profileMetadata[collection][obj]) {
                     profileMetadata[collection][obj] = {
                         name: obj,
                         childs: {},
                         xmlElement: undefined,
                     };
+                }
                 profileMetadata[collection][obj].childs[item] = {
                     name: item,
                     xmlElement: xmlElement,
@@ -1426,32 +1470,34 @@ function extractMetadataFromFile(profile, xmlMetadata) {
     return profileMetadata;
 }
 
-function getEditableFields(elementData) {
-    let fields = [];
+function getEditableFields(elementData: any): any[] {
+    let fields: string[] = [];
     Object.keys(elementData.fields).forEach(function (field) {
-        if (elementData.fields[field].editable)
+        if (elementData.fields[field].editable) {
             fields.push(field);
+        }
     });
     return fields;
 }
 
-function getNotUniqueFields(elementData) {
-    let fields = [];
+function getNotUniqueFields(elementData: any): any[] {
+    let fields: string[] = [];
     Object.keys(elementData.fields).forEach(function (field) {
-        if (!elementData.fields[field].unique)
+        if (!elementData.fields[field].unique) {
             fields.push(field);
+        }
     });
     return fields;
 }
 
 function loadUserPermissions() {
-    return new Promise(async function (resolve, reject) {
+    return new Promise<string[]>(async function (resolve, reject) {
         vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
             title: 'Loading all available User Permissions from Org',
             cancellable: true,
-        }, (progress, cancelToken) => {
-            return new Promise((progressResolve) => {
+        }, (_progress, cancelToken) => {
+            return new Promise<void>((progressResolve) => {
                 const alias = Config.getOrgAlias();
                 if (!alias) {
                     reject(new Error('Not connected to an Org. Please authorize and connect to and org and try later.'));
@@ -1462,10 +1508,10 @@ function loadUserPermissions() {
                     cancelToken.onCancellationRequested(() => {
                         cliManager.abortProcess();
                     });
-                    cliManager.loadUserPermissions().then((permissions) => {
+                    cliManager.loadUserPermissions().then((permissions: string[]) => {
                         resolve(permissions);
                         progressResolve();
-                    }).catch((error) => {
+                    }).catch((error: Error) => {
                         reject(error);
                         progressResolve();
                     });
@@ -1474,10 +1520,10 @@ function loadUserPermissions() {
                     cancelToken.onCancellationRequested(() => {
                         connection.abortConnection();
                     });
-                    connection.loadUserPermissions(Paths.getTemporalFolder()).then((permissions) => {
+                    connection.loadUserPermissions(Paths.getTemporalFolder()).then((permissions: string[]) => {
                         resolve(permissions);
                         progressResolve();
-                    }).catch((error) => {
+                    }).catch((error: Error) => {
                         reject(error);
                         progressResolve();
                     });
@@ -1487,8 +1533,8 @@ function loadUserPermissions() {
     });
 }
 
-function getTypeDifferences(metadata, metadataFromProfile, collectionName, xmlDefinition) {
-    const differences = {};
+function getTypeDifferences(metadata: any, metadataFromProfile: any, collectionName: string, xmlDefinition: any): any {
+    const differences: any = {};
     const collectionWithType = metadataFromProfile[collectionName];
     const fieldDefinition = xmlDefinition[collectionName];
     const metadataType = fieldDefinition.fields[fieldDefinition.fieldKey].metadataType;
@@ -1497,16 +1543,19 @@ function getTypeDifferences(metadata, metadataFromProfile, collectionName, xmlDe
             Object.keys(metadata[metadataType].childs).forEach(function (objKey) {
                 const objData = applicationContext.parserData.sObjectsData[objKey.toLowerCase()];
                 if (!collectionWithType[objKey]) {
-                    if (!differences[metadataType])
+                    if (!differences[metadataType]) {
                         differences[metadataType] = new MetadataType(metadataType, false);
+                    }
                     if (metadataType === MetadataTypes.CUSTOM_FIELD && MetadataUtils.haveChilds(metadata[metadataType].childs[objKey])) {
                         Object.keys(metadata[metadataType].childs[objKey].childs).forEach(function (itemKey) {
                             let fData;
-                            if (objData && objData.fields)
+                            if (objData && objData.fields) {
                                 fData = objData.fields[itemKey];
+                            }
                             if (!fData || fData.nillable) {
-                                if (!differences[metadataType].childs[objKey])
+                                if (!differences[metadataType].childs[objKey]) {
                                     differences[metadataType].childs[objKey] = new MetadataObject(objKey, false);
+                                }
                                 differences[metadataType].childs[objKey].childs[itemKey] = new MetadataItem(itemKey, false);
                             }
                         });
@@ -1521,15 +1570,18 @@ function getTypeDifferences(metadata, metadataFromProfile, collectionName, xmlDe
                             let nullable = true;
                             if (metadataType === MetadataTypes.CUSTOM_FIELD) {
                                 let fData;
-                                if (objData && objData.fields)
+                                if (objData && objData.fields) {
                                     fData = objData.fields[itemKey];
+                                }
                                 nullable = !fData || fData.nillable;
                             }
                             if (!collectionWithType[objKey].childs[itemKey] && nullable) {
-                                if (!differences[metadataType])
+                                if (!differences[metadataType]) {
                                     differences[metadataType] = new MetadataType(metadataType, false);
-                                if (!differences[metadataType].childs[objKey])
+                                }
+                                if (!differences[metadataType].childs[objKey]) {
                                     differences[metadataType].childs[objKey] = new MetadataObject(objKey, false);
+                                }
                                 differences[metadataType].childs[objKey].childs[itemKey] = new MetadataItem(itemKey, false);
                             }
                         });
@@ -1542,8 +1594,9 @@ function getTypeDifferences(metadata, metadataFromProfile, collectionName, xmlDe
                 if (objKey.indexOf('__') === -1) {
                     let standardTabName = 'standard-' + objKey;
                     if (!collectionWithType[standardTabName]) {
-                        if (!differences[metadataType])
+                        if (!differences[metadataType]) {
                             differences[metadataType] = new MetadataType(metadataType, false);
+                        }
                         differences[metadataType].childs[standardTabName] = new MetadataObject(standardTabName, false);
                     }
                 }
