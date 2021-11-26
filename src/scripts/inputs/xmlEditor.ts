@@ -1,16 +1,22 @@
-const vscode = require('vscode');
+import * as vscode from 'vscode';
+import { Paths } from '../core/paths';
+import { Config } from '../core/config';
+import { MultiStepInput } from './multiStepInput';
+import { OutputChannel } from '../output/outputChannnel';
 const { FileWriter, FileReader, PathUtils } = require('@aurahelper/core').FileSystem;
 const { XMLParser } = require('@aurahelper/languages').XML;
-const Config = require('../core/config');
-const MultiStepInput = require('./multiStepInput');
 const CLIManager = require('@aurahelper/cli-manager');
 const XMLCompressor = require('@aurahelper/xml-compressor');
-const Paths = require('../core/paths');
-const OutputChannel = require('../output/outputChannnel');
 
-class XMLEditor extends MultiStepInput {
+export class XMLEditor extends MultiStepInput {
 
-    constructor(title, initialStep, totalSteps, file) {
+    _file: string;
+    _fileName: string;
+    _xmlContent: string;
+    _isAddingMode: boolean;
+    _xmlDefinition: any;
+
+    constructor(title: string, initialStep: number, totalSteps: number, file: string) {
         super(title, initialStep, totalSteps);
         this._file = file;
         this._fileName = getFileName(this._file);
@@ -19,15 +25,15 @@ class XMLEditor extends MultiStepInput {
         this._xmlDefinition = undefined;
     }
 
-    save(compress) {
-        return new Promise((resolve, reject) => {
+    save(compress: boolean) {
+        return new Promise<void>((resolve, reject) => {
             if (compress) {
                 vscode.window.withProgress({
                     location: vscode.ProgressLocation.Notification,
                     title: "Compressing XML File",
                     cancellable: true
-                }, (progress, cancelToken) => {
-                    return new Promise(progressResolve => {
+                }, (progress: vscode.Progress<any>, cancelToken: vscode.CancellationToken) => {
+                    return new Promise<void>(progressResolve => {
                         const sortOrder = Config.getXMLSortOrder();
                         if (Config.useAuraHelperCLI()) {
                             FileWriter.createFileSync(this._file, XMLParser.toXML(this._xmlContent));
@@ -36,7 +42,7 @@ class XMLEditor extends MultiStepInput {
                                 OutputChannel.outputLine('XML file compressed successfully');
                                 progressResolve();
                                 resolve();
-                            }).catch((error) => {
+                            }).catch((error: Error) => {
                                 reject(error);
                             });
                         } else {
@@ -56,13 +62,12 @@ class XMLEditor extends MultiStepInput {
         });
     }
 }
-module.exports = XMLEditor;
 
-function readFile(file) {
+function readFile(file: string) {
     return XMLParser.parseXML(FileReader.readFileSync(file), true);
 }
 
-function getFileName(file) {
+function getFileName(file: string) {
     let fileName = PathUtils.getBasename(file);
     fileName = fileName.replace('-meta.xml', '');
     fileName = fileName.substring(0, fileName.lastIndexOf('.'));
