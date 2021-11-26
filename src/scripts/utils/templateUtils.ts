@@ -1,27 +1,30 @@
-const applicationContext = require('../core/applicationContext');
+import applicationContext from "../core/applicationContext";
+import { Paths } from "../core/paths";
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { Utils } = require('@aurahelper/core').CoreUtils;
-const Paths = require('../core/paths');
 
-class TemplateUtils {
+export class TemplateUtils {
 
-    static getApexCommentTemplate(custom) {
+    static getApexCommentTemplate(custom: boolean) {
         let templateContent;
         if (custom) {
-            if (FileChecker.isExists(Paths.getApexCommentUserTemplate()))
+            if (FileChecker.isExists(Paths.getApexCommentUserTemplate())) {
                 templateContent = JSON.parse(FileReader.readFileSync(Paths.getApexCommentUserTemplate()));
+            }
         } else {
-            if (FileChecker.isExists(Paths.getApexJavaBaseTemplate()))
+            if (FileChecker.isExists(Paths.getApexJavaBaseTemplate())) {
                 templateContent = JSON.parse(FileReader.readFileSync(Paths.getApexCommentUserTemplate()));
+            }
         }
         return templateContent;
     }
 
-    static getTagsDataBySource(sources, comment) {
-        const result = {}
+    static getTagsDataBySource(sources: any | any[], comment: any) {
+        const result: any = {};
         sources = Utils.forceArray(sources);
-        if (!applicationContext.parserData.template)
+        if (!applicationContext.parserData.template) {
             return;
+        }
         if (comment && comment.tags && Utils.hasKeys(comment.tags)) {
             let tagName;
             let tagData;
@@ -45,4 +48,3 @@ class TemplateUtils {
     }
 
 }
-module.exports = TemplateUtils;

@@ -1,14 +1,15 @@
-const context = {};
-const componentsDetail = {};
-const isAdvanceGUIAvailable = false;
-const MIN_AH_CLI_VERSION = '3.0.2';
-const snippets = {
+import * as vscode from 'vscode';
+const context: vscode.ExtensionContext | any = {};
+const componentsDetail: any = {};
+const isAdvanceGUIAvailable: boolean = false;
+const MIN_AH_CLI_VERSION: string = '3.0.2';
+const snippets: any = {
     javascript: {},
     slds: {},
     aura: {},
     lwc: {}
-}
-const gitData = {
+};
+const gitData: any = {
     username: '',
     email: '',
     authorName: '',
@@ -17,14 +18,14 @@ const gitData = {
     committerEmail: '',
     branch: ''
 };
-const sfData = {
+const sfData: any = {
     username: '',
     serverInstance: '',
     namespace: '',
     orgAvailableVersions: [],
     availablePermissions: [],
 };
-const parserData = {
+const parserData: any = {
     sObjects: [],
     sObjectsData: {},
     userClasses: [],
@@ -35,7 +36,7 @@ const parserData = {
     namespaces: [],
 };
 
-module.exports = {
+export = {
     context,
     componentsDetail,
     snippets: snippets,
@@ -44,4 +45,4 @@ module.exports = {
     MIN_AH_CLI_VERSION,
     gitData: gitData,
     sfData: sfData
-}
+};

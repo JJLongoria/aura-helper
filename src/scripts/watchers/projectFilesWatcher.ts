@@ -1,23 +1,21 @@
-const vscode = require('vscode');
-const Config = require('../core/config');
+import * as vscode from 'vscode';
+import applicationContext from "../core/applicationContext";
+import { Paths } from "../core/paths";
+import { Config } from "../core/config";
+import { OutputChannel } from "../output/outputChannnel";
 const Connection = require('@aurahelper/connector');
-const applicationContext = require('../core/applicationContext');
-const Paths = require('../core/paths');
-const OutputChannel = require('../output/outputChannnel');
-const { FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
 
-class ProjectFilesWatcher {
+export class ProjectFilesWatcher {
 
     static startWatching() {
         registerSFDXConfigFileWatcher();
     }
 
 }
-module.exports = ProjectFilesWatcher;
 
 function registerSFDXConfigFileWatcher() {
     const projectConfigWatcher = vscode.workspace.createFileSystemWatcher("**/sfdx-config.json");
-    projectConfigWatcher.onDidChange(async function (uri) {
+    projectConfigWatcher.onDidChange(async function () {
         const username = Config.getOrgAlias();
         if (username) {
             const connection = new Connection(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());

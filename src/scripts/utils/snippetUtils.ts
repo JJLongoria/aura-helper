@@ -1,30 +1,32 @@
-const applicationContext = require('../core/applicationContext');
-const Config = require('../core/config');
-const Paths = require('../core/paths');
+import * as vscode from 'vscode';
+import applicationContext from "../core/applicationContext";
+import { Paths } from "../core/paths";
+import { Config } from "../core/config";
 const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
 const { PathUtils } = require('@aurahelper/core').FileSystem;
 const { ApexNodeTypes } = require('@aurahelper/core').Values;
 
-class SnippetUtils {
-    static getApexComment(apexNode, template, filePath, declarationLine) {
-        const insertSpaces = Config.insertSpaces()
+export class SnippetUtils {
+    static getApexComment(apexNode: any, template: any, filePath: string, declarationLine: vscode.TextLine): string {
+        const insertSpaces = Config.insertSpaces();
         const tabSize = Config.getTabSize();
         let firstChar = declarationLine.firstNonWhitespaceCharacterIndex;
         let startWS;
-        if(insertSpaces){
+        if (insertSpaces) {
             const spacesToInsert = firstChar;
             startWS = StrUtils.getWhitespaces(spacesToInsert);
         } else {
             startWS = StrUtils.getTabs(firstChar);
         }
-        const baseComment = startWS + '/**\n'+startWS+' * ${0:comment}\n'+startWS+' */';
+        const baseComment = startWS + '/**\n' + startWS + ' * ${0:comment}\n' + startWS + ' */';
         let comment = '';
         if (Utils.isNull(apexNode) || !template) {
             return baseComment;
         }
         const nodeTemplate = getApexCommentNodeTemplate(apexNode, template);
-        if (!nodeTemplate)
+        if (!nodeTemplate) {
             return baseComment;
+        }
         const templateLines = nodeTemplate.template;
         if (Utils.isNull(template.tags) || !Utils.hasKeys(template.tags)) {
             comment = startWS + templateLines.join('\n' + startWS);
@@ -36,19 +38,20 @@ class SnippetUtils {
         } else {
             comment = templateLines.join('\n');
         }
-        const keywordOrderByTag = {};
+        const keywordOrderByTag: any = {};
         let tagsOrder = [];
         let orderedTagsToRemove = [];
         for (const tagName of Object.keys(template.tags)) {
-            if (!nodeTemplate.tags || !nodeTemplate.tags.includes(tagName))
+            if (!nodeTemplate.tags || !nodeTemplate.tags.includes(tagName)) {
                 continue;
+            }
             let tag = template.tags[tagName];
             while (tag.equalsTo) {
                 tag = template.tags[tag.equalsTo];
             }
             const tagKey = '{!tag.' + tagName + '}';
             const tagIndexOf = comment.indexOf(tagKey);
-            if (tagIndexOf != -1) {
+            if (tagIndexOf !== -1) {
                 let source = (StrUtils.contains(tag.source, '.')) ? tag.source.split('.')[0] : tag.source;
                 if (source === 'return' && (apexNode.nodeType !== ApexNodeTypes.METHOD || (apexNode.nodeType === ApexNodeTypes.METHOD && (!apexNode.datatype || apexNode.datatype.name.toLowerCase() === 'void')))) {
                     orderedTagsToRemove.push({
@@ -84,9 +87,10 @@ class SnippetUtils {
                 });
                 for (const keyword of tag.keywords) {
                     const keywordIndexOf = tag.template.indexOf('{!' + keyword.name + '}');
-                    if (keywordIndexOf != -1) {
-                        if (!keywordOrderByTag[tagName])
+                    if (keywordIndexOf !== -1) {
+                        if (!keywordOrderByTag[tagName]) {
                             keywordOrderByTag[tagName] = [];
+                        }
                         keywordOrderByTag[tagName].push({
                             keyword: keyword,
                             order: keywordIndexOf
@@ -112,11 +116,13 @@ class SnippetUtils {
             if (orderedTagsToRemove.length > 0) {
                 let contains = false;
                 for (const tagData of orderedTagsToRemove) {
-                    if (StrUtils.contains(line, tagData.tag))
+                    if (StrUtils.contains(line, tagData.tag)) {
                         contains = true;
+                    }
                 }
-                if (!contains)
+                if (!contains) {
                     lines.push(line);
+                }
             } else {
                 lines.push(line);
             }
@@ -140,7 +146,7 @@ class SnippetUtils {
                     let paramTemplate = tag.template;
                     for (const orderedKeyword of orderedKeywords) {
                         const keyword = orderedKeyword.keyword;
-                        const keywordKey = '{!' + keyword.name + '}'
+                        const keywordKey = '{!' + keyword.name + '}';
                         if (keyword.source === 'name') {
                             paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + param.name + `}`);
                         } else if (keyword.source === 'type') {
@@ -149,10 +155,11 @@ class SnippetUtils {
                             paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                         }
                     }
-                    if (tagContent.length === 0)
+                    if (tagContent.length === 0) {
                         tagContent.push(tagStr + paramTemplate);
-                    else
+                    } else {
                         tagContent.push(startStr + tagStr + paramTemplate);
+                    }
                 }
             } /*else if ((apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR) && tag.source === 'exceptions' && !Utils.isNull(apexNode.exceptions) && apexNode.exceptions.length > 0) {
                 for (const exception of apexNode.exceptions) {
@@ -175,22 +182,24 @@ class SnippetUtils {
                 let returnTemplate = tag.template;
                 for (const orderedKeyword of orderedKeywords) {
                     const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}'
+                    const keywordKey = '{!' + keyword.name + '}';
                     if (keyword.source === 'type') {
                         returnTemplate = StrUtils.replace(returnTemplate, keywordKey, `\${${snippetNum++}:` + StrUtils.replace(apexNode.datatype.name, ',', ', ') + `}`);
                     } else {
                         returnTemplate = StrUtils.replace(returnTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                     }
                 }
-                if (tagContent.length === 0)
+                if (tagContent.length === 0) {
                     tagContent.push(tagStr + returnTemplate);
-                else
+                }
+                else {
                     tagContent.push(startStr + tagStr + returnTemplate);
+                }
             } else if ((apexNode.nodeType === ApexNodeTypes.VARIABLE || apexNode.nodeType === ApexNodeTypes.PROPERTY) && tag.source === 'variable') {
                 let fieldTemplate = tag.template;
                 for (const orderedKeyword of orderedKeywords) {
                     const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}'
+                    const keywordKey = '{!' + keyword.name + '}';
                     if (keyword.source === 'name') {
                         fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + apexNode.name + `}`);
                     } else if (keyword.source === 'type') {
@@ -199,15 +208,17 @@ class SnippetUtils {
                         fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                     }
                 }
-                if (tagContent.length === 0)
+                if (tagContent.length === 0) {
                     tagContent.push(tagStr + fieldTemplate);
-                else
+                }
+                else {
                     tagContent.push(startStr + tagStr + fieldTemplate);
+                }
             } else if (tag.source === 'git') {
                 let gitTemplate = tag.template;
                 for (const orderedKeyword of orderedKeywords) {
                     const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}'
+                    const keywordKey = '{!' + keyword.name + '}';
                     if (keyword.source === 'user.name') {
                         gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.username + `}`);
                     } else if (keyword.source === 'user.email') {
@@ -226,15 +237,17 @@ class SnippetUtils {
                         gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                     }
                 }
-                if (tagContent.length === 0)
+                if (tagContent.length === 0) {
                     tagContent.push(tagStr + gitTemplate);
-                else
+                }
+                else {
                     tagContent.push(startStr + tagStr + gitTemplate);
+                }
             } else if (tag.source === 'salesforce') {
                 let sfTemplate = tag.template;
                 for (const orderedKeyword of orderedKeywords) {
                     const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}'
+                    const keywordKey = '{!' + keyword.name + '}';
                     if (keyword.source === 'username') {
                         sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.sfData.username + `}`);
                     } else if (keyword.source === 'alias') {
@@ -245,15 +258,17 @@ class SnippetUtils {
                         sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                     }
                 }
-                if (tagContent.length === 0)
+                if (tagContent.length === 0) {
                     tagContent.push(tagStr + sfTemplate);
-                else
+                }
+                else {
                     tagContent.push(startStr + tagStr + sfTemplate);
+                }
             } else if (tag.source === 'path') {
                 let pathTemplate = tag.template;
                 for (const orderedKeyword of orderedKeywords) {
                     const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}'
+                    const keywordKey = '{!' + keyword.name + '}';
                     if (keyword.source === 'file') {
                         pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + filePath + `}`);
                     } else if (keyword.source === 'folder') {
@@ -264,15 +279,17 @@ class SnippetUtils {
                         pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                     }
                 }
-                if (tagContent.length === 0)
+                if (tagContent.length === 0) {
                     tagContent.push(tagStr + pathTemplate);
-                else
+                }
+                else {
                     tagContent.push(startStr + tagStr + pathTemplate);
+                }
             } else if (tag.source === 'parent' && apexNode.parentName) {
                 let parentTemplate = tag.template;
                 for (const orderedKeyword of orderedKeywords) {
                     const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}'
+                    const keywordKey = '{!' + keyword.name + '}';
                     if (keyword.source === 'file') {
                         parentTemplate = StrUtils.replace(parentTemplate, keywordKey, `\${${snippetNum++}:` + PathUtils.getDirname(filePath) + '/' + apexNode.parentName + '.cls' + `}`);
                     } else if (keyword.source === 'folder') {
@@ -281,28 +298,32 @@ class SnippetUtils {
                         parentTemplate = StrUtils.replace(parentTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                     }
                 }
-                if (tagContent.length === 0)
+                if (tagContent.length === 0) {
                     tagContent.push(tagStr + parentTemplate);
-                else
+                }
+                else {
                     tagContent.push(startStr + tagStr + parentTemplate);
+                }
             } else {
                 let tagTemplate = tag.template;
                 for (const orderedKeyword of orderedKeywords) {
                     const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}'
+                    const keywordKey = '{!' + keyword.name + '}';
                     tagTemplate = ' * ' + StrUtils.replace(tagTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                 }
-                if (tagContent.length === 0)
+                if (tagContent.length === 0) {
                     tagContent.push(tagStr + tagTemplate);
-                else
+                }
+                else {
                     tagContent.push(startStr + tagStr + tagTemplate);
+                }
             }
             comment = StrUtils.replace(comment, '{!tag.' + tagName + '}', tagContent.join('\n' + startWS));
         }
         return comment;
     }
 
-    static getJSFunctionSnippet(numParams) {
+    static getJSFunctionSnippet(numParams: number): string {
         var funcBody = `\${1:funcName} : function(`;
         if (numParams > 0) {
             var params = [];
@@ -317,7 +338,7 @@ class SnippetUtils {
         return funcBody;
     }
 
-    static getAuraDocumentationSnippet(controllerMethods, helperMethods, templateContent) {
+    static getAuraDocumentationSnippet(controllerMethods: any[], helperMethods: any[], templateContent: any): string {
         let documentationTextJson = JSON.parse(templateContent);
         let documentationText = "";
         let helperSectionIndent = '';
@@ -341,59 +362,64 @@ class SnippetUtils {
         return documentationText;
     }
 
-    static getCSSFileSnippet() {
-        return ".THIS {\n}"
+    static getCSSFileSnippet(): string {
+        return ".THIS {\n}";
     }
 
-    static getDesignFileSnippet() {
-        return "<design:component >\n\t\n</design:component>"
+    static getDesignFileSnippet(): string {
+        return "<design:component >\n\t\n</design:component>";
     }
 
-    static getSVGFileSnippet() {
+    static getSVGFileSnippet(): string {
         let content = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
         content += "<svg width=\"120px\" height=\"120px\" viewBox=\"0 0 120 120\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
         content += "\t<g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">\n";
         content += "\t\t<path d=\"M120,108 C120,114.6 114.6,120 108,120 L12,120 C5.4,120 0,114.6 0,108 L0,12 C0,5.4 5.4,0 12,0 L108,0 C114.6,0 120,5.4 120,12 L120,108 L120,108 Z\" id=\"Shape\" fill=\"#2A739E\"/>\n";
         content += "\t\t<path d=\"M77.7383308,20 L61.1640113,20 L44.7300055,63.2000173 L56.0543288,63.2000173 L40,99.623291 L72.7458388,54.5871812 L60.907727,54.5871812 L77.7383308,20 Z\" id=\"Path-1\" fill=\"#FFFFFF\"/>\n";
-        content += "\t</g>\n"
+        content += "\t</g>\n";
         content += "</svg>";
         return content;
     }
 
-    static getControllerHelperFileSnippet(firstMethodName) {
+    static getControllerHelperFileSnippet(firstMethodName: string): string {
         let content = "({\n";
-        if (firstMethodName === 'controllerMethod')
+        if (firstMethodName === 'controllerMethod') {
             content += '\t' + firstMethodName + " : function (component, event, helper) {\n\t\t\n\t}\n";
-        else
+        }
+        else {
             content += '\t' + firstMethodName + " : function (component) {\n\t\t\n\t}\n";
+        }
         content += "})";
         return content;
     }
 
-    static getRendererFileSnippet() {
+    static getRendererFileSnippet(): string {
         let content = "({";
-        content += "\n\n// Your renderer method overrides go here\n\n"
+        content += "\n\n// Your renderer method overrides go here\n\n";
         content += "})";
         return content;
     }
 
-    static getJSApexParamsSnippet(activationInfo, method) {
+    static getJSApexParamsSnippet(activationInfo: any, method: any) {
         let content = "";
-        if (activationInfo.lastToken && (activationInfo.lastToken.text === '=' || activationInfo.lastToken.text === ','))
+        if (activationInfo.lastToken && (activationInfo.lastToken.text === '=' || activationInfo.lastToken.text === ',')) {
             content += "{\n";
-        else
+        } else {
             content += "const \${1:params} = {\n";
+        }
         let cont = 0;
         let snippetNum = 2;
         for (const paramName of Object.keys(method.params)) {
             const param = method.params[paramName];
-            if (Utils.countKeys(method.params) === 1)
+            if (Utils.countKeys(method.params) === 1) {
                 content += "\t" + param.name + ": \${" + snippetNum + ":value}  // Datatype: " + StrUtils.replace(param.datatype.name, ',', ', ') + " \n";
-            else {
-                if (cont === Utils.countKeys(method.params) - 1)
+            } else {
+                if (cont === Utils.countKeys(method.params) - 1) {
                     content += "\t" + param.name + ": \${" + snippetNum + ":value}  // Datatype: " + StrUtils.replace(param.datatype.name, ',', ', ') + "\n";
-                else
+                }
+                else {
                     content += "\t" + param.name + ": \${" + snippetNum + ":value},  // Datatype: " + StrUtils.replace(param.datatype.name, ',', ', ') + "\n";
+                }
             }
             snippetNum++;
             cont++;
@@ -409,7 +435,7 @@ class SnippetUtils {
         return content;
     }
 
-    static getMethodsContent(methods, methodTemplate, paramTemplate, returnTemplate, indent) {
+    static getMethodsContent(methods: any[], methodTemplate: any, paramTemplate: any, returnTemplate: any, indent: string): string {
         var content = "";
         if (methods) {
             for (let i = 0; i < methods.length; i++) {
@@ -419,7 +445,7 @@ class SnippetUtils {
         return content;
     }
 
-    static getMethodContent(func, methodTemplate, paramTemplate, returnTemplate, indent) {
+    static getMethodContent(func: any, methodTemplate: any, paramTemplate: any, returnTemplate: any, indent: string): string {
         let content = "";
         let paramsIndent = "";
         let returnIndent = "";
@@ -465,28 +491,31 @@ class SnippetUtils {
 
 }
 
-function getApexCommentNodeTemplate(apexNode, template) {
+function getApexCommentNodeTemplate(apexNode: any, template: any): any {
     let nodeTemplate;
     if (apexNode.nodeType === ApexNodeTypes.CLASS || apexNode.nodeType === ApexNodeTypes.INTERFACE || apexNode.nodeType === ApexNodeTypes.ENUM || apexNode.nodeType === ApexNodeTypes.TRIGGER) {
-        if (template.comments[apexNode.nodeType])
+        if (template.comments[apexNode.nodeType]) {
             nodeTemplate = template.comments[apexNode.nodeType];
-        else
+        } else {
             nodeTemplate = template.comments[ApexNodeTypes.CLASS];
+        }
     } else if (apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR || apexNode.nodeType === ApexNodeTypes.STATIC_CONSTRUCTOR || apexNode.nodeType === ApexNodeTypes.INITIALIZER) {
-        if (template.comments[apexNode.nodeType])
+        if (template.comments[apexNode.nodeType]) {
             nodeTemplate = template.comments[apexNode.nodeType];
-        else
+        } else {
             nodeTemplate = template.comments[ApexNodeTypes.METHOD];
+        }
     } else if (apexNode.nodeType === ApexNodeTypes.PROPERTY || apexNode.nodeType === ApexNodeTypes.VARIABLE || apexNode.nodeType === ApexNodeTypes.GETTER || apexNode.nodeType === ApexNodeTypes.SETTER) {
-        if (template.comments[apexNode.nodeType])
+        if (template.comments[apexNode.nodeType]) {
             nodeTemplate = template.comments[apexNode.nodeType];
-        else
+        } else {
             nodeTemplate = template.comments[ApexNodeTypes.VARIABLE];
+        }
     }
     return nodeTemplate;
 }
 
-function getReturnContent(returnData, returnTemplate, indent) {
+function getReturnContent(returnData: any, returnTemplate: any, indent: string): string {
     var content = "";
     for (let i = 0; i < returnTemplate.length; i++) {
         var line = returnTemplate[i];
@@ -497,7 +526,7 @@ function getReturnContent(returnData, returnTemplate, indent) {
     return content;
 }
 
-function getParamContent(param, paramTemplate, indent) {
+function getParamContent(param: any, paramTemplate: any, indent: string): string {
     var content = "";
     for (let i = 0; i < paramTemplate.length; i++) {
         var line = paramTemplate[i];
@@ -509,7 +538,7 @@ function getParamContent(param, paramTemplate, indent) {
     return content;
 }
 
-function getParamContentFromComment(commentParam, paramTemplate, indent) {
+function getParamContentFromComment(commentParam: any, paramTemplate: any, indent: string): string {
     var content = "";
     for (let i = 0; i < paramTemplate.length; i++) {
         var line = paramTemplate[i];
@@ -521,26 +550,26 @@ function getParamContentFromComment(commentParam, paramTemplate, indent) {
     return content;
 }
 
-module.exports = SnippetUtils;
-
-function countStartTabs(str) {
+function countStartTabs(str: string): number {
     let number = 0;
     for (let i = 0; i < str.length; i++) {
-        if (str[i] == '\t')
+        if (str[i] === '\t') {
             number++;
-        else if (str[i] !== ' ')
+        } else if (str[i] !== ' ') {
             break;
+        }
     }
     return number;
 }
 
-function countStartWS(str) {
+function countStartWS(str: string): number {
     let number = 0;
     for (let i = 0; i < str.length; i++) {
-        if (str[i] == ' ')
+        if (str[i] === ' ') {
             number++;
-        else if (str[i] !== '\t')
+        } else if (str[i] !== '\t') {
             break;
+        }
     }
     return number;
 }

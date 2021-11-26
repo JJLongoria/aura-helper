@@ -1,52 +1,55 @@
-const vscode = require('vscode');
+import * as vscode from 'vscode';
 
-class MarkDownStringBuilder {
+export class MarkDownStringBuilder {
+
+    _markdown: vscode.MarkdownString;
+
 
     constructor() {
         this._markdown = new vscode.MarkdownString('', true);
         this._markdown.isTrusted = true;
     }
 
-    hasContent() {
-        return this._markdown.value != undefined && this._markdown.value;
+    hasContent(): boolean {
+        return this._markdown.value !== undefined && this._markdown.value.length > 0;
     }
 
-    appendMarkdownSeparator() {
+    appendMarkdownSeparator(): MarkDownStringBuilder {
         this._markdown.appendMarkdown('---\n   ');
         return this;
     }
 
-    appendMarkdownH4(text) {
+    appendMarkdownH4(text: string): MarkDownStringBuilder {
         this._markdown.appendMarkdown('#### ' + text + '\n\n');
         return this;
     }
 
-    appendText(text) {
+    appendText(text: string): MarkDownStringBuilder {
         this._markdown.appendText(text);
         return this;
     }
 
-    appendMarkdown(text) {
+    appendMarkdown(text: string): MarkDownStringBuilder {
         this._markdown.appendMarkdown(text);
         return this;
     }
 
-    appendApexCodeBlock(text) {
+    appendApexCodeBlock(text: string): MarkDownStringBuilder {
         this._markdown.appendCodeblock(text + '\n', 'apex');
         return this;
     }
 
-    appendJSCodeBlock(text) {
+    appendJSCodeBlock(text: string): MarkDownStringBuilder {
         this._markdown.appendCodeblock(text + '\n', 'javascript');
         return this;
     }
 
-    appendHTMLCodeBlock(text) {
+    appendHTMLCodeBlock(text: string): MarkDownStringBuilder {
         this._markdown.appendCodeblock(text + '\n', 'html');
         return this;
     }
 
-    build(withoutSeparator) {
+    build(withoutSeparator: boolean): vscode.MarkdownString {
         if (!withoutSeparator) {
             this.appendMarkdownSeparator();
             this.appendMarkdown('**Powered by Aura Helper**');
@@ -57,4 +60,3 @@ class MarkDownStringBuilder {
     }
 
 }
-module.exports = MarkDownStringBuilder;
