@@ -49,7 +49,7 @@ export class MarkDownStringBuilder {
         return this;
     }
 
-    build(withoutSeparator: boolean): vscode.MarkdownString {
+    build(withoutSeparator?: boolean): vscode.MarkdownString {
         if (!withoutSeparator) {
             this.appendMarkdownSeparator();
             this.appendMarkdown('**Powered by Aura Helper**');

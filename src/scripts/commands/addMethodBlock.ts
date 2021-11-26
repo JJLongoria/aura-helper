@@ -7,7 +7,7 @@ const { StrUtils } = require('@aurahelper/core').CoreUtils;
 const { JSParser } = require('@aurahelper/languages').JavaScript;
 const window = vscode.window;
 
-exports.run = function (): void {
+export function run(): void {
     try {
         const editor = window.activeTextEditor;
         if (!editor) {
@@ -36,10 +36,10 @@ function addMethodBlock(editor: vscode.TextEditor): void {
         controllerMethods = new JSParser(controllerPath).parse().methods;
     }
     let options = [];
-    if (controllerMethods && controllerMethods.length > 0){
+    if (controllerMethods && controllerMethods.length > 0) {
         options.push("Controller Functions");
     }
-    if (helperMethods && helperMethods.length > 0){
+    if (helperMethods && helperMethods.length > 0) {
         options.push("Helper Functions");
     }
     if (options.length > 0) {

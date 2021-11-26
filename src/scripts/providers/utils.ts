@@ -1,38 +1,79 @@
-const logger = require('../utils/logger');
-const Config = require('../core/config');
-const vscode = require('vscode');
-const Paths = require('../core/paths');
-const Range = vscode.Range;
-const Position = vscode.Position;
+import * as vscode from 'vscode';
+import { Config } from "../core/config";
+import { Paths } from '../core/paths';
+import { MarkDownStringBuilder } from '../output';
+import { TemplateUtils } from '../utils/templateUtils';
+import applicationContext from '../core/applicationContext';
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { XMLParser } = require('@aurahelper/languages').XML;
 const { ApexParser } = require('@aurahelper/languages').Apex;
 const { Tokenizer, TokenType } = require('@aurahelper/languages').System;
 const { ApexNodeTypes } = require('@aurahelper/core').Values;
-const applicationContext = require('../core/applicationContext');
 const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
 const { Token } = require('@aurahelper/core').Types;
 const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
+const Range = vscode.Range;
+const Position = vscode.Position;
 const CompletionItemKind = vscode.CompletionItemKind;
 const CompletionItem = vscode.CompletionItem;
 const SnippetString = vscode.SnippetString;
-const TemplateUtils = require('../utils/templateUtils');
-const { MarkDownStringBuilder } = require('../output');
 
-class ProviderUtils {
+export interface ProviderActivationInfo {
+    activation: string;
+    activationTokens: ActivationToken[];
+    startColumn: number;
+    lastToken: any;
+    twoLastToken: any;
+    nextToken: any;
+    twoNextToken: any;
+    tokens?: any[];
+}
 
+export interface ActivationToken {
+    activation: string,
+    startToken: any,
+    endToken: any,
+    lastToken?: any,
+    twoLastToken?: any,
+    nextToken?: any,
+    twoNextToken?: any,
+    isQuery?: boolean,
+    active?: boolean,
+}
 
+export interface ActivationType {
+    type: string;
+    name: string;
+    params?: string[];
+}
 
-    static fixPositionOffset(document, position) {
-        const insertSpaces = Config.insertSpaces()
+export interface NodeInfo {
+    node: any,
+    lastNode?: any,
+    method?: any,
+    methodVar?: any,
+    classVar?: any,
+    sObject?: any,
+    label?: any,
+    labels?: any,
+    sObjectField?: any,
+    sObjectFieldName?: string,
+    namespace?: string
+}
+
+export class ProviderUtils {
+
+    static fixPositionOffset(document: vscode.TextDocument, position: vscode.Position): vscode.Position {
+        const insertSpaces = Config.insertSpaces();
         const line = document.lineAt(position.line);
         const nTabs = countStartTabs(line.text);
         const nWS = StrUtils.countStartWhitespaces(line.text);
         const tabSize = Config.getTabSize();
         const lineLenght = (line.text.length - 1) + ((nTabs * Number(tabSize)) - nTabs);
         const difference = (lineLenght > line.range.end.character) ? lineLenght - line.range.end.character : 0;
-        if (difference > 0)
+        if (difference > 0) {
             return new Position(position.line, position.character + difference);
+        }
         return position;
         /*if (!insertSpaces) {
             if (nTabs > 0)
@@ -48,33 +89,34 @@ class ProviderUtils {
 
     }
 
-    static getFieldData(sObject, fieldName) {
+    static getFieldData(sObject: any, fieldName: string): any {
         if (sObject && sObject.fields) {
             return sObject.fields[fieldName.toLowerCase()];
         }
         return undefined;
     }
 
-    static getSimilar(list, source) {
-        let similar = {
+    static getSimilar(list: string[], source: string) {
+        const similar: any = {
             similarToLower: [],
             similar: [],
             similarMap: {}
         };
         source = source.toLowerCase();
         for (const name of list) {
-            if (name && name.toLowerCase().indexOf(source) !== -1)
+            if (name && name.toLowerCase().indexOf(source) !== -1) {
                 similar.similarToLower.push(name.toLowerCase());
+            }
             similar.similar.push(name);
             similar.similarMap[name.toLowerCase()] = name;
         }
         return similar;
     }
 
-    static getApexActivation(document, position, toIntelliSense) {
+    static getApexActivation(document: vscode.TextDocument, position: vscode.Position, toIntelliSense: boolean): ProviderActivationInfo {
         const correctedPos = ProviderUtils.fixPositionOffset(document, position);
         const difference = correctedPos.character - position.character;
-        const result = {
+        const result: ProviderActivationInfo = {
             activation: "",
             activationTokens: [],
             startColumn: 0,
@@ -83,12 +125,12 @@ class ProviderUtils {
             nextToken: undefined,
             twoNextToken: undefined,
             tokens: [],
-        }
+        };
         let activationWordTokens = [];
         let activationLastTokens = [];
         let lineNumber = correctedPos.line;
-        const line = document.lineAt(lineNumber);
-        const lineText = line.text;
+        let line = document.lineAt(lineNumber);
+        let lineText = line.text;
         if (line.isEmptyOrWhitespace) {
             result.startColumn = correctedPos.character;
             return result;
@@ -117,8 +159,9 @@ class ProviderUtils {
         let aBracketIndent = 0;
         let sqBracketIndent = 0;
         let onParams = false;
-        if (index >= lineTokens.length)
+        if (index >= lineTokens.length) {
             index = lineTokens.length - 1;
+        }
         while (index >= 0) {
             token = lineTokens[index];
             const lastToken = LanguageUtils.getLastToken(lineTokens, index);
@@ -185,7 +228,7 @@ class ProviderUtils {
                     break;
                 }
             }
-            if (index == 0) {
+            if (index === 0) {
                 lineNumber--;
                 let lineTmp = document.lineAt(lineNumber);
                 while (lineTmp.isEmptyOrWhitespace) {
@@ -225,8 +268,9 @@ class ProviderUtils {
         let activationTokens = [];
         let hasFrom = false;
         let hasSelect = false;
-        if (!endLoop)
+        if (!endLoop) {
             lineNumber = token.range.start.line;
+        }
         while (!endLoop) {
             token = lineTokens[tokenPos];
             const nextToken = LanguageUtils.getNextToken(lineTokens, tokenPos);
@@ -234,10 +278,11 @@ class ProviderUtils {
             const lastToken = LanguageUtils.getLastToken(lineTokens, tokenPos);
             const twoLastToken = LanguageUtils.getTwoLastToken(lineTokens, tokenPos);
             if (!activeTokenFound && correctedPos.line === token.range.start.line) {
-                if (correctedPos.character >= token.range.start.character && correctedPos.character <= token.range.end.character && (!nextToken || nextToken.range.start.line != correctedPos.line))
+                if (correctedPos.character >= token.range.start.character && correctedPos.character <= token.range.end.character && (!nextToken || nextToken.range.start.line !== correctedPos.line)) {
                     activeTokenFound = true;
-                else if (correctedPos.character >= token.range.start.character && correctedPos.character < token.range.end.character && nextToken.range.start.line === correctedPos.line)
+                } else if (correctedPos.character >= token.range.start.character && correctedPos.character < token.range.end.character && nextToken.range.start.line === correctedPos.line) {
                     activeTokenFound = true;
+                }
 
             }
             if (token.type === TokenType.IDENTIFIER) {
@@ -275,8 +320,9 @@ class ProviderUtils {
                         twoNextToken: nextToken,
                         isQuery: hasSelect,
                     });
-                    if (activeTokenFound)
+                    if (activeTokenFound) {
                         activeTokenAdded = true;
+                    }
                     activationWordTokens = [];
                     activationLastTokens = [];
                     hasSelect = false;
@@ -296,8 +342,9 @@ class ProviderUtils {
                         twoNextToken: nextToken,
                         isQuery: hasSelect,
                     });
-                    if (activeTokenFound)
+                    if (activeTokenFound) {
                         activeTokenAdded = true;
+                    }
                     activationWordTokens = [];
                     activationLastTokens = [];
                     hasSelect = false;
@@ -342,15 +389,16 @@ class ProviderUtils {
                         activationLastTokens.push(twoLastToken);
                     }
                 }
-                if (aBracketIndent == 0 && !onParams && (!nextToken || nextToken.type !== TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN)) {
+                if (aBracketIndent === 0 && !onParams && (!nextToken || nextToken.type !== TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN)) {
                     endLoop = true;
                 } else if (aBracketIndent < 0) {
                     endLoop = true;
                 }
             } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
                 parenIndent++;
-                if (parenIndent === 1)
+                if (parenIndent === 1) {
                     onParams = true;
+                }
                 activationTokens.push(token);
                 activationWordTokens.push(token);
                 if (activationLastTokens.length === 0) {
@@ -404,7 +452,7 @@ class ProviderUtils {
             }
             if (toIntelliSense && activeTokenFound) {
                 endLoop = true;
-            } else if (!endLoop && tokenPos == lineTokens.length - 1) {
+            } else if (!endLoop && tokenPos === lineTokens.length - 1) {
                 lineNumber++;
                 let lineTmp = document.lineAt(lineNumber);
                 while (lineTmp.isEmptyOrWhitespace) {
@@ -444,19 +492,21 @@ class ProviderUtils {
                 twoNextToken: twoNextToken,
                 isQuery: hasSelect,
             });
-            if (activeTokenFound)
+            if (activeTokenFound) {
                 activeTokenAdded = true;
+            }
         }
         result.activation = Token.toString(activationTokens, true);
-        if (difference > 0 && result.startColumn >= difference)
+        if (difference > 0 && result.startColumn >= difference) {
             result.startColumn = result.startColumn - difference;
+        }
         return result;
     }
 
-    static getActivation(document, position) {
+    static getActivation(document: vscode.TextDocument, position: vscode.Position): ProviderActivationInfo {
         const correctedPos = ProviderUtils.fixPositionOffset(document, position);
         const difference = correctedPos.character - position.character;
-        const result = {
+        const result: ProviderActivationInfo = {
             activation: "",
             activationTokens: [],
             startColumn: 0,
@@ -464,7 +514,7 @@ class ProviderUtils {
             twoLastToken: undefined,
             nextToken: undefined,
             twoNextToken: undefined,
-        }
+        };
         let activationTokens = [];
         const line = document.lineAt(correctedPos.line);
         const lineText = line.text;
@@ -487,8 +537,9 @@ class ProviderUtils {
             }
             index++;
         }
-        if (token.type == TokenType.BRACKET.CURLY_CLOSE)
+        if (token.type === TokenType.BRACKET.CURLY_CLOSE) {
             tokenPos--;
+        }
         let endLoop = false;
         let isOnParams = false;
         let parenIndent = 0;
@@ -505,8 +556,9 @@ class ProviderUtils {
             const twoLastToken = LanguageUtils.getTwoLastToken(lineTokens, tokenPos);
             if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
                 parenIndent++;
-                if (parenIndent == 1)
+                if (parenIndent === 1) {
                     isOnParams = true;
+                }
                 result.activation = token.text + result.activation;
                 result.startColumn = token.range.start.character;
                 result.lastToken = lastToken;
@@ -514,7 +566,7 @@ class ProviderUtils {
                 activationTokens.push(token);
             } else if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
                 parenIndent--;
-                if (parenIndent == 0) {
+                if (parenIndent === 0) {
                     isOnParams = false;
                 } else if (parenIndent < 0) {
                     isOnParams = false;
@@ -529,7 +581,7 @@ class ProviderUtils {
                 }
             } else if (token && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR || token.type === TokenType.IDENTIFIER || token.type === TokenType.PUNCTUATION.COLON || isOnParams)) {
                 if (!isOnParams) {
-                    if (lastToken && lastToken.range.end.character != token.range.start.character) {
+                    if (lastToken && lastToken.range.end.character !== token.range.start.character) {
                         endLoop = true;
                         result.activation = token.text + result.activation;
                         result.startColumn = token.range.start.character;
@@ -574,7 +626,7 @@ class ProviderUtils {
                         result.startColumn = nextToken.range.start.character;
                     }
                 }
-            } else if (token.type == TokenType.BRACKET.CURLY_OPEN) {
+            } else if (token.type === TokenType.BRACKET.CURLY_OPEN) {
                 endLoop = true;
             } else if (token.type === TokenType.PUNCTUATION.QUOTTES || token.type === TokenType.PUNCTUATION.QUOTTES_END || token.type === TokenType.PUNCTUATION.QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END) {
                 if (lastToken && (lastToken.type === TokenType.PUNCTUATION.QUOTTES || lastToken.type === TokenType.PUNCTUATION.QUOTTES_END || lastToken.type === TokenType.PUNCTUATION.QUOTTES_START || lastToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || lastToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || lastToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END)) {
@@ -583,7 +635,7 @@ class ProviderUtils {
                     result.twoLastToken = twoLastToken;
                     result.startColumn = token.range.start.character;
                 }
-            } else if (token.type == TokenType.LITERAL.STRING) {
+            } else if (token.type === TokenType.LITERAL.STRING) {
                 if (lastToken && lastToken.range.end.character === token.range.start.character) {
                     result.activation = token.text + result.activation;
                     activationTokens.push(token);
@@ -599,9 +651,10 @@ class ProviderUtils {
                     endLoop = true;
                 }
             }
-            tokenPos--
-            if (tokenPos < 0)
+            tokenPos--;
+            if (tokenPos < 0) {
                 endLoop = true;
+            }
         }
         if (activationTokens.length > 0) {
             activationTokens.reverse();
@@ -612,36 +665,44 @@ class ProviderUtils {
             });
         }
         result.activationTokens.reverse();
-        if (result.activationTokens.length > 0)
+        if (result.activationTokens.length > 0) {
             result.startColumn = result.activationTokens[0].startToken.range.start.character;
-        if (difference > 0 && result.startColumn >= difference)
+        }
+        if (difference > 0 && result.startColumn >= difference) {
             result.startColumn = result.startColumn - difference;
+        }
         return result;
     }
 
-    static getSObjectFieldCompletionItems(position, activationInfo, activationTokens, sObject, field, positionData) {
-        if (!sObject || !field)
+    static getSObjectFieldCompletionItems(position: vscode.Position, activationInfo: ProviderActivationInfo, activationTokens: ActivationToken[], sObject: any, field: any, positionData: any): vscode.CompletionItem[] {
+        if (!sObject || !field) {
             return [];
-        let items = [];
-        let pickItems = [];
-        let itemRel;
+        }
+        let items: vscode.CompletionItem[] = [];
+        let pickItems: vscode.CompletionItem[] = [];
+        let itemRel: vscode.CompletionItem | undefined;
         let detail = sObject.name + ' Field';
         const documentation = new MarkDownStringBuilder();
         const relDocumentation = new MarkDownStringBuilder();
         let label = StrUtils.replace(field.label, '.field-meta.xml', '');
         label = label.endsWith('Id') ? label.substring(0, label.length - 2) : label;
         let doc = (field.description) ? field.description + '\n\n' : '';
-        if (!field.description && field.inlineHelpText && field.inlineHelpText !== 'null')
+        if (!field.description && field.inlineHelpText && field.inlineHelpText !== 'null') {
             doc = (field.inlineHelpText) ? field.inlineHelpText + '\n\n' : '';
+        }
         doc += "  - **Label**: `" + label + '`  \n';
-        if (field.length)
+        if (field.length) {
             doc += "  - **Length**: `" + field.length + '`  \n';
-        if (field.type)
+        }
+        if (field.type) {
             doc += "  - **Type**: `" + field.type + '`  \n';
-        if (field.custom !== undefined)
+        }
+        if (field.custom !== undefined) {
             doc += "  - **Is Custom**: `" + field.custom + '`  \n';
-        if (field.inlineHelpText && field.inlineHelpText !== 'null')
+        }
+        if (field.inlineHelpText && field.inlineHelpText !== 'null') {
             doc += "  - **Inline Help**: `" + field.inlineHelpText + '`  \n';
+        }
         if (field.referenceTo.length > 0) {
             doc += "  - **Reference To**: `" + field.referenceTo.join(", ") + '`\n';
             let name = field.name;
@@ -695,8 +756,9 @@ class ProviderUtils {
                     pickDocumentation.appendApexCodeBlock(pickValue);
                     const options = ProviderUtils.getCompletionItemOptions('Picklist Value', pickDocumentation.build(), pickValue.toString(), false, CompletionItemKind.Value);
                     const pickItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + field.name + '.' + pickVal.value.toString(), options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                         pickItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    }
                     pickItems.push(pickItem);
                 }
                 documentation.appendMarkdown('  - `' + pickVal.value + "` (" + pickVal.label + ")  \n");
@@ -705,8 +767,9 @@ class ProviderUtils {
         const options = ProviderUtils.getCompletionItemOptions(detail, documentation.build(), field.name, true, CompletionItemKind.Field);
         const item = ProviderUtils.createItemForCompletion(field.name, options);
         items.push(item);
-        if (itemRel)
+        if (itemRel) {
             items.push(itemRel);
+        }
         if (pickItems.length > 0) {
             items = items.concat(pickItems);
             pickItems = [];
@@ -714,8 +777,8 @@ class ProviderUtils {
         return items;
     }
 
-    static getSobjectCompletionItems(position, activationInfo, activationTokens, sObject, positionData) {
-        let items = [];
+    static getSobjectCompletionItems(position: vscode.Position, activationInfo: ProviderActivationInfo, activationTokens: ActivationToken[], sObject: any, positionData: any): vscode.CompletionItem[] {
+        let items: vscode.CompletionItem[] = [];
         if (sObject && sObject.fields) {
             const existingFields = [];
             if (positionData && positionData.query) {
@@ -729,8 +792,9 @@ class ProviderUtils {
                     if (!StrUtils.contains(fieldKey, '.') && fieldKey.endsWith('__c')) {
                         continue;
                     }
-                    if (!field.referenceTo || field.referenceTo.length === 0)
+                    if (!field.referenceTo || field.referenceTo.length === 0) {
                         continue;
+                    }
                 }
                 items = items.concat(ProviderUtils.getSObjectFieldCompletionItems(position, activationInfo, activationTokens, sObject, field, positionData));
             }
@@ -743,10 +807,12 @@ class ProviderUtils {
                     rtDevNameDocumentation.appendApexCodeBlock(sObject.name + '.' + rt.developerName);
                     let rtDoc = "  - **Name**: `" + rt.name + '`\n';
                     rtDoc += "  - **Developer Name**: `" + rt.developerName + '`\n';
-                    if (rt.default !== undefined)
+                    if (rt.default !== undefined) {
                         rtDoc += "  - **Default**: `" + rt.default + '`\n';
-                    if (rt.master !== undefined)
+                    }
+                    if (rt.master !== undefined) {
                         rtDoc += "  - **Master**: `" + rt.master + '`';
+                    }
                     let nameValue;
                     let devNameValue;
                     if (positionData && positionData.onText) {
@@ -779,10 +845,12 @@ class ProviderUtils {
                     const nameRtItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + rt.name, nameOptions);
                     const devNameoptions = ProviderUtils.getCompletionItemOptions('Record Type Developer Name', rtNameDocumentation.build(), devNameValue, false, CompletionItemKind.Value);
                     const devNameRtItem = ProviderUtils.createItemForCompletion(sObject.name + '.' + rt.developerName, devNameoptions);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                         nameRtItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                    }
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                         devNameRtItem.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    }
                     items.push(nameRtItem);
                     items.push(devNameRtItem);
                 }
@@ -797,11 +865,12 @@ class ProviderUtils {
         return items;
     }
 
-    static getQueryCompletionItems(position, activationInfo, activationTokens, positionData) {
-        if (!Config.getConfig().autoCompletion.activeQuerySuggestion)
+    static getQueryCompletionItems(position: vscode.Position, activationInfo: ProviderActivationInfo, activationTokens: ActivationToken[], positionData: any): vscode.CompletionItem[] {
+        if (!Config.getConfig().autoCompletion.activeQuerySuggestion) {
             return [];
+        }
         let sObjects = applicationContext.parserData.sObjectsData;
-        let items = [];
+        let items: vscode.CompletionItem[] = [];
         let sObject = positionData.query.from ? sObjects[positionData.query.from.textToLower] : undefined;
         if (sObject) {
             const existingFields = [];
@@ -810,13 +879,15 @@ class ProviderUtils {
             }
             if (activationTokens.length > 0) {
                 for (const activationToken of activationTokens) {
-                    if (!activationToken)
+                    if (!activationToken) {
                         continue;
+                    }
                     let actToken = activationToken.activation;
                     let fielData;
                     let idField = actToken + 'Id';
-                    if (actToken.endsWith('__r'))
+                    if (actToken.endsWith('__r')) {
                         actToken = actToken.substring(0, actToken.length - 3) + '__c';
+                    }
                     fielData = ProviderUtils.getFieldData(sObject, idField.toLowerCase()) || ProviderUtils.getFieldData(sObject, actToken);
                     if (fielData) {
                         if (fielData.referenceTo.length === 1) {
@@ -834,8 +905,9 @@ class ProviderUtils {
                         if (!StrUtils.contains(fieldKey, '.') && fieldKey.endsWith('__c')) {
                             continue;
                         }
-                        if (!field.referenceTo || field.referenceTo.length === 0)
+                        if (!field.referenceTo || field.referenceTo.length === 0) {
                             continue;
+                        }
                     }
                     items = items.concat(ProviderUtils.getSObjectFieldCompletionItems(position, activationInfo, activationTokens, sObject, field, positionData));
                 }
@@ -845,8 +917,9 @@ class ProviderUtils {
                 const sObject = applicationContext.parserData.sObjectsData[key];
                 const documentation = new MarkDownStringBuilder();
                 let description = 'Standard SObject';
-                if (sObject.custom)
+                if (sObject.custom) {
                     description = 'Custom SObject';
+                }
                 if (sObject.namespace) {
                     description += '\n\nNamespace: ' + sObject.namespace;
                 }
@@ -854,16 +927,17 @@ class ProviderUtils {
                 documentation.appendMarkdown(description);
                 const options = ProviderUtils.getCompletionItemOptions('SObject', documentation.build(), sObject.name, true, CompletionItemKind.Class);
                 const item = ProviderUtils.createItemForCompletion(sObject.name, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                }
                 items.push(item);
             });
         }
         return items;
     }
 
-    static getActivationType(actToken) {
-        let memberData = undefined;
+    static getActivationType(actToken: string): ActivationType {
+        let memberData: ActivationType | undefined;
         if (actToken.indexOf('(') !== -1 && actToken.indexOf(')') !== -1) {
             const name = actToken.split("(")[0].toLowerCase();
             const params = actToken.substring(actToken.indexOf("(") + 1, actToken.indexOf(")"));
@@ -924,111 +998,123 @@ class ProviderUtils {
         return memberData;
     }
 
-    static getAttribute(component, attributeName) {
+    static getAttribute(component: any, attributeName: string): any {
         if (component) {
             for (const attribute of component.attributes) {
-                if (Utils.isString(attribute.name) && attribute.name === attributeName)
+                if (Utils.isString(attribute.name) && attribute.name === attributeName) {
                     return attribute;
-                else if (Utils.isObject(attribute.name) && attribute.name.value.text === attributeName)
+                } else if (Utils.isObject(attribute.name) && attribute.name.value.text === attributeName) {
                     return attribute;
+                }
             }
         }
         return undefined;
     }
 
-    static getVariable(method, varName) {
+    static getVariable(method: any, varName: string): any {
         if (method) {
-            if (StrUtils.contains(varName, '['))
+            if (StrUtils.contains(varName, '[')) {
                 varName = varName.split('[')[0];
-            if (method.params[varName])
+            }
+            if (method.params[varName]) {
                 return method.params[varName];
-            if (method.variables[varName])
+            }
+            if (method.variables[varName]) {
                 return method.variables[varName];
+            }
         }
         return undefined;
     }
 
-    static getClassField(node, varName) {
+    static getClassField(node: any, varName: string): any {
         if (node) {
-            if (StrUtils.contains(varName, '['))
+            if (StrUtils.contains(varName, '[')) {
                 varName = varName.split('[')[0];
+            }
             return node.variables[varName.toLowerCase()];
         }
         return undefined;
     }
 
-    static getQueryFromFirstToken(node, queryFirstToken) {
+    static getQueryFromFirstToken(node: any, queryFirstToken: any): any {
         if (node && node.queries && node.queries.length > 0) {
             for (const query of node.queries) {
-                if (query.startToken.range.start.line === queryFirstToken.range.start.line && query.startToken.range.start.character === queryFirstToken.range.start.character)
+                if (query.startToken.range.start.line === queryFirstToken.range.start.line && query.startToken.range.start.character === queryFirstToken.range.start.character) {
                     return query;
+                }
             }
         }
         return undefined;
     }
 
-    static getMethod(node, methodSignature) {
+    static getMethod(node: any, methodSignature: any): undefined {
         if (node) {
-            if (node.methods[methodSignature.toLowerCase()])
+            if (node.methods[methodSignature.toLowerCase()]) {
                 return node.methods[methodSignature.toLowerCase()];
-            else if (node.constructors[methodSignature.toLowerCase()])
+            } else if (node.constructors[methodSignature.toLowerCase()]) {
                 return node.constructors[methodSignature.toLowerCase()];
+            }
         }
         return undefined;
     }
 
-    static isStaticMember(member) {
-        if (member.isStatic)
+    static isStaticMember(member: any): any {
+        if (member.isStatic) {
             return true;
-        if (member.signature && member.signature.toLowerCase().indexOf(' static ') !== -1)
+        }
+        if (member.signature && member.signature.toLowerCase().indexOf(' static ') !== -1) {
             return true;
+        }
         return false;
     }
 
-    static isSObject(objectName) {
-        let sObjects = applicationContext.sObjects;
+    static isSObject(objectName: string): boolean {
+        const sObjects = applicationContext.parserData.sObjects;
         return sObjects && sObjects[objectName.toLowerCase()];
     }
 
-    static isUserClass(className) {
-        let classes = applicationContext.parserData.userClassesData;
+    static isUserClass(className: string): boolean {
+        const classes = applicationContext.parserData.userClassesData;
         return classes && classes[className.toLowerCase()];
     }
 
-    static isSystemClass(className) {
-        let classes = applicationContext.parserData.namespacesData['system'];
+    static isSystemClass(className: string): boolean {
+        const classes = applicationContext.parserData.namespacesData['system'];
         return classes && classes[className.toLowerCase()];
     }
 
-    static getSystemClass(ns, className) {
-        if (applicationContext.parserData.namespacesData[ns.toLowerCase])
-            return applicationContext.parserData.namespacesData[ns.toLowerCase][className];
+    static getSystemClass(ns: string, className: string): any {
+        if (applicationContext.parserData.namespacesData[ns.toLowerCase()]) {
+            return applicationContext.parserData.namespacesData[ns.toLowerCase()][className];
+        }
         return undefined;
     }
 
-    static isOnPosition(position, lastToken, token, nextToken) {
-        if (position && token.line == position.line) {
-            if (token.startColumn <= position.character && position.character <= nextToken.startColumn)
+    static isOnPosition(position: vscode.Position, lastToken: any, token: any, nextToken: any): boolean {
+        if (position && token.line === position.line) {
+            if (token.startColumn <= position.character && position.character <= nextToken.startColumn) {
                 return true;
+            }
         } else if (position && lastToken && lastToken.line < position.line && nextToken && position.line < nextToken.line) {
             return true;
         }
         return false;
     }
 
-    static getActiveActivationToken(activationInfo) {
+    static getActiveActivationToken(activationInfo: ProviderActivationInfo): ActivationToken | undefined {
         let active = undefined;
         if (activationInfo.activationTokens.length > 0) {
             for (const activation of activationInfo.activationTokens) {
                 active = activation;
-                if (activation.active)
+                if (activation.active) {
                     break;
+                }
             }
         }
         return active;
     }
 
-    static getNodeInformation(node, activationInfo, toIntelliSense) {
+    static getNodeInformation(node: any, activationInfo: ProviderActivationInfo, toIntelliSense?: boolean): NodeInfo | undefined {
         const parser = new ApexParser().setSystemData(applicationContext.parserData);
         const systemMetadata = applicationContext.parserData.namespacesData['system'];
         let method;
@@ -1044,14 +1130,17 @@ class ProviderUtils {
         let datatype;
         if (activationInfo.activationTokens.length > 0) {
             lastNode = applicationContext.parserData.userClassesData[activationInfo.activationTokens[0].activation.toLowerCase()] || systemMetadata[activationInfo.activationTokens[0].activation.toLowerCase()] || applicationContext.parserData.namespacesData[activationInfo.activationTokens[0].activation.toLowerCase()] || applicationContext.parserData.sObjectsData[activationInfo.activationTokens[0].activation.toLowerCase()] || node;
-            if (node && lastNode && activationInfo.activationTokens[0].activation.toLowerCase() === node.name.toLowerCase())
+            if (node && lastNode && activationInfo.activationTokens[0].activation.toLowerCase() === node.name.toLowerCase()) {
                 lastNode = node;
+            }
         } else {
-            if (lastNode.positionData && lastNode.positionData.query)
+            if (lastNode.positionData && lastNode.positionData.query) {
                 lastNode = parser.resolveDatatype(lastNode.positionData.query.from.textToLower);
+            }
         }
-        if (node && node.positionData && (node.positionData.nodeType === ApexNodeTypes.COMMENT || node.positionData.nodeType === ApexNodeTypes.BLOCK_COMMENT))
+        if (node && node.positionData && (node.positionData.nodeType === ApexNodeTypes.COMMENT || node.positionData.nodeType === ApexNodeTypes.BLOCK_COMMENT)) {
             return undefined;
+        }
         for (let i = 0; i < activationInfo.activationTokens.length; i++) {
             if (!toIntelliSense) {
                 method = undefined;
@@ -1084,12 +1173,14 @@ class ProviderUtils {
                     if (node && node.positionData.signature) {
                         method = ProviderUtils.getMethod(node, node.positionData.signature) || ProviderUtils.getMethod(node.classes[node.positionData.parentName.toLowerCase()], node.positionData.signature) || ProviderUtils.getMethod(node.interfaces[node.positionData.parentName.toLowerCase()], node.positionData.signature);
                         let query = ProviderUtils.getQueryFromFirstToken(method, activationToken.startToken);
-                        if (query)
+                        if (query) {
                             datatypeName = query.from.textToLower;
+                        }
                     } else if (node) {
                         let query = ProviderUtils.getQueryFromFirstToken(node, activationToken.startToken);
-                        if (query)
+                        if (query) {
                             datatypeName = query.from.textToLower;
+                        }
                     }
                 } else if (lastNode) {
                     if (!Utils.isNull(lastNode.nodeType)) {
@@ -1100,16 +1191,17 @@ class ProviderUtils {
                                     methodVar = ProviderUtils.getVariable(method, activationToLower);
                                     classVar = ProviderUtils.getClassField(lastNode, activationToLower);
                                     if ((!activationToken.active || activationInfo.activationTokens.length === 1) && methodVar && activationToken.endToken.type === TokenType.BRACKET.SQUARE_CLOSE) {
-                                        if (lastNode.classes[methodVar.datatype.value.type.toLowerCase()] || lastNode.interfaces[methodVar.datatype.value.type.toLowerCase()] || lastNode.enums[methodVar.datatype.value.type.toLowerCase()])
+                                        if (lastNode.classes[methodVar.datatype.value.type.toLowerCase()] || lastNode.interfaces[methodVar.datatype.value.type.toLowerCase()] || lastNode.enums[methodVar.datatype.value.type.toLowerCase()]) {
                                             datatypeName = methodVar.datatype.value.type;
-                                        else
+                                        } else {
                                             datatypeName = methodVar.datatype.value.name;
-                                    } else if (methodVar)
+                                        }
+                                    } else if (methodVar) {
                                         datatypeName = methodVar.datatype.name;
-                                    else if (classVar)
+                                    } else if (classVar) {
                                         datatypeName = classVar.datatype.name;
-                                    else {
-                                        datatypeName = activationToLower
+                                    } else {
+                                        datatypeName = activationToLower;
                                         method = undefined;
                                     }
                                 } else if (lastNode.positionData && lastNode.positionData.nodeType === ApexNodeTypes.SOQL && lastNode.positionData.query) {
@@ -1121,13 +1213,14 @@ class ProviderUtils {
                                         methodVar = undefined;
                                         classVar = undefined;
                                     }
-                                    if (methodVar)
+                                    if (methodVar) {
                                         datatypeName = methodVar.datatype.name;
-                                    else if (classVar)
+                                    } else if (classVar) {
                                         datatypeName = classVar.datatype.name;
-                                    else {
-                                        if (!toIntelliSense)
+                                    } else {
+                                        if (!toIntelliSense) {
                                             method = undefined;
+                                        }
                                         lastNode = parser.resolveDatatype(lastNode.positionData.query.from.textToLower);
                                         let idField = (!activationToLower.endsWith('id')) ? activationToLower + 'Id' : activationToLower;
                                         let relatedField = (activationToLower.endsWith('__r')) ? activationToLower.substring(0, activationToLower.length - 3) + '__c' : activationToLower;
@@ -1138,10 +1231,11 @@ class ProviderUtils {
                                             if (sObjectField.referenceTo.length === 1) {
                                                 datatypeName = sObjectField.referenceTo[0];
                                             } else {
-                                                if (sObjectField.name.endsWith('Id') && !sObjectField.custom)
-                                                    datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2)
-                                                else
+                                                if (sObjectField.name.endsWith('Id') && !sObjectField.custom) {
+                                                    datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2);
+                                                } else {
                                                     datatypeName = sObjectField.type;
+                                                }
                                                 if (toIntelliSense && (!activationToken.nextToken || activationToken.nextToken.text !== '.')) {
                                                     datatypeName = sObject.name;
                                                 }
@@ -1159,21 +1253,23 @@ class ProviderUtils {
                                             classVar = ProviderUtils.getClassField(node, activationToLower);
                                             if (methodVar && activationToken.endToken.type === TokenType.BRACKET.SQUARE_CLOSE) {
                                                 datatypeName = methodVar.datatype.value;
-                                            } else if (methodVar)
+                                            } else if (methodVar) {
                                                 datatypeName = methodVar.datatype.name;
-                                            else if (classVar)
+                                            } else if (classVar) {
                                                 datatypeName = classVar.datatype.name;
+                                            }
                                         } else {
                                             methodVar = undefined;
                                             classVar = undefined;
                                         }
-                                        if (methodVar)
+                                        if (methodVar) {
                                             datatypeName = methodVar.datatype.name;
-                                        else if (classVar)
+                                        } else if (classVar) {
                                             datatypeName = classVar.datatype.name;
-                                        else {
-                                            if (!toIntelliSense)
+                                        } else {
+                                            if (!toIntelliSense) {
                                                 method = undefined;
+                                            }
                                             lastNode = parser.resolveDatatype(node.positionData.query.from.textToLower);
                                             let idField = (!activationToLower.endsWith('id')) ? activationToLower + 'Id' : activationToLower;
                                             let relatedField = (activationToLower.endsWith('__r')) ? activationToLower.substring(0, activationToLower.length - 3) + '__c' : activationToLower;
@@ -1184,10 +1280,11 @@ class ProviderUtils {
                                                 if (sObjectField.referenceTo.length === 1) {
                                                     datatypeName = sObjectField.referenceTo[0];
                                                 } else {
-                                                    if (sObjectField.name.endsWith('Id') && !sObjectField.custom)
-                                                        datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2)
-                                                    else
+                                                    if (sObjectField.name.endsWith('Id') && !sObjectField.custom) {
+                                                        datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2);
+                                                    } else {
                                                         datatypeName = sObjectField.type;
+                                                    }
                                                 }
                                             } else {
                                                 sObjectFieldName = undefined;
@@ -1196,24 +1293,27 @@ class ProviderUtils {
                                         }
                                     } else {
                                         methodVar = undefined;
-                                        if (lastNode.positionData && lastNode.positionData.parentName)
+                                        if (lastNode.positionData && lastNode.positionData.parentName) {
                                             classVar = ProviderUtils.getClassField(lastNode, activationToLower) || ProviderUtils.getClassField(lastNode.classes[lastNode.positionData.parentName.toLowerCase()], activationToLower) || ProviderUtils.getClassField(lastNode.interfaces[lastNode.positionData.parentName.toLowerCase()], activationToLower);
-                                        else
+                                        } else {
                                             classVar = ProviderUtils.getClassField(lastNode, activationToLower);
-                                        if (classVar)
+                                        }
+                                        if (classVar) {
                                             datatypeName = classVar.datatype.name;
-                                        else
+                                        } else {
                                             datatypeName = activationToLower;
+                                        }
                                     }
                                 }
                             } else {
                                 datatypeName = lastNode.name;
                             }
                         } else {
-                            if (lastNode.positionData && lastNode.positionData.parentName)
+                            if (lastNode.positionData && lastNode.positionData.parentName) {
                                 method = ProviderUtils.getMethodFromCall(lastNode, actType.name, actType.params) || ProviderUtils.getMethodFromCall(lastNode.classes[lastNode.positionData.parentName.toLowerCase()], actType.name, actType.params) || ProviderUtils.getMethodFromCall(lastNode.interfaces[lastNode.positionData.parentName.toLowerCase()], actType.name, actType.params);
-                            else
+                            } else {
                                 method = ProviderUtils.getMethodFromCall(lastNode, actType.name, actType.params);
+                            }
                             if (method) {
                                 datatypeName = (method.datatype) ? method.datatype.name : lastNode.name;
                                 if (!datatype) {
@@ -1254,21 +1354,23 @@ class ProviderUtils {
                                     classVar = ProviderUtils.getClassField(node, activationToLower);
                                     if (methodVar && activationToken.endToken.type === TokenType.BRACKET.SQUARE_CLOSE) {
                                         datatypeName = methodVar.datatype.value;
-                                    } else if (methodVar)
+                                    } else if (methodVar) {
                                         datatypeName = methodVar.datatype.name;
-                                    else if (classVar)
+                                    } else if (classVar) {
                                         datatypeName = classVar.datatype.name;
+                                    }
                                 } else {
                                     methodVar = undefined;
                                     classVar = undefined;
                                 }
-                                if (methodVar)
+                                if (methodVar) {
                                     datatypeName = methodVar.datatype.name;
-                                else if (classVar)
+                                } else if (classVar) {
                                     datatypeName = classVar.datatype.name;
-                                else {
-                                    if (!toIntelliSense)
+                                } else {
+                                    if (!toIntelliSense) {
                                         method = undefined;
+                                    }
                                     lastNode = parser.resolveDatatype(node.positionData.query.from.textToLower);
                                     let idField = (!activationToLower.endsWith('id')) ? activationToLower + 'Id' : activationToLower;
                                     let relatedField = (activationToLower.endsWith('__r')) ? activationToLower.substring(0, activationToLower.length - 3) + '__c' : activationToLower;
@@ -1279,10 +1381,11 @@ class ProviderUtils {
                                         if (sObjectField.referenceTo.length === 1) {
                                             datatypeName = sObjectField.referenceTo[0];
                                         } else {
-                                            if (sObjectField.name.endsWith('Id') && !sObjectField.custom)
-                                                datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2)
-                                            else
+                                            if (sObjectField.name.endsWith('Id') && !sObjectField.custom) {
+                                                datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2);
+                                            } else {
                                                 datatypeName = sObjectField.type;
+                                            }
                                         }
                                     } else {
                                         sObjectFieldName = undefined;
@@ -1301,10 +1404,11 @@ class ProviderUtils {
                                     if (sObjectField.referenceTo.length === 1) {
                                         datatypeName = sObjectField.referenceTo[0];
                                     } else {
-                                        if (sObjectField.name.endsWith('Id') && !sObjectField.custom)
-                                            datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2)
-                                        else
+                                        if (sObjectField.name.endsWith('Id') && !sObjectField.custom) {
+                                            datatypeName = sObjectField.name.substring(0, sObjectField.name.length - 2);
+                                        } else {
                                             datatypeName = sObjectField.type;
+                                        }
                                     }
                                 } else {
                                     datatypeName = lastNode.name;
@@ -1314,8 +1418,9 @@ class ProviderUtils {
                         } else {
                             const tmpNode = parser.resolveDatatype('sobject');
                             method = ProviderUtils.getMethodFromCall(tmpNode, actType.name, actType.params);
-                            if (method)
+                            if (method) {
                                 datatypeName = method.datatype.name;
+                            }
                         }
                     } else {
                         if (actType.type === 'field') {
@@ -1328,25 +1433,27 @@ class ProviderUtils {
                     if (lastNode && lastNode.parentName) {
                         lastNode = parser.resolveDatatype(lastNode.parentName);
                     } else {
-                        if (!toIntelliSense)
+                        if (!toIntelliSense) {
                             method = undefined;
+                        }
                         lastNode = parser.resolveDatatype(activationToLower);
                     }
                 } else {
-                    if (lastNode && lastNode.classes && lastNode.classes[activationToLower])
+                    if (lastNode && lastNode.classes && lastNode.classes[activationToLower]) {
                         lastNode = lastNode.classes[activationToLower];
-                    else if (lastNode && lastNode.classes && lastNode.classes[datatypeName.toLowerCase()])
+                    } else if (lastNode && lastNode.classes && lastNode.classes[datatypeName.toLowerCase()]) {
                         lastNode = lastNode.classes[datatypeName.toLowerCase()];
-                    else if (lastNode && lastNode.interfaces && lastNode.interfaces[activationToLower])
+                    } else if (lastNode && lastNode.interfaces && lastNode.interfaces[activationToLower]) {
                         lastNode = lastNode.interfaces[activationToLower];
-                    else if (lastNode && lastNode.interfaces && lastNode.interfaces[datatypeName.toLowerCase()])
+                    } else if (lastNode && lastNode.interfaces && lastNode.interfaces[datatypeName.toLowerCase()]) {
                         lastNode = lastNode.interfaces[datatypeName.toLowerCase()];
-                    else if (lastNode && lastNode.enums && lastNode.enums[activationToLower])
+                    } else if (lastNode && lastNode.enums && lastNode.enums[activationToLower]) {
                         lastNode = lastNode.enums[activationToLower];
-                    else if (lastNode && lastNode.enums && lastNode.enums[datatypeName.toLowerCase()])
+                    } else if (lastNode && lastNode.enums && lastNode.enums[datatypeName.toLowerCase()]) {
                         lastNode = lastNode.enums[datatypeName.toLowerCase()];
-                    else
+                    } else {
                         lastNode = parser.resolveDatatype(datatypeName);
+                    }
                 }
             }
             if (activationToken.active) {
@@ -1365,39 +1472,41 @@ class ProviderUtils {
             sObjectField: sObjectField,
             sObjectFieldName: sObjectFieldName,
             namespace: namespace
-        }
+        };
     }
 
-    static getApexCompletionItems(position, activationInfo, node, positionData) {
-        let items = [];
+    static getApexCompletionItems(position: vscode.Position, activationInfo: ProviderActivationInfo, node: any, positionData: any): vscode.CompletionItem[] {
+        let items: vscode.CompletionItem[] = [];
         const nodeInfo = ProviderUtils.getNodeInformation(node, activationInfo);
-        if (nodeInfo.lastNode && Object.keys(nodeInfo.lastNode).includes('keyPrefix') && Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
+        if (nodeInfo && nodeInfo.lastNode && Object.keys(nodeInfo.lastNode).includes('keyPrefix') && Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
             items = items.concat(ProviderUtils.getSobjectCompletionItems(position, activationInfo, activationInfo.activationTokens, nodeInfo.lastNode, positionData));
-        } else if (nodeInfo.lastNode && !Utils.isNull(nodeInfo.lastNode.nodeType) && Config.getConfig().autoCompletion.activeApexSuggestion) {
+        } else if (nodeInfo && nodeInfo.lastNode && !Utils.isNull(nodeInfo.lastNode.nodeType) && Config.getConfig().autoCompletion.activeApexSuggestion) {
             items = ProviderUtils.getApexClassCompletionItems(position, nodeInfo.lastNode);
         }
         Utils.sort(items, ['label']);
         return items;
     }
 
-    static getMethodFromCall(apexClass, name, params) {
-        if (apexClass && (apexClass.methods || apexClass.constructors)) {
+    static getMethodFromCall(apexClass: any, name: string, params?: string[]): any {
+        if (apexClass && (apexClass.methods || apexClass.constructors) && params) {
             for (const methodName of Object.keys(apexClass.methods)) {
                 const method = apexClass.methods[methodName];
-                if (method.name.toLowerCase() === name.toLowerCase() && Utils.countKeys(method.params) === params.length)
+                if (method.name.toLowerCase() === name.toLowerCase() && Utils.countKeys(method.params) === params.length) {
                     return method;
+                }
             }
             for (const constructName of Object.keys(apexClass.constructors)) {
                 const construct = apexClass.constructors[constructName];
-                if (construct.name.toLowerCase() === name.toLowerCase() && Utils.countKeys(construct.params) === params.length)
+                if (construct.name.toLowerCase() === name.toLowerCase() && Utils.countKeys(construct.params) === params.length) {
                     return construct;
+                }
             }
         }
         return undefined;
     }
 
-    static getApexClassCompletionItems(position, node) {
-        let items = [];
+    static getApexClassCompletionItems(position: vscode.Position, node: any): vscode.CompletionItem[] {
+        let items: vscode.CompletionItem[] = [];
         if (node) {
             if (node.nodeType === ApexNodeTypes.ENUM) {
                 for (const value of node.values) {
@@ -1410,14 +1519,18 @@ class ProviderUtils {
             } else {
                 if (node.positionData && (node.positionData.nodeType === ApexNodeTypes.METHOD || node.positionData.nodeType === ApexNodeTypes.CONSTRUCTOR || node.positionData.nodeType === ApexNodeTypes.INITIALIZER || node.positionData.nodeType === ApexNodeTypes.STATIC_CONSTRUCTOR)) {
                     let method;
-                    if (node.positionData.nodeType === ApexNodeTypes.METHOD)
+                    if (node.positionData.nodeType === ApexNodeTypes.METHOD) {
                         method = node.methods[node.positionData.signature.toLowerCase()];
-                    if (node.positionData.nodeType === ApexNodeTypes.CONSTRUCTOR)
+                    }
+                    if (node.positionData.nodeType === ApexNodeTypes.CONSTRUCTOR) {
                         method = node.constructors[node.positionData.signature.toLowerCase()];
-                    if (node.positionData.nodeType === ApexNodeTypes.INITIALIZER)
+                    }
+                    if (node.positionData.nodeType === ApexNodeTypes.INITIALIZER) {
                         method = node.initializer;
-                    if (node.positionData.nodeType === ApexNodeTypes.STATIC_CONSTRUCTOR)
+                    }
+                    if (node.positionData.nodeType === ApexNodeTypes.STATIC_CONSTRUCTOR) {
                         method = node.staticConstructor;
+                    }
                     if (Utils.hasKeys(method.params)) {
                         const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
                         const paramsTagData = tagsData['params'];
@@ -1425,8 +1538,9 @@ class ProviderUtils {
                             const documentation = new MarkDownStringBuilder();
                             const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
                             let code = '';
-                            if (param.final)
+                            if (param.final) {
                                 code += param.final.text + ' ';
+                            }
                             code += datatype + ' ' + param.name;
                             documentation.appendApexCodeBlock(code);
                             let description = '*' + param.name + '* `' + datatype + '`';
@@ -1467,16 +1581,21 @@ class ProviderUtils {
                         const variable = node.variables[varName];
                         const datatype = StrUtils.replace(variable.datatype.name, ',', ', ');
                         let code = '';
-                        if (variable.accessModifier)
+                        if (variable.accessModifier) {
                             code += variable.accessModifier.text + ' ';
-                        if (variable.definitionModifier)
+                        }
+                        if (variable.definitionModifier) {
                             code += variable.definitionModifier.text + ' ';
-                        if (variable.static)
+                        }
+                        if (variable.static) {
                             code += variable.static.text + ' ';
-                        if (variable.final)
+                        }
+                        if (variable.final) {
                             code += variable.final.text + ' ';
-                        if (variable.transient)
+                        }
+                        if (variable.transient) {
                             code += variable.transient.text + ' ';
+                        }
                         code += datatype + ' ' + variable.name;
                         documentation.appendApexCodeBlock(code);
                         let description = '*' + variable.name + '* `' + datatype + '`';
@@ -1506,16 +1625,21 @@ class ProviderUtils {
                         let snippetNum = 1;
                         let name = construct.name + "(";
                         let signature = '';
-                        if (construct.accessModifier)
+                        if (construct.accessModifier) {
                             signature += construct.accessModifier.text + ' ';
-                        if (construct.definitionModifier)
+                        }
+                        if (construct.definitionModifier) {
                             signature += construct.definitionModifier.text + ' ';
-                        if (construct.static)
+                        }
+                        if (construct.static) {
                             signature += construct.static.text + ' ';
-                        if (construct.final)
+                        }
+                        if (construct.final) {
                             signature += construct.final.text + ' ';
-                        if (construct.transient)
+                        }
+                        if (construct.transient) {
                             signature += construct.transient.text + ' ';
+                        }
                         signature += construct.name + "(";
                         let description = '';
                         if (construct.description && construct.description.length > 0) {
@@ -1546,8 +1670,9 @@ class ProviderUtils {
                                 }
                                 description += '\n';
                                 if (snippetNum === 1) {
-                                    if (construct.final)
+                                    if (construct.final) {
                                         signature += construct.final.text + ' ';
+                                    }
                                     signature += datatype + ' ' + param.name;
                                     name += param.name;
                                     insertText += "${" + snippetNum + ":" + param.name + "}";
@@ -1555,8 +1680,9 @@ class ProviderUtils {
                                 else {
                                     name += ", " + param.name;
                                     signature += ', ';
-                                    if (construct.final)
+                                    if (construct.final) {
                                         signature += construct.final.text + ' ';
+                                    }
                                     signature += datatype + ' ' + param.name;
                                     insertText += ", ${" + snippetNum + ":" + param.name + "}";
                                 }
@@ -1585,16 +1711,21 @@ class ProviderUtils {
                         let insertText = method.name + "(";
                         let snippetNum = 1;
                         let name = method.name + "(";
-                        if (method.accessModifier)
+                        if (method.accessModifier) {
                             signature += method.accessModifier.text + ' ';
-                        if (method.definitionModifier)
+                        }
+                        if (method.definitionModifier) {
                             signature += method.definitionModifier.text + ' ';
-                        if (method.static)
+                        }
+                        if (method.static) {
                             signature += method.static.text + ' ';
-                        if (method.final)
+                        }
+                        if (method.final) {
                             signature += method.final.text + ' ';
-                        if (method.transient)
+                        }
+                        if (method.transient) {
                             signature += method.transient.text + ' ';
+                        }
                         signature += datatype + ' ' + method.name + "(";
                         let description = '';
                         if (method.description && method.description.length > 0) {
@@ -1605,7 +1736,7 @@ class ProviderUtils {
                         const tagsData = TemplateUtils.getTagsDataBySource(['params', 'return'], method.comment);
                         if (Utils.hasKeys(method.params)) {
                             const paramsTagData = tagsData['params'];
-                            description += '#### Params\n\n'
+                            description += '#### Params\n\n';
                             for (const param of method.getOrderedParams()) {
                                 const datatype = StrUtils.replace(param.datatype.name, ',', ', ');
                                 description += '  - *' + param.name + '* `' + datatype + '`';
@@ -1624,8 +1755,9 @@ class ProviderUtils {
                                 }
                                 description += '\n';
                                 if (snippetNum === 1) {
-                                    if (method.final)
+                                    if (method.final) {
                                         signature += method.final.text + ' ';
+                                    }
                                     signature += datatype + ' ' + param.name;
                                     name += param.name;
                                     insertText += "${" + snippetNum + ":" + param.name + "}";
@@ -1633,8 +1765,9 @@ class ProviderUtils {
                                 else {
                                     name += ", " + param.name;
                                     signature += ', ';
-                                    if (method.final)
+                                    if (method.final) {
                                         signature += method.final.text + ' ';
+                                    }
                                     signature += datatype + ' ' + param.name;
                                     insertText += ", ${" + snippetNum + ":" + param.name + "}";
                                 }
@@ -1663,8 +1796,9 @@ class ProviderUtils {
                         name += ")";
                         insertText += ")";
                         signature += ')';
-                        if (datatype === 'void')
+                        if (datatype === 'void') {
                             insertText += ';';
+                        }
                         documentation.appendApexCodeBlock(signature);
                         documentation.appendMarkdown(description);
                         documentation.appendMarkdownSeparator();
@@ -1721,10 +1855,11 @@ class ProviderUtils {
                         documentation.appendMarkdownH4('Values');
                         const enumValues = [];
                         for (const value of innerEnum.values) {
-                            if (Utils.isString(value))
+                            if (Utils.isString(value)) {
                                 enumValues.push('  - `' + value + '`');
-                            else
+                            } else {
                                 enumValues.push('  - `' + value.text + '`');
+                            }
                         }
                         documentation.appendMarkdown(enumValues.join('\n'));
                         const options = ProviderUtils.getCompletionItemOptions('Inner Enum', documentation.build(), innerEnum.name, true, CompletionItemKind.Enum);
@@ -1748,7 +1883,7 @@ class ProviderUtils {
         return items;
     }
 
-    static getCommand(title, command, args) {
+    static getCommand(title: string, command: string, args?: any): vscode.Command {
         return {
             title: title,
             command: command,
@@ -1756,7 +1891,7 @@ class ProviderUtils {
         };
     }
 
-    static getCompletionItemOptions(detail, documentation, insertText, preselect, type) {
+    static getCompletionItemOptions(detail: string, documentation: string | vscode.MarkdownString | undefined, insertText: string | vscode.SnippetString, preselect: boolean, type: vscode.CompletionItemKind): any {
         return {
             detail: detail,
             documentation: documentation,
@@ -1766,33 +1901,40 @@ class ProviderUtils {
         };
     }
 
-    static createItemForCompletion(name, options, command) {
+    static createItemForCompletion(name: string, options: any, command?: any): vscode.CompletionItem {
         let type = CompletionItemKind.Value;
-        if (!options.documentation)
+        if (!options.documentation) {
             options.documentation = new MarkDownStringBuilder().build();
-        else if (Utils.isString(options.documentation))
+        } else if (Utils.isString(options.documentation)) {
             options.documentation = new MarkDownStringBuilder().appendMarkdown(options.documentation).build();
-        if (options && options.type)
+        }
+        if (options && options.type) {
             type = options.type;
+        }
         const item = new CompletionItem(name, type);
-        if (options && options.detail)
+        if (options && options.detail) {
             item.detail = options.detail;
-        if (options && options.documentation)
+        }
+        if (options && options.documentation) {
             item.documentation = options.documentation;
-        if (options && options.preselect)
+        }
+        if (options && options.preselect) {
             item.preselect = options.preselect;
-        if (options && options.insertText)
+        }
+        if (options && options.insertText) {
             item.insertText = options.insertText;
-        if (command)
+        }
+        if (command) {
             item.command = command;
+        }
         return item;
     }
 
-    static getAllAvailableCompletionItems(position, activationInfo, node) {
-        let items = [];
+    static getAllAvailableCompletionItems(position: vscode.Position, activationInfo: ProviderActivationInfo, node: any): vscode.CompletionItem[] {
+        let items: vscode.CompletionItem[] = [];
         if (Config.getConfig().autoCompletion.activeApexSuggestion) {
             const systemMetadata = applicationContext.parserData.namespacesData['system'];
-            items = ProviderUtils.getApexClassCompletionItems(position, node)
+            items = ProviderUtils.getApexClassCompletionItems(position, node);
             Object.keys(applicationContext.parserData.userClassesData).forEach(function (key) {
                 const documentation = new MarkDownStringBuilder();
                 const userClass = applicationContext.parserData.userClassesData[key];
@@ -1815,28 +1957,32 @@ class ProviderUtils {
                     documentation.appendMarkdownH4('Values');
                     const enumValues = [];
                     for (const value of userClass.values) {
-                        if (Utils.isString(value))
+                        if (Utils.isString(value)) {
                             enumValues.push('  - `' + value + '`');
-                        else
+                        } else {
                             enumValues.push('  - `' + value.text + '`');
+                        }
                     }
                     documentation.appendMarkdown(enumValues.join('\n') + '\n\n');
                     const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Enum);
                     const item = ProviderUtils.createItemForCompletion(className, options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    }
                     items.push(item);
                 } else if (userClass.nodeType === ApexNodeTypes.INTERFACE) {
                     const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Interface);
                     const item = ProviderUtils.createItemForCompletion(className, options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    }
                     items.push(item);
                 } else {
                     const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Class);
                     const item = ProviderUtils.createItemForCompletion(className, options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    }
                     items.push(item);
                 }
             });
@@ -1848,41 +1994,46 @@ class ProviderUtils {
                     documentation.appendMarkdownH4('Values');
                     const enumValues = [];
                     for (const value of systemClass.values) {
-                        if (Utils.isString(value))
+                        if (Utils.isString(value)) {
                             enumValues.push('  - `' + value + '`');
-                        else
+                        } else {
                             enumValues.push('  - `' + value.text + '`');
+                        }
                     }
                     documentation.appendMarkdown(systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n');
                     documentation.appendMarkdown(enumValues.join('\n') + '\n\n');
                     const options = ProviderUtils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Enum);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    }
                     items.push(item);
                 } else if (systemClass.nodeType === ApexNodeTypes.INTERFACE) {
                     const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n';
                     documentation.appendMarkdown(description);
                     const options = ProviderUtils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Interface);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    }
                     items.push(item);
                 } else {
                     const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n';
                     documentation.appendMarkdown(description);
                     const options = ProviderUtils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Class);
                     const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                    }
                     items.push(item);
                 }
             });
             for (const ns of applicationContext.parserData.namespaces) {
                 const options = ProviderUtils.getCompletionItemOptions('Salesforce Namespace', undefined, ns, true, CompletionItemKind.Module);
                 const item = ProviderUtils.createItemForCompletion(ns, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                }
                 items.push(item);
             }
         }
@@ -1892,11 +2043,12 @@ class ProviderUtils {
                 const documentation = new MarkDownStringBuilder();
                 let nameTmp = sObject.name.substring(0, sObject.name.length - 3);
                 let doc = (sObject.description) ? sObject.description + '\n\n' : '';
-                if (sObject.custom)
+                if (sObject.custom) {
                     doc += 'Custom SObject';
-                else
+                } else {
                     doc += 'Standard SObject';
-                if (sObject.namespace && sObject.namespace != nameTmp) {
+                }
+                if (sObject.namespace && sObject.namespace !== nameTmp) {
                     doc += '\nNamespace: ' + sObject.namespace;
                 }
                 if (applicationContext.sfData.serverInstance) {
@@ -1906,8 +2058,9 @@ class ProviderUtils {
                 documentation.appendMarkdown(doc + '\n\n');
                 const options = ProviderUtils.getCompletionItemOptions('SObject', documentation.build(), sObject.name, true, CompletionItemKind.Class);
                 const item = ProviderUtils.createItemForCompletion(sObject.name, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn)
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                }
                 items.push(item);
             });
         }
@@ -1915,38 +2068,39 @@ class ProviderUtils {
         return items;
     }
 
-    static getCustomLabels() {
+    static getCustomLabels(): any[] {
         let labels = [];
         let labelsFile = Paths.getProjectMetadataFolder() + '/labels/CustomLabels.labels-meta.xml';
         if (FileChecker.isExists(labelsFile)) {
             let root = XMLParser.parseXML(FileReader.readFileSync(labelsFile));
             if (root.CustomLabels) {
-                if (Array.isArray(root.CustomLabels.labels))
+                if (Array.isArray(root.CustomLabels.labels)) {
                     labels = root.CustomLabels.labels;
-                else
+                } else {
                     labels.push(root.CustomLabels.labels);
+                }
             }
         }
         return labels;
     }
 
-    static joinActivationTokens(tokens, symbol) {
-        const result = [];
+    static joinActivationTokens(tokens: ActivationToken[], symbol: string) {
+        const result: string[] = [];
         for (const token of tokens) {
             result.push(token.activation);
         }
         return result.join(symbol);
     }
 }
-module.exports = ProviderUtils;
 
-function countStartTabs(str) {
+function countStartTabs(str: string) {
     let number = 0;
     for (let i = 0; i < str.length; i++) {
-        if (str[i] == '\t')
+        if (str[i] === '\t') {
             number++;
-        else if (str[i] !== ' ')
+        } else if (str[i] !== ' ') {
             break;
+        }
     }
     return number;
 }

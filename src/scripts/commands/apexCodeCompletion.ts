@@ -1,37 +1,38 @@
-const SnippetUtils = require('../utils/snippetUtils');
-const vscode = require('vscode');
+import * as vscode from 'vscode';
+import { SnippetUtils } from '../utils/snippetUtils';
+import { NotificationManager, Editor } from '../output';
+import { TemplateUtils } from '../utils/templateUtils';
+import applicationContext from '../core/applicationContext';
+import { Config } from '../core/config';
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { ApexParser } = require('@aurahelper/languages').Apex;
 const { StrUtils } = require('@aurahelper/core').CoreUtils;
-const applicationContext = require('../core/applicationContext');
-const NotificationManager = require('../output/notificationManager');
-const Editor = require('../output/editor');
-const TemplateUtils = require('../utils/templateUtils');
-const Config = require('../core/config');
 const window = vscode.window;
 const Range = vscode.Range;
 const SnippetString = vscode.SnippetString;
 const ProviderUtils = require('../providers/utils');
 
-exports.run = function (position, type, data) {
+exports.run = function (position: vscode.Position): void {
     try {
         var editor = window.activeTextEditor;
-        if (!editor)
+        if (!editor) {
             return;
-        if (FileChecker.isApexClass(editor.document.uri.fsPath))
+        }
+        if (FileChecker.isApexClass(editor.document.uri.fsPath)) {
             processApexCodeCompletion(position, editor);
-        else
+        } else {
             NotificationManager.showError('The selected file is not an Apex Class File');
-    } catch (error) {
+        }
+    } catch (error: any) {
         NotificationManager.showCommandError(error);
     }
-}
+};
 
-function processApexCodeCompletion(position, editor) {
+function processApexCodeCompletion(position: vscode.Position, editor: vscode.TextEditor): void {
     processCommentCompletion(position, editor);
 }
 
-function processCommentCompletion(position, editor) {
+function processCommentCompletion(position: vscode.Position, editor: vscode.TextEditor): void {
     let lineNum;
     if (position !== undefined) {
         lineNum = position.line + 1;
