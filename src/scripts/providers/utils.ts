@@ -1891,7 +1891,7 @@ export class ProviderUtils {
         };
     }
 
-    static getCompletionItemOptions(detail: string, documentation: string | vscode.MarkdownString | undefined, insertText: string | vscode.SnippetString, preselect: boolean, type: vscode.CompletionItemKind): any {
+    static getCompletionItemOptions(detail: string, documentation: string | vscode.MarkdownString | undefined, insertText: string | vscode.SnippetString | undefined, preselect: boolean, type: vscode.CompletionItemKind): any {
         return {
             detail: detail,
             documentation: documentation,
