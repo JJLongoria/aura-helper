@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import applicationContext from '../core/applicationContext';
 const { Utils } = require('@aurahelper/core').CoreUtils;
 const collections: any = {};
 
@@ -6,7 +7,7 @@ export class DiagnosticsManager {
 
     static createCollection(collectionName: string): void {
         collections[collectionName] = vscode.languages.createDiagnosticCollection(collectionName);
-        AppContext.context.subscriptions.push(collections[collectionName]);
+        applicationContext.context.subscriptions.push(collections[collectionName]);
     }
 
     static setDiagnostics(collectionName: string, uri: vscode.Uri, diagnostics: vscode.Diagnostic[]): void {
