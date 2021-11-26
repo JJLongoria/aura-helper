@@ -1,12 +1,12 @@
-const EventEmitter = require('events').EventEmitter;
-const vscode = require('vscode');
-const Paths = require('../core/paths');
-const Factory = require('./factory');
+import * as vscode from 'vscode';
+import { Paths } from '../core/paths';
+import { Config } from '../core/config';
+import { EventEmitter } from 'events';
+import { NotificationManager } from '../output';
+import { InputFactory } from './factory';
 const MetadataFactory = require('@aurahelper/metadata-factory');
 const CLIManager = require('@aurahelper/cli-manager');
 const Connection = require('@aurahelper/connector');
-const { NotificationMananger } = require('../output');
-const Config = require('../core/config');
 
 const EVENT = {
     ACCEPT: 'accept',
@@ -17,9 +17,18 @@ const EVENT = {
     ERROR: 'error',
 };
 
-class MultiStepInput {
+export class MultiStepInput {
 
-    constructor(title, initialStep, totalSteps) {
+    _title: string;
+    _initialStep?: number;
+    _step?: number;
+    _totalSteps: number;
+    _stepsBuffer: number[];
+    _metadata: any;
+    _event: EventEmitter;
+    _currentInput: any;
+
+    constructor(title: string, initialStep: number, totalSteps: number) {
         this._title = title;
         this._initialStep = initialStep;
         this._step = initialStep;
@@ -29,7 +38,7 @@ class MultiStepInput {
         this._event = new EventEmitter();
     }
 
-    static getDeleteButton() {
+    static getDeleteButton(): vscode.QuickInputButton {
         return {
             tooltip: "Delete",
             iconPath: {
@@ -39,7 +48,7 @@ class MultiStepInput {
         };
     }
 
-    static getRemoveButton() {
+    static getRemoveButton(): vscode.QuickInputButton {
         return {
             tooltip: "Remove",
             iconPath: {
@@ -49,7 +58,7 @@ class MultiStepInput {
         };
     }
 
-    static getAddButton() {
+    static getAddButton(): vscode.QuickInputButton {
         return {
             tooltip: "Add",
             iconPath: {
@@ -59,7 +68,7 @@ class MultiStepInput {
         };
     }
 
-    static getAcceptButton() {
+    static getAcceptButton(): vscode.QuickInputButton {
         return {
             tooltip: "Accept",
             iconPath: {
@@ -69,7 +78,7 @@ class MultiStepInput {
         };
     }
 
-    static getSelectAllButton() {
+    static getSelectAllButton(): vscode.QuickInputButton {
         return {
             tooltip: "Select All",
             iconPath: {
@@ -79,7 +88,7 @@ class MultiStepInput {
         };
     }
 
-    static getClearSelectionButton() {
+    static getClearSelectionButton(): vscode.QuickInputButton {
         return {
             tooltip: "Clear Selection",
             iconPath: {
@@ -89,7 +98,7 @@ class MultiStepInput {
         };
     }
 
-    static getFetchButton() {
+    static getFetchButton(): vscode.QuickInputButton {
         return {
             tooltip: "Fetch",
             iconPath: {
@@ -99,91 +108,92 @@ class MultiStepInput {
         };
     }
 
-    static getBackButton() {
+    static getBackButton(): vscode.QuickInputButton {
         return vscode.QuickInputButtons.Back;
     }
 
-    static getItem(label, description, detail, picked) {
-        return Factory.createQuickPickItem(label, description, detail, picked);
+    static getItem(label: string, description: string, detail: string, picked: boolean): vscode.QuickPickItem {
+        return InputFactory.createQuickPickItem(label, description, detail, picked);
     }
 
-    onAccept(callback) {
+    onAccept(callback: (options: any, data: any) => void): void {
         this._event.on(EVENT.ACCEPT, callback);
     }
 
-    onCancel(callback) {
+    onCancel(callback: () => void): void {
         this._event.on(EVENT.CANCEL, callback);
     }
 
-    onError(callback) {
+    onError(callback: (messsage: string) => void): void {
         this._event.on(EVENT.ERROR, callback);
     }
 
-    onValidationError(callback) {
+    onValidationError(callback: (message: string) => void): void {
         this._event.on(EVENT.VALIDATION, callback);
     }
 
-    onDelete(callback) {
+    onDelete(callback: (data: any) => void): void {
         this._event.on(EVENT.DELETE, callback);
     }
 
-    onReport(callback) {
+    onReport(callback: (message: string) => void): void {
         this._event.on(EVENT.REPORT, callback);
     }
 
-    fireAcceptEvent(options, data) {
+    fireAcceptEvent(options: any, data: any): void {
         this._event.emit(EVENT.ACCEPT, options, data);
     }
 
-    fireCancelEvent() {
+    fireCancelEvent(): void {
         this._event.emit(EVENT.CANCEL);
     }
 
-    fireErrorEvent(message) {
+    fireErrorEvent(message: string): void {
         this._event.emit(EVENT.ERROR, message);
 
     }
 
-    fireValidationEvent(message) {
+    fireValidationEvent(message: string): void {
         this._event.emit(EVENT.VALIDATION, message);
     }
 
-    fireDeleteEvent(data) {
+    fireDeleteEvent(data: any): void {
         this._event.emit(EVENT.DELETE, data);
     }
 
-    fireReportEvent(message) {
+    fireReportEvent(message: string): void {
         this._event.emit(EVENT.REPORT, message);
     }
 
-    reset() {
+    reset(): void {
         this._step = this._initialStep;
-        if (this._currentInput)
+        if (this._currentInput) {
             this._currentInput.dispose();
+        }
         this.show();
     }
 
-    onCreateInputRequest() {
+    onCreateInputRequest(): any {
         return undefined;
     }
 
-    onButtonPressed(buttonName) {
+    onButtonPressed(buttonName?: string): void {
 
     }
 
-    onChangeSelection(items) {
+    onChangeSelection(items: any[]): void {
 
     }
 
-    onChangeValue(value) {
+    onChangeValue(value: string): void {
 
     }
 
-    onValueSet(value) {
+    onValueSet(value: string): void {
 
     }
 
-    truncate(value) {
+    truncate(value: string): string {
         let maxLength = 255;
         let addToTruncate = ' [...]';
         if (value && value.length > maxLength) {
@@ -193,25 +203,26 @@ class MultiStepInput {
         return value;
     }
 
-    getSelectedElements(items) {
-        let selectedItems = [];
+    getSelectedElements(items: vscode.QuickPickItem[]): string[] {
+        let selectedItems: string[] = [];
         for (let item of items) {
             selectedItems.push(item.label);
         }
         return selectedItems;
     }
 
-    show() {
+    show(): void {
         try {
             let input = this.onCreateInputRequest();
             if (!input) {
                 this.fireErrorEvent('Has no data to show');
             } else {
                 input.ignoreFocusOut = true;
-                input.onDidAccept(item => {
+                input.onDidAccept(() => {
                     if (!input.items) {
-                        if (input.value && input.value.trim().length === 0)
+                        if (input.value && input.value.trim().length === 0) {
                             input.value = undefined;
+                        }
                         this.onValueSet(input.value);
                         this.backStep();
                     }
@@ -219,7 +230,7 @@ class MultiStepInput {
                         this.onButtonPressed('Ok');
                     }
                 });
-                input.onDidTriggerButton((item) => {
+                input.onDidTriggerButton((item: vscode.QuickInputButton) => {
                     if (item === vscode.QuickInputButtons.Back) {
                         this.onButtonPressed("back");
                         this.backStep();
@@ -228,33 +239,37 @@ class MultiStepInput {
                     }
                 });
                 input.onDidHide(() => {
-                    if (this._currentInput)
+                    if (this._currentInput) {
                         this._currentInput.dispose();
+                    }
                     this.fireCancelEvent();
                 });
-                if (input.onDidChangeSelection)
-                    input.onDidChangeSelection(items => {
+                if (input.onDidChangeSelection) {
+                    input.onDidChangeSelection((items: vscode.QuickPickItem[]) => {
                         this.onChangeSelection(items);
                     });
-                input.onDidChangeValue(value => {
+                }
+                input.onDidChangeValue((value: string) => {
                     this.onChangeValue(value);
                 });
-                if (this._currentInput)
+                if (this._currentInput) {
                     this._currentInput.dispose();
+                }
                 this._currentInput = input;
                 this._currentInput.show();
             }
         } catch (error) {
-            if (this._currentInput)
+            if (this._currentInput) {
                 this._currentInput.dispose();
+            }
             throw error;
         }
     }
 
-    backStep(step) {
+    backStep(step?: number) {
         if (step) {
             let stepTmp = this._stepsBuffer.pop();
-            while (stepTmp != step) {
+            while (stepTmp !== step) {
                 stepTmp = this._stepsBuffer.pop();
             }
             this._step = stepTmp;
@@ -265,25 +280,27 @@ class MultiStepInput {
         this.show();
     }
 
-    nextStep(step) {
-        this._stepsBuffer.push(this._step);
+    nextStep(step: number): void {
+        if (this._step !== undefined) {
+            this._stepsBuffer.push(this._step);
+        }
         this._step = step;
         this.show();
     }
 
-    sameStep() {
+    sameStep(): void {
         this._step = this._stepsBuffer[this._stepsBuffer.length - 1];
         this.show();
     }
 
-    async loadMetadata(fromOrg, downloadAll, types) {
+    async loadMetadata(fromOrg: boolean, downloadAll: boolean, types: string[]) {
         setTimeout(() => {
             vscode.window.withProgress({
                 location: vscode.ProgressLocation.Notification,
                 cancellable: false,
                 title: 'Loading Metadata Types'
             }, (progress, cancelToken) => {
-                return new Promise((resolve) => {
+                return new Promise<void>((resolve) => {
                     if (fromOrg) {
                         getOrgMetadata(downloadAll, progress, types).then((metadataTypes) => {
                             this._metadata = metadataTypes;
@@ -291,7 +308,7 @@ class MultiStepInput {
                             this.show();
                         }).catch((error) => {
                             this.fireErrorEvent(error.message);
-                            NotificationMananger.showError(error);
+                            NotificationManager.showError(error);
                             resolve();
                             this.backStep();
                         });
@@ -311,32 +328,32 @@ class MultiStepInput {
         }, 10);
     }
 }
-module.exports = MultiStepInput;
 
-function getLocalMetadata(types) {
+function getLocalMetadata(types: string[]) {
     return new Promise(function (resolve, reject) {
-        if(!Config.getOrgAlias()){
+        if (!Config.getOrgAlias()) {
             reject(new Error('Not connected to an Org. Please authorize and connect to and org and try later.'));
         }
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-            cliManager.describeLocalMetadata(types).then((metadataTypes) => {
+            cliManager.describeLocalMetadata(types).then((metadataTypes: any[]) => {
                 resolve(metadataTypes);
-            }).catch((error) => {
+            }).catch((error: Error) => {
                 reject(error);
             });
         } else {
             const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
-            connection.listMetadataTypes().then((metadataDetails) => {
+            connection.listMetadataTypes().then((metadataDetails: any[]) => {
                 const folderMetadataMap = MetadataFactory.createFolderMetadataMap(metadataDetails);
-                const result = {};
+                const result: any = {};
                 const metadataTypes = MetadataFactory.createMetadataTypesFromFileSystem(folderMetadataMap, Paths.getProjectFolder(), Config.getConfig().metadata.groupGlobalQuickActions);
-                for(const key of Object.keys(metadataTypes)){
-                    if(!types || types.includes(key))
+                for (const key of Object.keys(metadataTypes)) {
+                    if (!types || types.includes(key)){
                         result[key] = metadataTypes[key];
+                    }
                 }
                 resolve(result);
-            }).catch((error) => {
+            }).catch((error: Error) => {
                 reject(error);
             });
 
@@ -344,41 +361,41 @@ function getLocalMetadata(types) {
     });
 }
 
-function getOrgMetadata(downloadAll, progressReport, types) {
+function getOrgMetadata(downloadAll: boolean, progressReport: any, types: string[]) {
     return new Promise(function (resolve, reject) {
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-            cliManager.onProgress((status) => {
-                if (status.result.increment != undefined && status.result.increment > -1) {
+            cliManager.onProgress((status: any) => {
+                if (status.result.increment !== undefined && status.result.increment > -1) {
                     progressReport.report({
                         message: status.message,
                         increment: status.result.increment
                     });
                 }
             });
-            cliManager.describeOrgMetadata(downloadAll, types, Config.getConfig().metadata.groupGlobalQuickActions).then((metadataTypes) => {
+            cliManager.describeOrgMetadata(downloadAll, types, Config.getConfig().metadata.groupGlobalQuickActions).then((metadataTypes: any[]) => {
                 resolve(metadataTypes);
-            }).catch((error) => {
+            }).catch((error: Error) => {
                 reject(error);
                 console.log(error);
             });
         } else {
             const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
             connection.setMultiThread();
-            connection.onAfterDownloadType((status) => {
+            connection.onAfterDownloadType((status: any) => {
                 progressReport.report({
                     message: 'MetadataType: ' + status.entityType,
                     increment: status.increment
                 });
             })
-            connection.listMetadataTypes().then((metadataDetails) => {
-                connection.describeMetadataTypes(metadataDetails, downloadAll, Config.getConfig().metadata.groupGlobalQuickActions).then((metadataTypes) => {
+            connection.listMetadataTypes().then((metadataDetails: any[]) => {
+                connection.describeMetadataTypes(metadataDetails, downloadAll, Config.getConfig().metadata.groupGlobalQuickActions).then((metadataTypes: any[]) => {
                     resolve(metadataTypes);
-                }).catch((error) => {
+                }).catch((error: Error) => {
                     reject(error);
                     console.log(error);
                 });
-            }).catch((error) => {
+            }).catch((error: Error) => {
                 console.log(error);
                 reject(error);
             });
