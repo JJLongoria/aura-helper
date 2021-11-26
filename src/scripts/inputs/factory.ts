@@ -1,9 +1,9 @@
-const vscode = require('vscode');
-const Paths = require('../core/paths');
+import * as vscode from 'vscode';
+import { Paths } from '../core/paths';
 
-class InputFactory {
+export class InputFactory {
 
-    static createSingleSelectorInput(values, placeholder, alwaysOnTop) {
+    static createSingleSelectorInput(values: string[], placeholder: string, alwaysOnTop: boolean): Promise<unknown> {
         const items = [];
         for (const value of values) {
             items.push(InputFactory.createQuickPickItem(value, undefined, undefined, false));
@@ -11,11 +11,12 @@ class InputFactory {
         return createQuickPick(items, placeholder, false, alwaysOnTop);
     }
 
-    static createMultiSelectorInput(values, placeholder, alwaysOnTop) {
+    static createMultiSelectorInput(values: string[] | any[], placeholder: string, alwaysOnTop: boolean): Promise<unknown> {
         const items = [];
         for (const value of values) {
-            if (typeof value === 'string')
+            if (typeof value === 'string') {
                 items.push(InputFactory.createQuickPickItem(value));
+            }
             else {
                 if (value.type === 'boolean') {
                     items.push(InputFactory.createQuickPickItem(value.name, undefined, undefined, value.value));
@@ -25,7 +26,7 @@ class InputFactory {
         return createQuickPick(items, placeholder, true, alwaysOnTop);
     }
 
-    static createCompressSelector(alwaysOnTop) {
+    static createCompressSelector(alwaysOnTop: boolean): Promise<unknown> {
         let items = [
             InputFactory.createQuickPickItem('Yes'),
             InputFactory.createQuickPickItem('No'),
@@ -33,7 +34,7 @@ class InputFactory {
         return createQuickPick(items, 'Do you want to compress the file(s)?', false, alwaysOnTop);
     }
 
-    static createIgnoreOptionsSelector() {
+    static createIgnoreOptionsSelector(): Promise<unknown> {
         let items = [
             InputFactory.createQuickPickItem('Use Project Ignore File', undefined, 'Use .ahignore.json file on your project root'),
             InputFactory.createQuickPickItem('Use Custom Ignore File', undefined, 'Select custom ahignore file'),
@@ -41,7 +42,7 @@ class InputFactory {
         return createQuickPick(items);
     }
 
-    static createIgnoreTypesSelector(typesToIgnore) {
+    static createIgnoreTypesSelector(typesToIgnore: string[]): Promise<unknown> {
         let items = [];
         for (let type of typesToIgnore) {
             items.push(InputFactory.createQuickPickItem(type, undefined, undefined, false));
@@ -50,7 +51,7 @@ class InputFactory {
         return createQuickPick(items, placeholder, true);
     }
 
-    static createCompareOptionSelector() {
+    static createCompareOptionSelector(): Promise<unknown> {
         let items = [
             InputFactory.createQuickPickItem('Compare Local and Org', undefined, 'Compare your local project with your auth org for get the differences'),
             InputFactory.createQuickPickItem('Compare Different Orgs', undefined, 'Compare two different orgs for get the differences')
@@ -58,30 +59,32 @@ class InputFactory {
         return createQuickPick(items);
     }
 
-    static createAuthOrgsSelector(authsOrgs, isSource) {
+    static createAuthOrgsSelector(authsOrgs: any, isSource: boolean): Promise<unknown> {
         let items = [];
         for (let authOrg of authsOrgs) {
-            if (authOrg.active)
+            if (authOrg.active) {
                 items.push(InputFactory.createQuickPickItem('$(check) ' + authOrg.alias, authOrg.username, 'Project Auth Org'));
-            else
+            } else {
                 items.push(InputFactory.createQuickPickItem(authOrg.alias, authOrg.username));
+            }
         }
         let placeholder = 'Select one Auth Org as Source to compare';
-        if (!isSource)
+        if (!isSource) {
             placeholder = 'Select one Auth Org as Target to compare';
+        }
         return createQuickPick(items, placeholder);
     }
 
-    static createQuickPickItem(label, description, detail, picked) {
+    static createQuickPickItem(label: string, description?: string, detail?: string, picked?: boolean): vscode.QuickPickItem {
         return {
             description: description,
             detail: detail,
             label: label,
             picked: picked
-        }
+        };
     }
 
-    static createFileDialog(label, multipick, filters, defaultUri){
+    static createFileDialog(label: string, multipick: boolean, filters: any, defaultUri?: string): Thenable<vscode.Uri[] | undefined> {
         return vscode.window.showOpenDialog({
             canSelectFiles: true,
             canSelectMany: multipick,
@@ -92,7 +95,7 @@ class InputFactory {
         });
     }
 
-    static createFolderDialog(label, multipick, filters, defaultUri){
+    static createFolderDialog(label: string, multipick: boolean, filters: any, defaultUri?: string): Thenable<vscode.Uri[] | undefined> {
         return vscode.window.showOpenDialog({
             canSelectFiles: false,
             canSelectMany: multipick,
@@ -104,22 +107,21 @@ class InputFactory {
     }
 
 }
-module.exports = InputFactory;
 
-function createQuickPick(items, placeholder, pickMany, alwaysOnTop) {
-    if (!placeholder)
-        placeholder = 'Select an option';
-    const selectedItems = [];
+function createQuickPick(items: vscode.QuickPickItem[], placeholder: string = 'Select an option', pickMany: boolean = false, alwaysOnTop: boolean = false): Promise<string> {
+    const selectedItems: vscode.QuickPickItem[] = [];
     return new Promise((resolve) => {
         let input = vscode.window.createQuickPick();
         input.placeholder = placeholder;
         input.items = items;
         for (const item of items) {
-            if (item.picked)
+            if (item.picked) {
                 selectedItems.push(item);
+            }
         }
-        if (selectedItems.length > 0)
+        if (selectedItems.length > 0) {
             input.selectedItems = selectedItems;
+        }
         input.canSelectMany = pickMany;
         input.ignoreFocusOut = alwaysOnTop;
         input.onDidChangeSelection((items) => {

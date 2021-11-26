@@ -4,18 +4,18 @@ const { PathUtils } = require('@aurahelper/core').FileSystem;
 
 export class Paths {
 
-    static getProjectFolder(): string | undefined {
+    static getProjectFolder(): string {
         if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
             return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath);
         }
-        return undefined;
+        return '';
     }
 
-    static getProjectMetadataFolder(): string | undefined {
+    static getProjectMetadataFolder(): string {
         if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
             return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/force-app/main/default');
         }
-        return undefined;
+        return '';
     }
 
     static getTemporalFolder(): string {
@@ -54,11 +54,11 @@ export class Paths {
         return PathUtils.getAbsolutePath(applicationContext.context.storagePath + '/userTemplates');
     }
 
-    static getAHIgnoreFile(): string | undefined {
+    static getAHIgnoreFile(): string {
         if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
             return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/.ahignore.json');
         }
-        return undefined;
+        return '';
     }
 
     static getCompiledClassesFolder(): string {
@@ -69,32 +69,32 @@ export class Paths {
         return PathUtils.getAbsolutePath(applicationContext.context.storagePath + '/metadata');
     }
 
-    static getSFDXStandardSObjectsFolder(): string | undefined {
+    static getSFDXStandardSObjectsFolder(): string {
         if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
             return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/.sfdx/tools/sobjects/standardObjects');
         }
-        return undefined;
+        return '';
     }
 
-    static getSFDXCustomSObjectsFolder(): string | undefined {
+    static getSFDXCustomSObjectsFolder(): string {
         if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
             return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/.sfdx/tools/sobjects/standardObjects');
         }
-        return undefined;
+        return '';
     }
 
-    static getPackageFolder(): string | undefined {
+    static getPackageFolder(): string {
         if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
             return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/metadata/package');
         }
-        return undefined;
+        return '';
     }
 
-    static getManifestPath(): string | undefined {
+    static getManifestPath(): string {
         if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
             return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/manifest');
         }
-        return undefined;
+        return '';
     }
 
     static getImagesPath(): string {
@@ -125,15 +125,15 @@ export class Paths {
         return PathUtils.getAbsolutePath(applicationContext.context.asAbsolutePath("./resources"));
     }
 
-    static getAuraBundleHelperPath(path: string) {
+    static getAuraBundleHelperPath(path: string): string {
         return PathUtils.getAbsolutePath(path.replace('.cmp', '').replace('.auradoc', '').replace('.svg', '').replace('.css', '').replace('.design', '').replace('.app', '').replace('Renderer.js', '').replace('Controller.js', '') + 'Helper.js');
     }
 
-    static getAuraBundleControllerPath(path: string) {
+    static getAuraBundleControllerPath(path: string): string {
         return PathUtils.getAbsolutePath(path.replace('.cmp', '').replace('.auradoc', '').replace('.svg', '').replace('.css', '').replace('.design', '').replace('.app', '').replace('Renderer.js', '').replace('Helper.js', '') + 'Controller.js');
     }
 
-    static toURI(path: string) {
+    static toURI(path: string): vscode.Uri {
         return vscode.Uri.file(PathUtils.getAbsolutePath(path));
     }
 }
