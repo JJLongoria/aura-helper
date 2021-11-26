@@ -23,7 +23,7 @@ export class NotificationManager {
     }
 
     static showCommandError(message: string): void {
-        NotificationManager.showError('An error ocurred while processing command. Error: \n' + message)
+        NotificationManager.showError('An error ocurred while processing command. Error: \n' + message);
     }
 
     static showConfirmDialog(message: string, onAccept: () => void , onCancel: () => void): void {

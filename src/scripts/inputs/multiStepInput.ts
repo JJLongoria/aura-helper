@@ -19,7 +19,7 @@ const EVENT = {
 
 export class MultiStepInput {
 
-    _title: string;
+    _title?: string;
     _initialStep?: number;
     _step?: number;
     _totalSteps: number;
@@ -28,7 +28,7 @@ export class MultiStepInput {
     _event: EventEmitter;
     _currentInput: any;
 
-    constructor(title: string, initialStep: number, totalSteps: number) {
+    constructor(title: string | undefined, initialStep: number, totalSteps: number) {
         this._title = title;
         this._initialStep = initialStep;
         this._step = initialStep;
@@ -112,7 +112,7 @@ export class MultiStepInput {
         return vscode.QuickInputButtons.Back;
     }
 
-    static getItem(label: string, description: string, detail: string, picked: boolean): vscode.QuickPickItem {
+    static getItem(label: string, description?: string, detail?: string, picked?: boolean): vscode.QuickPickItem {
         return InputFactory.createQuickPickItem(label, description, detail, picked);
     }
 
@@ -177,19 +177,19 @@ export class MultiStepInput {
         return undefined;
     }
 
-    onButtonPressed(buttonName?: string): void {
+    onButtonPressed(_buttonName?: string): void {
 
     }
 
-    onChangeSelection(items: any[]): void {
+    onChangeSelection(_items: any[]): void {
 
     }
 
-    onChangeValue(value: string): void {
+    onChangeValue(_value: string): void {
 
     }
 
-    onValueSet(value: string): void {
+    onValueSet(_value: string): void {
 
     }
 
@@ -293,13 +293,13 @@ export class MultiStepInput {
         this.show();
     }
 
-    async loadMetadata(fromOrg: boolean, downloadAll: boolean, types: string[]) {
+    async loadMetadata(fromOrg?: boolean, downloadAll?: boolean, types?: string[]) {
         setTimeout(() => {
             vscode.window.withProgress({
                 location: vscode.ProgressLocation.Notification,
                 cancellable: false,
                 title: 'Loading Metadata Types'
-            }, (progress, cancelToken) => {
+            }, (progress) => {
                 return new Promise<void>((resolve) => {
                     if (fromOrg) {
                         getOrgMetadata(downloadAll, progress, types).then((metadataTypes) => {
@@ -329,7 +329,7 @@ export class MultiStepInput {
     }
 }
 
-function getLocalMetadata(types: string[]) {
+function getLocalMetadata(types?: string[]) {
     return new Promise(function (resolve, reject) {
         if (!Config.getOrgAlias()) {
             reject(new Error('Not connected to an Org. Please authorize and connect to and org and try later.'));
@@ -361,13 +361,13 @@ function getLocalMetadata(types: string[]) {
     });
 }
 
-function getOrgMetadata(downloadAll: boolean, progressReport: vscode.Progress<any>, types: string[]) {
+function getOrgMetadata(downloadAll?: boolean, progressReport?: vscode.Progress<any>, types?: string[]) {
     return new Promise(function (resolve, reject) {
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
             cliManager.onProgress((status: any) => {
                 if (status.result.increment !== undefined && status.result.increment > -1) {
-                    progressReport.report({
+                    progressReport?.report({
                         message: status.message,
                         increment: status.result.increment
                     });
@@ -383,11 +383,11 @@ function getOrgMetadata(downloadAll: boolean, progressReport: vscode.Progress<an
             const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
             connection.setMultiThread();
             connection.onAfterDownloadType((status: any) => {
-                progressReport.report({
+                progressReport?.report({
                     message: 'MetadataType: ' + status.entityType,
                     increment: status.increment
                 });
-            })
+            });
             connection.listMetadataTypes().then((metadataDetails: any[]) => {
                 connection.describeMetadataTypes(metadataDetails, downloadAll, Config.getConfig().metadata.groupGlobalQuickActions).then((metadataTypes: any[]) => {
                     resolve(metadataTypes);

@@ -12,11 +12,11 @@ export class XMLEditor extends MultiStepInput {
 
     _file: string;
     _fileName: string;
-    _xmlContent: string;
+    _xmlContent: any;
     _isAddingMode: boolean;
     _xmlDefinition: any;
 
-    constructor(title: string, initialStep: number, totalSteps: number, file: string) {
+    constructor(title: string | undefined, initialStep: number, totalSteps: number, file: string) {
         super(title, initialStep, totalSteps);
         this._file = file;
         this._fileName = getFileName(this._file);
@@ -32,7 +32,7 @@ export class XMLEditor extends MultiStepInput {
                     location: vscode.ProgressLocation.Notification,
                     title: "Compressing XML File",
                     cancellable: true
-                }, (progress: vscode.Progress<any>, cancelToken: vscode.CancellationToken) => {
+                }, () => {
                     return new Promise<void>(progressResolve => {
                         const sortOrder = Config.getXMLSortOrder();
                         if (Config.useAuraHelperCLI()) {
@@ -47,7 +47,7 @@ export class XMLEditor extends MultiStepInput {
                             });
                         } else {
                             const compressor = new XMLCompressor();
-                            compressor.setSortOrder(sortOrder).setXMLRoot(this._xmlContent)
+                            compressor.setSortOrder(sortOrder).setXMLRoot(this._xmlContent);
                             FileWriter.createFileSync(this._file, compressor.getCompressedContentSync());
                             OutputChannel.outputLine('XML file compressed successfully');
                             progressResolve();
