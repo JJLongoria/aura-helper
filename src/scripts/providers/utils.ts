@@ -1891,7 +1891,7 @@ export class ProviderUtils {
         };
     }
 
-    static getCompletionItemOptions(detail: string, documentation: string | vscode.MarkdownString | undefined, insertText: string | vscode.SnippetString | undefined, preselect: boolean, type: vscode.CompletionItemKind): any {
+    static getCompletionItemOptions(detail: string | undefined, documentation: string | vscode.MarkdownString | undefined, insertText: string | vscode.SnippetString | undefined, preselect: boolean, type: vscode.CompletionItemKind): any {
         return {
             detail: detail,
             documentation: documentation,
@@ -1930,7 +1930,7 @@ export class ProviderUtils {
         return item;
     }
 
-    static getAllAvailableCompletionItems(position: vscode.Position, activationInfo: ProviderActivationInfo, node: any): vscode.CompletionItem[] {
+    static getAllAvailableCompletionItems(position: vscode.Position, activationInfo: ProviderActivationInfo, node?: any): vscode.CompletionItem[] {
         let items: vscode.CompletionItem[] = [];
         if (Config.getConfig().autoCompletion.activeApexSuggestion) {
             const systemMetadata = applicationContext.parserData.namespacesData['system'];
