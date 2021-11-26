@@ -1,9 +1,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-const vscode = require('vscode');
-const commands = require('./resources/scripts/commands');
-const Output = require('./resources/scripts/output');
-const applicationContext = require('./resources/scripts/core/applicationContext');
+import * as vscode from 'vscode';
+const commands = require('./scripts/commands');
+const Output = require('./scripts/output');
+const applicationContext = require('./scripts/core/applicationContext');
 const DiagnosticsMananger = Output.DiagnosticsManager;
 
 // this method is called when your extension is activated
@@ -12,7 +12,7 @@ const DiagnosticsMananger = Output.DiagnosticsManager;
 /**
  * @param {vscode.ExtensionContext} context
  */
-function activate(context) {
+ export function activate(context: vscode.ExtensionContext) {
 	applicationContext.context = context;
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
@@ -82,9 +82,4 @@ function activate(context) {
 	}, 250);
 }
 // this method is called when your extension is deactivated
-function deactivate() { }
-
-module.exports = {
-	activate,
-	deactivate
-}
+export function deactivate() { }

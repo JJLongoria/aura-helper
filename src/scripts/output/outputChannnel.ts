@@ -1,28 +1,30 @@
-const vscode = require('vscode');
-var channel;
+import * as vscode from 'vscode';
+let channel: vscode.OutputChannel;
 
 const CHANNEL_NAME = 'Aura Helper';
 
-class OutputChannel {
+export class OutputChannel {
 
     static createChannel() {
-        if (!channel)
+        if (!channel) {
             channel = vscode.window.createOutputChannel(CHANNEL_NAME);
+        }
     }
 
-    static output(text, show) {
+    static output(text: string, show?: boolean) {
         OutputChannel.createChannel();
         channel.append(text);
-        if (show)
+        if (show) {
             channel.show(show);
+        }
     }
 
-    static outputLine(text, show) {
+    static outputLine(text: string, show?: boolean) {
         OutputChannel.createChannel();
         channel.appendLine(text);
-        if (show)
+        if (show) {
             channel.show(show);
+        }
     }
 
 }
-module.exports = OutputChannel;

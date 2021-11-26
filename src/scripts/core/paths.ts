@@ -1,122 +1,142 @@
-const vscode = require('vscode');
-const applicationContext = require('./applicationContext');
+import * as vscode from 'vscode';
+import applicationContext from './applicationContext';
 const { PathUtils } = require('@aurahelper/core').FileSystem;
 
-class Paths {
+export class Paths {
 
-    static getProjectFolder() {
-        return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath);
+    static getProjectFolder(): string | undefined {
+        if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
+            return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath);
+        }
+        return undefined;
     }
 
-    static getProjectMetadataFolder() {
-        return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/force-app/main/default');
+    static getProjectMetadataFolder(): string | undefined {
+        if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
+            return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/force-app/main/default');
+        }
+        return undefined;
     }
 
-    static getTemporalFolder() {
+    static getTemporalFolder(): string {
         return PathUtils.getAbsolutePath(applicationContext.context.storagePath + '/temp');
     }
 
-    static getApexCommentUserTemplate() {
+    static getApexCommentUserTemplate(): string {
         return PathUtils.getAbsolutePath(applicationContext.context.storagePath + '/userTemplates/apexComment.template.json');
     }
 
-    static getApexCommentBaseTemplate() {
+    static getApexCommentBaseTemplate(): string {
         return Paths.getResourcesPath() + '/templates/apexComment.template.json';
     }
 
-    static getApexJavaBaseTemplate() {
+    static getApexJavaBaseTemplate(): string {
         return Paths.getResourcesPath() + '/templates/apexCommentJava.template.json';
     }
 
-    static getOldApexCommentUserTemplate() {
+    static getOldApexCommentUserTemplate(): string {
         return PathUtils.getAbsolutePath(applicationContext.context.storagePath + '/userTemplates/apexComment.json');
     }
 
-    static getAuraDocUserTemplate() {
+    static getAuraDocUserTemplate(): string {
         return PathUtils.getAbsolutePath(applicationContext.context.storagePath + '/userTemplates/auraDocumentation.json');
     }
 
-    static getAuraDocBaseTemplate() {
+    static getAuraDocBaseTemplate(): string {
         return Paths.getResourcesPath() + '/templates/auraDocumentation.json';
     }
 
-    static getOldAuraDocUserTemplate() {
+    static getOldAuraDocUserTemplate(): string {
         return Paths.getResourcesPath() + '/userTemplates/auraDocumentation.json';
     }
 
-    static getUserTemplatesFolder() {
+    static getUserTemplatesFolder(): string {
         return PathUtils.getAbsolutePath(applicationContext.context.storagePath + '/userTemplates');
     }
 
-    static getAHIgnoreFile() {
-        return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/.ahignore.json');
+    static getAHIgnoreFile(): string | undefined {
+        if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
+            return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/.ahignore.json');
+        }
+        return undefined;
     }
 
-    static getCompiledClassesFolder() {
+    static getCompiledClassesFolder(): string {
         return PathUtils.getAbsolutePath(applicationContext.context.storagePath + '/classesInfo');
     }
 
-    static getMetadataIndexFolder() {
+    static getMetadataIndexFolder(): string {
         return PathUtils.getAbsolutePath(applicationContext.context.storagePath + '/metadata');
     }
 
-    static getSFDXStandardSObjectsFolder() {
-        return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/.sfdx/tools/sobjects/standardObjects');
+    static getSFDXStandardSObjectsFolder(): string | undefined {
+        if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
+            return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/.sfdx/tools/sobjects/standardObjects');
+        }
+        return undefined;
     }
 
-    static getSFDXCustomSObjectsFolder() {
-        return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/.sfdx/tools/sobjects/standardObjects');
+    static getSFDXCustomSObjectsFolder(): string | undefined {
+        if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
+            return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/.sfdx/tools/sobjects/standardObjects');
+        }
+        return undefined;
     }
 
-    static getPackageFolder() {
-        return vscode.workspace.workspaceFolders[0].uri.fsPath + '/metadata/package';
+    static getPackageFolder(): string | undefined {
+        if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
+            return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/metadata/package');
+        }
+        return undefined;
     }
 
-    static getManifestPath() {
-        return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/manifest');
+    static getManifestPath(): string | undefined {
+        if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders!.length > 0) {
+            return PathUtils.getAbsolutePath(vscode.workspace.workspaceFolders[0].uri.fsPath + '/manifest');
+        }
+        return undefined;
     }
 
-    static getImagesPath() {
+    static getImagesPath(): string {
         return Paths.getResourcesPath() + '/images';
     }
 
-    static getAuraSnippetsPath() {
+    static getAuraSnippetsPath(): string {
         return Paths.getResourcesPath() + '/snippets/auraSnippets.json';
     }
 
-    static getJSSnippetsPath() {
+    static getJSSnippetsPath(): string {
         return Paths.getResourcesPath() + '/snippets/jsSnippets.json';
     }
 
-    static getSLDSSnippetsPath() {
+    static getSLDSSnippetsPath(): string {
         return Paths.getResourcesPath() + '/snippets/sldsSnippets.json';
     }
 
-    static getLWCSnippetsPath() {
+    static getLWCSnippetsPath(): string {
         return Paths.getResourcesPath() + '/snippets/lwcSnippets.json';
     }
 
-    static getAssetsPath() {
+    static getAssetsPath(): string {
         return Paths.getResourcesPath() + '/assets';
     }
 
-    static getResourcesPath() {
+    static getResourcesPath(): string {
         return PathUtils.getAbsolutePath(applicationContext.context.asAbsolutePath("./resources"));
     }
 
-    static getAuraBundleHelperPath(path) {
+    static getAuraBundleHelperPath(path: string) {
         return PathUtils.getAbsolutePath(path.replace('.cmp', '').replace('.auradoc', '').replace('.svg', '').replace('.css', '').replace('.design', '').replace('.app', '').replace('Renderer.js', '').replace('Controller.js', '') + 'Helper.js');
     }
 
-    static getAuraBundleControllerPath(path) {
+    static getAuraBundleControllerPath(path: string) {
         return PathUtils.getAbsolutePath(path.replace('.cmp', '').replace('.auradoc', '').replace('.svg', '').replace('.css', '').replace('.design', '').replace('.app', '').replace('Renderer.js', '').replace('Helper.js', '') + 'Controller.js');
     }
 
-    static toURI(path) {
+    static toURI(path: string) {
         return vscode.Uri.file(PathUtils.getAbsolutePath(path));
     }
 }
-module.exports = Paths;
 
 
 /*

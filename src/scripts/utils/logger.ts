@@ -1,28 +1,30 @@
 const DEBUG = true;
 const { Utils } = require('@aurahelper/core').CoreUtils;
 
-class Logger {
-    static log(textOrParamName, paramValue) {
+export class Logger {
+    static log(textOrParamName: string | any, paramValue: any) {
         if (DEBUG) {
-            if (Utils.isNull(paramValue))
+            if (Utils.isNull(paramValue)) {
                 console.log(textOrParamName);
-            else
+            } else {
                 console.log('## ' + textOrParamName + ": " + paramValue);
+            }
         }
     }
 
-    static logJSON(textOrParamName, paramValue) {
+    static logJSON(textOrParamName: string | any, paramValue: any) {
         if (DEBUG) {
-            if (Utils.isNull(paramValue))
+            if (Utils.isNull(paramValue)) {
                 console.log(JSON.stringify(textOrParamName, null, 2));
-            else
+            } else {
                 console.log('## ' + textOrParamName + ": \n" + JSON.stringify(paramValue, null, 2));
+            }
         }
     }
 
-    static error(text) {
-        if (DEBUG)
+    static error(text: string) {
+        if (DEBUG) {
             console.error(text);
+        }
     }
 }
-module.exports = Logger;

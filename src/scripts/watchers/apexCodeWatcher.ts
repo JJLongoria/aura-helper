@@ -1,10 +1,10 @@
-const vscode = require('vscode');
-const applicationContext = require('../core/applicationContext');
+import * as vscode from 'vscode';
+import applicationContext from "../core/applicationContext";
+import { Paths } from "../core/paths";
 const { ApexParser } = require('@aurahelper/languages').Apex;
-const Paths = require('../core/paths');
 const { FileWriter, PathUtils, FileChecker } = require('@aurahelper/core').FileSystem;
 
-class ApexCodeWatcher {
+export class ApexCodeWatcher {
 
     static startWatching() {
         registerApexClassesWatcher();
@@ -12,13 +12,12 @@ class ApexCodeWatcher {
     }
 
 }
-module.exports = ApexCodeWatcher;
 
 function registerApexClassesWatcher() {
     const classWatcher = vscode.workspace.createFileSystemWatcher("**/*.cls");
     classWatcher.onDidChange(async function (uri) {
         if (FileChecker.isExists(uri.fsPath)) {
-            ApexParser.saveClassData(uri.fsPath, Paths.getCompiledClassesFolder(), applicationContext.parserData).then(function (apexNode) {
+            ApexParser.saveClassData(uri.fsPath, Paths.getCompiledClassesFolder(), applicationContext.parserData).then(function (apexNode: any) {
                 applicationContext.parserData.userClassesData[apexNode.name.toLowerCase()] = apexNode;
                 analizeNodeErrors(apexNode);
             });
@@ -26,13 +25,14 @@ function registerApexClassesWatcher() {
             const fileName = PathUtils.getBasename(uri.fsPath);
             const className = fileName.substring(0, fileName.indexOf('.'));
             delete applicationContext.parserData.userClassesData[className.toLowerCase()];
-            if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json'))
+            if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json')) {
                 FileWriter.delete(Paths.getCompiledClassesFolder() + '/' + className + '.json');
+            }
         }
     });
     classWatcher.onDidCreate(async function (uri) {
         if (FileChecker.isExists(uri.fsPath)) {
-            ApexParser.saveClassData(uri.fsPath, Paths.getCompiledClassesFolder(), applicationContext.parserData).then(function (apexNode) {
+            ApexParser.saveClassData(uri.fsPath, Paths.getCompiledClassesFolder(), applicationContext.parserData).then(function (apexNode: any) {
                 applicationContext.parserData.userClassesData[apexNode.name.toLowerCase()] = apexNode;
                 analizeNodeErrors(apexNode);
             });
@@ -40,15 +40,17 @@ function registerApexClassesWatcher() {
             const fileName = PathUtils.getBasename(uri.fsPath);
             const className = fileName.substring(0, fileName.indexOf('.'));
             delete applicationContext.parserData.userClassesData[className.toLowerCase()];
-            if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json'))
+            if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json')) {
                 FileWriter.delete(Paths.getCompiledClassesFolder() + '/' + className + '.json');
+            }
         }
     });
     classWatcher.onDidDelete(async function (uri) {
         const fileName = PathUtils.getBasename(uri.fsPath);
         const className = fileName.substring(0, fileName.indexOf('.'));
-        if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json'))
+        if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json')) {
             FileWriter.delete(Paths.getCompiledClassesFolder() + '/' + className + '.json');
+        }
         delete applicationContext.parserData.userClassesData[className.toLowerCase()];
     });
 }
@@ -57,7 +59,7 @@ function registerApexTriggersWatcher() {
     const classWatcher = vscode.workspace.createFileSystemWatcher("**/*.trigger");
     classWatcher.onDidChange(async function (uri) {
         if (FileChecker.isExists(uri.fsPath)) {
-            ApexParser.saveClassData(uri.fsPath, Paths.getCompiledClassesFolder(), applicationContext.parserData).then(function (apexNode) {
+            ApexParser.saveClassData(uri.fsPath, Paths.getCompiledClassesFolder(), applicationContext.parserData).then(function (apexNode: any) {
                 applicationContext.parserData.userClassesData[apexNode.name.toLowerCase()] = apexNode;
                 analizeNodeErrors(apexNode);
             });
@@ -65,13 +67,14 @@ function registerApexTriggersWatcher() {
             const fileName = PathUtils.getBasename(uri.fsPath);
             const className = fileName.substring(0, fileName.indexOf('.'));
             delete applicationContext.parserData.userClassesData[className.toLowerCase()];
-            if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json'))
+            if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json')) {
                 FileWriter.delete(Paths.getCompiledClassesFolder() + '/' + className + '.json');
+            }
         }
     });
     classWatcher.onDidCreate(async function (uri) {
         if (FileChecker.isExists(uri.fsPath)) {
-            ApexParser.saveClassData(uri.fsPath, Paths.getCompiledClassesFolder(), applicationContext.parserData).then(function (apexNode) {
+            ApexParser.saveClassData(uri.fsPath, Paths.getCompiledClassesFolder(), applicationContext.parserData).then(function (apexNode: any) {
                 applicationContext.parserData.userClassesData[apexNode.name.toLowerCase()] = apexNode;
                 analizeNodeErrors(apexNode);
             });
@@ -79,19 +82,21 @@ function registerApexTriggersWatcher() {
             const fileName = PathUtils.getBasename(uri.fsPath);
             const className = fileName.substring(0, fileName.indexOf('.'));
             delete applicationContext.parserData.userClassesData[className.toLowerCase()];
-            if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json'))
+            if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json')) {
                 FileWriter.delete(Paths.getCompiledClassesFolder() + '/' + className + '.json');
+            }
         }
     });
     classWatcher.onDidDelete(async function (uri) {
         const fileName = PathUtils.getBasename(uri.fsPath);
         const className = fileName.substring(0, fileName.indexOf('.'));
-        if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json'))
+        if (FileChecker.isExists(Paths.getCompiledClassesFolder() + '/' + className + '.json')) {
             FileWriter.delete(Paths.getCompiledClassesFolder() + '/' + className + '.json');
+        }
         delete applicationContext.parserData.userClassesData[className.toLowerCase()];
     });
 }
 
-function analizeNodeErrors(apexNode) {
+function analizeNodeErrors(apexNode: any) {
 
 }
