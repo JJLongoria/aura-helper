@@ -339,7 +339,7 @@ export class CustomLabelsEditor extends XMLEditor {
             if (this._step === DELETE_STEP) {
                 if (this._removedLabels && this._removedLabels.length > 0) {
                     for (const labelData of this._removedLabels) {
-                        this._labelsContent.labels.splice(labelData.index, 0, labelData.label)
+                        this._labelsContent.labels.splice(labelData.index, 0, labelData.label);
                     }
                     this._removedLabels = [];
                 }
@@ -493,7 +493,7 @@ export class CustomLabelsEditor extends XMLEditor {
                             this._removedLabels.push({
                                 index: index,
                                 label: label
-                            })
+                            });
                         } else {
                             labelsToKeep.push(label);
                         }
