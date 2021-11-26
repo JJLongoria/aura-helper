@@ -97,6 +97,6 @@ function registerApexTriggersWatcher() {
     });
 }
 
-function analizeNodeErrors(apexNode: any) {
+function analizeNodeErrors(_apexNode: any) {
 
 }

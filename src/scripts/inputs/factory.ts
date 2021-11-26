@@ -134,7 +134,7 @@ function createQuickPick(items: vscode.QuickPickItem[], placeholder: string = 'S
                 resolve(labels.join(','));
             }
         });
-        input.onDidAccept((item) => {
+        input.onDidAccept(() => {
             if (input.canSelectMany) {
                 let labels = [];
                 if (input.selectedItems && input.selectedItems.length > 0) {
