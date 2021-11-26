@@ -1,19 +1,19 @@
-const vscode = require('vscode');
+import * as vscode from 'vscode';
+import { Config } from '../core/config';
+import applicationContext from '../core/applicationContext';
 const Range = vscode.Range;
-const Config = require('../core/config');
-const applicationContext = require('../core/applicationContext');
 const { FileReader } = require('@aurahelper/core').FileSystem;
 const { ApexFormatter } = require('@aurahelper/languages').Apex;
 
 
 
-exports.provider = {
-    provideDocumentFormattingEdits(document) {
-        return new Promise((resolve, reject) => {
+export class ApexFormatterProvider implements vscode.DocumentFormattingEditProvider {
+    provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.ProviderResult<vscode.TextEdit[]> {
+        return new Promise<vscode.TextEdit[]>((resolve, reject) => {
             vscode.window.withProgress({
                 location: vscode.ProgressLocation.Window
-            }, (progress, cancelToken) => {
-                return new Promise((progressResolve) => {
+            }, (_progress: vscode.Progress<any>, cancelToken: vscode.CancellationToken) => {
+                return new Promise<void>((progressResolve) => {
                     try {
                         cancelToken.onCancellationRequested(() => {
                             progressResolve();
