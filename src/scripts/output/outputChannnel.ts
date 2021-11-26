@@ -5,13 +5,13 @@ const CHANNEL_NAME = 'Aura Helper';
 
 export class OutputChannel {
 
-    static createChannel() {
+    static createChannel(): void {
         if (!channel) {
             channel = vscode.window.createOutputChannel(CHANNEL_NAME);
         }
     }
 
-    static output(text: string, show?: boolean) {
+    static output(text: string, show?: boolean): void {
         OutputChannel.createChannel();
         channel.append(text);
         if (show) {
@@ -19,7 +19,7 @@ export class OutputChannel {
         }
     }
 
-    static outputLine(text: string, show?: boolean) {
+    static outputLine(text: string, show?: boolean): void {
         OutputChannel.createChannel();
         channel.appendLine(text);
         if (show) {

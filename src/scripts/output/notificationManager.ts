@@ -3,9 +3,9 @@ var statusBar: vscode.StatusBarItem;
 const { Utils } = require('@aurahelper/core').CoreUtils;
 
 
-class NotificationManager {
+export class NotificationManager {
 
-    static showStatusBar(content: string) {
+    static showStatusBar(content: string): void {
         if (!statusBar) {
             statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
         }
@@ -13,20 +13,20 @@ class NotificationManager {
         statusBar.show();
     }
 
-    static hideStatusBar() {
+    static hideStatusBar(): void {
         statusBar.text = '';
         statusBar.hide();
     }
 
-    static showError(message: string) {
+    static showError(message: string): void {
         vscode.window.showErrorMessage(message);
     }
 
-    static showCommandError(message: string) {
+    static showCommandError(message: string): void {
         NotificationManager.showError('An error ocurred while processing command. Error: \n' + message)
     }
 
-    static showConfirmDialog(message: string, onAccept: () => void , onCancel: () => void) {
+    static showConfirmDialog(message: string, onAccept: () => void , onCancel: () => void): void {
         vscode.window.showInformationMessage(message, 'Cancel', 'Ok').then((selected) => {
             if (selected === 'Ok' && onAccept) {
                 onAccept.call(this);
@@ -36,11 +36,11 @@ class NotificationManager {
         });
     }
 
-    static showInfo(message: string) {
+    static showInfo(message: string): void {
         vscode.window.showInformationMessage(message);
     }
 
-    static showWarning(message: string, onAccept: () => void , onCancel?: () => void) {
+    static showWarning(message: string, onAccept: () => void , onCancel?: () => void): void {
         let options: string[] = [];
         if(!Utils.isNull(onCancel)){
             options.push('Cancel');
@@ -58,4 +58,3 @@ class NotificationManager {
     }
 
 }
-module.exports = NotificationManager;
