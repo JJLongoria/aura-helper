@@ -6,7 +6,7 @@ const { FileChecker } = require('@aurahelper/core').FileSystem;
 const window = vscode.window;
 const SnippetString = vscode.SnippetString;
 
-export function run() {
+export function run(): void {
     try {
         const editor = window.activeTextEditor;
         if (!editor) {
@@ -21,7 +21,7 @@ export function run() {
     catch (error: any) {
         NotificationManager.showCommandError(error);
     }
-}
+};
 
 async function addJSFunction(editor: vscode.TextEditor) {
     const numParams = await window.showInputBox({
