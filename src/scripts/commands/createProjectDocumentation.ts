@@ -1,17 +1,17 @@
-const vscode = require('vscode');
-const NotificationManager = require('../output/notificationManager');
+import * as vscode from 'vscode';
+import { NotificationManager } from '../output';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
+import { InputFactory } from '../inputs/factory';
+import { TemplateUtils } from '../utils/templateUtils';
+import applicationContext from '../core/applicationContext';
 const { FileReader, FileWriter, FileChecker } = require('@aurahelper/core').FileSystem;
-const Config = require('../core/config');
-const applicationContext = require('../core/applicationContext');
-const Paths = require('../core/paths');
 const { ApexParser } = require('@aurahelper/languages').Apex;
 const { Tokenizer, TokenType } = require('@aurahelper/languages').System;
 const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
 const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
 const { ApexNodeTypes } = require('@aurahelper/core').Values;
 const { Token } = require('@aurahelper/core').Types;
-const InputFactory = require('../inputs/factory');
-const TemplateUtils = require('../utils/templateUtils');
 const Window = vscode.window;
 
 
@@ -30,7 +30,8 @@ let namespacesData;
 let classPageTemplate;
 let sObjects;
 let alias;
-exports.run = function () {
+
+export function run(): void {
     InputFactory.createFolderDialog('Select Folder', false).then(function (uri) {
         if (uri && uri.length > 0) {
             let errorShown = false;
@@ -52,8 +53,8 @@ exports.run = function () {
     });
 }
 
-function createDocumentation(folderPath) {
-    return new Promise(async function (resolve, reject) {
+function createDocumentation(folderPath: string): Promise<void> {
+    return new Promise<void>(async function (resolve, reject) {
         try {
             alias = Config.getOrgAlias();
             NotificationManager.showStatusBar('$(sync~spin) Generating Project Doc');
@@ -61,44 +62,53 @@ function createDocumentation(folderPath) {
             createDocumentationForApexClasses(folderPath);
             resolve();
         } catch (error) {
-            if (error.message.indexOf('JSON') !== -1)
-                error = 'Create Documentation Error. Aura Helper are running job for Getting Apex Classes Information. Please, run this command when job finish. (See status bar)'
+            if (error.message.indexOf('JSON') !== -1) {
+                error = 'Create Documentation Error. Aura Helper are running job for Getting Apex Classes Information. Please, run this command when job finish. (See status bar)';
+            }
             reject(error);
         }
     });
 }
 
-function createDocumentationForApexClasses(folderPath) {
+function createDocumentationForApexClasses(folderPath: string): void {
     for (const classNameToLower of Object.keys(classes)) {
         let apexNode = classes[classNameToLower];
-        if (apexNode.annotation && apexNode.annotation.name.toLowerCase() === '@istest')
+        if (apexNode.annotation && apexNode.annotation.name.toLowerCase() === '@istest') {
             testClasses[apexNode.name] = apexNode;
-        else if (apexNode.nodeType === ApexNodeTypes.INTERFACE)
+        } else if (apexNode.nodeType === ApexNodeTypes.INTERFACE) {
             interfaces[apexNode.name] = apexNode;
-        else if (apexNode.nodeType === ApexNodeTypes.ENUM)
+        } else if (apexNode.nodeType === ApexNodeTypes.ENUM) {
             enumClasses[apexNode.name] = apexNode;
-        else
+        } else {
             apexClasses[apexNode.name] = apexNode;
+        }
 
-        if (apexNode.annotation && apexNode.annotation.name.toLowerCase() === '@restresource')
+        if (apexNode.annotation && apexNode.annotation.name.toLowerCase() === '@restresource') {
             restClasses[apexNode.name] = apexNode;
-        if (isBatchClass(apexNode))
+        }
+        if (isBatchClass(apexNode)) {
             batches[apexNode.name] = apexNode;
-        if (isScheduledClass(apexNode))
+        }
+        if (isScheduledClass(apexNode)) {
             scheduled[apexNode.name] = apexNode;
-        if (isQueueableClass(apexNode))
+        }
+        if (isQueueableClass(apexNode)) {
             queueables[apexNode.name] = apexNode;
+        }
     }
-    if (!FileChecker.isExists(folderPath))
+    if (!FileChecker.isExists(folderPath)) {
         FileWriter.createFolderSync(folderPath);
-    if (!FileChecker.isExists(folderPath + '/classes'))
+    }
+    if (!FileChecker.isExists(folderPath + '/classes')) {
         FileWriter.createFolderSync(folderPath + '/classes');
+    }
     let index = createIndex();
     FileWriter.createFileSync(folderPath + '/index.html', index);
     let home = createHome();
     FileWriter.createFileSync(folderPath + '/home.html', home);
-    if (!FileChecker.isExists(folderPath + '/resources'))
+    if (!FileChecker.isExists(folderPath + '/resources')) {
         FileWriter.createFolderSync(folderPath + '/resources');
+    }
     FileWriter.copyFile(Paths.getImagesPath() + '/blue_icon.png', folderPath + '/resources/aurahelper.png', function () {
 
     });
@@ -109,38 +119,41 @@ function createDocumentationForApexClasses(folderPath) {
     });
 }
 
-function isBatchClass(apexNode) {
+function isBatchClass(apexNode: any): boolean {
     if (apexNode.implementTypes && apexNode.implementTypes.length > 0) {
         for (const impType of apexNode.implementTypes) {
-            if (impType.toLowerCase().indexOf('database.batchable') !== -1)
+            if (impType.toLowerCase().indexOf('database.batchable') !== -1) {
                 return true;
+            }
         }
     }
     return false;
 }
 
-function isScheduledClass(apexNode) {
+function isScheduledClass(apexNode: any): boolean {
     if (apexNode.implementTypes && apexNode.implementTypes.length > 0) {
         for (const impType of apexNode.implementTypes) {
-            if (impType.toLowerCase().indexOf('schedulable') !== -1)
+            if (impType.toLowerCase().indexOf('schedulable') !== -1) {
                 return true;
+            }
         }
     }
     return false;
 }
 
-function isQueueableClass(apexNode) {
+function isQueueableClass(apexNode: any): boolean {
     if (apexNode.implementTypes && apexNode.implementTypes.length > 0) {
         for (const impType of apexNode.implementTypes) {
-            if (impType.toLowerCase().indexOf('queueable') !== -1)
+            if (impType.toLowerCase().indexOf('queueable') !== -1) {
                 return true;
+            }
         }
     }
     return false;
 }
 
 
-function styleDatatype(datatype) {
+function styleDatatype(datatype: string): string {
     const styledDatatype = [];
     const parser = new ApexParser();
     parser.setSystemData(applicationContext.parserData);
@@ -188,19 +201,19 @@ function styleDatatype(datatype) {
     return styledDatatype.join('');
 }
 
-function createIndex() {
+function createIndex(): string {
     let pageContent = FileReader.readFileSync(Paths.getAssetsPath() + '/documentation/indexTemplate.html');
     return StrUtils.replace(pageContent, '{!navbar}', getNavigationMenu());
 }
 
-function getNavigationMenu() {
+function getNavigationMenu(): string {
     let content = [];
-    content.push('<a onclick="goToHome()" class="w3-bar-item menu"><b>Home</b></a>')
+    content.push('<a onclick="goToHome()" class="w3-bar-item menu"><b>Home</b></a>');
     if (applicationContext.sfData.serverInstance) {
-        content.push('<a target="_blank" href="' + applicationContext.sfData.serverInstance + '/auradocs/reference.app" class="w3-bar-item menu"><b>Aura Documentation</b></a>')
+        content.push('<a target="_blank" href="' + applicationContext.sfData.serverInstance + '/auradocs/reference.app" class="w3-bar-item menu"><b>Aura Documentation</b></a>');
     }
     if (Object.keys(apexClasses).length > 0) {
-        content.push('<a href="#" class="w3-bar-item menu" onclick="openCloseAccordion(\'apexClassesSection\')"><b>Classes</b><span class="w3-right">' + Object.keys(apexClasses).length + '</span></a>')
+        content.push('<a href="#" class="w3-bar-item menu" onclick="openCloseAccordion(\'apexClassesSection\')"><b>Classes</b><span class="w3-right">' + Object.keys(apexClasses).length + '</span></a>');
         content.push('<div id="apexClassesSection" class="w3-hide w3-margin-left">');
         Object.keys(apexClasses).forEach(function (className) {
             content.push('<a href="#" class="w3-bar-item  menu menuLink w3-show" onclick="loadPage(\'' + className + '\')">' + className + '</a>');
@@ -208,7 +221,7 @@ function getNavigationMenu() {
         content.push('</div>');
     }
     if (Object.keys(interfaces).length > 0) {
-        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'interfacesSection\')"><b>Interfaces</b><span class="w3-right">' + Object.keys(interfaces).length + '</span></a>')
+        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'interfacesSection\')"><b>Interfaces</b><span class="w3-right">' + Object.keys(interfaces).length + '</span></a>');
         content.push('<div id="interfacesSection" class="w3-hide w3-margin-left">');
         Object.keys(interfaces).forEach(function (interfaceName) {
             content.push('<a href="#" class="w3-bar-item  menu menuLink w3-show" onclick="loadPage(\'' + interfaceName + '\')">' + interfaceName + '</a>');
@@ -216,7 +229,7 @@ function getNavigationMenu() {
         content.push('</div>');
     }
     if (Object.keys(enumClasses).length > 0) {
-        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'interfacesSection\')"><b>Interfaces</b><span class="w3-right">' + Object.keys(enumClasses).length + '</span></a>')
+        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'interfacesSection\')"><b>Interfaces</b><span class="w3-right">' + Object.keys(enumClasses).length + '</span></a>');
         content.push('<div id="interfacesSection" class="w3-hide w3-margin-left">');
         Object.keys(enumClasses).forEach(function (enumName) {
             content.push('<a href="#" class="w3-bar-item  menu menuLink w3-show" onclick="loadPage(\'' + enumName + '\')">' + enumName + '</a>');
@@ -224,7 +237,7 @@ function getNavigationMenu() {
         content.push('</div>');
     }
     if (Object.keys(batches).length > 0) {
-        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'batchesSection\')"><b>Batchable Classes</b><span class="w3-right">' + Object.keys(batches).length + '</span></a>')
+        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'batchesSection\')"><b>Batchable Classes</b><span class="w3-right">' + Object.keys(batches).length + '</span></a>');
         content.push('<div id="batchesSection" class="w3-hide w3-margin-left">');
         Object.keys(batches).forEach(function (batchName) {
             content.push('<a href="#" class="w3-bar-item  menu menuLink w3-show" onclick="loadPage(\'' + batchName + '\')">' + batchName + '</a>');
@@ -232,7 +245,7 @@ function getNavigationMenu() {
         content.push('</div>');
     }
     if (Object.keys(scheduled).length > 0) {
-        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'scheduledSection\')"><b>Schedulable Classes</b><span class="w3-right">' + Object.keys(scheduled).length + '</span></a>')
+        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'scheduledSection\')"><b>Schedulable Classes</b><span class="w3-right">' + Object.keys(scheduled).length + '</span></a>');
         content.push('<div id="scheduledSection" class="w3-hide w3-margin-left">');
         Object.keys(scheduled).forEach(function (scheduledName) {
             content.push('<a href="#" class="w3-bar-item  menu menuLink w3-show" onclick="loadPage(\'' + scheduledName + '\')">' + scheduledName + '</a>');
@@ -240,7 +253,7 @@ function getNavigationMenu() {
         content.push('</div>');
     }
     if (Object.keys(queueables).length > 0) {
-        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'queueableSection\')"><b>Queueable Classes</b><span class="w3-right">' + Object.keys(queueables).length + '</span></a>')
+        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'queueableSection\')"><b>Queueable Classes</b><span class="w3-right">' + Object.keys(queueables).length + '</span></a>');
         content.push('<div id="queueableSection" class="w3-hide w3-margin-left">');
         Object.keys(queueables).forEach(function (queueableName) {
             content.push('<a href="#" class="w3-bar-item  menu menuLink w3-show" onclick="loadPage(\'' + queueableName + '\')">' + queueableName + '</a>');
@@ -248,7 +261,7 @@ function getNavigationMenu() {
         content.push('</div>');
     }
     if (Object.keys(restClasses).length > 0) {
-        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'restClassesSection\')"><b>REST Classes</b><span class="w3-right">' + Object.keys(restClasses).length + '</span></a>')
+        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'restClassesSection\')"><b>REST Classes</b><span class="w3-right">' + Object.keys(restClasses).length + '</span></a>');
         content.push('<div id="restClassesSection" class="w3-hide w3-margin-left">');
         Object.keys(restClasses).forEach(function (restName) {
             content.push('<a href="#" class="w3-bar-item  menu menuLink w3-show" onclick="loadPage(\'' + restName + '\')">' + restName + '</a>');
@@ -256,7 +269,7 @@ function getNavigationMenu() {
         content.push('</div>');
     }
     if (Object.keys(testClasses).length > 0) {
-        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'testClassesSection\')"><b>Test Classes</b><span class="w3-right">' + Object.keys(testClasses).length + '</span></a>')
+        content.push('<a href="#" class="w3-bar-item  menu" onclick="openCloseAccordion(\'testClassesSection\')"><b>Test Classes</b><span class="w3-right">' + Object.keys(testClasses).length + '</span></a>');
         content.push('<div id="testClassesSection" class="w3-hide w3-margin-left">');
         Object.keys(testClasses).forEach(function (testClassName) {
             content.push('<a href="#" class="w3-bar-item  menu menuLink w3-show" onclick="loadPage(\'' + testClassName + '\')">' + testClassName + '</a>');
@@ -266,7 +279,7 @@ function getNavigationMenu() {
     return content.join('\n');
 }
 
-function createHome() {
+function createHome(): string {
     let homeContent = getHome();
     let pageContent = FileReader.readFileSync(Paths.getAssetsPath() + '/documentation/homeTemplate.html');
     pageContent = StrUtils.replace(pageContent, '{!homeTitle}', 'Organization: ' + alias + '<h5 class="sectionTitle">Server Instance: <a target="_blank" href="' + applicationContext.sfData.serverInstance + '">' + applicationContext.sfData.serverInstance + '</a></h5>');
@@ -275,7 +288,7 @@ function createHome() {
     return pageContent;
 }
 
-function getHome() {
+function getHome(): string[] {
     let content = [];
     content.push('<p>');
     content.push('<ul>');
@@ -330,28 +343,30 @@ function getHome() {
     return content;
 }
 
-function createDocumentationForClass(apexClass) {
+function createDocumentationForClass(apexClass: any): string {
     let classBody = getNodeBody(apexClass);
     let content = StrUtils.replace(classPageTemplate, '{!classContent}', classBody.join('\n'));
     return content;
 }
 
-function getNodeBody(apexNode) {
+function getNodeBody(apexNode: any): string[] {
     let content = [];
     content.push('<div id="classNameSection">');
     content.push('<h2 class="sectionTitle">' + apexNode.name + '</h2>');
-    if (apexNode.comment && apexNode.comment.description && apexNode.comment.description.length > 0)
+    if (apexNode.comment && apexNode.comment.description && apexNode.comment.description.length > 0) {
         content.push('<br/>' + StrUtils.replace(apexNode.comment.description, '\n', '<br/>'));
+    }
     content.push('</div>');
     content.push('<br/>');
     if (apexNode.nodeType !== ApexNodeTypes.ENUM) {
         if (apexNode.extends) {
             content.push('<div id="extendsSection">');
             content.push('<h3 class="sectionTitle">Extends</h3>');
-            if (apexNode.extends.documentation)
+            if (apexNode.extends.documentation) {
                 content.push('<p style="padding-left:20px" class="code datatype"><a target="_blank" href="' + apexNode.extends.documentation + '">' + apexNode.extends.name + '</a></p>');
-            else
+            } else {
                 content.push('<p style="padding-left:20px" class="code datatype"><a href="' + ((apexNode.extends.parentName) ? apexNode.extends.parentName : apexNode.extends.name) + '.html">' + apexNode.extends.name + '</a></p>');
+            }
             content.push('</div>');
             content.push('<br/>');
 
@@ -387,8 +402,9 @@ function getNodeBody(apexNode) {
                 const field = apexNode.variables[fieldNameToLower];
                 content.push('<li style="margin-bottom: 10px">');
                 content.push('<a class="w3-bar-item menu" onclick="openCloseAccordion(\'' + apexNode.name + '.' + field.name + '\')"><b>' + field.name + '</b></a>');
-                if (field.comment && field.comment.description && field.comment.description.length > 0)
+                if (field.comment && field.comment.description && field.comment.description.length > 0) {
                     content.push('<br/>' + StrUtils.replace(field.comment.description, '\n', '<br/>'));
+                }
                 content.push('<div id="' + apexNode.name + '.' + field.name + '" class="w3-hide w3-margin-left">');
                 content.push('<h4 class="sectionTitle"><b>Signature</b></h4>');
                 content.push('<p style="padding-left:20px"><b class="code">' + getSignature(field) + '</b></p>');
@@ -570,25 +586,28 @@ function getNodeBody(apexNode) {
     return content;
 }
 
-function escape(text) {
-    if (!text || text.trim().length === 0)
+function escape(text: string): string {
+    if (!text || text.trim().length === 0) {
         return '';
+    }
     text = StrUtils.replace(text, '<', '&lt;');
     text = StrUtils.replace(text, '>', '&gt;');
     return text;
 }
 
-function getSignature(obj, isMethod) {
+function getSignature(obj: any, isMethod?: boolean): string {
     let modifiers = getModifiers(obj);
     if (isMethod) {
         let signature = '';
-        if (modifiers)
+        if (modifiers) {
             signature += modifiers.join(' ');
+        }
         if (obj.datatype) {
-            if (obj.datatype === 'void')
+            if (obj.datatype === 'void') {
                 signature += ' <b class="code keyword">' + obj.datatype.name + '</b>';
-            else
+            } else {
                 signature += ' <b class="code">' + styleDatatype(escape(obj.datatype.name)) + '</b>';
+            }
         }
         signature += ' ';
         signature += ' <b class="code identifier">' + obj.name + '</b>';
@@ -602,44 +621,55 @@ function getSignature(obj, isMethod) {
         signature += '<b class="code">(' + params.join(', ') + ')</b>';
         return signature;
     } else {
-        if (modifiers)
+        if (modifiers) {
             return modifiers.join(' ') + ' <b class="code">' + styleDatatype(escape(obj.datatype.name)) + '</b> <b class="code identifier">' + obj.name + '</b>';
+        }
         return '<b class="code">' + styleDatatype(escape(obj.datatype.name)) + '</b> <b class="code identifier">' + obj.name + '</b>';
     }
 }
 
-function getModifiers(obj) {
+function getModifiers(obj: any): string[] | undefined {
     let modifiers = [];
-    if (obj.accessModifier && obj.accessModifier.length > 0)
+    if (obj.accessModifier && obj.accessModifier.length > 0) {
         modifiers.push('<b class="code keyword">' + obj.accessModifier.textToLower + '</b>');
-    if (obj.definitionModifier && obj.definitionModifier.length > 0)
+    }
+    if (obj.definitionModifier && obj.definitionModifier.length > 0) {
         modifiers.push('<b class="code keyword">' + obj.definitionModifier.textToLower + '</b>');
-    if (obj.sharingModifier)
+    }
+    if (obj.sharingModifier) {
         modifiers.push('<b class="code keyword">' + obj.sharingModifier.textToLower + '</b>');
-    if (obj.static)
+    }
+    if (obj.static) {
         modifiers.push('<b class="code keyword">static</b>');
-    if (obj.override)
+    }
+    if (obj.override) {
         modifiers.push('<b class="code keyword">override</b>');
-    if (obj.transient)
+    }
+    if (obj.transient) {
         modifiers.push('<b class="code keyword">transient</b>');
-    if (obj.final)
+    }
+    if (obj.final) {
         modifiers.push('<b class="code keyword">final</b>');
-    if (obj.testMethod)
+    }
+    if (obj.testMethod) {
         modifiers.push('<b class="code keyword">testmethod</b>');
-    if (modifiers.length > 0)
+    }
+    if (modifiers.length > 0) {
         return modifiers;
-    else
+    } else {
         undefined;
+    }
 }
 
 function getImplements(apexClass) {
     if (apexClass.implements && apexClass.implements.length > 0) {
         let imps = [];
         for (const imp of apexClass.implements) {
-            if (imp.documentation)
+            if (imp.documentation) {
                 imps.push('<a target="_blank" href="' + imp.docLink + '">' + imp.name + '</a>');
-            else
+            } else {
                 imps.push('<a href="' + ((imp.parentName) ? imp.parentName : imp.name) + '.html" href="#">' + imp.name + '</a>');
+            }
         }
         return imps.join(', ');
     }
