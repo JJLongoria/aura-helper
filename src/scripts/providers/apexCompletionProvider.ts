@@ -24,7 +24,7 @@ export class ApexCompletionProvider implements vscode.CompletionItemProvider<vsc
                     items = provideApexCompletion(document, position);
                     Utils.sort(items, ['label']);
                 }
-            } catch (error: any) {
+            } catch (error) {
                 Logger.error(error);
             }
             resolve(items);
