@@ -1,34 +1,36 @@
-const vscode = require('vscode');
-const NotificationManager = require('../output/notificationManager');
-const InputFactory = require('../inputs/factory');
+import * as vscode from 'vscode';
+import { OutputChannel, NotificationManager } from '../output';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
+import { InputFactory } from '../inputs/factory';
 const { FileReader, FileChecker } = require('@aurahelper/core').FileSystem;
 const { MetadataUtils } = require('@aurahelper/core').CoreUtils;
-const Paths = require('../core/paths');
-const Config = require('../core/config');
 const CLIManager = require('@aurahelper/cli-manager');
 const Ignore = require('@aurahelper/ignore');
 const Connection = require('@aurahelper/connector');
 
-exports.run = async function () {
+export async function run() {
     const alias = Config.getOrgAlias();
     if (!alias) {
         NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
         return;
     }
     let ignoreOption = await InputFactory.createIgnoreOptionsSelector();
-    if (!ignoreOption)
+    if (!ignoreOption) {
         return;
-    let ignoreFilePath;
+    }
+    let ignoreFilePath: string;
     if (ignoreOption === 'Use Custom Ignore File') {
-        ignoreFilePath = await InputFactory.createFileDialog('Select ahignore', false, { 'JSON files': ['json'] });
-        if (ignoreFilePath && ignoreFilePath[0])
-            ignoreFilePath = ignoreFilePath[0].fsPath;
-        else {
+        const ignoreFilePathUri = await InputFactory.createFileDialog('Select ahignore', false, { 'JSON files': ['json'] });
+        if (ignoreFilePathUri && ignoreFilePathUri[0]){
+            ignoreFilePath = ignoreFilePathUri[0].fsPath;
+        }else {
             return;
         }
     }
-    else
+    else{
         ignoreFilePath = Paths.getAHIgnoreFile();
+    }
     if (!FileChecker.isExists(ignoreFilePath)) {
         NotificationManager.showError('Ignore File does not exists (' + ignoreFilePath + ')');
         return;
@@ -36,22 +38,23 @@ exports.run = async function () {
     try {
         let metadataToIgnore = JSON.parse(FileReader.readFileSync(ignoreFilePath));
         let selection = await InputFactory.createIgnoreTypesSelector(Object.keys(metadataToIgnore));
-        let items;
+        let items: string[];
         if (selection.indexOf(',') !== -1) {
             items = selection.split(',');
         } else {
             items = [selection];
         }
         let compress = await InputFactory.createCompressSelector();
-        if (!compress)
+        if (!compress){
             return;
+        }
         const sortOrder = Config.getXMLSortOrder();
         vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
             title: 'Ignoring metadata from your local project',
             cancellable: true
         }, (progress, cancelToken) => {
-            return new Promise(async (resolve) => {
+            return new Promise<void>(async (resolve) => {
                 if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
                     cancelToken.onCancellationRequested(() => {
@@ -61,7 +64,7 @@ exports.run = async function () {
                     cliManager.setIgnoreFile(ignoreFilePath);
                     cliManager.setCompressFiles(compress === 'Yes');
                     cliManager.setSortOrder(sortOrder);
-                    cliManager.onProgress((status) => {
+                    cliManager.onProgress((status: any) => {
                         progress.report({
                             message: status.message
                         });
@@ -69,7 +72,7 @@ exports.run = async function () {
                     cliManager.ignoreMetadata(items).then(() => {
                         NotificationManager.showInfo('Ignore Metadata finished succesfully');
                         resolve();
-                    }).catch((error) => {
+                    }).catch((error: Error) => {
                         NotificationManager.showError(error.message);
                         resolve();
                     });
@@ -82,10 +85,10 @@ exports.run = async function () {
                     progress.report({
                         message: 'Getting All Available Metadata Types'
                     });
-                    connection.listMetadataTypes().then((metadataDetails) => {
+                    connection.listMetadataTypes().then((metadataDetails: any[]) => {
                         const ignore = new Ignore(ignoreFilePath);
                         ignore.setCompress(compress === 'Yes').setSortOrder(sortOrder).setTypesToIgnore(items);
-                        ignore.onStartProcessType((metadataTypeName) => {
+                        ignore.onStartProcessType((metadataTypeName: string) => {
                             progress.report({
                                 message: 'Processing ' + metadataTypeName + ' Metadata Type'
                             });
@@ -93,7 +96,7 @@ exports.run = async function () {
                         ignore.ignoreProjectMetadata(Paths.getProjectFolder(), metadataDetails);
                         resolve();
                         NotificationManager.showInfo('Ignore Metadata finished succesfully');
-                    }).catch((error) => {
+                    }).catch((error: Error) => {
                         NotificationManager.showError(error.message);
                         resolve();
                     });
@@ -101,6 +104,6 @@ exports.run = async function () {
             });
         });
     } catch (error) {
-        NotificationManager.showError(error.message);
+        NotificationManager.showCommandError(error);
     }
 }

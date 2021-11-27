@@ -3,7 +3,7 @@ import { Paths } from '../core/paths';
 
 export class InputFactory {
 
-    static createSingleSelectorInput(values: string[], placeholder: string, alwaysOnTop: boolean): Promise<unknown> {
+    static createSingleSelectorInput(values: string[], placeholder: string, alwaysOnTop: boolean): Promise<string> {
         const items = [];
         for (const value of values) {
             items.push(InputFactory.createQuickPickItem(value, undefined, undefined, false));
@@ -11,7 +11,7 @@ export class InputFactory {
         return createQuickPick(items, placeholder, false, alwaysOnTop);
     }
 
-    static createMultiSelectorInput(values: string[] | any[], placeholder: string, alwaysOnTop: boolean): Promise<unknown> {
+    static createMultiSelectorInput(values: string[] | any[], placeholder: string, alwaysOnTop: boolean): Promise<string> {
         const items = [];
         for (const value of values) {
             if (typeof value === 'string') {
@@ -26,7 +26,7 @@ export class InputFactory {
         return createQuickPick(items, placeholder, true, alwaysOnTop);
     }
 
-    static createCompressSelector(alwaysOnTop: boolean): Promise<unknown> {
+    static createCompressSelector(alwaysOnTop?: boolean): Promise<string> {
         let items = [
             InputFactory.createQuickPickItem('Yes'),
             InputFactory.createQuickPickItem('No'),
@@ -34,7 +34,7 @@ export class InputFactory {
         return createQuickPick(items, 'Do you want to compress the file(s)?', false, alwaysOnTop);
     }
 
-    static createIgnoreOptionsSelector(): Promise<unknown> {
+    static createIgnoreOptionsSelector(): Promise<string> {
         let items = [
             InputFactory.createQuickPickItem('Use Project Ignore File', undefined, 'Use .ahignore.json file on your project root'),
             InputFactory.createQuickPickItem('Use Custom Ignore File', undefined, 'Select custom ahignore file'),
@@ -42,7 +42,7 @@ export class InputFactory {
         return createQuickPick(items);
     }
 
-    static createIgnoreTypesSelector(typesToIgnore: string[]): Promise<unknown> {
+    static createIgnoreTypesSelector(typesToIgnore: string[]): Promise<string> {
         let items = [];
         for (let type of typesToIgnore) {
             items.push(InputFactory.createQuickPickItem(type, undefined, undefined, false));
@@ -59,7 +59,7 @@ export class InputFactory {
         return createQuickPick(items);
     }
 
-    static createAuthOrgsSelector(authsOrgs: any, isSource: boolean): Promise<unknown> {
+    static createAuthOrgsSelector(authsOrgs: any, isSource: boolean): Promise<string> {
         let items = [];
         for (let authOrg of authsOrgs) {
             if (authOrg.active) {
