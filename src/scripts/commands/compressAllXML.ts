@@ -54,7 +54,7 @@ export function run(uri: vscode.Uri): void {
     }
 }
 
-function progressReport(progress: any, message: string, percentage: number): void {
+function progressReport(progress: any, _message: string, percentage: number): void {
     progress.report({ increment: percentage });
     // OutputChannel.outputLine(message);
 }

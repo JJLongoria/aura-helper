@@ -1,17 +1,18 @@
-const vscode = require('vscode');
+import * as vscode from 'vscode';
+import { NotificationManager } from '../output';
+import { Paths } from '../core/paths';
 const { FileChecker, FileWriter, FileReader } = require('@aurahelper/core').FileSystem;
-const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
-const Paths = require('../core/paths');
 
-exports.run = function () {
+export function run() {
     try {
         const templatePath = Paths.getApexCommentUserTemplate();
-        if (!FileChecker.isExists(templatePath))
+        if (!FileChecker.isExists(templatePath)) {
             FileWriter.createFileSync(templatePath, JSON.parse(FileReader.readFileSync(Paths.getApexCommentBaseTemplate())));
+        }
         window.showTextDocument(Paths.toURI(templatePath));
     }
     catch (error) {
         NotificationManager.showCommandError(error);
     }
-}
+};

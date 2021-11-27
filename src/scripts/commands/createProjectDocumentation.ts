@@ -17,19 +17,19 @@ const Window = vscode.window;
 
 // TODO. Review code
 
-let testClasses = {};
-let interfaces = {};
-let apexClasses = {};
-let batches = {};
-let scheduled = {};
-let queueables = {};
-let restClasses = {};
-let enumClasses = {};
-let classes;
-let namespacesData;
-let classPageTemplate;
-let sObjects;
-let alias;
+const testClasses: any = {};
+const interfaces: any = {};
+const apexClasses: any = {};
+const batches: any = {};
+const scheduled: any = {};
+const queueables: any = {};
+const restClasses: any = {};
+const enumClasses: any = {};
+let classes: any;
+let namespacesData: any;
+let classPageTemplate: any;
+let sObjects: any;
+let alias: string;
 
 export function run(): void {
     InputFactory.createFolderDialog('Select Folder', false).then(function (uri) {
@@ -61,7 +61,7 @@ function createDocumentation(folderPath: string): Promise<void> {
             classPageTemplate = FileReader.readFileSync(Paths.getAssetsPath() + '/documentation/apexClassPageTemplate.html');
             createDocumentationForApexClasses(folderPath);
             resolve();
-        } catch (error) {
+        } catch (error: any) {
             if (error.message.indexOf('JSON') !== -1) {
                 error = 'Create Documentation Error. Aura Helper are running job for Getting Apex Classes Information. Please, run this command when job finish. (See status bar)';
             }
@@ -350,7 +350,7 @@ function createDocumentationForClass(apexClass: any): string {
 }
 
 function getNodeBody(apexNode: any): string[] {
-    let content = [];
+    let content: string[] = [];
     content.push('<div id="classNameSection">');
     content.push('<h2 class="sectionTitle">' + apexNode.name + '</h2>');
     if (apexNode.comment && apexNode.comment.description && apexNode.comment.description.length > 0) {
@@ -657,11 +657,11 @@ function getModifiers(obj: any): string[] | undefined {
     if (modifiers.length > 0) {
         return modifiers;
     } else {
-        undefined;
+        return undefined;
     }
 }
 
-function getImplements(apexClass) {
+function getImplements(apexClass: any): string | undefined {
     if (apexClass.implements && apexClass.implements.length > 0) {
         let imps = [];
         for (const imp of apexClass.implements) {
