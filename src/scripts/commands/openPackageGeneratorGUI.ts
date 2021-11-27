@@ -1,9 +1,9 @@
-const vscode = require('vscode');
-const Config = require('../core/config');
-const MetadataSelectorInput = require('../inputs/metadataSelector');
-const InputFactory = require('../inputs/factory');
-const NotificationManager = require('../output/notificationManager');
-const Paths = require('../core/paths');
+import * as vscode from 'vscode';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
+import { NotificationManager } from '../output';
+import { MetadataSelector } from '../inputs/metadataSelector';
+import { InputFactory } from '../inputs/factory';
 const PackageGenerator = require('@aurahelper/package-generator');
 const CLIManager = require('@aurahelper/cli-manager');
 const GitManager = require('@aurahelper/git-manager');
@@ -12,7 +12,7 @@ const MetadataFactory = require('@aurahelper/metadata-factory');
 const Ignore = require('@aurahelper/ignore');
 const { FileChecker, FileWriter } = require('@aurahelper/core/src/fileSystem');
 
-exports.run = function () {
+export function run(): void {
     try {
         const alias = Config.getOrgAlias();
         if (!alias) {
@@ -23,49 +23,50 @@ exports.run = function () {
     } catch (error) {
         NotificationManager.showCommandError(error);
     }
-}
+};
 
 async function openStandardGUI() {
-    let input = new MetadataSelectorInput('Package Generator');
-    input.addInitOption('Download From Org', 'Select to Describe Metadata from auth Org. In otherwise Describe Metadata from Local', MetadataSelectorInput.getDownloadAction());
-    input.addInitOption('All Namespaces', 'Select to Download Metadata from All Namespaces. (Only Apply if download from Org. If not select, download only Org Namespaces Metadata)', MetadataSelectorInput.getDownloadAllAction());
-    input.addInitOption('GIT', 'Select to Create Package and Destructive Files from GIT Changes. (Not Apply if Select Download from Org)', MetadataSelectorInput.getGitAction());
-    input.addInitOption('Packages', 'Select to Create Package with metadata from other Packages. (Not Apply if Select Download from Org or GIT)', MetadataSelectorInput.getPackagesAction());
+    let input = new MetadataSelector('Package Generator');
+    input.addInitOption('Download From Org', 'Select to Describe Metadata from auth Org. In otherwise Describe Metadata from Local', MetadataSelector.getDownloadAction());
+    input.addInitOption('All Namespaces', 'Select to Download Metadata from All Namespaces. (Only Apply if download from Org. If not select, download only Org Namespaces Metadata)', MetadataSelector.getDownloadAllAction());
+    input.addInitOption('GIT', 'Select to Create Package and Destructive Files from GIT Changes. (Not Apply if Select Download from Org)', MetadataSelector.getGitAction());
+    input.addInitOption('Packages', 'Select to Create Package with metadata from other Packages. (Not Apply if Select Download from Org or GIT)', MetadataSelector.getPackagesAction());
 
-    input.addFinishOption('Use Wildcards', 'Select to use wildcards when apply, in otherwise put the elements explicit on the file', MetadataSelectorInput.getWildcardsAction(), ['Download From Org', 'All Namespaces', 'Download From Local']);
-    input.addFinishOption('Destructive Changes', 'Select to create a Destructive Changes file, in otherwise create a Package XML file', MetadataSelectorInput.getDestructiveAction(), ['Download From Org', 'All Namespaces', 'Download From Local']);
-    input.addFinishOption('After Deploy', 'Select to create the Destrucive Changes file to delete data after deploy changes. In otherwise create delete file before deploy', MetadataSelectorInput.getDeployAfterAction(), ['Download From Org', 'All Namespaces', 'Download From Local', 'GIT']);
-    input.addFinishOption('Ignore File', 'Select to use the project ignore file to avoid put the specified metadata types into the package', MetadataSelectorInput.getIgnoreAction(), ['GIT']);
+    input.addFinishOption('Use Wildcards', 'Select to use wildcards when apply, in otherwise put the elements explicit on the file', MetadataSelector.getWildcardsAction(), ['Download From Org', 'All Namespaces', 'Download From Local']);
+    input.addFinishOption('Destructive Changes', 'Select to create a Destructive Changes file, in otherwise create a Package XML file', MetadataSelector.getDestructiveAction(), ['Download From Org', 'All Namespaces', 'Download From Local']);
+    input.addFinishOption('After Deploy', 'Select to create the Destrucive Changes file to delete data after deploy changes. In otherwise create delete file before deploy', MetadataSelector.getDeployAfterAction(), ['Download From Org', 'All Namespaces', 'Download From Local', 'GIT']);
+    input.addFinishOption('Ignore File', 'Select to use the project ignore file to avoid put the specified metadata types into the package', MetadataSelector.getIgnoreAction(), ['GIT']);
 
-    input.addFinishOption('Custom Folder', 'Select to choose the folder to save the file. In otherwise create the file on the project manifest folder', MetadataSelectorInput.getCustomFolderAction());
+    input.addFinishOption('Custom Folder', 'Select to choose the folder to save the file. In otherwise create the file on the project manifest folder', MetadataSelector.getCustomFolderAction());
     input.onError((message) => {
         NotificationManager.showError(message);
     });
     input.onAccept(async (options, data) => {
         if (options) {
-            let folder = Paths.getManifestPath();
-            if (options[MetadataSelectorInput.getCustomFolderAction()]) {
+            let folder: string | undefined = Paths.getManifestPath();
+            if (options[MetadataSelector.getCustomFolderAction()]) {
                 let uri = await InputFactory.createFolderDialog('Select folder to save the file', false);
                 folder = (uri && uri.length > 0) ? uri[0].fsPath : undefined;
             }
-            if(!FileChecker.isExists(folder))
-                FileWriter.createFolderSync(folder);
             if (folder) {
-                if (options[MetadataSelectorInput.getGitAction()]) {
+                if (!FileChecker.isExists(folder)){
+                    FileWriter.createFolderSync(folder);
+                }
+                if (options[MetadataSelector.getGitAction()]) {
                     vscode.window.withProgress({
                         location: vscode.ProgressLocation.Notification,
                         title: 'Creating Package from Git',
                         cancellable: false,
-                    }, (progress, cancelToken) => {
-                        return new Promise(async (resolve) => {
+                    }, (progress) => {
+                        return new Promise<void>(async (resolve) => {
                             const source = data.source === data.activeBranch ? data.target : data.source;
                             const target = data.source === data.activeBranch ? undefined : data.target;
-                            const deployOrder = options[MetadataSelectorInput.getDeployAfterAction()] ? 'after' : 'before';
-                            const useIgnore = options[MetadataSelectorInput.getIgnoreAction()];
+                            const deployOrder = options[MetadataSelector.getDeployAfterAction()] ? 'after' : 'before';
+                            const useIgnore = options[MetadataSelector.getIgnoreAction()];
                             if (Config.useAuraHelperCLI()) {
                                 const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
                                 cliManager.setIgnoreFile(Paths.getAHIgnoreFile());
-                                cliManager.onProgress((status) => {
+                                cliManager.onProgress((status: any) => {
                                     progress.report({
                                         message: status.message,
                                     });
@@ -73,7 +74,7 @@ async function openStandardGUI() {
                                 cliManager.createPackageFromGit(source, target, 'both', deployOrder, useIgnore).then(() => {
                                     NotificationManager.showInfo('Files created successfully');
                                     resolve();
-                                }).catch((error) => {
+                                }).catch((error: Error) => {
                                     NotificationManager.showError(error.message);
                                     resolve();
                                 });
@@ -113,16 +114,16 @@ async function openStandardGUI() {
                                     NotificationManager.showInfo('Files created successfully');
                                     resolve();
                                 } catch (error) {
-                                    NotificationManager.showError(error.message);
+                                    NotificationManager.showError(error);
                                     resolve();
                                 }
                             }
                         });
                     });
-                } else if (options[MetadataSelectorInput.getPackagesAction()]) {
+                } else if (options[MetadataSelector.getPackagesAction()]) {
                     const packageGenerator = new PackageGenerator(Config.getAPIVersion());
                     if (data.mergeOption === 'Merge By Type') {
-                        packageGenerator.setMergePackagesFiles()
+                        packageGenerator.setMergePackagesFiles();
                         packageGenerator.mergePackages(data.files, folder);
                     } else if (data.mergeOption === 'Merge Full Packages') {
                         packageGenerator.setMergePackagesFiles();
@@ -141,10 +142,10 @@ async function openStandardGUI() {
                     NotificationManager.showInfo('Files merged successfully');
                 } else {
                     const packageGenerator = new PackageGenerator(Config.getAPIVersion());
-                    packageGenerator.setExplicit(!options[MetadataSelectorInput.getWildcardsAction()]);
+                    packageGenerator.setExplicit(!options[MetadataSelector.getWildcardsAction()]);
                     let createdFile = '';
-                    if (options[MetadataSelectorInput.getDestructiveAction()]) {
-                        if (options[MetadataSelectorInput.getDeployAfterAction()]) {
+                    if (options[MetadataSelector.getDestructiveAction()]) {
+                        if (options[MetadataSelector.getDeployAfterAction()]) {
                             createdFile = 'Destructive After Deploy';
                             packageGenerator.createAfterDeployDestructive(data, folder);
                         } else {
