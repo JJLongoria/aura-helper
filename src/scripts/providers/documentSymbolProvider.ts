@@ -45,7 +45,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
         this.type = type;
     }
 
-    static register() {
+    static register(): void {
         setTimeout(() => {
             applicationContext.context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ scheme: "file", language: "xml" }, new DocumentSymbolProvider('XML')));
             applicationContext.context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ scheme: "file", language: "apex" }, new DocumentSymbolProvider('Apex')));

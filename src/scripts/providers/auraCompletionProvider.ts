@@ -46,6 +46,11 @@ export class AuraCompletionProvider implements vscode.CompletionItemProvider<vsc
             resolve(items);
         });
     }
+
+    static register(): void {
+        applicationContext.context.subscriptions.push(vscode.languages.registerCompletionItemProvider({ scheme: "file", language: "xml" }, new AuraCompletionProvider(), '.'));
+        applicationContext.context.subscriptions.push(vscode.languages.registerCompletionItemProvider({ scheme: "file", language: "html" }, new AuraCompletionProvider(), '.'));
+    }
 }
 
 function provideAuraComponentCompletion(document: vscode.TextDocument, position: vscode.Position): vscode.CompletionItem[] | undefined {

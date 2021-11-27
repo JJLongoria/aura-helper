@@ -33,6 +33,10 @@ export class JSAuraCompletionProvider implements vscode.CompletionItemProvider<v
 			resolve(items);
 		});
 	}
+
+	static register(): void {
+        applicationContext.context.subscriptions.push(vscode.languages.registerCompletionItemProvider({ scheme: "file", language: "javascript" }, new JSAuraCompletionProvider(), '.'));
+    }
 }
 
 function provideJSCompletion(document: vscode.TextDocument, position: vscode.Position): vscode.CompletionItem[] | undefined {
