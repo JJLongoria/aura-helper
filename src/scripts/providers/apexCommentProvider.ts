@@ -24,7 +24,7 @@ function provideApexCompletion(document: vscode.TextDocument, position: vscode.P
     let items: vscode.CompletionItem[] | undefined;
     const line = document.lineAt(position.line).text;
     if (line.indexOf('/**') !== -1) {
-        if (!config.getConfig().autoCompletion.activeApexCommentSuggestion) {
+        if (!Config.getConfig().autoCompletion.activeApexCommentSuggestion) {
             return undefined;
         }
         items = getCommentCompletionItem(position);
