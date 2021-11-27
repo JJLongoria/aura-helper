@@ -34,7 +34,7 @@ function provideApexCompletion(document: vscode.TextDocument, position: vscode.P
 
 function getCommentCompletionItem(position: vscode.Position) {
     const items = [];
-    if (!config.getConfig().autoCompletion.activeApexCommentSuggestion) {
+    if (!Config.getConfig().autoCompletion.activeApexCommentSuggestion) {
         return undefined;
     }
     const documentation = new MarkDownStringBuilder().appendMarkdown('Add an Apex Comment with the user defined template\n\n');
