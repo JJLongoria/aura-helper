@@ -22,7 +22,7 @@ export class Logger {
         }
     }
 
-    static error(text: string) {
+    static error(text: string | any) {
         if (DEBUG) {
             console.error(text);
         }

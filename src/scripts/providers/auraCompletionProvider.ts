@@ -40,7 +40,7 @@ export class AuraCompletionProvider implements vscode.CompletionItemProvider<vsc
                 if (FileChecker.isAuraComponent(document.uri.fsPath)) {
                     items = provideAuraComponentCompletion(document, position);
                 }
-            } catch (error: any) {
+            } catch (error) {
                 Logger.error(error);
             }
             resolve(items);
