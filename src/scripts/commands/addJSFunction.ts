@@ -18,7 +18,7 @@ export function run(): void {
             NotificationManager.showError('The selected file is not a JavaScript File');
         }
     }
-    catch (error: any) {
+    catch (error) {
         NotificationManager.showCommandError(error);
     }
 };

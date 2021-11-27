@@ -22,7 +22,7 @@ export class NotificationManager {
         vscode.window.showErrorMessage(message);
     }
 
-    static showCommandError(message: string): void {
+    static showCommandError(message: any): void {
         NotificationManager.showError('An error ocurred while processing command. Error: \n' + message);
     }
 

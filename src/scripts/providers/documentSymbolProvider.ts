@@ -1,4 +1,4 @@
-const vscode = require('vscode');
+import * as vscode from 'vscode';
 const Range = vscode.Range;
 const { FileReader, PathUtils, FileChecker } = require('@aurahelper/core').FileSystem;
 const { DataTypes, ApexNodeTypes, AuraNodeTypes } = require('@aurahelper/core').Values;
@@ -10,7 +10,7 @@ const { ApexParser } = require('@aurahelper/languages').Apex;
 const { AuraParser } = require('@aurahelper/languages').Aura;
 const { JSParser } = require('@aurahelper/languages').JavaScript;
 
-const TYPES_BY_APEX_NODE = {}
+const TYPES_BY_APEX_NODE: any = {};
 TYPES_BY_APEX_NODE[ApexNodeTypes.CLASS] = vscode.SymbolKind.Class;
 TYPES_BY_APEX_NODE[ApexNodeTypes.INTERFACE] = vscode.SymbolKind.Interface;
 TYPES_BY_APEX_NODE[ApexNodeTypes.VARIABLE] = vscode.SymbolKind.Field;
@@ -27,7 +27,7 @@ TYPES_BY_APEX_NODE['param'] = vscode.SymbolKind.TypeParameter;
 TYPES_BY_APEX_NODE['final'] = vscode.SymbolKind.Constant;
 TYPES_BY_APEX_NODE['value'] = vscode.SymbolKind.EnumMember;
 
-const TYPES_BY_AURA_NODE = {}
+const TYPES_BY_AURA_NODE: any = {};
 TYPES_BY_AURA_NODE[AuraNodeTypes.APPLICATION] = vscode.SymbolKind.File;
 TYPES_BY_AURA_NODE[AuraNodeTypes.ATTRIBUTE] = vscode.SymbolKind.Field;
 TYPES_BY_AURA_NODE[AuraNodeTypes.COMPONENT] = vscode.SymbolKind.Struct;
@@ -37,9 +37,11 @@ TYPES_BY_AURA_NODE[AuraNodeTypes.HANDLER] = vscode.SymbolKind.Method;
 TYPES_BY_AURA_NODE[AuraNodeTypes.REGISTER_EVENT] = vscode.SymbolKind.Event;
 TYPES_BY_AURA_NODE['value'] = vscode.SymbolKind.Variable;
 
-class DocumentSymbolProvider {
+export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
-    constructor(type) {
+    type: string;
+
+    constructor(type: string) {
         this.type = type;
     }
 
@@ -52,18 +54,18 @@ class DocumentSymbolProvider {
         }, 50);
     }
 
-    provideDocumentSymbols(document, cancelToken) {
-        return new Promise((resolve, reject) => {
+    provideDocumentSymbols(document: vscode.TextDocument, _cancelToken: vscode.CancellationToken): vscode.ProviderResult<vscode.SymbolInformation[] | vscode.DocumentSymbol[]> {
+        return new Promise<vscode.DocumentSymbol[]>((resolve, reject) => {
             vscode.window.withProgress({
                 location: vscode.ProgressLocation.Window
-            }, (progress, cancelToken) => {
-                return new Promise((progressResolve) => {
+            }, (_progress, cancelToken) => {
+                return new Promise<void>((progressResolve) => {
                     try {
                         cancelToken.onCancellationRequested(() => {
                             progressResolve();
                             resolve([]);
                         });
-                        let symbols;
+                        let symbols: vscode.DocumentSymbol[] = [];
                         if (this.type === 'XML') {
                             symbols = provideXMLSymbols(document);
                         } else if (this.type === 'Apex') {
@@ -87,9 +89,8 @@ class DocumentSymbolProvider {
 
 
 }
-module.exports = DocumentSymbolProvider;
 
-function provideApexSymbols(document) {
+function provideApexSymbols(document: vscode.TextDocument): vscode.DocumentSymbol[] {
     const className = PathUtils.getBasename(document.uri.fsPath, 'cls');
     let node;
     if (applicationContext.parserData.userClassesData[className]) {
@@ -99,12 +100,12 @@ function provideApexSymbols(document) {
         node = parser.parse();
     }
     const range = new Range(node.startToken.range.start.line, node.startToken.range.start.character, node.startToken.range.end.line, node.startToken.range.end.character);
-    const symbol = new vscode.DocumentSymbol(node.name, undefined, TYPES_BY_APEX_NODE[node.nodeType], range, range);
+    const symbol = new vscode.DocumentSymbol(node.name, '', TYPES_BY_APEX_NODE[node.nodeType], range, range);
     processApexNode(node, symbol);
     return [symbol];
 }
 
-function processApexNode(node, parentSymbol) {
+function processApexNode(node: any, parentSymbol: vscode.DocumentSymbol): void {
     if (!Utils.isNull(node.initializer)) {
         const range = new Range(node.initializer.startToken.range.start.line, node.initializer.startToken.range.start.character, node.initializer.startToken.range.end.line, node.initializer.startToken.range.end.character);
         const symbol = new vscode.DocumentSymbol(node.initializer.name, 'Initializer', TYPES_BY_APEX_NODE[node.initializer.nodeType], range, range);
@@ -129,7 +130,7 @@ function processApexNode(node, parentSymbol) {
         for (const key of Object.keys(node.classes)) {
             const nodeTmp = node.classes[key];
             const range = new Range(nodeTmp.startToken.range.start.line, nodeTmp.startToken.range.start.character, nodeTmp.startToken.range.end.line, nodeTmp.startToken.range.end.character);
-            const symbol = new vscode.DocumentSymbol(nodeTmp.name, undefined, TYPES_BY_APEX_NODE[nodeTmp.nodeType], range, range);
+            const symbol = new vscode.DocumentSymbol(nodeTmp.name, '', TYPES_BY_APEX_NODE[nodeTmp.nodeType], range, range);
             processApexNode(nodeTmp, symbol);
             parentSymbol.children.push(symbol);
         }
@@ -138,7 +139,7 @@ function processApexNode(node, parentSymbol) {
         for (const key of Object.keys(node.interfaces)) {
             const nodeTmp = node.interfaces[key];
             const range = new Range(nodeTmp.startToken.range.start.line, nodeTmp.startToken.range.start.character, nodeTmp.startToken.range.end.line, nodeTmp.startToken.range.end.character);
-            const symbol = new vscode.DocumentSymbol(nodeTmp.name, undefined, TYPES_BY_APEX_NODE[nodeTmp.nodeType], range, range);
+            const symbol = new vscode.DocumentSymbol(nodeTmp.name, '', TYPES_BY_APEX_NODE[nodeTmp.nodeType], range, range);
             processApexNode(nodeTmp, symbol);
             parentSymbol.children.push(symbol);
         }
@@ -147,7 +148,7 @@ function processApexNode(node, parentSymbol) {
         for (const key of Object.keys(node.enums)) {
             const nodeTmp = node.enums[key];
             const range = new Range(nodeTmp.startToken.range.start.line, nodeTmp.startToken.range.start.character, nodeTmp.startToken.range.end.line, nodeTmp.startToken.range.end.character);
-            const symbol = new vscode.DocumentSymbol(nodeTmp.name, undefined, TYPES_BY_APEX_NODE[nodeTmp.nodeType], range, range);
+            const symbol = new vscode.DocumentSymbol(nodeTmp.name, '', TYPES_BY_APEX_NODE[nodeTmp.nodeType], range, range);
             processApexNode(nodeTmp, symbol);
             parentSymbol.children.push(symbol);
         }
@@ -155,7 +156,7 @@ function processApexNode(node, parentSymbol) {
     if (node.values && node.values.length > 0) {
         for (const valueToken of node.values) {
             const range = new Range(valueToken.range.start.line, valueToken.range.start.character, valueToken.range.end.line, valueToken.range.end.character);
-            const symbol = new vscode.DocumentSymbol(valueToken.text, undefined, TYPES_BY_APEX_NODE['value'], range, range);
+            const symbol = new vscode.DocumentSymbol(valueToken.text, '', TYPES_BY_APEX_NODE['value'], range, range);
             parentSymbol.children.push(symbol);
         }
     }
@@ -164,10 +165,11 @@ function processApexNode(node, parentSymbol) {
             const nodeTmp = node.variables[key];
             let symbol;
             const range = new Range(nodeTmp.startToken.range.start.line, nodeTmp.startToken.range.start.character, nodeTmp.startToken.range.end.line, nodeTmp.startToken.range.end.character);
-            if (nodeTmp.final)
+            if (nodeTmp.final) {
                 symbol = new vscode.DocumentSymbol(nodeTmp.name, nodeTmp.datatype.name, TYPES_BY_APEX_NODE['final'], range, range);
-            else
+            } else {
                 symbol = new vscode.DocumentSymbol(nodeTmp.name, nodeTmp.datatype.name, TYPES_BY_APEX_NODE[nodeTmp.nodeType], range, range);
+            }
             processApexNode(nodeTmp, symbol);
             parentSymbol.children.push(symbol);
         }
@@ -199,15 +201,15 @@ function processApexNode(node, parentSymbol) {
     }
 }
 
-function provideAuraSymbols(document) {
+function provideAuraSymbols(document: vscode.TextDocument): vscode.DocumentSymbol[] {
     const auraNode = new AuraParser().setContent(FileReader.readDocument(document)).setFileName(PathUtils.removeFileExtension(PathUtils.getBasename(document.uri.fsPath))).parse();
     const range = new Range(auraNode.token.range.start.line, auraNode.token.range.start.character - 1, auraNode.token.range.end.line, auraNode.token.range.end.character + 1);
-    const symbol = new vscode.DocumentSymbol(auraNode.fileName, undefined, TYPES_BY_AURA_NODE[auraNode.nodeType], range, range);
+    const symbol = new vscode.DocumentSymbol(auraNode.fileName, '', TYPES_BY_AURA_NODE[auraNode.nodeType], range, range);
     processAuraNode(auraNode, symbol);
     return [symbol];
 }
 
-function processAuraNode(node, parentSymbol) {
+function processAuraNode(node: any, parentSymbol: vscode.DocumentSymbol): void {
     const keysToAvoid = [
         'nodeType',
         'token',
@@ -227,8 +229,9 @@ function processAuraNode(node, parentSymbol) {
         'namespace',
     ];
     for (const fieldKey of Object.keys(node)) {
-        if (keysToAvoid.includes(fieldKey))
+        if (keysToAvoid.includes(fieldKey)){
             continue;
+        }
         const tagAttribute = node[fieldKey];
         if (tagAttribute) {
             const startLine = tagAttribute.name.range.start.line;
@@ -298,17 +301,17 @@ function processAuraNode(node, parentSymbol) {
     }
 }
 
-function provideJSSymbols(document) {
+function provideJSSymbols(document: vscode.TextDocument): vscode.DocumentSymbol[] {
     const jsNode = new JSParser().setContent(FileReader.readDocument(document)).setFileName(PathUtils.removeFileExtension(PathUtils.getBasename(document.uri.fsPath))).parse();
     const range = new Range(0, 0, 0, 1);
-    const symbol = new vscode.DocumentSymbol(jsNode.name, undefined, vscode.SymbolKind.File, range, range);
+    const symbol = new vscode.DocumentSymbol(jsNode.name, '', vscode.SymbolKind.File, range, range);
     for (const nodeTmp of jsNode.methods) {
         const funcRange = new Range(nodeTmp.token.range.start.line, nodeTmp.token.range.start.character, nodeTmp.token.range.end.line, nodeTmp.token.range.end.character);
-        const funcSymbol = new vscode.DocumentSymbol(StrUtils.replace(nodeTmp.signature, ',', ', '), undefined, vscode.SymbolKind.Function, funcRange, funcRange);
+        const funcSymbol = new vscode.DocumentSymbol(StrUtils.replace(nodeTmp.signature, ',', ', '), '', vscode.SymbolKind.Function, funcRange, funcRange);
         if (nodeTmp.variables && nodeTmp.variables.length) {
             for (const varTmp of nodeTmp.variables) {
                 const varRange = new Range(varTmp.range.start.line, varTmp.range.start.character, varTmp.range.end.line, varTmp.range.end.character);
-                const varSymbol = new vscode.DocumentSymbol(varTmp.text, undefined, vscode.SymbolKind.Variable, varRange, varRange);
+                const varSymbol = new vscode.DocumentSymbol(varTmp.text, '', vscode.SymbolKind.Variable, varRange, varRange);
                 funcSymbol.children.push(varSymbol);
             }
         }
@@ -317,8 +320,8 @@ function provideJSSymbols(document) {
     return [symbol];
 }
 
-function provideXMLSymbols(document) {
-    let symbols = [];
+function provideXMLSymbols(document: vscode.TextDocument): vscode.DocumentSymbol[] {
+    let symbols: vscode.DocumentSymbol[] = [];
     const content = FileReader.readDocument(document);
     const contentLines = content.split('\n');
     const xmlRoot = XMLParser.parseXML(content, true);
@@ -329,25 +332,29 @@ function provideXMLSymbols(document) {
     }
     const xmlData = xmlRoot[type];
     for (let key of Object.keys(xmlData)) {
-        if (key === '@attrs')
+        if (key === '@attrs'){
             continue;
+        }
         let fieldValue = xmlData[key];
-        if (fieldValue != undefined) {
-            if (!Array.isArray(fieldValue) && typeof fieldValue === 'object' && Object.keys(fieldValue).length === 0)
+        if (fieldValue !== undefined) {
+            if (!Array.isArray(fieldValue) && typeof fieldValue === 'object' && Object.keys(fieldValue).length === 0){
                 continue;
-            if (Array.isArray(fieldValue) && fieldValue.length === 0)
+            }
+            if (Array.isArray(fieldValue) && fieldValue.length === 0){
                 continue;
+            }
             const fieldDefinition = xmlDefinition[key];
             const fieldSymbols = processXMLField(fieldValue, fieldDefinition, contentLines);
-            if (fieldSymbols)
+            if (fieldSymbols){
                 symbols = symbols.concat(fieldSymbols);
+            }
         }
     }
     return symbols;
 }
 
-function processXMLField(fieldValue, fieldDefinition, lines, parentSymbol) {
-    let symbols = [];
+function processXMLField(fieldValue: any, fieldDefinition: any, lines: any[], parentSymbol?: vscode.DocumentSymbol) {
+    let symbols: vscode.DocumentSymbol[] = [];
     if (Array.isArray(fieldValue) || fieldDefinition.datatype === DataTypes.ARRAY) {
         fieldValue = XMLUtils.forceArray(fieldValue);
         for (const value of fieldValue) {
@@ -356,29 +363,33 @@ function processXMLField(fieldValue, fieldDefinition, lines, parentSymbol) {
                 lastChild = lastChild.children[lastChild.children.length - 1];
             }
             if (fieldDefinition.fields) {
-                const startLine = (lastChild) ? lastChild.selectionRange.end.line : (parentSymbol ? parentSymbol.selectionRange.end.line : 0)
+                const startLine = (lastChild) ? lastChild.selectionRange.end.line : (parentSymbol ? parentSymbol.selectionRange.end.line : 0);
                 const range = getRange(lines, fieldDefinition, undefined, XMLUtils.getAttributes(value), startLine);
                 const description = (fieldDefinition.fieldKey && Utils.isString(value[fieldDefinition.fieldKey])) ? value[fieldDefinition.fieldKey].toString() : undefined;
                 const arraySymbol = new vscode.DocumentSymbol(fieldDefinition.key, description, vscode.SymbolKind.Array, range, range);
                 for (let key of Object.keys(fieldDefinition.fields)) {
                     let subFieldValue = value[key];
                     if (subFieldValue !== undefined && subFieldValue !== null) {
-                        if (!Array.isArray(subFieldValue) && typeof subFieldValue === 'object' && Object.keys(subFieldValue).length === 0)
+                        if (!Array.isArray(subFieldValue) && typeof subFieldValue === 'object' && Object.keys(subFieldValue).length === 0){
                             continue;
-                        if (Array.isArray(subFieldValue) && subFieldValue.length === 0)
+                        }
+                        if (Array.isArray(subFieldValue) && subFieldValue.length === 0){
                             continue;
+                        }
                         let subFieldDefinition = fieldDefinition.fields[key];
-                        if (subFieldDefinition.definitionRef)
+                        if (subFieldDefinition.definitionRef){
                             subFieldDefinition = XMLDefinitions.resolveDefinitionReference(subFieldDefinition);
+                        }
                         const fieldSymbols = processXMLField(subFieldValue, subFieldDefinition, lines, arraySymbol);
-                        if (fieldSymbols)
+                        if (fieldSymbols){
                             arraySymbol.children = arraySymbol.children.concat(fieldSymbols);
+                        }
                     }
                 }
                 symbols.push(arraySymbol);
             } else {
                 const processedValue = fieldDefinition.prepareValue(fieldValue);
-                const startLine = (lastChild) ? lastChild.selectionRange.end.line : (parentSymbol ? parentSymbol.selectionRange.end.line : 0)
+                const startLine = (lastChild) ? lastChild.selectionRange.end.line : (parentSymbol ? parentSymbol.selectionRange.end.line : 0);
                 const range = getRange(lines, fieldDefinition, processedValue, XMLUtils.getAttributes(fieldValue), startLine);
                 const symbol = new vscode.DocumentSymbol(fieldDefinition.key, processedValue, vscode.SymbolKind.Field, range, range);
                 symbols.push(symbol);
@@ -389,23 +400,27 @@ function processXMLField(fieldValue, fieldDefinition, lines, parentSymbol) {
         while (lastChild && lastChild.children.length > 0) {
             lastChild = lastChild.children[lastChild.children.length - 1];
         }
-        const startLine = (lastChild) ? lastChild.selectionRange.end.line : (parentSymbol ? parentSymbol.selectionRange.end.line : 0)
+        const startLine = (lastChild) ? lastChild.selectionRange.end.line : (parentSymbol ? parentSymbol.selectionRange.end.line : 0);
         const range = getRange(lines, fieldDefinition, undefined, XMLUtils.getAttributes(fieldValue), startLine);
         const description = (fieldDefinition.fieldKey && Utils.isString(fieldValue[fieldDefinition.fieldKey])) ? fieldValue[fieldDefinition.fieldKey].toString() : undefined;
         const objSymbol = new vscode.DocumentSymbol(fieldDefinition.key, description, vscode.SymbolKind.Object, range, range);
         for (const key of Object.keys(fieldValue)) {
             let subFieldValue = fieldValue[key];
             if (subFieldValue !== undefined && subFieldValue !== null) {
-                if (!Array.isArray(subFieldValue) && typeof subFieldValue === 'object' && Object.keys(subFieldValue).length === 0)
+                if (!Array.isArray(subFieldValue) && typeof subFieldValue === 'object' && Object.keys(subFieldValue).length === 0){
                     continue;
-                if (Array.isArray(subFieldValue) && subFieldValue.length === 0)
+                }
+                if (Array.isArray(subFieldValue) && subFieldValue.length === 0){
                     continue;
+                }
                 let subFieldDefinition = fieldDefinition.fields[key];
-                if (subFieldDefinition.definitionRef)
+                if (subFieldDefinition.definitionRef){
                     subFieldDefinition = XMLDefinitions.resolveDefinitionReference(subFieldDefinition);
+                }
                 const fieldSymbols = processXMLField(subFieldValue, subFieldDefinition, lines, objSymbol);
-                if (fieldSymbols)
+                if (fieldSymbols){
                     objSymbol.children = objSymbol.children.concat(fieldSymbols);
+                }
             }
         }
         symbols.push(objSymbol);
@@ -415,7 +430,7 @@ function processXMLField(fieldValue, fieldDefinition, lines, parentSymbol) {
             lastChild = lastChild.children[lastChild.children.length - 1];
         }
         const processedValue = fieldDefinition.prepareValue(fieldValue);
-        const startLine = (lastChild) ? lastChild.selectionRange.end.line : (parentSymbol ? parentSymbol.selectionRange.end.line : 0)
+        const startLine = (lastChild) ? lastChild.selectionRange.end.line : (parentSymbol ? parentSymbol.selectionRange.end.line : 0);
         const range = getRange(lines, fieldDefinition, processedValue, XMLUtils.getAttributes(fieldValue), startLine);
         const symbol = new vscode.DocumentSymbol(fieldDefinition.key, processedValue, vscode.SymbolKind.Field, range, range);
         symbols.push(symbol);
@@ -423,12 +438,12 @@ function processXMLField(fieldValue, fieldDefinition, lines, parentSymbol) {
     return symbols;
 }
 
-function getRange(lines, fieldDefinition, value, attributes, nLine) {
+function getRange(lines: string[], fieldDefinition: any, value: any, attributes: any[], nLine: number) {
     let startLine = 0;
     let endLine = 0;
     let startColumn = 0;
     let endColumn = 1;
-    const lineNumber = (nLine != undefined && nLine > 0) ? nLine : 0;
+    const lineNumber = (nLine !== undefined && nLine > 0) ? nLine : 0;
     const len = lines.length;
     for (let i = lineNumber; i < len; i++) {
         const line = lines[i];

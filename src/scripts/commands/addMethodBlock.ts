@@ -18,7 +18,7 @@ export function run(): void {
         } else {
             NotificationManager.showError('The selected file is not an Aura Doc');
         }
-    } catch (error: any) {
+    } catch (error) {
         NotificationManager.showCommandError(error);
     }
 };
