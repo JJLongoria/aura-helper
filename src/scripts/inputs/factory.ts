@@ -3,7 +3,7 @@ import { Paths } from '../core/paths';
 
 export class InputFactory {
 
-    static createSingleSelectorInput(values: string[], placeholder: string, alwaysOnTop: boolean): Promise<string> {
+    static createSingleSelectorInput(values: string[], placeholder: string, alwaysOnTop?: boolean): Promise<string> {
         const items = [];
         for (const value of values) {
             items.push(InputFactory.createQuickPickItem(value, undefined, undefined, false));
