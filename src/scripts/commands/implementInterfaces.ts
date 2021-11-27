@@ -1,22 +1,23 @@
-const vscode = require('vscode');
-const NotificationManager = require('../output/notificationManager');
+import * as vscode from 'vscode';
+import { NotificationManager } from '../output';
+import applicationContext from '../core/applicationContext';
 const { FileReader, FileChecker } = require('@aurahelper/core').FileSystem;
 const { Utils, StrUtils } = require('@aurahelper/core').CoreUtils;
 const { ApexConstructor } = require('@aurahelper/core').Types;
 const { ApexNodeTypes } = require('@aurahelper/core').Values;
 const { ApexParser } = require('@aurahelper/languages').Apex;
-const applicationContext = require('../core/applicationContext');
 const Window = vscode.window;
 const SnippetString = vscode.SnippetString;
 const Position = vscode.Position;
 
-exports.run = function () {
+export function run() {
     try {
         let filePath;
         let editor = Window.activeTextEditor;
-        if (editor)
+        if (editor) {
             filePath = editor.document.uri.fsPath;
-        if (FileChecker.isApexClass(filePath)) {
+        }
+        if (FileChecker.isApexClass(filePath) && editor) {
             const node = new ApexParser().setContent(FileReader.readDocument(editor.document)).setSystemData(applicationContext.parserData).resolveReferences();
             implementIntefaces(editor, node);
         } else {
@@ -25,9 +26,9 @@ exports.run = function () {
     } catch (error) {
         NotificationManager.showCommandError(error);
     }
-}
+};
 
-function implementIntefaces(editor, apexClass) {
+function implementIntefaces(editor: vscode.TextEditor, apexClass: any): void {
     const methodsToCreate = [];
     const constructorsToCreate = [];
     if (Utils.hasKeys(apexClass.implements)) {
@@ -46,8 +47,9 @@ function implementIntefaces(editor, apexClass) {
                     tmp.name = apexClass.name;
                     tmp.simplifiedSignature = StrUtils.replace(tmp.simplifiedSignature, constructor.name, apexClass.name).toLowerCase();
                     tmp.signature = StrUtils.replace(tmp.signature, constructor.name, apexClass.name).toLowerCase();
-                    if (!ApexParser.isConstructorExists(apexClass, tmp))
+                    if (!ApexParser.isConstructorExists(apexClass, tmp)) {
                         constructorsToCreate.push(tmp);
+                    }
                 }
             }
         }
@@ -70,16 +72,18 @@ function implementIntefaces(editor, apexClass) {
     }
     if (methodsToCreate.length > 0 || constructorsToCreate.length > 0) {
         let content = '';
-        if (lastMethodToken)
+        if (lastMethodToken) {
             content = '\n\n';
+        }
         for (const constructor of constructorsToCreate) {
             content += ((!lastMethodToken) ? '\t' : '') + constructor.signature + ' {\n\t\n' + ((!lastMethodToken) ? '\t' : '') + '}\n\n';
         }
         for (const method of methodsToCreate) {
-            if (method.datatype && method.datatype.name.toLowerCase() !== 'void')
+            if (method.datatype && method.datatype.name.toLowerCase() !== 'void') {
                 content += ((!lastMethodToken) ? '\t' : '') + method.signature + ' {\n\t' + ((!lastMethodToken) ? '\t' : '') + method.datatype.name + ' returnedValue = null;\n\t\n\t' + ((!lastMethodToken) ? '\t' : '') + 'return returnedValue;\n' + ((!lastMethodToken) ? '\t' : '') + '}\n\n';
-            else
+            } else {
                 content += ((!lastMethodToken) ? '\t' : '') + method.signature + ' {\n\t\n' + ((!lastMethodToken) ? '\t' : '') + '}\n\n';
+            }
         }
         if (lastMethodToken) {
             editor.insertSnippet(new SnippetString(content), new Position(lastMethodToken.range.end.line, lastMethodToken.range.end.character));
