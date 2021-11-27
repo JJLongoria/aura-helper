@@ -23,7 +23,7 @@ exports.run = function (position: vscode.Position): void {
         } else {
             NotificationManager.showError('The selected file is not an Apex Class File');
         }
-    } catch (error: any) {
+    } catch (error) {
         NotificationManager.showCommandError(error);
     }
 };
