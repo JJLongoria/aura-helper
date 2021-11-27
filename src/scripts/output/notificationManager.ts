@@ -18,7 +18,7 @@ export class NotificationManager {
         statusBar.hide();
     }
 
-    static showError(message: string): void {
+    static showError(message: any): void {
         vscode.window.showErrorMessage(message);
     }
 
@@ -41,7 +41,7 @@ export class NotificationManager {
     }
 
     static showWarning(message: string, onAccept: () => void , onCancel?: () => void): void {
-        let options: string[] = [];
+        let options: any = [];
         if(!Utils.isNull(onCancel)){
             options.push('Cancel');
         }
