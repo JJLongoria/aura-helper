@@ -1,33 +1,36 @@
-const vscode = require('vscode');
-const PermissionEditor = require('../inputs/permissionEditor');
-const NotificationManager = require('../output/notificationManager');
+import * as vscode from 'vscode';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
+import { NotificationManager } from '../output';
+import { PermissionEditor } from '../inputs/permissionEditor';
 const { MetadataType, MetadataObject } = require('@aurahelper/core').Types;
 const Connection = require('@aurahelper/connector');
-const Paths = require('../core/paths');
-const Config = require('../core/config');
 
-exports.run = function (fileUri) {
+export function run(fileUri: vscode.Uri): void {
     try {
-        let filePath;
+        let filePath: string | undefined;
         if (fileUri) {
             filePath = fileUri.fsPath;
         } else {
             let editor = vscode.window.activeTextEditor;
-            if (editor)
+            if (editor){
                 filePath = editor.document.uri.fsPath;
+            }
         }
         const alias = Config.getOrgAlias();
         if (!alias) {
             NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
             return;
         }
-        openStandardGUI(filePath);
+        if(filePath){
+            openStandardGUI(filePath);
+        }
     } catch (error) {
         NotificationManager.showCommandError(error);
     }
-}
+};
 
-function openStandardGUI(filePath) {
+function openStandardGUI(filePath: string): void {
     let input = new PermissionEditor(filePath);
     input.onValidationError(function (errorMessage) {
         NotificationManager.showError("Validation Errors: \n" + errorMessage);
@@ -49,19 +52,19 @@ function openStandardGUI(filePath) {
     input.show();
 }
 
-function deploy(data) {
-    return new Promise((resolve) => {
+function deploy(data: any): Promise<void> {
+    return new Promise<void>((resolve) => {
         vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
             title: 'Deploying ' + data.type + ' ' + data.file,
             cancellable: false
-        }, (progress, cancelToken) => {
-            return new Promise(progressResolve => {
-                const typesToDeploy = {};
+        }, () => {
+            return new Promise<void>(progressResolve => {
+                const typesToDeploy: any = {};
                 typesToDeploy[data.type] = new MetadataType(data.type, true);
                 typesToDeploy[data.type].addChild(new MetadataObject(data.file, true));
                 const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
-                connection.deploy(typesToDeploy).then((status) => {
+                connection.deploy(typesToDeploy).then((status: any) => {
                     if (status.done) {
                         NotificationManager.showInfo('Permissions deployed succesfully to org');
                     } else {
@@ -69,7 +72,7 @@ function deploy(data) {
                     }
                     progressResolve();
                     resolve();
-                }).catch((error) => {
+                }).catch((error: Error) => {
                     NotificationManager.showError(error.message);
                     progressResolve();
                     resolve();
