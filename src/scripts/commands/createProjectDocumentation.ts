@@ -61,10 +61,10 @@ function createDocumentation(folderPath: string): Promise<void> {
             classPageTemplate = FileReader.readFileSync(Paths.getAssetsPath() + '/documentation/apexClassPageTemplate.html');
             createDocumentationForApexClasses(folderPath);
             resolve();
-        } catch (error: any) {
-            if (error.message.indexOf('JSON') !== -1) {
+        } catch (error) {
+            /*if (error.indexOf('JSON') !== -1) {
                 error = 'Create Documentation Error. Aura Helper are running job for Getting Apex Classes Information. Please, run this command when job finish. (See status bar)';
-            }
+            }*/
             reject(error);
         }
     });

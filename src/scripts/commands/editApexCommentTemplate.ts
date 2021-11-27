@@ -4,7 +4,7 @@ import { Paths } from '../core/paths';
 const { FileChecker, FileWriter, FileReader } = require('@aurahelper/core').FileSystem;
 const window = vscode.window;
 
-export function run() {
+export function run(): void {
     try {
         const templatePath = Paths.getApexCommentUserTemplate();
         if (!FileChecker.isExists(templatePath)) {
