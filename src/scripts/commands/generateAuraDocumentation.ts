@@ -1,36 +1,36 @@
-const logger = require('../utils/logger');
-const snippetUtils = require('../utils/snippetUtils');
+import * as vscode from 'vscode';
+import { NotificationManager, Editor } from '../output';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
+import { SnippetUtils } from '../utils/snippetUtils';
 const { JSParser } = require('@aurahelper/languages').JavaScript;
-const vscode = require('vscode');
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
-const NotificationManager = require('../output/notificationManager');
 const window = vscode.window;
 const Range = vscode.Range;
-const Paths = require('../core/paths');
-const Editor = require('../output/editor');
 
-exports.run = function (fileUri) {
+export function run(fileUri: vscode.Uri): void {
     try {
         let filePath;
         if (fileUri) {
             filePath = fileUri.fsPath;
         } else {
             let editor = window.activeTextEditor;
-            if (editor)
+            if (editor) {
                 filePath = editor.document.uri.fsPath;
+            }
         }
-        logger.log('filePath', filePath);
-        if (filePath)
+        if (filePath) {
             generateDocumentation(filePath);
-        else
+        } else {
             NotificationManager.showError("Not file selected for generate documentation");
+        }
     }
     catch (error) {
         NotificationManager.showCommandError(error);
     }
-}
+};
 
-function generateDocumentation(filePath) {
+function generateDocumentation(filePath: string): void {
     let editor = window.activeTextEditor;
     if (editor && editor.document.uri.fsPath === filePath) {
         createDoc(editor);
@@ -39,7 +39,7 @@ function generateDocumentation(filePath) {
     }
 }
 
-function createDoc(editor) {
+function createDoc(editor: vscode.TextEditor): void {
     let filePath = editor.document.uri.fsPath;
     let helperPath = Paths.getAuraBundleHelperPath(filePath);
     let controllerPath = Paths.getAuraBundleControllerPath(filePath);
@@ -54,7 +54,7 @@ function createDoc(editor) {
     }
     if (FileChecker.isExists(templatePath)) {
         let templateContent = FileReader.readFileSync(templatePath);
-        var snippet = snippetUtils.getAuraDocumentationSnippet(controller, helper, templateContent);
+        var snippet = SnippetUtils.getAuraDocumentationSnippet(controller, helper, templateContent);
         let replaceRange = new Range(0, 0, editor.document.lineCount - 1, editor.document.lineAt(editor.document.lineCount - 1).range.end.character);
         Editor.replaceEditorContent(editor, replaceRange, snippet);
         editor.revealRange(editor.document.lineAt(0).range);
