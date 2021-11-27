@@ -13,6 +13,10 @@ export class ApexCommentCompletionProvider implements vscode.CompletionItemProvi
         }
         return Promise.resolve(items);
     }
+
+    static register(): void {
+        applicationContext.context.subscriptions.push(vscode.languages.registerCompletionItemProvider({ scheme: "file", language: "apex" }, new ApexCommentCompletionProvider(), '*'));
+    }
 };
 
 function provideApexCompletion(document: vscode.TextDocument, position: vscode.Position): vscode.CompletionItem[] | undefined {

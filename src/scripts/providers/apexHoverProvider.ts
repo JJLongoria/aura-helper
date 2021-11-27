@@ -43,7 +43,7 @@ export class ApexHoverProvider implements vscode.HoverProvider {
         });
     }
 
-    static register() {
+    static register(): void {
         applicationContext.context.subscriptions.push(vscode.languages.registerHoverProvider({ scheme: "file", language: "apex" }, new ApexHoverProvider()));
     }
 

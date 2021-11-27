@@ -32,4 +32,9 @@ export class ApexFormatterProvider implements vscode.DocumentFormattingEditProvi
             });
         });
     }
+
+    static register(): void {
+        applicationContext.context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider({ scheme: "file", language: "apex" }, new ApexFormatterProvider()));
+        applicationContext.context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider({ scheme: "file", language: "apex-anon" }, new ApexFormatterProvider()));
+    }
 }

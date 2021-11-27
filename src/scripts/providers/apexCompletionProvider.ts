@@ -30,6 +30,11 @@ export class ApexCompletionProvider implements vscode.CompletionItemProvider<vsc
             resolve(items);
         });
     }
+
+    static register(): void {
+        applicationContext.context.subscriptions.push(vscode.languages.registerCompletionItemProvider({ scheme: "file", language: "apex" }, new ApexCompletionProvider(), '.'));
+        applicationContext.context.subscriptions.push(vscode.languages.registerCompletionItemProvider({ scheme: "file", language: "apex-anon" }, new ApexCompletionProvider(), '.'));
+    }
 }
 
 function provideApexCompletion(document: vscode.TextDocument, position: vscode.Position): vscode.CompletionItem[] {
