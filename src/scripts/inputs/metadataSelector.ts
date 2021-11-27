@@ -50,7 +50,7 @@ export class MetadataSelector extends MultiStepInput {
     _selectedObject?: string;
     _allowDelete: boolean;
     _finalStep: number;
-    _typesToDownload: string[];
+    _typesToDownload?: string[];
     _initOptions: MetadataSelectorOption[];
     _finishOptions: MetadataSelectorOption[];
     _selectedInitOptions: string[];
@@ -69,7 +69,7 @@ export class MetadataSelector extends MultiStepInput {
     _packageFiles: string[];
     _mergeOption?: string;
 
-    constructor(title: string, typesToDownload: string[]) {
+    constructor(title: string, typesToDownload?: string[]) {
         super(title, TYPE_STEP, RESULT_STEP);
         this._metadata = undefined;
         this._selectedType = undefined;
@@ -199,7 +199,7 @@ export class MetadataSelector extends MultiStepInput {
         return this;
     }
 
-    addFinishOption(title: string, description: string, action: string, dependency: string | string[]): MetadataSelector {
+    addFinishOption(title: string, description: string, action: string, dependency?: string | string[]): MetadataSelector {
         this._finalStep = FINISH_OPTIONS_STEP;
         this._finishOptions.push({
             title: title,
