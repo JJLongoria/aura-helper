@@ -329,8 +329,8 @@ export class MultiStepInput {
     }
 }
 
-function getLocalMetadata(types?: string[]) {
-    return new Promise(function (resolve, reject) {
+function getLocalMetadata(types?: string[]): Promise<any> {
+    return new Promise<any>(function (resolve, reject) {
         if (!Config.getOrgAlias()) {
             reject(new Error('Not connected to an Org. Please authorize and connect to and org and try later.'));
         }
@@ -361,8 +361,8 @@ function getLocalMetadata(types?: string[]) {
     });
 }
 
-function getOrgMetadata(downloadAll?: boolean, progressReport?: vscode.Progress<any>, types?: string[]) {
-    return new Promise(function (resolve, reject) {
+function getOrgMetadata(downloadAll?: boolean, progressReport?: vscode.Progress<any>, types?: string[]): Promise<any> {
+    return new Promise<any>(function (resolve, reject) {
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
             cliManager.onProgress((status: any) => {

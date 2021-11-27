@@ -1,12 +1,12 @@
-const vscode = require('vscode');
+import * as vscode from 'vscode';
+import { NotificationManager, OutputChannel } from '../output';
+import applicationContext from '../core/applicationContext';
+import { InputFactory } from '../inputs/factory';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
 const { FileChecker, FileReader, FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
 const { StrUtils, MetadataUtils } = require('@aurahelper/core').CoreUtils;
 const { MetadataTypes } = require('@aurahelper/core').Values;
-const InputFactory = require('../inputs/factory');
-const OutputChannel = require('../output/outputChannnel');
-const NotificationManager = require('../output/notificationManager');
-const Paths = require('../core/paths');
-const Config = require('../core/config');
 const CLIManager = require('@aurahelper/cli-manager');
 const XMLCompressor = require('@aurahelper/xml-compressor');
 const MetadataFactory = require('@aurahelper/metadata-factory');
@@ -14,38 +14,49 @@ const Connection = require('@aurahelper/connector');
 const { XMLParser, XMLUtils } = require('@aurahelper/languages').XML;
 const XMLDefinitions = require('@aurahelper/xml-definitions');
 
-exports.run = function (fileUri) {
+export interface EditableFieldData {
+    name: string;
+    type: string;
+    value: any;
+    nChecked: number;
+    nUnchecked: number;
+}
+
+export function run(fileUri: vscode.Uri): void {
     try {
         let filePath;
         if (fileUri) {
             filePath = fileUri.fsPath;
         } else {
             let editor = vscode.window.activeTextEditor;
-            if (editor)
+            if (editor) {
                 filePath = editor.document.uri.fsPath;
+            }
         }
         const alias = Config.getOrgAlias();
         if (!alias) {
             NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
             return;
         }
-        if (filePath)
+        if (filePath) {
             modifyPermissions(filePath);
-        else
+        }
+        else {
             NotificationManager.showError('Any file selected or opened on editor for modify permissions');
+        }
     } catch (error) {
         NotificationManager.showCommandError(error);
     }
 }
 
-function modifyPermissions(filePath) {
+function modifyPermissions(filePath: string): void {
     filePath = PathUtils.getAbsolutePath(filePath);
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: "Loading Metadata Types from Local",
         cancellable: false
-    }, (progress, cancelToken) => {
-        return new Promise(async (resolve) => {
+    }, () => {
+        return new Promise<void>(async (resolve) => {
             const metadataTypes = await getLocalMetadata(undefined);
             if (!metadataTypes[MetadataTypes.PROFILE] && !metadataTypes[MetadataTypes.PERMISSION_SET] && !metadataTypes[MetadataTypes.MUTING_PERMISSION_SET]) {
                 NotificationManager.showError('Profiles, Permission Sets or Muting Permission Sets not found on your local project');
@@ -58,33 +69,34 @@ function modifyPermissions(filePath) {
     });
 }
 
-function getLocalMetadata(types) {
+function getLocalMetadata(types?: string[]): Promise<any> {
     return new Promise(function (resolve, reject) {
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-            cliManager.describeLocalMetadata(types).then((metadataTypes) => {
+            cliManager.describeLocalMetadata(types).then((metadataTypes: any[]) => {
                 resolve(metadataTypes);
-            }).catch((error) => {
+            }).catch((error: Error) => {
                 reject(error);
             });
         } else {
             const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder());
-            connection.listMetadataTypes().then((metadataDetails) => {
+            connection.listMetadataTypes().then((metadataDetails: any[]) => {
                 const folderMetadataMap = MetadataFactory.createFolderMetadataMap(metadataDetails);
                 const metadataTypes = MetadataFactory.createMetadataTypesFromFileSystem(folderMetadataMap, Paths.getProjectFolder());
                 resolve(metadataTypes);
-            }).catch((error) => {
+            }).catch((error: Error) => {
                 reject(error);
             });
         }
     });
 }
 
-async function showPermissionsMetadata(filePath, metadataTypes) {
+async function showPermissionsMetadata(filePath: string, metadataTypes: any) {
     let suffix;
     let fileMetadataType;
-    if (filePath.indexOf('-meta.xml') !== -1)
+    if (filePath.indexOf('-meta.xml') !== -1) {
         filePath = StrUtils.replace(filePath, '-meta.xml', '');
+    }
     const fileSplits = filePath.split('.');
     suffix = fileSplits[fileSplits.length - 1];
     const items = [];
@@ -97,20 +109,23 @@ async function showPermissionsMetadata(filePath, metadataTypes) {
     if (metadataTypes[MetadataTypes.PROFILE]) {
         const XMLDefinition = XMLDefinitions.getDefinition(MetadataTypes.PROFILE, Config.getAPIVersion());
         const types = XMLDefinitions.getMetadataTypes(XMLDefinition);
-        if (types.includes(fileMetadataType.name))
+        if (types.includes(fileMetadataType.name)) {
             items.push(MetadataTypes.PROFILE);
+        }
     }
     if (metadataTypes[MetadataTypes.PERMISSION_SET]) {
         const XMLDefinition = XMLDefinitions.getDefinition(MetadataTypes.PERMISSION_SET, Config.getAPIVersion());
         const types = XMLDefinitions.getMetadataTypes(XMLDefinition);
-        if (types.includes(fileMetadataType.name))
+        if (types.includes(fileMetadataType.name)) {
             items.push(MetadataTypes.PERMISSION_SET);
+        }
     }
     if (metadataTypes[MetadataTypes.MUTING_PERMISSION_SET]) {
         const XMLDefinition = XMLDefinitions.getDefinition(MetadataTypes.PERMISSION_SET, Config.getAPIVersion());
         const types = XMLDefinitions.getMetadataTypes(XMLDefinition);
-        if (types.includes(fileMetadataType.name))
+        if (types.includes(fileMetadataType.name)) {
             items.push(MetadataTypes.MUTING_PERMISSION_SET);
+        }
     }
     if (items.length === 0) {
         NotificationManager.showError('The selected file of ' + fileMetadataType.name + ' Metadata Type not support edit permissions');
@@ -125,7 +140,7 @@ async function showPermissionsMetadata(filePath, metadataTypes) {
     }
 }
 
-async function modifyPermissionFiles(filePath, fileMetadataType, metadataTypes, selectedPermissions, selectedPermissionsType) {
+async function modifyPermissionFiles(filePath: string, fileMetadataType: any, metadataTypes: any, selectedPermissions: string, selectedPermissionsType: string) {
     const permissionsToEdit = selectedPermissions.split(',');
     const XMLDefinition = XMLDefinitions.getDefinition(selectedPermissionsType, Config.getAPIVersion());
     const baseName = PathUtils.getBasename(filePath);
@@ -169,7 +184,7 @@ async function modifyPermissionFiles(filePath, fileMetadataType, metadataTypes, 
             value.value = value.nChecked >= value.nUnchecked || value.value;
         }
     }
-    let selectedPermissionValues;
+    let selectedPermissionValues: string;
     if (fileMetadataType.name === MetadataTypes.CUSTOM_TAB) {
         let valuesToShow = [];
         for (const enumValue of xmlElementData.fields[editableFields[0].name].values) {
@@ -187,18 +202,20 @@ async function modifyPermissionFiles(filePath, fileMetadataType, metadataTypes, 
     } else {
         selectedPermissionValues = await InputFactory.createMultiSelectorInput(editableFields, 'Set ' + fileMetadataType.name + ' permission values', false);
     }
-    if (!selectedPermissionValues)
+    if (!selectedPermissionValues) {
         return;
+    }
     const compress = await InputFactory.createCompressSelector(true);
-    if (!compress)
+    if (!compress) {
         return;
-    const filesToCompress = [];
+    }
+    const filesToCompress: string[] = [];
     const permissionValues = selectedPermissionValues.split(',');
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: 'Modifing Permissions from selected files'
-    }, (progress) => {
-        return new Promise((resolve) => {
+    }, () => {
+        return new Promise<void>((resolve) => {
             setTimeout(() => {
                 for (const permissionToEdit of permissionsToEdit) {
                     const permissionMetadata = metadataTypes[selectedPermissionsType].childs[permissionToEdit];
@@ -255,7 +272,7 @@ async function modifyPermissionFiles(filePath, fileMetadataType, metadataTypes, 
                             }
                         }
                         if (!exists) {
-                            const obj = {};
+                            const obj: any = {};
                             if (fileMetadataType.name === MetadataTypes.LAYOUT) {
                                 obj[xmlElementData.sortOrder[0]] = objName + separator + itemName;
                                 if (elementName !== 'Master') {
@@ -264,9 +281,9 @@ async function modifyPermissionFiles(filePath, fileMetadataType, metadataTypes, 
                             } else {
                                 for (const fieldName of Object.keys(xmlElementData.fields)) {
                                     const fieldData = xmlElementData.fields[fieldName];
-                                    if (fieldData.default === '{!value}')
+                                    if (fieldData.default === '{!value}') {
                                         obj[fieldName] = (separator) ? (objName + separator + itemName) : (!objName ? itemName : objName);
-                                    else if (fileMetadataType.name === MetadataTypes.CUSTOM_TAB && fieldData.datatype === 'enum') {
+                                    } else if (fileMetadataType.name === MetadataTypes.CUSTOM_TAB && fieldData.datatype === 'enum') {
                                         obj[fieldName] = fieldData.getValue(selectedPermissionValues);
                                     } else {
                                         if (permissionValues.includes(fieldName)) {
@@ -300,7 +317,7 @@ async function modifyPermissionFiles(filePath, fileMetadataType, metadataTypes, 
                         NotificationManager.showInfo('Modify Permissions finished succesfully');
                         OutputChannel.outputLine('XML file compressed successfully');
                         resolve();
-                    }).catch((error) => {
+                    }).catch((error: Error) => {
                         throw error;
                     });
                     /*} else {
@@ -320,7 +337,7 @@ async function modifyPermissionFiles(filePath, fileMetadataType, metadataTypes, 
     });
 }
 
-function getXMLElementData(XMLDefinition, metadataTypeName) {
+function getXMLElementData(XMLDefinition: any, metadataTypeName: string): any {
     for (const xmlData of Object.keys(XMLDefinition)) {
         const xmlFieldData = XMLDefinition[xmlData];
         if (xmlFieldData.fields && xmlFieldData.fields[xmlFieldData.sortOrder[0]] && xmlFieldData.fields[xmlFieldData.sortOrder[0]].metadataType === metadataTypeName && xmlData !== 'customSettingAccesses') {
@@ -330,13 +347,14 @@ function getXMLElementData(XMLDefinition, metadataTypeName) {
     return undefined;
 }
 
-function getEditableFields(xmlElementFields, skipUniques) {
-    const editableFields = [];
+function getEditableFields(xmlElementFields: any, skipUniques: boolean): EditableFieldData[] {
+    const editableFields: EditableFieldData[] = [];
     for (const fieldKey of Object.keys(xmlElementFields.fields)) {
         const fieldData = xmlElementFields.fields[fieldKey];
         if (fieldData.editable) {
-            if (skipUniques && fieldData.unique)
+            if (skipUniques && fieldData.unique){
                 continue;
+            }
             editableFields.push({
                 name: fieldKey,
                 type: fieldData.datatype,
