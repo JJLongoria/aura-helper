@@ -1,8 +1,8 @@
-const vscode = require('vscode');
-const Config = require('../core/config');
-const CustomLabelsEditor = require('../inputs/customLabelsEditor');
-const NotificationManager = require('../output/notificationManager');
-const Paths = require('../core/paths');
+import * as vscode from 'vscode';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
+import { NotificationManager } from '../output';
+import { CustomLabelsEditor } from '../inputs/customLabelsEditor';
 const { FileChecker, FileWriter } = require('@aurahelper/core').FileSystem;
 const { MetadataTypes } = require('@aurahelper/core').Values;
 const { MetadataType, MetadataObject } = require('@aurahelper/core').Types;
@@ -11,15 +11,16 @@ const Connection = require('@aurahelper/connector');
 const Window = vscode.window;
 const ProgressLocation = vscode.ProgressLocation;
 
-let filePath;
+let filePath: string;
 
-exports.run = function (fileUri) {
+export function run(fileUri: vscode.Uri): void {
     try {
         if (fileUri) {
             filePath = fileUri.fsPath;
         }
-        if (!filePath)
+        if (!filePath) {
             filePath = Paths.getProjectMetadataFolder() + '/labels/CustomLabels.labels-meta.xml';
+        }
         if (FileChecker.isExists(filePath)) {
             openStandardGUI(filePath);
         } else {
@@ -28,9 +29,9 @@ exports.run = function (fileUri) {
     } catch (error) {
         NotificationManager.showCommandError(error);
     }
-}
+};
 
-function openStandardGUI(filePath) {
+function openStandardGUI(filePath: string): void {
     let input = new CustomLabelsEditor(filePath);
     input.onValidationError(function (message) {
         vscode.window.showErrorMessage("Validation Errors: \n" + message);
@@ -61,30 +62,31 @@ function openStandardGUI(filePath) {
     input.show();
 }
 
-function deleteLabels(labelsToDelete) {
-    return new Promise((resolve) => {
+function deleteLabels(labelsToDelete: any[]): Promise<void> {
+    return new Promise<void>((resolve) => {
         Window.withProgress({
             location: ProgressLocation.Notification,
             title: 'Deleting Custom Labels',
             cancellable: false
-        }, (progress, cancelToken) => {
-            return new Promise(resolveProgress => {
-                const typesToDelete = {};
+        }, () => {
+            return new Promise<void>(resolveProgress => {
+                const typesToDelete: any = {};
                 if (labelsToDelete && labelsToDelete.length > 0) {
                     typesToDelete[MetadataTypes.CUSTOM_LABEL] = new MetadataType(MetadataTypes.CUSTOM_LABEL, true);
                     for (const label of labelsToDelete) {
                         typesToDelete[MetadataTypes.CUSTOM_LABEL].addChild(new MetadataObject(label.fullName, true));
                     }
                 }
-                if (!FileChecker.isExists(Paths.getPackageFolder()))
+                if (!FileChecker.isExists(Paths.getPackageFolder())) {
                     FileWriter.createFolderSync(Paths.getPackageFolder());
+                }
                 const packageGenerator = new PackageGenerator(Config.getAPIVersion());
                 packageGenerator.setExplicit();
                 packageGenerator.createPackage({}, Paths.getPackageFolder());
                 packageGenerator.createAfterDeployDestructive(typesToDelete, Paths.getPackageFolder());
                 const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                 connection.setPackageFolder(Paths.getPackageFolder());
-                connection.deployPackage(undefined, undefined, true).then((status) => {
+                connection.deployPackage(undefined, undefined, true).then((status: any) => {
                     if (status.done) {
                         NotificationManager.showInfo('Custom Labels deleted succesfully from org');
                     } else {
@@ -92,7 +94,7 @@ function deleteLabels(labelsToDelete) {
                     }
                     resolveProgress();
                     resolve();
-                }).catch((error) => {
+                }).catch((error: Error) => {
                     NotificationManager.showError(error.message);
                     resolveProgress();
                     resolve();
@@ -102,15 +104,15 @@ function deleteLabels(labelsToDelete) {
     });
 }
 
-function deployLabels(labelsToDeploy) {
-    return new Promise((resolve) => {
+function deployLabels(labelsToDeploy: any[]): Promise<void> {
+    return new Promise<void>((resolve) => {
         Window.withProgress({
             location: ProgressLocation.Notification,
             title: 'Deploying Custom Labels',
             cancellable: false
-        }, (progress, cancelToken) => {
-            return new Promise(progressResolve => {
-                const typesToDeploy = {};
+        }, () => {
+            return new Promise<void>(progressResolve => {
+                const typesToDeploy: any = {};
                 if (labelsToDeploy && labelsToDeploy.length > 0) {
                     typesToDeploy[MetadataTypes.CUSTOM_LABEL] = new MetadataType(MetadataTypes.CUSTOM_LABEL, true);
                     for (const label of labelsToDeploy) {
@@ -118,7 +120,7 @@ function deployLabels(labelsToDeploy) {
                     }
                 }
                 const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
-                connection.deploy(typesToDeploy).then((status) => {
+                connection.deploy(typesToDeploy).then((status: any) => {
                     if (status.done) {
                         NotificationManager.showInfo('Custom Labels deployed succesfully to org');
                     } else {
@@ -126,7 +128,7 @@ function deployLabels(labelsToDeploy) {
                     }
                     progressResolve();
                     resolve();
-                }).catch((error) => {
+                }).catch((error: Error) => {
                     NotificationManager.showError(error.message);
                     progressResolve();
                     resolve();
