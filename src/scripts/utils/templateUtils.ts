@@ -39,7 +39,7 @@ export class TemplateUtils {
                         tagData: tagData,
                         tag: tag,
                         tagName: tagName
-                    }
+                    };
                     result[tag.source] = data;
                 }
             }

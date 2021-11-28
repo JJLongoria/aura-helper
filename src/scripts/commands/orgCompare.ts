@@ -173,7 +173,7 @@ function getAuthOrgs(): Promise<any>{
                 connection.listAuthOrgs().then((authOrgs: any[]) => {
                     loadResolve();
                     resolve(authOrgs);
-                }).catch((error: Error) => {
+                }).catch(() => {
                     loadResolve();
                     resolve(undefined);
                 });
@@ -265,24 +265,24 @@ function deleteMetadata(metadataToDelete: any, callback: any): void {
                 connection.deployPackage(undefined, undefined, true).then((status: any) => {
                     if (status.done) {
                         if (callback){
-                            callback.call(this, 'Metadata Deleted Successfully', false);
+                            callback.call('Metadata Deleted Successfully', false);
                         }
                     } else {
                         if (callback){
-                            callback.call(this, 'Deleting finished with status ' + status.status, false);
+                            callback.call('Deleting finished with status ' + status.status, false);
                         }
                     }
                     resolve();
                 }).catch((error: Error) => {
                     if (callback){
-                        callback.call(this, error.message, true);
+                        callback.call(error.message, true);
                     }
                     resolve();
                 });
                 resolve();
             } catch (error) {
                 if (callback){
-                    callback.call(this, error, true);
+                    callback.call(error, true);
                 }
                 resolve();
             }

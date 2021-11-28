@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 import * as commands from './scripts/commands';
 import applicationContext from './scripts/core/applicationContext';
-import { DiagnosticsManager } from './scripts/output';
+import { DiagnosticsManager, OutputChannel } from './scripts/output';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -74,8 +74,8 @@ import { DiagnosticsManager } from './scripts/output';
 	context.subscriptions.push(init);
 	context.subscriptions.push(help);
 	console.log('Aura Helper Extension activated');
-	Output.OutputChannel.createChannel();
-	Output.OutputChannel.outputLine('Aura Helper Extension is now active');
+	OutputChannel.createChannel();
+	OutputChannel.outputLine('Aura Helper Extension is now active');
 	setTimeout(() => {
 		vscode.commands.executeCommand('aurahelper.init');
 	}, 250);

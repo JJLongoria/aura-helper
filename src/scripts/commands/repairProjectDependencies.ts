@@ -37,7 +37,7 @@ export async function run() {
 
 async function repair(options: any, typesForRepair: string[], callback: any) {
     const sortOrder = Config.getXMLSortOrder();
-    DiagnosticsMananger.clearDiagnostic("xml");
+    DiagnosticsManager.clearDiagnostic("xml");
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: "Repair Project Dependencies",
@@ -69,13 +69,13 @@ async function repair(options: any, typesForRepair: string[], callback: any) {
                             NotificationManager.showInfo('All errors repaired');
                         }
                         resolve(result);
-                        if (callback){
+                        if (callback) {
                             callback.call(result);
                         }
                     }).catch((error: Error) => {
                         NotificationManager.showError(error);
                         resolve();
-                        if (callback){
+                        if (callback) {
                             callback.call();
                         }
                     });
@@ -104,14 +104,14 @@ async function repair(options: any, typesForRepair: string[], callback: any) {
                         NotificationManager.showInfo('All errors repaired');
                     }
                     resolve();
-                    if (callback){
+                    if (callback) {
                         callback.call(result);
                     }
                 }
             } catch (error) {
                 NotificationManager.showCommandError(error);
                 resolve();
-                if (callback){
+                if (callback) {
                     callback.call();
                 }
             }
@@ -122,11 +122,11 @@ async function repair(options: any, typesForRepair: string[], callback: any) {
 async function showErrors(errors: any) {
     const errorsByType: any = {};
     Object.keys(errors).forEach(function (typeError) {
-        if (!errorsByType[typeError]){
+        if (!errorsByType[typeError]) {
             errorsByType[typeError] = {};
         }
         for (const error of errors[typeError]) {
-            if (!errorsByType[typeError][error.object]){
+            if (!errorsByType[typeError][error.object]) {
                 errorsByType[typeError][error.object] = [];
             }
             errorsByType[typeError][error.object].push(error);
@@ -135,7 +135,7 @@ async function showErrors(errors: any) {
     Object.keys(errorsByType).forEach(function (type) {
         Object.keys(errorsByType[type]).forEach(function (obj) {
             let diags = [];
-            let path;
+            let path: vscode.Uri | undefined;
             for (const error of errorsByType[type][obj]) {
                 path = Paths.toURI(error.file);
                 let range = new vscode.Range(error.line - 1, error.startColumn, error.line - 1, error.endColumn);
@@ -147,7 +147,9 @@ async function showErrors(errors: any) {
                 ];
                 diags.push(diagnostic);
             }
-            DiagnosticsMananger.setDiagnostics("xml", path, diags);
+            if (path) {
+                DiagnosticsManager.setDiagnostics("xml", path, diags);
+            }
         });
     });
 }
@@ -163,7 +165,7 @@ function getTypesForAuraHelperCommands(metadata: any): string[] {
                     types.push(typeKey + ':' + objectKey);
                 } else {
                     Object.keys(metadata[typeKey].childs[objectKey].childs).forEach((itemKey) => {
-                        if (metadata[typeKey].childs[objectKey].childs[itemKey].checked){
+                        if (metadata[typeKey].childs[objectKey].childs[itemKey].checked) {
                             types.push(typeKey + ':' + objectKey + ':' + itemKey);
                         }
                     });

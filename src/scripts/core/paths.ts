@@ -122,7 +122,8 @@ export class Paths {
     }
 
     static getResourcesPath(): string {
-        return PathUtils.getAbsolutePath(applicationContext.context.asAbsolutePath("./resources"));
+        console.log(applicationContext.context.asAbsolutePath("./dist/resources"));
+        return PathUtils.getAbsolutePath(applicationContext.context.asAbsolutePath("./dist/resources"));
     }
 
     static getAuraBundleHelperPath(path: string): string {
