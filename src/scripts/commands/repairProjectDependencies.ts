@@ -1,31 +1,30 @@
-const vscode = require('vscode');
-const MetadataSelectorInput = require('../inputs/metadataSelector');
-const InputFactory = require('../inputs/factory');
-const Output = require('../output');
-const NotificationManager = require('../output/notificationManager');
+import * as vscode from 'vscode';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
+import applicationContext from '../core/applicationContext';
+import { NotificationManager, DiagnosticsManager } from '../output';
+import { MetadataSelector, MetadataSelectorOption } from '../inputs/metadataSelector';
+import { InputFactory } from '../inputs/factory';
 const DependenciesManager = require('@aurahelper/dependencies-manager');
 const CLIManager = require('@aurahelper/cli-manager');
 const Connection = require('@aurahelper/connector');
-const Config = require('../core/config');
-const Paths = require('../core/paths');
-const DiagnosticsMananger = Output.DiagnosticsManager;
 
-exports.run = async function () {
+export async function run() {
     try {
         const alias = Config.getOrgAlias();
         if (!alias) {
             NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
             return;
         }
-        let input = new MetadataSelectorInput('Select Metadata Types to Repair', DependenciesManager.getSupportedTypes());
+        let input = new MetadataSelector('Select Metadata Types to Repair', DependenciesManager.getSupportedTypes());
         input.setSingleSelectionOptions(true);
-        input.addInitOption('Repair', 'Select to Fix dependency errors automatically', MetadataSelectorInput.getRepairAction());
-        input.addInitOption('Check Errors', 'Select to Check for dependency errors in the project', MetadataSelectorInput.getCheckErrorsAction());
+        input.addInitOption('Repair', 'Select to Fix dependency errors automatically', MetadataSelector.getRepairAction());
+        input.addInitOption('Check Errors', 'Select to Check for dependency errors in the project', MetadataSelector.getCheckErrorsAction());
 
-        input.addFinishOption('Compress', 'Select to Compress affected XML Files with Aura Helper Format', MetadataSelectorInput.getCompressAction(), 'Repair');
+        input.addFinishOption('Compress', 'Select to Compress affected XML Files with Aura Helper Format', MetadataSelector.getCompressAction(), 'Repair');
         input.onAccept(async (options, data) => {
-            repair(options, data, function (result) {
-                if (result && options[MetadataSelectorInput.getCheckErrorsAction()]) {
+            repair(options, data, function (result: any) {
+                if (result && options[MetadataSelector.getCheckErrorsAction()]) {
                     showErrors(result);
                 }
             });
@@ -36,21 +35,21 @@ exports.run = async function () {
     }
 }
 
-async function repair(options, typesForRepair, callback) {
+async function repair(options: any, typesForRepair: string[], callback: any) {
     const sortOrder = Config.getXMLSortOrder();
     DiagnosticsMananger.clearDiagnostic("xml");
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: "Repair Project Dependencies",
         cancellable: true
-    }, (progress, cancelToken) => {
-        return new Promise(async function (resolve) {
+    }, (progress) => {
+        return new Promise<void>(async function (resolve) {
             try {
                 if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-                    cliManager.setCompressFiles(options[MetadataSelectorInput.getCompressAction()]);
+                    cliManager.setCompressFiles(options[MetadataSelector.getCompressAction()]);
                     cliManager.setSortOrder(sortOrder);
-                    cliManager.onProgress((status) => {
+                    cliManager.onProgress((status: any) => {
                         if (status.result.percentage !== undefined && status.result.percentage > -1) {
                             progress.report({
                                 message: status.message,
@@ -63,38 +62,40 @@ async function repair(options, typesForRepair, callback) {
                         }
                     });
                     const dataToRepair = getTypesForAuraHelperCommands(typesForRepair);
-                    cliManager.repairDependencies(dataToRepair, options[MetadataSelectorInput.getCheckErrorsAction()], false).then((result) => {
-                        if (options[MetadataSelectorInput.getCheckErrorsAction()]) {
+                    cliManager.repairDependencies(dataToRepair, options[MetadataSelector.getCheckErrorsAction()], false).then((result: any) => {
+                        if (options[MetadataSelector.getCheckErrorsAction()]) {
                             NotificationManager.showInfo("Checking errors finished. See the result in problems window");
                         } else {
                             NotificationManager.showInfo('All errors repaired');
                         }
                         resolve(result);
-                        if (callback)
-                            callback.call(this, result);
-                    }).catch((error) => {
+                        if (callback){
+                            callback.call(result);
+                        }
+                    }).catch((error: Error) => {
                         NotificationManager.showError(error);
                         resolve();
-                        if (callback)
-                            callback.call(this);
+                        if (callback){
+                            callback.call();
+                        }
                     });
                 } else {
                     const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                     const metadataDetails = await connection.listMetadataTypes();
                     const manager = new DependenciesManager(Paths.getProjectFolder(), metadataDetails);
-                    manager.setTypesToRepair(typesForRepair).setCompress(options[MetadataSelectorInput.getCompressAction()]).setSortOrder(sortOrder);
-                    manager.onStartObject((status) => {
+                    manager.setTypesToRepair(typesForRepair).setCompress(options[MetadataSelector.getCompressAction()]).setSortOrder(sortOrder);
+                    manager.onStartObject((status: any) => {
                         progress.report({
                             message: 'Processing object ' + status.entityObject + ' from ' + status.entityType,
                         });
                     });
-                    manager.onStartItem((status) => {
+                    manager.onStartItem((status: any) => {
                         progress.report({
                             message: 'Processing item ' + status.entityItem + '(' + status.entityObject + ') from ' + status.entityType,
                         });
                     });
                     let result;
-                    if (options[MetadataSelectorInput.getCheckErrorsAction()]) {
+                    if (options[MetadataSelector.getCheckErrorsAction()]) {
                         result = manager.checkErrors();
                         NotificationManager.showInfo("Checking errors finished. See the result in problems window");
                     }
@@ -103,27 +104,31 @@ async function repair(options, typesForRepair, callback) {
                         NotificationManager.showInfo('All errors repaired');
                     }
                     resolve();
-                    if (callback)
-                        callback.call(this, result);
+                    if (callback){
+                        callback.call(result);
+                    }
                 }
             } catch (error) {
                 NotificationManager.showCommandError(error);
                 resolve();
-                if (callback)
-                    callback.call(this);
+                if (callback){
+                    callback.call();
+                }
             }
         });
     });
 }
 
-async function showErrors(errors) {
-    let errorsByType = {};
+async function showErrors(errors: any) {
+    const errorsByType: any = {};
     Object.keys(errors).forEach(function (typeError) {
-        if (!errorsByType[typeError])
+        if (!errorsByType[typeError]){
             errorsByType[typeError] = {};
+        }
         for (const error of errors[typeError]) {
-            if (!errorsByType[typeError][error.object])
+            if (!errorsByType[typeError][error.object]){
                 errorsByType[typeError][error.object] = [];
+            }
             errorsByType[typeError][error.object].push(error);
         }
     });
@@ -139,7 +144,7 @@ async function showErrors(errors) {
                 diagnostic.code = type + ':' + obj;
                 diagnostic.relatedInformation = [
                     new vscode.DiagnosticRelatedInformation(new vscode.Location(path, range), error.message)
-                ]
+                ];
                 diags.push(diagnostic);
             }
             DiagnosticsMananger.setDiagnostics("xml", path, diags);
@@ -147,19 +152,20 @@ async function showErrors(errors) {
     });
 }
 
-function getTypesForAuraHelperCommands(metadata) {
-    let types = [];
-    Object.keys(metadata).forEach(function (typeKey) {
+function getTypesForAuraHelperCommands(metadata: any): string[] {
+    const types: string[] = [];
+    Object.keys(metadata).forEach((typeKey) => {
         if (metadata[typeKey].checked) {
             types.push(typeKey);
         } else {
-            Object.keys(metadata[typeKey].childs).forEach(function (objectKey) {
+            Object.keys(metadata[typeKey].childs).forEach((objectKey) => {
                 if (metadata[typeKey].childs[objectKey].checked) {
                     types.push(typeKey + ':' + objectKey);
                 } else {
-                    Object.keys(metadata[typeKey].childs[objectKey].childs).forEach(function (itemKey) {
-                        if (metadata[typeKey].childs[objectKey].childs[itemKey].checked)
+                    Object.keys(metadata[typeKey].childs[objectKey].childs).forEach((itemKey) => {
+                        if (metadata[typeKey].childs[objectKey].childs[itemKey].checked){
                             types.push(typeKey + ':' + objectKey + ':' + itemKey);
+                        }
                     });
                 }
             });
