@@ -12,7 +12,7 @@ const Range = vscode.Range;
 const SnippetString = vscode.SnippetString;
 const ProviderUtils = require('../providers/utils');
 
-exports.run = function (position: vscode.Position): void {
+export function run(position: vscode.Position): void {
     try {
         var editor = window.activeTextEditor;
         if (!editor) {
