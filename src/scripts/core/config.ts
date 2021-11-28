@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
+import { Paths } from './paths';
+import applicationContext from './applicationContext';
 const { CoreUtils } = require('@aurahelper/core');
 const XMLCompressor = require('@aurahelper/xml-compressor');
 const ProjectUtils = CoreUtils.ProjectUtils;
-const Paths = require('../core/paths');
-const appContext = require('./applicationContext');
 const XML_SORT_ORDER = XMLCompressor.getSortOrderValues();
 const SORT_ORDER_CONFIG_VALUES_MAP: any = {};
 SORT_ORDER_CONFIG_VALUES_MAP["Simple XML Elements First"] = XML_SORT_ORDER.SIMPLE_FIRST;
@@ -45,7 +45,7 @@ export class Config {
     }
 
     static getNamespace(): string{
-        return appContext.sfData.namespace || ProjectUtils.getOrgNamespace(Paths.getProjectFolder());
+        return applicationContext.sfData.namespace || ProjectUtils.getOrgNamespace(Paths.getProjectFolder());
     }
 
     static getOrgAlias(): string{

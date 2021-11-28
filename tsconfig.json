@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "es6",
-		"outDir": "out",
+		"outDir": "dist",
 		"lib": [
 			"es6"
 		],
@@ -10,21 +10,21 @@
 		"noImplicitAny": true,
 		"sourceMap": true,
 		"rootDir": "src",
-		"strict": true, 
+		"strict": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUnusedParameters": true,  
+		"noUnusedParameters": true,
 		"esModuleInterop": true,
 		"declaration": true,
 		"isolatedModules": true
 	},
 	"include": [
-        "./**/*"
-    ],
+		"./**/*"
+	],
 	"exclude": [
 		"node_modules",
 		".vscode-test",
-		"./out",
-        "./out/**/*"
+		"./dist",
+		"./dist/**/*"
 	]
 }

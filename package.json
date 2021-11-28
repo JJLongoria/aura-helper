@@ -88,8 +88,8 @@
 		"onCommand:aurahelper.completion.apex.implement.interface",
 		"onCommand:aurahelper.completion.apex.implement.extend"
 	],
-	"main": "./out/index.js",
-	"types": "./out/index.d.ts",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"contributes": {
 		"configuration": {
 			"title": "Aura Helper",
@@ -560,12 +560,12 @@
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
+		"compile": "tsc -p --declaration ./",
 		"lint": "eslint src --ext ts",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
-		"test": "node ./out/test/runTest.js",
-		"esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+		"test": "node ./dist/test/runTest.js",
+		"esbuild-base": "esbuild ./src/index.ts --bundle --outfile=dist/index.js --external:vscode --format=cjs --platform=node",
 		"esbuild": "npm run esbuild-base -- --sourcemap",
 		"esbuild-watch": "npm run esbuild-base -- --sourcemap --watch"
 	},
