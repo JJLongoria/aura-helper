@@ -1,13 +1,13 @@
-const vscode = require('vscode');
+import * as vscode from 'vscode';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
+import applicationContext from '../core/applicationContext';
+import { NotificationManager } from '../output';
 const Connection = require('@aurahelper/connector');
-const NotificationManager = require('../output/notificationManager');
 const { FileChecker, FileWriter } = require('@aurahelper/core').FileSystem;
 const { MetadataTypes } = require('@aurahelper/core').Values;
-const Config = require('../core/config');
-const Paths = require('../core/paths');
-const applicationContext = require('../core/applicationContext');
 
-exports.run = function () {
+export function run(): void {
 	try {
 		const alias = Config.getOrgAlias();
 		if (!alias) {
@@ -25,14 +25,14 @@ async function refreshIndex() {
 		location: vscode.ProgressLocation.Notification,
 		title: "Loading available SObjects for Refresh",
 		cancellable: true
-	}, (progress, cancelToken) => {
-		return new Promise(async resolve => {
+	}, () => {
+		return new Promise<void>(async resolve => {
 			const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
 			connection.setMultiThread();
-			connection.listSObjects().then((objects) => {
+			connection.listSObjects().then((objects: any) => {
 				resolve();
 				processCustomObjectsOut(objects);
-			}).catch((error) => {
+			}).catch((error: Error) => {
 				NotificationManager.showError(error);
 				resolve();
 			});
@@ -40,31 +40,32 @@ async function refreshIndex() {
 	});
 }
 
-function processCustomObjectsOut(objects) {
-	vscode.window.showQuickPick(objects).then((selected) => {
-		if (objects.includes(selected)) {
+function processCustomObjectsOut(objects: string[]): void {
+	vscode.window.showQuickPick(objects).then((selected: string | undefined) => {
+		if (selected && objects.includes(selected)) {
 			refreshObjectMetadataIndex(selected);
 		}
 	});
 }
 
-function refreshObjectMetadataIndex(object) {
+function refreshObjectMetadataIndex(object: any) {
 	vscode.window.withProgress({
 		location: vscode.ProgressLocation.Notification,
 		title: "Refresh " + object + " SObject Definition",
 		cancellable: false
-	}, (progress, cancelToken) => {
-		return new Promise(async resolve => {
+	}, () => {
+		return new Promise<void>(async resolve => {
 			const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
 			connection.setMultiThread();
-			connection.onAfterDownloadSObject((status) => {
+			connection.onAfterDownloadSObject((status: any) => {
 				if (status.data) {
-					if (!FileChecker.isExists(Paths.getMetadataIndexFolder()))
+					if (!FileChecker.isExists(Paths.getMetadataIndexFolder())){
 						FileWriter.createFolderSync(Paths.getMetadataIndexFolder());
+					}
 					FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + status.data.name + '.json', JSON.stringify(status.data, null, 2));
 				}
 			});
-			connection.describeSObjects([object]).then(function (sObjects) {
+			connection.describeSObjects([object]).then(function (sObjects: any) {
 				for (const objKey of Object.keys(sObjects)) {
 					applicationContext.parserData.sObjectsData[objKey.toLowerCase()] = sObjects[objKey.toLowerCase()];
 				}
