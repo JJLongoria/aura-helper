@@ -11,6 +11,8 @@ export * as CompressXML from './compressXML';
 export * as CompressAllXML from './compressAllXML';
 export * as OpenPermissionEditor from './openPermissionEditor';
 export * as OpenPackageGeneratorGUI from './openPackageGeneratorGUI';
+export * as Initialization from './initialization';
+export * as IgnoreMetadata from './ignoreMetadata';
 export * as OrgCompare from './orgCompare';
 export * as OpenCustomLabelsEditor from './openCustomLabelsEditor';
 export * as CreateProjectDocumentation from './createProjectDocumentation';
