@@ -1,17 +1,17 @@
-const vscode = require('vscode');
-const Config = require('../core/config');
-const MetadataSelectorInput = require('../inputs/metadataSelector');
-const InputFactory = require('../inputs/factory');
-const NotificationManager = require('../output/notificationManager');
+import * as vscode from 'vscode';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
+import { NotificationManager } from '../output';
+import { MetadataSelector } from '../inputs/metadataSelector';
+import { InputFactory } from '../inputs/factory';
 const MetadataFactory = require('@aurahelper/metadata-factory');
 const Connection = require('@aurahelper/connector');
 const CLIManager = require('@aurahelper/cli-manager');
 const PackageGenerator = require('@aurahelper/package-generator');
-const Paths = require('../core/paths');
 const { FileChecker, FileWriter } = require('@aurahelper/core').FileSystem;
 const { MetadataUtils } = require('@aurahelper/core').CoreUtils;
 
-exports.run = async function () {
+export async function run() {
     const alias = Config.getOrgAlias();
     if (!alias) {
         NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
@@ -19,41 +19,47 @@ exports.run = async function () {
     }
     let loadMessage = 'Comparing Org Metadata with your local metadata -- (Only affects metadata types that you have in your local project)';
     let compareOptions = await InputFactory.createCompareOptionSelector();
-    let sourceOrg;
-    let targetOrg;
-    if (!compareOptions)
+    let sourceOrg: string;
+    let targetOrg: string;
+    if (!compareOptions){
         return;
+    }
     if (compareOptions === 'Compare Different Orgs') {
-        let authOrgs = await getAuthOrgs();
+        let authOrgs: any = await getAuthOrgs();
         sourceOrg = await InputFactory.createAuthOrgsSelector(authOrgs, true);
-        if (!sourceOrg)
+        if (!sourceOrg){
             return;
-        if (sourceOrg.indexOf(')') !== -1)
+        }
+        if (sourceOrg.indexOf(')') !== -1){
             sourceOrg = sourceOrg.split(')')[1].trim();
+        }
         let targetOrgs = [];
         for (let org of authOrgs) {
-            if (org.alias !== sourceOrg)
+            if (org.alias !== sourceOrg){
                 targetOrgs.push(org);
+            }
         }
         targetOrg = await InputFactory.createAuthOrgsSelector(targetOrgs, false);
-        if (!targetOrg)
+        if (!targetOrg){
             return;
-        if (targetOrg.indexOf(')') !== -1)
+        }
+        if (targetOrg.indexOf(')') !== -1){
             targetOrg = targetOrg.split(')')[1].trim();
+        }
         loadMessage = 'Comparing between Orgs. Source: ' + sourceOrg + ' --  Target: ' + targetOrg;
     }
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: loadMessage,
         cancellable: true
-    }, (progress, cancelToken) => {
-        return new Promise(async function (resolve) {
+    }, (progress) => {
+        return new Promise<void>(async function (resolve) {
             try {
                 try {
                     if (Config.useAuraHelperCLI()) {
                         const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
                         let result;
-                        cliManager.onProgress((status) => {
+                        cliManager.onProgress((status: any) => {
                             if (status.result.increment !== undefined && status.result.increment > -1) {
                                 progress.report({
                                     message: status.message,
@@ -85,13 +91,13 @@ exports.run = async function () {
                             connectionSource.setMultiThread();
                             connectionTarget.setMultiThread();
                             const sourceMetadataDetails = await connectionSource.listMetadataTypes();
-                            connectionSource.onAfterDownloadType((status) => {
+                            connectionSource.onAfterDownloadType((status: any) => {
                                 progress.report({
                                     message: 'MetadataType: ' + status.entityType + ' from Source',
                                     increment: status.increment
                                 });
                             });
-                            connectionTarget.onAfterDownloadType((status) => {
+                            connectionTarget.onAfterDownloadType((status: any) => {
                                 progress.report({
                                     message: 'MetadataType: ' + status.entityType + ' from Target',
                                     increment: status.increment
@@ -123,7 +129,7 @@ exports.run = async function () {
                                 message: 'Describe Metadata Types from Org',
                                 increment: undefined,
                             });
-                            connectionTarget.onAfterDownloadType((status) => {
+                            connectionTarget.onAfterDownloadType((status: any) => {
                                 progress.report({
                                     message: 'MetadataType: ' + status.entityType + ' from Org',
                                     increment: status.increment
@@ -155,53 +161,54 @@ exports.run = async function () {
     });
 }
 
-function getAuthOrgs() {
-    return new Promise((resolve) => {
+function getAuthOrgs(): Promise<any>{
+    return new Promise<any>((resolve) => {
         vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
             title: "Loading Auth Orgs",
             cancellable: false
-        }, (progress, cancelToken) => {
-            return new Promise(async (loadResolve) => {
+        }, () => {
+            return new Promise<void>(async (loadResolve) => {
                 const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
-                connection.listAuthOrgs().then((authOrgs) => {
+                connection.listAuthOrgs().then((authOrgs: any[]) => {
                     loadResolve();
                     resolve(authOrgs);
-                }).catch((error) => {
+                }).catch((error: Error) => {
                     loadResolve();
-                    resolve();
+                    resolve(undefined);
                 });
             });
         });
     });
 }
 
-function openStandardGUI(metadata, compareOptions, target) {
+function openStandardGUI(metadata: any, compareOptions: string, target: string) {
     let title = 'Select Metadata Types to Delete';
     if (compareOptions === 'Compare Local and Org') {
         title += ' or Retrieve';
     }
     title += ' from ' + target + ' Org';
-    let input = new MetadataSelectorInput(title);
+    let input = new MetadataSelector(title);
     if (compareOptions === 'Compare Local and Org') {
-        input.addFinishOption('Retrieve', 'Retrieve selected Metadata Types to Local Project', MetadataSelectorInput.getRetrieveAction());
-        // input.addFinishOption('Compress', 'Compress all XML Retrieved files', MetadataSelectorInput.getCompressAction());
+        input.addFinishOption('Retrieve', 'Retrieve selected Metadata Types to Local Project', MetadataSelector.getRetrieveAction());
+        // input.addFinishOption('Compress', 'Compress all XML Retrieved files', MetadataSelector.getCompressAction());
     }
     input.setMetadata(metadata);
     input.allowDelete(true);
     input.onAccept((options, data) => {
         if (compareOptions === 'Compare Local and Org') {
-            if (options[MetadataSelectorInput.getRetrieveAction()]) {
+            if (options[MetadataSelector.getRetrieveAction()]) {
                 vscode.window.withProgress({
                     location: vscode.ProgressLocation.Notification,
                     cancellable: false,
                     title: "Retrieving Selected data from " + target
-                }, (progress, cancelToken) => {
-                    return new Promise(async (resolve, reject) => {
+                }, () => {
+                    return new Promise<void>(async (resolve) => {
                         try {
                             let folder = Paths.getManifestPath();
-                            if (!FileChecker.isExists(folder))
+                            if (!FileChecker.isExists(folder)){
                                 FileWriter.createFolderSync(folder);
+                            }
                             const packageGenerator = new PackageGenerator(Config.getAPIVersion());
                             packageGenerator.setExplicit(true);
                             packageGenerator.createPackage(data, folder);
@@ -210,7 +217,7 @@ function openStandardGUI(metadata, compareOptions, target) {
                             NotificationManager.showInfo('Metadata Retrieved Succesfully');
                         } catch (error) {
                             console.log(error);
-                            NotificationManager.showError(error.message || error);
+                            NotificationManager.showError(error);
                         }
                         resolve();
                     });
@@ -220,7 +227,7 @@ function openStandardGUI(metadata, compareOptions, target) {
         }
     });
     input.onDelete(async (metadata) => {
-        deleteMetadata(metadata, function (message, isError) {
+        deleteMetadata(metadata, (message: string, isError: boolean) => {
             if (isError) {
                 NotificationManager.showError(message);
             } else {
@@ -234,44 +241,49 @@ function openStandardGUI(metadata, compareOptions, target) {
     input.show();
 }
 
-function deleteMetadata(metadataToDelete, callback) {
+function deleteMetadata(metadataToDelete: any, callback: any): void {
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: "Deleting Selected Metadata from Org",
         cancellable: true
-    }, (progress, cancelToken) => {
-        return new Promise(async resolve => {
+    }, (): Promise<void> => {
+        return new Promise<void>(async resolve => {
             try {
                 const apiVersion = Config.getAPIVersion();
                 const usuername = Config.getOrgAlias();
                 const namespace = Config.getNamespace();
                 const folder = Paths.getPackageFolder();
-                if (!FileChecker.isExists(folder))
+                if (!FileChecker.isExists(folder)){
                     FileWriter.createFolderSync(folder);
+                }
                 const packageGenerator = new PackageGenerator(apiVersion);
                 packageGenerator.setExplicit();
                 packageGenerator.createPackage({}, folder);
                 packageGenerator.createAfterDeployDestructive(metadataToDelete, folder);
                 const connection = new Connection(usuername, apiVersion, Paths.getProjectFolder(), namespace);
                 connection.setPackageFolder(folder);
-                connection.deployPackage(undefined, undefined, true).then((status) => {
+                connection.deployPackage(undefined, undefined, true).then((status: any) => {
                     if (status.done) {
-                        if (callback)
+                        if (callback){
                             callback.call(this, 'Metadata Deleted Successfully', false);
+                        }
                     } else {
-                        if (callback)
+                        if (callback){
                             callback.call(this, 'Deleting finished with status ' + status.status, false);
+                        }
                     }
                     resolve();
-                }).catch((error) => {
-                    if (callback)
+                }).catch((error: Error) => {
+                    if (callback){
                         callback.call(this, error.message, true);
+                    }
                     resolve();
                 });
                 resolve();
             } catch (error) {
-                if (callback)
-                    callback.call(this, error.message, true);
+                if (callback){
+                    callback.call(this, error, true);
+                }
                 resolve();
             }
         });

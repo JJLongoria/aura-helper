@@ -51,7 +51,7 @@ export class InputFactory {
         return createQuickPick(items, placeholder, true);
     }
 
-    static createCompareOptionSelector(): Promise<unknown> {
+    static createCompareOptionSelector(): Promise<string> {
         let items = [
             InputFactory.createQuickPickItem('Compare Local and Org', undefined, 'Compare your local project with your auth org for get the differences'),
             InputFactory.createQuickPickItem('Compare Different Orgs', undefined, 'Compare two different orgs for get the differences')
