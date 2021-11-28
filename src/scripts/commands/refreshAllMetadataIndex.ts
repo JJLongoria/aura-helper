@@ -1,22 +1,20 @@
-const vscode = require('vscode');
+import * as vscode from 'vscode';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
+import { NotificationManager, OutputChannel } from '../output';
+import applicationContext from '../core/applicationContext';
+import { ProviderManager } from '../providers/providersManager';
+import { ApexCodeWatcher } from '../watchers/apexCodeWatcher';
+import { ProjectFilesWatcher } from '../watchers/projectFilesWatcher';
 const Connection = require('@aurahelper/connector');
-const Output = require('../output');
-const NotificationManager = require('../output/notificationManager');
-const ApexNodeWatcher = require('../watchers/apexCodeWatcher');
-const ProjectFilesWatcher = require('../watchers/projectFilesWatcher');
-const ProvidersManager = require('../providers/providersManager');
 const { FileChecker, FileWriter, FileReader } = require('@aurahelper/core').FileSystem;
 const { StrUtils } = require('@aurahelper/core').CoreUtils;
 const { MetadataTypes } = require('@aurahelper/core').Values;
 const { SObject } = require('@aurahelper/core').Types;
-const Config = require('../core/config');
-const Paths = require('../core/paths');
-const applicationContext = require('../core/applicationContext');
 const MetadataFactory = require('@aurahelper/metadata-factory');
-const OutputChannel = Output.OutputChannel;
 
 
-exports.run = function (onbackground) {
+export function run(onbackground: boolean): void {
     if (!onbackground) {
         try {
             const alias = Config.getOrgAlias();
@@ -24,11 +22,11 @@ exports.run = function (onbackground) {
                 NotificationManager.showError('Not connected to an Org. Please authorize and connect to and org and try later.');
                 return;
             }
-            NotificationManager.showConfirmDialog('Refresh metadata index can will take several minutes. Do you want to continue?', function () {
+            NotificationManager.showConfirmDialog('Refresh metadata index can will take several minutes. Do you want to continue?', () => {
                 showLoadingDialog();
             });
         } catch (error) {
-            NotificationManager.showCommandError(error)
+            NotificationManager.showCommandError(error);
         }
     } else {
         setTimeout(() => {
@@ -37,43 +35,45 @@ exports.run = function (onbackground) {
             refreshIndex(false, undefined, undefined, () => {
                 NotificationManager.hideStatusBar();
                 OutputChannel.outputLine('Refreshing SObject Defintions Finished');
-                ProvidersManager.registerProviders();
-                ApexNodeWatcher.startWatching();
+                ProviderManager.registerProviders();
+                ApexCodeWatcher.startWatching();
                 ProjectFilesWatcher.startWatching();
             });
         }, 100);
     }
 }
 
-function showLoadingDialog() {
+function showLoadingDialog(): void {
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: "Refreshing SObjects Definitions",
         cancellable: true
     }, (progress, cancelToken) => {
         OutputChannel.outputLine('Refreshing SObject Defintions');
-        return new Promise(resolve => {
-            refreshIndex(true, progress, cancelToken, (err) => {
+        return new Promise<void>(resolve => {
+            refreshIndex(true, progress, cancelToken, (err: Error) => {
                 OutputChannel.outputLine('Refreshing SObject Defintions Finished');
                 NotificationManager.hideStatusBar();
-                if (!err)
+                if (!err){
                     NotificationManager.showInfo('Refreshing SObject Definitios finished Succesfully');
-                else
+                } else{
                     NotificationManager.showError(err);
+                }
                 resolve();
             });
         });
     });
 }
 
-async function refreshIndex(force, progress, cancelToken, callback) {
+async function refreshIndex(force: boolean, progress?: vscode.Progress<any>, cancelToken?: vscode.CancellationToken, callback?: any) {
     const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
-    if (cancelToken)
+    if (cancelToken){
         cancelToken.onCancellationRequested(() => {
             connection.abortConnection();
         });
+    }
     connection.setMultiThread();
-    connection.onAfterDownloadSObject((status) => {
+    connection.onAfterDownloadSObject((status: any) => {
         if (status.entityObject && progress) {
             progress.report({
                 message: 'SObject: ' + status.entityObject,
@@ -82,8 +82,9 @@ async function refreshIndex(force, progress, cancelToken, callback) {
         }
         if (status.data) {
             try {
-                if (!FileChecker.isExists(Paths.getMetadataIndexFolder()))
+                if (!FileChecker.isExists(Paths.getMetadataIndexFolder())){
                     FileWriter.createFolderSync(Paths.getMetadataIndexFolder());
+                }
                 FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + status.data.name + '.json', JSON.stringify(status.data, null, 2));
             } catch (error) {
             }
@@ -91,57 +92,66 @@ async function refreshIndex(force, progress, cancelToken, callback) {
             try {
                 const obj = new SObject();
                 obj.name = status.entityObject;
-                if (!FileChecker.isExists(Paths.getMetadataIndexFolder()))
+                if (!FileChecker.isExists(Paths.getMetadataIndexFolder())){
                     FileWriter.createFolderSync(Paths.getMetadataIndexFolder());
+                }
                 FileWriter.createFileSync(Paths.getMetadataIndexFolder() + '/' + obj.name + '.json', JSON.stringify(obj, null, 2));
             } catch (error) {
             }
         }
     });
-    connection.describeMetadataTypes([MetadataTypes.CUSTOM_OBJECT], true).then(async (metadataTypes) => {
+    connection.describeMetadataTypes([MetadataTypes.CUSTOM_OBJECT], true).then(async (metadataTypes: any) => {
         let objectsToDescribe = [];
-        const existingObjects = getSObjects();
+        const existingObjects: any = getSObjects();
         if (force) {
             objectsToDescribe = Object.keys(metadataTypes[MetadataTypes.CUSTOM_OBJECT].childs);
-            if (!objectsToDescribe.includes('User'))
+            if (!objectsToDescribe.includes('User')){
                 objectsToDescribe.push('User');
+            }
         } else {
             for (const objKey of Object.keys(metadataTypes[MetadataTypes.CUSTOM_OBJECT].childs)) {
-                if (!existingObjects[objKey.toLowerCase()])
+                if (!existingObjects[objKey.toLowerCase()]){
                     objectsToDescribe.push(objKey);
+                }
             }
-            if (!objectsToDescribe.includes('User'))
+            if (!objectsToDescribe.includes('User')){
                 objectsToDescribe.push('User');
+            }
         }
-        if (!objectsToDescribe.includes('Profile') && !existingObjects['profile'])
+        if (!objectsToDescribe.includes('Profile') && !existingObjects['profile']){
             objectsToDescribe.push('Profile');
-        if (!objectsToDescribe.includes('RecordType') && !existingObjects['recordtype'])
+        }
+        if (!objectsToDescribe.includes('RecordType') && !existingObjects['recordtype']){
             objectsToDescribe.push('RecordType');
-        if (!objectsToDescribe.includes('QueueSobject') && !existingObjects['QueueSobject'])
+        }
+        if (!objectsToDescribe.includes('QueueSobject') && !existingObjects['QueueSobject']){
             objectsToDescribe.push('QueueSobject');
-        if (!objectsToDescribe.includes('UserRole') && !existingObjects['userrole'])
+        }
+        if (!objectsToDescribe.includes('UserRole') && !existingObjects['userrole']){
             objectsToDescribe.push('UserRole');
-        if (!objectsToDescribe.includes('Group') && !existingObjects['group'])
+        }
+        if (!objectsToDescribe.includes('Group') && !existingObjects['group']){
             objectsToDescribe.push('Group');
+        }
         if (objectsToDescribe.length > 0) {
             connection.describeSObjects(objectsToDescribe).then(function () {
                 applicationContext.parserData.sObjectsData = getSObjects();
                 applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
-                callback.call(this);
+                callback.call();
             });
         } else {
-            callback.call(this);
+            callback.call();
         }
-    }).catch((error) => {
-        callback.call(this, error);
+    }).catch((error: Error) => {
+        callback.call(error);
     });
 }
 
-function getSObjects() {
-    let sObjects = {};
+function getSObjects(): any {
+    const sObjects: any = {};
     const sObjectsFolder = Paths.getProjectMetadataFolder() + '/objects';
-    let objFolders = FileChecker.isExists(sObjectsFolder) ? FileReader.readDirSync(sObjectsFolder) : [];
-    let indexObjFiles = FileChecker.isExists(Paths.getMetadataIndexFolder()) ? FileReader.readDirSync(Paths.getMetadataIndexFolder()) : [];
+    const objFolders = FileChecker.isExists(sObjectsFolder) ? FileReader.readDirSync(sObjectsFolder) : [];
+    const indexObjFiles = FileChecker.isExists(Paths.getMetadataIndexFolder()) ? FileReader.readDirSync(Paths.getMetadataIndexFolder()) : [];
     const namespace = Config.getNamespace();
     if (indexObjFiles.length > 0) {
         for (const fileName of indexObjFiles) {
@@ -164,8 +174,9 @@ function getSObjects() {
                             break;
                         }
                     }
-                    if (deleted)
+                    if (deleted){
                         continue;
+                    }
                 }
             }
             const sObj = new SObject(obj);
@@ -185,8 +196,9 @@ function getSObjects() {
                     const objOnIndex = sObjects[sObj.name.toLowerCase()];
                     for (const fieldKey of Object.keys(sObj.fields)) {
                         const field = sObj.fields[fieldKey];
-                        if (!objOnIndex.fields[fieldKey])
+                        if (!objOnIndex.fields[fieldKey]){
                             sObjects[sObj.name.toLowerCase()].fields[fieldKey] = field;
+                        }
                     }
                 }
             }
