@@ -40,7 +40,7 @@ export class NotificationManager {
         vscode.window.showInformationMessage(message);
     }
 
-    static showWarning(message: string, onAccept: () => void , onCancel?: () => void): void {
+    static showWarning(message: string, onAccept?: () => void , onCancel?: () => void): void {
         let options: any = [];
         if(!Utils.isNull(onCancel)){
             options.push('Cancel');

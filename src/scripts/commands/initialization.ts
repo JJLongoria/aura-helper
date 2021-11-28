@@ -1,12 +1,13 @@
-const vscode = require('vscode');
-const Output = require('../output');
-const ProvidersManager = require('../providers/providersManager');
-const ApexNodeWatcher = require('../watchers/apexCodeWatcher');
-const ProjectFilesWatcher = require('../watchers/projectFilesWatcher');
-const applicationContext = require('../core/applicationContext');
+import * as vscode from 'vscode';
+import { Config } from '../core/config';
+import { Paths } from '../core/paths';
+import applicationContext from '../core/applicationContext';
+import { NotificationManager, OutputChannel } from '../output';
+import { ProjectFilesWatcher } from '../watchers/projectFilesWatcher';
+import { ProviderManager } from '../providers/providersManager';
+import { ApexCodeWatcher } from '../watchers/apexCodeWatcher';
+import { TemplateUtils } from '../utils/templateUtils';
 const { FileChecker, FileReader, FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
-const Config = require('../core/config');
-const Paths = require('../core/paths');
 const { StrUtils } = require('@aurahelper/core').CoreUtils;
 const { ApexNodeTypes } = require('@aurahelper/core').Values;
 const { SObject, ApexClass, ApexInterface, ApexEnum, ApexTrigger } = require('@aurahelper/core').Types;
@@ -16,13 +17,10 @@ const Connection = require('@aurahelper/connector');
 const MetadataFactory = require('@aurahelper/metadata-factory');
 const CLIManager = require('@aurahelper/cli-manager');
 const GitManager = require('@aurahelper/git-manager');
-const TemplateUtils = require('../utils/templateUtils');
-const NotificationManager = Output.NotificationMananger;
-const OutputChannel = Output.OutputChannel;
-let cliManager;
-let connection;
+let cliManager: any;
+let connection: any;
 
-exports.run = function () {
+export function run() {
     const context = applicationContext.context;
     NotificationManager.showStatusBar('$(sync~spin) Loading System Data...');
     OutputChannel.outputLine('Loading System Data');
@@ -30,7 +28,7 @@ exports.run = function () {
     init(context);
 }
 
-function init(context) {
+function init(context: vscode.ExtensionContext): void {
     setTimeout(async () => {
         const username = Config.getOrgAlias();
         cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
@@ -49,15 +47,15 @@ function init(context) {
         if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart) {
             vscode.commands.executeCommand('aurahelper.metadata.refresh.index', true);
         } else {
-            ApexNodeWatcher.startWatching();
+            ApexCodeWatcher.startWatching();
             ProjectFilesWatcher.startWatching();
-            ProvidersManager.registerProviders();
+            ProviderManager.registerProviders();
         }
     }, 50);
 }
 
-function getGitData() {
-    return new Promise((resolve) => {
+function getGitData(): Promise<void> {
+    return new Promise<void>((resolve) => {
         OutputChannel.outputLine('Getting GIT data...');
         setTimeout(async () => {
             try {
@@ -83,8 +81,8 @@ function getGitData() {
     });
 }
 
-function getSystemData() {
-    return new Promise((resolve) => {
+function getSystemData(): Promise<void> {
+    return new Promise<void>((resolve) => {
         OutputChannel.outputLine('Getting Apex Classes and System components data...');
         setTimeout(async () => {
             try {
@@ -107,8 +105,8 @@ function getSystemData() {
     });
 }
 
-function checkAuraHelperCLI() {
-    return new Promise((resolve) => {
+function checkAuraHelperCLI(): Promise<void> {
+    return new Promise<void>((resolve) => {
         OutputChannel.outputLine('Checking Aura Helper CLI...');
         setTimeout(() => {
             checkAuraHelperVersion().then(() => {
@@ -121,8 +119,8 @@ function checkAuraHelperCLI() {
     });
 }
 
-function getOrgData() {
-    return new Promise((resolve) => {
+function getOrgData(): Promise<void> {
+    return new Promise<void>((resolve) => {
         OutputChannel.outputLine('Getting Org data...');
         setTimeout(async () => {
             try {
@@ -135,32 +133,39 @@ function getOrgData() {
             } catch (error) {
 
             }
-            resolve()
+            resolve();
         }, 50);
     });
 }
 
-function createTemplateFiles(context) {
+function createTemplateFiles(context: vscode.ExtensionContext) {
     OutputChannel.outputLine('Prepare environment');
-    if (!FileChecker.isExists(context.storagePath))
+    if (!FileChecker.isExists(context.storagePath)){
         FileWriter.createFolderSync(context.storagePath);
-    if (!FileChecker.isExists(Paths.getUserTemplatesFolder()))
+    }
+    if (!FileChecker.isExists(Paths.getUserTemplatesFolder())){
         FileWriter.createFolderSync(Paths.getUserTemplatesFolder());
-    if (!FileChecker.isExists(Paths.getMetadataIndexFolder()))
+    }
+    if (!FileChecker.isExists(Paths.getMetadataIndexFolder())){
         FileWriter.createFolderSync(Paths.getMetadataIndexFolder());
-    if (FileChecker.isExists(Paths.getOldApexCommentUserTemplate()) && !FileChecker.isExists(Paths.getApexCommentUserTemplate()))
-        FileWriter.createFileSync(Paths.getApexCommentUserTemplate(), adaptOldApexTemplateToNewTemplate())
-    if (FileChecker.isExists(Paths.getOldAuraDocUserTemplate()) && !FileChecker.isExists(Paths.getAuraDocUserTemplate()))
+    }
+    if (FileChecker.isExists(Paths.getOldApexCommentUserTemplate()) && !FileChecker.isExists(Paths.getApexCommentUserTemplate())){
+        FileWriter.createFileSync(Paths.getApexCommentUserTemplate(), adaptOldApexTemplateToNewTemplate());
+    }
+    if (FileChecker.isExists(Paths.getOldAuraDocUserTemplate()) && !FileChecker.isExists(Paths.getAuraDocUserTemplate())){
         FileWriter.copyFileSync(Paths.getOldAuraDocUserTemplate(), Paths.getAuraDocUserTemplate());
-    if (!FileChecker.isExists(Paths.getApexCommentUserTemplate()))
+    }
+    if (!FileChecker.isExists(Paths.getApexCommentUserTemplate())){
         FileWriter.copyFileSync(Paths.getApexCommentBaseTemplate(), Paths.getApexCommentUserTemplate());
-    if (!FileChecker.isExists(Paths.getAuraDocUserTemplate()))
+    }
+    if (!FileChecker.isExists(Paths.getAuraDocUserTemplate())){
         FileWriter.copyFileSync(Paths.getAuraDocBaseTemplate(), Paths.getAuraDocUserTemplate());
+    }
     applicationContext.parserData.template = TemplateUtils.getApexCommentTemplate(!Config.getConfig().documentation.useStandardJavaComments);
     OutputChannel.outputLine('Environment prepared');
 }
 
-function adaptOldApexTemplateToNewTemplate() {
+function adaptOldApexTemplateToNewTemplate(): string {
     const newTemplate = JSON.parse(FileReader.readFileSync(Paths.getApexCommentBaseTemplate()));
     const template = JSON.parse(FileReader.readFileSync(Paths.getOldApexCommentUserTemplate()));
     if (template.methodComment) {
@@ -188,24 +193,25 @@ function adaptOldApexTemplateToNewTemplate() {
     return JSON.stringify(newTemplate, null, 2);
 }
 
-function checkAuraHelperVersion() {
-    return new Promise(async (resolve, reject) => {
+function checkAuraHelperVersion(): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
         try {
             const version = await cliManager.getAuraHelperCLIVersion();
             const versionSplits = version.split('.');
-            const requiredVersionSplits = applicationContext.MIN_AH_CLI_VERSION.split('.')
+            const requiredVersionSplits = applicationContext.MIN_AH_CLI_VERSION.split('.');
             const majorVersion = parseInt(versionSplits[0]);
             const minorVersion = parseInt(versionSplits[1]);
             const patchVersion = parseInt(versionSplits[2]);
             const requiredMajorVersion = parseInt(requiredVersionSplits[0]);
             const requiredMinorVersion = parseInt(requiredVersionSplits[1]);
             const requiredPatchVersion = parseInt(requiredVersionSplits[2]);
-            if (majorVersion < requiredMajorVersion)
+            if (majorVersion < requiredMajorVersion){
                 showDialogsForAuraHelperCLI();
-            else if (majorVersion == requiredMajorVersion && minorVersion < requiredMinorVersion)
+            }else if (majorVersion === requiredMajorVersion && minorVersion < requiredMinorVersion){
                 showDialogsForAuraHelperCLI();
-            else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion)
+            }else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion){
                 showDialogsForAuraHelperCLI();
+            }
             resolve();
         } catch (error) {
             reject(error);
@@ -213,7 +219,7 @@ function checkAuraHelperVersion() {
     });
 }
 
-function showDialogsForAuraHelperCLI() {
+function showDialogsForAuraHelperCLI(): void {
     const message = 'Old Aura Helper CLI Version Installed. For a correct work of Aura Helper Extension, you must update the client. Press Ok for update now or Cancel for update later';
     OutputChannel.outputLine(message + '\nTo install Aura Helper CLI Manually, execute the next command "npm install -g aura-helper-cli"', true);
     NotificationManager.showWarning(message, () => {
@@ -221,7 +227,7 @@ function showDialogsForAuraHelperCLI() {
         cliManager.updateAuraHelperCLI().then(() => {
             NotificationManager.hideStatusBar();
             NotificationManager.showInfo('Aura Helper CLI Updated. Enjoy it!');
-        }).catch((error) => {
+        }).catch((error: Error) => {
             NotificationManager.hideStatusBar();
             const errorMessage = 'An Error ocurred while updating Aura Helper CLI. You can update manually with command "aura-helper update" or "npm update -g aura-helper-cli".';
             OutputChannel.outputLine(message + '\nError: ' + error, true);
@@ -251,9 +257,9 @@ function cleanOldClassesDefinitions() {
 }
 
 function getClassesFromCompiledClasses() {
-    let classes = {};
+    const classes: any = {};
     if (FileChecker.isExists(Paths.getCompiledClassesFolder())) {
-        let files = FileReader.readDirSync(Paths.getCompiledClassesFolder());
+        const files = FileReader.readDirSync(Paths.getCompiledClassesFolder());
         for (const file of files) {
             const apexNode = JSON.parse(FileReader.readFileSync(Paths.getCompiledClassesFolder() + '/' + file));
             if (apexNode.nodeType === ApexNodeTypes.CLASS) {
@@ -271,11 +277,11 @@ function getClassesFromCompiledClasses() {
 }
 
 function getSObjects() {
-    let sObjects = {};
+    let sObjects: any = {};
     const sObjectsFolder = Paths.getProjectMetadataFolder() + '/objects';
-    let objFolders = FileChecker.isExists(sObjectsFolder) ? FileReader.readDirSync(sObjectsFolder) : [];
-    let indexObjFiles = FileChecker.isExists(Paths.getMetadataIndexFolder()) ? FileReader.readDirSync(Paths.getMetadataIndexFolder()) : [];
-    let sfdxObjFiles = (FileChecker.isExists(Paths.getSFDXCustomSObjectsFolder()) && FileChecker.isExists(Paths.getSFDXStandardSObjectsFolder())) ? FileReader.readDirSync(Paths.getSFDXCustomSObjectsFolder()).concat(FileReader.readDirSync(Paths.getSFDXStandardSObjectsFolder())) : [];
+    const objFolders = FileChecker.isExists(sObjectsFolder) ? FileReader.readDirSync(sObjectsFolder) : [];
+    const indexObjFiles = FileChecker.isExists(Paths.getMetadataIndexFolder()) ? FileReader.readDirSync(Paths.getMetadataIndexFolder()) : [];
+    const sfdxObjFiles = (FileChecker.isExists(Paths.getSFDXCustomSObjectsFolder()) && FileChecker.isExists(Paths.getSFDXStandardSObjectsFolder())) ? FileReader.readDirSync(Paths.getSFDXCustomSObjectsFolder()).concat(FileReader.readDirSync(Paths.getSFDXStandardSObjectsFolder())) : [];
     try {
         const namespace = Config.getNamespace();
         if (indexObjFiles.length > 0) {
@@ -299,8 +305,9 @@ function getSObjects() {
                                 break;
                             }
                         }
-                        if (deleted)
+                        if (deleted){
                             continue;
+                        }
                     }
                 }
                 const sObj = new SObject(obj);
@@ -320,8 +327,9 @@ function getSObjects() {
                         const objOnIndex = sObjects[sObj.name.toLowerCase()];
                         for (const fieldKey of Object.keys(sObj.fields)) {
                             const field = sObj.fields[fieldKey];
-                            if (!objOnIndex.fields[fieldKey])
+                            if (!objOnIndex.fields[fieldKey]){
                                 sObjects[sObj.name.toLowerCase()].fields[fieldKey] = field;
+                            }
                         }
                     }
                 }
@@ -388,7 +396,7 @@ function getSObjects() {
     return sObjects;
 }
 
-function getClassNames(classesPath) {
+function getClassNames(classesPath: string): string[] {
     const names = [];
     for (const file of FileReader.readDirSync(classesPath, { onlyFiles: true, extensions: ['.cls'] })) {
         names.push(PathUtils.getBasename(file, '.cls'));
@@ -396,23 +404,24 @@ function getClassNames(classesPath) {
     return names;
 }
 
-function loadSnippets() {
+function loadSnippets(): any {
     OutputChannel.outputLine('Loading Snippets');
-    let auraSnippets = JSON.parse(FileReader.readFileSync(Paths.getAuraSnippetsPath()));
-    let jsSnippets = JSON.parse(FileReader.readFileSync(Paths.getJSSnippetsPath()));
-    let sldsSnippets = JSON.parse(FileReader.readFileSync(Paths.getSLDSSnippetsPath()));
-    let lwcSnippets = JSON.parse(FileReader.readFileSync(Paths.getLWCSnippetsPath()));
-    let auraActivations = {};
-    let jsActivations = {};
-    let sldsActivations = {};
-    let lwcActivations = {};
+    const auraSnippets: any = JSON.parse(FileReader.readFileSync(Paths.getAuraSnippetsPath()));
+    const jsSnippets: any = JSON.parse(FileReader.readFileSync(Paths.getJSSnippetsPath()));
+    const sldsSnippets: any = JSON.parse(FileReader.readFileSync(Paths.getSLDSSnippetsPath()));
+    const lwcSnippets: any = JSON.parse(FileReader.readFileSync(Paths.getLWCSnippetsPath()));
+    const auraActivations: any = {};
+    const jsActivations: any = {};
+    const sldsActivations: any = {};
+    const lwcActivations: any = {};
     Object.keys(auraSnippets).forEach(function (key) {
         let obj = auraSnippets[key];
         let activation;
         if (obj && obj.prefix && "string" === typeof obj.prefix) {
             activation = obj.prefix.split(".")[0];
-            if (!auraActivations[activation])
+            if (!auraActivations[activation]){
                 auraActivations[activation] = [];
+            }
             auraActivations[activation].push({
                 name: key,
                 prefix: obj.prefix,
@@ -422,8 +431,9 @@ function loadSnippets() {
             });
         } else {
             activation = obj.prefix[0].split(".")[0];
-            if (!auraActivations[activation])
+            if (!auraActivations[activation]){
                 auraActivations[activation] = [];
+            }
             auraActivations[activation].push({
                 name: key,
                 prefix: obj.prefix[0],
@@ -438,8 +448,9 @@ function loadSnippets() {
         let activation;
         if (obj && obj.prefix && "string" === typeof obj.prefix) {
             activation = obj.prefix.split(".")[0];
-            if (!jsActivations[activation])
+            if (!jsActivations[activation]){
                 jsActivations[activation] = [];
+            }
             jsActivations[activation].push({
                 name: key,
                 prefix: obj.prefix,
@@ -449,8 +460,9 @@ function loadSnippets() {
             });
         } else {
             activation = obj.prefix[0].split(".")[0];
-            if (!jsActivations[activation])
+            if (!jsActivations[activation]){
                 jsActivations[activation] = [];
+            }
             jsActivations[activation].push({
                 name: key,
                 prefix: obj.prefix[0],
@@ -465,8 +477,9 @@ function loadSnippets() {
         let activation;
         if (obj && obj.prefix && "string" === typeof obj.prefix) {
             activation = obj.prefix.split(".")[0];
-            if (!sldsActivations[activation])
+            if (!sldsActivations[activation]){
                 sldsActivations[activation] = [];
+            }
             sldsActivations[activation].push({
                 name: key,
                 prefix: obj.prefix,
@@ -476,8 +489,9 @@ function loadSnippets() {
             });
         } else {
             activation = obj.prefix[0].split(".")[0];
-            if (!sldsActivations[activation])
+            if (!sldsActivations[activation]){
                 sldsActivations[activation] = [];
+            }
             sldsActivations[activation].push({
                 name: key,
                 prefix: obj.prefix[0],
@@ -492,8 +506,9 @@ function loadSnippets() {
         let activation;
         if (obj && obj.prefix && "string" === typeof obj.prefix) {
             activation = obj.prefix.split(".")[0];
-            if (!lwcActivations[activation])
+            if (!lwcActivations[activation]){
                 lwcActivations[activation] = [];
+            }
             lwcActivations[activation].push({
                 name: key,
                 prefix: obj.prefix,
@@ -503,8 +518,9 @@ function loadSnippets() {
             });
         } else {
             activation = obj.prefix[0].split(".")[0];
-            if (!lwcActivations[activation])
+            if (!lwcActivations[activation]){
                 lwcActivations[activation] = [];
+            }
             lwcActivations[activation].push({
                 name: key,
                 prefix: obj.prefix[0],
