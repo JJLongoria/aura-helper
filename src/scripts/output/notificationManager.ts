@@ -26,7 +26,7 @@ export class NotificationManager {
         NotificationManager.showError('An error ocurred while processing command. Error: \n' + message);
     }
 
-    static showConfirmDialog(message: string, onAccept: () => void , onCancel: () => void): void {
+    static showConfirmDialog(message: string, onAccept: () => void , onCancel?: () => void): void {
         vscode.window.showInformationMessage(message, 'Cancel', 'Ok').then((selected) => {
             if (selected === 'Ok' && onAccept) {
                 onAccept.call(this);
