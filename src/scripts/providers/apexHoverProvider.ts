@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { Config } from '../core/config';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 import { MarkDownStringBuilder } from '../output';
 import { ProviderUtils } from './utils';
 import { TemplateUtils } from '../utils/templateUtils';

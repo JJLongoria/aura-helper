@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { Config } from '../core/config';
 import { Paths } from '../core/paths';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 import { NotificationManager, OutputChannel } from '../output';
 import { ProjectFilesWatcher } from '../watchers/projectFilesWatcher';
 import { ProviderManager } from '../providers/providersManager';

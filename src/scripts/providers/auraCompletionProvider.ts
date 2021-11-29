@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { Logger } from "../utils/logger";
 import { Config } from '../core/config';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 import { ActivationToken, ProviderActivationInfo, ProviderUtils } from './utils';
 import { MarkDownStringBuilder } from '../output';
 const { AuraAttribute, Token } = require('@aurahelper/core').Types;

@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { Config } from '../core/config';
 import { Paths } from '../core/paths';
 import { NotificationManager, OutputChannel } from '../output';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 import { ProviderManager } from '../providers/providersManager';
 import { ApexCodeWatcher } from '../watchers/apexCodeWatcher';
 import { ProjectFilesWatcher } from '../watchers/projectFilesWatcher';

@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { Paths } from './paths';
-import applicationContext from './applicationContext';
+import { applicationContext } from './applicationContext';
 const { CoreUtils } = require('@aurahelper/core');
 const XMLCompressor = require('@aurahelper/xml-compressor');
 const ProjectUtils = CoreUtils.ProjectUtils;

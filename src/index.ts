@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as commands from './scripts/commands';
-import applicationContext from './scripts/core/applicationContext';
+import { applicationContext } from './scripts/core/applicationContext';
 import { DiagnosticsManager, OutputChannel } from './scripts/output';
 
 // this method is called when your extension is activated

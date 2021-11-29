@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { NotificationManager, OutputChannel } from '../output';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 import { InputFactory } from '../inputs/factory';
 import { Config } from '../core/config';
 import { Paths } from '../core/paths';

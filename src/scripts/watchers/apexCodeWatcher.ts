@@ -1,19 +1,19 @@
 import * as vscode from 'vscode';
-import applicationContext from "../core/applicationContext";
+import { applicationContext } from '../core/applicationContext';
 import { Paths } from "../core/paths";
 const { ApexParser } = require('@aurahelper/languages').Apex;
 const { FileWriter, PathUtils, FileChecker } = require('@aurahelper/core').FileSystem;
 
 export class ApexCodeWatcher {
 
-    static startWatching() {
+    static startWatching(): void {
         registerApexClassesWatcher();
         registerApexTriggersWatcher();
     }
 
 }
 
-function registerApexClassesWatcher() {
+function registerApexClassesWatcher(): void {
     const classWatcher = vscode.workspace.createFileSystemWatcher("**/*.cls");
     classWatcher.onDidChange(async function (uri) {
         if (FileChecker.isExists(uri.fsPath)) {
@@ -55,7 +55,7 @@ function registerApexClassesWatcher() {
     });
 }
 
-function registerApexTriggersWatcher() {
+function registerApexTriggersWatcher(): void {
     const classWatcher = vscode.workspace.createFileSystemWatcher("**/*.trigger");
     classWatcher.onDidChange(async function (uri) {
         if (FileChecker.isExists(uri.fsPath)) {
@@ -97,6 +97,6 @@ function registerApexTriggersWatcher() {
     });
 }
 
-function analizeNodeErrors(_apexNode: any) {
+function analizeNodeErrors(_apexNode: any): void {
 
 }

@@ -3,7 +3,7 @@ import { Paths } from '../core/paths';
 import { Config } from '../core/config';
 import { XMLEditor } from './xmlEditor';
 import { MultiStepInput } from './multiStepInput';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 const XMLDefinitions = require('@aurahelper/xml-definitions');
 const { MetadataTypes, DataTypes } = require('@aurahelper/core').Values;
 const { MetadataUtils, Utils } = require('@aurahelper/core').CoreUtils;
@@ -247,7 +247,7 @@ export class PermissionEditor extends XMLEditor {
             } else {
                 const metadataType = fieldDefinition.fields[fieldKey].metadataType;
                 if (fieldDefinition.key === 'userPermissions') {
-                    let notAddedPermissions = [];
+                    let notAddedPermissions: string[] | undefined = [];
                     if (!this._permissionsContent[fieldDefinition.key]) {
                         notAddedPermissions = applicationContext.sfData.availablePermissions;
                     }
@@ -256,9 +256,11 @@ export class PermissionEditor extends XMLEditor {
                         for (let xmlElement of this._permissionsContent[fieldDefinition.key]) {
                             permissionsOnProfile.push(xmlElement[fieldKey]);
                         }
-                        for (let permission of applicationContext.sfData.availablePermissions) {
-                            if (!permissionsOnProfile.includes(permission)) {
-                                notAddedPermissions.push(permission);
+                        if (applicationContext.sfData.availablePermissions) {
+                            for (let permission of applicationContext.sfData.availablePermissions) {
+                                if (!permissionsOnProfile.includes(permission)) {
+                                    notAddedPermissions.push(permission);
+                                }
                             }
                         }
                         for (let permission of notAddedPermissions) {

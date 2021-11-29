@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 const { Utils } = require('@aurahelper/core').CoreUtils;
 const collections: any = {};
 

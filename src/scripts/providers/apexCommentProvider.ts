@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { Config } from '../core/config';
 import { ProviderUtils } from './utils';
 import { MarkDownStringBuilder } from '../output';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 const { FileChecker } = require('@aurahelper/core').FileSystem;
 const CompletionItemKind = vscode.CompletionItemKind;
 

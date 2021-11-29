@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { Logger } from "../utils/logger";
 import { ProviderActivationInfo, ProviderUtils } from './utils';
 import { Config } from '../core/config';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 import { MarkDownStringBuilder } from '../output';
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { ApexParser } = require('@aurahelper/languages').Apex;
