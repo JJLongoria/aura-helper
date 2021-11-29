@@ -4,7 +4,7 @@ import { Config } from '../core/config';
 import { Paths } from '../core/paths';
 import { InputFactory } from '../inputs/factory';
 import { TemplateUtils } from '../utils/templateUtils';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 const { FileReader, FileWriter, FileChecker } = require('@aurahelper/core').FileSystem;
 const { ApexParser } = require('@aurahelper/languages').Apex;
 const { Tokenizer, TokenType } = require('@aurahelper/languages').System;

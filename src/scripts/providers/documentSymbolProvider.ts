@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
+import { applicationContext } from '../core/applicationContext';
 const Range = vscode.Range;
 const { FileReader, PathUtils, FileChecker } = require('@aurahelper/core').FileSystem;
 const { DataTypes, ApexNodeTypes, AuraNodeTypes } = require('@aurahelper/core').Values;
 const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
 const XMLDefinitions = require('@aurahelper/xml-definitions');
-const applicationContext = require('../core/applicationContext');
 const { XMLParser, XMLUtils } = require('@aurahelper/languages').XML;
 const { ApexParser } = require('@aurahelper/languages').Apex;
 const { AuraParser } = require('@aurahelper/languages').Aura;

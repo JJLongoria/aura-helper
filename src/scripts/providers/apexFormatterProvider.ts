@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { Config } from '../core/config';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 const Range = vscode.Range;
 const { FileReader } = require('@aurahelper/core').FileSystem;
 const { ApexFormatter } = require('@aurahelper/languages').Apex;

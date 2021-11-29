@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { Config } from '../core/config';
 import { Paths } from '../core/paths';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 import { NotificationManager } from '../output';
 const Connection = require('@aurahelper/connector');
 const { FileChecker, FileWriter } = require('@aurahelper/core').FileSystem;

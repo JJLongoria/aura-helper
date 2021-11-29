@@ -2,13 +2,13 @@
 	"name": "aura-helper",
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
-	"description": "Extension to work with Salesforce, Apex and Lightning. It contains numerous tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions for work with salesforce and is one of the necessary applications for Salaesforce developers.",
+	"description": "Extension to work with Salesforce, Apex and Lightning. It contains several tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions to work with salesforce and is one of the necessary applications for Salaesforce developers.",
 	"version": "4.0.0",
 	"engines": {
 		"vscode": "^1.39.0",
 		"node": ">=12.0.0"
 	},
-	"icon": "resources/images/blue_icon.png",
+	"icon": "./dist/resources/images/blue_icon.png",
 	"categories": [
 		"Programming Languages",
 		"Snippets",
@@ -560,7 +560,7 @@
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p --declaration ./",
+		"compile": "tsc -p ./ && npm run esbuild",
 		"lint": "eslint src --ext ts",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import applicationContext from "../core/applicationContext";
+import { applicationContext } from '../core/applicationContext';
 import { Paths } from "../core/paths";
 import { Config } from "../core/config";
 import { OutputChannel } from "../output/outputChannnel";
@@ -7,13 +7,13 @@ const Connection = require('@aurahelper/connector');
 
 export class ProjectFilesWatcher {
 
-    static startWatching() {
+    static startWatching(): void {
         registerSFDXConfigFileWatcher();
     }
 
 }
 
-function registerSFDXConfigFileWatcher() {
+function registerSFDXConfigFileWatcher(): void {
     const projectConfigWatcher = vscode.workspace.createFileSystemWatcher("**/sfdx-config.json");
     projectConfigWatcher.onDidChange(async function () {
         const username = Config.getOrgAlias();

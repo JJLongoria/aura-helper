@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import applicationContext from "../core/applicationContext";
+import { applicationContext } from '../core/applicationContext';
 import { Paths } from "../core/paths";
 import { Config } from "../core/config";
 const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;

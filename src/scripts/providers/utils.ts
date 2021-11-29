@@ -3,7 +3,7 @@ import { Config } from "../core/config";
 import { Paths } from '../core/paths';
 import { MarkDownStringBuilder } from '../output';
 import { TemplateUtils } from '../utils/templateUtils';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { XMLParser } = require('@aurahelper/languages').XML;
 const { ApexParser } = require('@aurahelper/languages').Apex;

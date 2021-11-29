@@ -3,7 +3,7 @@ import { Logger } from "../utils/logger";
 import { SnippetUtils } from "../utils/snippetUtils";
 import { Config } from '../core/config';
 import { ActivationToken, ProviderActivationInfo, ProviderUtils } from './utils';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 import { MarkDownStringBuilder } from '../output';
 import { TemplateUtils } from '../utils/templateUtils';
 const { FileChecker, PathUtils, FileReader } = require('@aurahelper/core').FileSystem;

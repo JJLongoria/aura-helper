@@ -1,7 +1,11 @@
-import applicationContext from "../core/applicationContext";
+import { applicationContext } from '../core/applicationContext';
 import { Paths } from "../core/paths";
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { Utils } = require('@aurahelper/core').CoreUtils;
+
+export class ApexCommentTemplate {
+    
+}
 
 export class TemplateUtils {
 

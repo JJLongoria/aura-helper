@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { NotificationManager } from '../output';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 const { FileReader, FileChecker } = require('@aurahelper/core').FileSystem;
 const { Utils, StrUtils } = require('@aurahelper/core').CoreUtils;
 const { ApexConstructor } = require('@aurahelper/core').Types;

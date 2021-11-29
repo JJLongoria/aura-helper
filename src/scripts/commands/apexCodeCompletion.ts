@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { SnippetUtils } from '../utils/snippetUtils';
 import { NotificationManager, Editor } from '../output';
 import { TemplateUtils } from '../utils/templateUtils';
-import applicationContext from '../core/applicationContext';
+import { applicationContext } from '../core/applicationContext';
 import { Config } from '../core/config';
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { ApexParser } = require('@aurahelper/languages').Apex;
