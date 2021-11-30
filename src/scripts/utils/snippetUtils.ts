@@ -2,12 +2,13 @@ import * as vscode from 'vscode';
 import { applicationContext } from '../core/applicationContext';
 import { Paths } from "../core/paths";
 import { Config } from "../core/config";
+import { ApexCommentsData, ApexCommentsObjectData, ApexCommentTemplate } from './templateUtils';
 const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
 const { PathUtils } = require('@aurahelper/core').FileSystem;
 const { ApexNodeTypes } = require('@aurahelper/core').Values;
 
 export class SnippetUtils {
-    static getApexComment(apexNode: any, template: any, filePath: string, declarationLine: vscode.TextLine): string {
+    static getApexComment(apexNode: any, template: ApexCommentTemplate, filePath: string, declarationLine: vscode.TextLine): string {
         const insertSpaces = Config.insertSpaces();
         const tabSize = Config.getTabSize();
         let firstChar = declarationLine.firstNonWhitespaceCharacterIndex;
@@ -141,181 +142,183 @@ export class SnippetUtils {
             const tagContent = [];
             const tagStr = (tag.symbol || template.tagSymbol) + tagName + ' ';
             const startStr = ' * ';
-            if ((apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR) && tag.source === 'params' && Utils.hasKeys(apexNode.params)) {
-                for (const param of apexNode.getOrderedParams()) {
-                    let paramTemplate = tag.template;
+            if (orderedKeywords) {
+                if ((apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR) && tag.source === 'params' && Utils.hasKeys(apexNode.params)) {
+                    for (const param of apexNode.getOrderedParams()) {
+                        let paramTemplate = tag.template;
+                        for (const orderedKeyword of orderedKeywords) {
+                            const keyword = orderedKeyword.keyword;
+                            const keywordKey = '{!' + keyword.name + '}';
+                            if (keyword.source === 'name') {
+                                paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + param.name + `}`);
+                            } else if (keyword.source === 'type') {
+                                paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + StrUtils.replace(param.datatype.name, ',', ', ') + `}`);
+                            } else {
+                                paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                            }
+                        }
+                        if (tagContent.length === 0) {
+                            tagContent.push(tagStr + paramTemplate);
+                        } else {
+                            tagContent.push(startStr + tagStr + paramTemplate);
+                        }
+                    }
+                } /*else if ((apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR) && tag.source === 'exceptions' && !Utils.isNull(apexNode.exceptions) && apexNode.exceptions.length > 0) {
+                    for (const exception of apexNode.exceptions) {
+                        let paramTemplate = tag.template;
+                        for (const orderedKeyword of orderedKeywords) {
+                            const keyword = orderedKeyword.keyword;
+                            const keywordKey = '{!' + keyword.name + '}'
+                            if (keyword.source === 'name') {
+                                paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + exception.name + `}`);
+                            } else {
+                                paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                            }
+                        }
+                        if (tagContent.length === 0)
+                            tagContent.push(tagStr + paramTemplate);
+                        else
+                            tagContent.push(startStr + tagStr + paramTemplate);
+                    }
+                }*/ else if (apexNode.nodeType === ApexNodeTypes.METHOD && tag.source === 'return' && !Utils.isNull(apexNode.datatype)) {
+                    let returnTemplate = tag.template;
+                    for (const orderedKeyword of orderedKeywords) {
+                        const keyword = orderedKeyword.keyword;
+                        const keywordKey = '{!' + keyword.name + '}';
+                        if (keyword.source === 'type') {
+                            returnTemplate = StrUtils.replace(returnTemplate, keywordKey, `\${${snippetNum++}:` + StrUtils.replace(apexNode.datatype.name, ',', ', ') + `}`);
+                        } else {
+                            returnTemplate = StrUtils.replace(returnTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                        }
+                    }
+                    if (tagContent.length === 0) {
+                        tagContent.push(tagStr + returnTemplate);
+                    }
+                    else {
+                        tagContent.push(startStr + tagStr + returnTemplate);
+                    }
+                } else if ((apexNode.nodeType === ApexNodeTypes.VARIABLE || apexNode.nodeType === ApexNodeTypes.PROPERTY) && tag.source === 'variable') {
+                    let fieldTemplate = tag.template;
                     for (const orderedKeyword of orderedKeywords) {
                         const keyword = orderedKeyword.keyword;
                         const keywordKey = '{!' + keyword.name + '}';
                         if (keyword.source === 'name') {
-                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + param.name + `}`);
+                            fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + apexNode.name + `}`);
                         } else if (keyword.source === 'type') {
-                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + StrUtils.replace(param.datatype.name, ',', ', ') + `}`);
+                            fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + StrUtils.replace(apexNode.datatype.name, ',', ', ') + `}`);
                         } else {
-                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                            fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                         }
                     }
                     if (tagContent.length === 0) {
-                        tagContent.push(tagStr + paramTemplate);
-                    } else {
-                        tagContent.push(startStr + tagStr + paramTemplate);
+                        tagContent.push(tagStr + fieldTemplate);
                     }
-                }
-            } /*else if ((apexNode.nodeType === ApexNodeTypes.METHOD || apexNode.nodeType === ApexNodeTypes.CONSTRUCTOR) && tag.source === 'exceptions' && !Utils.isNull(apexNode.exceptions) && apexNode.exceptions.length > 0) {
-                for (const exception of apexNode.exceptions) {
-                    let paramTemplate = tag.template;
+                    else {
+                        tagContent.push(startStr + tagStr + fieldTemplate);
+                    }
+                } else if (tag.source === 'git') {
+                    let gitTemplate = tag.template;
                     for (const orderedKeyword of orderedKeywords) {
                         const keyword = orderedKeyword.keyword;
-                        const keywordKey = '{!' + keyword.name + '}'
-                        if (keyword.source === 'name') {
-                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + exception.name + `}`);
+                        const keywordKey = '{!' + keyword.name + '}';
+                        if (keyword.source === 'user.name') {
+                            gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.username + `}`);
+                        } else if (keyword.source === 'user.email') {
+                            gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.email + `}`);
+                        } else if (keyword.source === 'author.name') {
+                            gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.authorName + `}`);
+                        } else if (keyword.source === 'author.email') {
+                            gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.authorEmail + `}`);
+                        } else if (keyword.source === 'committer.name') {
+                            gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.committerName + `}`);
+                        } else if (keyword.source === 'committer.email') {
+                            gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.committerEmail + `}`);
+                        } else if (keyword.source === 'branch') {
+                            gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.branch + `}`);
                         } else {
-                            paramTemplate = StrUtils.replace(paramTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                            gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
                         }
                     }
-                    if (tagContent.length === 0)
-                        tagContent.push(tagStr + paramTemplate);
-                    else
-                        tagContent.push(startStr + tagStr + paramTemplate);
-                }
-            }*/ else if (apexNode.nodeType === ApexNodeTypes.METHOD && tag.source === 'return' && !Utils.isNull(apexNode.datatype)) {
-                let returnTemplate = tag.template;
-                for (const orderedKeyword of orderedKeywords) {
-                    const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}';
-                    if (keyword.source === 'type') {
-                        returnTemplate = StrUtils.replace(returnTemplate, keywordKey, `\${${snippetNum++}:` + StrUtils.replace(apexNode.datatype.name, ',', ', ') + `}`);
-                    } else {
-                        returnTemplate = StrUtils.replace(returnTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                    if (tagContent.length === 0) {
+                        tagContent.push(tagStr + gitTemplate);
                     }
-                }
-                if (tagContent.length === 0) {
-                    tagContent.push(tagStr + returnTemplate);
-                }
-                else {
-                    tagContent.push(startStr + tagStr + returnTemplate);
-                }
-            } else if ((apexNode.nodeType === ApexNodeTypes.VARIABLE || apexNode.nodeType === ApexNodeTypes.PROPERTY) && tag.source === 'variable') {
-                let fieldTemplate = tag.template;
-                for (const orderedKeyword of orderedKeywords) {
-                    const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}';
-                    if (keyword.source === 'name') {
-                        fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + apexNode.name + `}`);
-                    } else if (keyword.source === 'type') {
-                        fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + StrUtils.replace(apexNode.datatype.name, ',', ', ') + `}`);
-                    } else {
-                        fieldTemplate = StrUtils.replace(fieldTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                    else {
+                        tagContent.push(startStr + tagStr + gitTemplate);
                     }
-                }
-                if (tagContent.length === 0) {
-                    tagContent.push(tagStr + fieldTemplate);
-                }
-                else {
-                    tagContent.push(startStr + tagStr + fieldTemplate);
-                }
-            } else if (tag.source === 'git') {
-                let gitTemplate = tag.template;
-                for (const orderedKeyword of orderedKeywords) {
-                    const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}';
-                    if (keyword.source === 'user.name') {
-                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.username + `}`);
-                    } else if (keyword.source === 'user.email') {
-                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.email + `}`);
-                    } else if (keyword.source === 'author.name') {
-                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.authorName + `}`);
-                    } else if (keyword.source === 'author.email') {
-                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.authorEmail + `}`);
-                    } else if (keyword.source === 'committer.name') {
-                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.committerName + `}`);
-                    } else if (keyword.source === 'committer.email') {
-                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.committerEmail + `}`);
-                    } else if (keyword.source === 'branch') {
-                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.gitData.branch + `}`);
-                    } else {
-                        gitTemplate = StrUtils.replace(gitTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                } else if (tag.source === 'salesforce') {
+                    let sfTemplate = tag.template;
+                    for (const orderedKeyword of orderedKeywords) {
+                        const keyword = orderedKeyword.keyword;
+                        const keywordKey = '{!' + keyword.name + '}';
+                        if (keyword.source === 'username') {
+                            sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.sfData.username + `}`);
+                        } else if (keyword.source === 'alias') {
+                            sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + Config.getOrgAlias() + `}`);
+                        } else if (keyword.source === 'instance') {
+                            sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.sfData.serverInstance + `}`);
+                        } else {
+                            sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                        }
                     }
-                }
-                if (tagContent.length === 0) {
-                    tagContent.push(tagStr + gitTemplate);
-                }
-                else {
-                    tagContent.push(startStr + tagStr + gitTemplate);
-                }
-            } else if (tag.source === 'salesforce') {
-                let sfTemplate = tag.template;
-                for (const orderedKeyword of orderedKeywords) {
-                    const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}';
-                    if (keyword.source === 'username') {
-                        sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.sfData.username + `}`);
-                    } else if (keyword.source === 'alias') {
-                        sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + Config.getOrgAlias() + `}`);
-                    } else if (keyword.source === 'instance') {
-                        sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + applicationContext.sfData.serverInstance + `}`);
-                    } else {
-                        sfTemplate = StrUtils.replace(sfTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                    if (tagContent.length === 0) {
+                        tagContent.push(tagStr + sfTemplate);
                     }
-                }
-                if (tagContent.length === 0) {
-                    tagContent.push(tagStr + sfTemplate);
-                }
-                else {
-                    tagContent.push(startStr + tagStr + sfTemplate);
-                }
-            } else if (tag.source === 'path') {
-                let pathTemplate = tag.template;
-                for (const orderedKeyword of orderedKeywords) {
-                    const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}';
-                    if (keyword.source === 'file') {
-                        pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + filePath + `}`);
-                    } else if (keyword.source === 'folder') {
-                        pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + PathUtils.getDirname(filePath) + `}`);
-                    } else if (keyword.source === 'root') {
-                        pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + Paths.getProjectFolder() + `}`);
-                    } else {
-                        pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                    else {
+                        tagContent.push(startStr + tagStr + sfTemplate);
                     }
-                }
-                if (tagContent.length === 0) {
-                    tagContent.push(tagStr + pathTemplate);
-                }
-                else {
-                    tagContent.push(startStr + tagStr + pathTemplate);
-                }
-            } else if (tag.source === 'parent' && apexNode.parentName) {
-                let parentTemplate = tag.template;
-                for (const orderedKeyword of orderedKeywords) {
-                    const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}';
-                    if (keyword.source === 'file') {
-                        parentTemplate = StrUtils.replace(parentTemplate, keywordKey, `\${${snippetNum++}:` + PathUtils.getDirname(filePath) + '/' + apexNode.parentName + '.cls' + `}`);
-                    } else if (keyword.source === 'folder') {
-                        parentTemplate = StrUtils.replace(parentTemplate, keywordKey, `\${${snippetNum++}:` + PathUtils.getDirname(filePath) + `}`);
-                    } else {
-                        parentTemplate = StrUtils.replace(parentTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                } else if (tag.source === 'path') {
+                    let pathTemplate = tag.template;
+                    for (const orderedKeyword of orderedKeywords) {
+                        const keyword = orderedKeyword.keyword;
+                        const keywordKey = '{!' + keyword.name + '}';
+                        if (keyword.source === 'file') {
+                            pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + filePath + `}`);
+                        } else if (keyword.source === 'folder') {
+                            pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + PathUtils.getDirname(filePath) + `}`);
+                        } else if (keyword.source === 'root') {
+                            pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + Paths.getProjectFolder() + `}`);
+                        } else {
+                            pathTemplate = StrUtils.replace(pathTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                        }
                     }
-                }
-                if (tagContent.length === 0) {
-                    tagContent.push(tagStr + parentTemplate);
-                }
-                else {
-                    tagContent.push(startStr + tagStr + parentTemplate);
-                }
-            } else {
-                let tagTemplate = tag.template;
-                for (const orderedKeyword of orderedKeywords) {
-                    const keyword = orderedKeyword.keyword;
-                    const keywordKey = '{!' + keyword.name + '}';
-                    tagTemplate = ' * ' + StrUtils.replace(tagTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
-                }
-                if (tagContent.length === 0) {
-                    tagContent.push(tagStr + tagTemplate);
-                }
-                else {
-                    tagContent.push(startStr + tagStr + tagTemplate);
+                    if (tagContent.length === 0) {
+                        tagContent.push(tagStr + pathTemplate);
+                    }
+                    else {
+                        tagContent.push(startStr + tagStr + pathTemplate);
+                    }
+                } else if (tag.source === 'parent' && apexNode.parentName) {
+                    let parentTemplate = tag.template;
+                    for (const orderedKeyword of orderedKeywords) {
+                        const keyword = orderedKeyword.keyword;
+                        const keywordKey = '{!' + keyword.name + '}';
+                        if (keyword.source === 'file') {
+                            parentTemplate = StrUtils.replace(parentTemplate, keywordKey, `\${${snippetNum++}:` + PathUtils.getDirname(filePath) + '/' + apexNode.parentName + '.cls' + `}`);
+                        } else if (keyword.source === 'folder') {
+                            parentTemplate = StrUtils.replace(parentTemplate, keywordKey, `\${${snippetNum++}:` + PathUtils.getDirname(filePath) + `}`);
+                        } else {
+                            parentTemplate = StrUtils.replace(parentTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                        }
+                    }
+                    if (tagContent.length === 0) {
+                        tagContent.push(tagStr + parentTemplate);
+                    }
+                    else {
+                        tagContent.push(startStr + tagStr + parentTemplate);
+                    }
+                } else {
+                    let tagTemplate = tag.template;
+                    for (const orderedKeyword of orderedKeywords) {
+                        const keyword = orderedKeyword.keyword;
+                        const keywordKey = '{!' + keyword.name + '}';
+                        tagTemplate = StrUtils.replace(tagTemplate, keywordKey, `\${${snippetNum++}:` + keyword.message + `}`);
+                    }
+                    if (tagContent.length === 0) {
+                        tagContent.push(tagStr + tagTemplate);
+                    }
+                    else {
+                        tagContent.push(startStr + tagStr + tagTemplate);
+                    }
                 }
             }
             comment = StrUtils.replace(comment, '{!tag.' + tagName + '}', tagContent.join('\n' + startWS));
@@ -491,8 +494,8 @@ export class SnippetUtils {
 
 }
 
-function getApexCommentNodeTemplate(apexNode: any, template: any): any {
-    let nodeTemplate;
+function getApexCommentNodeTemplate(apexNode: any, template: any): ApexCommentsObjectData | undefined {
+    let nodeTemplate: ApexCommentsObjectData | undefined;
     if (apexNode.nodeType === ApexNodeTypes.CLASS || apexNode.nodeType === ApexNodeTypes.INTERFACE || apexNode.nodeType === ApexNodeTypes.ENUM || apexNode.nodeType === ApexNodeTypes.TRIGGER) {
         if (template.comments[apexNode.nodeType]) {
             nodeTemplate = template.comments[apexNode.nodeType];
@@ -515,7 +518,7 @@ function getApexCommentNodeTemplate(apexNode: any, template: any): any {
     return nodeTemplate;
 }
 
-function getReturnContent(returnData: any, returnTemplate: any, indent: string): string {
+function getReturnContent(returnData: any, returnTemplate: string[], indent: string): string {
     var content = "";
     for (let i = 0; i < returnTemplate.length; i++) {
         var line = returnTemplate[i];
@@ -526,7 +529,7 @@ function getReturnContent(returnData: any, returnTemplate: any, indent: string):
     return content;
 }
 
-function getParamContent(param: any, paramTemplate: any, indent: string): string {
+function getParamContent(param: any, paramTemplate: string[], indent: string): string {
     var content = "";
     for (let i = 0; i < paramTemplate.length; i++) {
         var line = paramTemplate[i];
@@ -538,7 +541,7 @@ function getParamContent(param: any, paramTemplate: any, indent: string): string
     return content;
 }
 
-function getParamContentFromComment(commentParam: any, paramTemplate: any, indent: string): string {
+function getParamContentFromComment(commentParam: any, paramTemplate: string[], indent: string): string {
     var content = "";
     for (let i = 0; i < paramTemplate.length; i++) {
         var line = paramTemplate[i];

@@ -56,7 +56,7 @@ function provideJSCompletion(document: vscode.TextDocument, position: vscode.Pos
 		items = getLabelsCompletionItems(position, activationInfo, activationTokens);
 	} else if (activationTokens.length > 0 && activationTokens[0].activation === 'v') {
 		// Code for completions when user types v.
-		if (!Config.getConfig().autoCompletion.activeAttributeSuggest) {
+		if (!Config.getConfig().autoCompletion!.activeAttributeSuggest) {
 			return [];
 		}
 		let attribute;
@@ -70,13 +70,13 @@ function provideJSCompletion(document: vscode.TextDocument, position: vscode.Pos
 		}
 	} else if (activationTokens.length > 0 && activationTokens[0].activation === 'c') {
 		// Code for completions when user types c.
-		if (!Config.getConfig().autoCompletion.activeControllerMethodsSuggest) {
+		if (!Config.getConfig().autoCompletion!.activeControllerMethodsSuggest) {
 			return [];
 		}
 		items = getApexControllerFunctions(position, activationInfo, component);
 	} else if (activationTokens.length > 0 && activationTokens[0].activation === 'helper') {
 		// Code for completions when user types helper.
-		if (!Config.getConfig().autoCompletion.activeHelperFunctionsSuggest) {
+		if (!Config.getConfig().autoCompletion!.activeHelperFunctionsSuggest) {
 			return [];
 		}
 		items = getHelperFunctions(position, activationInfo, component);
@@ -143,7 +143,7 @@ function getComponentAttributeMembersCompletionItems(position: vscode.Position, 
 	let items;
 	const sObject = applicationContext.parserData.sObjectsData[attribute.type.toLowerCase()];
 	if (sObject) {
-		if (!Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
+		if (!Config.getConfig().autoCompletion!.activeSobjectFieldsSuggestion) {
 			return [];
 		}
 		if (activationTokens.length >= 2) {

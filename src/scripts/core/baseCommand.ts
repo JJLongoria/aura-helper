@@ -1,5 +1,5 @@
 export interface BaseCommand {
 
-    run() : void;
+    run(...args: any): void;
 
 }

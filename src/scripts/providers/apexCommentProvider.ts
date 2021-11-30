@@ -24,7 +24,7 @@ function provideApexCompletion(document: vscode.TextDocument, position: vscode.P
     let items: vscode.CompletionItem[] | undefined;
     const line = document.lineAt(position.line).text;
     if (line.indexOf('/**') !== -1) {
-        if (!Config.getConfig().autoCompletion.activeApexCommentSuggestion) {
+        if (!Config.getConfig().autoCompletion!.activeApexCommentSuggestion) {
             return undefined;
         }
         items = getCommentCompletionItem(position);
@@ -34,7 +34,7 @@ function provideApexCompletion(document: vscode.TextDocument, position: vscode.P
 
 function getCommentCompletionItem(position: vscode.Position) {
     const items = [];
-    if (!Config.getConfig().autoCompletion.activeApexCommentSuggestion) {
+    if (!Config.getConfig().autoCompletion!.activeApexCommentSuggestion) {
         return undefined;
     }
     const documentation = new MarkDownStringBuilder().appendMarkdown('Add an Apex Comment with the user defined template\n\n');

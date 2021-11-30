@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { ApexCommentTemplate } from '../utils/templateUtils';
 
 const applicationContext: ApplicationContext = {
     context: {},
@@ -16,7 +17,7 @@ const applicationContext: ApplicationContext = {
         userClassesData: {},
         namespaceSummary: {},
         namespacesData: {},
-        template: {},
+        template: undefined,
         namespaces: [],
     },
     isAdvanceGUIAvailable: false,
@@ -57,7 +58,7 @@ export interface ParserData {
     userClassesData: any;
     namespaceSummary: any;
     namespacesData: any;
-    template: any
+    template?: ApexCommentTemplate
     namespaces: string[];
 }
 

@@ -866,7 +866,7 @@ export class ProviderUtils {
     }
 
     static getQueryCompletionItems(position: vscode.Position, activationInfo: ProviderActivationInfo, activationTokens: ActivationToken[], positionData: any): vscode.CompletionItem[] {
-        if (!Config.getConfig().autoCompletion.activeQuerySuggestion) {
+        if (!Config.getConfig().autoCompletion!.activeQuerySuggestion) {
             return [];
         }
         let sObjects = applicationContext.parserData.sObjectsData;
@@ -1478,9 +1478,9 @@ export class ProviderUtils {
     static getApexCompletionItems(position: vscode.Position, activationInfo: ProviderActivationInfo, node: any, positionData: any): vscode.CompletionItem[] {
         let items: vscode.CompletionItem[] = [];
         const nodeInfo = ProviderUtils.getNodeInformation(node, activationInfo);
-        if (nodeInfo && nodeInfo.lastNode && Object.keys(nodeInfo.lastNode).includes('keyPrefix') && Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
+        if (nodeInfo && nodeInfo.lastNode && Object.keys(nodeInfo.lastNode).includes('keyPrefix') && Config.getConfig().autoCompletion!.activeSobjectFieldsSuggestion) {
             items = items.concat(ProviderUtils.getSobjectCompletionItems(position, activationInfo, activationInfo.activationTokens, nodeInfo.lastNode, positionData));
-        } else if (nodeInfo && nodeInfo.lastNode && !Utils.isNull(nodeInfo.lastNode.nodeType) && Config.getConfig().autoCompletion.activeApexSuggestion) {
+        } else if (nodeInfo && nodeInfo.lastNode && !Utils.isNull(nodeInfo.lastNode.nodeType) && Config.getConfig().autoCompletion!.activeApexSuggestion) {
             items = ProviderUtils.getApexClassCompletionItems(position, nodeInfo.lastNode);
         }
         Utils.sort(items, ['label']);
@@ -1932,7 +1932,7 @@ export class ProviderUtils {
 
     static getAllAvailableCompletionItems(position: vscode.Position, activationInfo: ProviderActivationInfo, node?: any): vscode.CompletionItem[] {
         let items: vscode.CompletionItem[] = [];
-        if (Config.getConfig().autoCompletion.activeApexSuggestion) {
+        if (Config.getConfig().autoCompletion!.activeApexSuggestion) {
             const systemMetadata = applicationContext.parserData.namespacesData['system'];
             items = ProviderUtils.getApexClassCompletionItems(position, node);
             Object.keys(applicationContext.parserData.userClassesData).forEach(function (key) {
@@ -2037,7 +2037,7 @@ export class ProviderUtils {
                 items.push(item);
             }
         }
-        if (Config.getConfig().autoCompletion.activeSObjectSuggestion) {
+        if (Config.getConfig().autoCompletion!.activeSObjectSuggestion) {
             Object.keys(applicationContext.parserData.sObjectsData).forEach(function (key) {
                 const sObject = applicationContext.parserData.sObjectsData[key];
                 const documentation = new MarkDownStringBuilder();
