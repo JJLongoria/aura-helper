@@ -43,7 +43,7 @@ export interface ApexCommentsData {
 export interface ApexCommentTemplate {
     tagSymbol: string;
     tags: any;
-    comments: ApexCommentsData;
+    comments: {[key:string]: ApexCommentsObjectData};
 }
 
 export class TemplateUtils {
