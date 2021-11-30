@@ -3,6 +3,7 @@ import { applicationContext } from '../core/applicationContext';
 import { Paths } from "../core/paths";
 import { Config } from "../core/config";
 import { ApexCommentsData, ApexCommentsObjectData, ApexCommentTemplate } from './templateUtils';
+import { ProviderActivationInfo } from '../providers/utils';
 const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
 const { PathUtils } = require('@aurahelper/core').FileSystem;
 const { ApexNodeTypes } = require('@aurahelper/core').Values;
@@ -341,7 +342,7 @@ export class SnippetUtils {
         return funcBody;
     }
 
-    static getAuraDocumentationSnippet(controllerMethods: any[], helperMethods: any[], templateContent: any): string {
+    static getAuraDocumentationSnippet(controllerMethods: any[], helperMethods: any[], templateContent: string): string {
         let documentationTextJson = JSON.parse(templateContent);
         let documentationText = "";
         let helperSectionIndent = '';
@@ -403,7 +404,7 @@ export class SnippetUtils {
         return content;
     }
 
-    static getJSApexParamsSnippet(activationInfo: any, method: any) {
+    static getJSApexParamsSnippet(activationInfo: ProviderActivationInfo, method: any) {
         let content = "";
         if (activationInfo.lastToken && (activationInfo.lastToken.text === '=' || activationInfo.lastToken.text === ',')) {
             content += "{\n";
@@ -438,7 +439,7 @@ export class SnippetUtils {
         return content;
     }
 
-    static getMethodsContent(methods: any[], methodTemplate: any, paramTemplate: any, returnTemplate: any, indent: string): string {
+    static getMethodsContent(methods: any[], methodTemplate: string[], paramTemplate: string[], returnTemplate: string[], indent: string): string {
         var content = "";
         if (methods) {
             for (let i = 0; i < methods.length; i++) {
@@ -448,7 +449,7 @@ export class SnippetUtils {
         return content;
     }
 
-    static getMethodContent(func: any, methodTemplate: any, paramTemplate: any, returnTemplate: any, indent: string): string {
+    static getMethodContent(func: any, methodTemplate: string[], paramTemplate: string[], returnTemplate: string[], indent: string): string {
         let content = "";
         let paramsIndent = "";
         let returnIndent = "";
@@ -494,7 +495,7 @@ export class SnippetUtils {
 
 }
 
-function getApexCommentNodeTemplate(apexNode: any, template: any): ApexCommentsObjectData | undefined {
+function getApexCommentNodeTemplate(apexNode: any, template: ApexCommentTemplate): ApexCommentsObjectData | undefined {
     let nodeTemplate: ApexCommentsObjectData | undefined;
     if (apexNode.nodeType === ApexNodeTypes.CLASS || apexNode.nodeType === ApexNodeTypes.INTERFACE || apexNode.nodeType === ApexNodeTypes.ENUM || apexNode.nodeType === ApexNodeTypes.TRIGGER) {
         if (template.comments[apexNode.nodeType]) {
