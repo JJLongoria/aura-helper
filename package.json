@@ -179,7 +179,7 @@
 					"default": false,
 					"description": "Aura Helper use the SFDX CLI Command Version as Salesforce API Version for download metadata from Org by default. Check this field for use custom API Version"
 				},
-				"aurahelper.metadata.CustomAPIVersion": {
+				"aurahelper.metadata.customAPIVersion": {
 					"type": "integer",
 					"default": 0,
 					"description": "Salesforce API Version for use if you select Use Custom API Version setting.",
@@ -190,7 +190,7 @@
 					"default": true,
 					"description": "True to group Global Quick Actions on GlobalActions group into Quick Action Metadata type when describe Metadata types (from any source). False to add as object and item"
 				},
-				"aurahelper.metadata.XmlSortOrder": {
+				"aurahelper.metadata.xmlSortOrder": {
 					"type": "string",
 					"default": "Simple XML Elements First",
 					"enum": [

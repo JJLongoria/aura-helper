@@ -259,7 +259,7 @@
                 {
                     "name": "name",
                     "source": "name",
-                    "message": "Clase name here"
+                    "message": "Class name here"
                 },
                 {
                     "name": "description",
@@ -292,7 +292,7 @@
             "symbol": "",
             "keywords": [
                 {
-                    "name": "value",
+                    "name": "version",
                     "source": "input",
                     "message": "Version number"
                 }

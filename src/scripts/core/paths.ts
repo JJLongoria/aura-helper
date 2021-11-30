@@ -122,7 +122,6 @@ export class Paths {
     }
 
     static getResourcesPath(): string {
-        console.log(applicationContext.context.asAbsolutePath("./dist/resources"));
         return PathUtils.getAbsolutePath(applicationContext.context.asAbsolutePath("./dist/resources"));
     }
 

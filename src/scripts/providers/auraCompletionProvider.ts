@@ -72,7 +72,7 @@ function provideAuraComponentCompletion(document: vscode.TextDocument, position:
         items = getLabelsCompletionItems(position, activationInfo, activationTokens);
     } else if (activationTokens.length > 0 && activationTokens[0].activation === 'v') {
         // Code for completions when user types v.
-        if (!Config.getConfig().autoCompletion.activeAttributeSuggest) {
+        if (!Config.getConfig().autoCompletion!.activeAttributeSuggest) {
             return [];
         }
         const attribute = activationTokens.length > 1 ? ProviderUtils.getAttribute(component, activationTokens[1].activation) : undefined;
@@ -83,12 +83,12 @@ function provideAuraComponentCompletion(document: vscode.TextDocument, position:
         }
     } else if (activationTokens.length > 0 && (activationTokens[0].activation === 'c')) {
         // Code for completions when user types c.
-        if (!Config.getConfig().autoCompletion.activeControllerFunctionsSuggest) {
+        if (!Config.getConfig().autoCompletion!.activeControllerFunctionsSuggest) {
             return [];
         }
         items = getControllerFunctionsCompletionItems(position, activationInfo, component);
     } else if (activationTokens.length === 1 && activationTokens[0].activation === componentInitTag) {
-        if (!Config.getConfig().autoCompletion.activeComponentSuggest) {
+        if (!Config.getConfig().autoCompletion!.activeComponentSuggest) {
             return [];
         }
         // Code for completions when user types c:
@@ -96,7 +96,7 @@ function provideAuraComponentCompletion(document: vscode.TextDocument, position:
     } else {
         if (component.positionData && component.positionData.tagData) {
             // Code for completions when position is on a start standard component tag <ns:componentName >
-            if (!Config.getConfig().autoCompletion.activeComponentCallSuggest) {
+            if (!Config.getConfig().autoCompletion!.activeComponentCallSuggest) {
                 return [];
             }
             if (!component.positionData.isOnAttributeValue) {
@@ -171,7 +171,7 @@ function getComponentAttributeMembersCompletionItems(position: vscode.Position, 
     let items: vscode.CompletionItem[] | undefined;
     const sObject = applicationContext.parserData.sObjectsData[attribute.type.toLowerCase()];
     if (sObject) {
-        if (!Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
+        if (!Config.getConfig().autoCompletion!.activeSobjectFieldsSuggestion) {
             return [];
         }
         if (activationTokens.length >= 2) {

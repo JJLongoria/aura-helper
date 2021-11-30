@@ -16,14 +16,14 @@ export class ApexHoverProvider implements vscode.HoverProvider {
 
     provideHover(document: vscode.TextDocument, position: vscode.Position): vscode.ProviderResult<vscode.Hover> {
         return new Promise<vscode.Hover | undefined>((resolve, reject) => {
-            if (Config.getConfig().intelliSense.enableHoverInformation) {
+            if (Config.getConfig().intelliSense!.enableHoverInformation) {
                 vscode.window.withProgress({
                     location: vscode.ProgressLocation.Window
                 }, () => {
                     return new Promise<void>((progressResolve) => {
                         try {
                             let hover: vscode.Hover | undefined;
-                            if (Config.getConfig().intelliSense.enableHoverInformation) {
+                            if (Config.getConfig().intelliSense!.enableHoverInformation) {
                                 if (FileChecker.isApexClass(document.uri.fsPath) || FileChecker.isApexTrigger(document.uri.fsPath)) {
                                     hover = provideHoverInformation(document, position);
                                 }

@@ -53,13 +53,13 @@ function provideApexCompletion(document: vscode.TextDocument, position: vscode.P
         if (nodeInfo) {
             if (nodeInfo.labels) {
                 items = getLabelsCompletionItems(position, activationInfo, nodeInfo.labels);
-            } else if (nodeInfo.lastNode && Object.keys(nodeInfo.lastNode).includes('keyPrefix') && Config.getConfig().autoCompletion.activeSobjectFieldsSuggestion) {
+            } else if (nodeInfo.lastNode && Object.keys(nodeInfo.lastNode).includes('keyPrefix') && Config.getConfig().autoCompletion!.activeSobjectFieldsSuggestion) {
                 if (activationInfo.activationTokens.length === 1 && (!activationInfo.activationTokens[0].isQuery && ((!node.positionData || (node.positionData && !node.positionData.query)))) && (!activationInfo.activationTokens[0].nextToken || (activationInfo.activationTokens[0].nextToken && activationInfo.activationTokens[0].nextToken.text !== '.'))) {
                     items = ProviderUtils.getAllAvailableCompletionItems(position, activationInfo, node);
                 } else {
                     items = items.concat(ProviderUtils.getSobjectCompletionItems(position, activationInfo, activationInfo.activationTokens, nodeInfo.lastNode, node.positionData));
                 }
-            } else if (nodeInfo.lastNode && !Utils.isNull(nodeInfo.lastNode.nodeType) && Config.getConfig().autoCompletion.activeApexSuggestion) {
+            } else if (nodeInfo.lastNode && !Utils.isNull(nodeInfo.lastNode.nodeType) && Config.getConfig().autoCompletion!.activeApexSuggestion) {
                 if (nodeInfo.lastNode.name === node.name) {
                     items = ProviderUtils.getAllAvailableCompletionItems(position, activationInfo, node);
                 } else {
