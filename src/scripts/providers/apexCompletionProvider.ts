@@ -1,9 +1,10 @@
 import * as vscode from 'vscode';
 import { Logger } from "../utils/logger";
-import { ProviderActivationInfo, ProviderUtils } from './utils';
 import { Config } from '../core/config';
 import { applicationContext } from '../core/applicationContext';
 import { MarkDownStringBuilder } from '../output';
+import { ProviderUtils } from './utils';
+import { ProviderActivationInfo } from '../core/types';
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { ApexParser } = require('@aurahelper/languages').Apex;
 const { Tokenizer, TokenType } = require('@aurahelper/languages').System;

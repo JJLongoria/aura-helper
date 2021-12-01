@@ -4,6 +4,7 @@ import { Paths } from '../core/paths';
 import { MarkDownStringBuilder } from '../output';
 import { TemplateUtils } from '../utils/templateUtils';
 import { applicationContext } from '../core/applicationContext';
+import { ActivationToken, ActivationType, NodeInfo, ProviderActivationInfo } from '../core/types';
 const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
 const { XMLParser } = require('@aurahelper/languages').XML;
 const { ApexParser } = require('@aurahelper/languages').Apex;
@@ -17,49 +18,6 @@ const Position = vscode.Position;
 const CompletionItemKind = vscode.CompletionItemKind;
 const CompletionItem = vscode.CompletionItem;
 const SnippetString = vscode.SnippetString;
-
-export interface ProviderActivationInfo {
-    activation: string;
-    activationTokens: ActivationToken[];
-    startColumn: number;
-    lastToken: any;
-    twoLastToken: any;
-    nextToken: any;
-    twoNextToken: any;
-    tokens?: any[];
-}
-
-export interface ActivationToken {
-    activation: string,
-    startToken: any,
-    endToken: any,
-    lastToken?: any,
-    twoLastToken?: any,
-    nextToken?: any,
-    twoNextToken?: any,
-    isQuery?: boolean,
-    active?: boolean,
-}
-
-export interface ActivationType {
-    type: string;
-    name: string;
-    params?: string[];
-}
-
-export interface NodeInfo {
-    node: any,
-    lastNode?: any,
-    method?: any,
-    methodVar?: any,
-    classVar?: any,
-    sObject?: any,
-    label?: any,
-    labels?: any,
-    sObjectField?: any,
-    sObjectFieldName?: string,
-    namespace?: string
-}
 
 export class ProviderUtils {
 
