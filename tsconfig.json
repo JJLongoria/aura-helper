@@ -17,7 +17,6 @@
 		"noUnusedParameters": true,
 		"esModuleInterop": true,
 		"declaration": true,
-		"isolatedModules": true,
 	},
 	"include": [
 		"./**/*"

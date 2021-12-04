@@ -1,4 +1,5 @@
 .vscode/**
+node_modules
 .vscode-test/**
 dist/test/**
 src/**
@@ -7,6 +8,6 @@ vsc-extension-quickstart.md
 **/tsconfig.json
 **/.eslintrc.json
 **/*.map
-**/.eslintrc.json
+**/webpack.config.js
 ./resources/userTemplates/**
 **/*.ts
