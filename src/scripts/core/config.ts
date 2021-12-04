@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { Paths } from './paths';
 import { applicationContext } from './applicationContext';
+import { ConfigData } from './types';
 const { CoreUtils } = require('@aurahelper/core');
 const XMLCompressor = require('@aurahelper/xml-compressor');
 const ProjectUtils = CoreUtils.ProjectUtils;
@@ -53,108 +54,4 @@ export class Config {
     static getOrgAlias(): string {
         return ProjectUtils.getOrgAlias(Paths.getProjectFolder());
     }
-}
-
-export interface APIConfig {
-    useAuraHelperCLI: boolean;
-}
-
-export interface DocumentationConfig {
-    useStandardJavaComments: boolean;
-}
-
-export interface IntellisenseConfig {
-    enableHoverInformation: boolean;
-    activeAttributeSuggest: boolean;
-    activeControllerFunctionsSuggest: boolean;
-    activeHelperFunctionsSuggest: boolean;
-    activeControllerMethodsSuggest: boolean;
-    activeComponentSuggest: boolean;
-    activeComponentCallSuggest: boolean;
-    activeCustomComponentCallSuggest: boolean;
-    activeApexCommentSuggestion: boolean;
-    activeSObjectSuggestion: boolean;
-    activeSobjectFieldsSuggestion: boolean;
-    activeQuerySuggestion: boolean;
-    activeApexSuggestion: boolean;
-}
-
-export interface AutoCompletionConfig {
-    activeAttributeSuggest: boolean;
-    activeControllerFunctionsSuggest: boolean;
-    activeHelperFunctionsSuggest: boolean;
-    activeControllerMethodsSuggest: boolean;
-    activeComponentSuggest: boolean;
-    activeComponentCallSuggest: boolean;
-    activeCustomComponentCallSuggest: boolean;
-    activeApexCommentSuggestion: boolean;
-    activeSObjectSuggestion: boolean;
-    activeSobjectFieldsSuggestion: boolean;
-    activeQuerySuggestion: boolean;
-    activeApexSuggestion: boolean;
-}
-
-export interface MetadataConfig {
-    refreshSObjectDefinitionsOnStart: boolean;
-    useCustomAPIVersion: boolean;
-    customAPIVersion: number;
-    groupGlobalQuickActions: boolean;
-    xmlSortOrder: string;
-}
-
-export interface ApexFormatterConfig {
-    punctuation: ApexFormatterPunctuationConfig;
-    operator: ApexFormatterOperatorConfig;
-    classMembers: ApexFormatterMembersConfig;
-    comment: ApexFormatterCommentConfig;
-    query: ApexFormatterQueryConfig;
-}
-
-export interface ApexFormatterPunctuationConfig {
-    maxBlankLines: number;
-    openCurlyBracketOnNewLine: boolean;
-    addNewLineAfterCloseCurlyBracket: boolean;
-    addWhitespaceAfterCloseCurlyBracket: boolean;
-    addWhitespaceBeforeOpenCurlyBracket: boolean;
-    addWhitespaceBeforeOpenGuardParenthesis: boolean;
-    addWhitespaceAfterOpenGuardParenthesis: boolean;
-    addWhitespaceBeforeCloseGuardParenthesis: boolean;
-    addWhiteSpaceAfterComma: boolean;
-    addWhitespaceBeforeOpenTriggerEvents: boolean;
-}
-
-export interface ApexFormatterOperatorConfig {
-    addWhitespaceBeforeOperator: boolean;
-    addWhitespaceAfterOperator: boolean;
-    addWhitespaceAfterOpenParenthesisOperator: boolean;
-    addWhitespaceBeforeCloseParenthesisOperator: boolean;
-}
-
-export interface ApexFormatterMembersConfig {
-    newLinesBetweenCodeBlockMembers: number;
-    newLinesBetweenGetterAndSetterAccessor: number;
-    singleLineProperties: boolean;
-    newLinesBetweenClassFields: number;
-}
-
-export interface ApexFormatterCommentConfig {
-    holdBeforeWhitespacesOnLineComment: boolean;
-    holdAfterWhitespacesOnLineComment: boolean;
-    newLinesBewteenComments: number;
-}
-
-export interface ApexFormatterQueryConfig {
-    oneClausePerLine: boolean;
-    oneProjectionFieldPerLine: boolean;
-    maxProjectionFieldPerLine: number;
-}
-
-export interface ConfigData {
-    api: APIConfig;
-    documentation: DocumentationConfig;
-    intelliSense?: IntellisenseConfig;
-    autoCompletion?: IntellisenseConfig;
-    metadata: MetadataConfig;
-    apexFormat: ApexFormatterConfig;
-
 }
