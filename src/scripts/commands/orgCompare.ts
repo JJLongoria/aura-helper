@@ -4,12 +4,12 @@ import { Paths } from '../core/paths';
 import { NotificationManager } from '../output';
 import { MetadataSelector } from '../inputs/metadataSelector';
 import { InputFactory } from '../inputs/factory';
-const MetadataFactory = require('@aurahelper/metadata-factory');
-const Connection = require('@aurahelper/connector');
-const CLIManager = require('@aurahelper/cli-manager');
-const PackageGenerator = require('@aurahelper/package-generator');
-const { FileChecker, FileWriter } = require('@aurahelper/core').FileSystem;
-const { MetadataUtils } = require('@aurahelper/core').CoreUtils;
+import { CoreUtils, FileChecker, FileWriter } from '@aurahelper/core';
+import { CLIManager } from '@aurahelper/cli-manager';
+import { Connection } from '@aurahelper/connector';
+import { MetadataFactory } from '@aurahelper/metadata-factory';
+import { PackageGenerator } from '@aurahelper/package-generator';
+const MetadataUtils = CoreUtils.MetadataUtils;
 
 export async function run() {
     const alias = Config.getOrgAlias();

@@ -3,8 +3,8 @@ import { Config } from '../core/config';
 import { Paths } from '../core/paths';
 import { NotificationManager } from '../output';
 import { PermissionEditor } from '../inputs/permissionEditor';
-const { MetadataType, MetadataObject } = require('@aurahelper/core').Types;
-const Connection = require('@aurahelper/connector');
+import { MetadataObject, MetadataType } from '@aurahelper/core';
+import { Connection } from '@aurahelper/connector';
 
 export function run(fileUri: vscode.Uri): void {
     try {

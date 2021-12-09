@@ -7,16 +7,15 @@ import { ProjectFilesWatcher } from '../watchers/projectFilesWatcher';
 import { ProviderManager } from '../providers/providersManager';
 import { ApexCodeWatcher } from '../watchers/apexCodeWatcher';
 import { TemplateUtils } from '../utils/templateUtils';
-const { FileChecker, FileReader, FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
-const { StrUtils } = require('@aurahelper/core').CoreUtils;
-const { ApexNodeTypes } = require('@aurahelper/core').Values;
-const { SObject, ApexClass, ApexInterface, ApexEnum, ApexTrigger } = require('@aurahelper/core').Types;
-const { ApexParser } = require('@aurahelper/languages').Apex;
-const { System } = require('@aurahelper/languages').System;
-const Connection = require('@aurahelper/connector');
-const MetadataFactory = require('@aurahelper/metadata-factory');
-const CLIManager = require('@aurahelper/cli-manager');
-const GitManager = require('@aurahelper/git-manager');
+import { Apex, System } from '@aurahelper/languages';
+import { ApexClass, ApexEnum, ApexInterface, ApexNodeTypes, ApexTrigger, CoreUtils, FileChecker, FileReader, FileWriter, PathUtils, SObject } from '@aurahelper/core';
+import { CLIManager } from '@aurahelper/cli-manager';
+import { Connection } from '@aurahelper/connector';
+import { GitManager } from '@aurahelper/git-manager';
+import { MetadataFactory } from '@aurahelper/metadata-factory';
+const ApexParser = Apex.ApexParser;
+const StrUtils = CoreUtils.StrUtils;
+const Sys = System.System;
 let cliManager: any;
 let connection: any;
 
@@ -86,17 +85,17 @@ function getSystemData(): Promise<void> {
         OutputChannel.outputLine('Getting Apex Classes and System components data...');
         setTimeout(async () => {
             try {
-                applicationContext.componentsDetail = System.getAuraComponentDetails();
-                applicationContext.parserData.namespaceSummary = System.getAllNamespacesSummary();
-                applicationContext.parserData.namespacesData = System.getAllNamespacesData();
-                applicationContext.parserData.namespaces = System.getAllNamespaces();
+                applicationContext.componentsDetail = Sys.getAuraComponentDetails();
+                applicationContext.parserData.namespaceSummary = Sys.getAllNamespacesSummary();
+                applicationContext.parserData.namespacesData = Sys.getAllNamespacesData();
+                applicationContext.parserData.namespaces = Sys.getAllNamespaces();
                 applicationContext.parserData.sObjectsData = getSObjects();
                 applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
                 applicationContext.parserData.userClasses = getClassNames(Paths.getProjectMetadataFolder() + '/classes');
                 cleanOldClassesDefinitions();
                 await ApexParser.saveAllClassesData(Paths.getProjectMetadataFolder() + '/classes', Paths.getCompiledClassesFolder(), applicationContext.parserData, true);
                 applicationContext.parserData.userClassesData = getClassesFromCompiledClasses();
-                applicationContext.parserData.userClasses = Object.keys(applicationContext.parserData.userClassesData);
+                applicationContext.parserData.userClasses = Object.keys(applicationContext.parserData.userClassesData || {});
                 resolve();
             } catch (error) {
                 resolve();
@@ -140,25 +139,25 @@ function getOrgData(): Promise<void> {
 
 function createTemplateFiles(context: vscode.ExtensionContext) {
     OutputChannel.outputLine('Prepare environment');
-    if (!FileChecker.isExists(context.storagePath)){
+    if (context.storagePath && !FileChecker.isExists(context.storagePath)) {
         FileWriter.createFolderSync(context.storagePath);
     }
-    if (!FileChecker.isExists(Paths.getUserTemplatesFolder())){
+    if (!FileChecker.isExists(Paths.getUserTemplatesFolder())) {
         FileWriter.createFolderSync(Paths.getUserTemplatesFolder());
     }
-    if (!FileChecker.isExists(Paths.getMetadataIndexFolder())){
+    if (!FileChecker.isExists(Paths.getMetadataIndexFolder())) {
         FileWriter.createFolderSync(Paths.getMetadataIndexFolder());
     }
-    if (FileChecker.isExists(Paths.getOldApexCommentUserTemplate()) && !FileChecker.isExists(Paths.getApexCommentUserTemplate())){
+    if (FileChecker.isExists(Paths.getOldApexCommentUserTemplate()) && !FileChecker.isExists(Paths.getApexCommentUserTemplate())) {
         FileWriter.createFileSync(Paths.getApexCommentUserTemplate(), adaptOldApexTemplateToNewTemplate());
     }
-    if (FileChecker.isExists(Paths.getOldAuraDocUserTemplate()) && !FileChecker.isExists(Paths.getAuraDocUserTemplate())){
+    if (FileChecker.isExists(Paths.getOldAuraDocUserTemplate()) && !FileChecker.isExists(Paths.getAuraDocUserTemplate())) {
         FileWriter.copyFileSync(Paths.getOldAuraDocUserTemplate(), Paths.getAuraDocUserTemplate());
     }
-    if (!FileChecker.isExists(Paths.getApexCommentUserTemplate())){
+    if (!FileChecker.isExists(Paths.getApexCommentUserTemplate())) {
         FileWriter.copyFileSync(Paths.getApexCommentBaseTemplate(), Paths.getApexCommentUserTemplate());
     }
-    if (!FileChecker.isExists(Paths.getAuraDocUserTemplate())){
+    if (!FileChecker.isExists(Paths.getAuraDocUserTemplate())) {
         FileWriter.copyFileSync(Paths.getAuraDocBaseTemplate(), Paths.getAuraDocUserTemplate());
     }
     applicationContext.parserData.template = TemplateUtils.getApexCommentTemplate(!Config.getConfig().documentation.useStandardJavaComments);
@@ -205,11 +204,11 @@ function checkAuraHelperVersion(): Promise<void> {
             const requiredMajorVersion = parseInt(requiredVersionSplits[0]);
             const requiredMinorVersion = parseInt(requiredVersionSplits[1]);
             const requiredPatchVersion = parseInt(requiredVersionSplits[2]);
-            if (majorVersion < requiredMajorVersion){
+            if (majorVersion < requiredMajorVersion) {
                 showDialogsForAuraHelperCLI();
-            }else if (majorVersion === requiredMajorVersion && minorVersion < requiredMinorVersion){
+            } else if (majorVersion === requiredMajorVersion && minorVersion < requiredMinorVersion) {
                 showDialogsForAuraHelperCLI();
-            }else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion){
+            } else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion) {
                 showDialogsForAuraHelperCLI();
             }
             resolve();
@@ -305,7 +304,7 @@ function getSObjects() {
                                 break;
                             }
                         }
-                        if (deleted){
+                        if (deleted) {
                             continue;
                         }
                     }
@@ -327,7 +326,7 @@ function getSObjects() {
                         const objOnIndex = sObjects[sObj.name.toLowerCase()];
                         for (const fieldKey of Object.keys(sObj.fields)) {
                             const field = sObj.fields[fieldKey];
-                            if (!objOnIndex.fields[fieldKey]){
+                            if (!objOnIndex.fields[fieldKey]) {
                                 sObjects[sObj.name.toLowerCase()].fields[fieldKey] = field;
                             }
                         }
@@ -419,7 +418,7 @@ function loadSnippets(): any {
         let activation;
         if (obj && obj.prefix && "string" === typeof obj.prefix) {
             activation = obj.prefix.split(".")[0];
-            if (!auraActivations[activation]){
+            if (!auraActivations[activation]) {
                 auraActivations[activation] = [];
             }
             auraActivations[activation].push({
@@ -431,7 +430,7 @@ function loadSnippets(): any {
             });
         } else {
             activation = obj.prefix[0].split(".")[0];
-            if (!auraActivations[activation]){
+            if (!auraActivations[activation]) {
                 auraActivations[activation] = [];
             }
             auraActivations[activation].push({
@@ -448,7 +447,7 @@ function loadSnippets(): any {
         let activation;
         if (obj && obj.prefix && "string" === typeof obj.prefix) {
             activation = obj.prefix.split(".")[0];
-            if (!jsActivations[activation]){
+            if (!jsActivations[activation]) {
                 jsActivations[activation] = [];
             }
             jsActivations[activation].push({
@@ -460,7 +459,7 @@ function loadSnippets(): any {
             });
         } else {
             activation = obj.prefix[0].split(".")[0];
-            if (!jsActivations[activation]){
+            if (!jsActivations[activation]) {
                 jsActivations[activation] = [];
             }
             jsActivations[activation].push({
@@ -477,7 +476,7 @@ function loadSnippets(): any {
         let activation;
         if (obj && obj.prefix && "string" === typeof obj.prefix) {
             activation = obj.prefix.split(".")[0];
-            if (!sldsActivations[activation]){
+            if (!sldsActivations[activation]) {
                 sldsActivations[activation] = [];
             }
             sldsActivations[activation].push({
@@ -489,7 +488,7 @@ function loadSnippets(): any {
             });
         } else {
             activation = obj.prefix[0].split(".")[0];
-            if (!sldsActivations[activation]){
+            if (!sldsActivations[activation]) {
                 sldsActivations[activation] = [];
             }
             sldsActivations[activation].push({
@@ -506,7 +505,7 @@ function loadSnippets(): any {
         let activation;
         if (obj && obj.prefix && "string" === typeof obj.prefix) {
             activation = obj.prefix.split(".")[0];
-            if (!lwcActivations[activation]){
+            if (!lwcActivations[activation]) {
                 lwcActivations[activation] = [];
             }
             lwcActivations[activation].push({
@@ -518,7 +517,7 @@ function loadSnippets(): any {
             });
         } else {
             activation = obj.prefix[0].split(".")[0];
-            if (!lwcActivations[activation]){
+            if (!lwcActivations[activation]) {
                 lwcActivations[activation] = [];
             }
             lwcActivations[activation].push({

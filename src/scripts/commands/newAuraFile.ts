@@ -2,9 +2,10 @@ import * as vscode from 'vscode';
 import { NotificationManager } from '../output';
 import { Paths } from '../core/paths';
 import { SnippetUtils } from '../utils/snippetUtils';
-const { FileChecker, FileReader, FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
+import { JavaScript } from '@aurahelper/languages';
+import { AuraJSFunction, FileChecker, FileReader, FileWriter, PathUtils } from '@aurahelper/core';
 const window = vscode.window;
-const { JSParser } = require('@aurahelper/languages').JavaScript;
+const JSParser = JavaScript.JSParser;
 
 const AURA_FILE_TYPES = [
     { type: '.auradoc', name: "Aura Documentation File" },
@@ -56,9 +57,9 @@ function onSelectedFile(path: string, selected: string): void {
     }
 }
 
-function onFileCreated(fileCreated?: string, error?: string): void {
-    if (fileCreated) {
-        window.showTextDocument(Paths.toURI(fileCreated));
+function onFileCreated(error?: Error, path?: string): void {
+    if (!error && path) {
+        window.showTextDocument(Paths.toURI(path));
     } else {
         NotificationManager.showError('An error ocurred while creating file. Error: \n' + error);
     }
@@ -91,7 +92,7 @@ function getAuraFileTypeFromName(name?: string): string {
     return fileType;
 }
 
-function createAuraFile(folderPath: string, selected: string, callback: (filePath?: string, error?: string) => void): void {
+function createAuraFile(folderPath: string, selected: string, callback: (error?: Error) => void): void {
     var fileForCreate;
     var content;
     var fileType = getAuraFileTypeFromName(selected);
@@ -124,17 +125,17 @@ function createAuraFile(folderPath: string, selected: string, callback: (filePat
     }
 }
 
-function createNewAuraDocumentation(fileForCreate: string, callback: (filePath?: string, error?: string) => void): void {
+function createNewAuraDocumentation(fileForCreate: string, callback: (error?: Error) => void): void {
     let helperPath = Paths.getAuraBundleHelperPath(fileForCreate);
     let controllerPath = Paths.getAuraBundleControllerPath(fileForCreate);
     let templatePath = Paths.getAuraDocUserTemplate();
-    let helper;
-    let controller;
+    let helper: AuraJSFunction[] | undefined;
+    let controller: AuraJSFunction[] | undefined;
     if (FileChecker.isExists(helperPath)) {
-        helper = new JSParser(helperPath).parse().methods;
+        helper = new JSParser(helperPath).parse()!.methods;
     }
     if (FileChecker.isExists(controllerPath)) {
-        controller = new JSParser(controllerPath).parse().methods;
+        controller = new JSParser(controllerPath).parse()!.methods;
     }
     if (FileChecker.isExists(templatePath)) {
         let templateContent = FileReader.readFileSync(templatePath);

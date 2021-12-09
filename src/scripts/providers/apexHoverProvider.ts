@@ -4,13 +4,11 @@ import { applicationContext } from '../core/applicationContext';
 import { MarkDownStringBuilder } from '../output';
 import { ProviderUtils } from './utils';
 import { TemplateUtils } from '../utils/templateUtils';
-const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
-const { ApexParser } = require('@aurahelper/languages').Apex;
-const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
-const { Token } = require('@aurahelper/core').Types;
-const { Tokenizer, TokenType } = require('@aurahelper/languages').System;
-const { ApexNodeTypes, ApexTokenTypes } = require('@aurahelper/core').Values;
-const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
+import { Apex } from '@aurahelper/languages';
+import { CoreUtils, FileChecker, FileReader, ApexNodeTypes } from '@aurahelper/core';
+const Utils = CoreUtils.Utils;
+const StrUtils = CoreUtils.StrUtils;
+const ApexParser = Apex.ApexParser;
 
 export class ApexHoverProvider implements vscode.HoverProvider {
 

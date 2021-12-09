@@ -1,8 +1,7 @@
 import { applicationContext } from '../core/applicationContext';
 import { Paths } from "../core/paths";
-import { ApexCommentTagData, ApexCommentTemplate } from '../core/types';
-const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
-const { Utils } = require('@aurahelper/core').CoreUtils;
+import { ApexCommentTemplate, ApexCommentTemplateTagData, CoreUtils, FileChecker, FileReader } from '@aurahelper/core';
+const Utils = CoreUtils.Utils;
 
 export class TemplateUtils {
 
@@ -20,7 +19,7 @@ export class TemplateUtils {
         return templateContent;
     }
 
-    static getTagsDataBySource(sources: string | string[], comment: ApexCommentTemplate): any {
+    static getTagsDataBySource(sources: string | string[], comment: any): any {
         const result: any = {};
         sources = Utils.forceArray(sources);
         if (!applicationContext.parserData.template) {
@@ -35,8 +34,8 @@ export class TemplateUtils {
                     tag = applicationContext.parserData.template.tags[tag.equalsTo];
                 }
                 tagData = comment.tags[tagName];
-                if (tag && tagData && sources.includes(tag.source)) {
-                    const data: ApexCommentTagData = {
+                if (tag && tagData && tag.source && sources.includes(tag.source)) {
+                    const data: any = {
                         tagData: tagData,
                         tag: tag,
                         tagName: tagName

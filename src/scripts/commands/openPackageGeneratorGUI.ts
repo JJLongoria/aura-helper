@@ -4,13 +4,13 @@ import { Paths } from '../core/paths';
 import { NotificationManager } from '../output';
 import { MetadataSelector } from '../inputs/metadataSelector';
 import { InputFactory } from '../inputs/factory';
-const PackageGenerator = require('@aurahelper/package-generator');
-const CLIManager = require('@aurahelper/cli-manager');
-const GitManager = require('@aurahelper/git-manager');
-const Connection = require('@aurahelper/connector');
-const MetadataFactory = require('@aurahelper/metadata-factory');
-const Ignore = require('@aurahelper/ignore');
-const { FileChecker, FileWriter } = require('@aurahelper/core/src/fileSystem');
+import { FileChecker, FileWriter } from '@aurahelper/core';
+import { CLIManager } from '@aurahelper/cli-manager';
+import { Connection } from '@aurahelper/connector';
+import { GitManager } from '@aurahelper/git-manager';
+import { MetadataFactory } from '@aurahelper/metadata-factory';
+import { Ignore } from '@aurahelper/ignore';
+import { PackageGenerator } from '@aurahelper/package-generator';
 
 export function run(): void {
     try {
@@ -49,7 +49,7 @@ async function openStandardGUI() {
                 folder = (uri && uri.length > 0) ? uri[0].fsPath : undefined;
             }
             if (folder) {
-                if (!FileChecker.isExists(folder)){
+                if (!FileChecker.isExists(folder)) {
                     FileWriter.createFolderSync(folder);
                 }
                 if (options[MetadataSelector.getGitAction()]) {
@@ -100,16 +100,18 @@ async function openStandardGUI() {
                                             message: 'Ignoring Metadata',
                                         });
                                         const ignore = new Ignore(Paths.getAHIgnoreFile());
-                                        metadataFromGitDiffs.toDeploy = ignore.ignoreMetadata(metadataFromGitDiffs.toDeploy);
-                                        metadataFromGitDiffs.toDelete = ignore.ignoreMetadata(metadataFromGitDiffs.toDelete);
+                                        metadataFromGitDiffs.toDeploy = ignore.ignoreMetadata(metadataFromGitDiffs.toDeploy || {});
+                                        metadataFromGitDiffs.toDelete = ignore.ignoreMetadata(metadataFromGitDiffs.toDelete || {});
                                     }
 
                                     const packageGenerator = new PackageGenerator(Config.getAPIVersion()).setExplicit();
-                                    packageGenerator.createPackage(metadataFromGitDiffs.toDeploy, folder);
-                                    if (deployOrder === 'before') {
-                                        packageGenerator.createBeforeDeployDestructive(metadataFromGitDiffs.toDelete, folder);
-                                    } else {
-                                        packageGenerator.createAfterDeployDestructive(metadataFromGitDiffs.toDelete, folder);
+                                    if (folder) {
+                                        packageGenerator.createPackage(metadataFromGitDiffs.toDeploy || {}, folder);
+                                        if (deployOrder === 'before') {
+                                            packageGenerator.createBeforeDeployDestructive(metadataFromGitDiffs.toDelete || {}, folder);
+                                        } else {
+                                            packageGenerator.createAfterDeployDestructive(metadataFromGitDiffs.toDelete || {}, folder);
+                                        }
                                     }
                                     NotificationManager.showInfo('Files created successfully');
                                     resolve();

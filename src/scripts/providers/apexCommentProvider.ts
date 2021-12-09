@@ -3,7 +3,7 @@ import { Config } from '../core/config';
 import { ProviderUtils } from './utils';
 import { MarkDownStringBuilder } from '../output';
 import { applicationContext } from '../core/applicationContext';
-const { FileChecker } = require('@aurahelper/core').FileSystem;
+import { FileChecker} from '@aurahelper/core';
 const CompletionItemKind = vscode.CompletionItemKind;
 
 export class ApexCommentCompletionProvider implements vscode.CompletionItemProvider<vscode.CompletionItem> {

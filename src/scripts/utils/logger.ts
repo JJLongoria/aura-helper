@@ -1,5 +1,6 @@
 const DEBUG = true;
-const { Utils } = require('@aurahelper/core').CoreUtils;
+import { CoreUtils } from '@aurahelper/core';
+const Utils = CoreUtils.Utils;
 
 export class Logger {
     static log(textOrParamName: string | any, paramValue: any) {

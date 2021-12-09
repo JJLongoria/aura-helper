@@ -1,18 +1,18 @@
 import * as vscode from 'vscode';
 import { NotificationManager, OutputChannel } from '../output';
-import { applicationContext } from '../core/applicationContext';
 import { InputFactory } from '../inputs/factory';
 import { Config } from '../core/config';
 import { Paths } from '../core/paths';
-const { FileChecker, FileReader, FileWriter, PathUtils } = require('@aurahelper/core').FileSystem;
-const { StrUtils, MetadataUtils } = require('@aurahelper/core').CoreUtils;
-const { MetadataTypes } = require('@aurahelper/core').Values;
-const CLIManager = require('@aurahelper/cli-manager');
-const XMLCompressor = require('@aurahelper/xml-compressor');
-const MetadataFactory = require('@aurahelper/metadata-factory');
-const Connection = require('@aurahelper/connector');
-const { XMLParser, XMLUtils } = require('@aurahelper/languages').XML;
-const XMLDefinitions = require('@aurahelper/xml-definitions');
+import { CoreUtils, FileReader, FileWriter, MetadataDetail, MetadataType, MetadataTypes, PathUtils } from '@aurahelper/core';
+import { XML } from '@aurahelper/languages';
+import { CLIManager } from '@aurahelper/cli-manager';
+import { Connection } from '@aurahelper/connector';
+import { MetadataFactory } from '@aurahelper/metadata-factory';
+import { XMLDefinitions } from '@aurahelper/xml-definitions';
+const StrUtils = CoreUtils.StrUtils;
+const MetadataUtils = CoreUtils.MetadataUtils;
+const XMLParser = XML.XMLParser;
+const XMLUtils = XML.XMLUtils;
 
 export interface EditableFieldData {
     name: string;
@@ -69,18 +69,18 @@ function modifyPermissions(filePath: string): void {
     });
 }
 
-function getLocalMetadata(types?: string[]): Promise<any> {
-    return new Promise(function (resolve, reject) {
+function getLocalMetadata(types?: string[]): Promise<{ [key: string]: MetadataType }> {
+    return new Promise<{ [key: string]: MetadataType }>(function (resolve, reject) {
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-            cliManager.describeLocalMetadata(types).then((metadataTypes: any[]) => {
+            cliManager.describeLocalMetadata(types).then((metadataTypes: { [key: string]: MetadataType }) => {
                 resolve(metadataTypes);
             }).catch((error: Error) => {
                 reject(error);
             });
         } else {
             const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder());
-            connection.listMetadataTypes().then((metadataDetails: any[]) => {
+            connection.listMetadataTypes().then((metadataDetails: MetadataDetail[]) => {
                 const folderMetadataMap = MetadataFactory.createFolderMetadataMap(metadataDetails);
                 const metadataTypes = MetadataFactory.createMetadataTypesFromFileSystem(folderMetadataMap, Paths.getProjectFolder());
                 resolve(metadataTypes);
@@ -352,7 +352,7 @@ function getEditableFields(xmlElementFields: any, skipUniques: boolean): Editabl
     for (const fieldKey of Object.keys(xmlElementFields.fields)) {
         const fieldData = xmlElementFields.fields[fieldKey];
         if (fieldData.editable) {
-            if (skipUniques && fieldData.unique){
+            if (skipUniques && fieldData.unique) {
                 continue;
             }
             editableFields.push({

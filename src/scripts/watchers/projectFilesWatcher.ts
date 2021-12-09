@@ -3,7 +3,7 @@ import { applicationContext } from '../core/applicationContext';
 import { Paths } from "../core/paths";
 import { Config } from "../core/config";
 import { OutputChannel } from "../output/outputChannnel";
-const Connection = require('@aurahelper/connector');
+import { Connection } from "@aurahelper/connector";
 
 export class ProjectFilesWatcher {
 

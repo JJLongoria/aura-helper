@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { applicationContext } from '../core/applicationContext';
-const { Utils } = require('@aurahelper/core').CoreUtils;
+import { CoreUtils } from '@aurahelper/core';
+const Utils = CoreUtils.Utils;
 const collections: any = {};
 
 export class DiagnosticsManager {

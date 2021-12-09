@@ -5,14 +5,13 @@ import { MarkDownStringBuilder } from '../output';
 import { TemplateUtils } from '../utils/templateUtils';
 import { applicationContext } from '../core/applicationContext';
 import { ActivationToken, ActivationType, NodeInfo, ProviderActivationInfo } from '../core/types';
-const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
-const { XMLParser } = require('@aurahelper/languages').XML;
-const { ApexParser } = require('@aurahelper/languages').Apex;
-const { Tokenizer, TokenType } = require('@aurahelper/languages').System;
-const { ApexNodeTypes } = require('@aurahelper/core').Values;
-const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
-const { Token } = require('@aurahelper/core').Types;
-const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
+import { LanguageUtils, System, Apex, XML } from '@aurahelper/languages';
+import { CoreUtils, TokenTypes, FileChecker, FileReader, Token, ApexNodeTypes } from '@aurahelper/core';
+const Utils = CoreUtils.Utils;
+const StrUtils = CoreUtils.StrUtils;
+const Tokenizer = System.Tokenizer;
+const ApexParser = Apex.ApexParser;
+const XMLParser = XML.XMLParser;
 const Range = vscode.Range;
 const Position = vscode.Position;
 const CompletionItemKind = vscode.CompletionItemKind;
@@ -126,12 +125,12 @@ export class ProviderUtils {
             const nextToken = LanguageUtils.getNextToken(lineTokens, index);
             const twoLastToken = LanguageUtils.getTwoLastToken(lineTokens, index);
             tokenPos = index;
-            if (token.type === TokenType.IDENTIFIER) {
-                if (lastToken && (lastToken.type === TokenType.IDENTIFIER || lastToken.type === TokenType.OPERATOR.LOGICAL.GREATER_THAN || token.type === TokenType.BRACKET.SQUARE_CLOSE || token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) && (!onParams && sqBracketIndent === 0)) {
+            if (token.type === TokenTypes.IDENTIFIER) {
+                if (lastToken && (lastToken.type === TokenTypes.IDENTIFIER || lastToken.type === TokenTypes.OPERATOR.LOGICAL.GREATER_THAN || token.type === TokenTypes.BRACKET.SQUARE_CLOSE || token.type === TokenTypes.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) && (!onParams && sqBracketIndent === 0)) {
                     break;
                 }
-            } else if (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR) {
-            } else if (token.type === TokenType.BRACKET.SQUARE_OPEN) {
+            } else if (token.type === TokenTypes.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenTypes.PUNCTUATION.SAFE_OBJECT_ACCESSOR) {
+            } else if (token.type === TokenTypes.BRACKET.SQUARE_OPEN) {
                 sqBracketIndent--;
                 if (sqBracketIndent < 0 && !onParams) {
                     index++;
@@ -142,9 +141,9 @@ export class ProviderUtils {
                     tokenPos = index;
                     break;
                 }*/
-            } else if (token.type === TokenType.BRACKET.SQUARE_CLOSE) {
+            } else if (token.type === TokenTypes.BRACKET.SQUARE_CLOSE) {
                 sqBracketIndent++;
-            } else if (token.type === TokenType.OPERATOR.LOGICAL.LESS_THAN) {
+            } else if (token.type === TokenTypes.OPERATOR.LOGICAL.LESS_THAN) {
                 aBracketIndent--;
                 if (aBracketIndent < 0 && !onParams) {
                     index++;
@@ -155,7 +154,7 @@ export class ProviderUtils {
                     tokenPos = index;
                     break;
                 }*/
-            } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
+            } else if (token.type === TokenTypes.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
                 parenIndent--;
                 if (parenIndent === 0) {
                     onParams = false;
@@ -164,19 +163,19 @@ export class ProviderUtils {
                     tokenPos = index;
                     break;
                 }
-            } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
+            } else if (token.type === TokenTypes.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
                 parenIndent++;
                 if (parenIndent === 1) {
                     onParams = true;
                 }
-            } else if (token.type === TokenType.PUNCTUATION.COMMA && !onParams && aBracketIndent <= 0 && sqBracketIndent <= 0) {
+            } else if (token.type === TokenTypes.PUNCTUATION.COMMA && !onParams && aBracketIndent <= 0 && sqBracketIndent <= 0) {
                 index++;
                 tokenPos = index;
                 break;
             } else if (onParams) {
             } else {
                 if (!onParams && aBracketIndent === 0 && sqBracketIndent === 0) {
-                    if (nextToken && (nextToken.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || nextToken.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) {
+                    if (nextToken && (nextToken.type === TokenTypes.PUNCTUATION.OBJECT_ACCESSOR || nextToken.type === TokenTypes.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) {
                         index += 2;
                         tokenPos = index;
                     } else {
@@ -198,10 +197,10 @@ export class ProviderUtils {
                 if (onParams || sqBracketIndent > 0 || aBracketIndent > 0) {
                     index = lineTokensTmp.length - 1;
                     lineTokens = lineTokensTmp.concat(lineTokens);
-                } else if ((finalTokenAux.type === TokenType.IDENTIFIER && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) || (token.type === TokenType.IDENTIFIER && (finalTokenAux.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || finalTokenAux.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR))) {
+                } else if ((finalTokenAux.type === TokenTypes.IDENTIFIER && (token.type === TokenTypes.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenTypes.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) || (token.type === TokenTypes.IDENTIFIER && (finalTokenAux.type === TokenTypes.PUNCTUATION.OBJECT_ACCESSOR || finalTokenAux.type === TokenTypes.PUNCTUATION.SAFE_OBJECT_ACCESSOR))) {
                     index = lineTokensTmp.length - 1;
                     lineTokens = lineTokensTmp.concat(lineTokens);
-                } else if ((finalTokenAux.type === TokenType.BRACKET.SQUARE_CLOSE && token.type === TokenType.BRACKET.SQUARE_OPEN) || (token.type === TokenType.BRACKET.SQUARE_CLOSE && finalTokenAux.type === TokenType.BRACKET.SQUARE_OPEN)) {
+                } else if ((finalTokenAux.type === TokenTypes.BRACKET.SQUARE_CLOSE && token.type === TokenTypes.BRACKET.SQUARE_OPEN) || (token.type === TokenTypes.BRACKET.SQUARE_CLOSE && finalTokenAux.type === TokenTypes.BRACKET.SQUARE_OPEN)) {
                     index = lineTokensTmp.length - 1;
                     lineTokens = lineTokensTmp.concat(lineTokens);
                 } else {
@@ -238,13 +237,13 @@ export class ProviderUtils {
             if (!activeTokenFound && correctedPos.line === token.range.start.line) {
                 if (correctedPos.character >= token.range.start.character && correctedPos.character <= token.range.end.character && (!nextToken || nextToken.range.start.line !== correctedPos.line)) {
                     activeTokenFound = true;
-                } else if (correctedPos.character >= token.range.start.character && correctedPos.character < token.range.end.character && nextToken.range.start.line === correctedPos.line) {
+                } else if (correctedPos.character >= token.range.start.character && correctedPos.character < token.range.end.character && nextToken && nextToken.range.start.line === correctedPos.line) {
                     activeTokenFound = true;
                 }
 
             }
-            if (token.type === TokenType.IDENTIFIER) {
-                if (lastToken && lastToken.type === TokenType.IDENTIFIER && (!onParams && sqBracketIndent === 0) && activationTokens.length > 0) {
+            if (token.type === TokenTypes.IDENTIFIER) {
+                if (lastToken && lastToken.type === TokenTypes.IDENTIFIER && (!onParams && sqBracketIndent === 0) && activationTokens.length > 0) {
                     endLoop = true;
                 } else if (nextToken && twoNextToken && nextToken.text === '[' && twoNextToken.textToLower === 'select') {
 
@@ -264,7 +263,7 @@ export class ProviderUtils {
                     }
                     activationTokens.push(token);
                 }
-            } else if ((!onParams && sqBracketIndent === 0) && lastToken && lastToken.type === TokenType.IDENTIFIER && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) {
+            } else if ((!onParams && sqBracketIndent === 0) && lastToken && lastToken.type === TokenTypes.IDENTIFIER && (token.type === TokenTypes.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenTypes.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) {
                 activationTokens.push(token);
                 if (!onParams && activationWordTokens.length > 0) {
                     result.activationTokens.push({
@@ -286,7 +285,7 @@ export class ProviderUtils {
                     hasSelect = false;
                     hasFrom = false;
                 }
-            } else if ((!onParams && sqBracketIndent === 0) && nextToken && nextToken.type === TokenType.IDENTIFIER && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) {
+            } else if ((!onParams && sqBracketIndent === 0) && nextToken && nextToken.type === TokenTypes.IDENTIFIER && (token.type === TokenTypes.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenTypes.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) {
                 activationTokens.push(token);
                 if (!onParams && activationWordTokens.length > 0) {
                     result.activationTokens.push({
@@ -308,7 +307,7 @@ export class ProviderUtils {
                     hasSelect = false;
                     hasFrom = false;
                 }
-            } else if (token.type === TokenType.BRACKET.SQUARE_OPEN) {
+            } else if (token.type === TokenTypes.BRACKET.SQUARE_OPEN) {
                 sqBracketIndent++;
                 activationTokens.push(token);
                 activationWordTokens.push(token);
@@ -316,7 +315,7 @@ export class ProviderUtils {
                     activationLastTokens.push(lastToken);
                     activationLastTokens.push(twoLastToken);
                 }
-            } else if (token.type === TokenType.BRACKET.SQUARE_CLOSE) {
+            } else if (token.type === TokenTypes.BRACKET.SQUARE_CLOSE) {
                 sqBracketIndent--;
                 if (sqBracketIndent >= 0) {
                     activationTokens.push(token);
@@ -329,7 +328,7 @@ export class ProviderUtils {
                 if (sqBracketIndent < 0 && !onParams) {
                     endLoop = true;
                 }
-            } else if (token.type === TokenType.OPERATOR.LOGICAL.LESS_THAN) {
+            } else if (token.type === TokenTypes.OPERATOR.LOGICAL.LESS_THAN) {
                 aBracketIndent++;
                 activationTokens.push(token);
                 activationWordTokens.push(token);
@@ -337,7 +336,7 @@ export class ProviderUtils {
                     activationLastTokens.push(lastToken);
                     activationLastTokens.push(twoLastToken);
                 }
-            } else if (token.type === TokenType.OPERATOR.LOGICAL.GREATER_THAN) {
+            } else if (token.type === TokenTypes.OPERATOR.LOGICAL.GREATER_THAN) {
                 aBracketIndent--;
                 if (aBracketIndent >= 0) {
                     activationTokens.push(token);
@@ -347,12 +346,12 @@ export class ProviderUtils {
                         activationLastTokens.push(twoLastToken);
                     }
                 }
-                if (aBracketIndent === 0 && !onParams && (!nextToken || nextToken.type !== TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN)) {
+                if (aBracketIndent === 0 && !onParams && (!nextToken || nextToken.type !== TokenTypes.OPERATOR.PRIORITY.PARENTHESIS_OPEN)) {
                     endLoop = true;
                 } else if (aBracketIndent < 0) {
                     endLoop = true;
                 }
-            } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
+            } else if (token.type === TokenTypes.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
                 parenIndent++;
                 if (parenIndent === 1) {
                     onParams = true;
@@ -363,11 +362,11 @@ export class ProviderUtils {
                     activationLastTokens.push(lastToken);
                     activationLastTokens.push(twoLastToken);
                 }
-            } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
+            } else if (token.type === TokenTypes.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
                 parenIndent--;
                 if (parenIndent === 0) {
                     onParams = false;
-                    if ((!nextToken || (nextToken.type !== TokenType.PUNCTUATION.OBJECT_ACCESSOR && nextToken.type !== TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR))) {
+                    if ((!nextToken || (nextToken.type !== TokenTypes.PUNCTUATION.OBJECT_ACCESSOR && nextToken.type !== TokenTypes.PUNCTUATION.SAFE_OBJECT_ACCESSOR))) {
                         result.nextToken = nextToken;
                         result.twoNextToken = twoNextToken;
                         endLoop = true;
@@ -401,10 +400,10 @@ export class ProviderUtils {
                 }
             }
             if (sqBracketIndent > 0) {
-                if (token.type === TokenType.IDENTIFIER && token.textToLower === 'select') {
+                if (token.type === TokenTypes.IDENTIFIER && token.textToLower === 'select') {
                     hasSelect = true;
                 }
-                if (hasSelect && token.type === TokenType.IDENTIFIER && token.textToLower === 'from') {
+                if (hasSelect && token.type === TokenTypes.IDENTIFIER && token.textToLower === 'from') {
                     hasFrom = true;
                 }
             }
@@ -423,10 +422,10 @@ export class ProviderUtils {
                 if (onParams || sqBracketIndent > 0 || aBracketIndent > 0) {
                     index = lineTokensTmp.length - 1;
                     lineTokens = lineTokens.concat(lineTokensTmp);
-                } else if ((firstTokenAux.type === TokenType.IDENTIFIER && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) || (token.type === TokenType.IDENTIFIER && (firstTokenAux.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || firstTokenAux.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR))) {
+                } else if ((firstTokenAux.type === TokenTypes.IDENTIFIER && (token.type === TokenTypes.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenTypes.PUNCTUATION.SAFE_OBJECT_ACCESSOR)) || (token.type === TokenTypes.IDENTIFIER && (firstTokenAux.type === TokenTypes.PUNCTUATION.OBJECT_ACCESSOR || firstTokenAux.type === TokenTypes.PUNCTUATION.SAFE_OBJECT_ACCESSOR))) {
                     index = lineTokensTmp.length - 1;
                     lineTokens = lineTokens.concat(lineTokensTmp);
-                } else if ((firstTokenAux.type === TokenType.BRACKET.SQUARE_CLOSE && token.type === TokenType.BRACKET.SQUARE_OPEN) || (token.type === TokenType.BRACKET.SQUARE_CLOSE && firstTokenAux.type === TokenType.BRACKET.SQUARE_OPEN)) {
+                } else if ((firstTokenAux.type === TokenTypes.BRACKET.SQUARE_CLOSE && token.type === TokenTypes.BRACKET.SQUARE_OPEN) || (token.type === TokenTypes.BRACKET.SQUARE_CLOSE && firstTokenAux.type === TokenTypes.BRACKET.SQUARE_OPEN)) {
                     index = lineTokensTmp.length - 1;
                     lineTokens = lineTokens.concat(lineTokensTmp);
                 } else {
@@ -495,7 +494,7 @@ export class ProviderUtils {
             }
             index++;
         }
-        if (token.type === TokenType.BRACKET.CURLY_CLOSE) {
+        if (token && token.type === TokenTypes.BRACKET.CURLY_CLOSE) {
             tokenPos--;
         }
         let endLoop = false;
@@ -512,7 +511,7 @@ export class ProviderUtils {
             const nextToken = LanguageUtils.getNextToken(lineTokens, tokenPos);
             const lastToken = LanguageUtils.getLastToken(lineTokens, tokenPos);
             const twoLastToken = LanguageUtils.getTwoLastToken(lineTokens, tokenPos);
-            if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
+            if (token && token.type === TokenTypes.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
                 parenIndent++;
                 if (parenIndent === 1) {
                     isOnParams = true;
@@ -522,7 +521,7 @@ export class ProviderUtils {
                 result.lastToken = lastToken;
                 result.twoLastToken = twoLastToken;
                 activationTokens.push(token);
-            } else if (token && token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
+            } else if (token && token.type === TokenTypes.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
                 parenIndent--;
                 if (parenIndent === 0) {
                     isOnParams = false;
@@ -537,7 +536,7 @@ export class ProviderUtils {
                     result.twoLastToken = twoLastToken;
                     activationTokens.push(token);
                 }
-            } else if (token && (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR || token.type === TokenType.IDENTIFIER || token.type === TokenType.PUNCTUATION.COLON || isOnParams)) {
+            } else if (token && (token.type === TokenTypes.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenTypes.PUNCTUATION.SAFE_OBJECT_ACCESSOR || token.type === TokenTypes.IDENTIFIER || token.type === TokenTypes.PUNCTUATION.COLON || isOnParams)) {
                 if (!isOnParams) {
                     if (lastToken && lastToken.range.end.character !== token.range.start.character) {
                         endLoop = true;
@@ -551,7 +550,7 @@ export class ProviderUtils {
                         result.lastToken = lastToken;
                         result.twoLastToken = twoLastToken;
                     }
-                    if (token.type === TokenType.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenType.PUNCTUATION.SAFE_OBJECT_ACCESSOR) {
+                    if (token.type === TokenTypes.PUNCTUATION.OBJECT_ACCESSOR || token.type === TokenTypes.PUNCTUATION.SAFE_OBJECT_ACCESSOR) {
                         if (activationTokens.length > 0) {
                             activationTokens.reverse();
                             result.activationTokens.push({
@@ -571,29 +570,29 @@ export class ProviderUtils {
                     result.twoLastToken = twoLastToken;
                     activationTokens.push(token);
                 }
-            } else if (!isOnParams && token && (token.type === TokenType.PUNCTUATION.COMMA || token.type === TokenType.PUNCTUATION.QUOTTES || token.type === TokenType.PUNCTUATION.QUOTTES_END || token.type === TokenType.PUNCTUATION.QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END)) {
+            } else if (!isOnParams && token && (token.type === TokenTypes.PUNCTUATION.COMMA || token.type === TokenTypes.PUNCTUATION.QUOTTES || token.type === TokenTypes.PUNCTUATION.QUOTTES_END || token.type === TokenTypes.PUNCTUATION.QUOTTES_START || token.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES_END)) {
                 endLoop = true;
                 result.lastToken = lastToken;
                 result.twoLastToken = twoLastToken;
                 result.startColumn = correctedPos.character;
-                if (token.type === TokenType.PUNCTUATION.QUOTTES || token.type === TokenType.PUNCTUATION.QUOTTES_END || token.type === TokenType.PUNCTUATION.QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END) {
-                    if (nextToken && (nextToken.type === TokenType.PUNCTUATION.QUOTTES || nextToken.type === TokenType.PUNCTUATION.QUOTTES_END || nextToken.type === TokenType.PUNCTUATION.QUOTTES_START || nextToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || nextToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || nextToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END)) {
+                if (token.type === TokenTypes.PUNCTUATION.QUOTTES || token.type === TokenTypes.PUNCTUATION.QUOTTES_END || token.type === TokenTypes.PUNCTUATION.QUOTTES_START || token.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES_END) {
+                    if (nextToken && (nextToken.type === TokenTypes.PUNCTUATION.QUOTTES || nextToken.type === TokenTypes.PUNCTUATION.QUOTTES_END || nextToken.type === TokenTypes.PUNCTUATION.QUOTTES_START || nextToken.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES || nextToken.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES_START || nextToken.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES_END)) {
                         endLoop = true;
                         result.lastToken = lastToken;
                         result.twoLastToken = twoLastToken;
                         result.startColumn = nextToken.range.start.character;
                     }
                 }
-            } else if (token.type === TokenType.BRACKET.CURLY_OPEN) {
+            } else if (token.type === TokenTypes.BRACKET.CURLY_OPEN) {
                 endLoop = true;
-            } else if (token.type === TokenType.PUNCTUATION.QUOTTES || token.type === TokenType.PUNCTUATION.QUOTTES_END || token.type === TokenType.PUNCTUATION.QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END) {
-                if (lastToken && (lastToken.type === TokenType.PUNCTUATION.QUOTTES || lastToken.type === TokenType.PUNCTUATION.QUOTTES_END || lastToken.type === TokenType.PUNCTUATION.QUOTTES_START || lastToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES || lastToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_START || lastToken.type === TokenType.PUNCTUATION.DOUBLE_QUOTTES_END)) {
+            } else if (token.type === TokenTypes.PUNCTUATION.QUOTTES || token.type === TokenTypes.PUNCTUATION.QUOTTES_END || token.type === TokenTypes.PUNCTUATION.QUOTTES_START || token.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES || token.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES_START || token.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES_END) {
+                if (lastToken && (lastToken.type === TokenTypes.PUNCTUATION.QUOTTES || lastToken.type === TokenTypes.PUNCTUATION.QUOTTES_END || lastToken.type === TokenTypes.PUNCTUATION.QUOTTES_START || lastToken.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES || lastToken.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES_START || lastToken.type === TokenTypes.PUNCTUATION.DOUBLE_QUOTTES_END)) {
                     endLoop = true;
                     result.lastToken = lastToken;
                     result.twoLastToken = twoLastToken;
                     result.startColumn = token.range.start.character;
                 }
-            } else if (token.type === TokenType.LITERAL.STRING) {
+            } else if (token.type === TokenTypes.LITERAL.STRING) {
                 if (lastToken && lastToken.range.end.character === token.range.start.character) {
                     result.activation = token.text + result.activation;
                     activationTokens.push(token);
@@ -814,7 +813,7 @@ export class ProviderUtils {
                 }
             }
             if (!positionData || !positionData.query) {
-                const systemMetadata = applicationContext.parserData.namespacesData['system'];
+                const systemMetadata = (applicationContext.parserData.namespacesData) ? applicationContext.parserData.namespacesData['system'] : undefined;
                 if (systemMetadata && systemMetadata['sobject']) {
                     items = items.concat(ProviderUtils.getApexClassCompletionItems(position, systemMetadata['sobject']));
                 }
@@ -907,25 +906,25 @@ export class ProviderUtils {
             let methodParamTokens = [];
             for (let i = 0; i < paramTokens.length; i++) {
                 const token = paramTokens[i];
-                if (token.type === TokenType.BRACKET.SQUARE_OPEN) {
+                if (token.type === TokenTypes.BRACKET.SQUARE_OPEN) {
                     sqBracketIndent++;
                     methodParamTokens.push(token);
-                } else if (token.type === TokenType.BRACKET.SQUARE_CLOSE) {
+                } else if (token.type === TokenTypes.BRACKET.SQUARE_CLOSE) {
                     sqBracketIndent--;
                     methodParamTokens.push(token);
-                } else if (token.type === TokenType.OPERATOR.LOGICAL.LESS_THAN) {
+                } else if (token.type === TokenTypes.OPERATOR.LOGICAL.LESS_THAN) {
                     aBracketIndent--;
                     methodParamTokens.push(token);
-                } else if (token.type === TokenType.OPERATOR.LOGICAL.GREATER_THAN) {
+                } else if (token.type === TokenTypes.OPERATOR.LOGICAL.GREATER_THAN) {
                     aBracketIndent++;
                     methodParamTokens.push(token);
-                } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
+                } else if (token.type === TokenTypes.OPERATOR.PRIORITY.PARENTHESIS_OPEN) {
                     parenIndent++;
                     methodParamTokens.push(token);
-                } else if (token.type === TokenType.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
+                } else if (token.type === TokenTypes.OPERATOR.PRIORITY.PARENTHESIS_CLOSE) {
                     parenIndent--;
                     methodParamTokens.push(token);
-                } else if (token.type === TokenType.PUNCTUATION.COMMA) {
+                } else if (token.type === TokenTypes.PUNCTUATION.COMMA) {
                     if (parenIndent === 0 && aBracketIndent === 0 && sqBracketIndent === 0) {
                         methodParams.push(Token.toString(methodParamTokens));
                         methodParamTokens = [];
@@ -1028,7 +1027,8 @@ export class ProviderUtils {
 
     static isSObject(objectName: string): boolean {
         const sObjects = applicationContext.parserData.sObjects;
-        return sObjects && sObjects[objectName.toLowerCase()];
+        const SObj = applicationContext.parserData.sObjectsData[objectName.toLowerCase()];
+        return SObj || (sObjects && sObjects.includes(objectName.toLowerCase()));
     }
 
     static isUserClass(className: string): boolean {
@@ -1037,12 +1037,12 @@ export class ProviderUtils {
     }
 
     static isSystemClass(className: string): boolean {
-        const classes = applicationContext.parserData.namespacesData['system'];
+        const classes = (applicationContext.parserData.namespacesData) ? applicationContext.parserData.namespacesData['system'] : undefined;
         return classes && classes[className.toLowerCase()];
     }
 
     static getSystemClass(ns: string, className: string): any {
-        if (applicationContext.parserData.namespacesData[ns.toLowerCase()]) {
+        if (applicationContext.parserData.namespacesData && applicationContext.parserData.namespacesData[ns.toLowerCase()]) {
             return applicationContext.parserData.namespacesData[ns.toLowerCase()][className];
         }
         return undefined;
@@ -1074,7 +1074,7 @@ export class ProviderUtils {
 
     static getNodeInformation(node: any, activationInfo: ProviderActivationInfo, toIntelliSense?: boolean): NodeInfo | undefined {
         const parser = new ApexParser().setSystemData(applicationContext.parserData);
-        const systemMetadata = applicationContext.parserData.namespacesData['system'];
+        const systemMetadata = (applicationContext.parserData.namespacesData) ? applicationContext.parserData.namespacesData['system'] : undefined;
         let method;
         let methodVar;
         let classVar;
@@ -1087,7 +1087,21 @@ export class ProviderUtils {
         let lastNode = node;
         let datatype;
         if (activationInfo.activationTokens.length > 0) {
-            lastNode = applicationContext.parserData.userClassesData[activationInfo.activationTokens[0].activation.toLowerCase()] || systemMetadata[activationInfo.activationTokens[0].activation.toLowerCase()] || applicationContext.parserData.namespacesData[activationInfo.activationTokens[0].activation.toLowerCase()] || applicationContext.parserData.sObjectsData[activationInfo.activationTokens[0].activation.toLowerCase()] || node;
+            if (applicationContext.parserData.userClassesData) {
+                lastNode = applicationContext.parserData.userClassesData[activationInfo.activationTokens[0].activation.toLowerCase()];
+            }
+            if (!lastNode && systemMetadata) {
+                lastNode = systemMetadata[activationInfo.activationTokens[0].activation.toLowerCase()];
+            }
+            if (!lastNode && applicationContext.parserData.namespacesData) {
+                lastNode = applicationContext.parserData.namespacesData[activationInfo.activationTokens[0].activation.toLowerCase()];
+            }
+            if (!lastNode && applicationContext.parserData.sObjectsData) {
+                lastNode = applicationContext.parserData.sObjectsData[activationInfo.activationTokens[0].activation.toLowerCase()];
+            }
+            if (!lastNode) {
+                lastNode = node;
+            }
             if (node && lastNode && activationInfo.activationTokens[0].activation.toLowerCase() === node.name.toLowerCase()) {
                 lastNode = node;
             }
@@ -1148,7 +1162,7 @@ export class ProviderUtils {
                                     method = ProviderUtils.getMethod(lastNode, lastNode.positionData.signature) || ProviderUtils.getMethod(lastNode.classes[lastNode.positionData.parentName.toLowerCase()], lastNode.positionData.signature) || ProviderUtils.getMethod(lastNode.interfaces[lastNode.positionData.parentName.toLowerCase()], lastNode.positionData.signature);
                                     methodVar = ProviderUtils.getVariable(method, activationToLower);
                                     classVar = ProviderUtils.getClassField(lastNode, activationToLower);
-                                    if ((!activationToken.active || activationInfo.activationTokens.length === 1) && methodVar && activationToken.endToken.type === TokenType.BRACKET.SQUARE_CLOSE) {
+                                    if ((!activationToken.active || activationInfo.activationTokens.length === 1) && methodVar && activationToken.endToken.type === TokenTypes.BRACKET.SQUARE_CLOSE) {
                                         if (lastNode.classes[methodVar.datatype.value.type.toLowerCase()] || lastNode.interfaces[methodVar.datatype.value.type.toLowerCase()] || lastNode.enums[methodVar.datatype.value.type.toLowerCase()]) {
                                             datatypeName = methodVar.datatype.value.type;
                                         } else {
@@ -1209,7 +1223,7 @@ export class ProviderUtils {
                                             method = ProviderUtils.getMethod(node, node.positionData.signature) || ProviderUtils.getMethod(node.classes[node.positionData.parentName.toLowerCase()], node.positionData.signature) || ProviderUtils.getMethod(node.interfaces[node.positionData.parentName.toLowerCase()], node.positionData.signature);
                                             methodVar = ProviderUtils.getVariable(method, activationToLower);
                                             classVar = ProviderUtils.getClassField(node, activationToLower);
-                                            if (methodVar && activationToken.endToken.type === TokenType.BRACKET.SQUARE_CLOSE) {
+                                            if (methodVar && activationToken.endToken.type === TokenTypes.BRACKET.SQUARE_CLOSE) {
                                                 datatypeName = methodVar.datatype.value;
                                             } else if (methodVar) {
                                                 datatypeName = methodVar.datatype.name;
@@ -1310,7 +1324,7 @@ export class ProviderUtils {
                                     method = ProviderUtils.getMethod(node, node.positionData.signature) || ProviderUtils.getMethod(node.classes[node.positionData.parentName.toLowerCase()], node.positionData.signature) || ProviderUtils.getMethod(node.interfaces[node.positionData.parentName.toLowerCase()], node.positionData.signature);
                                     methodVar = ProviderUtils.getVariable(method, activationToLower);
                                     classVar = ProviderUtils.getClassField(node, activationToLower);
-                                    if (methodVar && activationToken.endToken.type === TokenType.BRACKET.SQUARE_CLOSE) {
+                                    if (methodVar && activationToken.endToken.type === TokenTypes.BRACKET.SQUARE_CLOSE) {
                                         datatypeName = methodVar.datatype.value;
                                     } else if (methodVar) {
                                         datatypeName = methodVar.datatype.name;
@@ -1891,111 +1905,117 @@ export class ProviderUtils {
     static getAllAvailableCompletionItems(position: vscode.Position, activationInfo: ProviderActivationInfo, node?: any): vscode.CompletionItem[] {
         let items: vscode.CompletionItem[] = [];
         if (Config.getConfig().autoCompletion!.activeApexSuggestion) {
-            const systemMetadata = applicationContext.parserData.namespacesData['system'];
+            const systemMetadata = (applicationContext.parserData.namespacesData) ? applicationContext.parserData.namespacesData['system'] : undefined;
             items = ProviderUtils.getApexClassCompletionItems(position, node);
-            Object.keys(applicationContext.parserData.userClassesData).forEach(function (key) {
-                const documentation = new MarkDownStringBuilder();
-                const userClass = applicationContext.parserData.userClassesData[key];
-                const className = (userClass.name) ? userClass.name : userClass;
-                documentation.appendApexCodeBlock(className);
-                let description = '';
-                if (userClass.comment && userClass.comment.description && userClass.comment.description.length > 0) {
-                    description += userClass.comment.description + '\n\n';
-                } else {
-                    if (userClass.nodeType === ApexNodeTypes.ENUM) {
-                        description = className + ' Enum\n\n';
-                    } else if (userClass.nodeType === ApexNodeTypes.INTERFACE) {
-                        description = className + ' Interface\n\n';
+            if (applicationContext.parserData.userClassesData) {
+                Object.keys(applicationContext.parserData.userClassesData).forEach((key) => {
+                    const documentation = new MarkDownStringBuilder();
+                    const userClass = (applicationContext.parserData.userClassesData) ? applicationContext.parserData.userClassesData[key] : undefined;
+                    const className = (userClass.name) ? userClass.name : userClass;
+                    documentation.appendApexCodeBlock(className);
+                    let description = '';
+                    if (userClass.comment && userClass.comment.description && userClass.comment.description.length > 0) {
+                        description += userClass.comment.description + '\n\n';
                     } else {
-                        description = className + ' Class\n\n';
-                    }
-                }
-                documentation.appendMarkdown(description);
-                if (userClass.nodeType === ApexNodeTypes.ENUM) {
-                    documentation.appendMarkdownH4('Values');
-                    const enumValues = [];
-                    for (const value of userClass.values) {
-                        if (Utils.isString(value)) {
-                            enumValues.push('  - `' + value + '`');
+                        if (userClass.nodeType === ApexNodeTypes.ENUM) {
+                            description = className + ' Enum\n\n';
+                        } else if (userClass.nodeType === ApexNodeTypes.INTERFACE) {
+                            description = className + ' Interface\n\n';
                         } else {
-                            enumValues.push('  - `' + value.text + '`');
+                            description = className + ' Class\n\n';
                         }
                     }
-                    documentation.appendMarkdown(enumValues.join('\n') + '\n\n');
-                    const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Enum);
-                    const item = ProviderUtils.createItemForCompletion(className, options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
-                        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
-                    }
-                    items.push(item);
-                } else if (userClass.nodeType === ApexNodeTypes.INTERFACE) {
-                    const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Interface);
-                    const item = ProviderUtils.createItemForCompletion(className, options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
-                        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
-                    }
-                    items.push(item);
-                } else {
-                    const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Class);
-                    const item = ProviderUtils.createItemForCompletion(className, options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
-                        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
-                    }
-                    items.push(item);
-                }
-            });
-            Object.keys(systemMetadata).forEach(function (key) {
-                const documentation = new MarkDownStringBuilder();
-                const systemClass = systemMetadata[key];
-                documentation.appendApexCodeBlock(systemClass.name);
-                if (systemClass.nodeType === ApexNodeTypes.ENUM) {
-                    documentation.appendMarkdownH4('Values');
-                    const enumValues = [];
-                    for (const value of systemClass.values) {
-                        if (Utils.isString(value)) {
-                            enumValues.push('  - `' + value + '`');
-                        } else {
-                            enumValues.push('  - `' + value.text + '`');
+                    documentation.appendMarkdown(description);
+                    if (userClass.nodeType === ApexNodeTypes.ENUM) {
+                        documentation.appendMarkdownH4('Values');
+                        const enumValues = [];
+                        for (const value of userClass.values) {
+                            if (Utils.isString(value)) {
+                                enumValues.push('  - `' + value + '`');
+                            } else {
+                                enumValues.push('  - `' + value.text + '`');
+                            }
                         }
+                        documentation.appendMarkdown(enumValues.join('\n') + '\n\n');
+                        const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Enum);
+                        const item = ProviderUtils.createItemForCompletion(className, options);
+                        if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
+                            item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                        }
+                        items.push(item);
+                    } else if (userClass.nodeType === ApexNodeTypes.INTERFACE) {
+                        const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Interface);
+                        const item = ProviderUtils.createItemForCompletion(className, options);
+                        if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
+                            item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                        }
+                        items.push(item);
+                    } else {
+                        const options = ProviderUtils.getCompletionItemOptions(className, documentation.build(), className, true, CompletionItemKind.Class);
+                        const item = ProviderUtils.createItemForCompletion(className, options);
+                        if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
+                            item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                        }
+                        items.push(item);
                     }
-                    documentation.appendMarkdown(systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n');
-                    documentation.appendMarkdown(enumValues.join('\n') + '\n\n');
-                    const options = ProviderUtils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Enum);
-                    const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
-                        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                });
+            }
+            if (systemMetadata) {
+                Object.keys(systemMetadata).forEach(function (key) {
+                    const documentation = new MarkDownStringBuilder();
+                    const systemClass = systemMetadata[key];
+                    documentation.appendApexCodeBlock(systemClass.name);
+                    if (systemClass.nodeType === ApexNodeTypes.ENUM) {
+                        documentation.appendMarkdownH4('Values');
+                        const enumValues = [];
+                        for (const value of systemClass.values) {
+                            if (Utils.isString(value)) {
+                                enumValues.push('  - `' + value + '`');
+                            } else {
+                                enumValues.push('  - `' + value.text + '`');
+                            }
+                        }
+                        documentation.appendMarkdown(systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n');
+                        documentation.appendMarkdown(enumValues.join('\n') + '\n\n');
+                        const options = ProviderUtils.getCompletionItemOptions('Enum from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Enum);
+                        const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
+                        if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
+                            item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                        }
+                        items.push(item);
+                    } else if (systemClass.nodeType === ApexNodeTypes.INTERFACE) {
+                        const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n';
+                        documentation.appendMarkdown(description);
+                        const options = ProviderUtils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Interface);
+                        const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
+                        if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
+                            item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                        }
+                        items.push(item);
+                    } else {
+                        const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n';
+                        documentation.appendMarkdown(description);
+                        const options = ProviderUtils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Class);
+                        const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
+                        if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
+                            item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
+                        }
+                        items.push(item);
                     }
-                    items.push(item);
-                } else if (systemClass.nodeType === ApexNodeTypes.INTERFACE) {
-                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n';
-                    documentation.appendMarkdown(description);
-                    const options = ProviderUtils.getCompletionItemOptions('Interface from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Interface);
-                    const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
-                    if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
-                        item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
-                    }
-                    items.push(item);
-                } else {
-                    const description = systemClass.description + ((systemClass.documentation) ? '\n\n[Documentation Link](' + systemClass.documentation + ')' : '') + '\n\n';
-                    documentation.appendMarkdown(description);
-                    const options = ProviderUtils.getCompletionItemOptions('Class from ' + systemClass.namespace + ' Namespace', documentation.build(), systemClass.name, true, CompletionItemKind.Class);
-                    const item = ProviderUtils.createItemForCompletion(systemClass.name, options);
+                });
+            }
+            if (applicationContext.parserData.namespaces) {
+                for (const ns of applicationContext.parserData.namespaces) {
+                    const options = ProviderUtils.getCompletionItemOptions('Salesforce Namespace', undefined, ns, true, CompletionItemKind.Module);
+                    const item = ProviderUtils.createItemForCompletion(ns, options);
                     if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                         item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                     }
                     items.push(item);
                 }
-            });
-            for (const ns of applicationContext.parserData.namespaces) {
-                const options = ProviderUtils.getCompletionItemOptions('Salesforce Namespace', undefined, ns, true, CompletionItemKind.Module);
-                const item = ProviderUtils.createItemForCompletion(ns, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
-                    item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
-                }
-                items.push(item);
             }
         }
-        if (Config.getConfig().autoCompletion!.activeSObjectSuggestion) {
+        if (Config.getConfig().autoCompletion!.activeSObjectSuggestion && applicationContext.parserData.sObjectsData) {
             Object.keys(applicationContext.parserData.sObjectsData).forEach(function (key) {
                 const sObject = applicationContext.parserData.sObjectsData[key];
                 const documentation = new MarkDownStringBuilder();

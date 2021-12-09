@@ -1,15 +1,11 @@
 import * as vscode from 'vscode';
 import { Config } from '../core/config';
 import { Paths } from '../core/paths';
-import { applicationContext } from '../core/applicationContext';
-import { NotificationManager, DiagnosticsManager } from '../output';
-import { MetadataSelector, MetadataSelectorOption } from '../inputs/metadataSelector';
-import { InputFactory } from '../inputs/factory';
-const { SpecialMetadata } = require('@aurahelper/core').Values;
-const CLIManager = require('@aurahelper/cli-manager');
-const Connection = require('@aurahelper/connector');
-const MetadataFactory = require('@aurahelper/metadata-factory');
-const { FileChecker, FileWriter } = require('@aurahelper/core/src/fileSystem');
+import { NotificationManager } from '../output';
+import { MetadataSelector } from '../inputs/metadataSelector';
+import { FileChecker, FileWriter, MetadataType, SpecialMetadata } from '@aurahelper/core';
+import { CLIManager } from '@aurahelper/cli-manager';
+import { Connection } from '@aurahelper/connector';
 
 export async function run() {
     try {
@@ -37,7 +33,7 @@ export async function run() {
     }
 };
 
-function retrieveMetadata(objects: any, options: any): void {
+function retrieveMetadata(objects: { [key: string]: MetadataType }, options: any): void {
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: "Retrieving Metadata. This operation can take several minutes",
@@ -47,7 +43,6 @@ function retrieveMetadata(objects: any, options: any): void {
             const sortOrder = Config.getXMLSortOrder();
             try {
                 if (Config.useAuraHelperCLI()) {
-                    let dataToRetrieve = getTypesForAuraHelperCommands(objects);
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
                     cancelToken.onCancellationRequested(() => {
                         cliManager.abortProcess();
@@ -55,7 +50,7 @@ function retrieveMetadata(objects: any, options: any): void {
                     cliManager.setCompressFiles(options[MetadataSelector.getCompressAction()]);
                     cliManager.setSortOrder(sortOrder);
                     if (options[MetadataSelector.getDownloadAction()]) {
-                        cliManager.retrieveOrgSpecialMetadata(options[MetadataSelector.getDownloadAllAction()], dataToRetrieve).then((_result: any) => {
+                        cliManager.retrieveOrgSpecialMetadata(objects, options[MetadataSelector.getDownloadAllAction()]).then((_result: any) => {
                             NotificationManager.showInfo("Data retrieved successfully");
                             resolve();
                         }).catch((error: Error) => {
@@ -63,7 +58,7 @@ function retrieveMetadata(objects: any, options: any): void {
                             reject(error);
                         });
                     } else if (options[MetadataSelector.getMixedAction()]) {
-                        cliManager.retrieveMixedSpecialMetadata(options[MetadataSelector.getDownloadAllAction()], dataToRetrieve).then((_result: any) => {
+                        cliManager.retrieveMixedSpecialMetadata(objects, options[MetadataSelector.getDownloadAllAction()]).then((_result: any) => {
                             NotificationManager.showInfo("Data retrieved successfully");
                             resolve();
                         }).catch((error: Error) => {
@@ -71,7 +66,7 @@ function retrieveMetadata(objects: any, options: any): void {
                             reject(error);
                         });
                     } else {
-                        cliManager.retrieveLocalSpecialMetadata(dataToRetrieve).then((_result: any) => {
+                        cliManager.retrieveLocalSpecialMetadata(objects).then((_result: any) => {
                             NotificationManager.showInfo("Data retrieved successfully");
                             resolve();
                         }).catch((error: Error) => {

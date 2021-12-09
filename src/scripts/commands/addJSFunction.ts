@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { SnippetUtils } from '../utils/snippetUtils';
 import { InputValidator } from '../inputs/inputValidator';
 import { NotificationManager } from '../output';
-const { FileChecker } = require('@aurahelper/core').FileSystem;
+import { FileChecker } from '@aurahelper/core';
 const window = vscode.window;
 const SnippetString = vscode.SnippetString;
 

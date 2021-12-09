@@ -2,9 +2,10 @@ import * as vscode from 'vscode';
 import { SnippetUtils } from '../utils/snippetUtils';
 import { NotificationManager, Editor } from '../output';
 import { Paths } from '../core/paths';
-const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
-const { StrUtils } = require('@aurahelper/core').CoreUtils;
-const { JSParser } = require('@aurahelper/languages').JavaScript;
+import { JavaScript } from '@aurahelper/languages';
+import { AuraJSFunction, CoreUtils, FileChecker, FileReader } from '@aurahelper/core';
+const StrUtils = CoreUtils.StrUtils;
+const JSParser = JavaScript.JSParser;
 const window = vscode.window;
 
 export function run(): void {
@@ -27,13 +28,13 @@ function addMethodBlock(editor: vscode.TextEditor): void {
     const filePath = editor.document.uri.fsPath;
     const helperPath = Paths.getAuraBundleHelperPath(filePath);
     const controllerPath = Paths.getAuraBundleControllerPath(filePath);
-    let helperMethods: [] = [];
-    let controllerMethods: [] = [];
+    let helperMethods: AuraJSFunction[] | undefined = [];
+    let controllerMethods: AuraJSFunction[] | undefined = [];
     if (FileChecker.isExists(helperPath)) {
-        helperMethods = new JSParser(helperPath).parse().methods;
+        helperMethods = new JSParser(helperPath).parse()!.methods;
     }
     if (FileChecker.isExists(controllerPath)) {
-        controllerMethods = new JSParser(controllerPath).parse().methods;
+        controllerMethods = new JSParser(controllerPath).parse()!.methods;
     }
     let options = [];
     if (controllerMethods && controllerMethods.length > 0) {
@@ -49,18 +50,22 @@ function addMethodBlock(editor: vscode.TextEditor): void {
     }
 }
 
-function processFileSelected(fileSelected: string, controllerMethods: any[], helperMethods: any[], editor: vscode.TextEditor): void {
-    let funcNames = [];
-    if (fileSelected === "Controller Functions") {
+function processFileSelected(fileSelected: string, controllerMethods: AuraJSFunction[] | undefined, helperMethods: AuraJSFunction[] | undefined, editor: vscode.TextEditor): void {
+    let funcNames: string[] = [];
+    if (fileSelected === "Controller Functions" && controllerMethods) {
         for (let i = 0; i < controllerMethods.length; i++) {
             const method = controllerMethods[i];
-            funcNames.push(method.signature);
+            if (method.signature) {
+                funcNames.push(method.signature);
+            }
         }
     }
-    else if (fileSelected === "Helper Functions") {
+    else if (fileSelected === "Helper Functions" && helperMethods) {
         for (let i = 0; i < helperMethods.length; i++) {
             const method = helperMethods[i];
-            funcNames.push(method.signature);
+            if (method.signature) {
+                funcNames.push(method.signature);
+            }
         }
     }
     if (funcNames.length > 0) {
@@ -70,21 +75,23 @@ function processFileSelected(fileSelected: string, controllerMethods: any[], hel
     }
 }
 
-function processFunctionSelected(fileSelected: string, funcSelected: string, controllerMethods: any[], helperMethods: any[], editor: vscode.TextEditor): void {
+function processFunctionSelected(fileSelected: string, funcSelected: string | undefined, controllerMethods: AuraJSFunction[] | undefined, helperMethods: AuraJSFunction[] | undefined, editor: vscode.TextEditor): void {
     let docTemplateContent = FileReader.readFileSync(Paths.getAuraDocUserTemplate());
-    var methods = [];
+    var methods: AuraJSFunction[] | undefined = [];
     if (fileSelected === "Controller Functions") {
         methods = controllerMethods;
     }
     else if (fileSelected === "Helper Functions") {
         methods = helperMethods;
     }
-    for (let i = 0; i < methods.length; i++) {
-        const method = methods[i];
-        if (method.signature === funcSelected) {
-            let auraDocTemplateJSON = JSON.parse(docTemplateContent);
-            var methodContent = SnippetUtils.getMethodContent(method, auraDocTemplateJSON.methodBody, auraDocTemplateJSON.paramBody, auraDocTemplateJSON.returnBody, StrUtils.getWhitespaces(editor.selection.start.character)).trimLeft();
-            Editor.replaceEditorContent(editor, editor.selection, methodContent);
+    if (methods) {
+        for (let i = 0; i < methods.length; i++) {
+            const method = methods[i];
+            if (method.signature === funcSelected) {
+                let auraDocTemplateJSON = JSON.parse(docTemplateContent);
+                var methodContent = SnippetUtils.getMethodContent(method, auraDocTemplateJSON.methodBody, auraDocTemplateJSON.paramBody, auraDocTemplateJSON.returnBody, StrUtils.getWhitespaces(editor.selection.start.character)).trimLeft();
+                Editor.replaceEditorContent(editor, editor.selection, methodContent);
+            }
         }
     }
 }

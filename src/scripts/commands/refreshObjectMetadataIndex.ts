@@ -3,9 +3,8 @@ import { Config } from '../core/config';
 import { Paths } from '../core/paths';
 import { applicationContext } from '../core/applicationContext';
 import { NotificationManager } from '../output';
-const Connection = require('@aurahelper/connector');
-const { FileChecker, FileWriter } = require('@aurahelper/core').FileSystem;
-const { MetadataTypes } = require('@aurahelper/core').Values;
+import { Connection } from '@aurahelper/connector';
+import { FileChecker, FileWriter } from '@aurahelper/core';
 
 export function run(): void {
 	try {

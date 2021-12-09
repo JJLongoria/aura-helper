@@ -5,31 +5,31 @@ import { applicationContext } from '../core/applicationContext';
 import { ProviderUtils } from './utils';
 import { MarkDownStringBuilder } from '../output';
 import { ActivationToken, ProviderActivationInfo } from '../core/types';
-const { AuraAttribute, Token } = require('@aurahelper/core').Types;
+import { Aura } from '@aurahelper/languages';
+import { CoreUtils, FileChecker, FileReader, PathUtils, AuraTokenTypes, AuraNodeTypes, AuraAttribute, Token, AuraEvent } from '@aurahelper/core';
 const Range = vscode.Range;
 const Position = vscode.Position;
-const { FileChecker, FileReader, PathUtils } = require('@aurahelper/core').FileSystem;
-const { AuraBundleAnalyzer, AuraParser, AuraTokenType } = require('@aurahelper/languages').Aura;
-const { AuraNodeTypes } = require('@aurahelper/core').Values;
-const { Utils } = require('@aurahelper/core').CoreUtils;
+const Utils = CoreUtils.Utils;
+const AuraParser = Aura.AuraParser;
+const AuraBundleAnalyzer = Aura.BundleAnalyzer;
 const SnippetString = vscode.SnippetString;
 const CompletionItemKind = vscode.CompletionItemKind;
-const auraIdAttribute = new AuraAttribute();
+const auraIdAttribute = new AuraAttribute('');
 auraIdAttribute.name = {
-    name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, 'name', new Position(0, 0), new Position(0, 'name'.length)),
-    value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, 'aura:id', new Position(0, 0), new Position(0, 'aura:id'.length)),
+    name: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE, 'name', 0, 0),
+    value: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE_VALUE, 'aura:id', 0, 0),
 };
 auraIdAttribute.type = {
-    name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, 'type', new Position(0, 0), new Position(0, 'type'.length)),
-    value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, 'String', new Position(0, 0), new Position(0, 'String'.length)),
+    name: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE, 'type', 0, 0),
+    value: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE_VALUE, 'String', 0, 0),
 };
 auraIdAttribute.description = {
-    name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, 'description', new Position(0, 0), new Position(0, 'description'.length)),
-    value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, 'Aura ID of the component', new Position(0, 0), new Position(0, 'Aura ID of the component'.length)),
+    name: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE, 'description', 0, 0),
+    value: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE_VALUE, 'Aura ID of the component', 0, 0),
 };
 auraIdAttribute.access = {
-    name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, 'access', new Position(0, 0), new Position(0, 'access'.length)),
-    value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, 'global', new Position(0, 0), new Position(0, 'global'.length)),
+    name: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE, 'access', 0, 0),
+    value: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE_VALUE, 'global', 0, 0),
 };
 auraIdAttribute.namespace = 'aura';
 
@@ -63,7 +63,7 @@ function provideAuraComponentCompletion(document: vscode.TextDocument, position:
     const auraSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.aura, activationTokens[0].activation) : undefined;
     const sldsSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.slds, activationTokens[0].activation) : undefined;
     const component = new AuraBundleAnalyzer(document.uri.fsPath, applicationContext.parserData).setActiveFile(document.uri.fsPath).setContent(FileReader.readDocument(document)).setTabSize(Config.getTabSize()).analize(ProviderUtils.fixPositionOffset(document, position));
-    if (component.positionData && component.positionData.query) {
+    if (component && component.positionData && component.positionData.query) {
         // Code for support completion on queries   
         items = ProviderUtils.getQueryCompletionItems(position, activationInfo, activationTokens, component.positionData);
     } else if (auraSnippets || sldsSnippets) {
@@ -71,7 +71,7 @@ function provideAuraComponentCompletion(document: vscode.TextDocument, position:
         items = getSnippetsCompletionItems(position, activationInfo, auraSnippets || sldsSnippets);
     } else if (activationTokens.length > 0 && activationTokens[0].activation.toLowerCase() === 'label') {
         items = getLabelsCompletionItems(position, activationInfo, activationTokens);
-    } else if (activationTokens.length > 0 && activationTokens[0].activation === 'v') {
+    } else if (activationTokens.length > 0 && activationTokens[0].activation === 'v' && component) {
         // Code for completions when user types v.
         if (!Config.getConfig().autoCompletion!.activeAttributeSuggest) {
             return [];
@@ -95,7 +95,7 @@ function provideAuraComponentCompletion(document: vscode.TextDocument, position:
         // Code for completions when user types c:
         items = getComponentsCompletionItems(position, document, activationInfo);
     } else {
-        if (component.positionData && component.positionData.tagData) {
+        if (component && component.positionData && component.positionData.tagData) {
             // Code for completions when position is on a start standard component tag <ns:componentName >
             if (!Config.getConfig().autoCompletion!.activeComponentCallSuggest) {
                 return [];
@@ -110,7 +110,7 @@ function provideAuraComponentCompletion(document: vscode.TextDocument, position:
         }
         if (!items || items.length === 0) {
             if (activationTokens.length > 0) {
-                items = ProviderUtils.getApexCompletionItems(position, activationInfo, undefined, component.positionData);
+                items = ProviderUtils.getApexCompletionItems(position, activationInfo, undefined, component!.positionData);
                 if (activationInfo.activationTokens.length === 1 && !activationInfo.activationTokens[0].isQuery && activationInfo.activationTokens[0].nextToken && activationInfo.activationTokens[0].nextToken.text !== '.') {
                     items = items.concat(ProviderUtils.getAllAvailableCompletionItems(position, activationInfo));
                 }
@@ -199,7 +199,9 @@ function getComponentAttributeMembersCompletionItems(position: vscode.Position, 
             }
             items = ProviderUtils.getSobjectCompletionItems(position, activationInfo, activationTokens, lastObject, positionData);
         }
-        Utils.sort(items, ['label']);
+        if (items) {
+            Utils.sort(items, ['label']);
+        }
     } else {
         // include Apex Classes Completion
     }
@@ -337,18 +339,18 @@ function getComponentsCompletionItems(position: vscode.Position, document: vscod
         let name = (orgNamespace ? orgNamespace : 'c') + ':' + folder;
         let detail = '';
         const documentation = new MarkDownStringBuilder();
-        if (node.nodeType === AuraNodeTypes.COMPONENT) {
+        if (node && node.nodeType === AuraNodeTypes.COMPONENT) {
             detail = 'Aura Component';
-        } else if (node.nodeType === AuraNodeTypes.APPLICATION && node.type && node.type.value.textToLower === 'component') {
+        } else if (node && node instanceof AuraEvent && node.nodeType === AuraNodeTypes.EVENT && node.type && node.type.value.textToLower === 'component') {
             detail = 'Aura Component Event';
-        } else if (node.nodeType === AuraNodeTypes.APPLICATION && node.type && node.type.value.textToLower === 'application') {
+        } else if (node && node instanceof AuraEvent && node.nodeType === AuraNodeTypes.EVENT && node.type && node.type.value.textToLower === 'application') {
             detail = 'Aura Application Event';
         } else if (isApp) {
             detail = 'Aura Application';
         }
         documentation.appendMarkdown(detail + ' `' + folder + '`\n\n');
-        if (node.description) {
-            documentation.appendMarkdown(node.description.text + '\n\n');
+        if (node && node.description && node.description.value) {
+            documentation.appendMarkdown(node.description.value.text + '\n\n');
         }
         let insertText = '';
         if (!activationInfo.lastToken || (activationInfo.lastToken && activationInfo.lastToken.text !== '<' && activationInfo.lastToken.text !== '"')) {
@@ -362,7 +364,7 @@ function getComponentsCompletionItems(position: vscode.Position, document: vscod
         if (!activationInfo.nextToken) {
             insertText += '/>';
         }
-        if (node.attributes && node.attributes.length > 0) {
+        if (node && node.attributes && node.attributes.length > 0) {
             documentation.appendMarkdown('#### Attributes\n\n');
             for (const attribute of node.attributes) {
                 documentation.appendMarkdown('  - ');
@@ -408,12 +410,14 @@ function getComponentsAttributesCompletionItems(component: any): vscode.Completi
     }
     if (baseComponentsDetail.notRoot[component.namespace] && !baseComponentsDetail.notRoot[component.namespace].includes(component.name)) {
         for (const attribute of baseComponentsDetail['root']['component']) {
-            const newAttribute = new AuraAttribute();
+            const newAttribute = new AuraAttribute('');
             for (const field of Object.keys(attribute)) {
-                newAttribute[field] = {
-                    name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, field, new Position(0, 0), new Position(0, field.length)),
-                    value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, attribute[field].toString(), new Position(0, 0), new Position(0, attribute[field].length)),
-                };
+                if (field === 'name' || field === 'type' || field === 'description' || field === 'access' || field === 'required' || field === 'default') {
+                    newAttribute[field] = {
+                        name: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE, field, 0, 0),
+                        value: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE_VALUE, attribute[field].toString(), 0, 0),
+                    };
+                }
             }
             items.push(getCodeCompletionItemAttribute(newAttribute));
         }
@@ -424,12 +428,14 @@ function getComponentsAttributesCompletionItems(component: any): vscode.Completi
             for (const attribute of baseComponentNS[component.positionData.tagData.name]) {
                 const existingAttributes = component.positionData.tagData.attributes;
                 if (!existingAttributes[attribute.name.toLowerCase()]) {
-                    const newAttribute = new AuraAttribute();
+                    const newAttribute = new AuraAttribute('');
                     for (const field of Object.keys(attribute)) {
-                        newAttribute[field] = {
-                            name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, field, new Position(0, 0), new Position(0, field.length)),
-                            value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, attribute[field].toString(), new Position(0, 0), new Position(0, attribute[field].length)),
-                        };
+                        if (field === 'name' || field === 'type' || field === 'description' || field === 'access' || field === 'required' || field === 'default') {
+                            newAttribute[field] = {
+                                name: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE, field, 0, 0),
+                                value: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE_VALUE, attribute[field].toString(), 0, 0),
+                            };
+                        }
                     }
                     items.push(getCodeCompletionItemAttribute(newAttribute));
                 }
@@ -490,12 +496,14 @@ function getRootItems(component: any, rootElement: any): vscode.CompletionItem[]
             for (const attribute of applicationContext.componentsDetail['root'][rootElement]) {
                 const existingAttributes = component.positionData.tagData.attributes;
                 if (!existingAttributes[attribute.name.toLowerCase()]) {
-                    const newAttribute = new AuraAttribute();
+                    const newAttribute = new AuraAttribute('');
                     for (const field of Object.keys(attribute)) {
-                        newAttribute[field] = {
-                            name: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE, field, new Position(0, 0), new Position(0, field.length)),
-                            value: new Token(AuraTokenType.ENTITY.TAG.ATTRIBUTE_VALUE, attribute[field].toString(), new Position(0, 0), new Position(0, attribute[field].length)),
-                        };
+                        if (field === 'name' || field === 'type' || field === 'description' || field === 'access' || field === 'required' || field === 'default') {
+                            newAttribute[field] = {
+                                name: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE, field, 0, 0),
+                                value: new Token(AuraTokenTypes.ENTITY.TAG.ATTRIBUTE_VALUE, attribute[field].toString(), 0, 0),
+                            };
+                        }
                     }
                     items.push(getCodeCompletionItemAttribute(newAttribute));
                 }
@@ -550,7 +558,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const access of baseComponentsDetail.access) {
                 const options = ProviderUtils.getCompletionItemOptions("Attribute / Component access", undefined, access, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(access, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -559,7 +567,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const flexibility of baseComponentsDetail.flexibilities) {
                 const options = ProviderUtils.getCompletionItemOptions("Flexibility Value", undefined, flexibility, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(flexibility, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -568,7 +576,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const timeZoneName of baseComponentsDetail.timeZoneNames) {
                 const options = ProviderUtils.getCompletionItemOptions("Time Zone Style", undefined, timeZoneName, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(timeZoneName, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -577,7 +585,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const padding of baseComponentsDetail.paddings) {
                 const options = ProviderUtils.getCompletionItemOptions("Padding Value", undefined, padding, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(padding, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -586,7 +594,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const density of baseComponentsDetail.densities) {
                 const options = ProviderUtils.getCompletionItemOptions("Density Value", undefined, density, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(density, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -595,7 +603,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const severity of baseComponentsDetail.severities) {
                 const options = ProviderUtils.getCompletionItemOptions("Severity Value", undefined, severity, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(severity, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -604,7 +612,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const sort of baseComponentsDetail.sortValues) {
                 const options = ProviderUtils.getCompletionItemOptions("Sort Value", undefined, sort, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(sort, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -613,7 +621,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const boolValue of baseComponentsDetail.booleans) {
                 const options = ProviderUtils.getCompletionItemOptions("Boolean Value", undefined, boolValue, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(boolValue, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -622,103 +630,103 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const func of component.controllerFunctions) {
                 const options = ProviderUtils.getCompletionItemOptions("Aura Controller Function", func.auraSignature, '{!c.' + func.name + '}', true, CompletionItemKind.Function);
                 const item = ProviderUtils.createItemForCompletion(func.name, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
             }
         } else if (attributeData.name === 'variant' && attributeData.type.toLowerCase() === 'string') {
             for (const variant of baseComponentsDetail.variants) {
-                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "outputField" || component.positionData.tagData.name === "slider") && variant !== 'standard' && variant !== 'label-hidden'){
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "outputField" || component.positionData.tagData.name === "slider") && variant !== 'standard' && variant !== 'label-hidden') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "path" || component.positionData.tagData.name === "picklistPath") && variant !== 'linear' && variant !== 'non-linear'){
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "path" || component.positionData.tagData.name === "picklistPath") && variant !== 'linear' && variant !== 'non-linear') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "avatar" && variant !== 'circle' && variant !== 'square'){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "avatar" && variant !== 'circle' && variant !== 'square') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "spinner" && variant !== 'base' && variant !== 'brand' && variant !== 'inverse'){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "spinner" && variant !== 'base' && variant !== 'brand' && variant !== 'inverse') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "tabset" && variant !== 'default' && variant !== 'scoped' && variant !== 'vertical'){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "tabset" && variant !== 'default' && variant !== 'scoped' && variant !== 'vertical') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "progressIndicator" && variant !== 'base' && variant !== 'shaded'){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "progressIndicator" && variant !== 'base' && variant !== 'shaded') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "progressBar" && variant !== 'base' && variant !== 'circular'){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "progressBar" && variant !== 'base' && variant !== 'circular') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "inputRichText" && variant !== 'bottom-toolbar'){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "inputRichText" && variant !== 'bottom-toolbar') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "textarea" || component.positionData.tagData.name === "select" || component.positionData.tagData.name === "radioGroup" || component.positionData.tagData.name === "inputName" || component.positionData.tagData.name === "inputLocation" || component.positionData.tagData.name === "checkboxGroup" || component.positionData.tagData.name === "combobox" || component.positionData.tagData.name === "input" || component.positionData.tagData.name === "inputAddress") && variant !== 'standard' && variant !== 'label-hidden' && variant !== 'label-inline' && variant !== 'label-stacked'){
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "textarea" || component.positionData.tagData.name === "select" || component.positionData.tagData.name === "radioGroup" || component.positionData.tagData.name === "inputName" || component.positionData.tagData.name === "inputLocation" || component.positionData.tagData.name === "checkboxGroup" || component.positionData.tagData.name === "combobox" || component.positionData.tagData.name === "input" || component.positionData.tagData.name === "inputAddress") && variant !== 'standard' && variant !== 'label-hidden' && variant !== 'label-inline' && variant !== 'label-stacked') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "card" && variant !== 'base' && variant !== 'narrow'){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "card" && variant !== 'base' && variant !== 'narrow') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "button" || component.positionData.tagData.name === "buttonStateful") && variant !== 'base' && variant !== 'neutral' && variant !== 'brand' && variant !== 'destructive' && variant !== 'inverse' && variant !== 'success'){
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "button" || component.positionData.tagData.name === "buttonStateful") && variant !== 'base' && variant !== 'neutral' && variant !== 'brand' && variant !== 'destructive' && variant !== 'inverse' && variant !== 'success') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonIcon" && variant !== 'bare' && variant !== 'container' && variant !== 'brand' && variant !== 'border' && variant !== 'border-filled' && variant !== 'bare-inverse' && variant !== 'border-inverse'){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonIcon" && variant !== 'bare' && variant !== 'container' && variant !== 'brand' && variant !== 'border' && variant !== 'border-filled' && variant !== 'bare-inverse' && variant !== 'border-inverse') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonIconStateful" && variant !== 'border' && variant !== 'border-filled' && variant !== 'border-inverse'){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonIconStateful" && variant !== 'border' && variant !== 'border-filled' && variant !== 'border-inverse') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonMenu" && variant !== 'bare' && variant !== 'container' && variant !== 'border' && variant !== 'border-filled' && variant !== 'bare-inverse' && variant !== 'border-inverse'){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonMenu" && variant !== 'bare' && variant !== 'container' && variant !== 'border' && variant !== 'border-filled' && variant !== 'bare-inverse' && variant !== 'border-inverse') {
                     continue;
                 }
                 const options = ProviderUtils.getCompletionItemOptions("Variant Value", undefined, variant, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(variant, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
             }
         } else if ((attributeData.name === 'type' || attributeData.name === 'buttonType') && attributeData.type.toLowerCase() === 'string') {
             for (const type of baseComponentsDetail.buttonTypes) {
-                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "button" || component.positionData.tagData.name === "buttonIcon") && type !== 'button' && type !== 'reset' && type !== 'submit'){
+                if (component.positionData.tagData.namespace === "lightning" && (component.positionData.tagData.name === "button" || component.positionData.tagData.name === "buttonIcon") && type !== 'button' && type !== 'reset' && type !== 'submit') {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "ui" && (component.positionData.tagData.name === "button") && type !== 'button' && type !== 'reset' && type !== 'submit'){
+                if (component.positionData.tagData.namespace === "ui" && (component.positionData.tagData.name === "button") && type !== 'button' && type !== 'reset' && type !== 'submit') {
                     continue;
                 }
                 const options = ProviderUtils.getCompletionItemOptions("Button Type Value", undefined, type, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(type, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
             }
         } else if ((attributeData.name === 'alignmentBump' || attributeData.name === 'verticalAlign' || attributeData.name === 'horizontalAlign' || attributeData.name === 'menuAlignment' || attributeData.name === 'iconPosition' || attributeData.name === 'dropdownAlignment') && attributeData.type.toLowerCase() === 'string') {
             for (const componentPosition of baseComponentsDetail.positions) {
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "button" && componentPosition !== "left" && componentPosition !== "right"){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "button" && componentPosition !== "left" && componentPosition !== "right") {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "layoutItem" && componentPosition !== "left" && componentPosition !== "right" && componentPosition !== "top" && componentPosition !== "bottom"){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "layoutItem" && componentPosition !== "left" && componentPosition !== "right" && componentPosition !== "top" && componentPosition !== "bottom") {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "layoutcomponent" && attributeData.name === 'horizontalAlign' && componentPosition !== "center" && componentPosition !== "space" && componentPosition !== "spread" && componentPosition !== "end"){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "layoutcomponent" && attributeData.name === 'horizontalAlign' && componentPosition !== "center" && componentPosition !== "space" && componentPosition !== "spread" && componentPosition !== "end") {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "layoutcomponent" && attributeData.name === 'verticalAlign' && componentPosition !== "start" && componentPosition !== "center" && componentPosition !== "end" && componentPosition !== "stretch"){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "layoutcomponent" && attributeData.name === 'verticalAlign' && componentPosition !== "start" && componentPosition !== "center" && componentPosition !== "end" && componentPosition !== "stretch") {
                     continue;
                 }
-                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonMenu" && componentPosition !== "left" && componentPosition !== "right" && componentPosition !== "auto" && componentPosition !== "center" && componentPosition !== "bottom-left" && componentPosition !== "bottom-center" && componentPosition !== "bottom-right"){
+                if (component.positionData.tagData.namespace === "lightning" && component.positionData.tagData.name === "buttonMenu" && componentPosition !== "left" && componentPosition !== "right" && componentPosition !== "auto" && componentPosition !== "center" && componentPosition !== "bottom-left" && componentPosition !== "bottom-center" && componentPosition !== "bottom-right") {
                     continue;
                 }
                 let detail;
-                if (attributeData.name === 'alignmentBump' || attributeData.name === 'verticalAlign' || attributeData.name === 'horizontalAlign' || attributeData.name === 'menuAlignment' || attributeData.name === 'dropdownAlignment'){
+                if (attributeData.name === 'alignmentBump' || attributeData.name === 'verticalAlign' || attributeData.name === 'horizontalAlign' || attributeData.name === 'menuAlignment' || attributeData.name === 'dropdownAlignment') {
                     detail = "Allignment Value";
-                } else{
+                } else {
                     detail = "Icon Position Value";
                 }
                 const options = ProviderUtils.getCompletionItemOptions(detail, undefined, componentPosition, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(componentPosition, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -727,7 +735,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const type of baseComponentsDetail.dynamicIcons) {
                 const options = ProviderUtils.getCompletionItemOptions('Dynamic Icon Type', undefined, type, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(type, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -736,7 +744,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const format of baseComponentsDetail.nameFormats) {
                 const options = ProviderUtils.getCompletionItemOptions('Name Format', undefined, format, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(format, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -745,7 +753,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const style of baseComponentsDetail.numberStyles) {
                 const options = ProviderUtils.getCompletionItemOptions('Number Style', undefined, style, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(style, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -754,7 +762,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const display of baseComponentsDetail.currencyDisplays) {
                 const options = ProviderUtils.getCompletionItemOptions('Currency Display', undefined, display, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(display, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -763,7 +771,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const target of baseComponentsDetail.urlTargets) {
                 const options = ProviderUtils.getCompletionItemOptions('Target Value', undefined, target, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(target, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -772,7 +780,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const type of baseComponentsDetail.progressTypes) {
                 const options = ProviderUtils.getCompletionItemOptions('Progress Type Value', undefined, type, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(type, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -781,7 +789,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const type of baseComponentsDetail.inputTypes) {
                 const options = ProviderUtils.getCompletionItemOptions('Input Type Value', undefined, type, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(type, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -790,7 +798,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const componentPosition of baseComponentsDetail.positions) {
                 const options = ProviderUtils.getCompletionItemOptions('Component Position Value', undefined, componentPosition, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(componentPosition, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -799,7 +807,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const mode of baseComponentsDetail.recordModes) {
                 const options = ProviderUtils.getCompletionItemOptions('Record Mode', undefined, mode, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(mode, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -808,7 +816,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const feed of baseComponentsDetail.feedDesigns) {
                 const options = ProviderUtils.getCompletionItemOptions('Feed Design', undefined, feed, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(feed, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -817,7 +825,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const feed of baseComponentsDetail.feedTypes) {
                 const options = ProviderUtils.getCompletionItemOptions('Feed Type', undefined, feed, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(feed, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -826,7 +834,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const feed of baseComponentsDetail.fullFeedTypes) {
                 const options = ProviderUtils.getCompletionItemOptions('Full Feed Type', undefined, feed, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(feed, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -835,7 +843,7 @@ function getAttributeTypesCompletionItems(position: vscode.Position, activationI
             for (const ctx of baseComponentsDetail.publisherContexts) {
                 const options = ProviderUtils.getCompletionItemOptions('Publisher Context', undefined, ctx, true, CompletionItemKind.Value);
                 const item = ProviderUtils.createItemForCompletion(ctx, options);
-                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn){
+                if (activationInfo.startColumn !== undefined && position.character >= activationInfo.startColumn) {
                     item.range = new Range(new Position(position.line, activationInfo.startColumn), position);
                 }
                 items.push(item);
@@ -906,7 +914,7 @@ function getRootAttributes(baseComponentsDetail: any, rootElement: any, tagData:
 }
 
 function getSnippets(snippets: any, activationToken: string): any {
-    if (!activationToken || activationToken.length === 0){
+    if (!activationToken || activationToken.length === 0) {
         return undefined;
     }
     return snippets[activationToken];

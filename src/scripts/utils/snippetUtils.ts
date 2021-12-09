@@ -2,13 +2,13 @@ import * as vscode from 'vscode';
 import { applicationContext } from '../core/applicationContext';
 import { Paths } from "../core/paths";
 import { Config } from "../core/config";
-import { ApexCommentsObjectData, ApexCommentTemplate, ProviderActivationInfo } from '../core/types';
-const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
-const { PathUtils } = require('@aurahelper/core').FileSystem;
-const { ApexNodeTypes } = require('@aurahelper/core').Values;
+import { ProviderActivationInfo } from '../core/types';
+import { CoreUtils, PathUtils, ApexNodeTypes, AuraJSFunction } from '@aurahelper/core';
+const StrUtils = CoreUtils.StrUtils;
+const Utils = CoreUtils.Utils;
 
 export class SnippetUtils {
-    static getApexComment(apexNode: any, template: ApexCommentTemplate, filePath: string, declarationLine: vscode.TextLine): string {
+    static getApexComment(apexNode: any, template: any, filePath: string, declarationLine: vscode.TextLine): string {
         const insertSpaces = Config.insertSpaces();
         const tabSize = Config.getTabSize();
         let firstChar = declarationLine.firstNonWhitespaceCharacterIndex;
@@ -341,7 +341,7 @@ export class SnippetUtils {
         return funcBody;
     }
 
-    static getAuraDocumentationSnippet(controllerMethods: any[], helperMethods: any[], templateContent: string): string {
+    static getAuraDocumentationSnippet(controllerMethods: AuraJSFunction[] | undefined, helperMethods: AuraJSFunction[] | undefined, templateContent: string): string {
         let documentationTextJson = JSON.parse(templateContent);
         let documentationText = "";
         let helperSectionIndent = '';
@@ -438,7 +438,7 @@ export class SnippetUtils {
         return content;
     }
 
-    static getMethodsContent(methods: any[], methodTemplate: string[], paramTemplate: string[], returnTemplate: string[], indent: string): string {
+    static getMethodsContent(methods: AuraJSFunction[] | undefined, methodTemplate: string[], paramTemplate: string[], returnTemplate: string[], indent: string): string {
         var content = "";
         if (methods) {
             for (let i = 0; i < methods.length; i++) {
@@ -448,7 +448,7 @@ export class SnippetUtils {
         return content;
     }
 
-    static getMethodContent(func: any, methodTemplate: string[], paramTemplate: string[], returnTemplate: string[], indent: string): string {
+    static getMethodContent(func: AuraJSFunction, methodTemplate: string[], paramTemplate: string[], returnTemplate: string[], indent: string): string {
         let content = "";
         let paramsIndent = "";
         let returnIndent = "";
@@ -485,8 +485,8 @@ export class SnippetUtils {
         }
         content = StrUtils.replace(content, '{!method.name}', func.name);
         content = StrUtils.replace(content, '{!method.description}', methodDesc);
-        content = StrUtils.replace(content, '{!method.signature}', func.signature);
-        content = StrUtils.replace(content, '{!method.auraSignature}', func.auraSignature);
+        content = StrUtils.replace(content, '{!method.signature}', func.signature || '');
+        content = StrUtils.replace(content, '{!method.auraSignature}', func.auraSignature || '');
         content = StrUtils.replace(content, '{!method.params}', paramsContent);
         content = StrUtils.replace(content, '{!method.return}', returnContent);
         return content;
@@ -494,8 +494,8 @@ export class SnippetUtils {
 
 }
 
-function getApexCommentNodeTemplate(apexNode: any, template: ApexCommentTemplate): ApexCommentsObjectData | undefined {
-    let nodeTemplate: ApexCommentsObjectData | undefined;
+function getApexCommentNodeTemplate(apexNode: any, template: any): any {
+    let nodeTemplate: any;
     if (apexNode.nodeType === ApexNodeTypes.CLASS || apexNode.nodeType === ApexNodeTypes.INTERFACE || apexNode.nodeType === ApexNodeTypes.ENUM || apexNode.nodeType === ApexNodeTypes.TRIGGER) {
         if (template.comments[apexNode.nodeType]) {
             nodeTemplate = template.comments[apexNode.nodeType];

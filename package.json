@@ -579,17 +579,17 @@
 		"email": "juanjoselongoria@gmail.com"
 	},
 	"dependencies": {
-		"@aurahelper/cli-manager": "^1.0.2",
-		"@aurahelper/connector": "^1.1.2",
-		"@aurahelper/core": "^1.0.13",
-		"@aurahelper/dependencies-manager": "^1.0.0",
-		"@aurahelper/git-manager": "^1.0.0",
-		"@aurahelper/ignore": "^1.0.1",
-		"@aurahelper/languages": "^1.0.13",
-		"@aurahelper/metadata-factory": "^1.0.10",
-		"@aurahelper/package-generator": "^1.0.2",
-		"@aurahelper/xml-compressor": "^1.0.0",
-		"@aurahelper/xml-definitions": "^1.0.0"
+		"@aurahelper/cli-manager": "file:../../nodeJS/Aura Helper Framework/ah-cli-manager",
+		"@aurahelper/connector": "../../nodeJS/Aura Helper Framework/ah-connector",
+		"@aurahelper/core": "../../nodeJS/Aura Helper Framework/ah-core",
+		"@aurahelper/dependencies-manager": "../../nodeJS/Aura Helper Framework/ah-dependencies-manager",
+		"@aurahelper/git-manager": "../../nodeJS/Aura Helper Framework/ah-git-manager",
+		"@aurahelper/ignore": "../../nodeJS/Aura Helper Framework/ah-ignore",
+		"@aurahelper/languages": "../../nodeJS/Aura Helper Framework/ah-languages",
+		"@aurahelper/metadata-factory": "../../nodeJS/Aura Helper Framework/ah-metadata-factory",
+		"@aurahelper/package-generator": "../../nodeJS/Aura Helper Framework/ah-package-generator",
+		"@aurahelper/xml-compressor": "../../nodeJS/Aura Helper Framework/ah-xml-compressor",
+		"@aurahelper/xml-definitions": "../../nodeJS/Aura Helper Framework/ah-xml-definitions"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.2",

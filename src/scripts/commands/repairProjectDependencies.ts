@@ -1,13 +1,13 @@
 import * as vscode from 'vscode';
 import { Config } from '../core/config';
 import { Paths } from '../core/paths';
-import { applicationContext } from '../core/applicationContext';
 import { NotificationManager, DiagnosticsManager } from '../output';
-import { MetadataSelector, MetadataSelectorOption } from '../inputs/metadataSelector';
-import { InputFactory } from '../inputs/factory';
-const DependenciesManager = require('@aurahelper/dependencies-manager');
-const CLIManager = require('@aurahelper/cli-manager');
-const Connection = require('@aurahelper/connector');
+import { MetadataSelector } from '../inputs/metadataSelector';
+import { DependenciesManager } from '@aurahelper/dependencies-manager';
+import { CLIManager } from '@aurahelper/cli-manager';
+import { Connection } from '@aurahelper/connector';
+import { MetadataType } from '@aurahelper/core';
+
 
 export async function run() {
     try {
@@ -35,7 +35,7 @@ export async function run() {
     }
 }
 
-async function repair(options: any, typesForRepair: string[], callback: any) {
+async function repair(options: any, typesForRepair: { [key: string]: MetadataType }, callback: any) {
     const sortOrder = Config.getXMLSortOrder();
     DiagnosticsManager.clearDiagnostic("xml");
     vscode.window.withProgress({
@@ -61,8 +61,7 @@ async function repair(options: any, typesForRepair: string[], callback: any) {
                             });
                         }
                     });
-                    const dataToRepair = getTypesForAuraHelperCommands(typesForRepair);
-                    cliManager.repairDependencies(dataToRepair, options[MetadataSelector.getCheckErrorsAction()], false).then((result: any) => {
+                    cliManager.repairDependencies(typesForRepair, options[MetadataSelector.getCheckErrorsAction()], false).then((result: any) => {
                         if (options[MetadataSelector.getCheckErrorsAction()]) {
                             NotificationManager.showInfo("Checking errors finished. See the result in problems window");
                         } else {
@@ -152,26 +151,4 @@ async function showErrors(errors: any) {
             }
         });
     });
-}
-
-function getTypesForAuraHelperCommands(metadata: any): string[] {
-    const types: string[] = [];
-    Object.keys(metadata).forEach((typeKey) => {
-        if (metadata[typeKey].checked) {
-            types.push(typeKey);
-        } else {
-            Object.keys(metadata[typeKey].childs).forEach((objectKey) => {
-                if (metadata[typeKey].childs[objectKey].checked) {
-                    types.push(typeKey + ':' + objectKey);
-                } else {
-                    Object.keys(metadata[typeKey].childs[objectKey].childs).forEach((itemKey) => {
-                        if (metadata[typeKey].childs[objectKey].childs[itemKey].checked) {
-                            types.push(typeKey + ':' + objectKey + ':' + itemKey);
-                        }
-                    });
-                }
-            });
-        }
-    });
-    return types;
 }

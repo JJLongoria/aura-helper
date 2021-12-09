@@ -6,13 +6,10 @@ import { applicationContext } from '../core/applicationContext';
 import { ProviderManager } from '../providers/providersManager';
 import { ApexCodeWatcher } from '../watchers/apexCodeWatcher';
 import { ProjectFilesWatcher } from '../watchers/projectFilesWatcher';
-const Connection = require('@aurahelper/connector');
-const { FileChecker, FileWriter, FileReader } = require('@aurahelper/core').FileSystem;
-const { StrUtils } = require('@aurahelper/core').CoreUtils;
-const { MetadataTypes } = require('@aurahelper/core').Values;
-const { SObject } = require('@aurahelper/core').Types;
-const MetadataFactory = require('@aurahelper/metadata-factory');
-
+import { CoreUtils, FileChecker, FileReader, FileWriter, MetadataTypes, SObject } from '@aurahelper/core';
+import { Connection } from '@aurahelper/connector';
+import { MetadataFactory } from '@aurahelper/metadata-factory';
+const StrUtils = CoreUtils.StrUtils;
 
 export function run(onbackground: boolean): void {
     if (!onbackground) {
