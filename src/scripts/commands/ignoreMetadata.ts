@@ -1,13 +1,12 @@
 import * as vscode from 'vscode';
-import { OutputChannel, NotificationManager } from '../output';
+import { NotificationManager } from '../output';
 import { Config } from '../core/config';
 import { Paths } from '../core/paths';
 import { InputFactory } from '../inputs/factory';
-const { FileReader, FileChecker } = require('@aurahelper/core').FileSystem;
-const { MetadataUtils } = require('@aurahelper/core').CoreUtils;
-const CLIManager = require('@aurahelper/cli-manager');
-const Ignore = require('@aurahelper/ignore');
-const Connection = require('@aurahelper/connector');
+import { FileChecker, FileReader } from '@aurahelper/core';
+import { CLIManager } from '@aurahelper/cli-manager';
+import { Connection } from '@aurahelper/connector';
+import { Ignore } from '@aurahelper/ignore';
 
 export async function run() {
     const alias = Config.getOrgAlias();

@@ -3,10 +3,11 @@ import { Paths } from '../core/paths';
 import { Config } from '../core/config';
 import { MultiStepInput } from './multiStepInput';
 import { OutputChannel } from '../output/outputChannnel';
-const { FileWriter, FileReader, PathUtils } = require('@aurahelper/core').FileSystem;
-const { XMLParser } = require('@aurahelper/languages').XML;
-const CLIManager = require('@aurahelper/cli-manager');
-const XMLCompressor = require('@aurahelper/xml-compressor');
+import { FileWriter, FileReader, PathUtils } from '@aurahelper/core';
+import { XML } from '@aurahelper/languages';
+import { XMLCompressor } from '@aurahelper/xml-compressor';
+import { CLIManager } from '@aurahelper/cli-manager';
+const XMLParser = XML.XMLParser;
 
 export class XMLEditor extends MultiStepInput {
 

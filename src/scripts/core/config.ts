@@ -14,12 +14,20 @@ SORT_ORDER_CONFIG_VALUES_MAP["Alphabet Desc"] = XML_SORT_ORDER.ALPHABET_DESC;
 
 export class Config {
 
-    static getTabSize(): string | number | undefined {
-        return vscode.window.activeTextEditor!.options.tabSize;
+    static getTabSize(): number {
+        const tabSize = vscode.window.activeTextEditor!.options.tabSize;
+        if(tabSize){
+            return Number(tabSize);
+        }
+        return 4;
     }
 
-    static insertSpaces(): boolean | string | undefined {
-        return vscode.window.activeTextEditor!.options.insertSpaces;
+    static insertSpaces(): boolean{
+        const insertSpaces =  vscode.window.activeTextEditor!.options.insertSpaces;
+        if(insertSpaces === true || insertSpaces === 'true'){
+            return true;
+        }
+        return false;
     }
 
     static getConfig(): ConfigData {

@@ -2,9 +2,7 @@ import * as vscode from 'vscode';
 import { OutputChannel, NotificationManager } from '../output';
 import { Config } from '../core/config';
 import { Paths } from '../core/paths';
-const CLIManager = require('@aurahelper/cli-manager');
-const { MathUtils } = require('@aurahelper/core').CoreUtils;
-const XMLCompressor = require('@aurahelper/xml-compressor');
+import { CLIManager } from '@aurahelper/cli-manager';
 
 export function run(uri: vscode.Uri): void {
     try {

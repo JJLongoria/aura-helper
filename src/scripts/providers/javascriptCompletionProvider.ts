@@ -7,11 +7,12 @@ import { applicationContext } from '../core/applicationContext';
 import { MarkDownStringBuilder } from '../output';
 import { TemplateUtils } from '../utils/templateUtils';
 import { ActivationToken, ProviderActivationInfo } from '../core/types';
-const { FileChecker, PathUtils, FileReader } = require('@aurahelper/core').FileSystem;
-const { AuraBundleAnalyzer } = require('@aurahelper/languages').Aura;
-const { JSParser } = require('@aurahelper/languages').JavaScript;
-const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
-const { Utils, StrUtils } = require('@aurahelper/core').CoreUtils;
+import { JavaScript, Aura } from '@aurahelper/languages';
+import { CoreUtils, FileChecker, FileReader } from '@aurahelper/core';
+const Utils = CoreUtils.Utils;
+const StrUtils = CoreUtils.StrUtils;
+const AuraBundleAnalyzer = Aura.BundleAnalyzer;
+const JSParser = JavaScript.JSParser;
 const CompletionItemKind = vscode.CompletionItemKind;
 const Range = vscode.Range;
 const Position = vscode.Position;
@@ -47,7 +48,7 @@ function provideJSCompletion(document: vscode.TextDocument, position: vscode.Pos
 	const jsSnippets = (activationTokens.length > 0) ? getSnippets(applicationContext.snippets.javascript, activationTokens[0].activation) : undefined;
 	const component = new AuraBundleAnalyzer(document.uri.fsPath.replace('Controller.js', '.cmp').replace('Helper.js', '.cmp'), applicationContext.parserData).setActiveFile(document.uri.fsPath).setTabSize(Config.getTabSize()).analize(ProviderUtils.fixPositionOffset(document, position));
 	const jsFile = new JSParser(document.uri.fsPath).setContent(FileReader.readDocument(document)).setTabSize(Config.getTabSize()).setCursorPosition(position).parse();
-	if (jsFile.positionData && jsFile.positionData.query) {
+	if (jsFile && jsFile.positionData && jsFile.positionData.query) {
 		// Code for support completion on queries
 		items = ProviderUtils.getQueryCompletionItems(position, activationInfo, activationTokens, jsFile.positionData);
 	} else if (jsSnippets) {
@@ -64,7 +65,7 @@ function provideJSCompletion(document: vscode.TextDocument, position: vscode.Pos
 		if (activationTokens.length > 1) {
 			ProviderUtils.getAttribute(component, activationTokens[1].activation);
 		}
-		if (attribute) {
+		if (attribute && jsFile) {
 			items = getComponentAttributeMembersCompletionItems(position, activationInfo, activationTokens, attribute, jsFile.positionData);
 		} else {
 			items = getAttributesCompletionItems(position, activationInfo, component);
@@ -81,7 +82,7 @@ function provideJSCompletion(document: vscode.TextDocument, position: vscode.Pos
 			return [];
 		}
 		items = getHelperFunctions(position, activationInfo, component);
-	} else if (activationTokens.length > 0) {
+	} else if (activationTokens.length > 0 && jsFile) {
 		// Code for completions when position is on empty line or withot components
 		items = ProviderUtils.getApexCompletionItems(position, activationInfo, undefined, jsFile.positionData);
 		if (activationInfo.activationTokens.length === 1 && !activationInfo.activationTokens[0].isQuery && activationInfo.activationTokens[0].nextToken && activationInfo.activationTokens[0].nextToken.text !== '.') {

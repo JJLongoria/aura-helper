@@ -2,11 +2,12 @@ import * as vscode from 'vscode';
 import { Config } from '../core/config';
 import { XMLEditor } from './xmlEditor';
 import { MultiStepInput } from './multiStepInput';
-const XMLDefinitions = require('@aurahelper/xml-definitions');
-const { Utils } = require('@aurahelper/core').CoreUtils;
-const { MetadataTypes, DataTypes } = require('@aurahelper/core').Values;
-const { XMLUtils } = require('@aurahelper/languages').XML;
+import { XML } from '@aurahelper/languages';
+import { CoreUtils, MetadataTypes, Datatypes } from "@aurahelper/core";
+import { XMLDefinitions } from '@aurahelper/xml-definitions';
 const CustomLabelDefinition = XMLDefinitions.getDefinition(MetadataTypes.CUSTOM_LABELS, Config.getAPIVersion());
+const Utils = CoreUtils.Utils;
+const XMLUtils = XML.XMLUtils;
 
 const ROOT_STEP = 1;
 const DELETE_STEP = 2;
@@ -119,7 +120,7 @@ export class CustomLabelsEditor extends XMLEditor {
                     let fieldData = this._xmlDefinition.labels.fields[field];
                     if (fieldData.editable || this._isAddingMode) {
                         let description = (element[field] !== undefined) ? "" + element[field] : element[field];
-                        if (fieldData.datatype === DataTypes.ENUM && !this._isAddingMode) {
+                        if (fieldData.datatype === Datatypes.ENUM && !this._isAddingMode) {
                             description = fieldData.getLabel(description) + ' - ' + description;
                         }
                         let item = MultiStepInput.getItem(field, undefined, description, undefined);

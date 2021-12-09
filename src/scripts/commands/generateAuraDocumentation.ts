@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
 import { NotificationManager, Editor } from '../output';
-import { Config } from '../core/config';
 import { Paths } from '../core/paths';
 import { SnippetUtils } from '../utils/snippetUtils';
-const { JSParser } = require('@aurahelper/languages').JavaScript;
-const { FileChecker, FileReader } = require('@aurahelper/core').FileSystem;
+import { JavaScript } from '@aurahelper/languages';
+import { AuraJSFunction, FileChecker, FileReader } from '@aurahelper/core';
+const JSParser = JavaScript.JSParser;
 const window = vscode.window;
 const Range = vscode.Range;
 
@@ -44,13 +44,13 @@ function createDoc(editor: vscode.TextEditor): void {
     let helperPath = Paths.getAuraBundleHelperPath(filePath);
     let controllerPath = Paths.getAuraBundleControllerPath(filePath);
     let templatePath = Paths.getAuraDocUserTemplate();
-    let helper;
-    let controller;
+    let helper: AuraJSFunction[] | undefined;
+    let controller: AuraJSFunction[] | undefined;
     if (FileChecker.isExists(helperPath)) {
-        helper = new JSParser(helperPath).parse().methods;
+        helper = new JSParser(helperPath).parse()!.methods;
     }
     if (FileChecker.isExists(controllerPath)) {
-        controller = new JSParser(controllerPath).parse().methods;
+        controller = new JSParser(controllerPath).parse()!.methods;
     }
     if (FileChecker.isExists(templatePath)) {
         let templateContent = FileReader.readFileSync(templatePath);

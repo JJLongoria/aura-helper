@@ -1,6 +1,6 @@
+import { PathUtils } from '@aurahelper/core';
 import * as vscode from 'vscode';
 import { applicationContext } from './applicationContext';
-const { PathUtils } = require('@aurahelper/core').FileSystem;
 
 export class Paths {
 

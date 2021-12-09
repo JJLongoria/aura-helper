@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { NotificationManager } from '../output';
 import { Paths } from '../core/paths';
-const { FileChecker, FileWriter, FileReader } = require('@aurahelper/core').FileSystem;
+import { FileChecker, FileReader, FileWriter } from '@aurahelper/core';
 const window = vscode.window;
 
 export function run(): void {

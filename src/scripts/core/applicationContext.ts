@@ -10,9 +10,9 @@ export const applicationContext: ApplicationContext = {
         lwc: {},
     },
     parserData: {
-        sObjects: {},
+        sObjects: [],
         sObjectsData: {},
-        userClasses: {},
+        userClasses: [],
         userClassesData: {},
         namespaceSummary: {},
         namespacesData: {},
@@ -20,7 +20,7 @@ export const applicationContext: ApplicationContext = {
         namespaces: [],
     },
     isAdvanceGUIAvailable: false,
-    MIN_AH_CLI_VERSION: '3.0.2',
+    MIN_AH_CLI_VERSION: '4.0.0',
     gitData: {
         username: undefined,
         email: undefined,

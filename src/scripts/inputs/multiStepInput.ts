@@ -4,9 +4,10 @@ import { Config } from '../core/config';
 import { EventEmitter } from 'events';
 import { NotificationManager } from '../output';
 import { InputFactory } from './factory';
-const MetadataFactory = require('@aurahelper/metadata-factory');
-const CLIManager = require('@aurahelper/cli-manager');
-const Connection = require('@aurahelper/connector');
+import { MetadataFactory } from '@aurahelper/metadata-factory';
+import { Connection } from '@aurahelper/connector';
+import { CLIManager } from '@aurahelper/cli-manager';
+import { AuraHelperCLIProgress, MetadataDetail, MetadataType, ProgressStatus } from '@aurahelper/core';
 
 const EVENT = {
     ACCEPT: 'accept',
@@ -329,26 +330,26 @@ export class MultiStepInput {
     }
 }
 
-function getLocalMetadata(types?: string[]): Promise<any> {
-    return new Promise<any>(function (resolve, reject) {
+function getLocalMetadata(types?: string[]): Promise<{ [key: string]: MetadataType }> {
+    return new Promise<{ [key: string]: MetadataType }>(function (resolve, reject) {
         if (!Config.getOrgAlias()) {
             reject(new Error('Not connected to an Org. Please authorize and connect to and org and try later.'));
         }
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-            cliManager.describeLocalMetadata(types).then((metadataTypes: any[]) => {
+            cliManager.describeLocalMetadata(types).then((metadataTypes: { [key: string]: MetadataType }) => {
                 resolve(metadataTypes);
             }).catch((error: Error) => {
                 reject(error);
             });
         } else {
             const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
-            connection.listMetadataTypes().then((metadataDetails: any[]) => {
+            connection.listMetadataTypes().then((metadataDetails: MetadataDetail[]) => {
                 const folderMetadataMap = MetadataFactory.createFolderMetadataMap(metadataDetails);
-                const result: any = {};
-                const metadataTypes = MetadataFactory.createMetadataTypesFromFileSystem(folderMetadataMap, Paths.getProjectFolder(), Config.getConfig().metadata.groupGlobalQuickActions);
+                const result: { [key: string]: MetadataType } = {};
+                const metadataTypes: { [key: string]: MetadataType } = MetadataFactory.createMetadataTypesFromFileSystem(folderMetadataMap, Paths.getProjectFolder(), Config.getConfig().metadata.groupGlobalQuickActions);
                 for (const key of Object.keys(metadataTypes)) {
-                    if (!types || types.includes(key)){
+                    if (!types || types.includes(key)) {
                         result[key] = metadataTypes[key];
                     }
                 }
@@ -365,7 +366,7 @@ function getOrgMetadata(downloadAll?: boolean, progressReport?: vscode.Progress<
     return new Promise<any>(function (resolve, reject) {
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-            cliManager.onProgress((status: any) => {
+            cliManager.onProgress((status: AuraHelperCLIProgress) => {
                 if (status.result.increment !== undefined && status.result.increment > -1) {
                     progressReport?.report({
                         message: status.message,
@@ -373,7 +374,7 @@ function getOrgMetadata(downloadAll?: boolean, progressReport?: vscode.Progress<
                     });
                 }
             });
-            cliManager.describeOrgMetadata(downloadAll, types, Config.getConfig().metadata.groupGlobalQuickActions).then((metadataTypes: any[]) => {
+            cliManager.describeOrgMetadata(types, downloadAll, Config.getConfig().metadata.groupGlobalQuickActions).then((metadataTypes: { [key: string]: MetadataType }) => {
                 resolve(metadataTypes);
             }).catch((error: Error) => {
                 reject(error);
@@ -382,14 +383,14 @@ function getOrgMetadata(downloadAll?: boolean, progressReport?: vscode.Progress<
         } else {
             const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
             connection.setMultiThread();
-            connection.onAfterDownloadType((status: any) => {
+            connection.onAfterDownloadType((status: ProgressStatus) => {
                 progressReport?.report({
                     message: 'MetadataType: ' + status.entityType,
                     increment: status.increment
                 });
             });
-            connection.listMetadataTypes().then((metadataDetails: any[]) => {
-                connection.describeMetadataTypes(metadataDetails, downloadAll, Config.getConfig().metadata.groupGlobalQuickActions).then((metadataTypes: any[]) => {
+            connection.listMetadataTypes().then((metadataDetails: MetadataDetail[]) => {
+                connection.describeMetadataTypes(metadataDetails, downloadAll, Config.getConfig().metadata.groupGlobalQuickActions).then((metadataTypes: { [key: string]: MetadataType }) => {
                     resolve(metadataTypes);
                 }).catch((error: Error) => {
                     reject(error);

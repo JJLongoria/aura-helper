@@ -4,13 +4,14 @@ import { Config } from '../core/config';
 import { XMLEditor } from './xmlEditor';
 import { MultiStepInput } from './multiStepInput';
 import { applicationContext } from '../core/applicationContext';
-const XMLDefinitions = require('@aurahelper/xml-definitions');
-const { MetadataTypes, DataTypes } = require('@aurahelper/core').Values;
-const { MetadataUtils, Utils } = require('@aurahelper/core').CoreUtils;
-const { XMLUtils } = require('@aurahelper/languages').XML;
-const { MetadataType, MetadataObject, MetadataItem } = require('@aurahelper/core').Types;
-const Connection = require('@aurahelper/connector');
-const CLIManager = require('@aurahelper/cli-manager');
+import { XML } from '@aurahelper/languages';
+import { MetadataType, MetadataObject, MetadataItem, CoreUtils, MetadataTypes, Datatypes } from '@aurahelper/core';
+import { Connection } from '@aurahelper/connector';
+import { CLIManager } from '@aurahelper/cli-manager';
+import { XMLDefinitions } from '@aurahelper/xml-definitions';
+const MetadataUtils = CoreUtils.MetadataUtils;
+const Utils = CoreUtils.Utils;
+const XMLUtils = XML.XMLUtils;
 
 const ROOT_STEP = 1;
 const PERMISSIONS_STEP = 2;
@@ -117,12 +118,12 @@ export class PermissionEditor extends XMLEditor {
             const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
             const items: vscode.QuickPickItem[] = [];
             const selectedItems: vscode.QuickPickItem[] = [];
-            if (fieldDefinition.datatype === DataTypes.STRING) {
+            if (fieldDefinition.datatype === Datatypes.STRING) {
                 input = vscode.window.createInputBox();
                 input.value = (this._permissionsContent[fieldDefinition.key]) ? this._permissionsContent[fieldDefinition.key] : '';
                 input.placeholder = 'Write a ' + fieldDefinition.label + ' for ' + this._permissionType + " " + this._fileName;
                 input.prompt = "Press Enter to set the value (DON'T PRESS 'Escape' to back)";
-            } else if (fieldDefinition.datatype === DataTypes.ARRAY) {
+            } else if (fieldDefinition.datatype === Datatypes.ARRAY) {
                 const fieldKey = fieldDefinition.fieldKey;
                 const sortOrder = fieldDefinition.sortOrder;
                 const separator = !Utils.isArray(fieldKey) ? fieldDefinition.fields[fieldKey].separator : undefined;
@@ -173,11 +174,11 @@ export class PermissionEditor extends XMLEditor {
                             let editableFields = getEditableFields(fieldDefinition);
                             if (editableFields.length === 1) {
                                 let fieldData = fieldDefinition.fields[editableFields[0]];
-                                if (fieldData.datatype === DataTypes.BOOLEAN) {
+                                if (fieldData.datatype === Datatypes.BOOLEAN) {
                                     input.canSelectMany = true;
                                     item = MultiStepInput.getItem(fieldValue[fieldKey], undefined, undefined, fieldValue[editableFields[0]]);
                                     selected = fieldValue[editableFields[0]];
-                                } else if (fieldData.datatype === DataTypes.ENUM) {
+                                } else if (fieldData.datatype === Datatypes.ENUM) {
                                     let description = fieldDefinition.fields[editableFields[0]].getLabel(fieldValue[editableFields[0]]);
                                     item = MultiStepInput.getItem(fieldValue[fieldKey], undefined, description, undefined);
                                 }
@@ -216,7 +217,7 @@ export class PermissionEditor extends XMLEditor {
                 input.placeholder = 'Select an Element to edit permissions.';
                 for (let field of Object.keys(fieldDefinition.fields)) {
                     const subFieldDefinition = fieldDefinition.fields[field];
-                    if (subFieldDefinition.datatype === DataTypes.ENUM) {
+                    if (subFieldDefinition.datatype === Datatypes.ENUM) {
                         let item = MultiStepInput.getItem(fieldDefinition.fields[field].label, undefined, fieldDefinition.fields[field].getLabel(this._permissionsContent[fieldDefinition.key][field]), undefined);
                         items.push(item);
                     }
@@ -234,7 +235,7 @@ export class PermissionEditor extends XMLEditor {
         const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
         let items = [];
         let input = vscode.window.createQuickPick();
-        if (fieldDefinition.datatype === DataTypes.ARRAY) {
+        if (fieldDefinition.datatype === Datatypes.ARRAY) {
             const fieldKey = fieldDefinition.fieldKey;
             const sortOrder = fieldDefinition.sortOrder;
             const separator = !Utils.isArray(fieldKey) ? fieldDefinition.fields[sortOrder[0]].separator : undefined;
@@ -296,7 +297,7 @@ export class PermissionEditor extends XMLEditor {
         const fieldDefinition = getFieldDefinitionByLabel(this._selectedCollection, this._xmlDefinition);
         let items = [];
         let input = vscode.window.createQuickPick();
-        if (fieldDefinition.datatype === DataTypes.ARRAY && this._selectedElement) {
+        if (fieldDefinition.datatype === Datatypes.ARRAY && this._selectedElement) {
             const sortOrder = fieldDefinition.sortOrder;
             const metadataType = fieldDefinition.fields[sortOrder[0]].metadataType;
             if (metadataType) {
@@ -337,7 +338,7 @@ export class PermissionEditor extends XMLEditor {
             }
             input.placeholder = 'Write a value for ' + this._selectedSubElement;
             input.prompt = "Press Enter to set the value (DON'T PRESS 'Escape' to back)";
-        } else if (fieldDefinition.fields[editableFields[0]].datatype === DataTypes.ENUM) {
+        } else if (fieldDefinition.fields[editableFields[0]].datatype === Datatypes.ENUM) {
             let items = [];
             input = vscode.window.createQuickPick();
             const subFieldDefinition = fieldDefinition.fields[editableFields[0]];
@@ -354,7 +355,7 @@ export class PermissionEditor extends XMLEditor {
             input = vscode.window.createQuickPick();
             input.placeholder = 'Select the values to set.';
             let element;
-            if (fieldDefinition.datatype !== DataTypes.OBJECT) {
+            if (fieldDefinition.datatype !== Datatypes.OBJECT) {
                 const separator = fieldDefinition.fields[sortOrder[0]].separator;
                 if (this._selectedElements?.length === 1) {
                     let value = (separator) ? this._selectedElement + separator + this._selectedElements[0] : this._selectedElements[0];
@@ -401,7 +402,7 @@ export class PermissionEditor extends XMLEditor {
                 if (Utils.isArray(fieldKey)) {
                     metadataType = fieldDefinition.fields[sortOrder[1]].metadataType;
                     let element;
-                    if (fieldDefinition.datatype === DataTypes.ARRAY) {
+                    if (fieldDefinition.datatype === Datatypes.ARRAY) {
                         for (let xmlElement of this._permissionsContent[fieldDefinition.key]) {
                             if (!metadataType) {
                                 let value = getValue(xmlElement, fieldKey);
@@ -469,7 +470,7 @@ export class PermissionEditor extends XMLEditor {
                             }
                         }
                     }
-                } else if (fieldDefinition.datatype === DataTypes.OBJECT) {
+                } else if (fieldDefinition.datatype === Datatypes.OBJECT) {
                     input.placeholder = 'Select a value to set';
                     const subfieldDefinition = getFieldDefinitionByLabel(this._selectedElement, fieldDefinition.fields);
                     if (subfieldDefinition.datatype === 'enum') {
@@ -579,7 +580,7 @@ export class PermissionEditor extends XMLEditor {
                         }
                     }
                 } else {
-                    if (fieldDefinition.datatype === DataTypes.OBJECT) {
+                    if (fieldDefinition.datatype === Datatypes.OBJECT) {
                         for (let field of Object.keys(fieldDefinition.fields)) {
                             if (collection[field] !== oldCollection[field]) {
                                 if (!changes[collectionKey]) {
@@ -613,7 +614,7 @@ export class PermissionEditor extends XMLEditor {
                     let collectionData = this._xmlDefinition[collectionKey];
                     if (changes[collectionKey].elements) {
                         items.push(MultiStepInput.getItem('$(symbol-field)  ' + collectionData.label));
-                        if (fieldDefinition.datatype === DataTypes.OBJECT) {
+                        if (fieldDefinition.datatype === Datatypes.OBJECT) {
                             for (let field of Object.keys(fieldDefinition.fields)) {
                                 if (changes[collectionKey].elements[field]) {
                                     let newElement = changes[collectionKey].elements[field].newElement;
@@ -706,7 +707,7 @@ export class PermissionEditor extends XMLEditor {
                     } else {
                         this.nextStep(ELEMENT_STEP);
                     }
-                } else if (fieldDefinition.fields[editableFields[0]].datatype === DataTypes.ENUM) {
+                } else if (fieldDefinition.fields[editableFields[0]].datatype === Datatypes.ENUM) {
                     this._selectedElement = selectedItems[0];
                     this._selectedElements = selectedItems;
                     this.nextStep(SET_VALUES_STEP);
@@ -742,7 +743,7 @@ export class PermissionEditor extends XMLEditor {
                 metadataType = fieldDefinition.fields[sortOrder[0]].metadataType;
                 separator = !Utils.isArray(fieldKey) ? fieldDefinition.fields[sortOrder[0]].separator : undefined;
                 const subFieldDefinition = fieldDefinition.fields[editableFields[0]];
-                if (subFieldDefinition.datatype === DataTypes.ENUM) {
+                if (subFieldDefinition.datatype === Datatypes.ENUM) {
                     if (this._selectedElements && this._selectedElements.length > 1) {
                         for (const selectedElement of this._selectedElements) {
                             let dataToAdd: any = {};
@@ -795,7 +796,7 @@ export class PermissionEditor extends XMLEditor {
                         this._selectedSubElement = selectedItems[0];
                         this.nextStep(SET_VALUES_STEP);
                     }
-                } else if (fieldDefinition.datatype === DataTypes.OBJECT) {
+                } else if (fieldDefinition.datatype === Datatypes.OBJECT) {
                     const subfieldDefinition = getFieldDefinitionByLabel(this._selectedElement, fieldDefinition.fields);
                     let value: string | undefined = selectedItems[0];
                     if (value === '-- None --') {
@@ -1011,7 +1012,7 @@ export class PermissionEditor extends XMLEditor {
                     if (selectedItems.length === 0) {
                         this.backStep();
                     } else if (editableFields.length === 1 || selectedItems.length > 1) {
-                        if ((editableFields.length === 1 || editableFields.length !== notUnique.length) && fieldDefinition.fields[editableFields[0]].datatype !== DataTypes.ENUM) {
+                        if ((editableFields.length === 1 || editableFields.length !== notUnique.length) && fieldDefinition.fields[editableFields[0]].datatype !== Datatypes.ENUM) {
                             for (let selectedItem of selectedItems) {
                                 let dataToAdd: any = {};
                                 for (let field of fieldKeys) {
@@ -1294,7 +1295,7 @@ function transformPermissionContentToMap(permissionContent: any, xmlMetadata: an
         if (collectionData && collectionData.editable) {
             const fieldKey = collectionData.fieldKey;
             const sortOrder = collectionData.fieldKey;
-            if (collectionData.datatype === DataTypes.ARRAY) {
+            if (collectionData.datatype === Datatypes.ARRAY) {
                 for (let xmlElement of collection) {
                     if (!permissionsContentMap[collectionKey]) {
                         permissionsContentMap[collectionKey] = {
@@ -1416,7 +1417,7 @@ function extractMetadataFromFile(profile: any, xmlMetadata: any): any {
     const profileMetadata: any = {};
     for (const collection of Object.keys(profile)) {
         const collectionData = xmlMetadata[collection];
-        if (!collectionData || collectionData.datatype !== DataTypes.ARRAY) {
+        if (!collectionData || collectionData.datatype !== Datatypes.ARRAY) {
             continue;
         }
         const mainFieldKey = Utils.isArray(collectionData.fieldKey) ? collectionData.fieldKey[0] : collectionData.fieldKey;

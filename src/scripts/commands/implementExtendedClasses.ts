@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
 import { NotificationManager } from '../output';
 import { applicationContext } from '../core/applicationContext';
-const { FileReader, FileChecker } = require('@aurahelper/core').FileSystem;
-const { Utils, StrUtils } = require('@aurahelper/core').CoreUtils;
-const { ApexConstructor } = require('@aurahelper/core').Types;
-const { ApexNodeTypes } = require('@aurahelper/core').Values;
-const { ApexParser } = require('@aurahelper/languages').Apex;
+import { Apex } from '@aurahelper/languages';
+import { ApexConstructor, ApexNodeTypes, CoreUtils, FileChecker, FileReader } from '@aurahelper/core';
+const Utils = CoreUtils.Utils;
+const StrUtils = CoreUtils.StrUtils;
+const ApexParser = Apex.ApexParser;
 const Window = vscode.window;
 const SnippetString = vscode.SnippetString;
 const Position = vscode.Position;
@@ -17,7 +17,7 @@ export function run(): void {
         if (editor) {
             filePath = editor.document.uri.fsPath;
         }
-        if (editor && FileChecker.isApexClass(filePath)) {
+        if (editor && filePath && FileChecker.isApexClass(filePath)) {
             const node = new ApexParser().setContent(FileReader.readDocument(editor.document)).setSystemData(applicationContext.parserData).resolveReferences();
             implementClasses(editor, node);
         } else {
@@ -45,8 +45,8 @@ function implementClasses(editor: vscode.TextEditor, apexClass: any): void {
             for (const constructor of apexClass.extends.getOrderedChilds(ApexNodeTypes.CONSTRUCTOR)) {
                 const tmp = new ApexConstructor(constructor);
                 tmp.name = apexClass.name;
-                tmp.simplifiedSignature = StrUtils.replace(tmp.simplifiedSignature, constructor.name, apexClass.name).toLowerCase();
-                tmp.signature = StrUtils.replace(tmp.signature, constructor.name, apexClass.name).toLowerCase();
+                tmp.simplifiedSignature = StrUtils.replace(tmp.simplifiedSignature || '', constructor.name, apexClass.name).toLowerCase();
+                tmp.signature = StrUtils.replace(tmp.signature || '', constructor.name, apexClass.name).toLowerCase();
                 if (!ApexParser.isConstructorExists(apexClass, tmp)) {
                     constructorsToCreate.push(tmp);
                 }

@@ -2,9 +2,12 @@ import * as vscode from 'vscode';
 import { Paths } from '../core/paths';
 import { MultiStepInput } from './multiStepInput';
 import { InputFactory } from './factory';
-const GitManager = require('@aurahelper/git-manager');
-const { MetadataUtils, Utils, StrUtils } = require('@aurahelper/core').CoreUtils;
-const { PathUtils } = require('@aurahelper/core').FileSystem;
+import { GitManager } from '@aurahelper/git-manager';
+import { CoreUtils, PathUtils } from '@aurahelper/core';
+const MetadataUtils = CoreUtils.MetadataUtils;
+const Utils = CoreUtils.Utils;
+const StrUtils = CoreUtils.StrUtils;
+
 
 const INIT_OPTIONS_STEP = 1;
 const TYPE_STEP = 2;

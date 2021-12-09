@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
+import { CoreUtils } from '@aurahelper/core';
+const Utils = CoreUtils.Utils;
 var statusBar: vscode.StatusBarItem;
-const { Utils } = require('@aurahelper/core').CoreUtils;
-
 
 export class NotificationManager {
 
