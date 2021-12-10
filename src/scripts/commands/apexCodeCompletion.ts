@@ -7,7 +7,6 @@ import { Config } from '../core/config';
 import { ProviderUtils } from '../providers/utils';
 import { Apex } from '@aurahelper/languages';
 import { CoreUtils, FileChecker, FileReader } from '@aurahelper/core';
-const StrUtils = CoreUtils.StrUtils;
 const ApexParser = Apex.ApexParser;
 const window = vscode.window;
 const Range = vscode.Range;

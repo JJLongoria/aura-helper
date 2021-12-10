@@ -2,8 +2,8 @@ import * as vscode from 'vscode';
 import { Paths } from './paths';
 import { applicationContext } from './applicationContext';
 import { ConfigData } from './types';
-const { CoreUtils } = require('@aurahelper/core');
-const XMLCompressor = require('@aurahelper/xml-compressor');
+import { CoreUtils } from '@aurahelper/core';
+import { XMLCompressor } from '@aurahelper/xml-compressor';
 const ProjectUtils = CoreUtils.ProjectUtils;
 const XML_SORT_ORDER = XMLCompressor.getSortOrderValues();
 const SORT_ORDER_CONFIG_VALUES_MAP: any = {};
@@ -52,7 +52,7 @@ export class Config {
         if (Config.getConfig().metadata.useCustomAPIVersion) {
             return ProjectUtils.getApiAsString(Config.getConfig().metadata.customAPIVersion);
         }
-        return ProjectUtils.getProjectConfig(Paths.getProjectFolder()).sourceApiVersion;
+        return ProjectUtils.getProjectConfig(Paths.getProjectFolder())!.sourceApiVersion;
     }
 
     static getNamespace(): string {
@@ -60,6 +60,6 @@ export class Config {
     }
 
     static getOrgAlias(): string {
-        return ProjectUtils.getOrgAlias(Paths.getProjectFolder());
+        return ProjectUtils.getOrgAlias(Paths.getProjectFolder()) || '';
     }
 }
