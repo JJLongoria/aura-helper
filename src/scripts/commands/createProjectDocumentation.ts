@@ -5,14 +5,16 @@ import { Paths } from '../core/paths';
 import { InputFactory } from '../inputs/factory';
 import { TemplateUtils } from '../utils/templateUtils';
 import { applicationContext } from '../core/applicationContext';
-import { FileChecker, FileReader, FileWriter } from '@aurahelper/core';
-
-const { ApexParser } = require('@aurahelper/languages').Apex;
-const { Tokenizer, TokenType } = require('@aurahelper/languages').System;
-const LanguageUtils = require('@aurahelper/languages').LanguageUtils;
-const { StrUtils, Utils } = require('@aurahelper/core').CoreUtils;
-const { ApexNodeTypes } = require('@aurahelper/core').Values;
-const { Token } = require('@aurahelper/core').Types;
+import { ApexNodeTypes, CoreUtils, FileChecker, FileReader, FileWriter, SObject, Token, TokenTypes } from '@aurahelper/core';
+import { JavaScript, Aura, XML, Apex, LanguageUtils, System } from '@aurahelper/languages';
+const StrUtils = CoreUtils.StrUtils;
+const Utils = CoreUtils.Utils;
+const Tokenizer = System.Tokenizer;
+const XMLParser = XML.XMLParser;
+const XMLUtils = XML.XMLUtils;
+const ApexParser = Apex.ApexParser;
+const AuraParser = Aura.AuraParser;
+const JSParser = JavaScript.JSParser;
 const Window = vscode.window;
 
 
@@ -163,7 +165,7 @@ function styleDatatype(datatype: string): string {
     while (index < dataTypeTokens.length) {
         const lastToken = LanguageUtils.getLastToken(dataTypeTokens, index);
         const token = dataTypeTokens[index];
-        if (token.type === TokenType.IDENTIFIER) {
+        if (token.type === TokenTypes.IDENTIFIER) {
             if (lastToken && lastToken.text === '&' && (token.text === 'lt' || token.text === 'gt')) {
                 styledDatatype.push(token.text);
                 index++;
@@ -171,9 +173,9 @@ function styleDatatype(datatype: string): string {
             }
             const node = parser.resolveDatatype(token.textToLower);
             if (node) {
-                if (node.documentation) {
+                if (node && !(node instanceof SObject) && node.documentation) {
                     styledDatatype.push('<b class="code datatype"><a target="_blank" style="text-decoration:none;" href="' + node.documentation + '">' + node.name + '</a></b>');
-                } else if (node.keyPrefix) {
+                } else if (node && node instanceof SObject && node.keyPrefix) {
                     const nameToLower = node.name.toLowerCase();
                     if (nameToLower.endsWith('__c')) {
                         styledDatatype.push('<b class="code sobject"><a target="_blank" style="text-decoration:none;" href="' + applicationContext.sfData.serverInstance + '/' + node.keyPrefix + '">' + node.name + '</a></b>');
@@ -186,13 +188,13 @@ function styleDatatype(datatype: string): string {
                     } else {
                         styledDatatype.push('<b class="code sobject"><a target="_blank" style="text-decoration:none;" href="https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_' + nameToLower + '.htm">' + node.name + '</a></b>');
                     }
-                } else {
+                } else if (node && !(node instanceof SObject)){
                     styledDatatype.push('<b class="code datatype"><a style="text-decoration:none;" href="' + (node.parentName) ? node.parentName : node.name + '.html">' + node.name + '</a></b>');
                 }
             } else {
                 styledDatatype.push(token.text);
             }
-        } else if (token.type === TokenType.PUNCTUATION.COMMA) {
+        } else if (token.type === TokenTypes.PUNCTUATION.COMMA) {
             styledDatatype.push(token.text + ' ');
         } else {
             styledDatatype.push(token.text);
@@ -284,7 +286,7 @@ function createHome(): string {
     let homeContent = getHome();
     let pageContent = FileReader.readFileSync(Paths.getAssetsPath() + '/documentation/homeTemplate.html');
     pageContent = StrUtils.replace(pageContent, '{!homeTitle}', 'Organization: ' + alias + '<h5 class="sectionTitle">Server Instance: <a target="_blank" href="' + applicationContext.sfData.serverInstance + '">' + applicationContext.sfData.serverInstance + '</a></h5>');
-    pageContent = StrUtils.replace(pageContent, '{!goToEnvironment}', applicationContext.sfData.serverInstance);
+    pageContent = StrUtils.replace(pageContent, '{!goToEnvironment}', applicationContext.sfData.serverInstance || '');
     pageContent = StrUtils.replace(pageContent, '{!docStructure}', homeContent.join('\n'));
     return pageContent;
 }

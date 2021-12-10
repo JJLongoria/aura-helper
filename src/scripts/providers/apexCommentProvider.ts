@@ -38,7 +38,7 @@ function getCommentCompletionItem(position: vscode.Position) {
         return undefined;
     }
     const documentation = new MarkDownStringBuilder().appendMarkdown('Add an Apex Comment with the user defined template\n\n');
-    const options = ProviderUtils.getCompletionItemOptions('Apex Comment', documentation.build(), undefined, true, CompletionItemKind.Snippet);
+    const options = ProviderUtils.getCompletionItemOptions('Apex Comment', documentation.build(), '', true, CompletionItemKind.Snippet);
     const command = ProviderUtils.getCommand('Apex Comment', 'aurahelper.completion.apex', [position, "comment"]);
     const item = ProviderUtils.createItemForCompletion('/** */', options, command);
     items.push(item);
