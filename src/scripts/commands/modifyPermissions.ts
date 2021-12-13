@@ -6,7 +6,7 @@ import { Paths } from '../core/paths';
 import { CoreUtils, FileReader, FileWriter, MetadataDetail, MetadataType, MetadataTypes, PathUtils } from '@aurahelper/core';
 import { XML } from '@aurahelper/languages';
 import { CLIManager } from '@aurahelper/cli-manager';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 import { MetadataFactory } from '@aurahelper/metadata-factory';
 import { XMLDefinitions } from '@aurahelper/xml-definitions';
 const StrUtils = CoreUtils.StrUtils;
@@ -79,7 +79,7 @@ function getLocalMetadata(types?: string[]): Promise<{ [key: string]: MetadataTy
                 reject(error);
             });
         } else {
-            const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder());
+            const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder());
             connection.listMetadataTypes().then((metadataDetails: MetadataDetail[]) => {
                 const folderMetadataMap = MetadataFactory.createFolderMetadataMap(metadataDetails);
                 const metadataTypes = MetadataFactory.createMetadataTypesFromFileSystem(folderMetadataMap, Paths.getProjectFolder());

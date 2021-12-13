@@ -5,7 +5,7 @@ import { NotificationManager, DiagnosticsManager } from '../output';
 import { MetadataSelector } from '../inputs/metadataSelector';
 import { DependenciesManager } from '@aurahelper/dependencies-manager';
 import { CLIManager } from '@aurahelper/cli-manager';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 import { MetadataType } from '@aurahelper/core';
 
 
@@ -79,7 +79,7 @@ async function repair(options: any, typesForRepair: { [key: string]: MetadataTyp
                         }
                     });
                 } else {
-                    const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                    const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                     const metadataDetails = await connection.listMetadataTypes();
                     const manager = new DependenciesManager(Paths.getProjectFolder(), metadataDetails);
                     manager.setTypesToRepair(typesForRepair).setCompress(options[MetadataSelector.getCompressAction()]).setSortOrder(sortOrder);

@@ -6,7 +6,7 @@ import { MetadataSelector } from '../inputs/metadataSelector';
 import { InputFactory } from '../inputs/factory';
 import { FileChecker, FileWriter } from '@aurahelper/core';
 import { CLIManager } from '@aurahelper/cli-manager';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 import { GitManager } from '@aurahelper/git-manager';
 import { MetadataFactory } from '@aurahelper/metadata-factory';
 import { Ignore } from '@aurahelper/ignore';
@@ -88,7 +88,7 @@ async function openStandardGUI() {
                                     progress.report({
                                         message: 'Describe Local Metadata Types',
                                     });
-                                    const connection = new Connection(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                                    const connection = new SFConnector(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                                     const metadataDetails = await connection.listMetadataTypes();
                                     const folderMetadataMap = MetadataFactory.createFolderMetadataMap(metadataDetails);
                                     progress.report({

@@ -5,7 +5,7 @@ import { Paths } from '../core/paths';
 import { InputFactory } from '../inputs/factory';
 import { FileChecker, FileReader } from '@aurahelper/core';
 import { CLIManager } from '@aurahelper/cli-manager';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 import { Ignore } from '@aurahelper/ignore';
 
 export async function run() {
@@ -76,7 +76,7 @@ export async function run() {
                         resolve();
                     });
                 } else {
-                    const connection = new Connection(alias, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                    const connection = new SFConnector(alias, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                     cancelToken.onCancellationRequested(() => {
                         NotificationManager.showInfo('Operation Cancelled');
                         connection.abortConnection();

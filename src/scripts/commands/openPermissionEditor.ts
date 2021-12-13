@@ -4,7 +4,7 @@ import { Paths } from '../core/paths';
 import { NotificationManager } from '../output';
 import { PermissionEditor } from '../inputs/permissionEditor';
 import { MetadataObject, MetadataType } from '@aurahelper/core';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 
 export function run(fileUri: vscode.Uri): void {
     try {
@@ -63,7 +63,7 @@ function deploy(data: any): Promise<void> {
                 const typesToDeploy: any = {};
                 typesToDeploy[data.type] = new MetadataType(data.type, true);
                 typesToDeploy[data.type].addChild(new MetadataObject(data.file, true));
-                const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                 connection.deploy(typesToDeploy).then((status: any) => {
                     if (status.done) {
                         NotificationManager.showInfo('Permissions deployed succesfully to org');
