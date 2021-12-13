@@ -1,0 +1,465 @@
+{
+    "tagSymbol": "@",
+    "tags": {
+        "author": {
+            "equalsTo": "", 
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "name",
+                    "source": "username",
+                    "message": "Put the Author name"
+                }
+            ],
+            "template": "{!name}",
+            "multiple": true,
+            "anywhere": false,
+            "source": "salesforce"
+        },
+        "code": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "text",
+                    "source": "input",
+                    "message": "Write your text here"
+                }
+            ],
+            "template": "{!description}",
+            "multiple": true,
+            "anywhere": true,
+            "source": "user"
+        },
+        "deprecated": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "description",
+                    "source": "input",
+                    "message": "Write your text here"
+                }
+            ],
+            "template": "{!description}",
+            "multiple": false,
+            "anywhere": false,
+            "source": "user"
+        },
+        "docRoot": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [],
+            "template": "",
+            "multiple": true,
+            "anywhere": true,
+            "source": "path"
+        },
+        "exception": {
+            "equalsTo": "throws"
+        },
+        "inheritDoc": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [],
+            "template": "",
+            "multiple": true,
+            "anywhere": true,
+            "source": "parent.comment"
+        },
+        "link": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "link",
+                    "source": "input",
+                    "message": "Put the link here"
+                },
+                {
+                    "name": "label",
+                    "source": "input",
+                    "message": "Link label to show"
+                }
+            ],
+            "template": "{!link} {!label}",
+            "multiple": true,
+            "anywhere": true,
+            "source": "user"
+        },
+        "linkplain": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "link",
+                    "source": "input",
+                    "message": "Put the link here"
+                },
+                {
+                    "name": "label",
+                    "source": "input",
+                    "message": "Link label to show"
+                }
+            ],
+            "template": "{!link} {!label}",
+            "multiple": true,
+            "anywhere": true,
+            "source": "user"
+        },
+        "literal": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "value",
+                    "source": "input",
+                    "message": "Literal value to show"
+                }
+            ],
+            "template": "{!value}",
+            "multiple": true,
+            "anywhere": true,
+            "source": "user"
+        },
+        "param": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "name",
+                    "source": "name",
+                    "message": "Parameter name"
+                },
+                {
+                    "name": "type",
+                    "source": "type",
+                    "message": "Parameter datatype"
+                },
+                {
+                    "name": "description",
+                    "source": "input",
+                    "message": "Write the parameter description"
+                }
+            ],
+            "template": "{!name} ({!type}): {!description}",
+            "multiple": true,
+            "anywhere": false,
+            "source": "params"
+        },
+        "return": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "type",
+                    "source": "type",
+                    "message": "Return datatype"
+                },
+                {
+                    "name": "description",
+                    "source": "input",
+                    "message": "Write the return description"
+                }
+            ],
+            "template": "{!type}: {!description}",
+            "multiple": false,
+            "anywhere": false,
+            "source": "return"
+        },
+        "see": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "reference",
+                    "source": "input",
+                    "message": "Write your text or reference here"
+                }
+            ],
+            "template": "{!reference}",
+            "multiple": true,
+            "anywhere": false,
+            "source": "input"
+        },
+        "serial": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "description",
+                    "source": "input",
+                    "message": "Serial description"
+                }
+            ],
+            "template": "{!description}",
+            "multiple": false,
+            "anywhere": false,
+            "source": "input"
+        },
+        "serialData": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "description",
+                    "source": "input",
+                    "message": "Serial data description"
+                }
+            ],
+            "template": "{!description}",
+            "multiple": false,
+            "anywhere": false,
+            "source": "input"
+        },
+        "serialField": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "name",
+                    "source": "name",
+                    "message": "Field name"
+                },
+                {
+                    "name": "type",
+                    "source": "type",
+                    "message": "Field datatype"
+                },
+                {
+                    "name": "description",
+                    "source": "input",
+                    "message": "Serial field description"
+                }
+            ],
+            "template": "{!name} {!type} {!description}",
+            "multiple": true,
+            "anywhere": false,
+            "source": "field"
+        },
+        "since": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "description",
+                    "source": "input",
+                    "message": "Since text"
+                }
+            ],
+            "template": "{!description}",
+            "multiple": true,
+            "anywhere": false,
+            "source": "input"
+        },
+        "throws": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "name",
+                    "source": "name",
+                    "message": "Class name here"
+                },
+                {
+                    "name": "description",
+                    "source": "input",
+                    "message": "Write the class description"
+                }
+            ],
+            "template": "{!name} {!description}",
+            "multiple": true,
+            "anywhere": false,
+            "source": "exceptions"
+        },
+        "value": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "value",
+                    "source": "input",
+                    "message": "Put your value here"
+                }
+            ],
+            "template": "{!value}",
+            "multiple": true,
+            "anywhere": true,
+            "source": "input"
+        },
+        "version": {
+            "equalsTo": "",
+            "symbol": "",
+            "keywords": [
+                {
+                    "name": "version",
+                    "source": "input",
+                    "message": "Version number"
+                }
+            ],
+            "template": "{!version}",
+            "multiple": true,
+            "anywhere": false,
+            "source": "user"
+        }
+    },
+    "comments": {
+        "class": {
+            "tags": [
+                "see",
+                "since",
+                "deprecated",
+                "serial",
+                "author",
+                "version",
+                "link",
+                "linkplain",
+                "docRoot"
+            ],
+            "template": [
+                "/**",
+                " * {!description}",
+                " *",
+                " * {!tag.author}",
+                " * {!tag.version}",
+                " */"
+            ]
+        },
+        "interface": {
+            "tags": [
+                "see",
+                "since",
+                "deprecated",
+                "serial",
+                "author",
+                "version",
+                "link",
+                "linkplain",
+                "docRoot"
+            ],
+            "template": [
+                "/**",
+                " * {!description}",
+                " *",
+                " * {!tag.author}",
+                " * {!tag.version}",
+                " */"
+            ]
+        },
+        "enum": {
+            "tags": [
+                "see",
+                "since",
+                "deprecated",
+                "serial",
+                "author",
+                "version",
+                "link",
+                "linkplain",
+                "docRoot"
+            ],
+            "template": [
+                "/**",
+                " * {!description}",
+                " *",
+                " * {!tag.author}",
+                " * {!tag.version}",
+                " */"
+            ]
+        },
+        "method": {
+            "tags": [
+                "see",
+                "since",
+                "deprecated",
+                "param",
+                "return",
+                "throws",
+                "author",
+                "exception",
+                "serialData",
+                "link",
+                "linkplain",
+                "docRoot",
+                "inheritDoc"
+            ],
+            "template": [
+                "/**",
+                " * {!description}",
+                " *",
+                " * {!tag.param}",
+                " *",
+                " * {!tag.return}",
+                " *",
+                " * {!tag.throws}",
+                " */"
+            ]
+        },
+        "constructor": {
+            "tags": [
+                "see",
+                "since",
+                "deprecated",
+                "param",
+                "return",
+                "throws",
+                "author",
+                "exception",
+                "serialData",
+                "link",
+                "linkplain",
+                "docRoot",
+                "inheritDoc"
+            ],
+            "template": [
+                "/**",
+                " * {!description}",
+                " *",
+                " * {!tag.param}",
+                " *",
+                " * {!tag.throws}",
+                " */"
+            ]
+        },
+        "variable": {
+            "tags": [
+                "see",
+                "since",
+                "deprecated",
+                "serial",
+                "serialField",
+                "version",
+                "link",
+                "linkplain",
+                "docRoot",
+                "value"
+            ],
+            "template": [
+                "/**",
+                " * {!description}",
+                " *",
+                " */"
+            ]
+        },
+        "property": {
+            "tags": [
+                "see",
+                "since",
+                "deprecated",
+                "serial",
+                "serialField",
+                "version",
+                "link",
+                "linkplain",
+                "docRoot",
+                "value"
+            ],
+            "template": [
+                "/**",
+                " * {!description}",
+                " *",
+                " */"
+            ]
+        }
+    }
+}

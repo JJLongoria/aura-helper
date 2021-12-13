@@ -1,4 +1,4 @@
-// A launch configuration that launches the extension inside a new window
+// A launch configuration that compiles the extension and then opens it inside a new window
 // Use IntelliSense to learn about possible attributes.
 // Hover to view descriptions of existing attributes.
 // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
@@ -13,7 +13,10 @@
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}"
 			],
-			"stopOnEntry": false
+			"outFiles": [
+				"${workspaceFolder}/dist/**/*.js"
+			],
+			"preLaunchTask": "${defaultBuildTask}"
 		},
 		{
 			"name": "Extension Tests",
@@ -22,9 +25,12 @@
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}",
-				"--extensionTestsPath=${workspaceFolder}/test/suite/index"
+				"--extensionTestsPath=${workspaceFolder}/dist/test"
 			],
-			"stopOnEntry": false
+			"outFiles": [
+				"${workspaceFolder}/dist/test/**/*.js"
+			],
+			"preLaunchTask": "npm: test-compile"
 		}
 	]
 }

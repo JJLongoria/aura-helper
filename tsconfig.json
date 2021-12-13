@@ -1,0 +1,30 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "esnext",
+		"moduleResolution": "node",
+		"outDir": "dist",
+		"lib": [
+			"es6"
+		],
+		"allowUnreachableCode": false,
+		"noImplicitAny": true,
+		"sourceMap": true,
+		"rootDir": "src",
+		"strict": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedParameters": true,
+		"esModuleInterop": true,
+		"declaration": true,
+	},
+	"include": [
+		"./**/*"
+	],
+	"exclude": [
+		"node_modules",
+		".vscode-test",
+		"./dist",
+		"./dist/**/*"
+	]
+}
