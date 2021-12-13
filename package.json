@@ -3,12 +3,12 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains several tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions to work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "4.0.0",
+	"version": "4.0.1",
 	"engines": {
-		"vscode": "^1.39.0",
+		"vscode": "^1.46.0",
 		"node": ">=12.0.0"
 	},
-	"icon": "./dist/resources/images/blue_icon.png",
+	"icon": "dist/resources/images/blue_icon.png",
 	"categories": [
 		"Programming Languages",
 		"Snippets",

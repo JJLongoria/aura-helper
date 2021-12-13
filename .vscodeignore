@@ -1,5 +1,4 @@
 .vscode/**
-node_modules
 .vscode-test/**
 dist/test/**
 src/**
