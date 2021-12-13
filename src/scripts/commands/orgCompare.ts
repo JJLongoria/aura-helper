@@ -6,7 +6,7 @@ import { MetadataSelector } from '../inputs/metadataSelector';
 import { InputFactory } from '../inputs/factory';
 import { CoreUtils, FileChecker, FileWriter } from '@aurahelper/core';
 import { CLIManager } from '@aurahelper/cli-manager';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 import { MetadataFactory } from '@aurahelper/metadata-factory';
 import { PackageGenerator } from '@aurahelper/package-generator';
 const MetadataUtils = CoreUtils.MetadataUtils;
@@ -86,8 +86,8 @@ export async function run() {
                         let metadataSource;
                         let metadataTarget;
                         if (compareOptions === 'Compare Different Orgs') {
-                            const connectionSource = new Connection(sourceOrg, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
-                            const connectionTarget = new Connection(targetOrg, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                            const connectionSource = new SFConnector(sourceOrg, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                            const connectionTarget = new SFConnector(targetOrg, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                             connectionSource.setMultiThread();
                             connectionTarget.setMultiThread();
                             const sourceMetadataDetails = await connectionSource.listMetadataTypes();
@@ -116,7 +116,7 @@ export async function run() {
                             metadataTarget = await connectionTarget.describeMetadataTypes(targetMetadataDetails, false, Config.getConfig().metadata.groupGlobalQuickActions);
                         } else {
                             targetOrg = Config.getOrgAlias();
-                            const connectionTarget = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                            const connectionTarget = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                             connectionTarget.setMultiThread();
                             progress.report({
                                 message: 'Describe Metadata Types from Local',
@@ -169,7 +169,7 @@ function getAuthOrgs(): Promise<any>{
             cancellable: false
         }, () => {
             return new Promise<void>(async (loadResolve) => {
-                const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                 connection.listAuthOrgs().then((authOrgs: any[]) => {
                     loadResolve();
                     resolve(authOrgs);
@@ -212,7 +212,7 @@ function openStandardGUI(metadata: any, compareOptions: string, target: string) 
                             const packageGenerator = new PackageGenerator(Config.getAPIVersion());
                             packageGenerator.setExplicit(true);
                             packageGenerator.createPackage(data, folder);
-                            const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                            const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                             const retrieveOut = await connection.retrieve(false);
                             NotificationManager.showInfo('Metadata Retrieved Succesfully');
                         } catch (error) {
@@ -260,7 +260,7 @@ function deleteMetadata(metadataToDelete: any, callback: any): void {
                 packageGenerator.setExplicit();
                 packageGenerator.createPackage({}, folder);
                 packageGenerator.createAfterDeployDestructive(metadataToDelete, folder);
-                const connection = new Connection(usuername, apiVersion, Paths.getProjectFolder(), namespace);
+                const connection = new SFConnector(usuername, apiVersion, Paths.getProjectFolder(), namespace);
                 connection.setPackageFolder(folder);
                 connection.deployPackage(undefined, undefined, true).then((status: any) => {
                     if (status.done) {

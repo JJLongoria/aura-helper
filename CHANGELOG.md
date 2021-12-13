@@ -1,5 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.+
+## [4.0.0 - 2021-12-13]
+- Changed to typescript
+- Added support to API v53.0
+- Add better support to projects with Metadata API Format
+- Improve general performance about 60-70%
+- Improve initialization
+- Enhance **AuraHelper: Refresh All SObjects Definitions** to load definitions too much faster (improve speed about 95%)
+- Enhance **List and describe Metadata Types from org** too much faster (improve speed about 95%)
+
+### Fixed
+- Fix all minor found errors
+- Fix Apex formatter error when has .class... into the code
+
 ## [3.1.8 - 2021-11-18]
 ### Added
 - Update package references

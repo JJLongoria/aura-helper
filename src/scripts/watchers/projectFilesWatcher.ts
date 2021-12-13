@@ -3,7 +3,7 @@ import { applicationContext } from '../core/applicationContext';
 import { Paths } from "../core/paths";
 import { Config } from "../core/config";
 import { OutputChannel } from "../output/outputChannnel";
-import { Connection } from "@aurahelper/connector";
+import { SFConnector } from "@aurahelper/connector";
 
 export class ProjectFilesWatcher {
 
@@ -18,7 +18,7 @@ function registerSFDXConfigFileWatcher(): void {
     projectConfigWatcher.onDidChange(async function () {
         const username = Config.getOrgAlias();
         if (username) {
-            const connection = new Connection(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+            const connection = new SFConnector(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
             connection.setMultiThread();
             OutputChannel.outputLine('Getting Org data...');
             setTimeout(async () => {

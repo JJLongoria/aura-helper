@@ -3,7 +3,7 @@ import { Config } from '../core/config';
 import { Paths } from '../core/paths';
 import { applicationContext } from '../core/applicationContext';
 import { NotificationManager } from '../output';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 import { FileChecker, FileWriter } from '@aurahelper/core';
 
 export function run(): void {
@@ -26,7 +26,7 @@ async function refreshIndex() {
 		cancellable: true
 	}, () => {
 		return new Promise<void>(async resolve => {
-			const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+			const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
 			connection.setMultiThread();
 			connection.listSObjects().then((objects: any) => {
 				resolve();
@@ -54,7 +54,7 @@ function refreshObjectMetadataIndex(object: any) {
 		cancellable: false
 	}, () => {
 		return new Promise<void>(async resolve => {
-			const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+			const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
 			connection.setMultiThread();
 			connection.onAfterDownloadSObject((status: any) => {
 				if (status.data) {

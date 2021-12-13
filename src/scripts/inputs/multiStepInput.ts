@@ -5,7 +5,7 @@ import { EventEmitter } from 'events';
 import { NotificationManager } from '../output';
 import { InputFactory } from './factory';
 import { MetadataFactory } from '@aurahelper/metadata-factory';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 import { CLIManager } from '@aurahelper/cli-manager';
 import { AuraHelperCLIProgress, MetadataDetail, MetadataType, ProgressStatus } from '@aurahelper/core';
 
@@ -343,7 +343,7 @@ function getLocalMetadata(types?: string[]): Promise<{ [key: string]: MetadataTy
                 reject(error);
             });
         } else {
-            const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+            const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
             connection.listMetadataTypes().then((metadataDetails: MetadataDetail[]) => {
                 const folderMetadataMap = MetadataFactory.createFolderMetadataMap(metadataDetails);
                 const result: { [key: string]: MetadataType } = {};
@@ -381,7 +381,7 @@ function getOrgMetadata(downloadAll?: boolean, progressReport?: vscode.Progress<
                 console.log(error);
             });
         } else {
-            const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+            const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
             connection.setMultiThread();
             connection.onAfterDownloadType((status: ProgressStatus) => {
                 progressReport?.report({

@@ -6,7 +6,7 @@ import { MultiStepInput } from './multiStepInput';
 import { applicationContext } from '../core/applicationContext';
 import { XML } from '@aurahelper/languages';
 import { MetadataType, MetadataObject, MetadataItem, CoreUtils, MetadataTypes, Datatypes } from '@aurahelper/core';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 import { CLIManager } from '@aurahelper/cli-manager';
 import { XMLDefinitions } from '@aurahelper/xml-definitions';
 const MetadataUtils = CoreUtils.MetadataUtils;
@@ -1519,7 +1519,7 @@ function loadUserPermissions() {
                         progressResolve();
                     });
                 } else {
-                    const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                    const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                     cancelToken.onCancellationRequested(() => {
                         connection.abortConnection();
                     });

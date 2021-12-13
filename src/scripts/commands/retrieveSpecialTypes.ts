@@ -5,7 +5,7 @@ import { NotificationManager } from '../output';
 import { MetadataSelector } from '../inputs/metadataSelector';
 import { FileChecker, FileWriter, MetadataType, SpecialMetadata } from '@aurahelper/core';
 import { CLIManager } from '@aurahelper/cli-manager';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 
 export async function run() {
     try {
@@ -75,7 +75,7 @@ function retrieveMetadata(objects: { [key: string]: MetadataType }, options: any
                         });
                     }
                 } else {
-                    const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                    const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                     connection.setMultiThread();
                     cancelToken.onCancellationRequested(() => {
                         connection.abortConnection();

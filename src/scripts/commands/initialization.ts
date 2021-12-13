@@ -10,14 +10,14 @@ import { TemplateUtils } from '../utils/templateUtils';
 import { Apex, System } from '@aurahelper/languages';
 import { ApexClass, ApexEnum, ApexInterface, ApexNodeTypes, ApexTrigger, CoreUtils, FileChecker, FileReader, FileWriter, PathUtils, SObject } from '@aurahelper/core';
 import { CLIManager } from '@aurahelper/cli-manager';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 import { GitManager } from '@aurahelper/git-manager';
 import { MetadataFactory } from '@aurahelper/metadata-factory';
 const ApexParser = Apex.ApexParser;
 const StrUtils = CoreUtils.StrUtils;
 const Sys = System.System;
-let cliManager: any;
-let connection: any;
+let cliManager: CLIManager;
+let connection: SFConnector;
 
 export function run() {
     const context = applicationContext.context;
@@ -31,7 +31,7 @@ function init(context: vscode.ExtensionContext): void {
     setTimeout(async () => {
         const username = Config.getOrgAlias();
         cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-        connection = new Connection(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+        connection = new SFConnector(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
         connection.setMultiThread();
         createTemplateFiles(context);
         loadSnippets();
@@ -123,8 +123,9 @@ function getOrgData(): Promise<void> {
         OutputChannel.outputLine('Getting Org data...');
         setTimeout(async () => {
             try {
-                applicationContext.sfData.username = await connection.getAuthUsername();
-                applicationContext.sfData.serverInstance = await connection.getServerInstance();
+                const authOrg = await connection.getAuthOrg();
+                applicationContext.sfData.username = authOrg?.username;
+                applicationContext.sfData.serverInstance = authOrg?.instanceUrl;
                 const orgRecord = await connection.query('Select Id, NamespacePrefix from Organization');
                 if (orgRecord && orgRecord.length > 0) {
                     applicationContext.sfData.namespace = orgRecord[0].NamespacePrefix;

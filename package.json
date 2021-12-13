@@ -579,17 +579,17 @@
 		"email": "juanjoselongoria@gmail.com"
 	},
 	"dependencies": {
-		"@aurahelper/cli-manager": "file:../../nodeJS/Aura Helper Framework/ah-cli-manager",
-		"@aurahelper/connector": "../../nodeJS/Aura Helper Framework/ah-connector",
-		"@aurahelper/core": "../../nodeJS/Aura Helper Framework/ah-core",
-		"@aurahelper/dependencies-manager": "../../nodeJS/Aura Helper Framework/ah-dependencies-manager",
-		"@aurahelper/git-manager": "../../nodeJS/Aura Helper Framework/ah-git-manager",
-		"@aurahelper/ignore": "../../nodeJS/Aura Helper Framework/ah-ignore",
-		"@aurahelper/languages": "../../nodeJS/Aura Helper Framework/ah-languages",
-		"@aurahelper/metadata-factory": "../../nodeJS/Aura Helper Framework/ah-metadata-factory",
-		"@aurahelper/package-generator": "../../nodeJS/Aura Helper Framework/ah-package-generator",
-		"@aurahelper/xml-compressor": "../../nodeJS/Aura Helper Framework/ah-xml-compressor",
-		"@aurahelper/xml-definitions": "../../nodeJS/Aura Helper Framework/ah-xml-definitions"
+		"@aurahelper/cli-manager": "^2.0.0",
+		"@aurahelper/connector": "^2.0.0",
+		"@aurahelper/core": "^2.0.0",
+		"@aurahelper/dependencies-manager": "^2.0.0",
+		"@aurahelper/git-manager": "^2.0.2",
+		"@aurahelper/ignore": "^2.0.0",
+		"@aurahelper/languages": "^2.0.0",
+		"@aurahelper/metadata-factory": "^2.0.0",
+		"@aurahelper/package-generator": "^2.0.0",
+		"@aurahelper/xml-compressor": "^2.0.0",
+		"@aurahelper/xml-definitions": "^2.0.0"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.2",

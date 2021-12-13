@@ -5,7 +5,7 @@ import { NotificationManager } from '../output';
 import { CustomLabelsEditor } from '../inputs/customLabelsEditor';
 import { FileChecker, FileWriter, MetadataObject, MetadataType, MetadataTypes } from '@aurahelper/core';
 import { PackageGenerator } from '@aurahelper/package-generator';
-import { Connection } from '@aurahelper/connector';
+import { SFConnector } from '@aurahelper/connector';
 const Window = vscode.window;
 const ProgressLocation = vscode.ProgressLocation;
 
@@ -82,7 +82,7 @@ function deleteLabels(labelsToDelete: any[]): Promise<void> {
                 packageGenerator.setExplicit();
                 packageGenerator.createPackage({}, Paths.getPackageFolder());
                 packageGenerator.createAfterDeployDestructive(typesToDelete, Paths.getPackageFolder());
-                const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                 connection.setPackageFolder(Paths.getPackageFolder());
                 connection.deployPackage(undefined, undefined, true).then((status: any) => {
                     if (status.done) {
@@ -117,7 +117,7 @@ function deployLabels(labelsToDeploy: any[]): Promise<void> {
                         typesToDeploy[MetadataTypes.CUSTOM_LABEL].addChild(new MetadataObject(label.fullName, true));
                     }
                 }
-                const connection = new Connection(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+                const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
                 connection.deploy(typesToDeploy).then((status: any) => {
                     if (status.done) {
                         NotificationManager.showInfo('Custom Labels deployed succesfully to org');
