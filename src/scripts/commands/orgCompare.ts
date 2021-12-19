@@ -9,6 +9,7 @@ import { CLIManager } from '@aurahelper/cli-manager';
 import { SFConnector } from '@aurahelper/connector';
 import { MetadataFactory } from '@aurahelper/metadata-factory';
 import { PackageGenerator } from '@aurahelper/package-generator';
+import { applicationContext } from '../core/applicationContext';
 const MetadataUtils = CoreUtils.MetadataUtils;
 
 export async function run() {
@@ -58,6 +59,7 @@ export async function run() {
                 try {
                     if (Config.useAuraHelperCLI()) {
                         const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+                        cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
                         let result;
                         cliManager.onProgress((status: any) => {
                             if (status.result.increment !== undefined && status.result.increment > -1) {

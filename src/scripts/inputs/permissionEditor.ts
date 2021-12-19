@@ -1508,6 +1508,7 @@ function loadUserPermissions() {
                 }
                 if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+                    cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
                     cancelToken.onCancellationRequested(() => {
                         cliManager.abortProcess();
                     });

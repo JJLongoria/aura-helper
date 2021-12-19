@@ -4,6 +4,7 @@ import { Config } from '../core/config';
 import { Paths } from '../core/paths';
 import { CLIManager } from '@aurahelper/cli-manager';
 import { XMLCompressor } from '@aurahelper/xml-compressor';
+import { applicationContext } from '../core/applicationContext';
 
 export function run(fileUri: vscode.Uri): void {
     try {
@@ -39,6 +40,7 @@ function compress(filePath: string): void {
     const sortOrder = Config.getXMLSortOrder();
     if (Config.useAuraHelperCLI()) {
         const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+        cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
         cliManager.compress(filePath, sortOrder).then(() => {
             OutputChannel.outputLine('XML file compressed successfully');
         }).catch((error: any) => {

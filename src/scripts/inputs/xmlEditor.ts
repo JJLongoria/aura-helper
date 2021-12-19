@@ -7,6 +7,7 @@ import { FileWriter, FileReader, PathUtils } from '@aurahelper/core';
 import { XML } from '@aurahelper/languages';
 import { XMLCompressor } from '@aurahelper/xml-compressor';
 import { CLIManager } from '@aurahelper/cli-manager';
+import { applicationContext } from '../core/applicationContext';
 const XMLParser = XML.XMLParser;
 
 export class XMLEditor extends MultiStepInput {
@@ -39,6 +40,7 @@ export class XMLEditor extends MultiStepInput {
                         if (Config.useAuraHelperCLI()) {
                             FileWriter.createFileSync(this._file, XMLParser.toXML(this._xmlContent));
                             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+                            cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
                             cliManager.compress(this._file, sortOrder).then(() => {
                                 OutputChannel.outputLine('XML file compressed successfully');
                                 progressResolve();

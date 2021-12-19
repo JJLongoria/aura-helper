@@ -1,3 +1,4 @@
+import * as os from 'os';
 import * as vscode from 'vscode';
 import { Config } from '../core/config';
 import { Paths } from '../core/paths';
@@ -15,6 +16,7 @@ import { GitManager } from '@aurahelper/git-manager';
 import { MetadataFactory } from '@aurahelper/metadata-factory';
 const ApexParser = Apex.ApexParser;
 const StrUtils = CoreUtils.StrUtils;
+const OSUtils = CoreUtils.OSUtils;
 const Sys = System.System;
 let cliManager: CLIManager;
 let connection: SFConnector;
@@ -27,115 +29,93 @@ export function run() {
     init(context);
 }
 
-function init(context: vscode.ExtensionContext): void {
-    setTimeout(async () => {
-        const username = Config.getOrgAlias();
-        cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-        connection = new SFConnector(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
-        connection.setMultiThread();
-        createTemplateFiles(context);
-        loadSnippets();
-        if (username) {
-            await getOrgData();
+async function init(context: vscode.ExtensionContext): Promise<void> {
+    const username = Config.getOrgAlias();
+    cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+    connection = new SFConnector(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+    connection.setMultiThread();
+    createTemplateFiles(context);
+    loadSnippets();
+    if (username) {
+        await getOrgData();
+    }
+    await getSystemData();
+    await getGitData();
+    OutputChannel.outputLine('System Data Loaded');
+    await checkAuraHelperCLI();
+    NotificationManager.hideStatusBar();
+    if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart) {
+        vscode.commands.executeCommand('aurahelper.metadata.refresh.index', true);
+    } else {
+        ApexCodeWatcher.startWatching();
+        ProjectFilesWatcher.startWatching();
+        ProviderManager.registerProviders();
+    }
+}
+
+async function getGitData(): Promise<void> {
+    try {
+        const gitManager = new GitManager(Paths.getProjectFolder());
+        applicationContext.gitData.username = await gitManager.getUserName();
+        applicationContext.gitData.email = await gitManager.getUserEmail();
+        applicationContext.gitData.authorName = await gitManager.getAuthorName();
+        applicationContext.gitData.authorEmail = await gitManager.getAuthorEmail();
+        applicationContext.gitData.committerName = await gitManager.getCommitterName();
+        applicationContext.gitData.committerEmail = await gitManager.getCommitterEmail();
+        const branches = await gitManager.getBranches();
+        for (const branch of branches) {
+            if (branch.active) {
+                applicationContext.gitData.branch = branch.name;
+                break;
+            }
         }
-        await getSystemData();
-        await getGitData();
-        OutputChannel.outputLine('System Data Loaded');
-        await checkAuraHelperCLI();
-        NotificationManager.hideStatusBar();
-        if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart) {
-            vscode.commands.executeCommand('aurahelper.metadata.refresh.index', true);
-        } else {
-            ApexCodeWatcher.startWatching();
-            ProjectFilesWatcher.startWatching();
-            ProviderManager.registerProviders();
+        return;
+    } catch (error) {
+        return;
+    }
+}
+
+async function getSystemData(): Promise<void> {
+    OutputChannel.outputLine('Getting Apex Classes and System components data...');
+    try {
+        applicationContext.componentsDetail = Sys.getAuraComponentDetails();
+        applicationContext.parserData.namespaceSummary = Sys.getAllNamespacesSummary();
+        applicationContext.parserData.namespacesData = Sys.getAllNamespacesData();
+        applicationContext.parserData.namespaces = Sys.getAllNamespaces();
+        applicationContext.parserData.sObjectsData = getSObjects();
+        applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
+        applicationContext.parserData.userClasses = getClassNames(Paths.getProjectMetadataFolder() + '/classes');
+        cleanOldClassesDefinitions();
+        await ApexParser.saveAllClassesData(Paths.getProjectMetadataFolder() + '/classes', Paths.getCompiledClassesFolder(), applicationContext.parserData, true);
+        applicationContext.parserData.userClassesData = getClassesFromCompiledClasses();
+        applicationContext.parserData.userClasses = Object.keys(applicationContext.parserData.userClassesData || {});
+        return;
+    } catch (error) {
+        return;
+    }
+}
+
+function checkAuraHelperCLI(): void {
+    OutputChannel.outputLine('Checking Aura Helper SFDX Plugin...');
+    checkAuraHelperVersion().then(() => {
+    }).catch((error) => {
+        NotificationManager.showWarning(error.message);
+    });
+}
+
+async function getOrgData(): Promise<void> {
+    OutputChannel.outputLine('Getting Org data...');
+    try {
+        const authOrg = await connection.getAuthOrg();
+        applicationContext.sfData.username = authOrg?.username;
+        applicationContext.sfData.serverInstance = authOrg?.instanceUrl;
+        const orgRecord = await connection.query<any>('Select Id, NamespacePrefix from Organization');
+        if (orgRecord && orgRecord.length > 0) {
+            applicationContext.sfData.namespace = orgRecord[0].NamespacePrefix;
         }
-    }, 50);
-}
+    } catch (error) {
 
-function getGitData(): Promise<void> {
-    return new Promise<void>((resolve) => {
-        OutputChannel.outputLine('Getting GIT data...');
-        setTimeout(async () => {
-            try {
-                const gitManager = new GitManager(Paths.getProjectFolder());
-                applicationContext.gitData.username = await gitManager.getUserName();
-                applicationContext.gitData.email = await gitManager.getUserEmail();
-                applicationContext.gitData.authorName = await gitManager.getAuthorName();
-                applicationContext.gitData.authorEmail = await gitManager.getAuthorEmail();
-                applicationContext.gitData.committerName = await gitManager.getCommitterName();
-                applicationContext.gitData.committerEmail = await gitManager.getCommitterEmail();
-                const branches = await gitManager.getBranches();
-                for (const branch of branches) {
-                    if (branch.active) {
-                        applicationContext.gitData.branch = branch.name;
-                        break;
-                    }
-                }
-            } catch (error) {
-
-            }
-            resolve();
-        }, 50);
-    });
-}
-
-function getSystemData(): Promise<void> {
-    return new Promise<void>((resolve) => {
-        OutputChannel.outputLine('Getting Apex Classes and System components data...');
-        setTimeout(async () => {
-            try {
-                applicationContext.componentsDetail = Sys.getAuraComponentDetails();
-                applicationContext.parserData.namespaceSummary = Sys.getAllNamespacesSummary();
-                applicationContext.parserData.namespacesData = Sys.getAllNamespacesData();
-                applicationContext.parserData.namespaces = Sys.getAllNamespaces();
-                applicationContext.parserData.sObjectsData = getSObjects();
-                applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
-                applicationContext.parserData.userClasses = getClassNames(Paths.getProjectMetadataFolder() + '/classes');
-                cleanOldClassesDefinitions();
-                await ApexParser.saveAllClassesData(Paths.getProjectMetadataFolder() + '/classes', Paths.getCompiledClassesFolder(), applicationContext.parserData, true);
-                applicationContext.parserData.userClassesData = getClassesFromCompiledClasses();
-                applicationContext.parserData.userClasses = Object.keys(applicationContext.parserData.userClassesData || {});
-                resolve();
-            } catch (error) {
-                resolve();
-            }
-        }, 50);
-    });
-}
-
-function checkAuraHelperCLI(): Promise<void> {
-    return new Promise<void>((resolve) => {
-        OutputChannel.outputLine('Checking Aura Helper CLI...');
-        setTimeout(() => {
-            checkAuraHelperVersion().then(() => {
-                resolve();
-            }).catch(() => {
-                NotificationManager.showWarning("Aura Helper CLI is not installed and some features are not availables. Please go to https://github.com/JJLongoria/aura-helper-CLI or https://www.npmjs.com/package/aura-helper-cli and follow the instructions to install");
-                resolve();
-            });
-        }, 50);
-    });
-}
-
-function getOrgData(): Promise<void> {
-    return new Promise<void>((resolve) => {
-        OutputChannel.outputLine('Getting Org data...');
-        setTimeout(async () => {
-            try {
-                const authOrg = await connection.getAuthOrg();
-                applicationContext.sfData.username = authOrg?.username;
-                applicationContext.sfData.serverInstance = authOrg?.instanceUrl;
-                const orgRecord = await connection.query('Select Id, NamespacePrefix from Organization');
-                if (orgRecord && orgRecord.length > 0) {
-                    applicationContext.sfData.namespace = orgRecord[0].NamespacePrefix;
-                }
-            } catch (error) {
-
-            }
-            resolve();
-        }, 50);
-    });
+    }
 }
 
 function createTemplateFiles(context: vscode.ExtensionContext) {
@@ -193,9 +173,29 @@ function adaptOldApexTemplateToNewTemplate(): string {
     return JSON.stringify(newTemplate, null, 2);
 }
 
-function checkAuraHelperVersion(): Promise<void> {
-    return new Promise<void>(async (resolve, reject) => {
-        try {
+async function checkAuraHelperVersion(): Promise<void> {
+    try {
+        cliManager.useAuraHelperSFDX();
+        if (await cliManager.isAuraHelperCLIInstalled()) {
+            const version = await cliManager.getAuraHelperCLIVersion();
+            const versionSplits = version.split('.');
+            const requiredVersionSplits = applicationContext.MIN_AH_SFDX_VERSION.split('.');
+            const majorVersion = parseInt(versionSplits[0]);
+            const minorVersion = parseInt(versionSplits[1]);
+            const patchVersion = parseInt(versionSplits[2]);
+            const requiredMajorVersion = parseInt(requiredVersionSplits[0]);
+            const requiredMinorVersion = parseInt(requiredVersionSplits[1]);
+            const requiredPatchVersion = parseInt(requiredVersionSplits[2]);
+            applicationContext.ahPluginInstalled = true;
+            if (majorVersion < requiredMajorVersion) {
+                showDialogsForAuraHelpeSFDX();
+            } else if (majorVersion === requiredMajorVersion && minorVersion < requiredMinorVersion) {
+                showDialogsForAuraHelpeSFDX();
+            } else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion) {
+                showDialogsForAuraHelpeSFDX();
+            }
+        } else {
+            cliManager.useAuraHelperSFDX(false);
             const version = await cliManager.getAuraHelperCLIVersion();
             const versionSplits = version.split('.');
             const requiredVersionSplits = applicationContext.MIN_AH_CLI_VERSION.split('.');
@@ -212,29 +212,61 @@ function checkAuraHelperVersion(): Promise<void> {
             } else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion) {
                 showDialogsForAuraHelperCLI();
             }
-            resolve();
-        } catch (error) {
-            reject(error);
         }
+        return;
+    } catch (error) {
+        showDialogsForAuraHelpeSFDX();
+    }
+}
+
+function showDialogsForAuraHelpeSFDX(): void {
+    const message = 'Aura Helper SFDX Plugin is not installed or has older version. To a correct work of Aura Helper Extension, you must update the Aura Helper SFDX Plugin. Press Ok to update now or Cancel to update later';
+    OutputChannel.outputLine(message + '\nTo update Aura Helper SFDX Manually, execute the next command "sfdx plugins:install aura-helper-sfdx"', true);
+    NotificationManager.showWarning(message, () => {
+        NotificationManager.showStatusBar('$(sync~spin) Updating Aura Helper SFDX...');
+        createWhilelistPlugin();
+        cliManager.updateAuraHelperCLI().then(() => {
+            NotificationManager.hideStatusBar();
+            NotificationManager.showInfo('Aura Helper SFDX Plugin Updated. Enjoy it!');
+        }).catch((error) => {
+            NotificationManager.hideStatusBar();
+            if (StrUtils.contains(error, 'aura-helper-sfdx... installed')) {
+                NotificationManager.showInfo('Aura Helper SFDX Plugin Updated. Enjoy it!');
+            } else {
+                const errorMessage = 'An Error ocurred while updating Aura Helper SFDX. You can update manually with command "sfdx plugins:install aura-helper-sfdx".';
+                OutputChannel.outputLine(message + '\nError: ' + error, true);
+                NotificationManager.showError(errorMessage);
+            }
+        });
+    }, () => {
+        NotificationManager.showWarning("You may experience errors with Aura Helper until you update Aura Helper SFDX Plugin.");
     });
 }
 
 function showDialogsForAuraHelperCLI(): void {
-    const message = 'Old Aura Helper CLI Version Installed. For a correct work of Aura Helper Extension, you must update the client. Press Ok for update now or Cancel for update later';
-    OutputChannel.outputLine(message + '\nTo install Aura Helper CLI Manually, execute the next command "npm install -g aura-helper-cli"', true);
+    const message = 'Warning! Aura Helper CLI is DEPRECATED. To a correct work of Aura Helper Extension, you must install Aura Helper SFDX Plugin. ¿Do you want to install now?. Press Ok to install now or Cancel to install later';
+    OutputChannel.outputLine(message + '\nTo install Aura Helper SFDX Plugin Manually, execute the next command "sfdx plugins:install aura-helper-sfdx"', true);
+    OutputChannel.outputLine("All Aura Helper CLI tools are enhanced and moved to the new Aura Helper SFDX Plugin.", true);
+    OutputChannel.outputLine("At the moment, Aura Helper maintenance compatibility with Aura Helper CLI, but you must install Aura Helper SFDX Plugin to maintenance compatibility on future.", true);
+    OutputChannel.outputLine("To learn more about Aura Helper SFDX Plugin, visit https://github.com/JJLongoria/aura-helper-sfdx.", true);
     NotificationManager.showWarning(message, () => {
-        NotificationManager.showStatusBar('$(sync~spin) Updating Aura Helper CLI...');
+        NotificationManager.showStatusBar('$(sync~spin) Installing Aura Helper SFDX Plugin...');
+        createWhilelistPlugin();
         cliManager.updateAuraHelperCLI().then(() => {
             NotificationManager.hideStatusBar();
-            NotificationManager.showInfo('Aura Helper CLI Updated. Enjoy it!');
-        }).catch((error: Error) => {
+            NotificationManager.showInfo('Aura Helper SFDX Plugin Installed. Enjoy it!');
+        }).catch((error) => {
             NotificationManager.hideStatusBar();
-            const errorMessage = 'An Error ocurred while updating Aura Helper CLI. You can update manually with command "aura-helper update" or "npm update -g aura-helper-cli".';
-            OutputChannel.outputLine(message + '\nError: ' + error, true);
-            NotificationManager.showError(errorMessage);
+            if (StrUtils.contains(error, 'aura-helper-sfdx... installed')) {
+                NotificationManager.showInfo('Aura Helper SFDX Plugin Updated. Enjoy it!');
+            } else {
+                const errorMessage = 'An Error ocurred while install Aura Helper SFDX Plugin. You can update manually with command "sfdx plugins:install aura-helper-sfdx".';
+                OutputChannel.outputLine(message + '\nError: ' + error, true);
+                NotificationManager.showError(errorMessage);
+            }
         });
     }, () => {
-        NotificationManager.showWarning("You may experience errors with Aura Helper until you update Aura Helper CLI.");
+        NotificationManager.showWarning("You may experience errors with Aura Helper until you install the new Aura Helper SFDX Plugin.");
     });
 }
 
@@ -539,9 +571,35 @@ function loadSnippets(): any {
     FileWriter.createFileSync(Paths.getImagesPath() + '/markdown/aura.md', createSnippetsMarkdown(auraActivations));
     FileWriter.createFileSync(Paths.getImagesPath() + '/markdown/js.md', createSnippetsMarkdown(jsActivations));
     FileWriter.createFileSync(Paths.getImagesPath() + '/markdown/slds.md', createSnippetsMarkdown(sldsActivations));*/
-    console.log("Total Snippets: " + (Object.keys(auraSnippets).length + Object.keys(jsSnippets).length + Object.keys(sldsSnippets).length + Object.keys(lwcSnippets).length));
+    //console.log("Total Snippets: " + (Object.keys(auraSnippets).length + Object.keys(jsSnippets).length + Object.keys(sldsSnippets).length + Object.keys(lwcSnippets).length));
     OutputChannel.outputLine('Snippets Loaded');
 }
+
+function createWhilelistPlugin() {
+    let folderPath = (OSUtils.isWindows()) ? os.homedir() + '/AppData/Local/sfdx' : os.homedir() + '/.config/sfdx';
+    const filePath = folderPath + '/unsignedPluginWhiteList.json';
+    if (!FileChecker.isExists(folderPath)) {
+        if ((OSUtils.isWindows())) {
+            folderPath = os.homedir() + '/.config/sfdx';
+        }
+    }
+    if (FileChecker.isExists(folderPath)) {
+        const pulginName = 'aura-helper-sfdx';
+        if (!FileChecker.isExists(filePath)) {
+            FileWriter.createFileSync(filePath, JSON.stringify([pulginName], null, 4));
+        } else {
+            let content = JSON.parse(FileReader.readFileSync(filePath)) as string[];
+            if (content && !content.includes(pulginName)) {
+                content.push(pulginName);
+            } else if (!content) {
+                content = [pulginName];
+            }
+            FileWriter.createFileSync(filePath, JSON.stringify(content, null, 4));
+        }
+    }
+}
+
+
 /*
 function createSnippetsMarkdown(snippets) {
     let text = '';

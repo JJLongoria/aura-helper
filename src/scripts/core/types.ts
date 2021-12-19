@@ -76,6 +76,8 @@ export interface ApplicationContext {
     parserData: ParserData;
     isAdvanceGUIAvailable: boolean;
     MIN_AH_CLI_VERSION: string;
+    MIN_AH_SFDX_VERSION: string;
+    ahPluginInstalled: boolean;
     gitData: GitData;
     sfData: SalesforceData;
 }

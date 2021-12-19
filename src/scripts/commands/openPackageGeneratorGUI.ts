@@ -11,6 +11,7 @@ import { GitManager } from '@aurahelper/git-manager';
 import { MetadataFactory } from '@aurahelper/metadata-factory';
 import { Ignore } from '@aurahelper/ignore';
 import { PackageGenerator } from '@aurahelper/package-generator';
+import { applicationContext } from '../core/applicationContext';
 
 export function run(): void {
     try {
@@ -65,6 +66,7 @@ async function openStandardGUI() {
                             const useIgnore = options[MetadataSelector.getIgnoreAction()];
                             if (Config.useAuraHelperCLI()) {
                                 const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+                                cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
                                 cliManager.setIgnoreFile(Paths.getAHIgnoreFile());
                                 cliManager.onProgress((status: any) => {
                                     progress.report({

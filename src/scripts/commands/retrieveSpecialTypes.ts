@@ -6,6 +6,7 @@ import { MetadataSelector } from '../inputs/metadataSelector';
 import { FileChecker, FileWriter, MetadataType, SpecialMetadata } from '@aurahelper/core';
 import { CLIManager } from '@aurahelper/cli-manager';
 import { SFConnector } from '@aurahelper/connector';
+import { applicationContext } from '../core/applicationContext';
 
 export async function run() {
     try {
@@ -44,6 +45,7 @@ function retrieveMetadata(objects: { [key: string]: MetadataType }, options: any
             try {
                 if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+                    cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
                     cancelToken.onCancellationRequested(() => {
                         cliManager.abortProcess();
                     });

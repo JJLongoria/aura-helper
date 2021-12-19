@@ -7,6 +7,7 @@ import { DependenciesManager } from '@aurahelper/dependencies-manager';
 import { CLIManager } from '@aurahelper/cli-manager';
 import { SFConnector } from '@aurahelper/connector';
 import { MetadataType } from '@aurahelper/core';
+import { applicationContext } from '../core/applicationContext';
 
 
 export async function run() {
@@ -47,6 +48,7 @@ async function repair(options: any, typesForRepair: { [key: string]: MetadataTyp
             try {
                 if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+                    cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
                     cliManager.setCompressFiles(options[MetadataSelector.getCompressAction()]);
                     cliManager.setSortOrder(sortOrder);
                     cliManager.onProgress((status: any) => {
