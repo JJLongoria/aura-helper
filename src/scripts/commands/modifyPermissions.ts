@@ -9,6 +9,7 @@ import { CLIManager } from '@aurahelper/cli-manager';
 import { SFConnector } from '@aurahelper/connector';
 import { MetadataFactory } from '@aurahelper/metadata-factory';
 import { XMLDefinitions } from '@aurahelper/xml-definitions';
+import { applicationContext } from '../core/applicationContext';
 const StrUtils = CoreUtils.StrUtils;
 const MetadataUtils = CoreUtils.MetadataUtils;
 const XMLParser = XML.XMLParser;
@@ -73,6 +74,7 @@ function getLocalMetadata(types?: string[]): Promise<{ [key: string]: MetadataTy
     return new Promise<{ [key: string]: MetadataType }>(function (resolve, reject) {
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+            cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
             cliManager.describeLocalMetadata(types).then((metadataTypes: { [key: string]: MetadataType }) => {
                 resolve(metadataTypes);
             }).catch((error: Error) => {
@@ -313,6 +315,7 @@ async function modifyPermissionFiles(filePath: string, fileMetadataType: any, me
                 if (compress === 'Yes') {
                     //if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+                    cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
                     cliManager.compress(filesToCompress, sortOrder).then(() => {
                         NotificationManager.showInfo('Modify Permissions finished succesfully');
                         OutputChannel.outputLine('XML file compressed successfully');

@@ -26,7 +26,7 @@ export class NotificationManager {
         NotificationManager.showError('An error ocurred while processing command. Error: \n' + message);
     }
 
-    static showConfirmDialog(message: string, onAccept: () => void , onCancel?: () => void): void {
+    static showConfirmDialog(message: string, onAccept: () => void, onCancel?: () => void): void {
         vscode.window.showInformationMessage(message, 'Cancel', 'Ok').then((selected) => {
             if (selected === 'Ok' && onAccept) {
                 onAccept.call(this);
@@ -40,16 +40,22 @@ export class NotificationManager {
         vscode.window.showInformationMessage(message);
     }
 
-    static showWarning(message: string, onAccept?: () => void , onCancel?: () => void): void {
-        let options: any = [];
-        if(!Utils.isNull(onCancel)){
-            options.push('Cancel');
+    static showWarning(message: string, onAccept?: () => void, onCancel?: () => void): void {
+        let options: vscode.MessageItem[] = [];
+        if (!Utils.isNull(onCancel)) {
+            options.push({
+                title: 'Cancel',
+                isCloseAffordance: true,
+            });
         }
-        if(!Utils.isNull(onAccept)){
-            options.push('Ok');
+        if (!Utils.isNull(onAccept)) {
+            options.push({
+                title: 'Ok',
+                isCloseAffordance: true,
+            });
         }
-        vscode.window.showWarningMessage(message, options).then((selected) => {
-            if (selected === 'Ok' && onAccept) {
+        vscode.window.showWarningMessage<vscode.MessageItem>(message, ...options).then((selected) => {
+            if (selected?.title === 'Ok' && onAccept) {
                 onAccept.call(this);
             } else if (onCancel) {
                 onCancel.call(this);

@@ -7,6 +7,7 @@ import { FileChecker, FileReader } from '@aurahelper/core';
 import { CLIManager } from '@aurahelper/cli-manager';
 import { SFConnector } from '@aurahelper/connector';
 import { Ignore } from '@aurahelper/ignore';
+import { applicationContext } from '../core/applicationContext';
 
 export async function run() {
     const alias = Config.getOrgAlias();
@@ -56,6 +57,7 @@ export async function run() {
             return new Promise<void>(async (resolve) => {
                 if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+                    cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
                     cancelToken.onCancellationRequested(() => {
                         NotificationManager.showInfo('Operation Cancelled');
                         cliManager.abortProcess();

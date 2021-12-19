@@ -20,7 +20,9 @@ export const applicationContext: ApplicationContext = {
         namespaces: [],
     },
     isAdvanceGUIAvailable: false,
-    MIN_AH_CLI_VERSION: '4.0.2',
+    ahPluginInstalled: false,
+    MIN_AH_CLI_VERSION: '4.0.3',
+    MIN_AH_SFDX_VERSION: '1.0.1',
     gitData: {
         username: undefined,
         email: undefined,

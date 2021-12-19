@@ -63,7 +63,7 @@ Aura Helper is the [**most complete extension**](#aura-helper) to work with sale
 ---
 
 # [**Configuration Guide**](#configuration-guidie)
-For use Aura Helper with all its features, you must to install Aura Helper CLI. [Click here](https://github.com/JJLongoria/aura-helper-CLI) and follow the instructions. 
+To use Aura Helper with all its features, you must to install Aura Helper SFDX Plugin. [Click here](https://github.com/JJLongoria/aura-helper-sfdx) and follow the instructions. Aura Helper allow yo the user to install from VSCode when install Aura Helper (or detect that does not have the plugin installed)
 
 # [**Aura Helper Features**](#aura-helper-features)
 Aura Helper has too many features to make work easy and faster to all Salesforce Developers.

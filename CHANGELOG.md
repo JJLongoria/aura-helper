@@ -1,5 +1,18 @@
 # Change Log
-All notable changes to this project will be documented in this file.+
+All notable changes to this project will be documented in this file.
+
+## [4.1.0 - 2021-12-19]
+- Improve performance of some processes
+- Added Aura Helper SFDX Plugin to replace Aura Helper CLI
+- Now if active **Aurahelper > Api > Use Aura Helper CLI** will be use Aura Helper SFDX Plugin instead Aura Helper CLI
+- Added control to install and update Aura Helper SFDX instead Aura Helper CLI
+- Improve and enhance performance
+- Maintenance support to Aura Helper CLI v4.0.3 (Last version)
+
+### Fixed
+- Fixed compress xml error with some xml array fields
+- Fixed Apex formatter error with subqueries as projection
+
 ## [4.0.0 - 2021-12-13]
 - Changed to typescript
 - Added support to API v53.0
