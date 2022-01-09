@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [4.1.1 - 2022-01-09]
+
+### Fixed
+- Fixed an unexpected behaviour with newLinesBetweenCodeBlockMembers format option
+
 ## [4.1.0 - 2021-12-19]
 - Improve performance of some processes
 - Added Aura Helper SFDX Plugin to replace Aura Helper CLI

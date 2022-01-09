@@ -5,7 +5,7 @@ import { Paths } from '../core/paths';
 import { InputFactory } from '../inputs/factory';
 import { TemplateUtils } from '../utils/templateUtils';
 import { applicationContext } from '../core/applicationContext';
-import { ApexNodeTypes, CoreUtils, FileChecker, FileReader, FileWriter, SObject, Token, TokenTypes } from '@aurahelper/core';
+import { ApexClass, ApexEnum, ApexInterface, ApexNodeTypes, CoreUtils, FileChecker, FileReader, FileWriter, SObject, Token, TokenTypes } from '@aurahelper/core';
 import { JavaScript, Aura, XML, Apex, LanguageUtils, System } from '@aurahelper/languages';
 const StrUtils = CoreUtils.StrUtils;
 const Utils = CoreUtils.Utils;
@@ -173,9 +173,7 @@ function styleDatatype(datatype: string): string {
             }
             const node = parser.resolveDatatype(token.textToLower);
             if (node) {
-                if (node && !(node instanceof SObject) && node.documentation) {
-                    styledDatatype.push('<b class="code datatype"><a target="_blank" style="text-decoration:none;" href="' + node.documentation + '">' + node.name + '</a></b>');
-                } else if (node && node instanceof SObject && node.keyPrefix) {
+                if (node && node instanceof SObject && node.keyPrefix) {
                     const nameToLower = node.name.toLowerCase();
                     if (nameToLower.endsWith('__c')) {
                         styledDatatype.push('<b class="code sobject"><a target="_blank" style="text-decoration:none;" href="' + applicationContext.sfData.serverInstance + '/' + node.keyPrefix + '">' + node.name + '</a></b>');
@@ -188,7 +186,9 @@ function styleDatatype(datatype: string): string {
                     } else {
                         styledDatatype.push('<b class="code sobject"><a target="_blank" style="text-decoration:none;" href="https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_' + nameToLower + '.htm">' + node.name + '</a></b>');
                     }
-                } else if (node && !(node instanceof SObject)){
+                } else if (node && (node instanceof ApexEnum || node instanceof ApexClass || node instanceof ApexInterface) && node.documentation) {
+                    styledDatatype.push('<b class="code datatype"><a target="_blank" style="text-decoration:none;" href="' + node.documentation + '">' + node.name + '</a></b>');
+                } else if (node && (node instanceof ApexEnum || node instanceof ApexClass || node instanceof ApexInterface)){
                     styledDatatype.push('<b class="code datatype"><a style="text-decoration:none;" href="' + (node.parentName) ? node.parentName : node.name + '.html">' + node.name + '</a></b>');
                 }
             } else {
