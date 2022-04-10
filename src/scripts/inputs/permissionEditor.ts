@@ -1289,7 +1289,7 @@ export class PermissionEditor extends XMLEditor {
 
 function transformPermissionContentToMap(permissionContent: any, xmlMetadata: any): any {
     const permissionsContentMap: any = {};
-    Object.keys(permissionContent).forEach(function (collectionKey) {
+    for (const collectionKey of Object.keys(permissionContent)) {
         const collection = permissionContent[collectionKey];
         const collectionData = xmlMetadata[collectionKey];
         if (collectionData && collectionData.editable) {
@@ -1319,18 +1319,18 @@ function transformPermissionContentToMap(permissionContent: any, xmlMetadata: an
                 permissionsContentMap[collectionKey] = collection;
             }
         }
-    });
+    }
     return permissionsContentMap;
 }
 
 function getFieldDefinitionByLabel(label?: string, xmlMetadata?: any): any {
-    let dataToReturn: any = {};
-    Object.keys(xmlMetadata).forEach(function (elementKey) {
-        let elementData = xmlMetadata[elementKey];
+    const dataToReturn: any = {};
+    for (const elementKey of Object.keys(xmlMetadata)) {
+        const elementData = xmlMetadata[elementKey];
         if (elementData.label === label) {
             return elementData;
         }
-    });
+    }
     return dataToReturn;
 }
 
@@ -1376,7 +1376,7 @@ function getValue(xmlElement: any, fieldKey: string, useArrow?: boolean): string
 function getDescription(xmlElement: any, elementData: any, useMainField: boolean): string {
     let description: string = '';
     if (!useMainField) {
-        Object.keys(elementData.fields).forEach(function (fieldName) {
+        for (const fieldName of Object.keys(elementData.fields)) {
             let fieldKey = elementData.fieldKey;
             let isDistinct = false;
             if (Array.isArray(fieldKey)) {
@@ -1403,7 +1403,7 @@ function getDescription(xmlElement: any, elementData: any, useMainField: boolean
                     }
                 }
             }
-        });
+        }
     } else {
         if (!description) {
             let fieldKey = elementData.fieldKey;
@@ -1474,27 +1474,27 @@ function extractMetadataFromFile(profile: any, xmlMetadata: any): any {
 }
 
 function getEditableFields(elementData: any): any[] {
-    let fields: string[] = [];
-    Object.keys(elementData.fields).forEach(function (field) {
+    const fields: string[] = [];
+    for (const field of Object.keys(elementData.fields)) {
         if (elementData.fields[field].editable) {
             fields.push(field);
         }
-    });
+    }
     return fields;
 }
 
 function getNotUniqueFields(elementData: any): any[] {
-    let fields: string[] = [];
-    Object.keys(elementData.fields).forEach(function (field) {
+    const fields: string[] = [];
+    for (const field of Object.keys(elementData.fields)) {
         if (!elementData.fields[field].unique) {
             fields.push(field);
         }
-    });
+    }
     return fields;
 }
 
 function loadUserPermissions() {
-    return new Promise<string[]>(async function (resolve, reject) {
+    return new Promise<string[]>(async (resolve, reject) => {
         vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
             title: 'Loading all available User Permissions from Org',
@@ -1544,14 +1544,14 @@ function getTypeDifferences(metadata: any, metadataFromProfile: any, collectionN
     const metadataType = fieldDefinition.fields[fieldDefinition.fieldKey].metadataType;
     if (collectionWithType && metadataType) {
         if (metadata[metadataType] && MetadataUtils.haveChilds(metadata[metadataType])) {
-            Object.keys(metadata[metadataType].childs).forEach(function (objKey) {
+            for (const objKey of Object.keys(metadata[metadataType].childs)) {
                 const objData = applicationContext.parserData.sObjectsData[objKey.toLowerCase()];
                 if (!collectionWithType[objKey]) {
                     if (!differences[metadataType]) {
                         differences[metadataType] = new MetadataType(metadataType, false);
                     }
                     if (metadataType === MetadataTypes.CUSTOM_FIELD && MetadataUtils.haveChilds(metadata[metadataType].childs[objKey])) {
-                        Object.keys(metadata[metadataType].childs[objKey].childs).forEach(function (itemKey) {
+                        for (const itemKey of Object.keys(metadata[metadataType].childs[objKey].childs)) {
                             let fData;
                             if (objData && objData.fields) {
                                 fData = objData.fields[itemKey];
@@ -1562,7 +1562,7 @@ function getTypeDifferences(metadata: any, metadataFromProfile: any, collectionN
                                 }
                                 differences[metadataType].childs[objKey].childs[itemKey] = new MetadataItem(itemKey, false);
                             }
-                        });
+                        }
                     } else if (collectionName === 'customSettingAccesses' && objData && objData.customSetting) {
                         differences[metadataType].childs[objKey] = metadata[metadataType].childs[objKey];
                     } else if (collectionName !== 'customSettingAccesses') {
@@ -1570,7 +1570,7 @@ function getTypeDifferences(metadata: any, metadataFromProfile: any, collectionN
                     }
                 } else {
                     if (collectionWithType[objKey].childs && MetadataUtils.haveChilds(metadata[metadataType].childs[objKey])) {
-                        Object.keys(metadata[metadataType].childs[objKey].childs).forEach(function (itemKey) {
+                        for (const itemKey of Object.keys(metadata[metadataType].childs[objKey].childs)) {
                             let nullable = true;
                             if (metadataType === MetadataTypes.CUSTOM_FIELD) {
                                 let fData;
@@ -1588,13 +1588,13 @@ function getTypeDifferences(metadata: any, metadataFromProfile: any, collectionN
                                 }
                                 differences[metadataType].childs[objKey].childs[itemKey] = new MetadataItem(itemKey, false);
                             }
-                        });
+                        }
                     }
                 }
-            });
+            }
         }
         if (metadataType === MetadataTypes.CUSTOM_TAB && metadata[MetadataTypes.CUSTOM_OBJECT] && MetadataUtils.haveChilds(metadata[MetadataTypes.CUSTOM_OBJECT])) {
-            Object.keys(metadata[MetadataTypes.CUSTOM_OBJECT].childs).forEach(function (objKey) {
+            for (const objKey of Object.keys(metadata[MetadataTypes.CUSTOM_OBJECT].childs)) {
                 if (objKey.indexOf('__') === -1) {
                     let standardTabName = 'standard-' + objKey;
                     if (!collectionWithType[standardTabName]) {
@@ -1604,7 +1604,7 @@ function getTypeDifferences(metadata: any, metadataFromProfile: any, collectionN
                         differences[metadataType].childs[standardTabName] = new MetadataObject(standardTabName, false);
                     }
                 }
-            });
+            }
         }
     }
     return differences;
