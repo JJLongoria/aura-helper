@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [4.1.3 - 2022-01-09]
+
+### Fixed
+- Fixed Custom Labels Editor because not save new labels
+
 ## [4.1.1 - 2022-01-09]
 
 ### Fixed

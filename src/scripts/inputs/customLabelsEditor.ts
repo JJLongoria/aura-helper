@@ -456,6 +456,7 @@ export class CustomLabelsEditor extends XMLEditor {
                     labelsToDeploy: this._labelsToDeploy
                 };
                 if (options.hasChanges) {
+                    this._xmlContent[MetadataTypes.CUSTOM_LABELS] = this._labelsContent;
                     this.save(options.compress).then(() => {
                         this.fireAcceptEvent(options, data);
                         this._currentInput.dispose();
