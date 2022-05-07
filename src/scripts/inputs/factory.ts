@@ -17,10 +17,8 @@ export class InputFactory {
             if (typeof value === 'string') {
                 items.push(InputFactory.createQuickPickItem(value));
             }
-            else {
-                if (value.type === 'boolean') {
-                    items.push(InputFactory.createQuickPickItem(value.name, undefined, undefined, value.value));
-                }
+            else if (value.type === 'boolean') {
+                items.push(InputFactory.createQuickPickItem(value.name, undefined, undefined, value.value));
             }
         }
         return createQuickPick(items, placeholder, true, alwaysOnTop);

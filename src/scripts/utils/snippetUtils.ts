@@ -492,6 +492,10 @@ export class SnippetUtils {
         return content;
     }
 
+    static getCustomLabelsSnippet(){
+        return '<?xml version="1.0" encoding="UTF-8"?>\n<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">\n</CustomLabels>';
+    }
+
 }
 
 function getApexCommentNodeTemplate(apexNode: any, template: any): any {

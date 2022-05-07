@@ -6,6 +6,8 @@ import { CustomLabelsEditor } from '../inputs/customLabelsEditor';
 import { FileChecker, FileWriter, MetadataObject, MetadataType, MetadataTypes } from '@aurahelper/core';
 import { PackageGenerator } from '@aurahelper/package-generator';
 import { SFConnector } from '@aurahelper/connector';
+import { InputFactory } from '../inputs/factory';
+import { SnippetUtils } from '../utils/snippetUtils';
 const Window = vscode.window;
 const ProgressLocation = vscode.ProgressLocation;
 
@@ -13,16 +15,25 @@ let filePath: string;
 
 export function run(fileUri: vscode.Uri): void {
     try {
+        const folderPath = Paths.getProjectMetadataFolder() + '/labels';
         if (fileUri) {
             filePath = fileUri.fsPath;
         }
         if (!filePath) {
-            filePath = Paths.getProjectMetadataFolder() + '/labels/CustomLabels.labels-meta.xml';
+            filePath = folderPath + '/CustomLabels.labels-meta.xml';
         }
         if (FileChecker.isExists(filePath)) {
             openStandardGUI(filePath);
         } else {
-            NotificationManager.showError('Custom Labels file not found in your local project. Retrieve them if you want to use this tool');
+            NotificationManager.showConfirmDialog('Custom Labels file not found in your local project. Do you want to create?', () => {
+                if(!FileChecker.isExists(folderPath)){
+                    FileWriter.createFolderSync(folderPath);
+                }
+                FileWriter.createFileSync(filePath, SnippetUtils.getCustomLabelsSnippet());
+                openStandardGUI(filePath);
+            }, () => {
+                NotificationManager.showInfo('Custom Labels file not found in your local project. Retrieve or create it if you want to use this tool');
+            });
         }
     } catch (error) {
         NotificationManager.showCommandError(error);
