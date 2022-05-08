@@ -9,10 +9,9 @@ All notable changes to this project will be documented in this file.
 - Fixed Custom Labels Editor because not save new labels
 - Fixed the "undefined" word in tile when add new custom label
 
-## [4.1.1 - 2022-04-10]
+## [4.1.2 - 2022-04-10]
 ### Fixed
 - Fixed Permission Editor Tool when edit some profiles or permission sets.
-
 
 ## [4.1.1 - 2022-01-09]
 

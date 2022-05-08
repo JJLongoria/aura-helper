@@ -305,7 +305,16 @@ export class MultiStepInput {
                 return new Promise<void>((resolve) => {
                     if (fromOrg) {
                         getOrgMetadata(downloadAll, progress, types).then((metadataTypes) => {
-                            this._metadata = metadataTypes;
+                            if(!types || types.length === Object.keys(metadataTypes).length){
+                                this._metadata = metadataTypes;
+                            } else if(types){
+                                this._metadata = {};
+                                for(const type of types){
+                                    if(metadataTypes[type]){
+                                        this._metadata[type] = metadataTypes[type];
+                                    }
+                                }
+                            }
                             resolve();
                             this.show();
                         }).catch((error) => {
