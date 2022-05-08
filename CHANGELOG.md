@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [4.1.3 - 2022-05-08]
+### Added
+- Enhanced Custom Labels Editor. Now can create the file if not exists.
+
+### Fixed
+- Fixed Custom Labels Editor because not save new labels
+- Fixed the "undefined" word in tile when add new custom label
+
+## [4.1.2 - 2022-04-10]
+### Fixed
+- Fixed Permission Editor Tool when edit some profiles or permission sets.
+
 ## [4.1.1 - 2022-01-09]
 
 ### Fixed
@@ -19,6 +31,7 @@ All notable changes to this project will be documented in this file.
 - Fixed Apex formatter error with subqueries as projection
 
 ## [4.0.0 - 2021-12-13]
+### Added
 - Changed to typescript
 - Added support to API v53.0
 - Add better support to projects with Metadata API Format

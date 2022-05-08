@@ -121,25 +121,3 @@ function retrieveMetadata(objects: { [key: string]: MetadataType }, options: any
         });
     });
 }
-
-function getTypesForAuraHelperCommands(metadata: any) {
-    const types: string[] = [];
-    Object.keys(metadata).forEach(function (typeKey) {
-        if (metadata[typeKey].checked) {
-            types.push(typeKey);
-        } else {
-            Object.keys(metadata[typeKey].childs).forEach(function (objectKey) {
-                if (metadata[typeKey].childs[objectKey].checked) {
-                    types.push(typeKey + ':' + objectKey);
-                } else {
-                    Object.keys(metadata[typeKey].childs[objectKey].childs).forEach(function (itemKey) {
-                        if (metadata[typeKey].childs[objectKey].childs[itemKey].checked){
-                            types.push(typeKey + ':' + objectKey + ':' + itemKey);
-                        }
-                    });
-                }
-            });
-        }
-    });
-    return types;
-}

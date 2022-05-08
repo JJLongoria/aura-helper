@@ -102,7 +102,7 @@ export class CustomLabelsEditor extends XMLEditor {
         if (this._labelsContent) {
             const items: vscode.QuickPickItem[] = [];
             input = vscode.window.createQuickPick();
-            input.title = this._title + ": " + this._selectedLabel + ((this._isAddingMode) ? " (Add Mode)" : "");
+            input.title = this._title + ": " + ((this._isAddingMode) ? "New Custom Label (Add Mode)" : this._selectedLabel);
             input.placeholder = 'Click on "Accept" to save, "Delete" to delete from file, "Back" to rollback changes.';
             let element;
             if (this._isAddingMode) {
@@ -456,6 +456,7 @@ export class CustomLabelsEditor extends XMLEditor {
                     labelsToDeploy: this._labelsToDeploy
                 };
                 if (options.hasChanges) {
+                    this._xmlContent[MetadataTypes.CUSTOM_LABELS] = this._labelsContent;
                     this.save(options.compress).then(() => {
                         this.fireAcceptEvent(options, data);
                         this._currentInput.dispose();
