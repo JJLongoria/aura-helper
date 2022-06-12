@@ -4,7 +4,7 @@ import { Paths } from '../core/paths';
 import { NotificationManager } from '../output';
 import { MetadataSelector } from '../inputs/metadataSelector';
 import { InputFactory } from '../inputs/factory';
-import { FileChecker, FileWriter } from '@aurahelper/core';
+import { FileChecker, FileWriter, PackageGeneratorResult } from '@aurahelper/core';
 import { CLIManager } from '@aurahelper/cli-manager';
 import { SFConnector } from '@aurahelper/connector';
 import { GitManager } from '@aurahelper/git-manager';
@@ -73,8 +73,20 @@ async function openStandardGUI() {
                                         message: status.message,
                                     });
                                 });
-                                cliManager.createPackageFromGit(source, target, 'both', deployOrder, useIgnore).then(() => {
-                                    NotificationManager.showInfo('Files created successfully');
+                                cliManager.createPackageFromGit(source, target, 'both', deployOrder, useIgnore).then((packageGeneratorResult) => {
+                                    NotificationManager.showInfo('Files merged successfully', async () => {
+                                        if (packageGeneratorResult) {
+                                            if (packageGeneratorResult.package) {
+                                                await vscode.window.showTextDocument(Paths.toURI(packageGeneratorResult.package));
+                                            }
+                                            if (packageGeneratorResult.destructiveChanges) {
+                                                await vscode.window.showTextDocument(Paths.toURI(packageGeneratorResult.destructiveChanges));
+                                            }
+                                            if (packageGeneratorResult.destructiveChangesPost) {
+                                                await vscode.window.showTextDocument(Paths.toURI(packageGeneratorResult.destructiveChangesPost));
+                                            }
+                                        }
+                                    }, 'Open File(s)');
                                     resolve();
                                 }).catch((error: Error) => {
                                     NotificationManager.showError(error.message);
@@ -107,15 +119,24 @@ async function openStandardGUI() {
                                     }
 
                                     const packageGenerator = new PackageGenerator(Config.getAPIVersion()).setExplicit();
+                                    let packagePath: string | undefined;
+                                    let destructivePath: string | undefined;
                                     if (folder) {
-                                        packageGenerator.createPackage(metadataFromGitDiffs.toDeploy || {}, folder);
+                                        packagePath = packageGenerator.createPackage(metadataFromGitDiffs.toDeploy || {}, folder);
                                         if (deployOrder === 'before') {
-                                            packageGenerator.createBeforeDeployDestructive(metadataFromGitDiffs.toDelete || {}, folder);
+                                            destructivePath = packageGenerator.createBeforeDeployDestructive(metadataFromGitDiffs.toDelete || {}, folder);
                                         } else {
-                                            packageGenerator.createAfterDeployDestructive(metadataFromGitDiffs.toDelete || {}, folder);
+                                            destructivePath = packageGenerator.createAfterDeployDestructive(metadataFromGitDiffs.toDelete || {}, folder);
                                         }
                                     }
-                                    NotificationManager.showInfo('Files created successfully');
+                                    NotificationManager.showInfo('Files merged successfully', async () => {
+                                        if (packagePath) {
+                                            await vscode.window.showTextDocument(Paths.toURI(packagePath));
+                                        }
+                                        if (destructivePath) {
+                                            await vscode.window.showTextDocument(Paths.toURI(destructivePath));
+                                        }
+                                    }, 'Open File(s)');
                                     resolve();
                                 } catch (error) {
                                     NotificationManager.showError(error);
@@ -126,41 +147,59 @@ async function openStandardGUI() {
                     });
                 } else if (options[MetadataSelector.getPackagesAction()]) {
                     const packageGenerator = new PackageGenerator(Config.getAPIVersion());
+                    let packageGeneratorResult: PackageGeneratorResult | undefined;
                     if (data.mergeOption === 'Merge By Type') {
                         packageGenerator.setMergePackagesFiles();
-                        packageGenerator.mergePackages(data.files, folder);
+                        packageGeneratorResult = packageGenerator.mergePackages(data.files, folder);
                     } else if (data.mergeOption === 'Merge Full Packages') {
                         packageGenerator.setMergePackagesFiles();
-                        packageGenerator.mergePackagesFull(data.files, folder);
+                        packageGeneratorResult = packageGenerator.mergePackagesFull(data.files, folder);
                     } else if (data.mergeOption === 'Merge Full Destructive Before') {
                         packageGenerator.setMergePackagesFiles();
                         packageGenerator.setIsDestructive();
                         packageGenerator.setBeforeDeploy();
-                        packageGenerator.mergePackagesFull(data.files, folder);
+                        packageGeneratorResult = packageGenerator.mergePackagesFull(data.files, folder);
                     } else if (data.mergeOption === 'Merge Full Destructive After') {
                         packageGenerator.setMergePackagesFiles();
                         packageGenerator.setIsDestructive();
                         packageGenerator.setBeforeDeploy(false);
-                        packageGenerator.mergePackagesFull(data.files, folder);
+                        packageGeneratorResult = packageGenerator.mergePackagesFull(data.files, folder);
                     }
-                    NotificationManager.showInfo('Files merged successfully');
+                    NotificationManager.showInfo('Files merged successfully', async () => {
+                        if (packageGeneratorResult) {
+                            if (packageGeneratorResult.package) {
+                                await vscode.window.showTextDocument(Paths.toURI(packageGeneratorResult.package));
+                            }
+                            if (packageGeneratorResult.destructiveChanges) {
+                                await vscode.window.showTextDocument(Paths.toURI(packageGeneratorResult.destructiveChanges));
+                            }
+                            if (packageGeneratorResult.destructiveChangesPost) {
+                                await vscode.window.showTextDocument(Paths.toURI(packageGeneratorResult.destructiveChangesPost));
+                            }
+                        }
+                    }, 'Open File(s)');
                 } else {
                     const packageGenerator = new PackageGenerator(Config.getAPIVersion());
                     packageGenerator.setExplicit(!options[MetadataSelector.getWildcardsAction()]);
                     let createdFile = '';
+                    let path = '';
                     if (options[MetadataSelector.getDestructiveAction()]) {
                         if (options[MetadataSelector.getDeployAfterAction()]) {
                             createdFile = 'Destructive After Deploy';
-                            packageGenerator.createAfterDeployDestructive(data, folder);
+                            path = packageGenerator.createAfterDeployDestructive(data, folder);
                         } else {
                             createdFile = 'Destructive Before Deploy';
-                            packageGenerator.createBeforeDeployDestructive(data, folder);
+                            path = packageGenerator.createBeforeDeployDestructive(data, folder);
                         }
                     } else {
                         createdFile = 'Package XML';
-                        packageGenerator.createPackage(data, folder);
+                        path = packageGenerator.createPackage(data, folder);
                     }
-                    NotificationManager.showInfo(createdFile + ' file created successfully');
+                    NotificationManager.showInfo(createdFile + ' file created successfully.', () => {
+                        vscode.window.showTextDocument(Paths.toURI(path)).then(() => {
+
+                        });
+                    }, 'Open File');
                 }
             }
         }

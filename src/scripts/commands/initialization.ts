@@ -176,7 +176,8 @@ function adaptOldApexTemplateToNewTemplate(): string {
 async function checkAuraHelperVersion(): Promise<void> {
     try {
         cliManager.useAuraHelperSFDX();
-        if (await cliManager.isAuraHelperCLIInstalled()) {
+        const isInstalled = await cliManager.isAuraHelperCLIInstalled();
+        if (isInstalled) {
             const version = await cliManager.getAuraHelperCLIVersion();
             const versionSplits = version.split('.');
             const requiredVersionSplits = applicationContext.MIN_AH_SFDX_VERSION.split('.');
@@ -220,7 +221,7 @@ async function checkAuraHelperVersion(): Promise<void> {
 }
 
 function showDialogsForAuraHelpeSFDX(): void {
-    const message = 'Aura Helper SFDX Plugin is not installed or has older version. To a correct work of Aura Helper Extension, you must update the Aura Helper SFDX Plugin. Press Ok to update now or Cancel to update later';
+    const message = 'Aura Helper SFDX Plugin is not installed or has older version. To a correct work of Aura Helper Extension, you must update the Aura Helper SFDX Plugin. Press Install to update now or Cancel to update later';
     OutputChannel.outputLine(message + '\nTo update Aura Helper SFDX Manually, execute the next command "sfdx plugins:install aura-helper-sfdx"', true);
     NotificationManager.showWarning(message, () => {
         NotificationManager.showStatusBar('$(sync~spin) Updating Aura Helper SFDX...');
@@ -240,11 +241,11 @@ function showDialogsForAuraHelpeSFDX(): void {
         });
     }, () => {
         NotificationManager.showWarning("You may experience errors with Aura Helper until you update Aura Helper SFDX Plugin.");
-    });
+    }, 'Install');
 }
 
 function showDialogsForAuraHelperCLI(): void {
-    const message = 'Warning! Aura Helper CLI is DEPRECATED. To a correct work of Aura Helper Extension, you must install Aura Helper SFDX Plugin. ¿Do you want to install now?. Press Ok to install now or Cancel to install later';
+    const message = 'Warning! Aura Helper CLI is DEPRECATED. To a correct work of Aura Helper Extension, you must install Aura Helper SFDX Plugin. ¿Do you want to install now?. Press Install to install now or Cancel to install later';
     OutputChannel.outputLine(message + '\nTo install Aura Helper SFDX Plugin Manually, execute the next command "sfdx plugins:install aura-helper-sfdx"', true);
     OutputChannel.outputLine("All Aura Helper CLI tools are enhanced and moved to the new Aura Helper SFDX Plugin.", true);
     OutputChannel.outputLine("At the moment, Aura Helper maintenance compatibility with Aura Helper CLI, but you must install Aura Helper SFDX Plugin to maintenance compatibility on future.", true);
@@ -267,7 +268,7 @@ function showDialogsForAuraHelperCLI(): void {
         });
     }, () => {
         NotificationManager.showWarning("You may experience errors with Aura Helper until you install the new Aura Helper SFDX Plugin.");
-    });
+    }, 'Install');
 }
 
 function cleanOldClassesDefinitions() {

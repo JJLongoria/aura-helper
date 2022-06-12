@@ -1,6 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [4.2.0 - 2022-06-12]
+### Added
+- Added a button to open the generated package and/or destructive files with **Package Generator Tool**
+
+### Changed
+- Changed the Aura Helper SFDX message to show install text instead Ok.
+
+### Fixed
+- Fixed an error with some processes (like Aura Helper SFDX install detection) with SFDX has an update
+- Fixed an error with Intellisense that show delete fields
+
 ## [4.1.3 - 2022-05-08]
 ### Added
 - Enhanced Custom Labels Editor. Now can create the file if not exists.

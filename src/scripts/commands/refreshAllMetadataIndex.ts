@@ -27,7 +27,9 @@ export function run(onbackground: boolean): void {
         setTimeout(() => {
             OutputChannel.outputLine('Refreshing SObject Defintions');
             NotificationManager.showStatusBar('$(sync~spin) Refreshing SObjects Definitions...');
-            refreshIndex(false, undefined, undefined, () => {
+            console.time('refreshIndex');
+            refreshIndex(true, undefined, undefined, () => {
+                console.timeEnd('refreshIndex');
                 NotificationManager.hideStatusBar();
                 OutputChannel.outputLine('Refreshing SObject Defintions Finished');
                 ProviderManager.registerProviders();
@@ -97,13 +99,14 @@ async function refreshIndex(force: boolean, progress?: vscode.Progress<any>, can
     });
     connection.describeMetadataTypes([MetadataTypes.CUSTOM_OBJECT], true).then(async (metadataTypes: any) => {
         let objectsToDescribe = [];
-        const existingObjects: any = getSObjects();
+        let existingObjects: any = {};
         if (force) {
             objectsToDescribe = Object.keys(metadataTypes[MetadataTypes.CUSTOM_OBJECT].childs);
             if (!objectsToDescribe.includes('User')) {
                 objectsToDescribe.push('User');
             }
         } else {
+            existingObjects = getSObjects();
             for (const objKey of Object.keys(metadataTypes[MetadataTypes.CUSTOM_OBJECT].childs)) {
                 if (!existingObjects[objKey.toLowerCase()]) {
                     objectsToDescribe.push(objKey);

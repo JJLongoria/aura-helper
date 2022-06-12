@@ -26,9 +26,11 @@ export class NotificationManager {
         NotificationManager.showError('An error ocurred while processing command. Error: \n' + message);
     }
 
-    static showConfirmDialog(message: string, onAccept: () => void, onCancel?: () => void): void {
-        vscode.window.showInformationMessage(message, 'Cancel', 'Ok').then((selected) => {
-            if (selected === 'Ok' && onAccept) {
+    static showConfirmDialog(message: string, onAccept: () => void, onCancel?: () => void, okText?: string, cancelText?: string): void {
+        okText = okText || 'Ok';
+        cancelText = cancelText || 'Cancel';
+        vscode.window.showInformationMessage(message, cancelText, okText).then((selected) => {
+            if (selected === okText && onAccept) {
                 onAccept.call(this);
             } else if (onCancel) {
                 onCancel.call(this);
@@ -36,26 +38,37 @@ export class NotificationManager {
         });
     }
 
-    static showInfo(message: string): void {
-        vscode.window.showInformationMessage(message);
+    static showInfo(message: string, onAccept?: () => void, okText?: string): void {
+        okText = okText || 'Ok';
+        if (!Utils.isNull(onAccept)) {
+            vscode.window.showInformationMessage(message, { title: okText, isCloseAffordance: true }).then(selected => {
+                if (selected?.title === okText && onAccept) {
+                    onAccept.call(this);
+                }
+            });
+        } else {
+            vscode.window.showInformationMessage(message);
+        }
     }
 
-    static showWarning(message: string, onAccept?: () => void, onCancel?: () => void): void {
+    static showWarning(message: string, onAccept?: () => void, onCancel?: () => void, okText?: string, cancelText?: string): void {
         let options: vscode.MessageItem[] = [];
-        if (!Utils.isNull(onCancel)) {
+        okText = okText || 'Ok';
+        cancelText = cancelText || 'Cancel';
+        if (!Utils.isNull(onAccept)) {
             options.push({
-                title: 'Cancel',
+                title: okText,
                 isCloseAffordance: true,
             });
         }
-        if (!Utils.isNull(onAccept)) {
+        if (!Utils.isNull(onCancel)) {
             options.push({
-                title: 'Ok',
+                title: cancelText,
                 isCloseAffordance: true,
             });
         }
         vscode.window.showWarningMessage<vscode.MessageItem>(message, ...options).then((selected) => {
-            if (selected?.title === 'Ok' && onAccept) {
+            if (selected?.title === okText && onAccept) {
                 onAccept.call(this);
             } else if (onCancel) {
                 onCancel.call(this);
