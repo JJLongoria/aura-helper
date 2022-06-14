@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [4.2.1 - 2022-06-12]
+### Fixed
+- Fixed an unexpected behaviour with "on" keyword when format triggers
+
 ## [4.2.0 - 2022-06-12]
 ### Added
 - Added a button to open the generated package and/or destructive files with **Package Generator Tool**
