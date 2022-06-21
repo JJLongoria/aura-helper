@@ -17,6 +17,7 @@
 		"noUnusedParameters": true,
 		"esModuleInterop": true,
 		"declaration": true,
+		"skipLibCheck": true
 	},
 	"include": [
 		"./**/*"

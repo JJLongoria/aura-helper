@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [4.2.2 - 2022-06-21]
+### Fixed
+- Fixed the Email template group problem when download it from org
+
 ## [4.2.1 - 2022-06-12]
 ### Fixed
 - Fixed an unexpected behaviour with "on" keyword when format triggers
