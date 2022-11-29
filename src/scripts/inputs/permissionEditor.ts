@@ -771,7 +771,7 @@ export class PermissionEditor extends XMLEditor {
                             let dataToAdd: any = {};
                             for (let field of Object.keys(fieldDefinition.fields)) {
                                 let fieldData = fieldDefinition.fields[field];
-                                dataToAdd[field] = (fieldData.default === '{!value}') ? this._selectedElements[0] : subFieldDefinition.getValue(selectedItems[0]);
+                                dataToAdd[field] = (fieldData.default === '{!value}' && fieldData.datatype === 'string') ? this._selectedElements[0] : subFieldDefinition.getValue(selectedItems[0]);
                             }
                             this._permissionsContent[fieldDefinition.key].push(dataToAdd);
                         }

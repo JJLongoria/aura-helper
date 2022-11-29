@@ -21,4 +21,5 @@ export * as ImplementExtendedClasses from './implementExtendedClasses';
 export * as RepairProjectDependencies from './repairProjectDependencies';
 export * as RetrieveSpecialTypes from './retrieveSpecialTypes';
 export * as ModifyPermissions from './modifyPermissions';
+export * as Scan from './scan';
 export * as Help from './help';

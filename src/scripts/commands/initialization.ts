@@ -85,8 +85,8 @@ async function getSystemData(): Promise<void> {
         applicationContext.parserData.sObjectsData = getSObjects();
         applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
         applicationContext.parserData.userClasses = getClassNames(Paths.getProjectMetadataFolder() + '/classes');
-        cleanOldClassesDefinitions();
-        await ApexParser.saveAllClassesData(Paths.getProjectMetadataFolder() + '/classes', Paths.getCompiledClassesFolder(), applicationContext.parserData, true);
+        //cleanOldClassesDefinitions();
+        //await ApexParser.saveAllClassesData(Paths.getProjectMetadataFolder() + '/classes', Paths.getCompiledClassesFolder(), applicationContext.parserData, true);
         applicationContext.parserData.userClassesData = getClassesFromCompiledClasses();
         applicationContext.parserData.userClasses = Object.keys(applicationContext.parserData.userClassesData || {});
         return;

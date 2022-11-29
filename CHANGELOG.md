@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [4.3.2 - 2022-11-29]
+### Added
+- Added support for SFDX Scanner to make static code analisis for every file or entire project and se the result into the problems panel.
+- Added support to install SFDX Scanner if not exists on system
+- Added new command **AuraHelper: Scan** to run the static code analysis
+
+### Fixed
+- Save some time on plugin loading
+- Fixed problems with permission editor when add new tab, because add a wrong value.
+
 ## [4.2.2 - 2022-06-21]
 ### Fixed
 - Fixed the Email template group problem when download it from org

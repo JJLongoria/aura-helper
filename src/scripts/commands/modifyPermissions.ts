@@ -283,10 +283,10 @@ async function modifyPermissionFiles(filePath: string, fileMetadataType: any, me
                             } else {
                                 for (const fieldName of Object.keys(xmlElementData.fields)) {
                                     const fieldData = xmlElementData.fields[fieldName];
-                                    if (fieldData.default === '{!value}') {
-                                        obj[fieldName] = (separator) ? (objName + separator + itemName) : (!objName ? itemName : objName);
-                                    } else if (fileMetadataType.name === MetadataTypes.CUSTOM_TAB && fieldData.datatype === 'enum') {
+                                  if (fileMetadataType.name === MetadataTypes.CUSTOM_TAB && fieldData.datatype === 'enum') {
                                         obj[fieldName] = fieldData.getValue(selectedPermissionValues);
+                                    } else if (fieldData.default === '{!value}') {
+                                        obj[fieldName] = (separator) ? (objName + separator + itemName) : (!objName ? itemName : objName);
                                     } else {
                                         if (permissionValues.includes(fieldName)) {
                                             obj[fieldName] = true;

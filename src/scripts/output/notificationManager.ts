@@ -29,7 +29,7 @@ export class NotificationManager {
     static showConfirmDialog(message: string, onAccept: () => void, onCancel?: () => void, okText?: string, cancelText?: string): void {
         okText = okText || 'Ok';
         cancelText = cancelText || 'Cancel';
-        vscode.window.showInformationMessage(message, cancelText, okText).then((selected) => {
+        vscode.window.showInformationMessage(message, okText, cancelText).then((selected) => {
             if (selected === okText && onAccept) {
                 onAccept.call(this);
             } else if (onCancel) {

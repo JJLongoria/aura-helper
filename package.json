@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains several tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions to work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "4.2.3",
+	"version": "4.3.3",
 	"engines": {
 		"vscode": "^1.46.0",
 		"node": ">=12.0.0"
@@ -426,6 +426,10 @@
 			{
 				"command": "aurahelper.metadata.permission.modify",
 				"title": "AuraHelper: Modify Permissions"
+			},
+			{
+				"command": "aurahelper.metadata.scan",
+				"title": "AuraHelper: Scan"
 			}
 		],
 		"languages": [
@@ -512,6 +516,11 @@
 					"when": "resourceExtname == .cls || resource =~ /.+\\.app-meta.xml/ || resource =~ /.+\\.md-meta.xml/ || resource =~ /.+\\.customPermission-meta.xml/ || resource =~ /.+\\.object-meta.xml/ || resource =~ /.+\\.dataSource-meta.xml/ || resource =~ /.+\\.field-meta.xml/ || resource =~ /.+\\.page/ || resource =~ /.+\\.recordType-meta.xml/ || resource =~ /.+\\.tab-meta.xml/ || resource =~ /.+\\.layout-meta.xml/",
 					"command": "aurahelper.metadata.permission.modify",
 					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./force-app/",
+					"command": "aurahelper.metadata.scan",
+					"group": "auraHelper@1"
 				}
 			],
 			"editor/context": [
@@ -554,6 +563,11 @@
 					"when": "resourceExtname == .cls",
 					"command": "aurahelper.completion.apex.implement.extend",
 					"group": "auraHelper@1"
+				},
+				{
+					"when": "resource =~ /./force-app/",
+					"command": "aurahelper.metadata.scan",
+					"group": "auraHelper@1"
 				}
 			]
 		}
@@ -581,7 +595,7 @@
 	"dependencies": {
 		"@aurahelper/cli-manager": "^2.1.3",
 		"@aurahelper/connector": "^2.1.1",
-		"@aurahelper/core": "^2.2.3",
+		"@aurahelper/core": "^2.4.2",
 		"@aurahelper/dependencies-manager": "^2.0.1",
 		"@aurahelper/git-manager": "^2.0.2",
 		"@aurahelper/ignore": "^2.0.0",
