@@ -128,6 +128,9 @@ export interface MetadataConfig {
     customAPIVersion: number;
     groupGlobalQuickActions: boolean;
     xmlSortOrder: string;
+    scanCategories: ("Design" | "Best Practices" | "Security" | "Performance" | "Documentation" | "Code Style")[];
+    scanPmdRuleSet: string;
+    scanEsLintRuleSet: string;
 }
 
 export interface ConfigData {

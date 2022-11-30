@@ -1,10 +1,9 @@
-import { CLIManager } from '@aurahelper/cli-manager';
 import { CoreUtils, FileChecker, PathUtils, ProcessFactory, ProcessHandler } from '@aurahelper/core';
 import { StrUtils } from '@aurahelper/core/dist/utils';
 import * as vscode from 'vscode';
 import { Config } from '../core/config';
 import { Paths } from '../core/paths';
-import { DiagnosticsManager, NotificationManager, OutputChannel } from '../output';
+import { DiagnosticsManager, NotificationManager } from '../output';
 
 interface ScannerResponse {
     status: number;
@@ -93,8 +92,30 @@ function runScanner(filePath: string, installCallback: any){
 		title: "Analizing File " + filePath,
 		cancellable: false
 	}, async () => { 
+        let pdmRuleSetFile;
+        let esLintRuleSetFile;
+        if(Config.getConfig().metadata.scanPmdRuleSet){
+            try {
+                pdmRuleSetFile = PathUtils.getAbsolutePath(Config.getConfig().metadata.scanPmdRuleSet);
+                if(!FileChecker.isExists(pdmRuleSetFile)){
+                    NotificationManager.showError(`The PDM Rules file ${pdmRuleSetFile} does not exists`);
+                }
+            } catch (error) {
+                NotificationManager.showError(`Wrong path ${pdmRuleSetFile} to the PDM rule set`);
+            }
+        }
+        if(Config.getConfig().metadata.scanEsLintRuleSet){
+            try {
+                esLintRuleSetFile = PathUtils.getAbsolutePath(Config.getConfig().metadata.scanEsLintRuleSet);
+                if(!FileChecker.isExists(esLintRuleSetFile)){
+                    NotificationManager.showError(`The PDM Rules file ${esLintRuleSetFile} does not exists`);
+                }
+            } catch (error) {
+                NotificationManager.showError(`Wrong path ${esLintRuleSetFile} to the PDM rule set`);
+            }
+        }
         try {
-            const process = ProcessFactory.runScanner(filePath);
+            const process = ProcessFactory.runScanner(filePath, Config.getConfig().metadata.scanCategories);
             const response = await ProcessHandler.runProcess(process) as ScannerResponse;   
             if(response.status === 0){
                 console.log(response);

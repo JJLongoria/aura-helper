@@ -1,7 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [4.3.2 - 2022-11-29]
+## [4.4.3 - 2022-11-29]
+### Added
+- Added support to config on **Aura Helper Settings** the Scanner categories to scan your code as you like.
+- Added support to config on **Aura Helper Settings** the path to PMD custom rule set file and/or eslint rule set file.
+
+## [4.4.3 - 2022-11-29]
 ### Added
 - Added support for SFDX Scanner to make static code analisis for every file or entire project and se the result into the problems panel.
 - Added support to install SFDX Scanner if not exists on system
