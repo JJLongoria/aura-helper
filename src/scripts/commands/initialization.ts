@@ -30,18 +30,28 @@ export function run() {
 }
 
 async function init(context: vscode.ExtensionContext): Promise<void> {
+    console.time('init');
     const username = Config.getOrgAlias();
+    console.timeLog('init', 'username', username);
     cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
+    console.timeLog('init', 'init cli manager');
     connection = new SFConnector(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
+    console.timeLog('init', 'init connection');
     connection.setMultiThread();
+    console.timeLog('init', 'start create template files');
     createTemplateFiles(context);
+    console.timeLog('init', 'loading snippets');
     loadSnippets();
     if (username) {
+        console.timeLog('init', 'get org data');
         await getOrgData();
     }
+    console.timeLog('init', 'get system data');
     await getSystemData();
+    console.timeLog('init', 'get git data');
     await getGitData();
     OutputChannel.outputLine('System Data Loaded');
+    console.timeLog('init', 'Checking aura helper CLI');
     await checkAuraHelperCLI();
     NotificationManager.hideStatusBar();
     if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart) {
@@ -51,6 +61,7 @@ async function init(context: vscode.ExtensionContext): Promise<void> {
         ProjectFilesWatcher.startWatching();
         ProviderManager.registerProviders();
     }
+    console.timeEnd('init');
 }
 
 async function getGitData(): Promise<void> {
@@ -175,99 +186,105 @@ function adaptOldApexTemplateToNewTemplate(): string {
 
 async function checkAuraHelperVersion(): Promise<void> {
     try {
-        cliManager.useAuraHelperSFDX();
-        const isInstalled = await cliManager.isAuraHelperCLIInstalled();
-        if (isInstalled) {
+        cliManager.useAuraHelperSF();
+        const isAhSFInstalled = await cliManager.isAuraHelperCLIInstalled();
+        if (isAhSFInstalled) {
             const version = await cliManager.getAuraHelperCLIVersion();
             const versionSplits = version.split('.');
-            const requiredVersionSplits = applicationContext.MIN_AH_SFDX_VERSION.split('.');
+            const requiredVersionSplits = applicationContext.MIN_AH_SF_VERSION.split('.');
             const majorVersion = parseInt(versionSplits[0]);
             const minorVersion = parseInt(versionSplits[1]);
             const patchVersion = parseInt(versionSplits[2]);
             const requiredMajorVersion = parseInt(requiredVersionSplits[0]);
             const requiredMinorVersion = parseInt(requiredVersionSplits[1]);
             const requiredPatchVersion = parseInt(requiredVersionSplits[2]);
-            applicationContext.ahPluginInstalled = true;
+            applicationContext.ahSFPluginInstalled = true;
             if (majorVersion < requiredMajorVersion) {
-                showDialogsForAuraHelpeSFDX();
+                showDialogsForAuraHelpeSF();
             } else if (majorVersion === requiredMajorVersion && minorVersion < requiredMinorVersion) {
-                showDialogsForAuraHelpeSFDX();
+                showDialogsForAuraHelpeSF();
             } else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion) {
-                showDialogsForAuraHelpeSFDX();
+                showDialogsForAuraHelpeSF();
             }
         } else {
-            cliManager.useAuraHelperSFDX(false);
-            const version = await cliManager.getAuraHelperCLIVersion();
-            const versionSplits = version.split('.');
-            const requiredVersionSplits = applicationContext.MIN_AH_CLI_VERSION.split('.');
-            const majorVersion = parseInt(versionSplits[0]);
-            const minorVersion = parseInt(versionSplits[1]);
-            const patchVersion = parseInt(versionSplits[2]);
-            const requiredMajorVersion = parseInt(requiredVersionSplits[0]);
-            const requiredMinorVersion = parseInt(requiredVersionSplits[1]);
-            const requiredPatchVersion = parseInt(requiredVersionSplits[2]);
-            if (majorVersion < requiredMajorVersion) {
-                showDialogsForAuraHelperCLI();
-            } else if (majorVersion === requiredMajorVersion && minorVersion < requiredMinorVersion) {
-                showDialogsForAuraHelperCLI();
-            } else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion) {
-                showDialogsForAuraHelperCLI();
+            cliManager.useAuraHelperSFDX();
+            const isAhSFDXInstalled = await cliManager.isAuraHelperCLIInstalled();
+            if (isAhSFDXInstalled) {
+                const version = await cliManager.getAuraHelperCLIVersion();
+                const versionSplits = version.split('.');
+                const requiredVersionSplits = applicationContext.MIN_AH_SFDX_VERSION.split('.');
+                const majorVersion = parseInt(versionSplits[0]);
+                const minorVersion = parseInt(versionSplits[1]);
+                const patchVersion = parseInt(versionSplits[2]);
+                const requiredMajorVersion = parseInt(requiredVersionSplits[0]);
+                const requiredMinorVersion = parseInt(requiredVersionSplits[1]);
+                const requiredPatchVersion = parseInt(requiredVersionSplits[2]);
+                applicationContext.ahSFDXPluginInstalled = true;
+                if (majorVersion < requiredMajorVersion) {
+                    showDialogsForAuraHelpeSFDX();
+                } else if (majorVersion === requiredMajorVersion && minorVersion < requiredMinorVersion) {
+                    showDialogsForAuraHelpeSFDX();
+                } else if (majorVersion === requiredMajorVersion && minorVersion === requiredMinorVersion && patchVersion < requiredPatchVersion) {
+                    showDialogsForAuraHelpeSFDX();
+                }
+            } else {
+                showDialogsForAuraHelpeSF();
             }
         }
         return;
     } catch (error) {
-        showDialogsForAuraHelpeSFDX();
+        showDialogsForAuraHelpeSF();
     }
 }
 
-function showDialogsForAuraHelpeSFDX(): void {
-    const message = 'Aura Helper SFDX Plugin is not installed or has older version. To a correct work of Aura Helper Extension, you must update the Aura Helper SFDX Plugin. Press Install to update now or Cancel to update later';
-    OutputChannel.outputLine(message + '\nTo update Aura Helper SFDX Manually, execute the next command "sfdx plugins:install aura-helper-sfdx"', true);
+function showDialogsForAuraHelpeSF(): void {
+    const message = 'Aura Helper SF Plugin is not installed or has older version. To a correct work of Aura Helper Extension, you must update the Aura Helper SF Plugin. Press Install to update now or Cancel to update later';
+    OutputChannel.outputLine(message + '\nTo update Aura Helper SF Manually, execute the next command "sf plugins install aura-helper-sf"', true);
     NotificationManager.showWarning(message, () => {
-        NotificationManager.showStatusBar('$(sync~spin) Updating Aura Helper SFDX...');
+        NotificationManager.showStatusBar('$(sync~spin) Updating Aura Helper SF...');
         createWhilelistPlugin();
         cliManager.updateAuraHelperCLI().then(() => {
             NotificationManager.hideStatusBar();
-            NotificationManager.showInfo('Aura Helper SFDX Plugin Updated. Enjoy it!');
+            NotificationManager.showInfo('Aura Helper SF Plugin Updated. Enjoy it!');
         }).catch((error) => {
             NotificationManager.hideStatusBar();
-            if (StrUtils.contains(error, 'aura-helper-sfdx... installed')) {
-                NotificationManager.showInfo('Aura Helper SFDX Plugin Updated. Enjoy it!');
+            if (StrUtils.contains(error, 'aura-helper-sf... installed')) {
+                NotificationManager.showInfo('Aura Helper SF Plugin Updated. Enjoy it!');
             } else {
-                const errorMessage = 'An Error ocurred while updating Aura Helper SFDX. You can update manually with command "sfdx plugins:install aura-helper-sfdx".';
+                const errorMessage = 'An Error ocurred while updating Aura Helper SF. You can update manually with command "sf plugins install aura-helper-sf".';
                 OutputChannel.outputLine(message + '\nError: ' + error, true);
                 NotificationManager.showError(errorMessage);
             }
         });
     }, () => {
-        NotificationManager.showWarning("You may experience errors with Aura Helper until you update Aura Helper SFDX Plugin.");
+        NotificationManager.showWarning("You may experience errors with Aura Helper until you update Aura Helper SF Plugin.");
     }, 'Install');
 }
 
-function showDialogsForAuraHelperCLI(): void {
-    const message = 'Warning! Aura Helper CLI is DEPRECATED. To a correct work of Aura Helper Extension, you must install Aura Helper SFDX Plugin. ¿Do you want to install now?. Press Install to install now or Cancel to install later';
-    OutputChannel.outputLine(message + '\nTo install Aura Helper SFDX Plugin Manually, execute the next command "sfdx plugins:install aura-helper-sfdx"', true);
-    OutputChannel.outputLine("All Aura Helper CLI tools are enhanced and moved to the new Aura Helper SFDX Plugin.", true);
-    OutputChannel.outputLine("At the moment, Aura Helper maintenance compatibility with Aura Helper CLI, but you must install Aura Helper SFDX Plugin to maintenance compatibility on future.", true);
-    OutputChannel.outputLine("To learn more about Aura Helper SFDX Plugin, visit https://github.com/JJLongoria/aura-helper-sfdx.", true);
+function showDialogsForAuraHelpeSFDX(): void {
+    const message = 'Warning! Aura Helper SFDX Plugin is DEPRECATED. To a correct work of Aura Helper Extension, you must install Aura Helper SF Plugin. ¿Do you want to install now?. Press Install to install now or Cancel to install later';
+    OutputChannel.outputLine(message + '\nTo install Aura Helper SF Plugin Manually, execute the next command "sf plugins install aura-helper-sf"', true);
+    OutputChannel.outputLine("All Aura Helper SFDX tools are moved to the new Aura Helper SF Plugin.", true);
+    OutputChannel.outputLine("At the moment, Aura Helper maintenance compatibility with Aura Helper SFDX, but you must install Aura Helper SF Plugin to maintenance compatibility on future.", true);
+    OutputChannel.outputLine("To learn more about Aura Helper SF Plugin, visit https://github.com/JJLongoria/aura-helper-sf.", true);
     NotificationManager.showWarning(message, () => {
-        NotificationManager.showStatusBar('$(sync~spin) Installing Aura Helper SFDX Plugin...');
+        NotificationManager.showStatusBar('$(sync~spin) Updating Aura Helper SF...');
         createWhilelistPlugin();
         cliManager.updateAuraHelperCLI().then(() => {
             NotificationManager.hideStatusBar();
-            NotificationManager.showInfo('Aura Helper SFDX Plugin Installed. Enjoy it!');
+            NotificationManager.showInfo('Aura Helper SF Plugin Updated. Enjoy it!');
         }).catch((error) => {
             NotificationManager.hideStatusBar();
-            if (StrUtils.contains(error, 'aura-helper-sfdx... installed')) {
-                NotificationManager.showInfo('Aura Helper SFDX Plugin Updated. Enjoy it!');
+            if (StrUtils.contains(error, 'aura-helper-sf... installed')) {
+                NotificationManager.showInfo('Aura Helper SF Plugin Updated. Enjoy it!');
             } else {
-                const errorMessage = 'An Error ocurred while install Aura Helper SFDX Plugin. You can update manually with command "sfdx plugins:install aura-helper-sfdx".';
+                const errorMessage = 'An Error ocurred while updating Aura Helper SF. You can update manually with command "sf plugins install aura-helper-sf".';
                 OutputChannel.outputLine(message + '\nError: ' + error, true);
                 NotificationManager.showError(errorMessage);
             }
         });
     }, () => {
-        NotificationManager.showWarning("You may experience errors with Aura Helper until you install the new Aura Helper SFDX Plugin.");
+        NotificationManager.showWarning("You may experience errors with Aura Helper until you update Aura Helper SF Plugin.");
     }, 'Install');
 }
 
@@ -572,7 +589,7 @@ function loadSnippets(): any {
     FileWriter.createFileSync(Paths.getImagesPath() + '/markdown/aura.md', createSnippetsMarkdown(auraActivations));
     FileWriter.createFileSync(Paths.getImagesPath() + '/markdown/js.md', createSnippetsMarkdown(jsActivations));
     FileWriter.createFileSync(Paths.getImagesPath() + '/markdown/slds.md', createSnippetsMarkdown(sldsActivations));*/
-    //console.log("Total Snippets: " + (Object.keys(auraSnippets).length + Object.keys(jsSnippets).length + Object.keys(sldsSnippets).length + Object.keys(lwcSnippets).length));
+    console.log("Total Snippets: " + (Object.keys(auraSnippets).length + Object.keys(jsSnippets).length + Object.keys(sldsSnippets).length + Object.keys(lwcSnippets).length));
     OutputChannel.outputLine('Snippets Loaded');
 }
 

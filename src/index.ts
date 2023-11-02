@@ -80,7 +80,7 @@ import { DiagnosticsManager, OutputChannel } from './scripts/output';
 	OutputChannel.outputLine('Aura Helper Extension is now active');
 	setTimeout(() => {
 		vscode.commands.executeCommand('aurahelper.init');
-	}, 250);
+	}, 50);
 }
 // this method is called when your extension is deactivated
 export function deactivate() { }

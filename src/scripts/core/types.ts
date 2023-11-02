@@ -77,7 +77,9 @@ export interface ApplicationContext {
     isAdvanceGUIAvailable: boolean;
     MIN_AH_CLI_VERSION: string;
     MIN_AH_SFDX_VERSION: string;
-    ahPluginInstalled: boolean;
+    MIN_AH_SF_VERSION: string;
+    ahSFDXPluginInstalled: boolean;
+    ahSFPluginInstalled: boolean;
     gitData: GitData;
     sfData: SalesforceData;
 }

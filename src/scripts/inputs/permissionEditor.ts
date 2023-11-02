@@ -1508,7 +1508,11 @@ function loadUserPermissions() {
                 }
                 if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-                    cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+                    if(applicationContext.ahSFDXPluginInstalled){
+                        cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+                    } else if(applicationContext.ahSFPluginInstalled){
+                        cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+                    }
                     cancelToken.onCancellationRequested(() => {
                         cliManager.abortProcess();
                     });

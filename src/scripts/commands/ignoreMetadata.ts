@@ -57,7 +57,11 @@ export async function run() {
             return new Promise<void>(async (resolve) => {
                 if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-                    cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+                    if(applicationContext.ahSFDXPluginInstalled){
+                        cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+                    } else if(applicationContext.ahSFPluginInstalled){
+                        cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+                    }
                     cancelToken.onCancellationRequested(() => {
                         NotificationManager.showInfo('Operation Cancelled');
                         cliManager.abortProcess();

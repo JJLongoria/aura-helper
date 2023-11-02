@@ -40,7 +40,11 @@ export class XMLEditor extends MultiStepInput {
                         if (Config.useAuraHelperCLI()) {
                             FileWriter.createFileSync(this._file, XMLParser.toXML(this._xmlContent));
                             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-                            cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+                            if(applicationContext.ahSFDXPluginInstalled){
+                                cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+                            } else if(applicationContext.ahSFPluginInstalled){
+                                cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+                            }
                             cliManager.compress(this._file, sortOrder).then(() => {
                                 OutputChannel.outputLine('XML file compressed successfully');
                                 progressResolve();

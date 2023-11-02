@@ -20,9 +20,13 @@ export function run(uri: vscode.Uri): void {
                 const sortOrder = Config.getXMLSortOrder();
                 //if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-                    cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+                    if(applicationContext.ahSFDXPluginInstalled){
+                        cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+                    } else if(applicationContext.ahSFPluginInstalled){
+                        cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+                    }
                     cliManager.onProgress((progressStatus: any) => {
-                        progressReport(progress, progressStatus.message, progressStatus.result.percentage);
+                        progressReport(progress, progressStatus?.message, progressStatus?.result?.percentage);
                     });
                     cliManager.compress(folderPath, sortOrder).then(() => {
                         OutputChannel.outputLine('All XML files compressed successfully');

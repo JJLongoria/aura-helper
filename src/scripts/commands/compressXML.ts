@@ -40,7 +40,11 @@ function compress(filePath: string): void {
     const sortOrder = Config.getXMLSortOrder();
     if (Config.useAuraHelperCLI()) {
         const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-        cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+        if(applicationContext.ahSFDXPluginInstalled){
+            cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+        } else if(applicationContext.ahSFPluginInstalled){
+            cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+        }
         cliManager.compress(filePath, sortOrder).then(() => {
             OutputChannel.outputLine('XML file compressed successfully');
         }).catch((error: any) => {

@@ -74,7 +74,11 @@ function getLocalMetadata(types?: string[]): Promise<{ [key: string]: MetadataTy
     return new Promise<{ [key: string]: MetadataType }>(function (resolve, reject) {
         if (Config.useAuraHelperCLI()) {
             const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-            cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+            if(applicationContext.ahSFDXPluginInstalled){
+                cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+            } else if(applicationContext.ahSFPluginInstalled){
+                cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+            }
             cliManager.describeLocalMetadata(types).then((metadataTypes: { [key: string]: MetadataType }) => {
                 resolve(metadataTypes);
             }).catch((error: Error) => {
@@ -315,7 +319,11 @@ async function modifyPermissionFiles(filePath: string, fileMetadataType: any, me
                 if (compress === 'Yes') {
                     //if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-                    cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+                    if(applicationContext.ahSFDXPluginInstalled){
+                        cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+                    } else if(applicationContext.ahSFPluginInstalled){
+                        cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+                    }
                     cliManager.compress(filesToCompress, sortOrder).then(() => {
                         NotificationManager.showInfo('Modify Permissions finished succesfully');
                         OutputChannel.outputLine('XML file compressed successfully');

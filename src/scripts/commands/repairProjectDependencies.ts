@@ -48,7 +48,11 @@ async function repair(options: any, typesForRepair: { [key: string]: MetadataTyp
             try {
                 if (Config.useAuraHelperCLI()) {
                     const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-                    cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+                    if(applicationContext.ahSFDXPluginInstalled){
+                        cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+                    } else if(applicationContext.ahSFPluginInstalled){
+                        cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+                    }
                     cliManager.setCompressFiles(options[MetadataSelector.getCompressAction()]);
                     cliManager.setSortOrder(sortOrder);
                     cliManager.onProgress((status: any) => {

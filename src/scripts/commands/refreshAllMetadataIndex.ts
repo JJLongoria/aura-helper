@@ -32,10 +32,11 @@ export function run(onbackground: boolean): void {
                 console.timeEnd('refreshIndex');
                 NotificationManager.hideStatusBar();
                 OutputChannel.outputLine('Refreshing SObject Defintions Finished');
-                ProviderManager.registerProviders();
-                ApexCodeWatcher.startWatching();
-                ProjectFilesWatcher.startWatching();
+                
             });
+            ProviderManager.registerProviders();
+            ApexCodeWatcher.startWatching();
+            ProjectFilesWatcher.startWatching();
         }, 100);
     }
 }
@@ -62,7 +63,7 @@ function showLoadingDialog(): void {
     });
 }
 
-async function refreshIndex(force: boolean, progress?: vscode.Progress<any>, cancelToken?: vscode.CancellationToken, callback?: any) {
+async function refreshIndex(force: boolean, progress?: vscode.Progress<any>, cancelToken?: vscode.CancellationToken, callback?: any) {   
     const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
     if (cancelToken) {
         cancelToken.onCancellationRequested(() => {
@@ -97,6 +98,7 @@ async function refreshIndex(force: boolean, progress?: vscode.Progress<any>, can
             }
         }
     });
+    
     connection.describeMetadataTypes([MetadataTypes.CUSTOM_OBJECT], true).then(async (metadataTypes: any) => {
         let objectsToDescribe = [];
         let existingObjects: any = {};

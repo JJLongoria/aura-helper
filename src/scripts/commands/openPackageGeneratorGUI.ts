@@ -66,7 +66,11 @@ async function openStandardGUI() {
                             const useIgnore = options[MetadataSelector.getIgnoreAction()];
                             if (Config.useAuraHelperCLI()) {
                                 const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-                                cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+                                if(applicationContext.ahSFDXPluginInstalled){
+                                    cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+                                } else if(applicationContext.ahSFPluginInstalled){
+                                    cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+                                }
                                 cliManager.setIgnoreFile(Paths.getAHIgnoreFile());
                                 cliManager.onProgress((status: any) => {
                                     progress.report({

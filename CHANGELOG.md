@@ -1,6 +1,24 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [4.5.0 - 20223-10-30]
+### Added
+- Added support to the new Aura Helper SF Plugin for the new SF CLI
+- Added support to use SF CLI commands instead SFDX Commands
+- Added new settings to Apex Formatter:
+  - Add Whitespace Before Open Parenthesis Operator
+  - Add Whitespace After Close Parenthesis Operator
+  - SObject Fields Per Line
+  - Max Conditions Per Line
+  - Condition Logic Operator On New Line
+
+### Fixed
+- Fixed some vulnerabilities with some dependencies
+
+### Removed
+- Removed support to Aura Helper CLI. Only support Aura Helper SF Plugin and Aura Helper SFDX Plugins
+
+
 ## [4.4.3 - 2022-11-29]
 ### Added
 - Added support to config on **Aura Helper Settings** the Scanner categories to scan your code as you like.
@@ -8,7 +26,7 @@ All notable changes to this project will be documented in this file.
 
 ## [4.4.3 - 2022-11-29]
 ### Added
-- Added support for SFDX Scanner to make static code analisis for every file or entire project and se the result into the problems panel.
+- Added support for SFDX Scanner to make static code analisis for every file or entire project and see the result into the problems panel.
 - Added support to install SFDX Scanner if not exists on system
 - Added new command **AuraHelper: Scan** to run the static code analysis
 

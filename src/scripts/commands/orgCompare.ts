@@ -59,7 +59,11 @@ export async function run() {
                 try {
                     if (Config.useAuraHelperCLI()) {
                         const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-                        cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+                        if(applicationContext.ahSFDXPluginInstalled){
+                            cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+                        } else if(applicationContext.ahSFPluginInstalled){
+                            cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+                        }
                         let result;
                         cliManager.onProgress((status: any) => {
                             if (status.result.increment !== undefined && status.result.increment > -1) {

@@ -346,7 +346,11 @@ async function getLocalMetadata(types?: string[]): Promise<{ [key: string]: Meta
     }
     if (Config.useAuraHelperCLI()) {
         const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-        cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+        if(applicationContext.ahSFDXPluginInstalled){
+            cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+        } else if(applicationContext.ahSFPluginInstalled){
+            cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+        }
         const metadataTypes = await cliManager.describeLocalMetadata(types);
         return metadataTypes;
     } else {
@@ -368,7 +372,11 @@ async function getLocalMetadata(types?: string[]): Promise<{ [key: string]: Meta
 async function getOrgMetadata(downloadAll?: boolean, progressReport?: vscode.Progress<any>, types?: string[]): Promise<{ [key: string]: MetadataType }> {
     if (Config.useAuraHelperCLI()) {
         const cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-        cliManager.useAuraHelperSFDX(applicationContext.ahPluginInstalled);
+        if(applicationContext.ahSFDXPluginInstalled){
+            cliManager.useAuraHelperSFDX(applicationContext.ahSFDXPluginInstalled);
+        } else if(applicationContext.ahSFPluginInstalled){
+            cliManager.useAuraHelperSF(applicationContext.ahSFPluginInstalled);
+        }
         cliManager.onProgress((status: AuraHelperCLIProgress) => {
             if (status.result.increment !== undefined && status.result.increment > -1) {
                 progressReport?.report({

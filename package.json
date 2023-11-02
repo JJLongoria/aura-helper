@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains several tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions to work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "4.4.3",
+	"version": "4.5.0",
 	"engines": {
 		"vscode": "^1.46.0",
 		"node": ">=12.0.0"
@@ -97,7 +97,7 @@
 				"aurahelper.api.useAuraHelperCLI": {
 					"type": "boolean",
 					"default": false,
-					"description": "Use Aura Helper SFDX Plugin to execute some processes (Recommended to PCs with low resources). If not selected, all operation will be executed into VSCode context (faster but need more resources)"
+					"description": "Use Aura Helper SF Plugin to execute some processes (Recommended to PCs with low resources). If not selected, all operation will be executed into VSCode context (faster but need more resources). Aura Helper cant detect the best Aura Helper CLI Installed to use (Aura Helper CLI, Aura Helper SFDX or Aura Helper SF)"
 				},
 				"aurahelper.documentation.useStandardJavaComments": {
 					"type": "boolean",
@@ -272,6 +272,23 @@
 					"default": true,
 					"description": "Add a white space after , symbol"
 				},
+				"aurahelper.apexFormat.punctuation.SObjectFieldsPerLine": {
+					"type": "integer",
+					"default": 1,
+					"description": "Number of maximum fields per line on SObject constructor instances. 0 or less keep all fields on same line",
+					"minimum": -1
+				},
+				"aurahelper.apexFormat.punctuation.maxConditionsPerLine": {
+					"type": "integer",
+					"default": 0,
+					"description": "Number of maximum conditions per line on if, else if... and other control flow statement conditions. 0 or less keep all conditions on same line. Conditions between parenthesis count as one condition",
+					"minimum": -1
+				},
+				"aurahelper.apexFormat.punctuation.conditionLogicOperatorOnNewLine": {
+					"type": "boolean",
+					"default": false,
+					"description": "When Max Conditions Per Line is set to 1 or more, add the logic operator (&&, ||) on a new line or keep it on same line"
+				},
 				"aurahelper.apexFormat.punctuation.addWhitespaceBeforeOpenTriggerEvents": {
 					"type": "boolean",
 					"default": true,
@@ -287,6 +304,11 @@
 					"default": true,
 					"description": "Add a white space after any arithmetic, logic, assignment or bitwise operator"
 				},
+				"aurahelper.apexFormat.operator.addWhitespaceBeforeOpenParenthesisOperator": {
+					"type": "boolean",
+					"default": false,
+					"description": "Add a white space before ( priority operator"
+				},
 				"aurahelper.apexFormat.operator.addWhitespaceAfterOpenParenthesisOperator": {
 					"type": "boolean",
 					"default": false,
@@ -296,6 +318,11 @@
 					"type": "boolean",
 					"default": false,
 					"description": "Add a white space before ) priority operator"
+				},
+				"aurahelper.apexFormat.operator.addWhitespaceAfterCloseParenthesisOperator": {
+					"type": "boolean",
+					"default": false,
+					"description": "Add a white space after ) priority operator"
 				},
 				"aurahelper.apexFormat.classMembers.newLinesBetweenCodeBlockMembers": {
 					"type": "integer",
@@ -617,16 +644,16 @@
 		"email": "juanjoselongoria@gmail.com"
 	},
 	"dependencies": {
-		"@aurahelper/cli-manager": "^2.1.3",
-		"@aurahelper/connector": "^2.1.1",
-		"@aurahelper/core": "^2.4.3",
-		"@aurahelper/dependencies-manager": "^2.0.1",
-		"@aurahelper/git-manager": "^2.0.2",
-		"@aurahelper/ignore": "^2.0.0",
-		"@aurahelper/languages": "^2.0.5",
-		"@aurahelper/metadata-factory": "^2.1.4",
-		"@aurahelper/package-generator": "^2.1.0",
-		"@aurahelper/xml-compressor": "^2.0.1",
+		"@aurahelper/cli-manager": "^2.2.2",
+		"@aurahelper/connector": "^2.2.1",
+		"@aurahelper/core": "^2.6.2",
+		"@aurahelper/dependencies-manager": "^2.0.2",
+		"@aurahelper/git-manager": "^2.1.5",
+		"@aurahelper/ignore": "^2.0.1",
+		"@aurahelper/languages": "^2.1.1",
+		"@aurahelper/metadata-factory": "^2.1.6",
+		"@aurahelper/package-generator": "^2.1.1",
+		"@aurahelper/xml-compressor": "^2.0.2",
 		"@aurahelper/xml-definitions": "^2.0.1"
 	},
 	"devDependencies": {
