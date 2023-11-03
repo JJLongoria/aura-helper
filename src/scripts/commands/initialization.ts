@@ -32,26 +32,17 @@ export function run() {
 async function init(context: vscode.ExtensionContext): Promise<void> {
     console.time('init');
     const username = Config.getOrgAlias();
-    console.timeLog('init', 'username', username);
     cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
-    console.timeLog('init', 'init cli manager');
     connection = new SFConnector(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
-    console.timeLog('init', 'init connection');
     connection.setMultiThread();
-    console.timeLog('init', 'start create template files');
     createTemplateFiles(context);
-    console.timeLog('init', 'loading snippets');
     loadSnippets();
     if (username) {
-        console.timeLog('init', 'get org data');
         await getOrgData();
     }
-    console.timeLog('init', 'get system data');
     await getSystemData();
-    console.timeLog('init', 'get git data');
     await getGitData();
     OutputChannel.outputLine('System Data Loaded');
-    console.timeLog('init', 'Checking aura helper CLI');
     await checkAuraHelperCLI();
     NotificationManager.hideStatusBar();
     if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart) {

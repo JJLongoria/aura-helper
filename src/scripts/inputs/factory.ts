@@ -82,7 +82,7 @@ export class InputFactory {
         };
     }
 
-    static createFileDialog(label: string, multipick: boolean, filters?: any, defaultUri?: string): Thenable<vscode.Uri[] | undefined> {
+    static createFileDialog(label: string, multipick: boolean, filters?: any, defaultUri?: string): any {
         return vscode.window.showOpenDialog({
             canSelectFiles: true,
             canSelectMany: multipick,
@@ -93,7 +93,7 @@ export class InputFactory {
         });
     }
 
-    static createFolderDialog(label: string, multipick: boolean, filters?: any, defaultUri?: string): Thenable<vscode.Uri[] | undefined> {
+    static createFolderDialog(label: string, multipick: boolean, filters?: any, defaultUri?: string): any {
         return vscode.window.showOpenDialog({
             canSelectFiles: false,
             canSelectMany: multipick,

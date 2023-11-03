@@ -35,7 +35,7 @@ let sObjects: any;
 let alias: string;
 
 export function run(): void {
-    InputFactory.createFolderDialog('Select Folder', false).then(function (uri) {
+    InputFactory.createFolderDialog('Select Folder', false).then(function (uri: any) {
         if (uri && uri.length > 0) {
             let errorShown = false;
             classes = applicationContext.parserData.userClassesData;
