@@ -388,6 +388,7 @@ async function getOrgMetadata(downloadAll?: boolean, progressReport?: vscode.Pro
         const metadataTypes = await cliManager.describeOrgMetadata(types, downloadAll, Config.getConfig().metadata.groupGlobalQuickActions);
         return metadataTypes;
     } else {
+        console.time('getOrgMetadata');
         const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
         connection.setMultiThread();
         connection.onAfterDownloadType((status: ProgressStatus) => {
@@ -398,6 +399,7 @@ async function getOrgMetadata(downloadAll?: boolean, progressReport?: vscode.Pro
         });
         const metadataDetails = await connection.listMetadataTypes();
         const metadataTypes = await connection.describeMetadataTypes(metadataDetails, downloadAll, Config.getConfig().metadata.groupGlobalQuickActions);
+        console.timeEnd('getOrgMetadata');
         return metadataTypes;
     }
 }

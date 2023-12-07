@@ -116,10 +116,10 @@ function runScanner(filePath: string, installCallback: any) {
             }
         }
         try {
-            const process = applicationContext.ahSFPluginInstalled ? ProcessFactory.runSFScanner(filePath, Config.getConfig().metadata.scanCategories) : ProcessFactory.runSFDXScanner(filePath, Config.getConfig().metadata.scanCategories);
+            const categories = Config.getConfig().metadata.scanCategories && Config.getConfig().metadata.scanCategories.length > 0 ? Config.getConfig().metadata.scanCategories : undefined;
+            const process = applicationContext.ahSFPluginInstalled ? ProcessFactory.runSFScanner(filePath, categories, pdmRuleSetFile, esLintRuleSetFile) : ProcessFactory.runSFDXScanner(filePath, categories, pdmRuleSetFile, esLintRuleSetFile);
             const response = await ProcessHandler.runProcess(process) as ScannerResponse;
             if (response.status === 0) {
-                console.log(response);
                 if (response.result.length > 0) {
                     let totalProbles = 0;
                     for (const fileProblem of response.result) {
@@ -129,14 +129,18 @@ function runScanner(filePath: string, installCallback: any) {
                         const fileName = PathUtils.getBasename(fileProblem.fileName);
                         for (const problem of fileProblem.violations) {
                             const endColumn = problem.line !== problem.endLine ? problem.line + 5 : problem.endColumn;
-                            const range = new vscode.Range(parseInt(problem.line) - 1, parseInt(problem.column) - 1, parseInt(problem.line) - 1, parseInt(endColumn));
-                            const diagnostic = new vscode.Diagnostic(range, `${problem.message}Category: ${problem.category}\nViolation: ${problem.ruleName}: ${problem.url}`, vscode.DiagnosticSeverity.Warning);
-                            diagnostic.source = 'SFDX Scanner';
-                            diagnostic.code = fileName + '_' + problem.line + ':' + problem.column + '_' + problem.ruleName;
-                            /*diagnostic.relatedInformation = [
-                                new vscode.DiagnosticRelatedInformation(new vscode.Location(path, range), problem.message)
-                            ];*/
-                            diags.push(diagnostic);
+                            try {
+                                const range = new vscode.Range(parseInt(problem.line) - 1, parseInt(problem.column), parseInt(problem.line) - 1, parseInt(endColumn));
+                                const diagnostic = new vscode.Diagnostic(range, `${problem.message}Category: ${problem.category}\nViolation: ${problem.ruleName}: ${problem.url}`, vscode.DiagnosticSeverity.Warning);
+                                diagnostic.source = 'SF Scanner';
+                                diagnostic.code = fileName + '_' + problem.line + ':' + problem.column + '_' + problem.ruleName;
+                                /*diagnostic.relatedInformation = [
+                                    new vscode.DiagnosticRelatedInformation(new vscode.Location(path, range), problem.message)
+                                ];*/
+                                diags.push(diagnostic);
+                            } catch(err){
+                                /* empty */
+                            }
                         }
                         totalProbles += fileProblem.violations.length;
                         DiagnosticsManager.setDiagnostics("scan", path, diags);
@@ -150,8 +154,8 @@ function runScanner(filePath: string, installCallback: any) {
             }
         } catch (error) {
             if (CoreUtils.Utils.isString(error) && StrUtils.containsIgnorecase(error as string, 'scanner:run is not a sfdx command')) {
-                if(applicationContext.ahSFDXPluginInstalled){
-                    NotificationManager.showConfirmDialog('SFDX Scanner is not installed. Do you want to install now?', async () => {
+                if (applicationContext.ahSFDXPluginInstalled) {
+                    NotificationManager.showConfirmDialog('SF Scanner is not installed. Do you want to install now?', async () => {
                         if (installCallback) {
                             installCallback();
                         }

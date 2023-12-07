@@ -3,7 +3,7 @@
 	"publisher": "Kanko",
 	"displayName": "Aura Helper",
 	"description": "Extension to work with Salesforce, Apex and Lightning. It contains several tools to increase productivity and facilitate code creation. Aura Helper is the most complete extensions to work with salesforce and is one of the necessary applications for Salaesforce developers.",
-	"version": "4.5.0",
+	"version": "4.5.1",
 	"engines": {
 		"vscode": "^1.84.0",
 		"node": ">=12.0.0"
@@ -67,26 +67,7 @@
 		"Salesforce IntelliSense"
 	],
 	"activationEvents": [
-		"workspaceContains:sfdx-project.json",
-		"onCommand:aurahelper.completion.js.function",
-		"onCommand:aurahelper.completion.documentation.method",
-		"onCommand:aurahelper.template.apex.comment",
-		"onCommand:aurahelper.template.aura.documentation",
-		"onCommand:aurahelper.completion.aura.documentation",
-		"onCommand:aurahelper.help",
-		"onCommand:aurahelper.file.new.aura",
-		"onCommand:aurahelper.metadata.refresh.index",
-		"onCommand:aurahelper.metadata.refresh.object",
-		"onCommand:aurahelper.metadata.compress.xml",
-		"onCommand:aurahelper.metadata.compress.xml.all",
-		"onCommand:aurahelper.metadata.permission.editor",
-		"onCommand:aurahelper.metadata.retrieve.special",
-		"onCommand:aurahelper.metadata.package.generate",
-		"onCommand:aurahelper.metadata.org.comparator",
-		"onCommand:aurahelper.metadata.customlabels.editor",
-		"onCommand:aurahelper.documentation.project.create",
-		"onCommand:aurahelper.completion.apex.implement.interface",
-		"onCommand:aurahelper.completion.apex.implement.extend"
+		"workspaceContains:sfdx-project.json"
 	],
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
@@ -214,9 +195,13 @@
 						"Best Practices",
 						"Security",
 						"Performance",
-						"Code Style"
+						"Code Style",
+						"Error Prone",
+						"problem",
+						"suggestion",
+						"Insecure Dependencies"
 					],
-					"description": "The categories to scan on static code analysis when run AuraHelper: Scan. Available: Design, Best Practices, Security, Performance, Documentation, Code Style"
+					"description": "The categories to scan on static code analysis when run AuraHelper: Scan. Available: Design, Best Practices, Security, Performance, Documentation, Code Style, Error Prone, Insecure Dependencies, problem, Scanner Internal, suggestion. If not select any category, scanner will scann all categories"
 				},
 				"aurahelper.metadata.scanPmdRuleSet": {
 					"type": "string",
@@ -402,10 +387,6 @@
 				"title": "AuraHelper: Generate Aura Documentation"
 			},
 			{
-				"command": "aurahelper.help",
-				"title": "AuraHelper: Help"
-			},
-			{
 				"command": "aurahelper.file.new.aura",
 				"title": "AuraHelper: New Aura File"
 			},
@@ -529,7 +510,7 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./aura/ && resourceExtname =~ /^(?!(.app|.cmp|.auradoc|.evt|.intf|.css|.design|.html|.js|.svg)$)/",
+					"when": "resource =~ /aura/ && resourceExtname =~ /^(?!(.app|.cmp|.auradoc|.evt|.intf|.css|.design|.html|.js|.svg)$)/",
 					"command": "aurahelper.file.new.aura",
 					"group": "auraHelper@1"
 				},
@@ -539,12 +520,12 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./force-app/ && resourceExtname == ''",
+					"when": "resource =~ /force-app/ && resourceExtname == ''",
 					"command": "aurahelper.metadata.compress.xml.all",
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./force-app/ && resourceExtname == .xml",
+					"when": "resource =~ /force-app/ && resourceExtname == .xml",
 					"command": "aurahelper.metadata.compress.xml",
 					"group": "auraHelper@1"
 				},
@@ -564,12 +545,7 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./force-app/ && (resourceExtname == '' || resourceExtname == .cls || resourceExtname == .trigger || resourceExtname == .js)",
-					"command": "aurahelper.metadata.scan",
-					"group": "auraHelper@1"
-				},
-				{
-					"when": "resource =~ /./force-app/ && resourceExtname == ''",
+					"when": "resource =~ /force-app/ && (resourceExtname == '' || resourceExtname == .cls || resourceExtname == .trigger || resourceExtname == .js)",
 					"command": "aurahelper.metadata.scan",
 					"group": "auraHelper@1"
 				}
@@ -586,7 +562,7 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./force-app/ && resourceExtname == .xml",
+					"when": "resource =~ /force-app/ && resourceExtname == .xml",
 					"command": "aurahelper.metadata.compress.xml",
 					"group": "auraHelper@1"
 				},
@@ -616,7 +592,7 @@
 					"group": "auraHelper@1"
 				},
 				{
-					"when": "resource =~ /./force-app/ && (resourceExtname == '' || resourceExtname == .cls || resourceExtname == .trigger || resourceExtname == .js)",
+					"when": "resource =~ /force-app/ && (resourceExtname == '' || resourceExtname == .cls || resourceExtname == .trigger || resourceExtname == .js)",
 					"command": "aurahelper.metadata.scan",
 					"group": "auraHelper@1"
 				}
@@ -645,12 +621,12 @@
 	},
 	"dependencies": {
 		"@aurahelper/cli-manager": "^2.2.2",
-		"@aurahelper/connector": "^2.2.1",
-		"@aurahelper/core": "^2.6.2",
+		"@aurahelper/connector": "^2.3.0",
+		"@aurahelper/core": "^2.7.0",
 		"@aurahelper/dependencies-manager": "^2.0.2",
 		"@aurahelper/git-manager": "^2.1.5",
 		"@aurahelper/ignore": "^2.0.1",
-		"@aurahelper/languages": "^2.1.1",
+		"@aurahelper/languages": "^2.1.5",
 		"@aurahelper/metadata-factory": "^2.1.6",
 		"@aurahelper/package-generator": "^2.1.1",
 		"@aurahelper/xml-compressor": "^2.0.2",
@@ -660,16 +636,16 @@
 		"@types/glob": "^7.1.2",
 		"@types/mocha": "^5.2.6",
 		"@types/node": "^12.20.55",
-		"@types/vscode": "^1.84.0",
+		"@types/vscode": "^1.84.2",
 		"@typescript-eslint/eslint-plugin": "^5.4.0",
 		"@typescript-eslint/parser": "^5.4.0",
+		"@vscode/test-electron": "^2.3.8",
 		"esbuild": "^0.13.15",
 		"eslint": "^8.3.0",
 		"glob": "^7.1.6",
 		"mocha": "^9.1.2",
 		"ts-jest": "^27.0.7",
-		"typescript": "^4.9.5",
-		"vscode-test": "^1.6.1"
+		"typescript": "^4.9.5"
 	},
 	"extensionDependencies": [
 		"salesforce.salesforcedx-vscode"

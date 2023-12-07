@@ -27,12 +27,10 @@ export function run(onbackground: boolean): void {
         setTimeout(() => {
             OutputChannel.outputLine('Refreshing SObject Defintions');
             NotificationManager.showStatusBar('$(sync~spin) Refreshing SObjects Definitions...');
-            console.time('refreshIndex');
             refreshIndex(true, undefined, undefined, () => {
-                console.timeEnd('refreshIndex');
                 NotificationManager.hideStatusBar();
                 OutputChannel.outputLine('Refreshing SObject Defintions Finished');
-                
+
             });
             ProviderManager.registerProviders();
             ApexCodeWatcher.startWatching();
@@ -63,7 +61,7 @@ function showLoadingDialog(): void {
     });
 }
 
-async function refreshIndex(force: boolean, progress?: vscode.Progress<any>, cancelToken?: vscode.CancellationToken, callback?: any) {   
+async function refreshIndex(force: boolean, progress?: vscode.Progress<any>, cancelToken?: vscode.CancellationToken, callback?: any) {
     const connection = new SFConnector(Config.getOrgAlias(), Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
     if (cancelToken) {
         cancelToken.onCancellationRequested(() => {
@@ -98,8 +96,8 @@ async function refreshIndex(force: boolean, progress?: vscode.Progress<any>, can
             }
         }
     });
-    
-    connection.describeMetadataTypes([MetadataTypes.CUSTOM_OBJECT], true).then(async (metadataTypes: any) => {
+    try {
+        const metadataTypes = await connection.describeMetadataTypes([MetadataTypes.CUSTOM_OBJECT], true);
         let objectsToDescribe = [];
         let existingObjects: any = {};
         if (force) {
@@ -134,17 +132,37 @@ async function refreshIndex(force: boolean, progress?: vscode.Progress<any>, can
             objectsToDescribe.push('Group');
         }
         if (objectsToDescribe.length > 0) {
-            connection.describeSObjects(objectsToDescribe).then(function () {
-                applicationContext.parserData.sObjectsData = getSObjects();
-                applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
-                callback.call();
-            });
+            const objectsData = await connection.describeSObjects(objectsToDescribe);
+            const localObjects = getSObjects();
+            for (const objKey of Object.keys(objectsData)) {
+                const obj = objectsData[objKey];
+                if (obj && obj.fields) {
+                    const localObj = localObjects[objKey.toLowerCase()];
+                    if (localObj) {
+                        for (const fieldKey of Object.keys(obj.fields)) {
+                            const field = obj.fields[fieldKey];
+                            if (localObj.fields[fieldKey]) {
+                                if (localObj.fields[fieldKey].type !== field.type) {
+                                    localObj.fields[fieldKey].type = field.type;
+                                }
+                            } else {
+                                localObj.fields[fieldKey] = field;
+                            }
+                        }
+                    } else {
+                        localObjects[objKey.toLowerCase()] = obj;
+                    }
+                }
+            }
+            applicationContext.parserData.sObjectsData = localObjects;
+            applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
+            callback.call();
         } else {
             callback.call();
         }
-    }).catch((error: Error) => {
+    } catch (error) {
         callback.call(error);
-    });
+    }
 }
 
 function getSObjects(): any {

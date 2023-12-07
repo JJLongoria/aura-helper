@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [4.5.1 - 20223-12-06]
+### Changed
+- Enhanced loading times. Now Aura Helper load faster and use less resources.
+
+### Fixed
+- Fixed little error with Apex Formatter with new SObjects formatting options
+
+
 ## [4.5.0 - 20223-10-30]
 ### Added
 - Added support to the new Aura Helper SF Plugin for the new SF CLI

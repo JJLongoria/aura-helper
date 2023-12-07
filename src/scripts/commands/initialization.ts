@@ -30,20 +30,21 @@ export function run() {
 }
 
 async function init(context: vscode.ExtensionContext): Promise<void> {
-    console.time('init');
     const username = Config.getOrgAlias();
     cliManager = new CLIManager(Paths.getProjectFolder(), Config.getAPIVersion(), Config.getNamespace());
     connection = new SFConnector(username, Config.getAPIVersion(), Paths.getProjectFolder(), Config.getNamespace());
     connection.setMultiThread();
     createTemplateFiles(context);
     loadSnippets();
+    const promises = [];
     if (username) {
-        await getOrgData();
+        promises.push(getOrgData());
     }
-    await getSystemData();
-    await getGitData();
+    promises.push(getSystemData());
+    promises.push(getGitData());
+    promises.push(checkAuraHelperCLI());
+    await Promise.all(promises);
     OutputChannel.outputLine('System Data Loaded');
-    await checkAuraHelperCLI();
     NotificationManager.hideStatusBar();
     if (Config.getConfig().metadata.refreshSObjectDefinitionsOnStart) {
         vscode.commands.executeCommand('aurahelper.metadata.refresh.index', true);
@@ -52,7 +53,6 @@ async function init(context: vscode.ExtensionContext): Promise<void> {
         ProjectFilesWatcher.startWatching();
         ProviderManager.registerProviders();
     }
-    console.timeEnd('init');
 }
 
 async function getGitData(): Promise<void> {
@@ -87,10 +87,11 @@ async function getSystemData(): Promise<void> {
         applicationContext.parserData.sObjectsData = getSObjects();
         applicationContext.parserData.sObjects = Object.keys(applicationContext.parserData.sObjectsData);
         applicationContext.parserData.userClasses = getClassNames(Paths.getProjectMetadataFolder() + '/classes');
-        //cleanOldClassesDefinitions();
-        //await ApexParser.saveAllClassesData(Paths.getProjectMetadataFolder() + '/classes', Paths.getCompiledClassesFolder(), applicationContext.parserData, true);
-        applicationContext.parserData.userClassesData = getClassesFromCompiledClasses();
-        applicationContext.parserData.userClasses = Object.keys(applicationContext.parserData.userClassesData || {});
+        // cleanOldClassesDefinitions();
+        /*ApexParser.saveAllClassesData(Paths.getProjectMetadataFolder() + '/classes', Paths.getCompiledClassesFolder(), applicationContext.parserData, true).then(() => {
+            applicationContext.parserData.userClassesData = getClassesFromCompiledClasses();
+            applicationContext.parserData.userClasses = Object.keys(applicationContext.parserData.userClassesData || {});
+        });*/
         return;
     } catch (error) {
         return;
@@ -281,6 +282,7 @@ function showDialogsForAuraHelpeSFDX(): void {
 
 function cleanOldClassesDefinitions() {
     let classes = {};
+    console.time('cleanOldClassesDefinitions');
     if (FileChecker.isExists(Paths.getCompiledClassesFolder())) {
         let files = FileReader.readDirSync(Paths.getCompiledClassesFolder());
         for (const file of files) {
@@ -294,6 +296,7 @@ function cleanOldClassesDefinitions() {
             }
         }
     }
+    console.timeEnd('cleanOldClassesDefinitions');
     return classes;
 }
 
