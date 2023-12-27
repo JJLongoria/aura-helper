@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [4.5.2 - 2023-12-27]
+### Fixed
+- Fixed permission editor and modify permission commands because XML files values are wrong
+
 ## [4.5.1 - 20223-12-06]
 ### Changed
 - Enhanced loading times. Now Aura Helper load faster and use less resources.
